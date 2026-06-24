@@ -1,0 +1,123 @@
+import React from 'react';
+import { Home, Key, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
+
+export default function LuxuryVillasTheme({ website, content }: any) {
+  const siteName = content.settings_json?.website_name || website.slug || 'The Grand Estates';
+  
+  const properties = content.products_json?.length > 0 ? content.products_json : [
+    { name: 'Beverly Hills Mansion', price: '₹25 Cr', image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80', location: 'Beverly Hills, CA', beds: 6, baths: 8, sqft: '12,500' },
+    { name: 'Malibu Beachfront Villa', price: '₹18 Cr', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80', location: 'Malibu, CA', beds: 5, baths: 6, sqft: '8,200' },
+    { name: 'Alpine Retreat', price: '₹12 Cr', image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', location: 'Aspen, CO', beds: 4, baths: 4, sqft: '6,000' }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#F5F3ED] text-[#2C2C2C] font-serif">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+        .font-luxury { font-family: 'Cinzel', serif; }
+        .font-body { font-family: 'Lato', sans-serif; }
+      `}</style>
+
+      {/* Header */}
+      <header className="absolute top-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent pt-6 pb-12 px-6">
+        <div className="container mx-auto flex justify-between items-center text-white">
+          <div className="flex items-center gap-3">
+            <Key className="text-[#D4AF37]" size={28} />
+            <span className="font-luxury text-2xl tracking-[0.2em] uppercase">{siteName}</span>
+          </div>
+          <nav className="hidden md:flex gap-10 font-body text-xs tracking-[0.2em] uppercase">
+            <a href="#properties" className="hover:text-[#D4AF37] transition-colors">Estates</a>
+            <a href="#about" className="hover:text-[#D4AF37] transition-colors">Philosophy</a>
+            <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="relative h-screen flex items-center justify-center">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 text-center text-white px-6">
+          <h1 className="font-luxury text-5xl md:text-7xl font-bold mb-6 tracking-widest drop-shadow-lg">
+            {content.hero_title || 'Redefining Luxury Living.'}
+          </h1>
+          <p className="font-body text-lg md:text-xl tracking-wider max-w-2xl mx-auto mb-10 text-gray-200">
+            {content.hero_text || 'Exclusive access to the most coveted estates and architectural masterpieces.'}
+          </p>
+          <button className="border border-[#D4AF37] bg-[#D4AF37]/20 backdrop-blur hover:bg-[#D4AF37] hover:text-black text-white font-body text-sm tracking-[0.2em] uppercase py-4 px-10 transition-all duration-300">
+            View Portfolio
+          </button>
+        </div>
+      </section>
+
+      {/* Properties */}
+      <section id="properties" className="py-24 px-6 bg-[#F5F3ED]">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <span className="font-body text-[#8C7A50] text-xs tracking-[0.3em] uppercase mb-4 block">Exclusive Listings</span>
+            <h2 className="font-luxury text-4xl text-[#2C2C2C] uppercase tracking-widest">Featured Estates</h2>
+            <div className="w-16 h-px bg-[#D4AF37] mx-auto mt-8"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {properties.map((p: any, i: number) => (
+              <div key={i} className="group cursor-pointer bg-white shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <div className="absolute top-4 right-4 bg-[#D4AF37] text-white font-body text-xs tracking-wider px-3 py-1 z-20 shadow-md">
+                    {p.price}
+                  </div>
+                </div>
+                <div className="p-8">
+                  <h3 className="font-luxury text-xl mb-3 text-[#2C2C2C] group-hover:text-[#D4AF37] transition-colors">{p.name}</h3>
+                  <div className="flex items-center gap-2 text-gray-500 font-body text-sm mb-6">
+                    <MapPin size={14} /> {p.location}
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 border-t border-gray-100 pt-6 font-body text-xs text-gray-600">
+                    <div className="text-center">
+                      <span className="block font-bold text-[#2C2C2C] text-lg mb-1">{p.beds}</span> Beds
+                    </div>
+                    <div className="text-center border-x border-gray-100">
+                      <span className="block font-bold text-[#2C2C2C] text-lg mb-1">{p.baths}</span> Baths
+                    </div>
+                    <div className="text-center">
+                      <span className="block font-bold text-[#2C2C2C] text-lg mb-1">{p.sqft}</span> Sq.Ft.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer id="contact" className="bg-[#1A1A1A] text-white py-20 px-6 border-t-4 border-[#D4AF37]">
+        <div className="container mx-auto max-w-5xl text-center">
+          <Key className="mx-auto text-[#D4AF37] mb-6" size={32} />
+          <h3 className="font-luxury text-3xl mb-8 tracking-[0.2em] uppercase">{siteName}</h3>
+          <p className="font-body text-sm text-gray-400 tracking-wider leading-loose max-w-2xl mx-auto mb-16">
+            {content.about_text || "A premier luxury real estate brokerage dedicated to providing exceptional service and unparalleled expertise in the high-end market."}
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-10 font-body text-xs tracking-[0.2em] uppercase text-[#D4AF37]">
+            <div className="flex flex-col items-center gap-4">
+              <Phone size={20} className="text-white" />
+              <span>{content.contact_info?.phone || '+91 98765 43210'}</span>
+            </div>
+            <div className="flex flex-col items-center gap-4 border-y md:border-y-0 md:border-x border-[#333] py-8 md:py-0">
+              <MapPin size={20} className="text-white" />
+              <span>{content.contact_info?.address || '1 Luxury Lane, Kerala'}</span>
+            </div>
+            <div className="flex flex-col items-center gap-4">
+              <Mail size={20} className="text-white" />
+              <span>{content.contact_info?.email || 'estates@luxury.com'}</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+

@@ -1,0 +1,776 @@
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../store';
+import axios from 'axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3 } from 'lucide-react';
+import { logout, loginSuccess } from '../authSlice';
+import DashboardSidebar from '../components/DashboardSidebar';
+import toast from 'react-hot-toast';
+
+interface Website {
+  id: number;
+  slug: string;
+  theme: string;
+  business_type: string;
+  published: boolean;
+  visitors_count?: number;
+  created_at?: string;
+  updated_at?: string;
+  content?: {
+    settings_json?: {
+      website_name?: string;
+    };
+  };
+}
+
+const getThemeThumbnail = (theme: string, businessType?: string) => {
+  switch (theme) {
+    case 'Fine Dining': return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
+    case 'Casual Eats': return 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80';
+    case 'Bistro': return 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80';
+    case 'Cozy Cafe': return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80';
+    case 'Modern Bakery': return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80';
+    case 'Artisan': return 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80';
+    case 'Classic Barbershop': return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
+    case 'Modern Saloon': return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80';
+    case 'Vintage Barber': return 'https://images.unsplash.com/photo-1532710093739-9470acff878b?auto=format&fit=crop&w=800&q=80';
+    case 'Royal Saloon': return 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80';
+    case 'Glamour Beauty': return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
+    case 'Hardcore Iron': return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
+    case 'Zen Yoga Studio': return 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80';
+    case 'CrossFit Box': return 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=800&q=80';
+    case 'Luxury Health Club': return 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80';
+    case 'Combat & MMA Gym': return 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80';
+    default:
+      if (businessType === 'Restaurant') return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
+      if (businessType === 'Cafe / Bakery') return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80';
+      if (businessType?.includes('Salon') || businessType?.includes('Saloon')) return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80';
+      if (businessType?.includes('Gym')) return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
+      return 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80';
+  }
+};
+
+export default function Dashboard() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [websites, setWebsites] = useState<Website[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+  
+  const location = useLocation();
+  // Navigation State
+  const [activeTab, setActiveTab] = useState(location.state?.tab || 'Dashboard');
+  const [selectedProject, setSelectedProject] = useState<Website | null>(null);
+
+  // Form State
+  const [websiteName, setWebsiteName] = useState('');
+  const [newSlug, setNewSlug] = useState('');
+  const [newType, setNewType] = useState('Restaurant');
+
+  // Settings State
+  const [editUsername, setEditUsername] = useState(user?.username || '');
+  const [editFirstName, setEditFirstName] = useState(user?.first_name || '');
+  const [editLastName, setEditLastName] = useState(user?.last_name || '');
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
+  
+  const categoryThemes: Record<string, string[]> = {
+    'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Custom'],
+    'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'Custom'],
+    'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
+    'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
+    'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Custom'],
+    'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
+    'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
+    'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
+    'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
+    'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
+    'Textiles / Garments': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Vintage', 'Playful'],
+    'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
+    'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
+    'Other': ['Modern', 'Classic', 'Minimal', 'Custom']
+  };
+  
+  const [newTheme, setNewTheme] = useState(categoryThemes['Restaurant'][0]);
+  const [heroTitle, setHeroTitle] = useState('');
+  const [aboutText, setAboutText] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  
+  // Search & Filter State
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('All');
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchWebsites();
+  }, []);
+
+  const fetchWebsites = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/api/websites/');
+      setWebsites(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8000/api/websites/', {
+        slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+        business_type: newType,
+        theme: newTheme,
+      });
+      
+      await axios.put(`http://localhost:8000/api/websites/${res.data.slug}/content/`, {
+        hero_title: heroTitle || `Welcome to ${websiteName || res.data.slug}`,
+        about_text: aboutText || "Add your business description here.",
+        contact_info: { email: contactEmail, phone: contactPhone },
+        settings_json: { website_name: websiteName }
+      });
+
+      setWebsites([res.data, ...websites]);
+      setIsCreating(false);
+      setWebsiteName('');
+      setNewSlug('');
+      setHeroTitle('');
+      setAboutText('');
+      setContactEmail('');
+      setContactPhone('');
+      setNewTheme('Modern');
+      navigate(`/editor/${res.data.slug}`);
+      toast.success('Project launched successfully!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to create site. Slug might be taken.');
+    }
+  };
+
+  const handleDelete = async (slug: string, id: number) => {
+    if (confirm(`Are you sure you want to delete ${slug}?`)) {
+      setDeletingId(id);
+      try {
+        await axios.delete(`http://localhost:8000/api/websites/${slug}/`, {
+          withCredentials: true
+        });
+        setWebsites(websites.filter(w => w.id !== id));
+        toast.success('Project deleted successfully.');
+      } catch (err) {
+        console.error("Failed to delete", err);
+        toast.error('Failed to delete project. You may not have permission.');
+      } finally {
+        setDeletingId(null);
+      }
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    setIsSavingSettings(true);
+    try {
+      const res = await axios.patch('http://localhost:8000/api/users/me/', {
+        username: editUsername,
+        first_name: editFirstName,
+        last_name: editLastName,
+      }, { withCredentials: true });
+      dispatch(loginSuccess(res.data));
+      toast.success('Settings updated successfully!');
+    } catch (err: any) {
+      if (err.response?.data?.username) {
+        toast.error('That username is already taken.');
+      } else {
+        toast.error('Failed to update settings. Please try again.');
+      }
+    } finally {
+      setIsSavingSettings(false);
+    }
+  };
+
+  const handleCopyLink = (slug: string) => {
+    const url = `${window.location.origin}/${slug}`;
+    navigator.clipboard.writeText(url);
+    setCopiedSlug(slug);
+    toast.success('Link copied to clipboard!');
+    setTimeout(() => setCopiedSlug(null), 2000);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
+
+  const activeSites = websites.filter(w => w.published).length;
+  const totalSites = websites.length;
+  const totalVisitors = websites.reduce((acc, site) => acc + (site.visitors_count || 0), 0);
+
+  const filteredWebsites = websites.filter(site => {
+    const matchesSearch = site.slug.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          site.business_type.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filterStatus === 'All' 
+      ? true 
+      : filterStatus === 'Live' 
+        ? site.published 
+        : !site.published;
+    return matchesSearch && matchesFilter;
+  });
+
+  return (
+    <div className="min-h-screen font-sans selection:bg-indigo-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
+      
+      {/* VIBRANT BENTO MESH BACKGROUND */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-indigo-300 to-sky-300 mix-blend-multiply filter blur-[120px] opacity-40 animate-[spin_30s_linear_infinite_reverse]"></div>
+        <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 mix-blend-multiply filter blur-[90px] opacity-30 animate-pulse"></div>
+      </div>
+
+      <DashboardSidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        user={user} 
+        handleLogout={handleLogout} 
+        setIsCreating={setIsCreating} 
+      />
+
+      {/* MAIN CONTENT AREA */}
+      <main className="flex-1 h-screen overflow-y-auto relative z-10 scroll-smooth pb-24 md:pb-0">
+        <div className="p-4 md:p-8 lg:p-8 max-w-[1400px] mx-auto min-h-full">
+          
+          {/* MOBILE HEADER */}
+          <div className="md:hidden flex items-center justify-between mb-6 px-2">
+            <div className="flex items-center gap-2">
+               <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
+               <span className="text-xl font-black text-slate-900 tracking-tight">Jaalam</span>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-white border border-white shadow-sm flex items-center justify-center text-slate-700 font-black text-sm">
+               {user?.username?.[0]?.toUpperCase()}
+            </div>
+          </div>
+
+          {activeTab === 'Dashboard' && (
+            <div className="animate-in fade-in zoom-in-[0.98] duration-500">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-5 px-2">Overview</h2>
+              
+              {/* COMPACT BENTO GRID */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+                
+                {/* BIG HERO BENTO */}
+                <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                   <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-indigo-300 to-blue-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
+                   
+                   <div>
+                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/50 backdrop-blur-md shadow-sm border border-white text-[10px] font-black uppercase tracking-wider mb-6 text-indigo-700">
+                       <span className="relative flex h-1.5 w-1.5">
+                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                       </span>
+                       Workspace Active
+                     </div>
+                     <h1 className="text-4xl lg:text-5xl font-black mb-4 tracking-tight leading-tight text-slate-900">
+                       Design.<br/>Build.<br/>
+                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">Launch.</span>
+                     </h1>
+                     <p className="text-slate-600 text-sm md:text-base font-medium leading-relaxed max-w-sm">
+                       Manage your projects, analyze traffic, and deploy sites in seconds.
+                     </p>
+                   </div>
+                   
+                   <div className="mt-8 hidden md:flex gap-3">
+                      <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
+                        <Plus size={18} className="text-indigo-400" /> New Project
+                      </button>
+                      <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
+                        View All
+                      </button>
+                   </div>
+                </div>
+
+                {/* SMALL BENTO 1 */}
+                <div className="md:col-span-1 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm border border-blue-100">
+                    <LayoutDashboard size={20} />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-slate-500 font-black mb-0.5 uppercase tracking-widest text-[10px]">Total Websites</h3>
+                    <div className="text-4xl font-black text-slate-900">{totalSites}</div>
+                  </div>
+                </div>
+
+                {/* SMALL BENTO 2 */}
+                <div className="md:col-span-1 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm border border-emerald-100">
+                    <TrendingUp size={20} />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-slate-500 font-black mb-0.5 uppercase tracking-widest text-[10px]">Active Sites</h3>
+                    <div className="text-4xl font-black text-slate-900">{activeSites}</div>
+                  </div>
+                </div>
+
+                {/* WIDE BENTO */}
+                <div className="md:col-span-2 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
+                  <div className="absolute top-[-50%] right-[-20%] w-[100%] h-[200%] bg-gradient-to-l from-violet-100/40 to-transparent rotate-12 -z-10 group-hover:rotate-45 transition-transform duration-1000"></div>
+                  <div>
+                    <div className="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center shadow-sm border border-violet-100 mb-4">
+                      <Users size={20} />
+                    </div>
+                    <h3 className="text-slate-500 font-black mb-1 uppercase tracking-widest text-[10px]">Total Visitors</h3>
+                    <div className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter">{totalVisitors > 0 ? totalVisitors.toLocaleString() : '0'}</div>
+                  </div>
+                  <div className="hidden sm:flex w-24 h-24 bg-white/50 border border-white shadow-md rounded-full items-center justify-center relative">
+                    <div className="absolute inset-1.5 border-2 border-dashed border-violet-200 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <Activity size={28} className="text-violet-500" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Projects' && (
+            <div className="animate-in fade-in zoom-in-[0.98] duration-500">
+              <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end mb-6 gap-4">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">My Sites</h2>
+                  <p className="text-slate-500 mt-1 font-medium text-sm md:text-base">Manage your deployed websites.</p>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center gap-2 w-full xl:w-auto bg-white/60 backdrop-blur-xl p-1.5 rounded-2xl shadow-sm border border-white/60">
+                  <div className="relative flex-1 w-full sm:w-56">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <input 
+                      type="text" 
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2 bg-transparent text-slate-800 outline-none font-bold text-sm placeholder-slate-400"
+                    />
+                  </div>
+                  <div className="w-px h-6 bg-slate-200 hidden sm:block"></div>
+                  <select 
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    className="w-full sm:w-auto bg-white sm:bg-transparent px-3 py-2 text-slate-700 outline-none cursor-pointer font-black text-sm appearance-none rounded-xl sm:rounded-none"
+                  >
+                    <option value="All">All Status</option>
+                    <option value="Live">Live Sites</option>
+                    <option value="Draft">Drafts</option>
+                  </select>
+                  <button 
+                    onClick={() => setIsCreating(true)}
+                    className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
+                  >
+                    <Plus size={16} className="text-indigo-400" />
+                    New
+                  </button>
+                </div>
+              </div>
+
+              {/* Websites List */}
+              {loading ? (
+                <div className="flex flex-col items-center justify-center py-20 text-indigo-600 gap-4">
+                  <div className="w-12 h-12 border-4 border-white border-t-indigo-500 rounded-full animate-spin shadow-md"></div>
+                  <p className="font-black text-lg animate-pulse text-slate-600">Loading magic...</p>
+                </div>
+              ) : filteredWebsites.length === 0 ? (
+                <div className="bg-white/60 backdrop-blur-xl border border-white/60 border-dashed rounded-3xl p-10 text-center max-w-2xl mx-auto shadow-sm">
+                  {websites.length === 0 ? (
+                    <>
+                      <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 transform hover:scale-110 transition-transform shadow-md border border-slate-100">
+                        <Globe className="text-indigo-500 w-10 h-10" />
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 mb-2">Nothing here yet</h3>
+                      <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
+                      <button 
+                        onClick={() => setIsCreating(true)}
+                        className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 mx-auto text-sm hover:scale-105 active:scale-95"
+                      >
+                        <Zap size={18} className="text-indigo-400 fill-indigo-400" />
+                        Generate Site
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-slate-100">
+                        <Search className="text-slate-400 w-8 h-8" />
+                      </div>
+                      <h3 className="text-xl font-black text-slate-900 mb-2">No matches found</h3>
+                      <p className="text-slate-500 font-medium text-sm">Try tweaking your search terms or filters.</p>
+                      <button 
+                        onClick={() => { setSearchQuery(''); setFilterStatus('All'); }}
+                        className="mt-6 text-indigo-600 hover:text-indigo-800 font-black text-sm underline underline-offset-4"
+                      >
+                        Clear Search
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  {filteredWebsites.map(site => (
+                    <div key={site.id} className={`group bg-white/70 backdrop-blur-xl rounded-3xl border border-white overflow-hidden flex flex-col transition-all hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${deletingId === site.id ? 'opacity-50 pointer-events-none' : ''}`}>
+                      
+                      <div className="h-40 bg-slate-100/50 relative overflow-hidden flex items-center justify-center m-2 rounded-2xl group/img">
+                        <img src={getThemeThumbnail(site.theme, site.business_type)} alt={site.theme} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/50 transition-colors duration-500 backdrop-blur-[2px]"></div>
+                        
+                        {/* Dynamic Overlay Text */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 pointer-events-none z-10 scale-95 group-hover:scale-100 transition-transform duration-500">
+                          <h4 className="text-white font-black text-2xl tracking-tight drop-shadow-lg capitalize">{site.content?.settings_json?.website_name || site.slug.replace(/-/g, ' ')}</h4>
+                          <span className="text-white/90 font-bold text-[10px] uppercase tracking-widest mt-1 drop-shadow-md">{site.business_type} • {site.theme}</span>
+                        </div>
+                        
+                        {/* Status Badge */}
+                        <div className="absolute top-3 right-3 flex items-center gap-1">
+                          <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-md ${site.published ? 'bg-emerald-400 text-white' : 'bg-white text-slate-700'}`}>
+                            {site.published ? 'Live' : 'Draft'}
+                          </span>
+                        </div>
+                        
+                        {/* Quick Actions (Hover) */}
+                        <div className="absolute top-3 left-3 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1.5">
+                          <button 
+                            onClick={() => handleCopyLink(site.slug)}
+                            className="p-2 bg-white/90 backdrop-blur-md hover:bg-white text-slate-700 hover:text-indigo-600 rounded-lg shadow-sm transition-all"
+                            title="Copy link"
+                          >
+                            {copiedSlug === site.slug ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(site.slug, site.id)}
+                            className="p-2 bg-white/90 backdrop-blur-md hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-lg shadow-sm transition-all"
+                            title="Delete site"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="p-5 pt-3 flex-1 flex flex-col">
+                        <div className="mb-4">
+                          <h3 className="font-black text-xl text-slate-900 group-hover:text-indigo-600 transition-colors cursor-pointer truncate" onClick={() => setSelectedProject(site)}>{site.content?.settings_json?.website_name || site.slug}</h3>
+                          <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                            <span className="px-2.5 py-1 bg-white shadow-sm border border-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">{site.business_type}</span>
+                            <span className="px-2.5 py-1 bg-white shadow-sm border border-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">{site.theme}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="mt-auto pt-4 flex flex-col gap-2">
+                          <button onClick={() => setSelectedProject(site)} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-md text-sm">
+                            <BarChart3 size={16} className="text-indigo-400" /> Analytics
+                          </button>
+                          <div className="flex gap-2">
+                            <Link to={`/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                              <Settings size={14} /> Edit
+                            </Link>
+                            <a href={`/${site.slug}`} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-indigo-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                              <ExternalLink size={14} /> Visit
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'Analytics' && (
+            <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics Overview</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
+                  <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
+                    <Users size={24} />
+                  </div>
+                  <div>
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Total Visitors</div>
+                    <div className="text-3xl font-black text-slate-900">{totalVisitors.toLocaleString()}</div>
+                  </div>
+                </div>
+                
+                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
+                  <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
+                    <Globe size={24} />
+                  </div>
+                  <div>
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Live Sites</div>
+                    <div className="text-3xl font-black text-slate-900">{activeSites}</div>
+                  </div>
+                </div>
+                
+                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
+                  <div className="w-14 h-14 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center shadow-inner">
+                    <Activity size={24} />
+                  </div>
+                  <div>
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Avg. Visitors/Site</div>
+                    <div className="text-3xl font-black text-slate-900">{activeSites > 0 ? Math.floor(totalVisitors / activeSites).toLocaleString() : 0}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
+                <h3 className="text-xl font-black text-slate-900 mb-6">Top Performing Sites</h3>
+                
+                {websites.filter(w => w.published).length === 0 ? (
+                  <div className="text-center py-10">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <BarChart3 size={24} className="text-slate-400" />
+                    </div>
+                    <p className="text-slate-500 font-medium">Publish a site to start seeing visitor analytics.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {websites
+                      .filter(w => w.published)
+                      .sort((a, b) => (b.visitors_count || 0) - (a.visitors_count || 0))
+                      .map((site, index) => (
+                      <div key={site.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${index === 0 ? 'bg-amber-100 text-amber-700' : index === 1 ? 'bg-slate-200 text-slate-700' : index === 2 ? 'bg-orange-100 text-orange-700' : 'bg-slate-50 text-slate-400'}`}>
+                            {index + 1}
+                          </div>
+                          <div>
+                            <h4 className="font-black text-slate-900">{site.content?.settings_json?.website_name || site.slug}</h4>
+                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">{site.business_type} • {site.theme}</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-black text-lg text-slate-900">{site.visitors_count || 0}</div>
+                          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Visitors</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Settings' && (
+            <div className="max-w-3xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Settings</h2>
+              
+              <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-8 pb-8 border-b border-slate-200/50">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border-2 border-white shadow-md flex items-center justify-center text-slate-900 text-3xl font-black relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-violet-100 opacity-50"></div>
+                    <span className="relative z-10">{user?.username?.[0]?.toUpperCase() || 'U'}</span>
+                  </div>
+                  <div className="text-center sm:text-left pt-1 flex-1">
+                    <h3 className="text-2xl font-black text-slate-900 mb-2">{user?.username}</h3>
+                    <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">Creator Pro</span>
+                    <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                     <div>
+                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Username</label>
+                       <input type="text" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                     </div>
+                     <div>
+                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Email Address</label>
+                       <input type="email" disabled value={user?.email || ''} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed font-bold text-sm shadow-inner" />
+                       <p className="text-[10px] text-slate-400 mt-1.5 font-bold uppercase tracking-wider">Contact support to change</p>
+                     </div>
+                     <div>
+                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">First Name</label>
+                       <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} placeholder="e.g. Jane" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                     </div>
+                     <div>
+                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Last Name</label>
+                       <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} placeholder="e.g. Doe" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                     </div>
+                   </div>
+                   
+                   <div>
+                     <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Notifications</label>
+                     <div className="flex items-center gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                       <div className="w-12 h-6 bg-indigo-500 rounded-full relative cursor-pointer shadow-inner shrink-0">
+                         <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+                       </div>
+                       <span className="text-slate-900 font-bold text-sm">Receive product updates and news</span>
+                     </div>
+                   </div>
+                   
+                   <div className="pt-6 flex flex-col sm:flex-row gap-3 border-t border-slate-100">
+                     <button onClick={handleSaveSettings} disabled={isSavingSettings} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md text-sm w-full sm:w-auto hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                       {isSavingSettings ? 'Saving...' : 'Save Changes'}
+                     </button>
+                     <button onClick={() => { setEditUsername(user?.username || ''); setEditFirstName(user?.first_name || ''); setEditLastName(user?.last_name || ''); }} className="bg-white text-slate-700 border border-slate-200 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-50">
+                       Cancel
+                     </button>
+                   </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 bg-white/40 backdrop-blur-xl border border-rose-100 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-rose-200 rounded-full mix-blend-multiply blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 opacity-50"></div>
+                <h3 className="text-xl font-black text-rose-600 mb-2">Danger Zone</h3>
+                <p className="text-slate-700 mb-6 font-medium text-sm max-w-lg leading-relaxed">Once you delete your account, there is no going back. All projects will be permanently wiped.</p>
+                <button className="bg-white border-2 border-rose-200 text-rose-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-rose-50 hover:border-rose-300">
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Create Modal */}
+          {isCreating && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
+              <div className="bg-white/90 backdrop-blur-2xl border border-white rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Launch New Site</h2>
+                    <p className="text-slate-500 text-sm mt-1 font-medium">Fill in the details to generate your website.</p>
+                  </div>
+                  <button onClick={() => setIsCreating(false)} className="text-slate-400 hover:text-slate-900 p-2 rounded-xl hover:bg-white shadow-sm transition-colors bg-white/50 shrink-0">
+                    <X size={20} />
+                  </button>
+                </div>
+                
+                <form onSubmit={handleCreate} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Website Name</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={websiteName}
+                        onChange={(e) => {
+                          setWebsiteName(e.target.value);
+                          if (!newSlug || newSlug === websiteName.slice(0, -1).toLowerCase().replace(/[^a-z0-9-]/g, '-')) {
+                            setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'));
+                          }
+                        }}
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                        placeholder="My Awesome Business"
+                      />
+                    </div>
+                    
+                    <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Project Slug</label>
+                      <div className="flex bg-white border border-slate-100 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm">
+                        <span className="px-4 py-2.5 text-indigo-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
+                        <input 
+                          type="text" 
+                          required
+                          value={newSlug}
+                          onChange={(e) => setNewSlug(e.target.value)}
+                          className="flex-1 bg-transparent px-4 py-2.5 outline-none text-slate-900 placeholder-slate-300 font-black text-sm w-full min-w-0"
+                          placeholder="my-business"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category</label>
+                      <select 
+                        value={newType}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setNewType(val);
+                          setNewTheme(categoryThemes[val][0]);
+                        }}
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                      >
+                        {Object.keys(categoryThemes).map(cat => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Theme</label>
+                      <select 
+                        value={newTheme}
+                        onChange={(e) => setNewTheme(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                      >
+                        {categoryThemes[newType]?.map(theme => (
+                          <option key={theme} value={theme}>{theme}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 mt-4 border-t border-white">
+                    <button type="button" onClick={() => setIsCreating(false)} className="w-full sm:w-auto px-6 py-3 text-slate-600 bg-white border border-white shadow-sm font-black hover:bg-slate-50 rounded-xl transition-colors text-sm">Cancel</button>
+                    <button type="submit" className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white font-black rounded-xl transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-sm">
+                      <Edit3 size={16} className="text-indigo-400" />
+                      Create & Edit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Project Details Modal */}
+          {selectedProject && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
+              <div className="bg-white/90 backdrop-blur-2xl border border-white rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Project Overview</h2>
+                    <p className="text-slate-500 text-sm mt-1 font-medium">Analytics & Meta for <span className="font-bold text-indigo-600">{selectedProject.content?.settings_json?.website_name || selectedProject.slug}</span></p>
+                  </div>
+                  <button onClick={() => setSelectedProject(null)} className="text-slate-400 hover:text-slate-900 p-2 rounded-xl hover:bg-white shadow-sm transition-colors bg-white/50 shrink-0">
+                    <X size={20} />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-2">Total Visitors</div>
+                    <div className="text-3xl font-black text-slate-900">{selectedProject.visitors_count || 0}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-emerald-600 text-[10px] font-black uppercase tracking-widest mb-2">Status</div>
+                    <div className={`inline-block px-3 py-1.5 mt-1 rounded-lg text-xs font-black uppercase tracking-widest shadow-sm border ${selectedProject.published ? 'bg-emerald-400 text-white border-emerald-400' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
+                      {selectedProject.published ? 'Live' : 'Draft'}
+                    </div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Category</div>
+                    <div className="text-lg font-black text-slate-900">{selectedProject.business_type}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Theme</div>
+                    <div className="text-lg font-black text-slate-900">{selectedProject.theme}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Created</div>
+                    <div className="text-lg font-black text-slate-900">{selectedProject.created_at ? new Date(selectedProject.created_at).toLocaleDateString() : 'Just now'}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
+                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Last Updated</div>
+                    <div className="text-lg font-black text-slate-900">{selectedProject.updated_at ? new Date(selectedProject.updated_at).toLocaleDateString() : 'Just now'}</div>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end pt-5 border-t border-white">
+                  <button onClick={() => setSelectedProject(null)} className="w-full sm:w-auto px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-sm rounded-xl transition-all shadow-md">
+                    Close Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
