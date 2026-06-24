@@ -512,26 +512,26 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             <div className="border-t border-slate-100 pt-6 mt-6">
                               <h4 className="font-bold text-slate-800 text-sm mb-3">Follow Us</h4>
                               <div className="flex items-center gap-4">
-                                <a 
-                                  href={content.contact_info?.facebook || 'https://facebook.com'} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer" 
+                                <a
+                                  href={content.contact_info?.facebook || 'https://facebook.com'}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                 </a>
-                                <a 
-                                  href={content.contact_info?.instagram || 'https://instagram.com'} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer" 
+                                <a
+                                  href={content.contact_info?.instagram || 'https://instagram.com'}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                 </a>
-                                <a 
-                                  href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer" 
+                                <a
+                                  href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
                                 >
                                   <MessageCircle size={18} />
@@ -726,31 +726,29 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
           {/* Product Detail Modal for App Style */}
           {selectedProduct && (
-            <div 
+            <div
               className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
               onClick={() => setSelectedProduct(null)}
             >
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-                className={`relative bg-white max-w-sm w-full overflow-hidden shadow-2xl ${
-                  website.theme === 'App Style' ? 'rounded-[2.5rem]' : 'rounded-sm'
-                }`}
+                className={`relative bg-white max-w-sm w-full overflow-hidden shadow-2xl ${website.theme === 'App Style' ? 'rounded-[2.5rem]' : 'rounded-sm'
+                  }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Image section */}
                 <div className="relative aspect-[16/10] w-full bg-[#FFECD6] overflow-hidden flex items-center justify-center">
-                  <img 
-                    src={selectedProduct.image || '/media/placeholder_pastry.png'} 
-                    alt={selectedProduct.name} 
+                  <img
+                    src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                    alt={selectedProduct.name}
                     className="w-full h-full object-cover"
                   />
-                  <button 
+                  <button
                     onClick={() => setSelectedProduct(null)}
-                    className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-800 p-2.5 shadow-md transition-all active:scale-95 z-20 ${
-                      website.theme === 'App Style' ? 'rounded-full' : 'rounded-sm'
-                    }`}
+                    className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-800 p-2.5 shadow-md transition-all active:scale-95 z-20 ${website.theme === 'App Style' ? 'rounded-full' : 'rounded-sm'
+                      }`}
                     aria-label="Close"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -763,23 +761,20 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 {/* Content section */}
                 <div className="p-5 lg:p-6 space-y-4">
                   <div>
-                    <h3 className={`text-xl lg:text-2xl font-black text-slate-900 leading-tight mb-2 ${
-                      website.theme === 'App Style' ? 'font-sans' : 'font-serif'
-                    }`}>
+                    <h3 className={`text-xl lg:text-2xl font-black text-slate-900 leading-tight mb-2 ${website.theme === 'App Style' ? 'font-sans' : 'font-serif'
+                      }`}>
                       {selectedProduct.name}
                     </h3>
-                    
+
                     <div className="flex items-center gap-4 mt-2">
-                      <span className={`text-lg lg:text-xl font-black px-4 py-1.5 rounded-full text-white ${
-                        website.theme === 'App Style' ? 'bg-[#EF8F63] shadow-[0_4px_12px_rgba(239,143,99,0.2)]' : `${colors.primary} shadow-sm`
-                      }`}>
+                      <span className={`text-lg lg:text-xl font-black px-4 py-1.5 rounded-full text-white ${website.theme === 'App Style' ? 'bg-[#EF8F63] shadow-[0_4px_12px_rgba(239,143,99,0.2)]' : `${colors.primary} shadow-sm`
+                        }`}>
                         {selectedProduct.price}
                       </span>
-                      
+
                       <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full shadow-inner">
-                        <Star size={14} className={`${
-                          website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
-                        }`} />
+                        <Star size={14} className={`${website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
+                          }`} />
                         <span className="text-slate-800 text-sm font-black">{selectedProduct.rating || '4.8'}</span>
                       </div>
                     </div>
@@ -792,13 +787,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     </p>
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => setSelectedProduct(null)}
-                    className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${
-                      website.theme === 'App Style' 
-                        ? 'bg-[#EF8F63] hover:bg-[#E87D47] rounded-full' 
+                    className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${website.theme === 'App Style'
+                        ? 'bg-[#EF8F63] hover:bg-[#E87D47] rounded-full'
                         : 'bg-[#C19A6B] hover:bg-[#b08b5e] rounded-sm'
-                    }`}
+                      }`}
                   >
                     Close
                   </button>
@@ -836,7 +830,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
     return (
       <div className={`min-h-screen ${bakeryColors.bgCream} font-outfit selection:bg-[#C5A880] selection:text-white relative overflow-x-hidden`}>
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap');
           .font-playfair {
             font-family: 'Playfair Display', serif;
@@ -878,13 +873,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
             <div className="flex items-center gap-4">
               {/* Cart Button */}
-              <button 
+              <button
                 onClick={(e) => handleNavClick('menu', e)}
-                className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-outfit uppercase tracking-wider transition-all duration-300 active:scale-95 ${
-                  isNavSolid 
-                    ? `${bakeryColors.primary} text-white hover:bg-[#B3966E] rounded-full shadow-sm` 
+                className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-outfit uppercase tracking-wider transition-all duration-300 active:scale-95 ${isNavSolid
+                    ? `${bakeryColors.primary} text-white hover:bg-[#B3966E] rounded-full shadow-sm`
                     : 'bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm border border-white/20'
-                }`}
+                  }`}
               >
                 Checkout
               </button>
@@ -929,10 +923,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             animate={{ y: [0, -10, 0], rotate: [index % 2 === 0 ? 0 : 3, index % 2 === 0 ? -3 : 0, 0] }}
                             transition={{ duration: 4 + index, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
                           >
-                            <img 
-                              src={bread.url} 
-                              alt={bread.name} 
-                              className="w-full h-full object-cover rounded-2xl shadow-2xl opacity-90 border border-white/5" 
+                            <img
+                              src={bread.url}
+                              alt={bread.name}
+                              className="w-full h-full object-cover rounded-2xl shadow-2xl opacity-90 border border-white/5"
                             />
                           </motion.div>
                         ))}
@@ -949,7 +943,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <p className="text-white/80 font-outfit text-sm lg:text-base font-medium max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
                           {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
-                        <button 
+                        <button
                           onClick={(e) => handleNavClick('menu', e)}
                           className="bg-[#C5A880] hover:bg-[#B3966E] text-white px-8 py-3.5 rounded-full font-bold font-outfit uppercase tracking-wider text-xs shadow-lg transition-all duration-300 active:scale-95 flex items-center gap-2 group"
                         >
@@ -985,13 +979,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="w-full lg:w-1/2 relative flex justify-center items-center">
                             <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 shadow-md border border-[#EBE6DD]">
-                              <img 
-                                src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80" 
-                                alt="Wheat Ears and Flour" 
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                              <img
+                                src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
+                                alt="Wheat Ears and Flour"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                               />
                             </div>
                             {/* Decorative wheat drawing layout overlay */}
@@ -1040,24 +1034,24 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             onClick={(e) => handleNavClick('menu', e)}
                             className="text-xs font-bold uppercase font-outfit tracking-widest text-[#1E1B18] hover:text-[#C5A880] transition-colors border-b border-[#C5A880] pb-1 flex items-center gap-1 group"
                           >
-                            View Full Menu 
+                            View Full Menu
                             <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                           {products.slice(0, 6).map((prod: any, idx: number) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedProduct(prod)}
                               className="bg-[#FCFAF7] border border-[#EBE6DD] rounded-[2rem] p-4 flex flex-col justify-between group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer active:scale-98"
                             >
                               <div>
                                 <div className="aspect-[4/3] rounded-2xl bg-[#FAF7F2] border border-[#EBE6DD]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                                  <img 
-                                    src={prod.image || '/media/placeholder_pastry.png'} 
-                                    alt={prod.name} 
-                                    className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500" 
+                                  <img
+                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                    alt={prod.name}
+                                    className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                                   />
                                   <div className="absolute top-3 right-3 bg-[#FCFAF7]/95 backdrop-blur-sm border border-[#EBE6DD] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
                                     <Star size={10} className="text-[#C5A880] fill-[#C5A880]" />
@@ -1069,7 +1063,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <p className="text-[#6B6155] font-outfit text-xs leading-relaxed line-clamp-2 mb-4">{prod.description}</p>
                                 </div>
                               </div>
-                              
+
                               <div className="px-2 pt-2 border-t border-[#EBE6DD]/40 flex items-center justify-between">
                                 <span className="text-[#C5A880] font-outfit font-black text-lg">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-outfit uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full group-hover:bg-[#C5A880] group-hover:text-white transition-colors duration-300">
@@ -1095,15 +1089,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {galleryImages.map((imgSrc, idx) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-[#FAF7F2] border border-[#EBE6DD] relative shadow-sm"
                             >
-                              <img 
-                                src={imgSrc} 
-                                alt={`Gallery ${idx + 1}`} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                              <img
+                                src={imgSrc}
+                                alt={`Gallery ${idx + 1}`}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                               <div className="absolute inset-0 bg-[#0E0D0C]/0 group-hover:bg-[#0E0D0C]/40 transition-colors duration-300 flex items-center justify-center">
                                 <Search className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={24} />
@@ -1179,7 +1173,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-slate-800 font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
-                              
+
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#EBE6DD]/40">
                                 <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -1244,13 +1238,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           /* --- MENU/SHOP VIEW --- */
           <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 lg:px-8">
             <div className="mb-16">
-              <button 
-                onClick={(e) => handleNavClick('home', e)} 
+              <button
+                onClick={(e) => handleNavClick('home', e)}
                 className="flex items-center gap-2 text-slate-500 hover:text-[#C5A880] transition-colors font-bold font-outfit uppercase tracking-wider text-xs mb-8"
               >
                 <ChevronLeft size={16} /> Back to Home
               </button>
-              
+
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#EBE6DD] pb-8">
                 <div>
                   <span className="text-[#C5A880] font-bold font-outfit tracking-[0.25em] uppercase text-xs block mb-3">Complete Catalog</span>
@@ -1273,30 +1267,30 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {filteredProducts.map((prod: any, idx: number) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     onClick={() => setSelectedProduct(prod)}
                     className="bg-[#FCFAF7] border border-[#EBE6DD] rounded-3xl p-4 flex flex-col justify-between group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer active:scale-98"
                   >
                     <div>
                       <div className="aspect-square rounded-2xl bg-[#FAF7F2] border border-[#EBE6DD]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img 
-                          src={prod.image || '/media/placeholder_pastry.png'} 
-                          alt={prod.name} 
-                          className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500" 
+                        <img
+                          src={prod.image || '/media/placeholder_pastry.png'}
+                          alt={prod.name}
+                          className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute top-3 right-3 bg-[#FCFAF7]/95 backdrop-blur-sm border border-[#EBE6DD] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
                           <Star size={10} className="text-[#C5A880] fill-[#C5A880]" />
                           <span className="text-[10px] font-black text-slate-800">{prod.rating || '4.8'}</span>
                         </div>
                       </div>
-                      
+
                       <div className="px-2">
                         <h3 className="text-base font-playfair font-bold text-[#1E1B18] mb-1.5 leading-snug truncate">{prod.name}</h3>
                         <p className="text-[#6B6155] font-outfit text-[11px] leading-relaxed line-clamp-2">{prod.description}</p>
                       </div>
                     </div>
-                    
+
                     <div className="px-2 pt-4 mt-4 border-t border-[#EBE6DD]/40 flex items-center justify-between">
                       <span className="text-[#C5A880] font-outfit font-black text-base">{prod.price}</span>
                       <span className="text-[10px] font-bold font-outfit uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full group-hover:bg-[#C5A880] group-hover:text-white transition-colors duration-300">
@@ -1391,11 +1385,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
         {/* Product Detail Modal */}
         {selectedProduct && (
-          <div 
+          <div
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
             onClick={() => setSelectedProduct(null)}
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
@@ -1403,12 +1397,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#FAF7F2] overflow-hidden flex items-center justify-center border-b border-[#EBE6DD]">
-                <img 
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'} 
-                  alt={selectedProduct.name} 
+                <img
+                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                  alt={selectedProduct.name}
                   className="w-full h-full object-cover"
                 />
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="absolute top-4 right-4 bg-[#FCFAF7]/90 backdrop-blur-sm hover:bg-[#FCFAF7] text-slate-800 p-2 rounded-full shadow-md transition-all active:scale-95 z-20 border border-[#EBE6DD]"
                   aria-label="Close"
@@ -1425,12 +1419,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   <h3 className="text-xl lg:text-2xl font-playfair font-black text-[#1E1B18] leading-tight mb-2">
                     {selectedProduct.name}
                   </h3>
-                  
+
                   <div className="flex items-center gap-4 mt-3">
                     <span className="text-base font-outfit font-black px-4 py-1.5 rounded-full text-white bg-[#C5A880] shadow-[0_4px_12px_rgba(197,168,128,0.25)]">
                       {selectedProduct.price}
                     </span>
-                    
+
                     <div className="flex items-center gap-1 bg-[#FAF7F2] border border-[#EBE6DD] px-3 py-1 rounded-full shadow-inner">
                       <Star size={12} className="text-[#C5A880] fill-[#C5A880]" />
                       <span className="text-slate-800 text-xs font-black">{selectedProduct.rating || '4.8'}</span>
@@ -1445,7 +1439,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#C5A880] hover:bg-[#B3966E] font-outfit font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-full text-xs uppercase tracking-wider"
                 >
@@ -1476,7 +1470,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
     return (
       <div className={`min-h-screen ${artisanColors.bgCream} font-montserrat selection:bg-[#C27D56] selection:text-white relative overflow-x-hidden`}>
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
           .font-playfair {
             font-family: 'Playfair Display', serif;
@@ -1559,7 +1554,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <p className="text-[#5E6B61] font-montserrat text-sm lg:text-base font-medium max-w-xl leading-relaxed">
                             {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                           </p>
-                          <button 
+                          <button
                             onClick={(e) => handleNavClick('menu', e)}
                             className="bg-[#C27D56] hover:bg-[#B06E49] text-white px-8 py-3.5 rounded-full font-bold font-montserrat uppercase tracking-wider text-xs shadow-lg transition-all duration-300 active:scale-95 flex items-center gap-2 group"
                           >
@@ -1568,16 +1563,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </button>
                         </div>
                         <div className="lg:col-span-6 flex justify-center">
-                          <motion.div 
+                          <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8 }}
                             className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(42,75,58,0.15)] border-4 border-white"
                           >
-                            <img 
-                              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" 
-                              alt="Kneading Dough" 
-                              className="w-full h-full object-cover" 
+                            <img
+                              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80"
+                              alt="Kneading Dough"
+                              className="w-full h-full object-cover"
                             />
                           </motion.div>
                         </div>
@@ -1610,13 +1605,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="w-full lg:w-1/2 relative flex justify-center items-center">
                             <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 shadow-md border border-[#E6DEC9]">
-                              <img 
-                                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80" 
-                                alt="Wheat Ears and Flour" 
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                              <img
+                                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80"
+                                alt="Wheat Ears and Flour"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                               />
                             </div>
                             <div className="absolute -bottom-6 -left-6 bg-[#C27D56] text-white p-4 rounded-2xl shadow-lg lg:block hidden">
@@ -1664,24 +1659,24 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             onClick={(e) => handleNavClick('menu', e)}
                             className="text-xs font-bold uppercase font-montserrat tracking-widest text-[#2A4B3A] hover:text-[#C27D56] transition-colors border-b border-[#C27D56] pb-1 flex items-center gap-1 group"
                           >
-                            View Full Menu 
+                            View Full Menu
                             <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                           {products.slice(0, 6).map((prod: any, idx: number) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedProduct(prod)}
                               className="bg-[#FAF5ED] border border-[#E6DEC9] rounded-[2rem] p-4 flex flex-col justify-between group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer active:scale-98"
                             >
                               <div>
                                 <div className="aspect-[4/3] rounded-2xl bg-[#FAF5ED] border border-[#E6DEC9]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                                  <img 
-                                    src={prod.image || '/media/placeholder_pastry.png'} 
-                                    alt={prod.name} 
-                                    className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500" 
+                                  <img
+                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                    alt={prod.name}
+                                    className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                                   />
                                   <div className="absolute top-3 right-3 bg-[#FAF5ED]/95 backdrop-blur-sm border border-[#E6DEC9] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
                                     <Star size={10} className="text-[#C27D56] fill-[#C27D56]" />
@@ -1693,7 +1688,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <p className="text-[#5E6B61] font-montserrat text-xs leading-relaxed line-clamp-2 mb-4">{prod.description}</p>
                                 </div>
                               </div>
-                              
+
                               <div className="px-2 pt-2 border-t border-[#E6DEC9]/40 flex items-center justify-between">
                                 <span className="text-[#C27D56] font-montserrat font-black text-lg">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-montserrat uppercase tracking-wider text-[#5E6B61] bg-[#E6DEC9]/50 px-3 py-1 rounded-full group-hover:bg-[#C27D56] group-hover:text-white transition-colors duration-300">
@@ -1719,15 +1714,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {galleryImages.map((imgSrc, idx) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-[#FAF5ED] border border-[#E6DEC9] relative shadow-sm"
                             >
-                              <img 
-                                src={imgSrc} 
-                                alt={`Gallery ${idx + 1}`} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                              <img
+                                src={imgSrc}
+                                alt={`Gallery ${idx + 1}`}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                               <div className="absolute inset-0 bg-[#2A4B3A]/0 group-hover:bg-[#2A4B3A]/40 transition-colors duration-300 flex items-center justify-center">
                                 <Search className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={24} />
@@ -1801,7 +1796,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-[#2A4B3A] font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
-                              
+
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#E6DEC9]">
                                 <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -1865,13 +1860,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           /* --- MENU/SHOP VIEW --- */
           <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 lg:px-8">
             <div className="mb-16">
-              <button 
-                onClick={(e) => handleNavClick('home', e)} 
+              <button
+                onClick={(e) => handleNavClick('home', e)}
                 className="flex items-center gap-2 text-[#5E6B61] hover:text-[#C27D56] transition-colors font-bold font-montserrat uppercase tracking-wider text-xs mb-8"
               >
                 <ChevronLeft size={16} /> Back to Home
               </button>
-              
+
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#E6DEC9] pb-8">
                 <div>
                   <span className="text-[#C27D56] font-bold font-montserrat tracking-[0.25em] uppercase text-xs block mb-3">Complete Catalog</span>
@@ -1894,30 +1889,30 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {filteredProducts.map((prod: any, idx: number) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     onClick={() => setSelectedProduct(prod)}
                     className="bg-[#FAF5ED] border border-[#E6DEC9] rounded-3xl p-4 flex flex-col justify-between group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer active:scale-98"
                   >
                     <div>
                       <div className="aspect-square rounded-2xl bg-[#FAF5ED] border border-[#E6DEC9]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img 
-                          src={prod.image || '/media/placeholder_pastry.png'} 
-                          alt={prod.name} 
-                          className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500" 
+                        <img
+                          src={prod.image || '/media/placeholder_pastry.png'}
+                          alt={prod.name}
+                          className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute top-3 right-3 bg-[#FAF5ED]/95 backdrop-blur-sm border border-[#E6DEC9] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
                           <Star size={10} className="text-[#C27D56] fill-[#C27D56]" />
                           <span className="text-[10px] font-black text-slate-800">{prod.rating || '4.8'}</span>
                         </div>
                       </div>
-                      
+
                       <div className="px-2">
                         <h3 className="text-base font-playfair font-bold text-[#2A4B3A] mb-1.5 leading-snug truncate">{prod.name}</h3>
                         <p className="text-[#5E6B61] font-montserrat text-[11px] leading-relaxed line-clamp-2">{prod.description}</p>
                       </div>
                     </div>
-                    
+
                     <div className="px-2 pt-4 mt-4 border-t border-[#E6DEC9]/40 flex items-center justify-between">
                       <span className="text-[#C27D56] font-montserrat font-black text-base">{prod.price}</span>
                       <span className="text-[10px] font-bold font-montserrat uppercase tracking-wider text-[#5E6B61] bg-[#E6DEC9]/50 px-3 py-1 rounded-full group-hover:bg-[#C27D56] group-hover:text-white transition-colors duration-300">
@@ -2012,11 +2007,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
         {/* Product Detail Modal */}
         {selectedProduct && (
-          <div 
+          <div
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
             onClick={() => setSelectedProduct(null)}
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
@@ -2024,12 +2019,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#FAF5ED] overflow-hidden flex items-center justify-center border-b border-[#E6DEC9]">
-                <img 
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'} 
-                  alt={selectedProduct.name} 
+                <img
+                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                  alt={selectedProduct.name}
                   className="w-full h-full object-cover"
                 />
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="absolute top-4 right-4 bg-[#FAF5ED]/90 backdrop-blur-sm hover:bg-[#FAF5ED] text-slate-800 p-2 rounded-full shadow-md transition-all active:scale-95 z-20 border border-[#E6DEC9]"
                   aria-label="Close"
@@ -2046,12 +2041,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   <h3 className="text-xl lg:text-2xl font-playfair font-black text-[#2A4B3A] leading-tight mb-2">
                     {selectedProduct.name}
                   </h3>
-                  
+
                   <div className="flex items-center gap-4 mt-3">
                     <span className="text-base font-montserrat font-black px-4 py-1.5 rounded-full text-white bg-[#C27D56] shadow-[0_4px_12px_rgba(194,125,86,0.25)]">
                       {selectedProduct.price}
                     </span>
-                    
+
                     <div className="flex items-center gap-1 bg-[#FAF5ED] border border-[#E6DEC9] px-3 py-1 rounded-full shadow-inner">
                       <Star size={12} className="text-[#C27D56] fill-[#C27D56]" />
                       <span className="text-slate-800 text-xs font-black">{selectedProduct.rating || '4.8'}</span>
@@ -2066,7 +2061,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#C27D56] hover:bg-[#B06E49] font-montserrat font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-full text-xs uppercase tracking-wider"
                 >
@@ -2096,7 +2091,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
     return (
       <div className={`min-h-screen ${customColors.bgLight} font-inter selection:bg-[#D4A373] selection:text-[#111111] relative overflow-x-hidden`}>
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Space+Grotesk:wght@300..700&family=Inter:wght@100..900&display=swap');
           .font-syne {
             font-family: 'Syne', sans-serif;
@@ -2178,15 +2174,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                       {/* Floating Core Graphic */}
                       <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 lg:opacity-50">
-                        <motion.div 
+                        <motion.div
                           animate={{ y: [0, -15, 0] }}
                           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                           className="w-72 h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden border border-white/10 p-2"
                         >
-                          <img 
-                            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" 
-                            alt="Premium Close-up Pastry" 
-                            className="w-full h-full object-cover rounded-full filter grayscale" 
+                          <img
+                            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80"
+                            alt="Premium Close-up Pastry"
+                            className="w-full h-full object-cover rounded-full filter grayscale"
                           />
                         </motion.div>
                       </div>
@@ -2202,7 +2198,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <p className="text-slate-300 font-inter text-sm lg:text-base font-light max-w-lg mx-auto mb-10 leading-relaxed">
                           {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
-                        <button 
+                        <button
                           onClick={(e) => handleNavClick('menu', e)}
                           className="bg-[#D4A373] hover:bg-[#C29262] text-[#111111] px-8 py-4 rounded-none font-bold font-grotesk uppercase tracking-widest text-xs shadow-2xl transition-all duration-300 active:scale-95 flex items-center gap-2"
                         >
@@ -2228,7 +2224,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses.\n\nFrom our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                             </p>
                           </div>
-                          
+
                           <div className="lg:col-span-5 grid grid-cols-2 gap-8 border-l border-[#EAEAEA] pl-8 lg:pl-16">
                             <div className="space-y-2">
                               <span className="block text-3xl font-syne font-extrabold text-[#111111]">15+</span>
@@ -2283,24 +2279,24 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             onClick={(e) => handleNavClick('menu', e)}
                             className="text-xs font-bold uppercase font-grotesk tracking-widest text-[#111111] hover:text-[#D4A373] transition-colors border-b-2 border-[#111111] pb-1 flex items-center gap-1 group"
                           >
-                            View Full Range 
+                            View Full Range
                             <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                           {products.slice(0, 6).map((prod: any, idx: number) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedProduct(prod)}
                               className="border border-[#EAEAEA] hover:border-[#D4A373] p-6 flex flex-col justify-between group transition-all duration-300 cursor-pointer bg-white"
                             >
                               <div>
                                 <div className="aspect-[4/3] bg-slate-50 overflow-hidden flex items-center justify-center mb-6 relative">
-                                  <img 
-                                    src={prod.image || '/media/placeholder_pastry.png'} 
-                                    alt={prod.name} 
-                                    className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                                  <img
+                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                    alt={prod.name}
+                                    className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                                   />
                                   <div className="absolute top-3 right-3 bg-white px-2.5 py-1 flex items-center gap-1 shadow-sm border border-[#EAEAEA]">
                                     <Star size={10} className="text-[#D4A373] fill-[#D4A373]" />
@@ -2310,7 +2306,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <h3 className="text-xl font-syne font-extrabold text-[#111111] mb-2 uppercase truncate">{prod.name}</h3>
                                 <p className="text-[#7A7A7A] font-inter text-xs font-light leading-relaxed line-clamp-2 mb-6">{prod.description}</p>
                               </div>
-                              
+
                               <div className="pt-4 border-t border-[#EAEAEA] flex items-center justify-between">
                                 <span className="text-[#111111] font-grotesk font-bold text-lg">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-grotesk uppercase tracking-widest text-[#D4A373] group-hover:text-[#111111] transition-colors">
@@ -2336,15 +2332,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {galleryImages.map((imgSrc, idx) => (
-                            <div 
-                              key={idx} 
+                            <div
+                              key={idx}
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden group cursor-pointer aspect-square bg-white border border-[#EAEAEA] hover:border-[#D4A373] transition-colors p-2 relative shadow-sm"
                             >
-                              <img 
-                                src={imgSrc} 
-                                alt={`Gallery ${idx + 1}`} 
-                                className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                              <img
+                                src={imgSrc}
+                                alt={`Gallery ${idx + 1}`}
+                                className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                               />
                             </div>
                           ))}
@@ -2409,7 +2405,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-white font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
-                              
+
                               <div className="flex items-center gap-4 mt-12 pt-8 border-t border-[#222222]">
                                 <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -2473,13 +2469,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           /* --- MENU/SHOP VIEW --- */
           <main className="pt-32 pb-24 max-w-7xl mx-auto px-6 lg:px-8">
             <div className="mb-16">
-              <button 
-                onClick={(e) => handleNavClick('home', e)} 
+              <button
+                onClick={(e) => handleNavClick('home', e)}
                 className="flex items-center gap-2 text-[#7A7A7A] hover:text-[#D4A373] transition-colors font-bold font-grotesk uppercase tracking-widest text-xs mb-8"
               >
                 <ChevronLeft size={16} /> Back to Home
               </button>
-              
+
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#EAEAEA] pb-8">
                 <div>
                   <span className="text-[#D4A373] font-bold font-grotesk tracking-[0.3em] uppercase text-xs block mb-3">Complete Collection</span>
@@ -2502,30 +2498,30 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {filteredProducts.map((prod: any, idx: number) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     onClick={() => setSelectedProduct(prod)}
                     className="bg-white border border-[#EAEAEA] hover:border-[#D4A373] p-4 flex flex-col justify-between group transition-all duration-300 cursor-pointer"
                   >
                     <div>
                       <div className="aspect-square bg-slate-50 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img 
-                          src={prod.image || '/media/placeholder_pastry.png'} 
-                          alt={prod.name} 
-                          className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                        <img
+                          src={prod.image || '/media/placeholder_pastry.png'}
+                          alt={prod.name}
+                          className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                         />
                         <div className="absolute top-3 right-3 bg-white border border-[#EAEAEA] px-2.5 py-1 flex items-center gap-1 shadow-sm">
                           <Star size={10} className="text-[#D4A373] fill-[#D4A373]" />
                           <span className="text-[10px] font-bold font-grotesk text-slate-800">{prod.rating || '4.8'}</span>
                         </div>
                       </div>
-                      
+
                       <div className="px-2">
                         <h3 className="text-base font-syne font-extrabold text-[#111111] mb-1.5 leading-snug uppercase truncate">{prod.name}</h3>
                         <p className="text-[#7A7A7A] font-inter text-[11px] font-light leading-relaxed line-clamp-2">{prod.description}</p>
                       </div>
                     </div>
-                    
+
                     <div className="px-2 pt-4 mt-4 border-t border-[#EAEAEA] flex items-center justify-between">
                       <span className="text-[#111111] font-grotesk font-bold text-base">{prod.price}</span>
                       <span className="text-[10px] font-bold font-grotesk uppercase tracking-widest text-[#D4A373] group-hover:text-[#111111] transition-colors">
@@ -2620,11 +2616,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
         {/* Product Detail Modal */}
         {selectedProduct && (
-          <div 
+          <div
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
             onClick={() => setSelectedProduct(null)}
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
@@ -2632,12 +2628,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#F9F9FB] overflow-hidden flex items-center justify-center border-b border-[#EAEAEA]">
-                <img 
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'} 
-                  alt={selectedProduct.name} 
+                <img
+                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                  alt={selectedProduct.name}
                   className="w-full h-full object-cover filter grayscale"
                 />
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-800 p-2 shadow-md transition-all active:scale-95 z-20 border border-[#EAEAEA] rounded-none"
                   aria-label="Close"
@@ -2654,12 +2650,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   <h3 className="text-xl lg:text-2xl font-syne font-extrabold text-[#111111] leading-tight mb-2 uppercase">
                     {selectedProduct.name}
                   </h3>
-                  
+
                   <div className="flex items-center gap-4 mt-3">
                     <span className="text-base font-grotesk font-bold px-4 py-1.5 text-[#111111] bg-[#D4A373] shadow-sm">
                       {selectedProduct.price}
                     </span>
-                    
+
                     <div className="flex items-center gap-1 bg-[#F9F9FB] border border-[#EAEAEA] px-3 py-1 shadow-inner">
                       <Star size={12} className="text-[#D4A373] fill-[#D4A373]" />
                       <span className="text-slate-800 text-xs font-bold font-grotesk">{selectedProduct.rating || '4.8'}</span>
@@ -2674,7 +2670,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button 
+                <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#111111] hover:bg-[#222222] font-grotesk font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-none text-xs uppercase tracking-widest"
                 >
@@ -2938,26 +2934,26 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <div className="pt-4">
                             <h4 className={`font-bold ${colors.textDark} text-sm mb-3 uppercase tracking-wider`}>Follow Us</h4>
                             <div className="flex items-center gap-4">
-                              <a 
-                                href={content.contact_info?.facebook || 'https://facebook.com'} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                              <a
+                                href={content.contact_info?.facebook || 'https://facebook.com'}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                               </a>
-                              <a 
-                                href={content.contact_info?.instagram || 'https://instagram.com'} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                              <a
+                                href={content.contact_info?.instagram || 'https://instagram.com'}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                               </a>
-                              <a 
-                                href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                              <a
+                                href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
                               >
                                 <MessageCircle size={18} />
@@ -3156,31 +3152,29 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
       {/* Product Detail Modal */}
       {selectedProduct && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setSelectedProduct(null)}
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-            className={`relative bg-white max-w-sm w-full overflow-hidden shadow-2xl ${
-              website.theme === 'App Style' ? 'rounded-[2.5rem]' : 'rounded-sm'
-            }`}
+            className={`relative bg-white max-w-sm w-full overflow-hidden shadow-2xl ${website.theme === 'App Style' ? 'rounded-[2.5rem]' : 'rounded-sm'
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Image section */}
             <div className="relative aspect-[16/10] w-full bg-[#FFECD6] overflow-hidden flex items-center justify-center">
-              <img 
-                src={selectedProduct.image || '/media/placeholder_pastry.png'} 
-                alt={selectedProduct.name} 
+              <img
+                src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                alt={selectedProduct.name}
                 className="w-full h-full object-cover"
               />
-              <button 
+              <button
                 onClick={() => setSelectedProduct(null)}
-                className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-800 p-2.5 shadow-md transition-all active:scale-95 z-20 ${
-                  website.theme === 'App Style' ? 'rounded-full' : 'rounded-sm'
-                }`}
+                className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-800 p-2.5 shadow-md transition-all active:scale-95 z-20 ${website.theme === 'App Style' ? 'rounded-full' : 'rounded-sm'
+                  }`}
                 aria-label="Close"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -3193,23 +3187,20 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {/* Content section */}
             <div className="p-5 lg:p-6 space-y-4">
               <div>
-                <h3 className={`text-xl lg:text-2xl font-black text-slate-900 leading-tight mb-2 ${
-                  website.theme === 'App Style' ? 'font-sans' : 'font-serif'
-                }`}>
+                <h3 className={`text-xl lg:text-2xl font-black text-slate-900 leading-tight mb-2 ${website.theme === 'App Style' ? 'font-sans' : 'font-serif'
+                  }`}>
                   {selectedProduct.name}
                 </h3>
-                
+
                 <div className="flex items-center gap-4 mt-2">
-                  <span className={`text-lg lg:text-xl font-black px-4 py-1.5 rounded-full text-white ${
-                    website.theme === 'App Style' ? 'bg-[#EF8F63] shadow-[0_4px_12px_rgba(239,143,99,0.2)]' : `${colors.primary} shadow-sm`
-                  }`}>
+                  <span className={`text-lg lg:text-xl font-black px-4 py-1.5 rounded-full text-white ${website.theme === 'App Style' ? 'bg-[#EF8F63] shadow-[0_4px_12px_rgba(239,143,99,0.2)]' : `${colors.primary} shadow-sm`
+                    }`}>
                     {selectedProduct.price}
                   </span>
-                  
+
                   <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full shadow-inner">
-                    <Star size={14} className={`${
-                      website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
-                    }`} />
+                    <Star size={14} className={`${website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
+                      }`} />
                     <span className="text-slate-800 text-sm font-black">{selectedProduct.rating || '4.8'}</span>
                   </div>
                 </div>
@@ -3222,13 +3213,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 </p>
               </div>
 
-              <button 
+              <button
                 onClick={() => setSelectedProduct(null)}
-                className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${
-                  website.theme === 'App Style' 
-                    ? 'bg-[#EF8F63] hover:bg-[#E87D47] rounded-full' 
+                className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${website.theme === 'App Style'
+                    ? 'bg-[#EF8F63] hover:bg-[#E87D47] rounded-full'
                     : 'bg-[#C19A6B] hover:bg-[#b08b5e] rounded-sm'
-                }`}
+                  }`}
               >
                 Close
               </button>
