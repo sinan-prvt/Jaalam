@@ -111,7 +111,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
         <main className="pt-32">
           {!showAllProducts ? (
             <>
-              {sectionOrder.map((sectionId) => {
+              {sectionOrder.map((sectionId: string) => {
                 if (hiddenSections.includes(sectionId)) return null;
 
                 if (sectionId === 'hero') return (

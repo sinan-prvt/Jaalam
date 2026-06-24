@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock } from 'lucide-react';
+import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock, Shield, RefreshCw } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 
 export default function EcoScrapTheme({ website, content }: any) {

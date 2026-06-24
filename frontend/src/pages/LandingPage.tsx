@@ -888,28 +888,40 @@ export default function LandingPage() {
               <InfiniteMenu 
                 items={[
                   {
-                    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Fine Dining',
-                    description: 'Modern gold typography.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Casual Eats',
-                    description: 'Vibrant custom grid cards.'
-                  },
-                  {
                     image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=600&q=80',
                     link: '/register',
-                    title: 'Bistro Cafe',
-                    description: 'Warm, minimal layout style.'
+                    title: 'Cafe & Restaurant',
+                    description: 'Warm, appetizing layout style.'
                   },
                   {
-                    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&h=600&q=80',
+                    image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=600&h=600&q=80',
                     link: '/register',
-                    title: 'Vegan Cafe',
+                    title: 'Retail Boutique',
+                    description: 'Elegant fashion storefront.'
+                  },
+                  {
+                    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=600&q=80',
+                    link: '/register',
+                    title: 'Fitness Gym',
+                    description: 'High-energy, bold designs.'
+                  },
+                  {
+                    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&h=600&q=80',
+                    link: '/register',
+                    title: 'Real Estate',
+                    description: 'Premium property listings.'
+                  },
+                  {
+                    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&h=600&q=80',
+                    link: '/register',
+                    title: 'Eco & Scrap',
                     description: 'Clean eco-friendly grids.'
+                  },
+                  {
+                    image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&h=600&q=80',
+                    link: '/register',
+                    title: 'Stationery',
+                    description: 'Playful, creative showcases.'
                   }
                 ]}
                 scale={0.8}
