@@ -130,6 +130,7 @@ export default function LandingPage() {
   const [businessName, setBusinessName] = useState('Bella Vita Cafe');
   const [industry, setIndustry] = useState<'salon' | 'cafe' | 'restaurant' | 'gym'>('cafe');
   const [accentColor, setAccentColor] = useState<'purple' | 'rose' | 'emerald' | 'amber'>('amber');
+  const [layoutStyle, setLayoutStyle] = useState<'classic' | 'modern' | 'minimal'>('classic');
   const [simulatorTab, setSimulatorTab] = useState<'home' | 'services' | 'contact'>('home');
 
   // Accent Color Mapping
@@ -562,7 +563,7 @@ export default function LandingPage() {
                 {/* Accent Selection */}
                 <div>
                   <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5 font-mono">
-                    3. Theme Accent Accent
+                    3. Theme Accent
                   </label>
                   <div className="flex gap-2">
                     {[
@@ -584,6 +585,28 @@ export default function LandingPage() {
                         {accentColor === col.id && (
                           <Check className="w-4 h-4 text-black font-bold" />
                         )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Theme Layout Selection */}
+                <div>
+                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5 font-mono">
+                    4. Theme Layout
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['classic', 'modern', 'minimal'].map((layout) => (
+                      <button
+                        key={layout}
+                        onClick={() => setLayoutStyle(layout as any)}
+                        className={`px-3 py-2 rounded-lg border font-medium text-xs text-center transition-all capitalize font-mono ${
+                          layoutStyle === layout 
+                            ? 'bg-zinc-900 border-zinc-700 text-white font-bold' 
+                            : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                        }`}
+                      >
+                        {layout}
                       </button>
                     ))}
                   </div>
@@ -628,25 +651,48 @@ export default function LandingPage() {
                 <div className="flex-1 flex flex-col bg-[#09090b] overflow-y-auto scrollbar-hide relative text-left">
                   
                   {/* Category Image Header */}
-                  <div className="relative h-40 flex flex-col justify-between p-4 relative overflow-hidden shrink-0 border-b border-zinc-900">
-                    <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 to-zinc-950/98 z-0" />
+                  <div className={`relative flex flex-col justify-between p-4 shrink-0 border-zinc-900 overflow-hidden ${
+                    layoutStyle === 'classic' ? 'h-40 border-b' : 
+                    layoutStyle === 'modern' ? 'h-48 border-none' : 
+                    'h-32 border-b'
+                  }`}>
+                    {layoutStyle === 'classic' && (
+                      <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 to-zinc-950/98 z-0" />
+                    )}
+                    {layoutStyle === 'modern' && (
+                      <div className={`absolute inset-0 opacity-20 ${selectedAccent.bg} z-0`} />
+                    )}
                     
                     {/* Mini Brand Navigation */}
                     <div className="flex justify-between items-center z-10">
-                      <span className="font-bold text-[10px] tracking-tight text-white max-w-[130px] truncate">
+                      <span className={`font-bold tracking-tight text-white max-w-[130px] truncate ${
+                        layoutStyle === 'modern' ? 'text-sm' : 'text-[10px]'
+                      }`}>
                         {businessName || 'My Website'}
                       </span>
-                      <span className="text-[7px] font-mono font-bold tracking-wider uppercase bg-zinc-900/80 px-2 py-0.5 rounded text-zinc-400 border border-zinc-800">
-                        {industry}
-                      </span>
+                      {layoutStyle !== 'minimal' && (
+                        <span className={`text-[7px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                          layoutStyle === 'modern' ? 'bg-black/40 border-transparent text-white' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400'
+                        }`}>
+                          {industry}
+                        </span>
+                      )}
                     </div>
 
                     {/* Hero Slogan */}
                     <div className="z-10 mt-auto">
-                      <span className={`text-[8px] font-mono font-bold uppercase ${selectedAccent.text} block mb-0.5`}>
-                        {currentContent.tagline}
-                      </span>
-                      <h4 className="text-sm font-bold text-white leading-tight font-display tracking-tight">
+                      {layoutStyle !== 'minimal' && (
+                        <span className={`text-[8px] font-mono font-bold uppercase ${
+                          layoutStyle === 'modern' ? 'text-white/80' : selectedAccent.text
+                        } block mb-0.5`}>
+                          {currentContent.tagline}
+                        </span>
+                      )}
+                      <h4 className={`text-white leading-tight font-display tracking-tight ${
+                        layoutStyle === 'modern' ? 'text-xl font-black' : 
+                        layoutStyle === 'minimal' ? 'text-xs font-medium' : 
+                        'text-sm font-bold'
+                      }`}>
                         {currentContent.slogan}
                       </h4>
                     </div>
@@ -684,10 +730,18 @@ export default function LandingPage() {
                           <p>{currentContent.desc}</p>
 
                           {/* CTA Card */}
-                          <div className={`p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 relative overflow-hidden`}>
-                            <h5 className="font-bold text-zinc-200 mb-1 text-[11px] font-mono">Reserve a Spot</h5>
-                            <p className="text-[9px] text-zinc-500 mb-3 leading-normal">Schedule appointments or reservations directly on our website.</p>
-                            <button className={`w-full py-1.5 rounded text-[9px] font-bold text-black bg-zinc-100 hover:bg-zinc-200`}>
+                          <div className={`p-4 relative overflow-hidden ${
+                            layoutStyle === 'modern' ? `rounded-3xl border-none ${selectedAccent.bg}` :
+                            layoutStyle === 'minimal' ? 'rounded-none border-y border-zinc-800 bg-transparent py-4 px-0' :
+                            'rounded-xl border border-zinc-800 bg-zinc-900/30'
+                          }`}>
+                            <h5 className={`font-bold mb-1 text-[11px] font-mono ${layoutStyle === 'modern' ? 'text-black' : 'text-zinc-200'}`}>Reserve a Spot</h5>
+                            <p className={`text-[9px] mb-3 leading-normal ${layoutStyle === 'modern' ? 'text-black/70 font-medium' : 'text-zinc-500'}`}>Schedule appointments or reservations directly on our website.</p>
+                            <button className={`w-full py-1.5 text-[9px] font-bold transition-colors ${
+                              layoutStyle === 'modern' ? 'bg-black text-white rounded-full' :
+                              layoutStyle === 'minimal' ? 'bg-transparent border border-zinc-700 text-white rounded-sm hover:bg-zinc-900' :
+                              'bg-zinc-100 hover:bg-zinc-200 text-black rounded'
+                            }`}>
                               Book Instantly
                             </button>
                           </div>
