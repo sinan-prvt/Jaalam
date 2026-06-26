@@ -486,22 +486,25 @@ export default function LandingPage() {
       <section id="simulator" className="py-20 bg-[#09090b]/80 border-t border-b border-zinc-900 px-6 relative">
         <div className="container mx-auto max-w-7xl relative z-10">
           
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center max-w-2xl mx-auto mb-16"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
               <ShinyText text="✨ Live Interactive Sandbox" speed={3} color="#71717a" shineColor="#ffffff" />
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            </motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Try the design engine.
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base leading-relaxed">
               Adjust variables inside the builder panel and watch the mock mobile device compile structural changes in real time.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="grid lg:grid-cols-12 gap-10 items-stretch">
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
             
             {/* Input Controls */}
-            <div className="lg:col-span-5 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-lg">
+            <div className="lg:col-span-5 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between shadow-lg">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-3 border-b border-zinc-900">
                   <h3 className="text-sm font-bold tracking-wider uppercase text-zinc-400 font-mono flex items-center gap-2">
@@ -606,7 +609,7 @@ export default function LandingPage() {
             <div className="lg:col-span-7 flex justify-center items-center">
               
               {/* iPhone Minimalist Bezel */}
-              <div className="w-[310px] sm:w-[330px] aspect-[9/18.5] bg-[#000000] rounded-[2.5rem] border-4 border-zinc-800 shadow-2xl relative flex flex-col overflow-hidden ring-1 ring-zinc-900">
+              <div className="w-[310px] sm:w-[330px] aspect-[9/16] bg-[#000000] rounded-[2.5rem] border-4 border-zinc-800 shadow-2xl relative flex flex-col overflow-hidden ring-1 ring-zinc-900">
                 
                 {/* Phone Speaker Notch */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-zinc-800 rounded-b-xl z-40 flex justify-center items-start">
@@ -786,17 +789,20 @@ export default function LandingPage() {
       <section id="features" className="py-24 px-6 relative">
         <div className="container mx-auto max-w-7xl">
           
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center max-w-2xl mx-auto mb-20"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
               <ShinyText text="✨ Core Toolkit" speed={3} color="#71717a" shineColor="#ffffff" />
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            </motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Designed for physical storefronts.
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base font-light">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
               Simple, high-contrast layouts packed with tools that bridge offline traffic to your online hub.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -869,17 +875,20 @@ export default function LandingPage() {
       <section className="py-24 border-t border-zinc-900 bg-[#09090b]/40 px-6 relative overflow-hidden">
         <div className="container mx-auto max-w-7xl relative z-10">
           
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center max-w-2xl mx-auto mb-12"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
               <ShinyText text="✨ Infinite Exploration" speed={3} color="#71717a" shineColor="#ffffff" />
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            </motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Stunning aesthetic presets.
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base font-light">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
               Drag, rotate, and interact with our 3D sphere gallery containing real storefront theme layouts.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           <div className="w-full max-w-4xl mx-auto border border-zinc-800 bg-zinc-900/10 backdrop-blur-xl rounded-3xl p-6 shadow-2xl relative overflow-hidden group select-none">
             <div className="absolute top-[-30%] right-[-10%] w-[60%] h-[80%] bg-indigo-500/5 rounded-full mix-blend-multiply blur-3xl opacity-50 pointer-events-none"></div>
@@ -941,17 +950,20 @@ export default function LandingPage() {
       <section id="process" className="py-24 bg-zinc-950/40 border-t border-zinc-900 px-6 relative">
         <div className="container mx-auto max-w-7xl">
           
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center max-w-2xl mx-auto mb-20"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
               <ShinyText text="✨ Direct Flow" speed={3} color="#71717a" shineColor="#ffffff" />
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            </motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Launch in three steps.
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base font-light">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
               No developer hiring delays, no lengthy designs. Go live without traditional complexity.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* SCROLLSTACK CARDS FOR LANDING PAGE */}
           <ScrollStack 
@@ -1110,15 +1122,18 @@ export default function LandingPage() {
       <section id="testimonials" className="py-24 px-6 relative border-t border-zinc-900">
         <div className="container mx-auto max-w-7xl">
           
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Owner Feedback</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center max-w-2xl mx-auto mb-20"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Owner Feedback</motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Trusted by store owners.
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base font-light">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
               Hear how other local entrepreneurs generated storefront layouts and QR menus in clicks.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -1187,15 +1202,18 @@ export default function LandingPage() {
       <section id="faq" className="py-24 px-6 border-t border-zinc-900 bg-zinc-950/20 relative">
         <div className="container mx-auto max-w-4xl">
           
-          <div className="text-center mb-16">
-            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Support</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Support</motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Questions & answers.
-            </h2>
-            <p className="text-zinc-400 text-sm font-light">
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm font-light">
               Clear details on pricing, setup, hosting, and domains.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 sm:p-10 space-y-2">
             <FAQItem 
@@ -1228,12 +1246,18 @@ export default function LandingPage() {
         <div className="container mx-auto max-w-5xl text-center relative z-10">
           <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-8 sm:p-16 relative overflow-hidden">
             
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 tracking-tighter font-display text-white">
+            <motion.h2 
+              initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true, margin: "-50px" }}
+              className="text-3xl sm:text-4xl font-extrabold mb-6 tracking-tighter font-display text-white"
+            >
               Ready to launch your business online?
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-10 font-light leading-relaxed">
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true, margin: "-50px" }}
+              className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-10 font-light leading-relaxed"
+            >
               Join thousands of salon owners, restaurant managers, gym coaches, and local services using Jaalam to reach local clients.
-            </p>
+            </motion.p>
             
             <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
               <Link 
