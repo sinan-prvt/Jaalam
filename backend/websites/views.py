@@ -86,10 +86,10 @@ def generate_website(request):
     description = request.data.get('description')
     contact = request.data.get('contact', '')
     vibe = request.data.get('vibe', 'Modern')
-    category = request.data.get('category')
+    category = request.data.get('category', 'Other')
     
-    if not description or not name or not category:
-        return Response({'error': 'Name, description, and category are required'}, status=400)
+    if not description or not name:
+        return Response({'error': 'Name and description are required'}, status=400)
         
     try:
         data = generate_website_json(name, description, contact, vibe, category)

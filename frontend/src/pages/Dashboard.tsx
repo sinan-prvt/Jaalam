@@ -807,8 +807,8 @@ export default function Dashboard() {
             // Create new site
             const siteRes = await axios.post('http://localhost:8000/api/websites/', {
               slug: generatedSlug,
-              business_type: newType,
-              theme: data.theme || newTheme,
+              business_type: data.business_category || newType || 'Other',
+              theme: data.theme_name || data.theme || newTheme || 'Custom',
             });
             
             let products = [];

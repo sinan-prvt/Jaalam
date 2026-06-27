@@ -13,7 +13,7 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
     Calls the local Ollama instance to generate website JSON structure based on the structured inputs.
     """
     system_prompt = f"""
-    You are an expert web designer AI. Your task is to generate a JSON structure for a website in the '{category}' category.
+    You are an expert web designer AI. Your task is to generate a JSON structure for a website based on the user's business description.
     You must return ONLY valid JSON and absolutely no markdown formatting, no explanations, and no backticks.
     
     The user provided the following business details:
@@ -22,8 +22,21 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
     Contact Info: {contact}
     Design Vibe/Tone: {vibe}
     
+    Based on the description, you MUST classify the business into one of these exact categories:
+    "Restaurant", "Cafe / Bakery", "Salon / Spa", "Gym / Fitness", "Portfolio / CV", or "Other".
+
+    Based on the chosen category, you MUST select one of the following exact themes:
+    - If "Restaurant": "Fine Dining", "Casual Eats", "Bistro", or "Custom"
+    - If "Cafe / Bakery": "Cozy Cafe", "Modern Bakery", "Artisan", or "Custom"
+    - If "Salon / Spa": "Glamour Beauty", "Zen Yoga Studio", or "Custom"
+    - If "Gym / Fitness": "Hardcore Iron", "CrossFit Box", "Luxury Health Club", "Combat & MMA Gym", or "Custom"
+    - If "Portfolio / CV": "Minimalist", "Creative Professional", "Corporate", or "Custom"
+    - If "Other": "Modern", "Classic", or "Custom"
+
     The JSON structure MUST follow this exact schema containing all sections of the website:
     {{
+        "business_category": "The exact category string from the list above",
+        "theme_name": "The exact theme string from the list above based on the chosen category",
         "theme": "dark" | "light" | "modern" | "minimal",
         "accent": "amber" | "rose" | "purple" | "emerald" | "indigo" | "sky",
         "hero": {{
