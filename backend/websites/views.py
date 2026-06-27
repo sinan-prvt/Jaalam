@@ -7,6 +7,7 @@ import uuid
 from django.shortcuts import get_object_or_404
 from .models import Website, WebsiteContent
 from .serializers import WebsiteSerializer, WebsiteContentSerializer
+from .ai_service import generate_website_json
 
 class WebsiteViewSet(viewsets.ModelViewSet):
     serializer_class = WebsiteSerializer
@@ -78,3 +79,20 @@ def upload_image(request):
     file_url = request.build_absolute_uri(default_storage.url(saved_path))
     
     return Response({'url': file_url})
+
+@api_view(['POST'])
+def generate_website(request):
+    name = request.data.get('name')
+    description = request.data.get('description')
+    contact = request.data.get('contact', '')
+    vibe = request.data.get('vibe', 'Modern')
+    category = request.data.get('category')
+    
+    if not description or not name or not category:
+        return Response({'error': 'Name, description, and category are required'}, status=400)
+        
+    try:
+        data = generate_website_json(name, description, contact, vibe, category)
+        return Response(data)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)

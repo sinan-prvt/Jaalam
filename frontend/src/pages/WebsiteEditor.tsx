@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
+import AIGeneratorModal from '../components/AIGeneratorModal';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -82,6 +83,7 @@ export default function WebsiteEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('theme');
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
@@ -268,18 +270,18 @@ export default function WebsiteEditor() {
             <ArrowLeft size={20} />
           </Link>
           <h2 className="font-black text-slate-900 truncate px-2 text-lg">{content?.settings_json?.website_name || website.slug}</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-white text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition-all hover:bg-slate-50 active:scale-95 disabled:opacity-70"
+              className="bg-white text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition-all hover:bg-slate-50 active:scale-95 disabled:opacity-70 whitespace-nowrap shrink-0"
             >
               <Save size={16} /> Save
             </button>
             <button
               onClick={handleTogglePublish}
               disabled={saving}
-              className={`px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-70 ${website.published ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'}`}
+              className={`px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-70 whitespace-nowrap shrink-0 ${website.published ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'}`}
             >
               <Rocket size={16} /> {website.published ? 'Published' : 'Publish'}
             </button>
@@ -1223,6 +1225,8 @@ export default function WebsiteEditor() {
           </div>
         </div>
       )}
+
+
     </div>
   );
 }

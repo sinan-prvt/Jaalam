@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3 } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3 } from 'lucide-react';
 import { logout, loginSuccess } from '../authSlice';
 import DashboardSidebar from '../components/DashboardSidebar';
+import AIGeneratorModal from '../components/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
 interface Website {
@@ -56,6 +57,7 @@ export default function Dashboard() {
   const [websites, setWebsites] = useState<Website[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   
   const location = useLocation();
   // Navigation State
@@ -363,6 +365,13 @@ export default function Dashboard() {
                     <option value="Draft">Drafts</option>
                   </select>
                   <button 
+                    onClick={() => setIsAIModalOpen(true)}
+                    className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
+                  >
+                    <Sparkles size={16} />
+                    AI Design
+                  </button>
+                  <button 
                     onClick={() => setIsCreating(true)}
                     className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                   >
@@ -387,13 +396,22 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-2xl font-black text-slate-900 mb-2">Nothing here yet</h3>
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
-                      <button 
-                        onClick={() => setIsCreating(true)}
-                        className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 mx-auto text-sm hover:scale-105 active:scale-95"
-                      >
-                        <Zap size={18} className="text-indigo-400 fill-indigo-400" />
-                        Generate Site
-                      </button>
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+                        <button 
+                          onClick={() => setIsAIModalOpen(true)}
+                          className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                        >
+                          <Sparkles size={18} />
+                          AI Design
+                        </button>
+                        <button 
+                          onClick={() => setIsCreating(true)}
+                          className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                        >
+                          <Plus size={18} className="text-indigo-400" />
+                          Create Manually
+                        </button>
+                      </div>
                     </>
                   ) : (
                     <>
@@ -769,8 +787,76 @@ export default function Dashboard() {
               </div>
             </div>
           )}
+
+
+
         </div>
       </main>
+
+      <AIGeneratorModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        category={newType || 'Other'}
+        onSuccess={async (data: any) => {
+          try {
+            // Ensure unique slug
+            const generatedSlug = websiteName 
+                ? websiteName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+                : (data.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
+            
+            // Create new site
+            const siteRes = await axios.post('http://localhost:8000/api/websites/', {
+              slug: generatedSlug,
+              business_type: newType,
+              theme: data.theme || newTheme,
+            });
+            
+            let products = [];
+            if (data.menus && data.menus.length > 0) {
+              products = data.menus.flatMap((m: any) => m.items.map((item: any) => ({
+                name: item.name,
+                description: item.desc,
+                price: item.price,
+                image: `https://source.unsplash.com/400x300/?${encodeURIComponent(item.name)}`
+              })));
+            }
+
+            let gallery = [];
+            if (data.gallery && data.gallery.length > 0) {
+              gallery = data.gallery.map((term: string) => `https://source.unsplash.com/800x600/?${encodeURIComponent(term)}`);
+            }
+
+            await axios.put(`http://localhost:8000/api/websites/${siteRes.data.slug}/content/`, {
+                hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || 'our site'}`,
+                hero_description: data.hero?.description || data.desc,
+                settings_json: {
+                  about_title: data.about?.title || data.tagline,
+                  about_description: data.about?.content || data.desc,
+                  website_name: data.name
+                },
+                services_json: data.services?.map((s: any) => ({
+                  title: s.name,
+                  description: s.desc,
+                  image: `https://source.unsplash.com/400x300/?${encodeURIComponent(s.name)}`
+                })) || [],
+                products_json: products,
+                gallery_json: gallery,
+                contact_info: {
+                  address: data.contact?.address || data.address,
+                  phone: data.contact?.phone,
+                  email: data.contact?.email,
+                  hours: data.contact?.hours || data.hours
+                }
+            });
+
+            toast.success('AI Website created successfully!');
+            navigate(`/editor/${siteRes.data.slug}`);
+          } catch(err) {
+            console.error(err);
+            toast.error("Failed to save generated site");
+          }
+        }}
+      />
     </div>
   );
 }
