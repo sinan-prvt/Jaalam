@@ -86,8 +86,7 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
         "model": DEFAULT_MODEL,
         "prompt": "Please generate the JSON for my website.",
         "system": system_prompt,
-        "stream": False,
-        "format": "json" # Enforce JSON format in Ollama if supported
+        "stream": False
     }
 
     try:
