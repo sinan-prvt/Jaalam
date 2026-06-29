@@ -101,12 +101,18 @@ def generate_website(request):
 def chat_website(request):
     prompt = request.data.get('prompt')
     current_content = request.data.get('current_content')
+    image_urls = request.data.get('image_urls', [])
+    
+    # Backwards compatibility if frontend still sends single image_url
+    single_image_url = request.data.get('image_url')
+    if single_image_url and single_image_url not in image_urls:
+        image_urls.append(single_image_url)
     
     if not prompt or not current_content:
         return Response({'error': 'Prompt and current_content are required'}, status=400)
         
     try:
-        data = modify_website_json(prompt, current_content)
+        data = modify_website_json(prompt, current_content, image_urls)
         return Response(data)
     except Exception as e:
         return Response({'error': str(e)}, status=500)

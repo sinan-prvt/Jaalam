@@ -6,7 +6,7 @@ import re
 logger = logging.getLogger(__name__)
 
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
-DEFAULT_MODEL = "qwen:0.5b" # Faster model to prevent long wait times
+DEFAULT_MODEL = "phi:latest" # Smarter model required for complex layouts
 
 def generate_website_json(name: str, description: str, contact: str, vibe: str, category: str) -> dict:
     """
@@ -28,6 +28,13 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
         "primary_color": "tailwind color name (e.g. indigo-600, emerald-500, rose-500)",
         "font": "sans" | "serif",
         "blocks": [
+            {{
+                "type": "Navbar",
+                "bg_color": "tailwind background class (e.g. bg-white)",
+                "text_color": "tailwind text class",
+                "logo_text": "Logo text",
+                "links": ["Home", "About", "Contact"]
+            }},
             {{
                 "type": "Hero",
                 "bg_color": "tailwind background class (e.g. bg-slate-900 or bg-white)",
@@ -80,7 +87,8 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
         "prompt": "Please generate the JSON for my website.",
         "system": system_prompt,
         "stream": False,
-        "format": "json"
+        "format": "json",
+        "keep_alive": "1h"
     }
 
     try:
@@ -116,7 +124,12 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
         logger.error(f"Failed to parse Ollama JSON response: {e}\nResponse: {response_text}")
         raise Exception("AI returned invalid data format.")
 
-def modify_website_json(prompt: str, current_content: dict) -> dict:
+def modify_website_json(prompt: str, current_content: dict, image_urls: list = None) -> dict:
+    image_context = ""
+    if image_urls and len(image_urls) > 0:
+        urls_str = ", ".join([f"'{u}'" for u in image_urls])
+        image_context = f"\n\nCRITICAL INSTRUCTION: The user has uploaded {len(image_urls)} media file(s): {urls_str}\nYou MUST use these exact URLs in the layout where requested (e.g., set logo_text to a URL, or use them for bg_image, or inside gallery search_terms, or image_url). DO NOT make up placeholder text!"
+    
     system_prompt = f"""
     You are an expert web designer AI. The user wants to modify their website layout.
     
@@ -125,9 +138,67 @@ def modify_website_json(prompt: str, current_content: dict) -> dict:
     
     The user's requested modification is:
     "{prompt}"
+    {image_context}
     
-    Update the JSON structure to apply the user's request. Keep the identical schema format (theme, primary_color, font, blocks).
+    Update the JSON structure to apply the user's request. Keep the identical schema format.
     You must return ONLY valid JSON and absolutely no markdown formatting, no explanations, and no backticks.
+    
+    The JSON structure MUST follow this schema containing an array of dynamic layout blocks:
+    {{
+        "theme": "dark" | "light",
+        "primary_color": "tailwind color name (e.g. indigo-600, emerald-500, rose-500)",
+        "font": "sans" | "serif",
+        "blocks": [
+            {{
+                "type": "Navbar",
+                "bg_color": "tailwind background class (e.g. bg-white)",
+                "text_color": "tailwind text class",
+                "logo_text": "Logo text or image URL",
+                "links": ["Home", "About", "Contact"]
+            }},
+            {{
+                "type": "Hero",
+                "bg_color": "tailwind background class (e.g. bg-slate-900 or bg-white)",
+                "text_color": "tailwind text class",
+                "title": "Main Hero Title",
+                "subtitle": "Subtitle text",
+                "cta_text": "Button Text"
+            }},
+            {{
+                "type": "Features",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Section Title",
+                "items": [
+                    {{"title": "Feature 1", "desc": "Description 1", "icon": "Star"}},
+                    {{"title": "Feature 2", "desc": "Description 2", "icon": "Zap"}}
+                ]
+            }},
+            {{
+                "type": "Content",
+                "layout": "image-left" | "image-right" | "center",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Content Title",
+                "content": "A detailed paragraph of text."
+            }},
+            {{
+                "type": "Gallery",
+                "bg_color": "tailwind background class",
+                "title": "Our Work",
+                "search_terms": ["term1", "term2", "term3"]
+            }},
+            {{
+                "type": "Contact",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Get in Touch",
+                "address": "Address",
+                "email": "Email",
+                "phone": "Phone"
+            }}
+        ]
+    }}
     """
 
     payload = {
@@ -135,7 +206,8 @@ def modify_website_json(prompt: str, current_content: dict) -> dict:
         "prompt": "Apply the requested modifications and return the updated JSON.",
         "system": system_prompt,
         "stream": False,
-        "format": "json"
+        "format": "json",
+        "keep_alive": "1h"
     }
 
     try:

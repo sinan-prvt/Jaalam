@@ -15,13 +15,51 @@ export default function DynamicRenderer({ website, content }: { website: any, co
     }
   };
 
+  const renderMedia = (url: string, className: string = "", alt: string = "Media") => {
+    if (!url) return null;
+    if (url.match(/\.(mp4|webm|ogg)$/i) || url.startsWith('data:video')) {
+      return <video src={url} className={className} autoPlay loop muted playsInline />;
+    }
+    return <img src={url} alt={alt} className={className} />;
+  };
+
+  const sortedBlocks = [...blocks].sort((a: any, b: any) => {
+    const aType = a.type ? a.type.toLowerCase() : '';
+    const bType = b.type ? b.type.toLowerCase() : '';
+    if (aType === 'navbar' && bType !== 'navbar') return -1;
+    if (bType === 'navbar' && aType !== 'navbar') return 1;
+    return 0;
+  });
+
   return (
-    <div className={`w-full min-h-screen ${themeFont} ${isDark ? 'bg-slate-950 text-white' : 'bg-white text-slate-900'}`}>
-      {blocks.map((block: any, idx: number) => {
+    <div className={`w-full min-h-screen flex flex-col ${themeFont} ${isDark ? 'bg-slate-950 text-white' : 'bg-white text-slate-900'}`}>
+      {sortedBlocks.map((block: any, idx: number) => {
         const bgClass = block.bg_color || (isDark ? 'bg-slate-900' : 'bg-white');
         const textClass = block.text_color || (isDark ? 'text-white' : 'text-slate-900');
         
-        switch (block.type) {
+        const typeStr = block.type ? block.type.charAt(0).toUpperCase() + block.type.slice(1) : '';
+        switch (typeStr) {
+          case 'Navbar':
+            return (
+              <nav key={idx} className={`w-full py-6 px-8 flex justify-between items-center shadow-sm ${bgClass} ${textClass}`}>
+                <div className="text-2xl font-black tracking-tighter">
+                  {block.logo_text && (block.logo_text.startsWith('http') || block.logo_text.startsWith('data:image') || block.logo_text.startsWith('data:video') || block.logo_text.startsWith('/')) ? (
+                    renderMedia(block.logo_text, "max-h-12 object-contain inline-block", "Logo")
+                  ) : (
+                    block.logo_text || 'Logo'
+                  )}
+                </div>
+                <div className="hidden md:flex gap-8 font-semibold">
+                  {Array.isArray(block.links) && block.links.map((link: any, i: number) => {
+                    const linkText = typeof link === 'string' ? link : (link.name || link.title || link.text || 'Link');
+                    return (
+                      <a key={i} href="#" className="hover:opacity-70 transition-opacity">{linkText}</a>
+                    );
+                  })}
+                </div>
+              </nav>
+            );
+
           case 'Hero':
             return (
               <section key={idx} className={`w-full py-24 px-6 flex flex-col items-center text-center ${bgClass} ${textClass}`}>
@@ -67,7 +105,11 @@ export default function DynamicRenderer({ website, content }: { website: any, co
                   </div>
                   {!isCenter && (
                     <div className="flex-1 w-full h-80 rounded-3xl overflow-hidden shadow-2xl relative">
-                      <img src={`https://source.unsplash.com/800x600/?${encodeURIComponent(block.title)}`} alt="Content" className="w-full h-full object-cover" />
+                      {block.image_url ? (
+                        renderMedia(block.image_url, "w-full h-full object-cover")
+                      ) : (
+                        <img src={`https://source.unsplash.com/800x600/?${encodeURIComponent(block.title)}`} alt="Content" className="w-full h-full object-cover" />
+                      )}
                     </div>
                   )}
                 </div>
@@ -81,8 +123,12 @@ export default function DynamicRenderer({ website, content }: { website: any, co
                   <h2 className="text-3xl font-black mb-10 text-center">{block.title}</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {block.search_terms?.map((term: string, i: number) => (
-                      <div key={i} className="w-full h-64 rounded-2xl overflow-hidden group cursor-pointer">
-                        <img src={`https://source.unsplash.com/600x400/?${encodeURIComponent(term)}`} alt={term} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <div key={i} className="w-full h-64 rounded-2xl overflow-hidden group cursor-pointer relative bg-black/5">
+                        {term.startsWith('http') || term.startsWith('/') || term.startsWith('data:') ? (
+                          renderMedia(term, "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", `Gallery Item ${i}`)
+                        ) : (
+                          <img src={`https://source.unsplash.com/600x400/?${encodeURIComponent(term)}`} alt={term} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        )}
                       </div>
                     ))}
                   </div>

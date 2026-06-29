@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2 } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import AIGeneratorModal from '../components/AIGeneratorModal';
+import MiniGame from '../components/MiniGame';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -90,8 +91,11 @@ export default function WebsiteEditor() {
   
   // AI Chat State
   const [chatInput, setChatInput] = useState('');
+  const [chatImages, setChatImages] = useState<string[]>([]);
   const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change?' }]);
   const [isChatting, setIsChatting] = useState(false);
+  const [uploadingChatImage, setUploadingChatImage] = useState(false);
+  const [showGameModal, setShowGameModal] = useState(false);
 
   // Preview Device Mode
   // Preview Device Mode
@@ -183,17 +187,61 @@ export default function WebsiteEditor() {
     }
   };
 
+  const uploadFile = async (file: File) => {
+    setUploadingChatImage(true);
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await axios.post('http://localhost:8000/api/websites/upload/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setChatImages(prev => [...prev, res.data.url]);
+    } catch (err) {
+      console.error(err);
+      toast.error('Upload failed');
+    } finally {
+      setUploadingChatImage(false);
+    }
+  };
+
+  const handleChatImageUpload = async (e: any) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    for (let i = 0; i < files.length; i++) {
+      await uploadFile(files[i]);
+    }
+  };
+
+  const handlePaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    
+    for (const item of Array.from(items)) {
+      if (item.type.indexOf('image') !== -1 || item.type.indexOf('video') !== -1) {
+        const file = item.getAsFile();
+        if (file) {
+          e.preventDefault();
+          await uploadFile(file);
+          break;
+        }
+      }
+    }
+  };
+
   const handleChatSubmit = async () => {
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() && chatImages.length === 0) return;
     const prompt = chatInput;
+    const attachedImages = [...chatImages];
     setChatInput('');
-    setChatHistory([...chatHistory, { role: 'user', content: prompt }]);
+    setChatImages([]);
+    setChatHistory([...chatHistory, { role: 'user', content: attachedImages.length > 0 ? `[Attached ${attachedImages.length} media file(s)] ${prompt}` : prompt }]);
     setIsChatting(true);
 
     try {
       const res = await axios.post(`http://localhost:8000/api/websites/chat/`, {
         prompt: prompt,
-        current_content: content.settings_json || {}
+        current_content: content.settings_json || {},
+        image_urls: attachedImages
       });
       setContent({ ...content, settings_json: res.data });
       setChatHistory(prev => [...prev, { role: 'ai', content: 'I have updated the website layout as requested! The changes are now live in the preview.' }]);
@@ -373,31 +421,63 @@ export default function WebsiteEditor() {
                 ))}
                 {isChatting && (
                   <div className="bg-white shadow-sm border border-slate-100 text-slate-800 p-3 rounded-xl max-w-[85%] w-fit">
-                    <div className="flex items-center gap-2 text-indigo-600">
+                    <div className="flex items-center gap-2 text-indigo-600 mb-3">
                       <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
                       <span className="text-xs font-bold">AI is modifying the layout...</span>
                     </div>
+                    <button 
+                      onClick={() => setShowGameModal(true)}
+                      className="text-xs w-full bg-indigo-50 text-indigo-700 py-2 px-3 rounded-lg font-bold hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <Gamepad2 size={14} /> Play a Mini-Game while waiting
+                    </button>
                   </div>
                 )}
               </div>
 
-              <div className="flex gap-2 relative shrink-0">
-                <input 
-                  type="text" 
-                  placeholder="e.g. Change the hero background to dark mode..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
-                  disabled={isChatting}
-                  className="w-full px-4 py-3 bg-white border border-white shadow-sm rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm font-medium"
-                />
-                <button 
-                  onClick={handleChatSubmit}
-                  disabled={isChatting || !chatInput.trim()}
-                  className="bg-indigo-600 text-white px-5 rounded-xl shadow-md hover:bg-indigo-700 disabled:opacity-50 transition-all font-bold active:scale-95 shrink-0 whitespace-nowrap"
-                >
-                  Send
-                </button>
+              <div className="flex flex-col gap-2 relative shrink-0">
+                {chatImages.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {chatImages.map((img, idx) => (
+                      <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm self-start bg-slate-900 flex items-center justify-center shrink-0">
+                        {img.match(/\.(mp4|webm|ogg)$/i) ? (
+                          <video src={img} className="w-full h-full object-cover" autoPlay loop muted playsInline />
+                        ) : (
+                          <img src={img} alt="Attached" className="w-full h-full object-cover" />
+                        )}
+                        <button
+                          onClick={() => setChatImages(prev => prev.filter((_, i) => i !== idx))}
+                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+                        >
+                          <X size={10} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="flex gap-2 relative shrink-0">
+                  <label className={`p-3 rounded-xl border border-slate-200 shadow-sm cursor-pointer transition-colors flex items-center justify-center shrink-0 ${uploadingChatImage ? 'bg-slate-100 text-slate-400' : 'bg-white text-slate-500 hover:text-indigo-600 hover:bg-slate-50'}`}>
+                    <ImageIcon size={20} />
+                    <input type="file" multiple accept="image/*,video/*" className="hidden" onChange={handleChatImageUpload} disabled={isChatting || uploadingChatImage} />
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Use these images as a gallery (or Paste screenshots)..."
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                    onPaste={handlePaste}
+                    disabled={isChatting}
+                    className="w-full px-4 py-3 bg-white border border-white shadow-sm rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm font-medium"
+                  />
+                  <button 
+                    onClick={handleChatSubmit}
+                    disabled={isChatting || (!chatInput.trim() && chatImages.length === 0)}
+                    className="bg-indigo-600 text-white px-5 rounded-xl shadow-md hover:bg-indigo-700 disabled:opacity-50 transition-all font-bold shrink-0 whitespace-nowrap"
+                  >
+                    Send
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -1323,6 +1403,9 @@ export default function WebsiteEditor() {
       )}
 
 
+      {showGameModal && (
+        <MiniGame onClose={() => setShowGameModal(false)} isAiFinished={!isChatting} />
+      )}
     </div>
   );
 }
