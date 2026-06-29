@@ -32,11 +32,11 @@ export default function AIGeneratorModal({ isOpen, onClose, category, onSuccess 
         description,
         contact: contactInfo,
         vibe,
-        category
+        category: 'Dynamic'
       };
       const res = await axios.post('http://localhost:8000/api/websites/generate/', payload);
       toast.success('Website generated successfully!');
-      onSuccess(res.data);
+      onSuccess({ ...res.data, _input: payload });
       onClose();
     } catch (err: any) {
       console.error(err);

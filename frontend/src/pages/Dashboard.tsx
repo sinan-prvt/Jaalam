@@ -802,13 +802,13 @@ export default function Dashboard() {
             // Ensure unique slug
             const generatedSlug = websiteName 
                 ? websiteName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
-                : (data.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
+                : (data.name || data._input?.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
             
             // Create new site
             const siteRes = await axios.post('http://localhost:8000/api/websites/', {
               slug: generatedSlug,
-              business_type: data.business_category || newType || 'Other',
-              theme: data.theme_name || data.theme || newTheme || 'Custom',
+              business_type: data._input?.category || data.business_category || 'Other',
+              theme: data._input?.theme || data.theme_name || data.theme || 'Custom',
             });
             
             let products = [];
@@ -827,12 +827,16 @@ export default function Dashboard() {
             }
 
             await axios.put(`http://localhost:8000/api/websites/${siteRes.data.slug}/content/`, {
-                hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || 'our site'}`,
-                hero_description: data.hero?.description || data.desc,
+                hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || data._input?.name || 'our site'}`,
+                hero_description: data.hero?.description || data.desc || data._input?.description,
                 settings_json: {
-                  about_title: data.about?.title || data.tagline,
-                  about_description: data.about?.content || data.desc,
-                  website_name: data.name
+                  about_title: data.about?.title || data.tagline || 'About Us',
+                  about_description: data.about?.content || data.desc || data._input?.description,
+                  website_name: data.name || data._input?.name,
+                  theme: data.theme || 'light',
+                  primary_color: data.primary_color || 'indigo-600',
+                  font: data.font || 'sans',
+                  blocks: data.blocks
                 },
                 services_json: data.services?.map((s: any) => ({
                   title: s.name,

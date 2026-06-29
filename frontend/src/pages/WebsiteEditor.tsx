@@ -82,11 +82,16 @@ export default function WebsiteEditor() {
   const [content, setContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('theme');
+  const [activeTab, setActiveTab] = useState('ai-chat');
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
+  
+  // AI Chat State
+  const [chatInput, setChatInput] = useState('');
+  const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change?' }]);
+  const [isChatting, setIsChatting] = useState(false);
 
   // Preview Device Mode
   // Preview Device Mode
@@ -133,11 +138,27 @@ export default function WebsiteEditor() {
     }
   }, [website, content, iframeReady, previewDevice]);
 
+  const isDynamicAI = content?.settings_json?.blocks !== undefined;
+
+  // Set default tab based on whether it's an AI site or manual site
+  useEffect(() => {
+    if (isDynamicAI && activeTab !== 'ai-chat' && activeTab !== 'domain' && activeTab !== 'qr') {
+      setActiveTab('ai-chat');
+    } else if (!isDynamicAI && activeTab === 'ai-chat') {
+      setActiveTab('theme');
+    }
+  }, [isDynamicAI, activeTab]);
+
   const fetchWebsiteData = async () => {
     try {
       const res = await axios.get(`http://localhost:8000/api/websites/${websiteId}/`);
       setWebsite(res.data);
-      setContent(res.data.content || {});
+      let fetchedContent = res.data.content || {};
+      if (fetchedContent.contact_info?.address && typeof fetchedContent.contact_info.address === 'object') {
+        const addr = fetchedContent.contact_info.address;
+        fetchedContent.contact_info.address = Object.values(addr).filter(Boolean).join(', ');
+      }
+      setContent(fetchedContent);
     } catch (err) {
       console.error(err);
     } finally {
@@ -159,6 +180,30 @@ export default function WebsiteEditor() {
       toast.error('Failed to save');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleChatSubmit = async () => {
+    if (!chatInput.trim()) return;
+    const prompt = chatInput;
+    setChatInput('');
+    setChatHistory([...chatHistory, { role: 'user', content: prompt }]);
+    setIsChatting(true);
+
+    try {
+      const res = await axios.post(`http://localhost:8000/api/websites/chat/`, {
+        prompt: prompt,
+        current_content: content.settings_json || {}
+      });
+      setContent({ ...content, settings_json: res.data });
+      setChatHistory(prev => [...prev, { role: 'ai', content: 'I have updated the website layout as requested! The changes are now live in the preview.' }]);
+      toast.success('Website updated by AI!');
+    } catch (err) {
+      console.error(err);
+      toast.error('AI failed to modify website.');
+      setChatHistory(prev => [...prev, { role: 'ai', content: 'Sorry, I encountered an error while trying to update the website. Please try again.' }]);
+    } finally {
+      setIsChatting(false);
     }
   };
 
@@ -199,7 +244,11 @@ export default function WebsiteEditor() {
 
   const publicUrl = `http://localhost:5173/${website.slug}`;
 
-  const tabs = [
+  const tabs = isDynamicAI ? [
+    { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
+    { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
+    { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
+  ] : [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },
     { id: 'about', icon: <MessageSquare size={16} />, label: 'About' },
@@ -305,6 +354,53 @@ export default function WebsiteEditor() {
 
         {/* Editor Forms */}
         <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
+
+          {activeTab === 'ai-chat' && (
+            <div className="space-y-4 animate-in fade-in duration-300 h-full flex flex-col min-h-[400px]">
+              <div className="bg-indigo-600 p-6 text-white rounded-2xl relative shadow-md shrink-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <Sparkles size={24} className="text-indigo-100" />
+                  <h2 className="text-xl font-black">AI Editor</h2>
+                </div>
+                <p className="text-indigo-100 text-sm font-medium">Chat with the AI to redesign or modify your website layout instantly.</p>
+              </div>
+              
+              <div className="flex-1 bg-white/50 border border-white shadow-inner rounded-2xl p-4 overflow-y-auto space-y-4">
+                {chatHistory.map((msg, i) => (
+                  <div key={i} className={`p-3 rounded-xl max-w-[85%] ${msg.role === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-white shadow-sm border border-slate-100 text-slate-800'}`}>
+                    <p className="text-sm font-medium leading-relaxed">{msg.content}</p>
+                  </div>
+                ))}
+                {isChatting && (
+                  <div className="bg-white shadow-sm border border-slate-100 text-slate-800 p-3 rounded-xl max-w-[85%] w-fit">
+                    <div className="flex items-center gap-2 text-indigo-600">
+                      <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                      <span className="text-xs font-bold">AI is modifying the layout...</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-2 relative shrink-0">
+                <input 
+                  type="text" 
+                  placeholder="e.g. Change the hero background to dark mode..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                  disabled={isChatting}
+                  className="w-full px-4 py-3 bg-white border border-white shadow-sm rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm font-medium"
+                />
+                <button 
+                  onClick={handleChatSubmit}
+                  disabled={isChatting || !chatInput.trim()}
+                  className="bg-indigo-600 text-white px-5 rounded-xl shadow-md hover:bg-indigo-700 disabled:opacity-50 transition-all font-bold active:scale-95 shrink-0 whitespace-nowrap"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          )}
 
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in duration-300">

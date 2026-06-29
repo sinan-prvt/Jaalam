@@ -62,6 +62,7 @@ import CommercialTheme from '../components/themes/realestate/CommercialTheme';
 import ModernRealEstateTheme from '../components/themes/realestate/ModernRealEstateTheme';
 import MinimalRealEstateTheme from '../components/themes/realestate/MinimalRealEstateTheme';
 import ClassicRealEstateTheme from '../components/themes/realestate/ClassicRealEstateTheme';
+import DynamicRenderer from '../components/DynamicRenderer';
 
 export default function PublicWebsite() {
   const { businessSlug } = useParams();
@@ -132,10 +133,19 @@ export default function PublicWebsite() {
     );
   }
 
-  if (error || !website) return <div className="min-h-screen flex items-center justify-center text-slate-500 font-bold">Website not found</div>;
+  if (error || !website) return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-400 font-bold">Website not found</div>;
 
   const content = website.content;
-  const contact = content.contact_info || {};
+
+  if (content?.contact_info?.address && typeof content.contact_info.address === 'object') {
+    const addr = content.contact_info.address;
+    content.contact_info.address = Object.values(addr).filter(Boolean).join(', ');
+  }
+
+  // If this is a dynamic AI-generated site, use the new DynamicRenderer
+  if (content?.settings_json?.blocks) {
+    return <DynamicRenderer website={website} content={content} />;
+  }
 
   if (website.business_type === 'Restaurant') {
     return <RestaurantTheme website={website} content={content} />;

@@ -59,6 +59,7 @@ import CommercialTheme from '../components/themes/realestate/CommercialTheme';
 import ModernRealEstateTheme from '../components/themes/realestate/ModernRealEstateTheme';
 import MinimalRealEstateTheme from '../components/themes/realestate/MinimalRealEstateTheme';
 import ClassicRealEstateTheme from '../components/themes/realestate/ClassicRealEstateTheme';
+import DynamicRenderer from '../components/DynamicRenderer';
 
 export default function LivePreview() {
   const [data, setData] = useState<any>(null);
@@ -66,7 +67,12 @@ export default function LivePreview() {
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
       if (e.data?.type === 'UPDATE_PREVIEW') {
-        setData(e.data);
+        const newData = { ...e.data };
+        if (newData.content?.contact_info?.address && typeof newData.content.contact_info.address === 'object') {
+          const addr = newData.content.contact_info.address;
+          newData.content.contact_info.address = Object.values(addr).filter(Boolean).join(', ');
+        }
+        setData(newData);
       }
     };
     
@@ -86,6 +92,11 @@ export default function LivePreview() {
         Initializing Live Preview...
       </div>
     );
+  }
+
+  // If this is a dynamic AI-generated site, use the new DynamicRenderer
+  if (data.content?.settings_json?.blocks) {
+    return <DynamicRenderer website={data.website} content={data.content} />;
   }
 
   if (data.website.business_type === 'Restaurant') {

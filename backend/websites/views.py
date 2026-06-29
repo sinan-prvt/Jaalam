@@ -7,7 +7,7 @@ import uuid
 from django.shortcuts import get_object_or_404
 from .models import Website, WebsiteContent
 from .serializers import WebsiteSerializer, WebsiteContentSerializer
-from .ai_service import generate_website_json
+from .ai_service import generate_website_json, modify_website_json
 
 class WebsiteViewSet(viewsets.ModelViewSet):
     serializer_class = WebsiteSerializer
@@ -93,6 +93,20 @@ def generate_website(request):
         
     try:
         data = generate_website_json(name, description, contact, vibe, category)
+        return Response(data)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+@api_view(['POST'])
+def chat_website(request):
+    prompt = request.data.get('prompt')
+    current_content = request.data.get('current_content')
+    
+    if not prompt or not current_content:
+        return Response({'error': 'Prompt and current_content are required'}, status=400)
+        
+    try:
+        data = modify_website_json(prompt, current_content)
         return Response(data)
     except Exception as e:
         return Response({'error': str(e)}, status=500)

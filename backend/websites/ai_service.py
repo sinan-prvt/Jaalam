@@ -6,14 +6,14 @@ import re
 logger = logging.getLogger(__name__)
 
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
-DEFAULT_MODEL = "llama3:latest" # Using the user's installed model
+DEFAULT_MODEL = "qwen:0.5b" # Faster model to prevent long wait times
 
 def generate_website_json(name: str, description: str, contact: str, vibe: str, category: str) -> dict:
     """
     Calls the local Ollama instance to generate website JSON structure based on the structured inputs.
     """
     system_prompt = f"""
-    You are an expert web designer AI. Your task is to generate a JSON structure for a website based on the user's business description.
+    You are an expert web designer AI. Your task is to generate a JSON structure for a completely custom website layout based on the user's prompt.
     You must return ONLY valid JSON and absolutely no markdown formatting, no explanations, and no backticks.
     
     The user provided the following business details:
@@ -22,75 +22,69 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
     Contact Info: {contact}
     Design Vibe/Tone: {vibe}
     
-    Based on the description, you MUST classify the business into one of these exact categories:
-    "Restaurant", "Cafe / Bakery", "Salon / Spa", "Gym / Fitness", "Portfolio / CV", or "Other".
-
-    Based on the chosen category, you MUST select one of the following exact themes:
-    - If "Restaurant": "Fine Dining", "Casual Eats", "Bistro", or "Custom"
-    - If "Cafe / Bakery": "Cozy Cafe", "Modern Bakery", "Artisan", or "Custom"
-    - If "Salon / Spa": "Glamour Beauty", "Zen Yoga Studio", or "Custom"
-    - If "Gym / Fitness": "Hardcore Iron", "CrossFit Box", "Luxury Health Club", "Combat & MMA Gym", or "Custom"
-    - If "Portfolio / CV": "Minimalist", "Creative Professional", "Corporate", or "Custom"
-    - If "Other": "Modern", "Classic", or "Custom"
-
-    The JSON structure MUST follow this exact schema containing all sections of the website:
+    The JSON structure MUST follow this schema containing an array of dynamic layout blocks:
     {{
-        "business_category": "The exact category string from the list above",
-        "theme_name": "The exact theme string from the list above based on the chosen category",
-        "theme": "dark" | "light" | "modern" | "minimal",
-        "accent": "amber" | "rose" | "purple" | "emerald" | "indigo" | "sky",
-        "hero": {{
-            "tagline": "A short 2-3 word tagline",
-            "slogan": "A compelling 5-8 word hero slogan",
-            "description": "A short engaging paragraph for the hero section",
-            "cta_button": "Text for main button (e.g. Get Started)"
-        }},
-        "about": {{
-            "title": "About section title",
-            "content": "A detailed 2-3 paragraph backstory and mission statement.",
-            "features": ["Feature 1", "Feature 2", "Feature 3"]
-        }},
-        "services": [
+        "theme": "dark" | "light",
+        "primary_color": "tailwind color name (e.g. indigo-600, emerald-500, rose-500)",
+        "font": "sans" | "serif",
+        "blocks": [
             {{
-                "name": "Service Name",
-                "desc": "Short description of service",
-                "price": "$XX.XX (optional)",
-                "icon": "Lucide icon name (e.g. Sparkles, Star, Zap)"
-            }}
-        ],
-        "menus": [
+                "type": "Hero",
+                "bg_color": "tailwind background class (e.g. bg-slate-900 or bg-white)",
+                "text_color": "tailwind text class",
+                "title": "Main Hero Title",
+                "subtitle": "Subtitle text",
+                "cta_text": "Button Text"
+            }},
             {{
-                "category_name": "Category (e.g. Starters, Packages)",
+                "type": "Features",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Section Title",
                 "items": [
-                    {{"name": "Item Name", "desc": "Item description", "price": "$XX.XX"}}
+                    {{"title": "Feature 1", "desc": "Description 1", "icon": "Star"}},
+                    {{"title": "Feature 2", "desc": "Description 2", "icon": "Zap"}}
                 ]
+            }},
+            {{
+                "type": "Content",
+                "layout": "image-left" | "image-right" | "center",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Content Title",
+                "content": "A detailed paragraph of text."
+            }},
+            {{
+                "type": "Gallery",
+                "bg_color": "tailwind background class",
+                "title": "Our Work",
+                "search_terms": ["term1", "term2", "term3"]
+            }},
+            {{
+                "type": "Contact",
+                "bg_color": "tailwind background class",
+                "text_color": "tailwind text class",
+                "title": "Get in Touch",
+                "address": "Address",
+                "email": "Email",
+                "phone": "Phone"
             }}
-        ],
-        "gallery": ["search term 1", "search term 2", "search term 3"],
-        "contact": {{
-            "address": "Generated or provided address",
-            "phone": "Generated or provided phone",
-            "email": "Generated or provided email",
-            "hours": "Operating hours string"
-        }},
-        "footer": {{
-            "tagline": "Short footer text",
-            "social_links": ["Facebook", "Instagram", "Twitter"]
-        }}
+        ]
     }}
     
-    Be extremely creative and ensure the tone matches '{vibe}'.
+    You must assemble a creative combination of blocks (minimum 4 blocks) to design the perfect website matching the description. Be very creative!
     """
 
     payload = {
         "model": DEFAULT_MODEL,
         "prompt": "Please generate the JSON for my website.",
         "system": system_prompt,
-        "stream": False
+        "stream": False,
+        "format": "json"
     }
 
     try:
-        response = requests.post(OLLAMA_API_URL, json=payload, timeout=300)
+        response = requests.post(OLLAMA_API_URL, json=payload, timeout=600)
         response.raise_for_status()
         result = response.json()
         
@@ -121,3 +115,41 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse Ollama JSON response: {e}\nResponse: {response_text}")
         raise Exception("AI returned invalid data format.")
+
+def modify_website_json(prompt: str, current_content: dict) -> dict:
+    system_prompt = f"""
+    You are an expert web designer AI. The user wants to modify their website layout.
+    
+    Here is the CURRENT JSON structure of the website:
+    {json.dumps(current_content)}
+    
+    The user's requested modification is:
+    "{prompt}"
+    
+    Update the JSON structure to apply the user's request. Keep the identical schema format (theme, primary_color, font, blocks).
+    You must return ONLY valid JSON and absolutely no markdown formatting, no explanations, and no backticks.
+    """
+
+    payload = {
+        "model": DEFAULT_MODEL,
+        "prompt": "Apply the requested modifications and return the updated JSON.",
+        "system": system_prompt,
+        "stream": False,
+        "format": "json"
+    }
+
+    try:
+        response = requests.post(OLLAMA_API_URL, json=payload, timeout=600)
+        response.raise_for_status()
+        result = response.json()
+        
+        response_text = result.get("response", "")
+        match = re.search(r'\{.*\}', response_text, re.DOTALL)
+        if match:
+            response_text = match.group(0)
+            
+        updated_data = json.loads(response_text)
+        return updated_data
+    except Exception as e:
+        logger.error(f"Ollama modify error: {e}")
+        raise Exception(f"Failed to modify website: {str(e)}")
