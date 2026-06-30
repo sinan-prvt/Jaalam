@@ -93,7 +93,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId) => {
+            {sectionOrder.map((sectionId: string) => {
               if (hiddenSections.includes(sectionId)) return null;
 
               if (sectionId === 'hero') return (

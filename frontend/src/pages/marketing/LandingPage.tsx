@@ -22,9 +22,9 @@ import {
   Layers
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
-import InfiniteMenu from '../components/InfiniteMenu';
-import ShinyText from '../components/ShinyText';
+import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
+import InfiniteMenu from '../../components/ui/InfiniteMenu';
+import ShinyText from '../../components/ui/ShinyText';
 
 // Animation variants
 const fadeInUp = {

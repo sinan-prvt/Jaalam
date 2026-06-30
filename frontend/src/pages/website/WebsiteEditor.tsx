@@ -5,8 +5,8 @@ import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquar
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
-import AIGeneratorModal from '../components/AIGeneratorModal';
-import MiniGame from '../components/MiniGame';
+import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
+import MiniGame from '../../components/games/MiniGame';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],

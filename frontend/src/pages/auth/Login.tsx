@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginStart, loginSuccess, loginFailure } from '../authSlice';
+import { loginStart, loginSuccess, loginFailure } from '../../authSlice';
 import axios from 'axios';
-import type { RootState } from '../store';
+import type { RootState } from '../../store';
 import { GoogleLogin } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 

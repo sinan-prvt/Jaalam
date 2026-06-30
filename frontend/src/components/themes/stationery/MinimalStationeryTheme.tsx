@@ -83,7 +83,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
       <main className="pt-20">
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId) => {
+            {sectionOrder.map((sectionId: string) => {
               if (hiddenSections.includes(sectionId)) return null;
 
               if (sectionId === 'hero') return (

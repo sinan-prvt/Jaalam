@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Package, Truck, Phone, Mail, MapPin, DollarSign, X, Clock } from 'lucide-react';
-import { Facebook, Instagram, WhatsApp } from './SocialIcons';
+import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from './SocialIcons';
 
 export default function PlayfulScrapTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);

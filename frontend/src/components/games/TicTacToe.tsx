@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Player, checkWinner, getBestMove } from '../hooks/useTicTacToeAI';
+import { checkWinner, getBestMove, type Player } from '../../hooks/useTicTacToeAI';
 
 export const TicTacToe: React.FC = () => {
   const [board, setBoard] = useState<Player[]>(Array(9).fill(null));

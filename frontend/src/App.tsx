@@ -2,8 +2,8 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import Router from './Router';
 import { Toaster } from 'react-hot-toast';
-import ClickSpark from './components/ClickSpark';
-import LoadingScreen from './components/LoadingScreen';
+import ClickSpark from './components/ui/ClickSpark';
+import LoadingScreen from './components/ui/LoadingScreen';
 import './App.css';
 
 function App() {

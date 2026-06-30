@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import WebsiteEditor from './pages/WebsiteEditor';
-import PublicWebsite from './pages/PublicWebsite';
-import LivePreview from './pages/LivePreview';
-import ProtectedRoute from './components/ProtectedRoute';
+import LandingPage from './pages/marketing/LandingPage';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Dashboard from './pages/dashboard/Dashboard';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
+import WebsiteEditor from './pages/website/WebsiteEditor';
+import PublicWebsite from './pages/website/PublicWebsite';
+import LivePreview from './pages/website/LivePreview';
+import ProtectedRoute from './components/layout/ProtectedRoute';
 
 function Router() {
   return (

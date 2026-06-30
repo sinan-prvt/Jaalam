@@ -225,7 +225,7 @@ function RunnerGame() {
 // ==========================================
 // 3. TIC TAC TOE (AI)
 // ==========================================
-import { getBestMove, checkWinner } from './../hooks/useTicTacToeAI';
+import { getBestMove, checkWinner } from '../../hooks/useTicTacToeAI';
 
 function TicTacToeGame() {
   const [board, setBoard] = useState(Array(9).fill(null));

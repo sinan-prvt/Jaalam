@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../store';
+import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Users, Globe, ShieldCheck, Printer, X } from 'lucide-react';
