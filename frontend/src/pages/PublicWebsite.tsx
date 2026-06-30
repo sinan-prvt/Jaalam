@@ -273,6 +273,8 @@ export default function PublicWebsite() {
     return <ModernTextilesTheme website={website} content={content} />;
   }
 
+  const contact = content?.contact_info || {};
+
   return (
     <div className={`min-h-screen ${website.theme === 'Modern' ? 'font-sans' : website.theme === 'Classic' ? 'font-serif' : website.theme === 'Minimal' ? 'font-mono' : 'font-sans'}`}>
       

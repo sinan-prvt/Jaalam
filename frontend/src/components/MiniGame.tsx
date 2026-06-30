@@ -223,40 +223,58 @@ function RunnerGame() {
 }
 
 // ==========================================
-// 3. TIC TAC TOE
+// 3. TIC TAC TOE (AI)
 // ==========================================
+import { getBestMove, checkWinner } from './../hooks/useTicTacToeAI';
+
 function TicTacToeGame() {
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
-  
-  const calculateWinner = (squares: any[]) => {
-    const lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-    for (let [a,b,c] of lines) {
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) return squares[a];
-    }
-    return null;
-  };
+  const [xIsNext, setXIsNext] = useState(true); // User is X
+  const [winnerState, setWinnerState] = useState<string | null>(null);
 
-  const winner = calculateWinner(board);
-  const isDraw = !winner && board.every(Boolean);
+  useEffect(() => {
+    const currentWinner = checkWinner(board);
+    if (currentWinner) {
+      setWinnerState(currentWinner);
+      return;
+    }
+    
+    if (!xIsNext) {
+      const timer = setTimeout(() => {
+        const aiMove = getBestMove(board);
+        if (aiMove !== -1) {
+          const newBoard = [...board];
+          newBoard[aiMove] = 'O';
+          setBoard(newBoard);
+          setXIsNext(true);
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [board, xIsNext]);
+
+  const isDraw = winnerState === 'Tie';
+  const winner = winnerState && winnerState !== 'Tie' ? winnerState : null;
 
   const handleClick = (i: number) => {
-    if (board[i] || winner) return;
+    if (board[i] || winner || isDraw || !xIsNext) return;
     const newBoard = [...board];
-    newBoard[i] = xIsNext ? 'X' : 'O';
+    newBoard[i] = 'X';
     setBoard(newBoard);
-    setXIsNext(!xIsNext);
+    setXIsNext(false);
   };
 
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="text-lg font-bold text-slate-700 mb-6">
         {winner ? (
-          <span className="text-emerald-600 flex items-center gap-2"><Trophy size={20}/> Player {winner} Wins!</span>
+          <span className="text-emerald-600 flex items-center gap-2">
+            <Trophy size={20}/> Player {winner} Wins!
+          </span>
         ) : isDraw ? (
           "It's a Draw!"
         ) : (
-          `Next Player: ${xIsNext ? 'X' : 'O'}`
+          `Next Player: ${xIsNext ? 'You (X)' : 'AI (O)'}`
         )}
       </div>
       
@@ -265,7 +283,8 @@ function TicTacToeGame() {
           <button 
             key={i} 
             onClick={() => handleClick(i)}
-            className="bg-slate-100 hover:bg-slate-200 rounded-xl text-4xl font-black text-slate-700 transition-colors flex items-center justify-center"
+            disabled={!!cell || !!winner || !!isDraw || !xIsNext}
+            className="bg-slate-100 hover:bg-slate-200 rounded-xl text-4xl font-black text-slate-700 transition-colors flex items-center justify-center disabled:opacity-80"
           >
             {cell === 'X' && <X size={48} className="text-indigo-600" />}
             {cell === 'O' && <Circle size={40} strokeWidth={3} className="text-rose-500" />}
@@ -275,7 +294,7 @@ function TicTacToeGame() {
 
       {(winner || isDraw) && (
         <button 
-          onClick={() => { setBoard(Array(9).fill(null)); setXIsNext(true); }}
+          onClick={() => { setBoard(Array(9).fill(null)); setXIsNext(true); setWinnerState(null); }}
           className="mt-8 bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2"
         >
           <RefreshCw size={16}/> Play Again
