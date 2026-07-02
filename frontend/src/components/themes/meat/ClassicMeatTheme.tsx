@@ -14,11 +14,11 @@ const WhatsApp = ({ size = 18, className = "" }: any) => (
 );
 
 export default function ClassicMeatTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [viewProductsPage, setViewProductsPage] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const siteName = content.settings_json?.website_name || website.slug || 'The Local Butcher';
-  const hiddenSections = content.settings_json?.hidden_sections || [];
-  
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Whole Chicken (With Skin)', price: '₹220/kg', image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80', description: 'Freshly cut whole chicken.' },
     { name: 'Mutton Biryani Cut', price: '₹820/kg', image: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&q=80', description: 'Medium sized pieces ideal for biryani.' },
@@ -40,11 +40,19 @@ export default function ClassicMeatTheme({ website, content }: any) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#3E2723] font-serif relative">
+    <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#3E2723] font-serif relative">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Slab:wght@300;400;700&display=swap');
         .font-butcher { font-family: 'Rye', cursive; }
         .font-body { font-family: 'Roboto Slab', serif; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Background Texture */}
@@ -305,6 +313,22 @@ export default function ClassicMeatTheme({ website, content }: any) {
             </div>
           </div>
         </div>
+      )}
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
       )}
 
       {/* Footer */}

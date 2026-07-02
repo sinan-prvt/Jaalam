@@ -2,9 +2,9 @@ import React from 'react';
 import { Leaf, Truck, MapPin, Mail, Phone, Sun, ShieldCheck } from 'lucide-react';
 
 export default function RusticMeatTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'The Honest Farm';
-  const hiddenSections = content.settings_json?.hidden_sections || [];
-  
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Pasture Raised Chicken', price: '₹420/kg', image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80', description: 'Raised without antibiotics on green pastures.' },
     { name: 'Grass-Fed Lamb', price: '₹1200/kg', image: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80', description: 'Tender cuts from naturally raised lamb.' },
@@ -26,11 +26,19 @@ export default function RusticMeatTheme({ website, content }: any) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#4A5D23] font-sans overflow-x-hidden">
+    <div className="min-h-screen theme-root flex flex-col bg-[#F4F1EA] text-[#4A5D23] font-sans overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,400&family=Karla:wght@400;700&display=swap');
         .font-rustic { font-family: 'Zilla Slab', serif; }
         .font-body { font-family: 'Karla', sans-serif; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Top Banner */}
@@ -59,7 +67,7 @@ export default function RusticMeatTheme({ website, content }: any) {
       </header>
 
       <main>
-        {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'custom', 'contact']).map((sectionId: string) => {
+        {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom']).map((sectionId: string) => {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
@@ -253,6 +261,22 @@ export default function RusticMeatTheme({ website, content }: any) {
           return null;
         })}
       </main>
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="bg-[#2A3614] text-[#F4F1EA] py-16 px-6 border-t-8 border-[#4A5D23]">

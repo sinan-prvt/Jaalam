@@ -39,6 +39,8 @@ interface RestaurantThemeProps {
 }
 
 export default function RestaurantTheme({ website, content }: RestaurantThemeProps) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -278,6 +280,14 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
           scrollbar-width: none;  /* Firefox */
         }
         ${content.custom_css || ''}
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
       <div className="bg-[#FAF9F6] min-h-screen font-sans text-slate-800 selection:bg-amber-500/30 overflow-x-hidden">
       
@@ -731,6 +741,22 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       })}
       
       {/* Reservation / Footer */}
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
       <footer className={`${bgDark} text-slate-400 py-16 lg:py-20 px-6 lg:px-16 border-t border-white/5 relative overflow-hidden`}>
         
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 relative z-10">

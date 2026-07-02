@@ -21,6 +21,8 @@ function FadeIn({ children, delay = 0, dir = 'up', className = '' }: { children:
 interface Props { website: any; content: any; }
 
 export default function ZenYogaTheme({ website, content }: Props) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -72,9 +74,6 @@ export default function ZenYogaTheme({ website, content }: Props) {
     'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=600&q=80'
   ];
 
-
-  const hiddenSections: string[] = content.settings_json?.hidden_sections || [];
-  const sectionOrder: string[] = content.settings_json?.section_order || ['about', 'services', 'menu', 'gallery', 'contact', 'custom'];
 
   return (
     <>
@@ -137,6 +136,14 @@ export default function ZenYogaTheme({ website, content }: Props) {
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: ${SAND}; }
         ::-webkit-scrollbar-thumb { background: ${SAGE_GREEN}; border-radius: 10px; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       <div className="zy-body w-full min-h-screen overflow-x-hidden zy-bg-sand">
@@ -533,7 +540,23 @@ export default function ZenYogaTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FOOTER
         ════════════════════════════════════════ */}
-        <footer className="zy-bg-bone py-12 px-6 text-center text-[#2C402E]">
+        
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
+      <footer className="zy-bg-bone py-12 px-6 text-center text-[#2C402E]">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
               <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md mx-auto mb-6" />
@@ -643,7 +666,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
 
         {viewProductsPage && (
           <div className="fixed inset-0 z-[300] bg-[#F4F1EA] overflow-y-auto animate-in slide-in-from-bottom">
-            <div className="min-h-screen py-24 px-6 relative">
+            <div className="min-h-screen theme-root flex flex-col py-24 px-6 relative">
               <button onClick={() => setViewProductsPage(false)} className="absolute top-8 right-8 text-[#2C402E] hover:text-[#8CA392] zy-subheading tracking-widest flex items-center gap-2 transition-colors">
                 CLOSE <X size={24} />
               </button>

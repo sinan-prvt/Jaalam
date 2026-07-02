@@ -14,6 +14,8 @@ const WhatsApp = ({ size = 18, className = "" }: any) => (
 );
 
 export default function OrganicStoreTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -33,8 +35,6 @@ export default function OrganicStoreTheme({ website, content }: any) {
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json : defaultProducts;
-  const hiddenSections = content.settings_json?.hidden_sections || [];
-
   const defaultServices = [
     { title: 'Organic Sourcing', description: 'Partnering directly with local organic farmers.', image: 'https://images.unsplash.com/photo-1502301197179-65228ab57f78?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
     { title: 'Zero Waste Packaging', description: 'All products use 100% biodegradable or recyclable materials.', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
@@ -52,10 +52,8 @@ export default function OrganicStoreTheme({ website, content }: any) {
   ];
   const galleryImages = content.gallery_json?.length > 0 ? content.gallery_json : defaultGallery;
 
-  const sectionOrder: string[] = content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
-
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#4A5D23] selection:bg-[#4A5D23] selection:text-white flex flex-col font-sans overflow-x-hidden">
+    <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#4A5D23] selection:bg-[#4A5D23] selection:text-white flex flex-col font-sans overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
         .os-heading { font-family: 'Lora', serif; }
@@ -83,6 +81,14 @@ export default function OrganicStoreTheme({ website, content }: any) {
           transform: translateY(-8px);
           box-shadow: 0 20px 40px rgba(74, 93, 35, 0.08);
         }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Decorative Blobs */}
@@ -300,6 +306,22 @@ export default function OrganicStoreTheme({ website, content }: any) {
 
         return null;
       })}
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="relative z-10 bg-[#F5E6D3] pt-16 pb-8 px-6 md:px-12 mt-auto">

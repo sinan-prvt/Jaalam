@@ -2,6 +2,8 @@ import React from 'react';
 import { Crown, Star, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
 
 export default function LuxuryFancyTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'L\'OR';
   
   const products = content.products_json?.length > 0 ? content.products_json : [
@@ -12,11 +14,19 @@ export default function LuxuryFancyTheme({ website, content }: any) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#E5C158] font-sans">
+    <div className="min-h-screen theme-root flex flex-col bg-[#050505] text-[#E5C158] font-sans">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400&display=swap');
         .font-luxury { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Header */}
@@ -74,6 +84,22 @@ export default function LuxuryFancyTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer id="about" className="py-24 px-6 bg-[#0A0A0A] border-t border-[#E5C158]/20">

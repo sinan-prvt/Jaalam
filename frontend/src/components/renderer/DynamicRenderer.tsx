@@ -43,11 +43,17 @@ export default function DynamicRenderer({ website, content }: { website: any, co
             return (
               <nav key={idx} className={`w-full py-6 px-8 flex justify-between items-center shadow-sm ${bgClass} ${textClass}`}>
                 <div className="text-2xl font-black tracking-tighter">
-                  {block.logo_text && (block.logo_text.startsWith('http') || block.logo_text.startsWith('data:image') || block.logo_text.startsWith('data:video') || block.logo_text.startsWith('/')) ? (
-                    renderMedia(block.logo_text, "max-h-12 object-contain inline-block", "Logo")
-                  ) : (
-                    block.logo_text || 'Logo'
-                  )}
+                  {(() => {
+                    const globalLogo = content.settings_json?.logo_image;
+                    const urlRegex = /(https?:\/\/[^\s]+|data:image[^\s]+|data:video[^\s]+|\/[^\s]+)/;
+                    const blockLogoMatch = block.logo_text ? block.logo_text.match(urlRegex) : null;
+                    const logoUrl = globalLogo || (blockLogoMatch ? blockLogoMatch[0] : null);
+
+                    if (logoUrl) {
+                      return renderMedia(logoUrl, "max-h-12 object-contain inline-block", "Logo");
+                    }
+                    return block.logo_text || 'Logo';
+                  })()}
                 </div>
                 <div className="hidden md:flex gap-8 font-semibold">
                   {Array.isArray(block.links) && block.links.map((link: any, i: number) => {
@@ -81,11 +87,17 @@ export default function DynamicRenderer({ website, content }: { website: any, co
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {block.items?.map((item: any, i: number) => (
                       <div key={i} className="p-6 rounded-2xl bg-black/5 dark:bg-white/5 backdrop-blur-sm border border-black/10 dark:border-white/10 flex flex-col items-start">
-                        <div className="p-3 rounded-xl mb-4 text-white shadow-md" style={{ backgroundColor: primaryColor }}>
-                          {renderIcon(item.icon)}
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                        <p className="opacity-70 leading-relaxed">{item.desc}</p>
+                        { (item.image_url || item.image) ? (
+                          <div className="w-full h-40 mb-4 rounded-xl overflow-hidden shadow-sm">
+                            {renderMedia(item.image_url || item.image, "w-full h-full object-cover")}
+                          </div>
+                        ) : (
+                          <div className="p-3 rounded-xl mb-4 text-white shadow-md" style={{ backgroundColor: primaryColor }}>
+                            {renderIcon(item.icon)}
+                          </div>
+                        )}
+                        <h3 className="text-xl font-bold mb-2">{item.title || item.name}</h3>
+                        <p className="opacity-70 leading-relaxed">{item.desc || item.description}</p>
                       </div>
                     ))}
                   </div>

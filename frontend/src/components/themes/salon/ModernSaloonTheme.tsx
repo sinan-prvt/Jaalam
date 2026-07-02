@@ -21,6 +21,8 @@ function SlideIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNod
 interface Props { website: any; content: any; }
 
 export default function ModernSaloonTheme({ website, content }: Props) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
@@ -78,9 +80,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
 
 
   const tabs = ['Haircut', 'Beauty', 'Color'];
-
-  const hiddenSections: string[] = content.settings_json?.hidden_sections || [];
-  const sectionOrder: string[] = content.settings_json?.section_order || ['about', 'services', 'menu', 'gallery', 'contact', 'custom'];
 
   return (
     <>
@@ -165,6 +164,14 @@ export default function ModernSaloonTheme({ website, content }: Props) {
         .ms-btn:active { transform: scale(0.97); }
 
         ${content.custom_css || ''}
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       <div className="ms-font-body w-full min-h-screen overflow-x-hidden" style={{ backgroundColor: NAVY, color: '#E2E8F0' }}>
@@ -654,7 +661,23 @@ export default function ModernSaloonTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FOOTER
         ════════════════════════════════════════ */}
-        <footer className="py-16 px-6 sm:px-10 lg:px-16 relative" style={{ backgroundColor: NAVY, borderTop: `1px solid ${BORDER}` }}>
+        
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
+      <footer className="py-16 px-6 sm:px-10 lg:px-16 relative" style={{ backgroundColor: NAVY, borderTop: `1px solid ${BORDER}` }}>
           <div className="absolute top-0 left-0 w-full h-px" style={{ background: `linear-gradient(90deg, transparent, ${TEAL}80, transparent)` }} />
 
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-left">

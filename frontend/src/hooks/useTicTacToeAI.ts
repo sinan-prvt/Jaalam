@@ -59,6 +59,16 @@ const minimax = (board: Player[], depth: number, isMaximizing: boolean): number 
 };
 
 export const getBestMove = (board: Player[]): number => {
+  const emptyCount = board.filter(c => c === null).length;
+  
+  // Optimization: Hardcode first moves to avoid massive Minimax trees and prevent UI lag
+  if (emptyCount === 9) {
+    return 4; // Center
+  }
+  if (emptyCount === 8) {
+    return board[4] === null ? 4 : 0; // Take center if available, else top-left corner
+  }
+
   let bestScore = -Infinity;
   let move = -1;
 

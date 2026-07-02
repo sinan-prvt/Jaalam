@@ -3,11 +3,11 @@ import { X, Clock } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from './SocialIcons';
 
 export default function MinimalScrapTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'SCRAP.';
-  const hiddenSections = content.settings_json?.hidden_sections || [];
-  
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'COPPER SCRAP', price: '₹500 – ₹800/KG', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
     { name: 'ALUMINIUM SCRAP', price: '₹100 – ₹200/KG', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' },
@@ -29,10 +29,18 @@ export default function MinimalScrapTheme({ website, content }: any) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#E5E5E5] text-black font-mono uppercase tracking-widest selection:bg-black selection:text-white">
+    <div className="min-h-screen theme-root flex flex-col bg-[#E5E5E5] text-black font-mono uppercase tracking-widest selection:bg-black selection:text-white">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
         .font-minimal { font-family: 'Space Mono', monospace; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Header */}
@@ -235,6 +243,22 @@ export default function MinimalScrapTheme({ website, content }: any) {
             </section>
         )}
       </main>
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="p-6 md:p-12 bg-black text-white flex flex-col md:flex-row justify-between items-center gap-6">

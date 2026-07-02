@@ -21,6 +21,8 @@ function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode
 interface Props { website: any; content: any; }
 
 export default function VintageBarberTheme({ website, content }: Props) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
@@ -75,9 +77,6 @@ export default function VintageBarberTheme({ website, content }: Props) {
     'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=600&q=80'
   ];
 
-
-  const hiddenSections: string[] = content.settings_json?.hidden_sections || [];
-  const sectionOrder: string[] = content.settings_json?.section_order || ['about', 'services', 'menu', 'gallery', 'contact', 'custom'];
 
   return (
     <>
@@ -173,6 +172,14 @@ export default function VintageBarberTheme({ website, content }: Props) {
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: ${PARCHMENT}; border-left: 1px solid ${ESPRESSO}; }
         ::-webkit-scrollbar-thumb { background: ${ESPRESSO}; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       <div className="vb-body w-full min-h-screen overflow-x-hidden vb-paper" style={{ color: ESPRESSO }}>
@@ -532,7 +539,23 @@ export default function VintageBarberTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FOOTER
         ════════════════════════════════════════ */}
-        <footer className="bg-[#1A130F] text-[#F4EFE6] py-16 px-6 sm:px-12 text-center">
+        
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
+      <footer className="bg-[#1A130F] text-[#F4EFE6] py-16 px-6 sm:px-12 text-center">
           <div className="max-w-4xl mx-auto">
             <h4 className="vb-display text-4xl mb-6">{siteName}</h4>
             <div className="flex items-center justify-center gap-4 mb-8">

@@ -10,6 +10,8 @@ const Twitter = ({ size = 18, className = "" }: any) => (
 );
 
 export default function MinimalistTheme({ website, content }: any) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = useState(false);
@@ -35,8 +37,6 @@ export default function MinimalistTheme({ website, content }: any) {
 
   const products = content.products_json?.length > 0 ? content.products_json : defaultProducts;
   const services = content.services_json?.length > 0 ? content.services_json : defaultServices;
-  const hiddenSections = content.settings_json?.hidden_sections || [];
-
   let galleryImages = content.gallery_json?.length > 0 ? content.gallery_json : [
     'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80',
@@ -45,12 +45,20 @@ export default function MinimalistTheme({ website, content }: any) {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white flex flex-col font-sans">
+    <div className="min-h-screen theme-root flex flex-col bg-white text-black selection:bg-black selection:text-white flex flex-col font-sans">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         .min-sans { font-family: 'Inter', sans-serif; }
         .hover-lift { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .hover-lift:hover { transform: translateY(-4px); }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       {/* Header */}
@@ -236,6 +244,22 @@ export default function MinimalistTheme({ website, content }: any) {
                 className="w-full h-full grayscale mix-blend-multiply opacity-80 hover:opacity-100 transition-opacity"
               ></iframe>
             </div>
+          </div>
+        </section>
+      )}
+
+      
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
           </div>
         </section>
       )}

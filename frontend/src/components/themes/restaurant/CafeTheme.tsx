@@ -16,6 +16,8 @@ interface Location {
 }
 
 export default function CafeTheme({ website, content }: CafeThemeProps) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -133,11 +135,19 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
   if (website.theme === 'App Style') {
     return (
-      <div className="min-h-screen bg-[#FAF9F5] font-sans selection:bg-[#E88C5E] selection:text-white flex justify-center">
+      <div className="min-h-screen theme-root flex flex-col bg-[#FAF9F5] font-sans selection:bg-[#E88C5E] selection:text-white flex justify-center">
         <style>{`
           ::-webkit-scrollbar { display: none; }
           * { -ms-overflow-style: none; scrollbar-width: none; }
-        `}</style>
+        
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
+      `}</style>
 
         {/* Full Responsive Container */}
         <div className="w-full bg-[#FAF9F5] min-h-screen relative overflow-hidden">
@@ -277,7 +287,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
           {currentView === 'home' ? (
             <div className="pb-32 lg:pb-16 max-w-7xl mx-auto">
-              {(content.settings_json?.section_order || ['about', 'services', 'menu', 'gallery', 'contact', 'custom'])
+              {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
                 .filter((s: string) => s !== 'hero' && !(content.settings_json?.hidden_sections || []).includes(s))
                 .map((sectionId: string) => {
                   if (sectionId === 'services') {
@@ -1311,7 +1321,23 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           </main>
         )}
 
-        {/* Footer */}
+        
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Footer */}
         <footer id="contact" className={`${bakeryColors.bgDark} text-white pt-20 pb-12`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">

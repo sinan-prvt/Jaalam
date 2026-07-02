@@ -21,6 +21,8 @@ function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode
 interface Props { website: any; content: any; }
 
 export default function RoyalSaloonTheme({ website, content }: Props) {
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+  const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedStyle, setSelectedStyle] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -73,9 +75,6 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
     'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=600&q=80'
   ];
 
-
-  const hiddenSections: string[] = content.settings_json?.hidden_sections || [];
-  const sectionOrder: string[] = content.settings_json?.section_order || ['about', 'services', 'menu', 'gallery', 'contact', 'custom'];
 
   return (
     <>
@@ -162,6 +161,14 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: ${ROYAL_BLUE}; }
         ::-webkit-scrollbar-thumb { background: ${RICH_GOLD}; border-radius: 10px; }
+      
+        /* Dynamic Layout Ordering */
+        .theme-root { display: flex; flex-direction: column; }
+        .theme-root > header, .theme-root > nav { order: 0; }
+        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
+        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > footer { order: 999; }
+    
       `}</style>
 
       <div className="rs-body w-full min-h-screen overflow-x-hidden rs-bg-dark">
@@ -517,7 +524,23 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FOOTER
         ════════════════════════════════════════ */}
-        <footer className="bg-[#040712] py-20 px-6 text-center border-t border-[#D4AF37]/20">
+        
+      {/* Dynamic Custom Section */}
+      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
+        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
+          <div className="container mx-auto max-w-4xl space-y-8">
+            {content.custom_blocks_json.map((block: any) => {
+              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
+              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
+              return null;
+            })}
+          </div>
+        </section>
+      )}
+
+      <footer className="bg-[#040712] py-20 px-6 text-center border-t border-[#D4AF37]/20">
           <div className="max-w-4xl mx-auto">
             <Crown size={40} className="rs-text-gold mx-auto mb-6" />
             <h4 className="rs-heading text-3xl text-white mb-10 tracking-widest">{siteName}</h4>
@@ -637,7 +660,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         {/* FULL MENU PAGE MODAL */}
         {showFullMenuPage && (
           <div className="fixed inset-0 z-[120] bg-[#070b1a] overflow-y-auto animate-in fade-in slide-in-from-bottom-8">
-            <div className="min-h-screen px-6 py-12 md:py-20 max-w-4xl mx-auto relative">
+            <div className="min-h-screen theme-root flex flex-col px-6 py-12 md:py-20 max-w-4xl mx-auto relative">
               <button 
                 onClick={() => setShowFullMenuPage(false)} 
                 className="absolute top-6 right-6 z-10 w-12 h-12 flex items-center justify-center bg-[#0B132B] border border-[#D4AF37]/30 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0B132B] rounded-full transition-colors"

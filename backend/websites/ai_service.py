@@ -22,6 +22,12 @@ def generate_website_json(name: str, description: str, contact: str, vibe: str, 
     Contact Info: {contact}
     Design Vibe/Tone: {vibe}
     
+    CRITICAL INSTRUCTION FOR IMAGES: 
+    If the user asks for specific images (e.g., "a logo for a bakery", "a picture of a kitchen"), you MUST generate an image URL using the free Pollinations API format:
+    "https://image.pollinations.ai/prompt/[url-encoded-descriptive-prompt]?width=800&height=600&nologo=true"
+    For example: "https://image.pollinations.ai/prompt/a+minimalist+modern+logo+for+a+bakery?width=800&height=600&nologo=true"
+    Use these URLs in fields like `logo_text`, `image_url`, or inside `search_terms`.
+    
     The JSON structure MUST follow this schema containing an array of dynamic layout blocks:
     {{
         "theme": "dark" | "light",
@@ -143,6 +149,15 @@ def modify_website_json(prompt: str, current_content: dict, image_urls: list = N
     Update the JSON structure to apply the user's request. Keep the identical schema format.
     You must return ONLY valid JSON and absolutely no markdown formatting, no explanations, and no backticks.
     
+    CRITICAL INSTRUCTIONS TO PREVENT DATA LOSS:
+    1. DO NOT remove, delete, or empty out any existing blocks, titles, descriptions, or links unless the user explicitly asks to remove them.
+    2. YOU MUST return the ENTIRE JSON structure with all previous data intact, only modifying the parts requested.
+    3. If the user uploads an image and asks to use it as a logo, you MUST completely REPLACE the "logo_text" value with the uploaded image URL. DO NOT keep the old text.
+    4. IF THE USER ASKS YOU TO "GENERATE" AN IMAGE (e.g. "generate a logo", "generate an image of a modern kitchen"):
+       You MUST generate an image URL using the free Pollinations API format: "https://image.pollinations.ai/prompt/[url-encoded-descriptive-prompt]?width=800&height=600&nologo=true"
+       Example: "https://image.pollinations.ai/prompt/a+professional+logo+for+luxe+haven+interiors?width=800&height=600&nologo=true"
+       Set this URL wherever the image is requested in the JSON.
+    
     The JSON structure MUST follow this schema containing an array of dynamic layout blocks:
     {{
         "theme": "dark" | "light",
@@ -221,6 +236,13 @@ def modify_website_json(prompt: str, current_content: dict, image_urls: list = N
             response_text = match.group(0)
             
         updated_data = json.loads(response_text)
+        
+        # Heuristic override for weak LLMs failing to apply logo
+        if image_urls and 'logo' in prompt.lower():
+            for block in updated_data.get('blocks', []):
+                if block.get('type') == 'Navbar':
+                    block['logo_text'] = image_urls[0]
+                    
         return updated_data
     except Exception as e:
         logger.error(f"Ollama modify error: {e}")

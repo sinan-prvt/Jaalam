@@ -92,7 +92,7 @@ export default function WebsiteEditor() {
   // AI Chat State
   const [chatInput, setChatInput] = useState('');
   const [chatImages, setChatImages] = useState<string[]>([]);
-  const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change?' }]);
+  const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change? (Tip: You can upload images, or even ask me to generate AI images for you!)' }]);
   const [isChatting, setIsChatting] = useState(false);
   const [uploadingChatImage, setUploadingChatImage] = useState(false);
   const [showGameModal, setShowGameModal] = useState(false);
@@ -243,9 +243,46 @@ export default function WebsiteEditor() {
         current_content: content.settings_json || {},
         image_urls: attachedImages
       });
+      const newJsonString = JSON.stringify(res.data);
+      const oldJsonString = JSON.stringify(content.settings_json || {});
+      
+      let aiResponseMsg = 'I have updated the website layout as requested! The changes are now live in the preview.';
+      
+      let imageMissing = false;
+      if (attachedImages.length > 0) {
+        for (const imgUrl of attachedImages) {
+          if (!newJsonString.includes(imgUrl)) {
+            imageMissing = true;
+            break;
+          }
+        }
+      }
+
+      let failedToGenerateImage = false;
+      const lowerPrompt = prompt.toLowerCase();
+      if ((lowerPrompt.includes('generate') || lowerPrompt.includes('image') || lowerPrompt.includes('picture')) && attachedImages.length === 0) {
+        // If they asked for an image but didn't attach one, the AI should have added a pollinations URL
+        if (!newJsonString.includes('pollinations.ai') && newJsonString.match(/(https?:\/\/[^\s]+)/g)?.length === oldJsonString.match(/(https?:\/\/[^\s]+)/g)?.length) {
+          failedToGenerateImage = true;
+        }
+      }
+
+      if (imageMissing) {
+        aiResponseMsg = "I updated the layout, but I wasn't sure exactly where to place your uploaded image based on your instructions. Could you be more specific? (e.g., 'replace the hero image with this')";
+      } else if (failedToGenerateImage) {
+        aiResponseMsg = "I tried to update the layout, but I wasn't able to generate the image you requested. Could you try rephrasing your prompt to be more descriptive about the image?";
+      } else if (newJsonString === oldJsonString) {
+        aiResponseMsg = "I'm sorry, I couldn't figure out how to apply your request to the layout. Could you try rephrasing your instructions?";
+      }
+
       setContent({ ...content, settings_json: res.data });
-      setChatHistory(prev => [...prev, { role: 'ai', content: 'I have updated the website layout as requested! The changes are now live in the preview.' }]);
-      toast.success('Website updated by AI!');
+      setChatHistory(prev => [...prev, { role: 'ai', content: aiResponseMsg }]);
+      
+      if (imageMissing || failedToGenerateImage || newJsonString === oldJsonString) {
+        toast.error('AI was unable to complete all instructions.');
+      } else {
+        toast.success('Website updated by AI!');
+      }
     } catch (err) {
       console.error(err);
       toast.error('AI failed to modify website.');
@@ -423,7 +460,16 @@ export default function WebsiteEditor() {
                   <div className="bg-white shadow-sm border border-slate-100 text-slate-800 p-3 rounded-xl max-w-[85%] w-fit">
                     <div className="flex items-center gap-2 text-indigo-600 mb-3">
                       <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-                      <span className="text-xs font-bold">AI is modifying the layout...</span>
+                      <span className="text-xs font-bold">
+                        {(() => {
+                          const lastUserMsg = [...chatHistory].reverse().find(m => m.role === 'user')?.content;
+                          if (lastUserMsg) {
+                            const instruction = lastUserMsg.replace(/\[Attached .*?\] /, '');
+                            return `Executing: "${instruction.length > 45 ? instruction.slice(0, 45) + '...' : instruction}"`;
+                          }
+                          return "AI is modifying the layout...";
+                        })()}
+                      </span>
                     </div>
                     <button 
                       onClick={() => setShowGameModal(true)}
@@ -462,7 +508,7 @@ export default function WebsiteEditor() {
                   </label>
                   <input 
                     type="text" 
-                    placeholder="e.g. Use these images as a gallery (or Paste screenshots)..."
+                    placeholder="e.g. Generate a modern logo, or upload images..."
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
@@ -546,8 +592,8 @@ export default function WebsiteEditor() {
                   <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Hero Description</label>
                   <textarea
                     rows={5}
-                    value={content.hero_description || ''}
-                    onChange={e => setContent({ ...content, hero_description: e.target.value })}
+                    value={content.hero_description || content.hero_text || ''}
+                    onChange={e => setContent({ ...content, hero_description: e.target.value, hero_text: e.target.value })}
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-medium text-sm shadow-inner resize-none leading-relaxed"
                     placeholder="A brief description for your hero section..."
                   />
@@ -563,8 +609,8 @@ export default function WebsiteEditor() {
                   <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">About Title</label>
                   <input
                     type="text"
-                    value={content.settings_json?.about_title || ''}
-                    onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), about_title: e.target.value } })}
+                    value={content.settings_json?.about_title || content.about_title || ''}
+                    onChange={e => setContent({ ...content, about_title: e.target.value, settings_json: { ...(content.settings_json || {}), about_title: e.target.value } })}
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
                     placeholder="e.g., Tradition Meets Modern Gastronomy"
                   />
@@ -573,8 +619,8 @@ export default function WebsiteEditor() {
                   <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">About Description</label>
                   <textarea
                     rows={8}
-                    value={content.settings_json?.about_description || ''}
-                    onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), about_description: e.target.value } })}
+                    value={content.settings_json?.about_description || content.about_text || ''}
+                    onChange={e => setContent({ ...content, about_text: e.target.value, settings_json: { ...(content.settings_json || {}), about_description: e.target.value } })}
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all resize-none font-medium text-sm shadow-inner leading-relaxed"
                     placeholder="Tell your visitors about your business..."
                   />
