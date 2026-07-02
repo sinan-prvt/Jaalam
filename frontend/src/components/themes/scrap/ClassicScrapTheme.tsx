@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Truck, Scale, MapPin, Mail, Phone, AlertTriangle, Hammer, Factory, X, Clock } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 
@@ -365,45 +367,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-[#F4F4F4] overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b-8 border-[#1A1A1A] p-6 flex justify-between items-center z-20 shadow-[0_4px_0_#FFC107]">
-            <h2 className="font-industrial text-4xl uppercase text-[#1A1A1A]">ALL MATERIALS</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-[#1A1A1A] text-white p-2 hover:bg-[#FFC107] hover:text-[#1A1A1A] border-4 border-[#1A1A1A] transition-colors">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border-4 border-[#1A1A1A] p-6 md:p-8 flex flex-col sm:flex-row gap-6 hover:bg-[#FFC107] transition-colors group cursor-pointer relative overflow-hidden">
-                  <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Scale size={150} />
-                  </div>
-                  <div className="w-16 h-16 shrink-0 bg-[#1A1A1A] text-white flex items-center justify-center rounded-sm z-10">
-                    <Scale size={32} />
-                  </div>
-                  <div className="z-10">
-                    <h3 className="font-industrial text-3xl uppercase mb-2 text-[#1A1A1A]">{p.name}</h3>
-                    <div className="font-body font-black text-[#1A1A1A] bg-[#FFC107] group-hover:bg-white inline-block px-3 py-1 text-lg mb-4 uppercase border-2 border-[#1A1A1A]">
-                      {p.price}
-                    </div>
-                    <div className="flex justify-between items-end">
-                      <p className="font-body font-bold text-gray-600 group-hover:text-[#1A1A1A]">{p.description}</p>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                        className="bg-[#1A1A1A] text-white font-industrial uppercase px-4 py-2 text-sm hover:bg-white hover:text-[#1A1A1A] transition-colors border-2 border-transparent hover:border-[#1A1A1A]"
-                      >
-                        Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -452,6 +416,10 @@ export default function ClassicScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

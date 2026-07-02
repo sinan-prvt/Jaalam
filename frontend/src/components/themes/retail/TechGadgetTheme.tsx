@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Cpu, Monitor, Smartphone, Headphones, ShoppingCart, Search, Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 
 const Github = ({ size = 18, className = "" }: any) => (
@@ -98,7 +100,7 @@ export default function TechGadgetTheme({ website, content }: any) {
       `}</style>
 
       {/* Grid Background */}
-      <div className="fixed inset-0 tg-grid-bg z-0 pointer-events-none"></div>
+      
       
       {/* Glow Orbs */}
       <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-[#4285F4] rounded-full mix-blend-screen filter blur-[120px] opacity-20 z-0 pointer-events-none"></div>
@@ -382,6 +384,19 @@ export default function TechGadgetTheme({ website, content }: any) {
       })}
 
       
+      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
+              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -436,34 +451,6 @@ export default function TechGadgetTheme({ website, content }: any) {
       </footer>
 
       {/* All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[80] bg-[#050B14] overflow-y-auto pt-24 pb-12 px-6 scrollbar-hide">
-          <div className="fixed inset-0 tg-grid-bg z-0 pointer-events-none"></div>
-          <button className="fixed top-6 right-6 z-50 text-[#8ab4f8] hover:text-white bg-black/50 p-2 rounded-full border border-[#4285F4]/30" onClick={() => setShowAllProducts(false)}>
-            <X size={28} />
-          </button>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <h2 className="tg-mono text-sm text-[#4285F4] mb-2">// ALL_HARDWARE</h2>
-            <h3 className="tg-display text-4xl md:text-5xl font-bold text-white mb-12">COMPLETE CATALOG</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((p: any, i: number) => (
-                <div key={i} className="tg-glass rounded-lg overflow-hidden flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
-                  <div className="aspect-[4/3] bg-black relative overflow-hidden p-6 flex items-center justify-center border-b border-[#4285F4]/20">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(66,133,244,0.3)] group-hover:scale-110 transition-transform duration-500" />
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <h4 className="tg-display font-bold text-xl text-white mb-2 flex-1 break-words">{p.name}</h4>
-                    <div className="flex items-center justify-between mt-4">
-                      <span className="tg-mono text-[#4285F4]">{p.price}</span>
-                      <ChevronRight size={20} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-white" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -509,6 +496,10 @@ export default function TechGadgetTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

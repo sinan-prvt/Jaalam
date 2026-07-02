@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Leaf, Truck, MapPin, Mail, Phone, Sun, ShieldCheck } from 'lucide-react';
 
 export default function RusticMeatTheme({ website, content }: any) {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'The Honest Farm';
@@ -156,7 +160,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                   {products.map((p: any, i: number) => (
-                    <div key={i} className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group flex flex-col">
+                    <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group flex flex-col">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4 relative">
                         <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute top-2 left-2 bg-[#8F9779] text-white font-body text-xs font-bold px-2 py-1 rounded uppercase">Farm Fresh</div>
@@ -169,6 +173,15 @@ export default function RusticMeatTheme({ website, content }: any) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </section>
           );
@@ -291,6 +304,10 @@ export default function RusticMeatTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

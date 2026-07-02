@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Sparkles, MapPin, Mail, Phone, Diamond, Menu, X, Clock } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -330,6 +332,15 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   </div>
                 ))}
               </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
             </div>
           </section>
         )}
@@ -369,29 +380,6 @@ export default function ClassicFancyTheme({ website, content }: any) {
       </footer>
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-[#2B1B12]/80 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white rounded-sm max-w-4xl w-full max-h-[90vh] overflow-y-auto relative no-scrollbar border-4 border-[#FDF8F5] shadow-2xl" onClick={e => e.stopPropagation()}>
-            <button
-              className="absolute top-4 right-4 bg-[#FDF8F5] p-2 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors z-10"
-              onClick={() => setSelectedProduct(null)}
-            >
-              <X size={20} />
-            </button>
-            <div className="flex flex-col md:flex-row">
-              <div className="md:w-1/2 h-48 md:h-auto relative bg-[#FDF8F5]">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
-                <h3 className="font-classic text-2xl md:text-3xl font-bold text-[#2B1B12] mb-4">{selectedProduct.name}</h3>
-                <div className="font-sans font-bold tracking-widest text-[#8C3A3A] text-xl md:text-2xl mb-4">{selectedProduct.price}</div>
-                <div className="w-16 h-[2px] bg-[#D9C5B2] mb-6"></div>
-                <p className="font-sans text-[#6B5A4E] leading-relaxed text-base md:text-lg mb-4">{selectedProduct.description}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Modal */}
       {selectedGalleryImage && (
@@ -407,6 +395,9 @@ export default function ClassicFancyTheme({ website, content }: any) {
           </div>
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

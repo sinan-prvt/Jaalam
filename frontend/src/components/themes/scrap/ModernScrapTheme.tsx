@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Recycle, ArrowRight, MapPin, Mail, Phone, Scale, DollarSign, Truck, X, Clock } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 
@@ -349,45 +351,7 @@ export default function ModernScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-slate-50 overflow-y-auto">
-          <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-100 p-6 flex justify-between items-center z-20 shadow-sm">
-            <h2 className="font-modern text-2xl font-extrabold text-slate-900">All Materials & Rates</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-slate-100 text-slate-600 p-3 rounded-full hover:bg-slate-200 transition-colors">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition-all group cursor-pointer">
-                  {p.image && (
-                    <div className="h-48 overflow-hidden relative">
-                      <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10"></div>
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-modern text-xl font-bold text-slate-900">{p.name}</h3>
-                      <span className="font-modern font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg text-sm whitespace-nowrap ml-4">
-                        {p.price}
-                      </span>
-                    </div>
-                    <p className="font-modern text-sm text-slate-500 mt-2 mb-4">{p.description}</p>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                      className="w-full py-2 bg-emerald-50 text-emerald-600 font-bold rounded-lg hover:bg-emerald-100 transition-colors text-sm"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -431,6 +395,10 @@ export default function ModernScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

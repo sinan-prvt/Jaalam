@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Leaf, ShoppingBag, Search, Menu, X } from 'lucide-react';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
@@ -346,66 +348,8 @@ export default function OrganicStoreTheme({ website, content }: any) {
       </footer>
 
       {/* All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[80] bg-[#FDFBF7] overflow-y-auto pt-24 pb-12 px-6 scrollbar-hide">
-          <div className="fixed top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#E8EDDF] os-blob-1 z-0 opacity-50 pointer-events-none"></div>
-          <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#F5E6D3] os-blob-2 z-0 opacity-50 pointer-events-none"></div>
-          <button className="fixed top-6 right-6 z-50 text-[#6B705C] hover:text-[#4A5D23] bg-white rounded-full p-3 shadow-md border border-[#E8EDDF]" onClick={() => setShowAllProducts(false)}>
-            <X size={28} />
-          </button>
-
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="os-heading text-4xl md:text-5xl text-[#4A5D23] mb-4">Complete Catalog</h2>
-              <p className="os-body text-xl text-[#6B705C]">All our natural essentials in one place.</p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {products.map((p: any, i: number) => (
-                <div key={i} className="os-card-hover bg-white rounded-3xl p-4 cursor-pointer border border-[#E8EDDF]" onClick={() => { setShowAllProducts(false); setSelectedProduct(p); }}>
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-[#FDFBF7] mb-6 relative group">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full os-body font-medium text-[#4A5D23] transform translate-y-4 group-hover:translate-y-0 transition-all">
-                        View Details
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center px-2">
-                    <h3 className="os-heading font-semibold text-lg text-[#4A5D23] mb-2 break-words">{p.name}</h3>
-                    <p className="os-body font-medium text-[#8B5A2B]">{p.price}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] bg-[#4A5D23]/90 backdrop-blur-sm flex items-center justify-center p-4 pt-16 md:p-8" onClick={() => setSelectedProduct(null)}>
-          <div className="relative w-full max-w-4xl max-h-full flex flex-col" onClick={e => e.stopPropagation()}>
-            <button className="absolute -top-12 right-0 md:-top-4 md:-right-12 z-50 text-white hover:text-[#E8EDDF] bg-black/20 p-2 rounded-full transition-colors shrink-0" onClick={() => setSelectedProduct(null)}>
-              <X size={32} />
-            </button>
-            <div className="bg-[#FDFBF7] w-full overflow-y-auto scrollbar-hide rounded-[2rem] flex flex-col md:flex-row shadow-2xl">
-              <div className="w-full md:w-1/2 bg-[#E8EDDF] relative flex items-center justify-center p-6 md:p-8 aspect-video md:aspect-auto shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="relative z-10 w-full h-full object-cover rounded-2xl shadow-lg" />
-              </div>
-
-              <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
-                <h2 className="os-heading text-2xl md:text-3xl font-semibold text-[#4A5D23] mb-2 break-words">{selectedProduct.name}</h2>
-                <div className="os-body text-xl md:text-2xl font-medium text-[#8B5A2B] mb-6">
-                  {selectedProduct.price}
-                </div>
-                <div className="w-10 h-1 bg-[#8B5A2B]/30 rounded-full mb-8"></div>
-                <p className="os-body text-[#6B705C] leading-relaxed mb-10 break-words text-lg">{selectedProduct.description}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Modal */}
       {selectedGalleryImage && (
@@ -418,6 +362,9 @@ export default function OrganicStoreTheme({ website, content }: any) {
           </div>
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -372,25 +374,6 @@ export default function PopFancyTheme({ website, content }: any) {
       </footer>
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 md:p-8" onClick={() => setSelectedProduct(null)}>
-          <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative animate-in fade-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition-colors z-10" onClick={() => setSelectedProduct(null)}>
-              <X size={24} strokeWidth={2} />
-            </button>
-            <div className="w-full md:w-1/2 h-[40vh] md:h-auto bg-slate-100">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-              <span className="font-pop-display text-xs font-bold tracking-widest uppercase text-cyan-500 mb-3 block">Product Info</span>
-              <h3 className="font-pop-display text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">{selectedProduct.name}</h3>
-              <p className="font-pop-body text-2xl font-semibold text-slate-600 mb-6">{selectedProduct.price}</p>
-              <div className="w-12 h-1 bg-fuchsia-500 mb-6 rounded-full"></div>
-              <p className="font-pop-body text-base text-slate-500 leading-relaxed max-w-md">{selectedProduct.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Lightbox */}
       {selectedGalleryImage && (
@@ -401,6 +384,9 @@ export default function PopFancyTheme({ website, content }: any) {
           <img src={selectedGalleryImage} alt="Enlarged" className="max-w-[95vw] max-h-[90vh] object-contain rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()} />
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, HeartPulse, Shield, Star, Droplets, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -23,6 +25,7 @@ interface Props { website: any; content: any; }
 export default function LuxuryClubTheme({ website, content }: Props) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -233,7 +236,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
 
               <FadeIn delay={600}>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <button className="lc-btn lc-btn-champagne" onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <button className="lc-btn lc-btn-champagne" onClick={() => (document.getElementById('menu') || document.getElementById('offers') || document.getElementById('products') || document.getElementById('about'))?.scrollIntoView({ behavior: 'smooth' })}>
                     Explore Memberships
                   </button>
                   <button className="lc-btn lc-btn-outline" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -582,35 +585,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             MODALS
         ════════════════════════════════════════ */}
-        {selectedProduct && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#0A1128]/80 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
-            <div
-              className="w-full max-w-[320px] md:max-w-sm bg-white text-center relative shadow-2xl overflow-hidden animate-in zoom-in-95 flex flex-col max-h-[85vh] md:max-h-[90vh]"
-              onClick={e => e.stopPropagation()}
-            >
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-white bg-[#0A1128]/20 hover:bg-[#0A1128] transition-colors">
-                <X size={20} />
-              </button>
-              
-              <div className="h-48 md:h-64 w-full relative shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 md:p-10 overflow-y-auto shrink">
-                <h3 className="lc-heading text-3xl text-[#0A1128] mb-2">{selectedProduct.name}</h3>
-                <p className="lc-subheading text-[#D4C5B9] mb-8">{selectedProduct.time}</p>
-                <div className="text-4xl text-[#0A1128] font-light mb-8">{selectedProduct.price}</div>
-                <p className="text-gray-600 text-sm leading-loose mb-10 font-light">{selectedProduct.description}</p>
-
-                <button
-                  className="lc-btn w-full text-[#0A1128] border border-[#0A1128] hover:bg-[#0A1128] hover:text-white"
-                  onClick={() => { setSelectedProduct(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                >
-                  Purchase
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {selectedService && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#0A1128]/80 backdrop-blur-md" onClick={() => setSelectedService(null)}>
@@ -681,7 +656,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {products.map((product: any, idx: number) => (
-                    <div key={idx} className="flex flex-col border bg-white/5 border-white/10 transition-all duration-500 hover:-translate-y-2 hover:border-white/30 hover:bg-white/10 group overflow-hidden">
+                    <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col border bg-white/5 border-white/10 transition-all duration-500 hover:-translate-y-2 hover:border-white/30 hover:bg-white/10 group overflow-hidden">
                       <div className="w-full h-56 relative border-b border-white/10 bg-black/20">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                       </div>
@@ -700,11 +675,24 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </div>
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

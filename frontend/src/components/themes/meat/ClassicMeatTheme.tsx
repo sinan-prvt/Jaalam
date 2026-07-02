@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Scissors, MapPin, Mail, Phone, Clock, X } from 'lucide-react';
 
 const Facebook = ({ size = 18, className = "" }: any) => (
@@ -17,6 +19,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [viewProductsPage, setViewProductsPage] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const siteName = content.settings_json?.website_name || website.slug || 'The Local Butcher';
   const products = content.products_json?.length > 0 ? content.products_json : [
@@ -247,40 +250,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
       </main>
 
       {/* Full Catalog Overlay */}
-      {viewProductsPage && (
-        <div className="fixed inset-0 z-[500] bg-[#EFEBE9] overflow-y-auto animate-in slide-in-from-bottom">
-          <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-0" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/wood-pattern.png')" }}></div>
-          <div className="min-h-screen py-16 px-6 relative z-10">
-            <button onClick={() => setViewProductsPage(false)} className="absolute top-6 right-6 p-4 font-butcher text-xl text-[#3E2723] hover:text-[#B71C1C] uppercase tracking-widest bg-[#FDFBF7] border-2 border-[#3E2723] shadow-[4px_4px_0_#3E2723]">
-              X Close
-            </button>
-            <div className="container mx-auto max-w-5xl mt-12">
-              <h2 className="font-butcher text-5xl text-center mb-4 text-[#3E2723] uppercase">Full Catalog</h2>
-              <div className="w-24 h-1 bg-[#B71C1C] mx-auto mb-16"></div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {products.map((p: any, i: number) => (
-                  <div key={i} onClick={() => setSelectedProduct(p)} className="flex bg-[#FDFBF7] p-4 border-2 border-[#3E2723] shadow-[4px_4px_0_#B71C1C] cursor-pointer hover:bg-[#F5E6E6] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_#B71C1C] transition-all">
-                    <div className="w-32 h-32 shrink-0 border border-[#8D6E63] overflow-hidden">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 saturate-150" />
-                    </div>
-                    <div className="ml-4 flex flex-col justify-center">
-                      <h4 className="font-body font-bold text-xl text-[#3E2723] mb-1">{p.name}</h4>
-                      <p className="font-body text-sm text-[#795548] mb-3 line-clamp-2">{p.description}</p>
-                      <div className="flex justify-between items-center mt-2">
-                        <span className="font-butcher text-lg text-[#B71C1C]">{p.price}</span>
-                        <button className="text-[10px] md:text-xs font-butcher uppercase tracking-widest text-[#3E2723] border border-[#3E2723] px-2 py-1 hover:bg-[#3E2723] hover:text-[#FDFBF7] transition-colors">
-                          View
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Details Modal */}
       {selectedProduct && (
@@ -344,6 +314,10 @@ export default function ClassicMeatTheme({ website, content }: any) {
           <p className="mt-8 text-xs text-[#8D6E63]">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

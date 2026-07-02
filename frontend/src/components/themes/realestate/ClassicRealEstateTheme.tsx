@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Home, MapPin, Phone, Mail, Award } from 'lucide-react';
 
 export default function ClassicRealEstateTheme({ website, content }: any) {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Heritage Homes';
@@ -33,8 +37,8 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       <header className="py-6 px-6 border-b border-[#EAE3D2] bg-white">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <Home className="text-[#1A252C]" size={32} />
-            <span className="font-classic text-3xl font-bold tracking-tight text-[#1A252C]">{siteName}</span>
+            {!content?.settings_json?.logo_image && <Home className="text-[#1A252C]" size={32} />}
+            <span className="font-classic text-3xl font-bold tracking-tight text-[#1A252C]">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           </div>
           <div className="flex gap-8 font-body font-semibold text-[#5A6C7D] uppercase tracking-wider text-sm">
             <a href="#featured" className="hover:text-[#1A252C] transition-colors">Featured Listings</a>
@@ -108,6 +112,76 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       </section>
 
       
+      
+      {/* Injected Services Section */}
+      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
+        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(content.services_json?.length ? content.services_json : [
+                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
+                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
+                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
+              ]).map((srv: any, i: number) => (
+                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                  </div>
+                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
+                  <p className="opacity-75 text-black">{srv.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Injected Gallery Section */}
+      {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
+        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {(content.gallery_json?.length ? content.gallery_json : [
+                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
+              ]).map((img: string, i: number) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Injected Contact Section */}
+      {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
+        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
+          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
+            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
+            <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">📞</span>
+                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">✉️</span>
+                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">📍</span>
+                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -148,6 +222,10 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

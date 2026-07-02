@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Pencil, Scissors, Search, MapPin, Mail, Phone, Heart, Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -386,37 +388,6 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
       </footer>
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#2D3142]/80 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white w-full max-w-3xl rounded-[2rem] overflow-hidden border-8 border-[#4ECDC4] shadow-2xl flex flex-col md:flex-row max-h-[85vh] overflow-y-auto no-scrollbar" onClick={e => e.stopPropagation()}>
-            <div className="w-full md:w-1/2 aspect-square p-4 md:p-6">
-              <div className="w-full h-full rounded-2xl overflow-hidden border-4 border-dashed border-gray-200">
-                <img 
-                  src={selectedProduct.image || 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80'} 
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 p-6 md:p-8 relative flex flex-col justify-center">
-              <button 
-                onClick={() => setSelectedProduct(null)} 
-                className="absolute top-4 right-4 p-2 bg-[#FFF0F5] text-[#FF6B6B] rounded-full border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors"
-              >
-                <X size={20} strokeWidth={3} />
-              </button>
-              
-              <div className="inline-block bg-yellow-400 text-white font-playful px-4 py-1 rounded-full text-xs mb-3 w-max transform -rotate-2">Featured Item!</div>
-              <h2 className="font-playful text-3xl text-[#2D3142] mb-3 leading-tight">{selectedProduct.name}</h2>
-              <div className="font-body font-bold text-2xl text-[#FF6B6B] mb-4">{selectedProduct.price}</div>
-              
-              <p className="font-body font-bold text-[#4A4A4A] leading-relaxed text-sm md:text-base">
-                {selectedProduct.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Lightbox */}
       {selectedImage && (
@@ -430,6 +401,9 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
           <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[85vh] object-contain rounded-3xl border-8 border-white shadow-2xl transform rotate-1" />
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

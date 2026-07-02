@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { X, Clock } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from './SocialIcons';
 
@@ -274,37 +276,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-white overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b-4 border-black p-6 flex justify-between items-center z-20">
-            <h2 className="font-bold text-3xl">ALL RATES</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-black text-white p-2 hover:bg-white hover:text-black border-2 border-black transition-colors">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-4 border-black bg-black">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border-[2px] border-black p-8 flex flex-col justify-between hover:bg-black hover:text-white transition-colors cursor-pointer group">
-                  <div>
-                    <h3 className="font-bold text-xl mb-4">{p.name}</h3>
-                    {p.description && <p className="text-xs mb-6 opacity-70 group-hover:opacity-100">{p.description}</p>}
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div className="text-4xl font-bold">{p.price}</div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                      className="bg-black text-white group-hover:bg-white group-hover:text-black px-4 py-2 font-bold text-xs uppercase transition-colors"
-                    >
-                      VIEW DETAILS
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -348,6 +320,10 @@ export default function MinimalScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

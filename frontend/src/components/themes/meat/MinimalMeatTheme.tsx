@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 
 export default function MinimalMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'CUTS.';
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -224,36 +227,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
       </main>
 
       {/* Full Catalog Overlay */}
-      {viewProductsPage && (
-        <div className="fixed inset-0 z-[500] bg-white overflow-y-auto animate-in slide-in-from-bottom">
-          <div className="min-h-screen py-24 px-8 relative z-10">
-            <button onClick={() => setViewProductsPage(false)} className="absolute top-8 right-8 p-4 font-minimal text-sm font-bold text-black border border-gray-200 hover:border-black uppercase tracking-widest bg-white z-50">
-              CLOSE
-            </button>
-            <div className="container mx-auto max-w-7xl mt-12">
-              <h2 className="font-minimal text-5xl md:text-7xl font-bold text-center mb-16 uppercase tracking-tighter">FULL CATALOG</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-gray-200">
-                {products.map((p: any, i: number) => (
-                  <div key={i} onClick={() => setSelectedProduct(p)} className="group border-r border-b border-gray-200 p-6 flex flex-col hover:bg-gray-50 transition-colors cursor-pointer bg-white">
-                    <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden border border-gray-200">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300" />
-                    </div>
-                    <h3 className="font-minimal font-bold text-sm mb-1 uppercase">{p.name}</h3>
-                    <p className="text-xs text-gray-500 mb-6 flex-1">{p.description}</p>
-                    <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                      <span className="font-minimal font-bold text-red-600">{p.price}</span>
-                      <button className="text-[10px] md:text-xs font-minimal font-bold uppercase tracking-widest text-black border border-gray-200 px-3 py-1 hover:border-black transition-colors">
-                        VIEW
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Details Modal */}
       {selectedProduct && (
@@ -336,6 +310,10 @@ export default function MinimalMeatTheme({ website, content }: any) {
           © {new Date().getFullYear()} {siteName}. ALL RIGHTS RESERVED.
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

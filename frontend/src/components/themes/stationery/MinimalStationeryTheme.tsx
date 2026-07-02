@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -326,6 +328,15 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                 </div>
               ))}
             </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
           </section>
         )}
       </main>
@@ -365,35 +376,6 @@ export default function MinimalStationeryTheme({ website, content }: any) {
       </footer>
 
       {/* Product Details Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-12 bg-white/90 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white w-full h-full md:h-auto md:max-h-[80vh] max-w-5xl flex flex-col md:flex-row shadow-2xl border border-gray-100 overflow-y-auto no-scrollbar" onClick={e => e.stopPropagation()}>
-            <div className="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-12 md:p-24 relative">
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-6 right-6 md:hidden text-black">
-                <X size={24} />
-              </button>
-              <div className="w-full aspect-square filter grayscale contrast-125 mix-blend-multiply">
-                <img 
-                  src={selectedProduct.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 p-12 md:p-24 flex flex-col justify-center relative">
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-12 right-12 hidden md:block text-gray-400 hover:text-black transition-colors">
-                <X size={24} />
-              </button>
-              <div className="font-minimal text-xs font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Item Details</div>
-              <h2 className="font-minimal text-4xl md:text-5xl font-black tracking-tighter mb-4">{selectedProduct.name}</h2>
-              <div className="font-minimal text-2xl mb-8">{selectedProduct.price}</div>
-              <p className="font-minimal text-lg leading-relaxed text-gray-600 mb-8 max-w-md">
-                {selectedProduct.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Lightbox */}
       {selectedImage && (
@@ -404,6 +386,9 @@ export default function MinimalStationeryTheme({ website, content }: any) {
           <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[90vh] object-contain filter grayscale" />
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

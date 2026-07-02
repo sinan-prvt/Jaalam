@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, ChevronLeft, Scissors, Sparkles, Zap } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -21,6 +23,7 @@ function SlideIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNod
 interface Props { website: any; content: any; }
 
 export default function ModernSaloonTheme({ website, content }: Props) {
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -190,7 +193,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
 
             {/* Sticky nav */}
             <header className="sticky top-0 z-50 w-full px-6 sm:px-10 py-4 flex items-center justify-between" style={{ background: 'rgba(9,14,26,0.85)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${BORDER}` }}>
-              <div className="ms-font-display text-2xl tracking-widest ms-glow-text" style={{ color: TEAL }}>{siteName}</div>
+              <div className="ms-font-display text-2xl tracking-widest ms-glow-text" style={{ color: TEAL }}>{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</div>
               <nav className="hidden md:flex items-center gap-8 text-sm ms-font-sub font-medium text-slate-400">
                 {['About', 'Services', 'Menu', 'Gallery', 'Contact'].map(l => (
                   <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-white transition-colors duration-200 hover:underline underline-offset-4 decoration-[#00C9B1]">{l}</a>
@@ -718,46 +721,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             ALL PRODUCTS MODAL
         ════════════════════════════════════════ */}
-        {showAllProducts && (
-          <div className="fixed inset-0 z-[100] overflow-y-auto" style={{ backgroundColor: NAVY }}>
-            <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4" style={{ backgroundColor: PANEL, borderBottom: `1px solid ${BORDER}` }}>
-              <button onClick={() => setShowAllProducts(false)} className="flex items-center gap-2 text-slate-300 hover:text-white font-bold ms-font-sub transition-colors">
-                <ChevronLeft size={20} /> Back
-              </button>
-              <h2 className="ms-font-display text-2xl text-white tracking-wider">ALL STYLES</h2>
-              <div className="w-8" />
-            </div>
-
-            <div className="p-6 md:p-10 max-w-5xl mx-auto pb-24 space-y-4">
-              {haircutStyles.map((style: any, idx: number) => (
-                <div
-                  key={idx}
-                  onClick={() => setSelectedStyle(style)}
-                  className="flex flex-col sm:flex-row gap-4 sm:gap-5 sm:items-center cursor-pointer p-5 sm:p-5 rounded-2xl group hover:border-[#00C9B1] transition-all"
-                  style={{ background: PANEL, border: `1.5px solid ${BORDER}` }}
-                >
-                  <div className="flex items-center gap-4 sm:gap-5 w-full sm:w-auto">
-                    <span className="ms-font-display text-4xl text-slate-700 shrink-0 w-8 sm:w-10 text-center">{String(idx + 1).padStart(2, '0')}</span>
-                    <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0" style={{ border: `1px solid ${BORDER}` }}>
-                      <img src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <span className="ms-font-display text-xl shrink-0 ml-auto sm:hidden" style={{ color: TEAL }}>{style.price}</span>
-                  </div>
-                  <div className="flex-1 min-w-0 flex items-center justify-between w-full mt-2 sm:mt-0">
-                    <div className="min-w-0 w-full pr-4 sm:pr-0">
-                      <h3 className="ms-font-display text-xl text-white group-hover:text-[#00C9B1] transition-colors truncate">{style.name}</h3>
-                      <div className="flex items-center gap-4 mt-1">
-                        <span className="text-xs text-slate-400 ms-font-sub flex items-center gap-1"><Clock size={11} />{style.time}</span>
-                        <span className="text-xs ms-font-sub font-bold flex items-center gap-1" style={{ color: TEAL }}><Star size={11} fill={TEAL} />{style.rating}</span>
-                      </div>
-                    </div>
-                    <span className="hidden sm:block ms-font-display text-xl shrink-0" style={{ color: TEAL }}>{style.price}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* ═══════════════════════════════════════
             STYLE DETAIL MODAL
@@ -889,7 +852,11 @@ export default function ModernSaloonTheme({ website, content }: Props) {
           </div>
         )}
 
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

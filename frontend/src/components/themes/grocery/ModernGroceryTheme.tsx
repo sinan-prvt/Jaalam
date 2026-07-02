@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, Search, Menu, User, MapPin, Clock, Phone, ChevronRight, X, Mail } from 'lucide-react';
 import { Facebook, Instagram, Twitter, WhatsApp } from '../scrap/SocialIcons';
 
@@ -55,30 +57,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
           </div>
         </div>
         {/* Product Modal */}
-        {selectedProduct && (
-          <div className="fixed inset-0 bg-slate-900/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-            <div className="bg-white rounded-3xl max-w-sm w-full overflow-hidden relative shadow-2xl" onClick={e => e.stopPropagation()}>
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 bg-slate-100 p-2 rounded-full hover:bg-slate-200 transition-colors z-10 text-slate-600">
-                <X size={20} />
-              </button>
-              <div className="h-48 bg-slate-50 relative p-6 flex items-center justify-center border-b border-slate-100">
-                {selectedProduct.image ? (
-                  <img src={selectedProduct.image} alt={selectedProduct.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
-                ) : (
-                  <ShoppingCart size={48} className="text-slate-300" />
-                )}
-              </div>
-              <div className="p-5 md:p-6 text-center">
-                <div className="text-xs font-bold text-emerald-600 mb-1 uppercase tracking-wide">{selectedProduct.category || 'Product'}</div>
-                <h3 className="font-modern text-xl md:text-2xl font-bold text-slate-900 mb-2 leading-tight">{selectedProduct.name}</h3>
-                <div className="font-modern text-xl font-black text-slate-800 mb-4">{selectedProduct.price}</div>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {selectedProduct.description || 'Enjoy this high-quality product, sourced carefully to ensure the best experience.'}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+        
       </div>
     );
   }
@@ -109,7 +88,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
               className="text-slate-500 cursor-pointer md:hidden" 
               onClick={() => setIsMenuOpen(!isMenuOpen)} 
             />
-            <span className="font-modern text-2xl font-bold text-emerald-600 tracking-tight">{siteName}</span>
+            <span className="font-modern text-2xl font-bold text-emerald-600 tracking-tight">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           </div>
           
           <div className="hidden md:flex flex-1 max-w-2xl relative">
@@ -404,6 +383,10 @@ export default function ModernGroceryTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

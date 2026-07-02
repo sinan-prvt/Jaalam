@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Dumbbell, Activity, ShieldCheck, Flame, Menu, Check, Clock } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -23,6 +25,7 @@ interface Props { website: any; content: any; }
 export default function HardcoreIronTheme({ website, content }: Props) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -591,6 +594,31 @@ export default function HardcoreIronTheme({ website, content }: Props) {
             FOOTER
         ════════════════════════════════════════ */}
         
+      
+      {/* Injected Services Section */}
+      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
+        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(content.services_json?.length ? content.services_json : [
+                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
+                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
+                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
+              ]).map((srv: any, i: number) => (
+                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                  </div>
+                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
+                  <p className="opacity-75 text-black">{srv.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -631,55 +659,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FULL SCREEN PRODUCTS PAGE
         ════════════════════════════════════════ */}
-        {viewProductsPage && (
-          <div className="fixed inset-0 z-[120] bg-[#0D0D0D] overflow-y-auto animate-in slide-in-from-bottom-10">
-            <div className="w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#1A1A1A] border-b border-white/10 sticky top-0 z-[130]">
-              <div className="hi-heading text-3xl md:text-4xl font-bold text-white flex items-center gap-3">
-                {content.settings_json?.logo_image ? (
-                  <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)] border border-white/20" />
-                ) : (
-                  <Dumbbell size={32} className="hi-text-neon" />
-                )}
-                <span className="mt-1">{siteName} SHOP</span>
-              </div>
-              <button onClick={() => setViewProductsPage(false)} className="text-white hover:text-[#FF2A2A] hi-subheading tracking-widest text-lg flex items-center gap-2 transition-colors">
-                <X size={24} /> <span className="hidden md:inline">CLOSE</span>
-              </button>
-            </div>
-            
-            <div className="py-20 px-6 max-w-6xl mx-auto min-h-[calc(100vh-80px)]">
-              <div className="text-center mb-16">
-                <h2 className="hi-heading text-5xl md:text-7xl text-white inline-block px-4">ALL GEAR & SUPPLEMENTS</h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {products.map((product: any, idx: number) => (
-                  <div
-                    key={idx}
-                    className="bg-[#1A1A1A] border-2 flex flex-col p-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-2 border-white/10 hover:border-white/30 group"
-                  >
-                    <div className="w-full h-64 mb-6 overflow-hidden bg-black relative border border-white/10">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 mix-blend-luminosity hover:mix-blend-normal" />
-                    </div>
-                    <h3 className="hi-heading text-4xl text-white mb-2 break-words whitespace-pre-wrap">{product.name}</h3>
-                    <div className="flex items-end gap-2 mb-6">
-                      <span className="hi-heading text-5xl text-[#FF2A2A] leading-none break-words whitespace-pre-wrap">{product.price}</span>
-                      {product.time && <span className="text-gray-500 hi-subheading mb-1 uppercase break-words whitespace-pre-wrap">/ {product.time}</span>}
-                    </div>
-                    <p className="text-gray-400 text-sm font-bold mb-8 flex-1 min-w-0 break-words whitespace-pre-wrap">{product.description}</p>
-                    
-                    <button 
-                      onClick={() => setSelectedProduct(product)}
-                      className="w-full py-4 hi-subheading text-lg tracking-widest uppercase transition-colors border-2 bg-transparent text-white border-white/20 hover:border-white hover:bg-white hover:text-black"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {/* ═══════════════════════════════════════
             PRODUCT DETAIL MODAL
@@ -795,7 +775,11 @@ export default function HardcoreIronTheme({ website, content }: Props) {
             />
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

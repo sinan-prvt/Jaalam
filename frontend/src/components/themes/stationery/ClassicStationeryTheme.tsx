@@ -1,4 +1,6 @@
 import React from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { BookOpen, Feather, Search, MapPin, Mail, Phone, Menu, X } from 'lucide-react';
 
 export default function ClassicStationeryTheme({ website, content }: any) {
@@ -337,6 +339,15 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                 </div>
               ))}
             </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
           </div>
         </section>
       )}
@@ -382,34 +393,6 @@ export default function ClassicStationeryTheme({ website, content }: any) {
       </footer>
 
       {/* Product Details Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12 bg-[#2C241E]/80 backdrop-blur-md transition-opacity" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-[#FDFBF7] rounded-xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border-4 border-white scrollbar-hide relative" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 p-2 text-[#8C6D53] hover:text-[#2C241E] bg-white rounded-full shadow-md transition-colors">
-              <X size={20} />
-            </button>
-            <div className="grid md:grid-cols-2 gap-0">
-              <div className="aspect-[4/3] md:aspect-auto md:h-full bg-[#F5EFE6] relative">
-                <img 
-                  src={selectedProduct.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
-                  onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover md:absolute inset-0"
-                />
-              </div>
-              <div className="p-8 md:p-12 flex flex-col justify-center min-h-[300px] mt-4 md:mt-0">
-                <div className="flex items-center gap-2 text-[#8C6D53] mb-4"><Feather size={16} /> <span className="font-classic text-xs tracking-widest uppercase">Classic Collection</span></div>
-                <h2 className="font-classic text-3xl md:text-4xl font-bold text-[#2C241E] mb-3 leading-tight">{selectedProduct.name}</h2>
-                <div className="font-classic font-bold text-2xl text-[#8C6D53] mb-6">{selectedProduct.price}</div>
-                <div className="w-12 h-1 bg-[#E6DFD3] mb-6"></div>
-                <p className="font-body text-[#6A5A4A] text-lg leading-relaxed whitespace-pre-wrap italic">
-                  {selectedProduct.description}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Lightbox Modal */}
       {selectedImage && (
@@ -422,6 +405,9 @@ export default function ClassicStationeryTheme({ website, content }: any) {
           </div>
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

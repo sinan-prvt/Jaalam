@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Crown, Star, MapPin, Mail, Phone, Flame, Check } from 'lucide-react';
 
 export default function PremiumMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Wagyu & Co.';
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = React.useState(false);
   
@@ -179,6 +182,15 @@ export default function PremiumMeatTheme({ website, content }: any) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
                 
                 <div className="mt-16 text-center">
                   <button onClick={() => setViewProductsPage(true)} className="inline-block border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black px-10 py-4 font-body uppercase tracking-[0.2em] text-xs transition-colors">
@@ -287,47 +299,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
       </main>
 
       {/* Full Products Page */}
-      {viewProductsPage && (
-        <div className="fixed inset-0 z-[60] bg-[#0A0A0A] overflow-y-auto animate-in fade-in slide-in-from-bottom-10 duration-500">
-          <div className="container mx-auto px-6 py-12">
-            <button 
-              onClick={() => setViewProductsPage(false)}
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 group font-body uppercase tracking-widest text-xs"
-            >
-              <span className="group-hover:-translate-x-1 transition-transform">←</span> Return
-            </button>
-
-            <div className="text-center mb-20">
-              <Crown size={32} className="text-[#D4AF37] mx-auto mb-6" />
-              <h2 className="font-premium text-4xl md:text-6xl text-white mb-6 tracking-widest uppercase">The Complete Collection</h2>
-              <p className="font-body text-gray-400 tracking-widest uppercase text-sm max-w-2xl mx-auto">
-                Discover our full range of meticulously sourced and aged premium cuts.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="flex flex-col gap-6 items-center group cursor-pointer border border-[#1A1A1A] p-6 hover:border-[#D4AF37]/50 transition-colors bg-[#0D0D0D]">
-                  <div className="w-full aspect-square overflow-hidden relative">
-                    <div className="absolute inset-0 bg-[#8C2323] mix-blend-overlay opacity-20 group-hover:opacity-0 transition-opacity z-10"></div>
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 grayscale group-hover:grayscale-0 transition-all duration-700" />
-                  </div>
-                  <div className="w-full text-center py-4 relative">
-                    <Star size={12} className="text-[#D4AF37] mb-4 mx-auto" />
-                    <h3 className="font-premium text-2xl text-white mb-4">{p.name}</h3>
-                    <div className="font-body text-xs text-gray-400 mb-6 tracking-wider leading-relaxed min-h-[40px]">{p.description}</div>
-                    <div className="font-premium text-xl text-[#D4AF37] mb-6">{p.price}</div>
-                    
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                       <span className="text-[#D4AF37] font-body text-[10px] uppercase tracking-widest border-b border-[#D4AF37] pb-1">View Details</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Details Modal */}
       {selectedProduct && (
@@ -387,6 +359,10 @@ export default function PremiumMeatTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

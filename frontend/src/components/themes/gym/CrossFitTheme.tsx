@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Anchor, Activity, Zap, ShieldAlert, ArrowRight, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -23,6 +25,7 @@ interface Props { website: any; content: any; }
 export default function CrossFitTheme({ website, content }: Props) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -537,6 +540,31 @@ export default function CrossFitTheme({ website, content }: Props) {
             FOOTER
         ════════════════════════════════════════ */}
         
+      
+      {/* Injected Services Section */}
+      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
+        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(content.services_json?.length ? content.services_json : [
+                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
+                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
+                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
+              ]).map((srv: any, i: number) => (
+                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                  </div>
+                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
+                  <p className="opacity-75 text-black">{srv.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -577,36 +605,7 @@ export default function CrossFitTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             MODALS
         ════════════════════════════════════════ */}
-        {selectedProduct && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-            <div
-              className="w-full max-w-[320px] md:max-w-sm bg-white border-4 md:border-8 border-black text-center relative shadow-[8px_8px_0px_#E6FF00] md:shadow-[12px_12px_0px_#E6FF00] animate-in zoom-in-95 flex flex-col max-h-[85vh] md:max-h-[90vh]"
-              onClick={e => e.stopPropagation()}
-            >
-              <button onClick={() => setSelectedProduct(null)} className="absolute -top-3 -right-3 md:-top-5 md:-right-5 z-10 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-[#E6FF00] border-2 md:border-4 border-black text-black hover:bg-black hover:text-[#E6FF00] transition-colors">
-                <X size={20} className="md:w-6 md:h-6" />
-              </button>
-
-              <div className="h-28 md:h-48 w-full border-b-4 md:border-b-8 border-black shrink-0 bg-[#222]">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
-              </div>
-
-              <div className="p-5 md:p-8 overflow-y-auto shrink">
-                <h3 className="cf-heading text-3xl md:text-5xl text-black mb-1 md:mb-2">{selectedProduct.name}</h3>
-                <p className="cf-subheading font-bold text-xs md:text-sm text-gray-600 mb-3 md:mb-4">{selectedProduct.time}</p>
-                <div className="cf-heading text-4xl md:text-6xl text-black mb-4 md:mb-6">{selectedProduct.price}</div>
-                <p className="cf-body font-bold text-xs md:text-base text-black leading-relaxed mb-6 md:mb-8 border-t-2 md:border-t-4 border-black pt-3 md:pt-4">{selectedProduct.description}</p>
-
-                <button
-                  className="cf-btn w-full py-2 md:py-4 text-lg md:text-2xl"
-                  onClick={() => { setSelectedProduct(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                >
-                  GET STARTED
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {selectedService && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedService(null)}>
@@ -677,7 +676,7 @@ export default function CrossFitTheme({ website, content }: Props) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {products.map((product: any, idx: number) => (
-                    <div key={idx} className="flex flex-col border-4 bg-[#222] border-white text-white relative transition-transform hover:-translate-y-2 group">
+                    <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col border-4 bg-[#222] border-white text-white relative transition-transform hover:-translate-y-2 group">
                       <div className="w-full h-56 border-b-4 border-white bg-black">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                       </div>
@@ -700,11 +699,24 @@ export default function CrossFitTheme({ website, content }: Props) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </div>
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

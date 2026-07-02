@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu, MapPin, Mail, Phone, Clock, ArrowLeft } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -355,24 +357,6 @@ export default function NoirFancyTheme({ website, content }: any) {
       </footer>
 
       {/* Extreme Minimal Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex items-center justify-center p-6 md:p-12 overflow-y-auto no-scrollbar" onClick={() => setSelectedProduct(null)}>
-          <button className="fixed top-6 right-6 md:top-8 md:right-8 text-white hover:rotate-90 transition-transform duration-500 z-[110]" onClick={() => setSelectedProduct(null)}>
-            <X size={32} strokeWidth={1} className="w-8 h-8 md:w-10 md:h-10" />
-          </button>
-          <div className="w-full max-w-[1400px] flex flex-col lg:flex-row gap-0 lg:gap-20 bg-zinc-950/90 border border-zinc-900 shadow-2xl relative" onClick={e => e.stopPropagation()}>
-            <div className="w-full lg:w-1/2 h-[30vh] md:h-[40vh] lg:h-[70vh]">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale contrast-125" />
-            </div>
-            <div className="w-full lg:w-1/2 p-6 md:p-12 lg:p-20 flex flex-col justify-center relative">
-              <span className="font-noir-body text-[10px] md:text-xs tracking-[0.4em] uppercase text-zinc-600 mb-4 md:mb-12 border-b border-zinc-800 pb-2 md:pb-4 inline-block w-fit">Item Details</span>
-              <h3 className="font-noir-display text-2xl md:text-5xl lg:text-6xl text-white uppercase tracking-widest mb-4 md:mb-8 leading-tight">{selectedProduct.name}</h3>
-              <p className="font-noir-body text-lg md:text-2xl text-zinc-400 tracking-[0.2em] mb-4 md:mb-12">{selectedProduct.price}</p>
-              <p className="font-noir-body text-sm md:text-lg text-zinc-500 font-light leading-relaxed mb-6 md:mb-20 max-w-md">{selectedProduct.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Lightbox */}
       {selectedGalleryImage && (
@@ -385,6 +369,9 @@ export default function NoirFancyTheme({ website, content }: any) {
       )}
 
 
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

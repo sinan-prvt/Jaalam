@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, ChevronLeft, Scissors, Quote, Camera, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -21,6 +23,7 @@ function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode
 interface Props { website: any; content: any; }
 
 export default function VintageBarberTheme({ website, content }: Props) {
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -188,7 +191,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
             HEADER
         ════════════════════════════════════════ */}
         <header className="w-full px-6 sm:px-12 py-5 flex items-center justify-between border-b-2" style={{ borderColor: ESPRESSO }}>
-          <div className="vb-display text-2xl sm:text-3xl tracking-wider">{siteName}</div>
+          <div className="vb-display text-2xl sm:text-3xl tracking-wider">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</div>
           <nav className="hidden md:flex items-center gap-8 font-bold text-sm">
             {['About', 'Services', 'Menu', 'Gallery', 'Contact'].map(l => (
               <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#9E2A2B] transition-colors relative group">
@@ -580,43 +583,6 @@ export default function VintageBarberTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             ALL PRODUCTS MODAL
         ════════════════════════════════════════ */}
-        {showAllProducts && (
-          <div className="fixed inset-0 z-[100] overflow-y-auto vb-paper" style={{ color: ESPRESSO }}>
-            <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 border-b-2 bg-[#F4EFE6]" style={{ borderColor: ESPRESSO }}>
-              <button onClick={() => setShowAllProducts(false)} className="flex items-center gap-2 font-bold hover:text-[#9E2A2B] transition-colors">
-                <ChevronLeft size={20} /> BACK
-              </button>
-              <h2 className="vb-display text-2xl">FULL MENU</h2>
-              <div className="w-8" />
-            </div>
-
-            <div className="p-6 md:p-12 max-w-4xl mx-auto pb-24 space-y-4">
-              {haircutStyles.map((style: any, idx: number) => (
-                <div
-                  key={idx}
-                  onClick={() => setSelectedStyle(style)}
-                  className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 cursor-pointer p-5 bg-white vb-card hover:bg-black/5"
-                >
-                  <div className="w-16 h-16 rounded-full overflow-hidden vb-border shrink-0 hidden sm:block">
-                    <img src={style.image} alt={style.name} className="w-full h-full object-cover vb-sepia-img" />
-                  </div>
-                  <div className="flex-1 w-full text-center sm:text-left">
-                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
-                      <h3 className="vb-display text-2xl">{style.name}</h3>
-                      <div className="hidden sm:block border-b-2 border-dotted border-black/30 flex-1 mx-4 relative top-[-6px]"></div>
-                      <span className="vb-display text-2xl" style={{ color: CRIMSON }}>{style.price}</span>
-                    </div>
-                    <div className="flex items-center justify-center sm:justify-start gap-4 font-bold text-xs uppercase tracking-widest opacity-60">
-                      <span className="flex items-center gap-1"><Clock size={12} /> {style.time}</span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1"><Star size={12} /> {style.rating}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* ═══════════════════════════════════════
             STYLE DETAIL MODAL
@@ -722,7 +688,11 @@ export default function VintageBarberTheme({ website, content }: Props) {
           </div>
         )}
 
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

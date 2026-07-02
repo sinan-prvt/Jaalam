@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Briefcase, MapPin, Building, ArrowRight } from 'lucide-react';
 
 export default function CommercialTheme({ website, content }: any) {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Apex Commercial';
@@ -33,8 +37,8 @@ export default function CommercialTheme({ website, content }: any) {
       <header className="bg-white border-b-4 border-[#004B87] sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Briefcase className="text-[#004B87]" size={28} />
-            <span className="font-corp font-extrabold text-2xl tracking-tighter text-[#004B87] uppercase">{siteName}</span>
+            {!content?.settings_json?.logo_image && <Briefcase className="text-[#004B87]" size={28} />}
+            <span className="font-corp font-extrabold text-2xl tracking-tighter text-[#004B87] uppercase">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           </div>
           <nav className="hidden md:flex gap-8 font-corp font-semibold text-sm text-[#495057]">
             <a href="#properties" className="hover:text-[#004B87] transition-colors">Properties</a>
@@ -122,6 +126,64 @@ export default function CommercialTheme({ website, content }: any) {
       </section>
 
       
+      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
+              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Injected Gallery Section */}
+      {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
+        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {(content.gallery_json?.length ? content.gallery_json : [
+                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
+              ]).map((img: string, i: number) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Injected Contact Section */}
+      {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
+        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
+          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
+            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
+            <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">📞</span>
+                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">✉️</span>
+                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
+                <span className="text-2xl mb-2">📍</span>
+                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -164,6 +226,10 @@ export default function CommercialTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

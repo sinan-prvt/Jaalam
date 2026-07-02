@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, ChevronRight, Scissors, Crown, CheckCircle, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -21,6 +23,8 @@ function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode
 interface Props { website: any; content: any; }
 
 export default function RoyalSaloonTheme({ website, content }: Props) {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedStyle, setSelectedStyle] = useState<any>(null);
@@ -178,8 +182,8 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         ════════════════════════════════════════ */}
         <header className="w-full px-6 md:px-16 py-6 flex items-center justify-between absolute top-0 z-50 bg-gradient-to-b from-[#0B132B]/90 to-transparent backdrop-blur-sm">
           <div className="rs-heading text-2xl md:text-3xl font-bold tracking-widest text-white flex items-center gap-3">
-            <Crown size={28} className="rs-text-gold" />
-            {siteName}
+            {!content?.settings_json?.logo_image && <Crown size={28} className="rs-text-gold" />}
+              {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
           </div>
           
           <nav className="hidden md:flex items-center gap-10 text-sm tracking-widest uppercase">
@@ -699,7 +703,11 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
             </div>
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Package, Truck, Phone, Mail, MapPin, DollarSign, X, Clock } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from './SocialIcons';
 
@@ -308,40 +310,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-[#F8F9FA] overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b-4 border-[#2B3A67] p-6 flex justify-between items-center z-20 shadow-sm">
-            <h2 className="font-fun text-3xl text-[#2B3A67]">All Materials</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-[#FF6B6B] text-white p-2 rounded-full border-4 border-[#2B3A67] hover:scale-110 transition-transform">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className={`bg-white rounded-3xl p-6 border-4 border-[#FF9F1C] shadow-[6px_6px_0_#FF9F1C] hover:-translate-y-2 transition-transform transform cursor-pointer group ${i % 2 === 0 ? 'rotate-2' : '-rotate-2'}`}>
-                  <div className="bg-[#FF6B6B] text-white w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border-2 border-[#2B3A67]">
-                    <DollarSign size={32} />
-                  </div>
-                  <h3 className="font-fun text-xl text-[#2B3A67] mb-2">{p.name}</h3>
-                  <p className="font-body font-bold text-gray-500 mb-4">{p.description}</p>
-                  <div className="flex justify-between items-center">
-                    <div className="bg-[#4ECDC4] text-[#2B3A67] font-fun px-3 py-1 rounded-lg inline-block border-2 border-[#2B3A67]">
-                      {p.price}
-                    </div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                      className="bg-[#2B3A67] text-white font-fun px-3 py-1 rounded-lg text-sm hover:bg-[#FF6B6B] transition-colors border-2 border-[#2B3A67]"
-                    >
-                      Details!
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -385,6 +354,10 @@ export default function PlayfulScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

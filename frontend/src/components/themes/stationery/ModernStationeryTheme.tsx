@@ -1,4 +1,6 @@
 import React from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Book, PenTool, ArrowRight, MapPin, Mail, Phone, Search, Menu, X } from 'lucide-react';
 
 export default function ModernStationeryTheme({ website, content }: any) {
@@ -348,6 +350,15 @@ export default function ModernStationeryTheme({ website, content }: any) {
                 </div>
               ))}
             </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
           </div>
         </section>
       )}
@@ -399,34 +410,6 @@ export default function ModernStationeryTheme({ website, content }: any) {
       </footer>
       
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="grid md:grid-cols-2 gap-6 p-6">
-              <div className="aspect-square bg-slate-100 rounded-xl overflow-hidden">
-                <img 
-                  src={selectedProduct.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
-                  onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                  <h2 className="font-modern text-2xl font-bold text-slate-900 pr-4">{selectedProduct.name}</h2>
-                  <button onClick={() => setSelectedProduct(null)} className="p-2 -mr-2 -mt-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  </button>
-                </div>
-                <div className="font-modern font-bold text-xl text-blue-600 mb-4">{selectedProduct.price}</div>
-                <p className="font-modern text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
-                  {selectedProduct.description}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Gallery Modal */}
       {selectedImage && (
@@ -439,6 +422,9 @@ export default function ModernStationeryTheme({ website, content }: any) {
           </div>
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

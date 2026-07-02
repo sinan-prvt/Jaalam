@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
 
@@ -46,6 +48,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
   const [showAllMenu, setShowAllMenu] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   let primaryColor = 'bg-rose-600';
   let primaryColorHover = 'hover:bg-rose-700';
@@ -840,28 +843,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     </div>
 
       {/* Lightbox Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 md:p-12 cursor-pointer animate-in fade-in duration-300"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 bg-black/50 rounded-full hover:bg-black/80"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedImage(null);
-            }}
-          >
-            <X size={32} />
-          </button>
-          <img 
-            src={selectedImage} 
-            alt="Fullscreen Gallery" 
-            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300" 
-            onClick={(e) => e.stopPropagation()} 
-          />
-        </div>
-      )}
+      
 
       {/* Product Detail Modal */}
       {selectedProduct && (
@@ -977,7 +959,11 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
               </button>
             </div>
           </div>
-        </div>
+        
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
       )}
     </>
   );

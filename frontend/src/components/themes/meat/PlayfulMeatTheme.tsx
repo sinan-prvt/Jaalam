@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Smile, Bone, MapPin, Mail, Phone, ShoppingCart, Star } from 'lucide-react';
 
 export default function PlayfulMeatTheme({ website, content }: any) {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Happy Meats!';
@@ -148,7 +152,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                   {products.map((p: any, i: number) => (
-                    <div key={i} className="bg-white rounded-[2rem] p-4 border-4 border-[#E03A3E] hover:-translate-y-4 transition-transform shadow-[8px_8px_0_#F48C06]">
+                    <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-[2rem] p-4 border-4 border-[#E03A3E] hover:-translate-y-4 transition-transform shadow-[8px_8px_0_#F48C06]">
                       <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 border-4 border-[#F48C06]">
                         <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                       </div>
@@ -160,6 +164,15 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </section>
           );
@@ -277,6 +290,10 @@ export default function PlayfulMeatTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

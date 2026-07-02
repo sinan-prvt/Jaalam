@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Sparkles, ArrowRight, MapPin, Mail, Phone, ShoppingBag, Heart, Menu, X, MessageCircle, Clock } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -324,6 +326,15 @@ export default function ModernFancyTheme({ website, content }: any) {
                   </div>
                 ))}
               </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
             </div>
           </section>
         )}
@@ -374,38 +385,9 @@ export default function ModernFancyTheme({ website, content }: any) {
       </footer>
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}></div>
-          <div className="relative bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl animate-in fade-in zoom-in duration-300">
-            <button
-              className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur-md p-2 rounded-full text-slate-500 hover:text-slate-900 transition-colors"
-              onClick={() => setSelectedProduct(null)}
-            >
-              <X size={24} />
-            </button>
-            <div className="w-full md:w-1/2 h-48 md:h-auto bg-slate-100 relative shrink-0">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="w-full md:w-1/2 p-6 md:p-12 overflow-y-auto no-scrollbar font-modern flex flex-col justify-center">
-              <h3 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-2">{selectedProduct.name}</h3>
-              <div className="text-xl md:text-2xl font-bold text-purple-600 mb-4">{selectedProduct.price}</div>
-              <div className="h-px w-12 bg-purple-200 mb-4"></div>
-              <p className="text-slate-500 text-sm md:text-lg leading-relaxed mb-6">
-                {selectedProduct.description || "A wonderful addition to your collection, crafted with care and designed to elevate your everyday style."}
-              </p>
-              <div className="flex gap-4">
-                <button className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-purple-500/30 hover:-translate-y-1">
-                  Add to Cart
-                </button>
-                <button className="w-14 h-14 shrink-0 flex items-center justify-center bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-xl transition-colors">
-                  <Heart size={24} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

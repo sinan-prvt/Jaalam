@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Search, Star, Clock, Scissors, Activity, Grid, ChevronDown, Phone, Mail, ChevronLeft, X } from 'lucide-react';
 
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
@@ -37,6 +39,7 @@ interface SalonThemeProps {
 }
 
 export default function SalonTheme({ website, content }: SalonThemeProps) {
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -320,9 +323,9 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                     {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="white" color="white" />)}
                     <span className="text-white text-sm font-bold ml-2">5.0</span>
                   </div>
-                  <button className={`bg-white text-gray-900 text-xs sm:text-sm font-bold py-3 px-6 hover:bg-gray-50 transition-colors shadow-sm active:scale-95 ${buttonShape}`}>
-                    Book Appointment
-                  </button>
+                  <button className={`bg-white text-gray-900 text-xs sm:text-sm font-bold py-3 px-6 hover:bg-gray-50 transition-colors shadow-sm active:scale-95 ${buttonShape}`} onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              Book Appointment
+            </button>
                 </div>
 
                 {/* Highlight Image overlaid on right side */}
@@ -644,7 +647,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
               {/* Brand Column */}
               <div className="space-y-5">
                 <h4 className={`text-white text-xl font-bold tracking-wider uppercase ${fontHeading}`} style={{ color: footerAccentColor }}>
-                  {siteName}
+                  {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
                 </h4>
                 <p className="text-sm leading-relaxed font-medium">
                   {content.hero_description || content.settings_json?.hero_description || 'Find a barber close to you and book at your convenience. Premium experience tailored just for you.'}
@@ -718,48 +721,6 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
         {/* Bottom Navigation removed as per request */}
 
         {/* All Products Modal */}
-        {showAllProducts && (
-          <div className={`fixed inset-0 z-[100] ${bgColor} overflow-y-auto w-full h-full text-left`}>
-            <div className={`sticky top-0 ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-[#131A2E] border-stone-800' : 'bg-white'} border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10 shadow-sm`}>
-              <button onClick={() => setShowAllProducts(false)} className={`flex items-center gap-2 ${textColor} font-bold hover:opacity-80 transition-colors`}>
-                <ChevronLeft size={24} /> Back
-              </button>
-              <h2 className={`text-xl font-bold ${textColor} ${fontHeading}`}>All Styles</h2>
-              <div className="w-8"></div>
-            </div>
-
-            <div className="p-6 md:p-10 max-w-6xl mx-auto pb-24">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                {haircutStyles.map((style: any, idx: number) => (
-                  <div key={idx} onClick={() => setSelectedStyle(style)} className={`${itemCardClass}`}>
-                    <div className={`w-20 h-20 md:w-28 md:h-28 ${buttonShape === 'rounded-none' ? 'rounded-none border border-[#1E1B18]' : 'rounded-[1.25rem]'} overflow-hidden shrink-0 shadow-inner`}>
-                      <img src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    </div>
-                    <div className="flex-1 py-1">
-                      <h4 className={`font-bold text-base md:text-xl ${textColor} mb-1.5 md:mb-2 ${fontHeading}`}>{style.name}</h4>
-                      <div className="flex items-center gap-2 mb-2 md:mb-3">
-                        <span className={`text-sm md:text-base font-bold ${textColor}`}>
-                          {style.price}
-                        </span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
-                        <div className="flex items-center gap-1.5 text-gray-400 text-xs md:text-sm font-medium">
-                          <Clock size={14} />
-                          <span className="line-clamp-1">{style.time}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className={`flex items-center gap-1 text-xs md:text-sm ${textColor} font-bold px-2.5 py-1 ${buttonShape === 'rounded-none' ? 'border border-[#1E1B18] bg-[#F4EFE6]' : 'bg-amber-50/50'} rounded-md`}>
-                          <Star size={14} style={{ color: primaryGold }} fill={primaryGold} />
-                          {style.rating}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Style Detail Modal */}
         {selectedStyle && (
@@ -866,7 +827,11 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
           </div>
         )}
 
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

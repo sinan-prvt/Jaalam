@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Swords, Target, Flame, ShieldAlert, ArrowRight, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -23,6 +25,7 @@ interface Props { website: any; content: any; }
 export default function CombatGymTheme({ website, content }: Props) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -253,7 +256,7 @@ export default function CombatGymTheme({ website, content }: Props) {
 
                 <FadeIn delay={600} dir="left">
                   <div className="flex flex-col sm:flex-row items-start gap-4">
-                    <button className="cg-btn" onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}>
+                    <button className="cg-btn" onClick={() => (document.getElementById('menu') || document.getElementById('offers') || document.getElementById('products') || document.getElementById('about'))?.scrollIntoView({ behavior: 'smooth' })}>
                       Start Training
                     </button>
                     <button className="cg-btn cg-btn-outline" onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -593,42 +596,7 @@ export default function CombatGymTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             MODALS
         ════════════════════════════════════════ */}
-        {selectedProduct && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-            <div
-              className="w-full max-w-[320px] md:max-w-md bg-[#111] border border-[#333] text-center relative overflow-hidden animate-in zoom-in-95 flex flex-col max-h-[85vh] md:max-h-[90vh]"
-              onClick={e => e.stopPropagation()}
-            >
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white transition-colors bg-black/50">
-                <X size={20} />
-              </button>
-              
-              <div className="h-48 md:h-64 w-full relative shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-              </div>
-
-              <div className="p-6 md:p-10 overflow-y-auto shrink">
-                <h3 className="cg-heading text-5xl text-white mb-2 break-words whitespace-pre-wrap">{selectedProduct.name}</h3>
-                <p className="cg-subheading text-gray-500 mb-6 break-words whitespace-pre-wrap">{selectedProduct.time}</p>
-                
-                <div className="cg-heading text-6xl text-[#D90429] mb-6 break-words whitespace-pre-wrap">
-                  {selectedProduct.price}
-                </div>
-                
-                <p className="cg-body text-gray-400 leading-relaxed mb-8 break-words whitespace-pre-wrap">
-                  {selectedProduct.description}
-                </p>
-
-                <button
-                  className="cg-btn w-full"
-                  onClick={() => { setSelectedProduct(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                >
-                  Buy Now
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {selectedService && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setSelectedService(null)}>
@@ -699,7 +667,7 @@ export default function CombatGymTheme({ website, content }: Props) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {products.map((product: any, idx: number) => (
-                    <div key={idx} className="flex flex-col bg-[#111] border border-[#222] transition-transform hover:-translate-y-2 group">
+                    <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col bg-[#111] border border-[#222] transition-transform hover:-translate-y-2 group">
                       <div className="w-full h-56 bg-black border-b border-[#222]">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                       </div>
@@ -718,11 +686,24 @@ export default function CombatGymTheme({ website, content }: Props) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </div>
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

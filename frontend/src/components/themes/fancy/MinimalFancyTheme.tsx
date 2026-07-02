@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu } from 'lucide-react';
 
 export default function MinimalFancyTheme({ website, content }: any) {
@@ -290,6 +292,15 @@ export default function MinimalFancyTheme({ website, content }: any) {
                 </div>
               ))}
             </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
           </section>
         )}
       </main>
@@ -324,26 +335,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
       </footer>
 
       {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/90 backdrop-blur-sm" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white w-full max-w-2xl flex flex-col md:flex-row border border-gray-200 shadow-2xl relative max-h-[90vh] overflow-y-auto no-scrollbar" onClick={e => e.stopPropagation()}>
-            <button
-              className="absolute top-4 right-4 bg-white p-2 rounded-full hover:bg-gray-100 transition-colors z-10 shadow-sm"
-              onClick={() => setSelectedProduct(null)}
-            >
-              <X size={20} />
-            </button>
-            <div className="md:w-1/2 h-48 md:h-auto bg-gray-100 relative shrink-0">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-center font-minimal">
-              <h3 className="text-2xl font-bold tracking-tighter mb-2">{selectedProduct.name}</h3>
-              <div className="text-lg font-medium text-gray-500 mb-6">{selectedProduct.price}</div>
-              <p className="text-gray-600 leading-relaxed">{selectedProduct.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Gallery Modal */}
       {selectedGalleryImage && (
@@ -359,6 +351,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

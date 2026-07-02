@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { motion } from 'framer-motion';
 import { Coffee, ChevronRight, Star, MapPin, Phone, Search, ChevronLeft, Mail, MessageCircle } from 'lucide-react';
 
@@ -29,6 +31,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   useEffect(() => {
@@ -725,14 +728,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           </footer>
 
           {/* Lightbox Modal for App Style */}
-          {selectedImage && (
-            <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300" onClick={() => setSelectedImage(null)}>
-              <button className="absolute top-6 right-6 text-white hover:text-[#C19A6B] transition-colors p-2" aria-label="Close">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-              <img src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl" onClick={(e) => e.stopPropagation()} />
-            </div>
-          )}
+          
 
           {/* Product Detail Modal for App Style */}
           {selectedProduct && (
@@ -1322,6 +1318,43 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         )}
 
         
+      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
+              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Injected Services Section */}
+      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
+        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(content.services_json?.length ? content.services_json : [
+                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
+                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
+                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
+              ]).map((srv: any, i: number) => (
+                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                  </div>
+                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
+                  <p className="opacity-75 text-black">{srv.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -3253,6 +3286,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         </div>
       )}
 
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

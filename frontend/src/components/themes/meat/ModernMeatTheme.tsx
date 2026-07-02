@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ShieldCheck, Truck, Clock, MapPin, Mail, Phone, Search, ChevronRight } from 'lucide-react';
 
 const Facebook = ({ size = 18, className = "" }: any) => (
@@ -13,6 +15,7 @@ export default function ModernMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [viewProductsPage, setViewProductsPage] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const siteName = content.settings_json?.website_name || website.slug || 'Prime Cuts Delivery';
@@ -282,38 +285,7 @@ export default function ModernMeatTheme({ website, content }: any) {
       </main>
 
       {/* View All Products Page Overlay */}
-      {viewProductsPage && (
-        <div className="fixed inset-0 z-[100] bg-slate-50 overflow-y-auto animate-in fade-in slide-in-from-bottom-10">
-          <div className="min-h-screen py-24 px-6 relative">
-            <button onClick={() => setViewProductsPage(false)} className="absolute top-6 right-6 md:top-12 md:right-12 text-slate-500 hover:text-slate-900 flex items-center gap-2 font-bold tracking-wider uppercase transition-colors bg-white px-6 py-3 rounded-full shadow-md hover:shadow-lg">
-              Close <span className="text-xl">×</span>
-            </button>
-            <div className="container mx-auto">
-              <div className="mb-16 text-center">
-                <span className="text-red-600 font-bold tracking-wider uppercase text-sm mb-2 block">Our Full Catalog</span>
-                <h2 className="font-modern text-4xl font-extrabold text-slate-900">All Products</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                {products.map((p: any, i: number) => (
-                  <div key={i} onClick={() => setSelectedProduct(p)} className="border border-slate-200 rounded-2xl overflow-hidden shadow-sm bg-white flex flex-col cursor-pointer hover:-translate-y-1 hover:shadow-xl transform duration-300">
-                    <div className="h-48 overflow-hidden bg-slate-100 relative">
-                      {p.image && <img src={p.image} alt={p.name} className="w-full h-full object-cover" />}
-                      <div className="absolute top-3 left-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-sm">Fresh</div>
-                    </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <h3 className="font-modern font-bold text-slate-900 mb-1">{p.name}</h3>
-                      <p className="text-xs text-slate-500 mb-4 flex-1">{p.description}</p>
-                      <div className="flex justify-between items-center mt-auto">
-                        <div className="font-modern font-extrabold text-red-600 text-lg">{p.price}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Details Modal */}
       {selectedProduct && (
@@ -401,6 +373,10 @@ export default function ModernMeatTheme({ website, content }: any) {
           © {new Date().getFullYear()} {siteName}. All rights reserved.
         </div>
       </footer>
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

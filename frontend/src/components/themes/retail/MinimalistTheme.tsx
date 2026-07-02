@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Search, ShoppingCart, ArrowRight, Menu, X } from 'lucide-react';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
@@ -13,6 +15,7 @@ export default function MinimalistTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -64,7 +67,7 @@ export default function MinimalistTheme({ website, content }: any) {
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100 py-4 px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <span className="min-sans font-semibold tracking-widest uppercase text-xl">{siteName}</span>
+          <span className="min-sans font-semibold tracking-widest uppercase text-xl">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           <nav className="hidden md:flex gap-6 min-sans text-sm text-gray-500">
             <a href="#shop" className="hover:text-black transition-colors">Shop</a>
             <a href="#about" className="hover:text-black transition-colors">About</a>
@@ -81,17 +84,7 @@ export default function MinimalistTheme({ website, content }: any) {
         </div>
       </header>
 
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-white z-[60] p-6 flex flex-col">
-          <button className="self-end mb-12" onClick={() => setIsMenuOpen(false)}><X size={24} /></button>
-          <nav className="flex flex-col gap-6 min-sans text-2xl font-light">
-            <a href="#shop" onClick={() => setIsMenuOpen(false)}>Shop</a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
-            {!hiddenSections.includes('gallery') && <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Gallery</a>}
-            {!hiddenSections.includes('contact') && <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>}
-          </nav>
-        </div>
-      )}
+      
 
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
@@ -340,6 +333,15 @@ export default function MinimalistTheme({ website, content }: any) {
                   </div>
                 ))}
               </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
             </div>
           </div>
         </div>
@@ -354,6 +356,10 @@ export default function MinimalistTheme({ website, content }: any) {
           <img src={selectedImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={e => e.stopPropagation()} />
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

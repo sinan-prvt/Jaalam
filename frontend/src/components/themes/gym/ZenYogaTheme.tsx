@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Heart, Wind, Sunrise, Leaf, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -23,6 +25,7 @@ interface Props { website: any; content: any; }
 export default function ZenYogaTheme({ website, content }: Props) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -541,6 +544,31 @@ export default function ZenYogaTheme({ website, content }: Props) {
             FOOTER
         ════════════════════════════════════════ */}
         
+      
+      {/* Injected Services Section */}
+      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
+        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(content.services_json?.length ? content.services_json : [
+                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
+                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
+                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
+              ]).map((srv: any, i: number) => (
+                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                  </div>
+                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
+                  <p className="opacity-75 text-black">{srv.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -581,34 +609,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             MODALS
         ════════════════════════════════════════ */}
-        {selectedProduct && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#2C402E]/60 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
-            <div
-              className="w-full max-w-[320px] md:max-w-sm bg-[#F4F1EA] rounded-[2rem] text-center relative shadow-2xl overflow-hidden animate-in zoom-in-95 flex flex-col max-h-[85vh] md:max-h-[90vh]"
-              onClick={e => e.stopPropagation()}
-            >
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white/50 text-[#2C402E] hover:bg-white rounded-full transition-colors">
-                <X size={20} />
-              </button>
-              
-              <div className="h-40 md:h-48 w-full relative shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 md:p-10 overflow-y-auto shrink">
-                <h3 className="zy-heading text-4xl text-[#2C402E] mb-2">{selectedProduct.name}</h3>
-                <p className="text-gray-500 mb-8">{selectedProduct.price}</p>
-                <p className="text-gray-600 font-light leading-relaxed mb-10">{selectedProduct.description}</p>
-
-                <button
-                  className="zy-btn w-full"
-                  onClick={() => { setSelectedProduct(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                >
-                  Buy Now
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {selectedService && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#2C402E]/60 backdrop-blur-md" onClick={() => setSelectedService(null)}>
@@ -679,7 +680,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {products.map((product: any, idx: number) => (
-                    <div key={idx} className="bg-white rounded-[2rem] flex flex-col items-center text-center shadow-lg transition-transform hover:-translate-y-2 overflow-hidden">
+                    <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer bg-white rounded-[2rem] flex flex-col items-center text-center shadow-lg transition-transform hover:-translate-y-2 overflow-hidden">
                       <div className="w-full h-48 bg-gray-100">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                       </div>
@@ -698,11 +699,24 @@ export default function ZenYogaTheme({ website, content }: Props) {
                     </div>
                   ))}
                 </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
               </div>
             </div>
           </div>
         )}
-      </div>
+      
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+    </div>
     </>
   );
 }

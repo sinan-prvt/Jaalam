@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock, Shield, RefreshCw } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 
@@ -356,42 +358,7 @@ export default function EcoScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-white overflow-y-auto">
-          <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-[#D1E2D6] p-6 flex justify-between items-center z-20 shadow-sm">
-            <h2 className="font-eco text-3xl font-extrabold text-[#1A2E24]">All Recovered Materials</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-[#F0F4F1] text-[#2C4A3B] p-3 rounded-full hover:bg-[#E1EFE5] transition-colors">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="bg-[#F0F4F1] rounded-3xl overflow-hidden hover:shadow-lg transition-all border border-[#D1E2D6] group flex flex-col cursor-pointer">
-                  {p.image && (
-                    <div className="h-40 overflow-hidden relative">
-                       <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    </div>
-                  )}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="font-eco text-xl font-bold text-[#1A2E24] mb-3">{p.name}</h3>
-                    <p className="font-eco text-sm text-[#5D806B] mb-6 flex-grow">{p.description}</p>
-                    <div className="flex justify-between items-center mt-auto">
-                      <div className="font-eco font-bold text-[#4CAF50] bg-[#E1EFE5] inline-block px-4 py-2 rounded-xl text-center">{p.price}</div>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                        className="font-eco font-bold text-white bg-[#4CAF50] hover:bg-[#388E3C] px-4 py-2 rounded-xl text-sm transition-colors shadow-sm"
-                      >
-                        Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -435,6 +402,10 @@ export default function EcoScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

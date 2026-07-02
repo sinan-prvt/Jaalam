@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ShoppingBag, Star, MapPin, Phone, Mail, ArrowRight, X, Menu, Search, Clock, MessageCircle } from 'lucide-react';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
@@ -95,19 +97,7 @@ export default function BoutiqueTheme({ website, content }: any) {
       </header>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-[#FAF8F5] z-[60] flex flex-col p-8">
-          <button className="self-end" onClick={() => setIsMenuOpen(false)}>
-            <X size={32} />
-          </button>
-          <div className="flex flex-col gap-8 mt-12 bt-serif text-3xl text-center">
-            <a href="#collections" onClick={() => setIsMenuOpen(false)}>Collections</a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)}>Our Story</a>
-            {services.length > 0 && <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>}
-            <a href="#gallery" onClick={() => setIsMenuOpen(false)}>Lookbook</a>
-          </div>
-        </div>
-      )}
+      
 
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
@@ -425,33 +415,6 @@ export default function BoutiqueTheme({ website, content }: any) {
       )}
 
       {/* All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[80] bg-[#FAF8F5] overflow-y-auto">
-          <div className="max-w-7xl mx-auto px-6 py-20 relative">
-            <button className="fixed top-8 right-8 text-black hover:text-gray-600 z-[90] bg-white rounded-full p-2 shadow-md" onClick={() => setShowAllProducts(false)}>
-              <X size={24} />
-            </button>
-            <div className="text-center mb-16 bt-fade-in">
-              <h2 className="bt-serif text-4xl mb-4 leading-snug">All Collections</h2>
-              <div className="w-12 h-px bg-[#D4AF37] mx-auto"></div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {products.map((p: any, i: number) => (
-                <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(p)}>
-                  <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <div className="absolute bottom-0 left-0 w-full p-4 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/50 to-transparent flex justify-center">
-                      <span className="text-white bt-sans text-xs tracking-widest uppercase border-b border-white pb-1">Quick View</span>
-                    </div>
-                  </div>
-                  <h3 className="bt-serif text-xl mb-2 flex-1 break-words leading-snug">{p.name}</h3>
-                  <p className="bt-sans text-[#D4AF37] tracking-wider">{p.price}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Image Modal */}
       {selectedImage && (
@@ -459,6 +422,10 @@ export default function BoutiqueTheme({ website, content }: any) {
           <img src={selectedImage} alt="Fullscreen" className="max-w-full max-h-[90vh] object-contain" />
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

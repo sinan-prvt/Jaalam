@@ -1,7 +1,10 @@
-import React from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import React, { useState } from 'react';
 import { PenTool, Diamond, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
 
 export default function PremiumStationeryTheme({ website, content }: any) {
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Luxe Stationery Co.';
@@ -83,6 +86,15 @@ export default function PremiumStationeryTheme({ website, content }: any) {
               </div>
             ))}
           </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
         </div>
       </section>
 
@@ -245,6 +257,8 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           </div>
         </div>
       </footer>
+
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
     </div>
   );
 }

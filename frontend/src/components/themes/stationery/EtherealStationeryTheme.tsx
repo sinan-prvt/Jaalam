@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Sparkles, ArrowRight, X, Heart, MapPin, Mail, Droplet, Clock, MessageCircle, Phone } from 'lucide-react';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
@@ -344,6 +346,15 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                   </div>
                 ))}
               </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
             </section>
           )}
         </main>
@@ -370,31 +381,6 @@ export default function EtherealStationeryTheme({ website, content }: any) {
       </div>
 
       {/* Product Details Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-white/40 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
-          <div className="glass-panel !bg-white/70 w-full max-w-3xl rounded-[2rem] max-h-[85vh] flex flex-col md:flex-row overflow-y-auto border border-white no-scrollbar" onClick={e => e.stopPropagation()}>
-            <div className="w-full md:w-1/2 aspect-square md:aspect-auto p-4 md:p-6">
-              <div className="w-full h-full rounded-2xl overflow-hidden">
-                <img 
-                  src={selectedProduct.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover filter saturate-50 hue-rotate-15"
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center relative font-ethereal">
-              <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 p-2 bg-white/50 rounded-full text-[#6A4C93] hover:bg-white transition-colors">
-                <X size={20} />
-              </button>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#6A4C93] to-[#B49FCC]">{selectedProduct.name}</h2>
-              <div className="text-xl font-bold mb-6 text-[#6A4C93]/80">{selectedProduct.price}</div>
-              <p className="text-base leading-relaxed text-[#4A3B69]/80 mb-4 font-light">
-                {selectedProduct.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
       {/* Gallery Lightbox */}
       {selectedImage && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-white/40 backdrop-blur-md" onClick={() => setSelectedImage(null)}>
@@ -404,6 +390,9 @@ export default function EtherealStationeryTheme({ website, content }: any) {
           <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[90vh] object-contain filter saturate-50 hue-rotate-15 rounded-2xl glass-panel p-2" />
         </div>
       )}
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

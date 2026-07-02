@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { ShoppingBag, Search, X, Flame, Zap, ArrowRight, Menu, MapPin, Mail, Phone } from 'lucide-react';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
@@ -15,6 +17,7 @@ export default function StreetwearTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = useState(false);
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -118,15 +121,7 @@ export default function StreetwearTheme({ website, content }: any) {
         </div>
       </header>
 
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-[#0A0A0A] z-[60] p-6 flex flex-col border-4 border-[#ccff00]">
-          <button className="self-end text-[#ccff00] mb-12" onClick={() => setIsMenuOpen(false)}><X size={32} /></button>
-          <nav className="flex flex-col gap-8 st-font text-5xl font-black text-gray-400">
-            <a href="#drop" className="hover:text-[#ccff00]" onClick={() => setIsMenuOpen(false)}>SHOP</a>
-            <a href="#vibe" className="hover:text-[#ccff00]" onClick={() => setIsMenuOpen(false)}>ABOUT</a>
-          </nav>
-        </div>
-      )}
+      
 
       {/* Content Sections mapped by section_order */}
       {sectionOrder.map(sectionId => {
@@ -214,6 +209,15 @@ export default function StreetwearTheme({ website, content }: any) {
                 </div>
               ))}
             </div>
+          <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
+            <button 
+              onClick={() => setShowAllProducts(true)} 
+              className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors font-bold tracking-wide shadow-md flex items-center justify-center gap-2 mx-auto"
+            >
+              View All Products
+            </button>
+          </div>
+
 
             <div className="mt-12 flex justify-center">
               <button onClick={() => setViewProductsPage(true)} className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest">
@@ -334,6 +338,19 @@ export default function StreetwearTheme({ website, content }: any) {
         return null;
       })}
       
+      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
+              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Custom Section */}
       {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
         <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
@@ -450,6 +467,10 @@ export default function StreetwearTheme({ website, content }: any) {
           <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-[#333]" onClick={e => e.stopPropagation()} />
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }

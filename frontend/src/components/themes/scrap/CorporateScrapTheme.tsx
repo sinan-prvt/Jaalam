@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AllProductsModal from '../../shared/AllProductsModal';
+import ProductModal from '../../shared/ProductModal';
 import { Truck, Scale, MapPin, Mail, Phone, ChevronRight, BarChart, ShieldCheck, X, Clock } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 
@@ -411,40 +413,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
       </footer>
 
       {/* View All Products Modal */}
-      {showAllProducts && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-slate-50 overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b border-slate-200 p-6 flex justify-between items-center z-20 shadow-sm">
-            <h2 className="font-corp text-2xl font-bold text-[#0F172A] uppercase tracking-wide">All Materials</h2>
-            <button onClick={() => setShowAllProducts(false)} className="bg-slate-100 text-slate-500 p-2 rounded hover:bg-slate-200 hover:text-slate-800 transition-colors">
-              <X size={24} />
-            </button>
-          </div>
-          <div className="p-6 md:p-12">
-            <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-6">
-              {products.map((p: any, i: number) => (
-                <div key={i} onClick={() => setSelectedProduct(p)} className="flex border border-slate-200 rounded-lg overflow-hidden hover:border-[#2563EB] transition-colors bg-[#F8FAFC] cursor-pointer">
-                  <div className="w-2 bg-[#2563EB]"></div>
-                  <div className="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-corp text-lg font-bold text-[#0F172A]">{p.name}</h4>
-                        <span className="bg-blue-100 text-[#2563EB] text-xs font-bold px-2 py-1 rounded">{p.price}</span>
-                      </div>
-                      <p className="font-corp text-[#475569] text-sm leading-relaxed mb-4">{p.description}</p>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
-                        className="text-[#2563EB] font-bold text-sm hover:underline self-start"
-                      >
-                        View Details →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Product Modal */}
       {selectedProduct && (
@@ -491,6 +460,10 @@ export default function CorporateScrapTheme({ website, content }: any) {
           </div>
         </div>
       )}
+    
+      
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
     </div>
   );
 }
