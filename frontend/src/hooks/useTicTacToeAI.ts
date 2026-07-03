@@ -57,22 +57,7 @@ const minimax = (board: Player[], depth: number, isMaximizing: boolean): number 
     return bestScore;
   }
 };
-dsdsdsd
-sds
-d
-sd
-sd
-sd
-sd
-s
-d
-sd
-sdsd
-s
-d
-ds
-ds
-d
+
 export const getBestMove = (board: Player[]): number => {
   const emptyCount = board.filter(c => c === null).length;
 
