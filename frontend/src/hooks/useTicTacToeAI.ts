@@ -57,10 +57,25 @@ const minimax = (board: Player[], depth: number, isMaximizing: boolean): number 
     return bestScore;
   }
 };
-
+dsdsdsd
+sds
+d
+sd
+sd
+sd
+sd
+s
+d
+sd
+sdsd
+s
+d
+ds
+ds
+d
 export const getBestMove = (board: Player[]): number => {
   const emptyCount = board.filter(c => c === null).length;
-  
+
   // Optimization: Hardcode first moves to avoid massive Minimax trees and prevent UI lag
   if (emptyCount === 9) {
     return 4; // Center
@@ -83,6 +98,6 @@ export const getBestMove = (board: Player[]): number => {
       }
     }
   }
-  
+
   return move;
 };
