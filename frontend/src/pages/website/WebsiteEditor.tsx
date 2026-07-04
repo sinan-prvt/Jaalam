@@ -16,7 +16,7 @@ const categoryThemes: Record<string, string[]> = {
   'Saloon': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
   'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
   'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
-  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Custom'],
+  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
   'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
   'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],

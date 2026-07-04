@@ -86,7 +86,6 @@ export default function Dashboard() {
     'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
     'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
-    'Textiles / Garments': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Vintage', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Custom']

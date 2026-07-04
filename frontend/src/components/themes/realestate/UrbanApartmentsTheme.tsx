@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Building2, Search, MapPin, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Building2, Search, MapPin, ArrowRight, ArrowUpRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function UrbanApartmentsTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Metro Living';
-  
+
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Skyline Penthouse', price: '₹4.5 Cr', image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80', location: 'Downtown', type: '3 BHK' },
-    { name: 'Loft Studio', price: '₹1.2 Cr', image: 'https://images.unsplash.com/photo-1502672260266-1c158bf92faa?auto=format&fit=crop&w=800&q=80', location: 'Arts District', type: 'Studio' },
+    { name: 'Loft Studio', price: '₹1.2 Cr', image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80', location: 'Arts District', type: 'Studio' },
     { name: 'Highrise Suite', price: '₹2.8 Cr', image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80', location: 'Tech Park', type: '2 BHK' },
     { name: 'Garden Duplex', price: '₹3.5 Cr', image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80', location: 'Suburbs', type: '4 BHK' }
   ];
@@ -35,14 +38,28 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
       {/* Navigation */}
       <nav className="p-6 md:p-8 flex justify-between items-center bg-white sticky top-0 z-50 border-b border-slate-100">
         <div className="flex items-center gap-2">
-           {!content?.settings_json?.logo_image && <Building2 size={24} className="text-blue-600" />}
-           <span className="font-urban font-black text-xl tracking-tight">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+          {content?.settings_json?.logo_image ? (
+            <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+          ) : (
+            <Building2 size={24} className="text-blue-600" />
+          )}
+          <span className="font-urban font-black text-xl tracking-tight">{siteName}</span>
         </div>
         <div className="hidden md:flex gap-8 font-urban text-sm font-medium text-slate-500">
-          <a href="#search" className="hover:text-blue-600 transition-colors">Search</a>
           <a href="#properties" className="hover:text-blue-600 transition-colors">Listings</a>
           <a href="#contact" className="hover:text-blue-600 transition-colors">Contact</a>
         </div>
+        <button className="md:hidden text-slate-900" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl py-4 px-6 flex flex-col gap-4 font-urban text-sm font-medium text-slate-600">
+            <a href="#properties" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 transition-colors">Listings</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 transition-colors">Contact</a>
+          </div>
+        )}
       </nav>
 
       {/* Hero */}
@@ -55,22 +72,12 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             <p className="font-urban text-lg text-slate-500 mb-10 max-w-lg leading-relaxed">
               {content.hero_text || 'Modern apartments, lofts, and penthouses in the most desirable urban neighborhoods.'}
             </p>
-            
-            <div id="search" className="flex bg-slate-50 border border-slate-200 rounded-xl p-2 max-w-md focus-within:ring-2 focus-within:ring-blue-500/50 transition-shadow">
-               <div className="flex-1 flex items-center px-4">
-                 <Search size={20} className="text-slate-400 mr-2" />
-                 <input type="text" placeholder="Search by neighborhood..." className="bg-transparent w-full outline-none font-urban text-sm" />
-               </div>
-               <button className="bg-blue-600 hover:bg-blue-700 text-white font-urban font-medium py-3 px-6 rounded-lg transition-colors">
-                 Search
-               </button>
-            </div>
           </div>
           <div className="w-full md:w-1/2">
-             <div className="grid grid-cols-2 gap-4">
-               <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-tr-[4rem] shadow-xl" alt="Urban Appt" />
-               <img src="https://images.unsplash.com/photo-1502672260266-1c158bf92faa?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-bl-[4rem] shadow-xl mt-12" alt="Urban Loft" />
-             </div>
+            <div className="grid grid-cols-2 gap-4">
+              <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-tr-[4rem] shadow-xl" alt="Urban Appt" />
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-bl-[4rem] shadow-xl mt-12" alt="Urban Loft" />
+            </div>
           </div>
         </div>
       </section>
@@ -80,11 +87,11 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         <div className="container mx-auto max-w-6xl">
           <div className="flex justify-between items-end mb-12">
             <h2 className="font-urban text-3xl font-black tracking-tight text-slate-900">Latest Listings</h2>
-            <button className="text-blue-600 font-urban font-medium flex items-center gap-1 hover:gap-2 transition-all">
-               View All <ArrowRight size={16} />
+            <button onClick={() => setShowAllProducts(true)} className="text-blue-600 font-urban font-medium flex items-center gap-1 hover:gap-2 transition-all">
+              View All <ArrowRight size={16} />
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {properties.map((p: any, i: number) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
@@ -100,7 +107,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                   <div className="flex items-center gap-1 text-slate-500 font-urban text-xs mb-4">
                     <MapPin size={12} /> {p.location}
                   </div>
-                  <button className="w-full border border-slate-200 hover:border-blue-600 hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-urban font-bold py-2 rounded-lg transition-colors flex items-center justify-center gap-1 text-sm">
+                  <button onClick={() => setSelectedProduct(p)} className="w-full border border-slate-200 hover:border-blue-600 hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-urban font-bold py-2 rounded-lg transition-colors flex items-center justify-center gap-1 text-sm">
                     View Details <ArrowUpRight size={14} />
                   </button>
                 </div>
@@ -110,8 +117,8 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         </div>
       </section>
 
-      
-      
+
+
       {/* Injected About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
@@ -160,7 +167,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
                   <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
@@ -184,37 +191,108 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         </section>
       )}
 
+      {/* Injected Contact Section */}
+      {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
+        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-white border-t border-slate-100">
+          <div className="container mx-auto max-w-6xl">
+            <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
+              <div className="w-full md:w-1/3">
+                <h2 className="font-urban text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Get in Touch.</h2>
+                <p className="font-urban text-slate-500 mb-8 leading-relaxed">
+                  Have questions about our listings or want to schedule a viewing? We are here to help you find your perfect urban home.
+                </p>
+                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
+                  <div className="flex gap-4">
+                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
+                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
+                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Twitter size={20} /></a>}
+                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Youtube size={20} /></a>}
+                  </div>
+                )}
+              </div>
+              <div className="w-full md:w-2/3 grid sm:grid-cols-2 gap-8">
+                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                    <Phone size={24} />
+                  </div>
+                  <h4 className="font-urban font-bold text-slate-900 mb-2">Phone</h4>
+                  <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
+                </div>
+                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                    <Mail size={24} />
+                  </div>
+                  <h4 className="font-urban font-bold text-slate-900 mb-2">Email</h4>
+                  <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
+                </div>
+                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                    <MapPin size={24} />
+                  </div>
+                  <h4 className="font-urban font-bold text-slate-900 mb-2">Office</h4>
+                  <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
+                </div>
+                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                    <Clock size={24} />
+                  </div>
+                  <h4 className="font-urban font-bold text-slate-900 mb-2">Working Hours</h4>
+                  <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 w-full h-[400px] rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+              <iframe
+                title="Office Location Map"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Level 4, Business Tower, Urban District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Footer */}
-      <footer id="contact" className="bg-slate-900 text-white py-16 px-6">
-        <div className="container mx-auto max-w-6xl grid md:grid-cols-4 gap-12 font-urban">
-          <div className="md:col-span-2">
+      <footer className="bg-slate-900 text-white py-16 px-6">
+        <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 font-urban text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-2 mb-6">
-               <Building2 size={24} className="text-blue-400" />
-               <span className="font-black text-xl tracking-tight">{siteName}</span>
+              {content?.settings_json?.logo_image ? (
+                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+              ) : (
+                <Building2 size={24} className="text-blue-400" />
+              )}
+              <span className="font-black text-xl tracking-tight">{siteName}</span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               {content.about_text || "Your trusted partner in navigating the urban real estate market. We make finding your next home simple and transparent."}
             </p>
           </div>
-          <div>
-            <h4 className="font-bold mb-4">Contact</h4>
-            <div className="space-y-2 text-slate-400 text-sm">
-              <p>{content.contact_info?.email || 'hello@metroliving.com'}</p>
-              <p>{content.contact_info?.phone || '0484 234 5678'}</p>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-bold mb-4">Office</h4>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              {content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}
-            </p>
+          <div className="flex flex-col items-center md:items-end justify-center">
+            <p className="text-slate-500 text-sm">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
           </div>
         </div>
       </footer>
-    
-      
-      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+
+
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+
+      {/* Gallery Image Modal */}
+      {selectedGalleryImage && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setSelectedGalleryImage(null)}>
+          <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
+            <X size={32} />
+          </button>
+          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Home, Search, MapPin, ChevronRight, Phone } from 'lucide-react';
+import { Home, Search, MapPin, ChevronRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function ModernRealEstateTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Haven Real Estate';
@@ -36,23 +39,33 @@ export default function ModernRealEstateTheme({ website, content }: any) {
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="bg-emerald-500 p-2 rounded-lg">
-              <Home className="text-white" size={24} />
-            </div>
-            <span className="font-modern font-bold text-xl text-slate-900">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+            {content?.settings_json?.logo_image ? (
+              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+            ) : (
+              <div className="bg-emerald-500 p-2 rounded-lg">
+                <Home className="text-white" size={24} />
+              </div>
+            )}
+            <span className="font-modern font-bold text-xl text-slate-900">{siteName}</span>
           </div>
           <nav className="hidden md:flex gap-8 font-modern text-sm font-medium">
-            <a href="#buy" className="text-slate-600 hover:text-emerald-500 transition-colors">Buy</a>
-            <a href="#rent" className="text-slate-600 hover:text-emerald-500 transition-colors">Rent</a>
-            <a href="#sell" className="text-slate-600 hover:text-emerald-500 transition-colors">Sell</a>
+            <a href="#properties" className="text-slate-600 hover:text-emerald-500 transition-colors">Properties</a>
+            <a href="#about" className="text-slate-600 hover:text-emerald-500 transition-colors">About</a>
+            <a href="#contact" className="text-slate-600 hover:text-emerald-500 transition-colors">Contact</a>
           </nav>
-          <div className="flex items-center gap-4">
-             <button className="hidden md:block font-modern text-sm font-semibold text-emerald-500">Sign In</button>
-             <button className="bg-slate-900 text-white font-modern text-sm font-semibold py-2 px-5 rounded-lg hover:bg-slate-800 transition-colors">
-               Add Listing
-             </button>
-          </div>
+          <button className="md:hidden text-slate-900" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl py-4 px-6 flex flex-col gap-4 font-modern text-sm font-medium text-slate-600">
+            <a href="#properties" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-500 transition-colors">Properties</a>
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-500 transition-colors">About</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-500 transition-colors">Contact</a>
+          </div>
+        )}
       </header>
 
       {/* Hero */}
@@ -62,19 +75,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
             <h1 className="font-modern text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
               {content.hero_title || 'Find your perfect place.'}
             </h1>
-            <p className="font-modern text-slate-600 mb-10 text-lg max-w-md">
+            <p className="font-modern text-slate-600 text-lg max-w-md">
               {content.hero_text || 'Discover homes that match your lifestyle. Buying or renting, we make it easy.'}
             </p>
-            
-            <div className="bg-white p-3 rounded-2xl shadow-lg flex gap-2 w-full max-w-md">
-               <div className="flex-1 flex items-center px-3 bg-slate-50 rounded-xl">
-                 <Search size={20} className="text-slate-400 mr-2" />
-                 <input type="text" placeholder="Search location..." className="bg-transparent w-full outline-none font-modern text-sm py-3" />
-               </div>
-               <button className="bg-emerald-500 hover:bg-emerald-600 text-white p-3 rounded-xl transition-colors">
-                 <Search size={24} />
-               </button>
-            </div>
           </div>
           <div className="w-full md:w-1/2 h-64 md:h-full min-h-[500px] bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center md:absolute right-0 top-0">
           </div>
@@ -88,7 +91,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
             <h2 className="font-modern text-3xl font-bold text-slate-900 mb-2">Explore Homes</h2>
             <p className="font-modern text-slate-500">Handpicked properties for you</p>
           </div>
-          <button className="text-emerald-500 font-modern font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+          <button onClick={() => setShowAllProducts(true)} className="text-emerald-500 font-modern font-semibold flex items-center gap-1 hover:gap-2 transition-all">
              See All <ChevronRight size={18} />
           </button>
         </div>
@@ -107,10 +110,13 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                 <div className="flex items-center gap-1 text-slate-500 font-modern text-sm mb-4">
                   <MapPin size={14} /> {p.location}
                 </div>
-                <div className="flex gap-4 border-t border-slate-100 pt-4 text-slate-600 font-modern text-sm">
+                 <div className="flex gap-4 border-t border-slate-100 pt-4 text-slate-600 font-modern text-sm mb-4">
                    <div className="flex items-center gap-1"><span className="font-bold text-slate-900">{p.beds}</span> Beds</div>
                    <div className="flex items-center gap-1"><span className="font-bold text-slate-900">{p.baths}</span> Baths</div>
-                </div>
+                 </div>
+                 <button onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }} className="w-full bg-slate-50 hover:bg-emerald-50 text-emerald-600 font-modern font-semibold py-2 rounded-lg transition-colors border border-emerald-100">
+                   View Details
+                 </button>
               </div>
             </div>
           ))}
@@ -167,7 +173,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
                   <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
@@ -178,23 +184,82 @@ export default function ModernRealEstateTheme({ website, content }: any) {
 
       {/* Injected Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
-            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
-            <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-slate-900 text-white">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-16">
+              <h2 className="font-modern text-3xl md:text-5xl font-bold mb-4">Let's Talk.</h2>
+              <p className="opacity-80 max-w-lg mx-auto font-modern">Get in touch with us for any inquiries or support. We're here to help.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-24 font-modern">
+              <div className="space-y-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
+                    <Phone size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-slate-400 font-semibold mb-1">Call Us</h4>
+                    <p className="text-lg font-medium">{content.contact_info?.phone || '98765 43210'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
+                    <Mail size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-slate-400 font-semibold mb-1">Email Us</h4>
+                    <p className="text-lg font-medium break-all">{content.contact_info?.email || 'hello@haven.com'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
+                    <MapPin size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-slate-400 font-semibold mb-1">Visit Us</h4>
+                    <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.address || 'Tech Hub, Kerala'}</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+              
+              <div className="bg-slate-800 p-8 rounded-3xl">
+                <div className="flex items-start gap-4 mb-10">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
+                    <Clock size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-slate-400 font-semibold mb-1">Working Hours</h4>
+                    <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                  </div>
+                </div>
+                
+                <h4 className="text-sm text-slate-400 font-semibold mb-4">Connect With Us</h4>
+                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
+                  <div className="flex gap-4">
+                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Facebook size={20} /></a>}
+                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Instagram size={20} /></a>}
+                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Twitter size={20} /></a>}
+                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Youtube size={20} /></a>}
+                  </div>
+                ) : (
+                  <p className="text-slate-400 text-sm">Social media links will appear here once added in the editor.</p>
+                )}
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
-              </div>
+            </div>
+            
+            <div className="mt-12 w-full h-[400px] rounded-3xl overflow-hidden bg-slate-800">
+              <iframe
+                title="Office Location Map"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Tech Hub, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </section>
@@ -217,44 +282,41 @@ export default function ModernRealEstateTheme({ website, content }: any) {
 
       {/* Footer */}
       <footer id="sell" className="bg-white border-t border-slate-200 py-16 px-6">
-        <div className="container mx-auto max-w-6xl grid md:grid-cols-4 gap-12 font-modern">
-          <div className="md:col-span-2">
+        <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 font-modern">
+          <div className="flex flex-col">
             <div className="flex items-center gap-2 mb-6">
-              <div className="bg-emerald-500 p-2 rounded-lg inline-block">
-                <Home className="text-white" size={20} />
-              </div>
+              {content?.settings_json?.logo_image ? (
+                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+              ) : (
+                <div className="bg-emerald-500 p-2 rounded-lg inline-block">
+                  <Home className="text-white" size={20} />
+                </div>
+              )}
               <span className="font-bold text-xl text-slate-900">{siteName}</span>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm mb-6">
               {content.about_text || "We're on a mission to change how real estate works. Transparent, digital, and customer-first."}
             </p>
           </div>
-          <div>
-            <h4 className="font-bold text-slate-900 mb-4">Quick Links</h4>
-            <ul className="space-y-3 text-slate-500 text-sm">
-              <li>Search Properties</li>
-              <li>Sell your Home</li>
-              <li>Mortgage Calculator</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-slate-900 mb-4">Contact Us</h4>
-            <div className="space-y-3 text-slate-500 text-sm">
-               <div className="flex items-center gap-2">
-                 <Phone size={16} className="text-emerald-500" /> {content.contact_info?.phone || '98765 43210'}
-               </div>
-               <div className="flex items-start gap-2">
-                 <MapPin size={16} className="text-emerald-500 mt-1 shrink-0" />
-                 <span>{content.contact_info?.address || 'Tech Hub, Kerala'}</span>
-               </div>
-            </div>
+          <div className="flex flex-col md:items-end justify-center">
+            <p className="text-slate-400 text-sm">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
           </div>
         </div>
       </footer>
     
       
-      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+
+      {/* Gallery Image Modal */}
+      {selectedGalleryImage && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setSelectedGalleryImage(null)}>
+          <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
+            <X size={32} />
+          </button>
+          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </div>
   );
 }

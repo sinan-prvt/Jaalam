@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Home, MapPin, Phone, Mail, Award } from 'lucide-react';
+import { Home, MapPin, Phone, Mail, Award, Clock, X, Menu } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function ClassicRealEstateTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Heritage Homes';
@@ -35,12 +38,16 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="py-6 px-6 border-b border-[#EAE3D2] bg-white">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="container mx-auto flex justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            {!content?.settings_json?.logo_image && <Home className="text-[#1A252C]" size={32} />}
-            <span className="font-classic text-3xl font-bold tracking-tight text-[#1A252C]">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+            {content?.settings_json?.logo_image ? (
+              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+            ) : (
+              <Home className="text-[#1A252C]" size={32} />
+            )}
+            <span className="font-classic text-3xl font-bold tracking-tight text-[#1A252C]">{siteName}</span>
           </div>
-          <div className="flex gap-8 font-body font-semibold text-[#5A6C7D] uppercase tracking-wider text-sm">
+          <div className="hidden md:flex gap-8 font-body font-semibold text-[#5A6C7D] uppercase tracking-wider text-sm">
             <a href="#featured" className="hover:text-[#1A252C] transition-colors">Featured Listings</a>
             <a href="#about" className="hover:text-[#1A252C] transition-colors">Our History</a>
             <div className="flex items-center gap-2 text-[#1A252C]">
@@ -48,7 +55,22 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
             </div>
           </div>
+          <button className="md:hidden text-[#1A252C]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
+        
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-[80px] left-0 w-full bg-white border-b border-[#EAE3D2] shadow-xl py-6 px-6 flex flex-col gap-6 font-body font-semibold text-[#5A6C7D] uppercase tracking-wider text-sm z-50">
+            <a href="#featured" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#1A252C] transition-colors">Featured Listings</a>
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#1A252C] transition-colors">Our History</a>
+            <div className="flex items-center gap-2 text-[#1A252C]">
+               <Phone size={16} />
+               <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero */}
@@ -57,7 +79,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
           <div className="w-full md:w-1/2">
             <div className="flex items-center gap-2 mb-6 text-[#8B9DAE]">
                <Award size={20} />
-               <span className="font-body font-semibold uppercase tracking-widest text-sm">Trusted Since 1985</span>
+               <span className="font-body font-semibold uppercase tracking-widest text-sm">Trusted Professionals</span>
             </div>
             <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#1A252C] leading-tight">
               {content.hero_title || 'Tradition. Trust. Real Estate.'}
@@ -65,9 +87,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             <p className="font-body text-lg text-[#5A6C7D] mb-10 leading-relaxed max-w-md">
               {content.hero_text || 'Guiding families to their dream homes with integrity and generations of local market expertise.'}
             </p>
-            <button className="bg-[#1A252C] hover:bg-[#2C3E50] text-white font-body font-semibold py-4 px-10 transition-colors shadow-lg">
-              Search Properties
-            </button>
+
           </div>
           <div className="w-full md:w-1/2 relative p-4 bg-white border border-[#EAE3D2] shadow-sm">
              <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80" alt="Classic Home" className="w-full h-auto object-cover" />
@@ -100,19 +120,40 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                     <div className="font-body text-[#5A6C7D] mb-4 pb-4 border-b border-[#EAE3D2] text-sm">
                       {p.details}
                     </div>
-                    <div className="font-classic font-bold text-2xl text-[#1A252C]">
+                    <div className="font-classic font-bold text-2xl text-[#1A252C] mb-4">
                       {p.price}
                     </div>
+                    <button onClick={() => setSelectedProduct(p)} className="bg-[#1A252C] hover:bg-[#2C3E50] text-white font-body font-semibold py-2 px-6 transition-colors shadow-sm text-sm">
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          
+          <div className="mt-16 text-center">
+            <button onClick={() => setShowAllProducts(true)} className="border-2 border-[#1A252C] text-[#1A252C] hover:bg-[#1A252C] hover:text-white font-body font-bold py-3 px-10 transition-colors uppercase tracking-widest text-sm">
+              View All Listings
+            </button>
+          </div>
         </div>
       </section>
 
       
-      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-20 px-6 bg-white border-b border-[#EAE3D2]">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-4xl md:text-5xl font-classic font-bold mb-6 text-[#1A252C]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <div className="w-16 h-1 bg-[#1A252C] mx-auto mb-8"></div>
+            <p className="text-lg text-[#5A6C7D] leading-relaxed max-w-2xl mx-auto font-body">
+              {content.about_text || 'Welcome to our agency. We are dedicated to bringing you the best real estate options available. Our team works hard to ensure client satisfaction and continuous trust.'}
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Injected Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
         <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
@@ -149,7 +190,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
                   <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
@@ -160,23 +201,78 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
 
       {/* Injected Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
-            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
-            <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-white border-t border-[#EAE3D2]">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-16">
+              <h2 className="font-classic text-4xl font-bold text-[#1A252C] mb-4">Contact Our Office</h2>
+              <p className="font-body text-[#5A6C7D]">We welcome your inquiries and look forward to assisting you.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 border border-[#EAE3D2] p-8 md:p-12 shadow-sm bg-[#FDFBF7]">
+              <div className="space-y-8 font-body">
+                <div className="flex items-start gap-4">
+                  <Phone size={24} className="text-[#1A252C] mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Telephone</h4>
+                    <p className="text-lg text-[#5A6C7D]">{content.contact_info?.phone || '1-800-ESTATE'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <Mail size={24} className="text-[#1A252C] mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Electronic Mail</h4>
+                    <p className="text-lg text-[#5A6C7D] break-all">{content.contact_info?.email || 'contact@heritagehomes.com'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <MapPin size={24} className="text-[#1A252C] mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Office Location</h4>
+                    <p className="text-lg text-[#5A6C7D]">{content.contact_info?.address || '100 Main Street, Kerala'}</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+              
+              <div className="space-y-8 font-body">
+                <div className="flex items-start gap-4">
+                  <Clock size={24} className="text-[#1A252C] mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Business Hours</h4>
+                    <p className="text-lg text-[#5A6C7D] whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9:00 AM - 6:00 PM'}</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-4 text-sm flex items-center gap-2">
+                    Social Presence
+                  </h4>
+                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
+                    <div className="flex gap-4">
+                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Facebook size={18} /></a>}
+                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Instagram size={18} /></a>}
+                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Twitter size={18} /></a>}
+                      {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Youtube size={18} /></a>}
+                    </div>
+                  ) : (
+                    <p className="text-[#5A6C7D] text-sm">Social links not configured.</p>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
-              </div>
+            </div>
+            
+            <div className="mt-16 w-full h-[400px] border border-[#EAE3D2] p-2 bg-white shadow-sm">
+              <iframe
+                title="Office Location Map"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Main Street, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </section>
@@ -200,32 +296,36 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       {/* Footer */}
       <footer id="about" className="bg-[#1A252C] text-[#EFECE5] py-20 px-6">
         <div className="container mx-auto max-w-5xl text-center">
-          <Home className="mx-auto text-[#8B9DAE] mb-6" size={40} />
+          {content?.settings_json?.logo_image ? (
+            <img src={content.settings_json.logo_image} alt={siteName} className="mx-auto h-12 w-auto object-contain mb-6 filter brightness-0 invert opacity-70" />
+          ) : (
+            <Home className="mx-auto text-[#8B9DAE] mb-6" size={40} />
+          )}
           <h3 className="font-classic text-3xl mb-6">{siteName}</h3>
           <p className="font-body max-w-2xl mx-auto mb-12 text-[#8B9DAE] leading-relaxed">
             {content.about_text || "With over 35 years of experience, we pride ourselves on building lasting relationships and providing unmatched real estate services to our community."}
           </p>
-          
-          <div className="grid md:grid-cols-3 gap-8 font-body border-t border-[#2C3E50] pt-12">
-            <div className="flex flex-col items-center gap-2">
-               <Phone size={20} className="text-[#EFECE5]" />
-               <span className="font-semibold">{content.contact_info?.phone || '1-800-ESTATE'}</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-               <MapPin size={20} className="text-[#EFECE5]" />
-               <span className="font-semibold">{content.contact_info?.address || '100 Main Street, Kerala'}</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-               <Mail size={20} className="text-[#EFECE5]" />
-               <span className="font-semibold">{content.contact_info?.email || 'contact@heritagehomes.com'}</span>
-            </div>
+          <div className="border-t border-[#2C3E50] pt-12">
+            <p className="font-body text-[#8B9DAE] text-sm uppercase tracking-widest">
+              © {new Date().getFullYear()} {siteName}. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
     
       
-      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
+      <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+
+      {/* Gallery Image Modal */}
+      {selectedGalleryImage && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#1A252C]/95 backdrop-blur-sm" onClick={() => setSelectedGalleryImage(null)}>
+          <button className="absolute top-6 right-6 text-[#EFECE5]/70 hover:text-[#EFECE5] transition-colors">
+            <X size={32} />
+          </button>
+          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-white shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </div>
   );
 }
