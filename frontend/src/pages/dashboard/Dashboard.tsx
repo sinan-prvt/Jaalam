@@ -26,6 +26,117 @@ interface Website {
 }
 
 const getThemeThumbnail = (theme: string, businessType?: string) => {
+  // Generic mapping by business type to provide fallback defaults
+  const defaults: Record<string, string> = {
+    'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
+    'Cafe / Bakery': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
+    'Salon': 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80',
+    'Gym': 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
+    'Real Estate': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
+    'Retail Store': 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80',
+    'Stationery / Books': 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+    'Fancy Store': 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80',
+    'Chicken / Meat Stall': 'https://images.unsplash.com/photo-1607623814075-e51df1bd682f?auto=format&fit=crop&w=800&q=80',
+    'Scrap Dealer': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
+    'Supermarket / Grocery': 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80',
+    'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
+    'Consulting': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+    'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
+  };
+
+  // Unique theme mappings
+  if (businessType === 'Real Estate') {
+    if (theme === 'Luxury Villas') return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Urban Apartments') return 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Commercial') return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Supermarket / Grocery') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Premium') return 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Organic') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1560159813-f66d40510006?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Noir') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80&grayscale';
+    if (theme === 'Pop') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80&sat=200';
+  }
+
+  if (businessType === 'Retail Store') {
+    if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimalist') return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Streetwear') return 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Tech Gadget') return 'https://images.unsplash.com/photo-1531297172864-45d1b11e2fb9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Organic Store') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Stationery / Books') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Ethereal') return 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Fancy Store') {
+    if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1600164318933-2ebf454c502f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Noir') return 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Pop') return 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Chicken / Meat Stall') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1607623814075-e51df1bd682f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Premium') return 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Rustic') return 'https://images.unsplash.com/photo-1615937657715-bc7b4b7962c1?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1563514757303-a1286c757c91?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Scrap Dealer') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1558611997-60af99839eb9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Corporate') return 'https://images.unsplash.com/photo-1579389083078-4e7018379f7e?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Eco') return 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80&sat=-100';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1498084393753-b411b2d26b34?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Textiles / Garments') {
+    if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1537832816519-689ad163238b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Vintage') return 'https://images.unsplash.com/photo-1528255915607-9012fda0f838?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Consulting') {
+    if (theme === 'Corporate') return 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Creative Agency') return 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Tech Startup') return 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Management') return 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Legal Firm') return 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Other') {
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1507090960745-b32f65d3113a?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Noir') return 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Pop') return 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Corporate') return 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80';
+  }
+
+  // Fallback to legacy switch if not covered by specific category logic
   switch (theme) {
     case 'Fine Dining': return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
     case 'Casual Eats': return 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80';
@@ -43,13 +154,17 @@ const getThemeThumbnail = (theme: string, businessType?: string) => {
     case 'CrossFit Box': return 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=800&q=80';
     case 'Luxury Health Club': return 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80';
     case 'Combat & MMA Gym': return 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80';
-    default:
-      if (businessType === 'Restaurant') return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
-      if (businessType === 'Cafe / Bakery') return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80';
-      if (businessType?.includes('Salon') || businessType?.includes('Saloon')) return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80';
-      if (businessType?.includes('Gym')) return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
-      return 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80';
   }
+
+  // Fallback to category default
+  if (businessType && defaults[businessType]) {
+    return defaults[businessType];
+  }
+
+  // Final fallback
+  if (businessType?.includes('Salon') || businessType?.includes('Saloon')) return defaults['Salon'];
+  if (businessType?.includes('Gym')) return defaults['Gym'];
+  return 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80';
 };
 
 export default function Dashboard() {

@@ -950,42 +950,49 @@ export default function LandingPage() {
             <div className="relative w-full h-[450px] md:h-[550px] overflow-hidden rounded-2xl bg-black/40 border border-zinc-800/50">
               <InfiniteMenu 
                 items={[
-                  {
-                    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Cafe & Restaurant',
-                    description: 'Warm, appetizing layout style.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Retail Boutique',
-                    description: 'Elegant fashion storefront.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Fitness Gym',
-                    description: 'High-energy, bold designs.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Real Estate',
-                    description: 'Premium property listings.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Eco & Scrap',
-                    description: 'Clean eco-friendly grids.'
-                  },
-                  {
-                    image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&h=600&q=80',
-                    link: '/register',
-                    title: 'Stationery',
-                    description: 'Playful, creative showcases.'
-                  }
+                  { image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Bistro', description: 'Warm, appetizing layout style.' },
+                  { image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Retail Boutique', description: 'Elegant fashion storefront.' },
+                  { image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Fitness Gym', description: 'High-energy, bold designs.' },
+                  { image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Luxury Villas', description: 'Premium property listings.' },
+                  { image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Eco & Scrap', description: 'Clean eco-friendly grids.' },
+                  { image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Stationery', description: 'Playful, creative showcases.' },
+                  { image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Fine Dining', description: 'Exquisite culinary presentations.' },
+                  { image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Casual Eats', description: 'Relaxed and inviting design.' },
+                  { image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Cozy Cafe', description: 'Comfortable coffee shop vibes.' },
+                  { image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Modern Bakery', description: 'Fresh and clean aesthetics.' },
+                  { image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Artisan', description: 'Handcrafted premium look.' },
+                  { image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Classic Barbershop', description: 'Vintage grooming style.' },
+                  { image: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Modern Saloon', description: 'Sleek beauty layouts.' },
+                  { image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Vintage Barber', description: 'Retro aesthetic for men.' },
+                  { image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Royal Saloon', description: 'Luxurious pampering design.' },
+                  { image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Glamour Beauty', description: 'High-end cosmetics shop.' },
+                  { image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Zen Yoga Studio', description: 'Peaceful and calm layouts.' },
+                  { image: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'CrossFit Box', description: 'Intense workout energy.' },
+                  { image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Luxury Health Club', description: 'Premium wellness center.' },
+                  { image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Combat & MMA Gym', description: 'Fierce and dark themes.' },
+                  { image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Urban Apartments', description: 'Modern city living.' },
+                  { image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Commercial Real Estate', description: 'Business property listings.' },
+                  { image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Modern Homes', description: 'Clean architecture.' },
+                  { image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Minimalist Real Estate', description: 'Less is more.' },
+                  { image: 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Classic Estates', description: 'Traditional home layouts.' },
+                  { image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Minimalist Retail', description: 'Sleek product showcases.' },
+                  { image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Streetwear', description: 'Urban fashion edge.' },
+                  { image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Tech Gadgets', description: 'Futuristic product pages.' },
+                  { image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Organic Store', description: 'Natural and earthy tones.' },
+                  { image: 'https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Playful Books', description: 'Fun and colorful.' },
+                  { image: 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Minimal Stationery', description: 'Clean desk setups.' },
+                  { image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Ethereal Designs', description: 'Soft and dreamy layouts.' },
+                  { image: 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Modern Books', description: 'Contemporary reading.' },
+                  { image: 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Fancy Boutique', description: 'Chic and stylish.' },
+                  { image: 'https://images.unsplash.com/photo-1600164318933-2ebf454c502f?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Minimal Fancy', description: 'Understated elegance.' },
+                  { image: 'https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Luxury Fancy', description: 'Opulent and grand.' },
+                  { image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Playful Fancy', description: 'Vibrant and energetic.' },
+                  { image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Classic Fancy', description: 'Timeless and refined.' },
+                  { image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Noir Fancy', description: 'Dark and sophisticated.' },
+                  { image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Pop Fancy', description: 'Bold and eye-catching.' },
+                  { image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Modern Butcher', description: 'Clean lines for meat stalls.' },
+                  { image: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Playful Butchers', description: 'Approachable and friendly.' },
+                  { image: 'https://images.unsplash.com/photo-1615937657715-bc7b4b7962c1?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Rustic Butchers', description: 'Traditional market feel.' }
                 ]}
                 scale={0.8}
               />
