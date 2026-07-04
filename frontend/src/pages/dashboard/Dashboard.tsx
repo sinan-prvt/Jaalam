@@ -87,7 +87,7 @@ export default function Dashboard() {
     'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
-    'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
+    'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Custom']
   };
   

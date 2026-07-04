@@ -61,6 +61,12 @@ import CommercialTheme from '../../components/themes/realestate/CommercialTheme'
 import ModernRealEstateTheme from '../../components/themes/realestate/ModernRealEstateTheme';
 import MinimalRealEstateTheme from '../../components/themes/realestate/MinimalRealEstateTheme';
 import ClassicRealEstateTheme from '../../components/themes/realestate/ClassicRealEstateTheme';
+import CorporateConsultingTheme from '../../components/themes/consulting/CorporateConsultingTheme';
+import CreativeAgencyTheme from '../../components/themes/consulting/CreativeAgencyTheme';
+import TechStartupTheme from '../../components/themes/consulting/TechStartupTheme';
+import ManagementConsultingTheme from '../../components/themes/consulting/ManagementConsultingTheme';
+import MinimalConsultingTheme from '../../components/themes/consulting/MinimalConsultingTheme';
+import LegalFirmTheme from '../../components/themes/consulting/LegalFirmTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 
 export default function LivePreview() {
@@ -227,6 +233,16 @@ export default function LivePreview() {
     if (data.website.theme === 'Vintage') return <VintageTextilesTheme website={data.website} content={data.content} />;
     if (data.website.theme === 'Playful') return <PlayfulTextilesTheme website={data.website} content={data.content} />;
     return <ModernTextilesTheme website={data.website} content={data.content} />;
+  }
+
+  if (data.website.business_type === 'Consulting') {
+    if (data.website.theme === 'Corporate') return <CorporateConsultingTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Creative Agency') return <CreativeAgencyTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Tech Startup') return <TechStartupTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Management') return <ManagementConsultingTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Minimal') return <MinimalConsultingTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Legal Firm') return <LegalFirmTheme website={data.website} content={data.content} />;
+    return <CorporateConsultingTheme website={data.website} content={data.content} />;
   }
 
   // Fallback for others

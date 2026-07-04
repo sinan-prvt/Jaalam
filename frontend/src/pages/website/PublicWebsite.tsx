@@ -64,6 +64,12 @@ import CommercialTheme from '../../components/themes/realestate/CommercialTheme'
 import ModernRealEstateTheme from '../../components/themes/realestate/ModernRealEstateTheme';
 import MinimalRealEstateTheme from '../../components/themes/realestate/MinimalRealEstateTheme';
 import ClassicRealEstateTheme from '../../components/themes/realestate/ClassicRealEstateTheme';
+import CorporateConsultingTheme from '../../components/themes/consulting/CorporateConsultingTheme';
+import CreativeAgencyTheme from '../../components/themes/consulting/CreativeAgencyTheme';
+import TechStartupTheme from '../../components/themes/consulting/TechStartupTheme';
+import ManagementConsultingTheme from '../../components/themes/consulting/ManagementConsultingTheme';
+import MinimalConsultingTheme from '../../components/themes/consulting/MinimalConsultingTheme';
+import LegalFirmTheme from '../../components/themes/consulting/LegalFirmTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 
 export default function PublicWebsite() {
@@ -275,6 +281,16 @@ export default function PublicWebsite() {
     if (website.theme === 'Vintage') return <VintageTextilesTheme website={website} content={content} />;
     if (website.theme === 'Playful') return <PlayfulTextilesTheme website={website} content={content} />;
     return <ModernTextilesTheme website={website} content={content} />;
+  }
+
+  if (website.business_type === 'Consulting') {
+    if (website.theme === 'Corporate') return <CorporateConsultingTheme website={website} content={content} />;
+    if (website.theme === 'Creative Agency') return <CreativeAgencyTheme website={website} content={content} />;
+    if (website.theme === 'Tech Startup') return <TechStartupTheme website={website} content={content} />;
+    if (website.theme === 'Management') return <ManagementConsultingTheme website={website} content={content} />;
+    if (website.theme === 'Minimal') return <MinimalConsultingTheme website={website} content={content} />;
+    if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
+    return <CorporateConsultingTheme website={website} content={content} />;
   }
 
   const contact = content?.contact_info || {};

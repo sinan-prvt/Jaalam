@@ -17,7 +17,7 @@ const categoryThemes: Record<string, string[]> = {
   'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
   'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
   'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
-  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
+  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
   'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
   'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],
@@ -881,7 +881,9 @@ export default function WebsiteEditor() {
                             disabled={idx === 0 || isHero || (idx === 1 && arr[0] === 'hero')}
                             onClick={() => {
                               const newOrder = [...arr];
-                              [newOrder[idx - 1], newOrder[idx]] = [newOrder[idx], newOrder[idx - 1]];
+                              const temp = newOrder[idx - 1];
+                              newOrder[idx - 1] = newOrder[idx];
+                              newOrder[idx] = temp;
                               setContent({ ...content, settings_json: { ...(content.settings_json || {}), section_order: newOrder } });
                             }}
                             className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
@@ -892,7 +894,9 @@ export default function WebsiteEditor() {
                             disabled={idx === arr.length - 1 || isHero}
                             onClick={() => {
                               const newOrder = [...arr];
-                              [newOrder[idx + 1], newOrder[idx]] = [newOrder[idx], newOrder[idx + 1]];
+                              const temp = newOrder[idx + 1];
+                              newOrder[idx + 1] = newOrder[idx];
+                              newOrder[idx] = temp;
                               setContent({ ...content, settings_json: { ...(content.settings_json || {}), section_order: newOrder } });
                             }}
                             className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
