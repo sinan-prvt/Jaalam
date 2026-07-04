@@ -63,6 +63,25 @@ class UserViewSet(viewsets.ModelViewSet):
         logout(request)
         return Response({"message": "Logged out successfully"})
 
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def toggle_block(self, request, pk=None):
+        user = self.get_object()
+        if user == request.user:
+            return Response({"error": "Cannot block yourself"}, status=400)
+        user.is_active = not user.is_active
+        user.save()
+        return Response({"status": "blocked" if not user.is_active else "unblocked"})
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def toggle_role(self, request, pk=None):
+        user = self.get_object()
+        if user == request.user:
+            return Response({"error": "Cannot change your own role"}, status=400)
+        user.is_superuser = not user.is_superuser
+        user.is_staff = user.is_superuser
+        user.save()
+        return Response({"role": "Admin" if user.is_superuser else "User"})
+
     @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         if request.method == 'GET':

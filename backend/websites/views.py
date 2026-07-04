@@ -17,7 +17,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         if self.action in ['public', 'retrieve']:
             return Website.objects.all()
         if self.request.user.is_authenticated:
-            if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
+            if self.request.user.is_superuser:
                 return Website.objects.all()
             return Website.objects.filter(user=self.request.user)
         return Website.objects.none()
@@ -37,6 +37,9 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         
         if not website.published:
             return Response({'error': 'Website is not published'}, status=403)
+            
+        if getattr(website, 'is_blocked', False):
+            return Response({'error': 'Website is suspended'}, status=403)
             
         if not hasattr(website, 'content'):
             # Auto-create content if missing even on public view to prevent crashes
@@ -64,6 +67,13 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+        
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def toggle_block(self, request, slug=None):
+        website = self.get_object()
+        website.is_blocked = not getattr(website, 'is_blocked', False)
+        website.save()
+        return Response({"status": "blocked" if website.is_blocked else "unblocked"})
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])

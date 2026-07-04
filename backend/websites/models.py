@@ -7,6 +7,7 @@ class Website(models.Model):
     theme = models.CharField(max_length=50, default='Modern')
     business_type = models.CharField(max_length=100)
     published = models.BooleanField(default=False)
+    is_blocked = models.BooleanField(default=False)
     visitors_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

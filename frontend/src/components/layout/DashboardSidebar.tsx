@@ -1,7 +1,9 @@
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck } from 'lucide-react';
 
 interface User {
   username?: string;
+  is_superuser?: boolean;
 }
 
 interface DashboardSidebarProps {
@@ -46,6 +48,20 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                 )}
               </button>
             ))}
+
+            {user?.is_superuser && (
+              <div className="mt-4 pt-4 border-t border-slate-200/50">
+                <Link 
+                  to="/admin"
+                  className="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-3 rounded-xl transition-all font-bold text-indigo-600 hover:bg-indigo-50 group"
+                >
+                  <div className="text-indigo-500 group-hover:scale-110 transition-transform duration-300">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <span className="hidden lg:block text-sm">Admin Portal</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         
@@ -57,7 +73,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               </div>
               <div className="flex flex-col hidden lg:flex">
                 <span className="text-xs font-black text-slate-900 truncate max-w-[100px]">{user?.username}</span>
-                <span className="text-[10px] text-indigo-600 font-bold uppercase tracking-wider">Creator PRO</span>
+                <span className="text-[10px] text-indigo-600 font-bold uppercase tracking-wider">{user?.is_superuser ? 'SYSTEM ADMIN' : 'Creator PRO'}</span>
               </div>
             </div>
             <button onClick={handleLogout} className="text-slate-400 hover:text-rose-500 transition-colors p-2 hover:bg-rose-50 rounded-xl bg-white/50 shadow-sm" title="Log out">
