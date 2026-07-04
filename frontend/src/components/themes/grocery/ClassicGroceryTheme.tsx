@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { ShoppingBasket, MapPin, Phone, Tag } from 'lucide-react';
+import { ShoppingBasket, MapPin, Phone, Tag, Menu, X } from 'lucide-react';
 
 export default function ClassicGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Family Supermarket';
@@ -35,15 +37,29 @@ export default function ClassicGroceryTheme({ website, content }: any) {
       <header className="bg-[#E50914] text-white sticky top-0 z-50 border-b-4 border-[#0033A0]">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-2">
-              {!content?.settings_json?.logo_image && <ShoppingBasket size={32} className="text-[#FFD100]" />}
-              <span className="font-classic text-3xl font-black italic tracking-tighter shadow-sm">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-10 md:h-12 w-auto object-contain" /> : siteName}</span>
+            <div className="flex items-center gap-2 min-w-0 pr-4">
+              {content?.settings_json?.logo_image ? (
+                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-12 w-auto object-contain shrink-0" />
+              ) : (
+                <ShoppingBasket className="text-[#FFD100] shrink-0 h-7 w-7 md:h-8 md:w-8" />
+              )}
+              <span className="font-classic text-2xl md:text-3xl font-black italic tracking-tighter shadow-sm truncate block">{siteName}</span>
             </div>
+            <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
             <div className="hidden md:flex items-center gap-6 font-classic font-bold text-sm">
               <a href="#offers" className="hover:text-[#FFD100] transition-colors flex items-center gap-1"><Tag size={16}/> Weekly Offers</a>
               <a href="#visit" className="hover:text-[#FFD100] transition-colors">Find Us</a>
             </div>
           </div>
+          
+          {isMenuOpen && (
+            <div className="md:hidden py-4 border-t border-white/20 flex flex-col gap-4 font-classic font-bold text-sm">
+              <a href="#offers" onClick={() => setIsMenuOpen(false)} className="hover:text-[#FFD100] py-2 transition-colors flex items-center gap-2"><Tag size={16}/> Weekly Offers</a>
+              <a href="#visit" onClick={() => setIsMenuOpen(false)} className="hover:text-[#FFD100] py-2 transition-colors">Find Us</a>
+            </div>
+          )}
         </div>
       </header>
 
@@ -165,8 +181,13 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
+                <div key={i} onClick={() => setSelectedGalleryImage(img)} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer group relative">
                   <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="bg-white text-black px-6 py-2 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      View
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -196,30 +217,73 @@ export default function ClassicGroceryTheme({ website, content }: any) {
           <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Get in Touch</h2>
             <p className="text-gray-600 mb-8 max-w-lg mx-auto">Have questions or want to reach out? Contact our support team.</p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+            <div className="flex flex-col lg:flex-row gap-8">
+              <div className="w-full lg:w-1/3 flex flex-col gap-6 text-left">
+                <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <span className="text-3xl">📞</span>
+                  <div>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Phone</span>
+                    <span className="font-bold text-gray-900 text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <span className="text-3xl">✉️</span>
+                  <div>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Email</span>
+                    <span className="font-bold text-gray-900 text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <span className="text-3xl">📍</span>
+                  <div>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Address</span>
+                    <span className="font-bold text-gray-900 text-lg">{content.contact_info?.address || '123 Main Street'}</span>
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
+                  <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-4">Connect With Us</span>
+                    <div className="flex justify-center gap-4">
+                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">FB</a>}
+                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">IG</a>}
+                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">TW</a>}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+              
+              <div className="w-full lg:w-2/3 flex flex-col gap-6">
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 className="font-bold text-xl mb-4 text-gray-900 flex items-center gap-2"><span>🕒</span> Store Hours</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600 font-medium">
+                    {content.contact_info?.hours ? (
+                      <div className="col-span-1 md:col-span-2 p-3 bg-white rounded shadow-sm whitespace-pre-wrap">{content.contact_info.hours}</div>
+                    ) : (
+                      <>
+                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Monday - Friday</span> <span>8:00 AM - 9:00 PM</span></div>
+                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Saturday</span> <span>9:00 AM - 8:00 PM</span></div>
+                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Sunday</span> <span className="text-[#E50914] font-bold">Closed</span></div>
+                      </>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Embedded Map */}
+                <div className="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-sm border border-gray-200 relative flex-1 min-h-[250px]">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen={false} 
+                    loading="lazy" 
+                    title="Store Location"
+                    className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+                  ></iframe>
+                </div>
               </div>
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
-              </div>
-            </div>
-            
-            {/* Embedded Map */}
-            <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative mt-8">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2798902705!2d-74.25986548248684!3d40.697670067823786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1689264426578!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-              ></iframe>
             </div>
             
           </div>
@@ -251,6 +315,19 @@ export default function ClassicGroceryTheme({ website, content }: any) {
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+
+      {/* Gallery Lightbox */}
+      {selectedGalleryImage && (
+        <div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setSelectedGalleryImage(null)}>
+          <button 
+            className="absolute top-6 right-6 text-white bg-white/20 hover:bg-white/40 rounded-full w-12 h-12 flex items-center justify-center transition-colors border border-white/30"
+            onClick={(e) => { e.stopPropagation(); setSelectedGalleryImage(null); }}
+          >
+            <span className="text-2xl font-bold">×</span>
+          </button>
+          <img src={selectedGalleryImage} alt="Gallery full size" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" />
+        </div>
+      )}
     </div>
   );
 }

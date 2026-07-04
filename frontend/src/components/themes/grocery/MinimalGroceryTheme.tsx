@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
+import { Menu, X } from 'lucide-react';
 
 export default function MinimalGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+  const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'essential.';
@@ -33,12 +36,30 @@ export default function MinimalGroceryTheme({ website, content }: any) {
 
       {/* Navigation */}
       <nav className="p-4 md:p-12 flex flex-col md:flex-row justify-between items-center fixed w-full top-0 bg-white/90 backdrop-blur z-50 gap-4 md:gap-0">
-        <span className="font-min font-bold text-2xl tracking-tighter whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-center md:text-left">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain mx-auto md:mx-0" /> : siteName}</span>
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-medium whitespace-nowrap">
+          <div className="flex items-center gap-3 min-w-0 pr-4">
+            {content?.settings_json?.logo_image ? (
+              <img src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain grayscale shrink-0" />
+            ) : (
+              <div className="w-6 h-6 md:w-8 md:h-8 bg-black flex items-center justify-center shrink-0">
+                <span className="text-white font-bold text-[10px] md:text-xs">M</span>
+              </div>
+            )}
+            <span className="text-lg md:text-2xl font-bold tracking-tighter uppercase truncate block">{siteName}</span>
+          </div>
+          <button className="md:hidden text-black" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        <div className="hidden md:flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-medium whitespace-nowrap">
           <a href="#shop" className="hover:opacity-50 transition-opacity">shop</a>
           <a href="#about" className="hover:opacity-50 transition-opacity">about</a>
-          <span>cart(0)</span>
         </div>
+        
+        {isMenuOpen && (
+          <div className="md:hidden w-full mt-4 pt-4 border-t border-black/10 flex flex-col gap-4 text-sm font-medium">
+            <a href="#shop" onClick={() => setIsMenuOpen(false)} className="hover:opacity-50 py-2 transition-opacity">shop</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="hover:opacity-50 py-2 transition-opacity">about</a>
+          </div>
+        )}
       </nav>
 
       {/* Hero */}
@@ -64,9 +85,6 @@ export default function MinimalGroceryTheme({ website, content }: any) {
                  <span className="font-min font-bold">{p.price}</span>
               </div>
               <div className="text-gray-400 text-sm mb-4">{p.size}</div>
-              <button className="mt-auto border border-black hover:bg-black hover:text-white py-3 px-4 font-min text-sm transition-colors text-center">
-                add to cart
-              </button>
             </div>
           ))}
         </div>
@@ -81,7 +99,17 @@ export default function MinimalGroceryTheme({ website, content }: any) {
 
       </section>
 
-      
+      {/* Injected About Section */}
+      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
+        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
+              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
+            </p>
+          </div>
+        </section>
+      )}
       
       {/* Injected Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
@@ -119,8 +147,11 @@ export default function MinimalGroceryTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
+                  <img src={img} alt="Gallery item" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white font-bold tracking-widest uppercase text-sm border border-white px-4 py-2 rounded-full">View</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -131,21 +162,70 @@ export default function MinimalGroceryTheme({ website, content }: any) {
       {/* Injected Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
         <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
+          <div className="container mx-auto max-w-5xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
             <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
-            <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📞</span>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-12">
+              <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
+                <span className="text-3xl mb-3">📞</span>
                 <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">✉️</span>
+              <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
+                <span className="text-3xl mb-3">✉️</span>
                 <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
               </div>
-              <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
-                <span className="text-2xl mb-2">📍</span>
+              <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
+                <span className="text-3xl mb-3">📍</span>
                 <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+              <div className="space-y-8">
+                <div className="bg-black/5 p-6 rounded-xl">
+                  <h3 className="font-bold text-xl mb-4 text-black flex items-center gap-2"><span>🕒</span> Working Hours</h3>
+                  <ul className="space-y-3 opacity-80 text-black font-medium">
+                    {content.contact_info?.hours ? (
+                      <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
+                    ) : (
+                      <>
+                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Monday - Friday</span> <span>9:00 AM - 8:00 PM</span></li>
+                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
+                        <li className="flex justify-between"><span>Sunday</span> <span className="text-red-500 font-bold">Closed</span></li>
+                      </>
+                    )}
+                  </ul>
+                </div>
+                
+                <div className="bg-black/5 p-6 rounded-xl">
+                  <h3 className="font-bold text-xl mb-4 text-black flex items-center gap-2"><span>🌐</span> Connect With Us</h3>
+                  <div className="flex gap-4">
+                    <a href="#" className="p-3 bg-white rounded-full hover:bg-gray-100 hover:scale-110 transition-all shadow-sm text-blue-600">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href="#" className="p-3 bg-white rounded-full hover:bg-gray-100 hover:scale-110 transition-all shadow-sm text-pink-600">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" className="p-3 bg-white rounded-full hover:bg-gray-100 hover:scale-110 transition-all shadow-sm text-blue-400">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-black/5 p-3 rounded-xl h-full min-h-[350px]">
+                <iframe 
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0, borderRadius: '0.5rem' }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Store Location"
+                  className="min-h-[350px]"
+                ></iframe>
               </div>
             </div>
           </div>
@@ -197,6 +277,22 @@ export default function MinimalGroceryTheme({ website, content }: any) {
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      
+      {/* Gallery Lightbox Modal */}
+      {selectedGalleryImage && (
+        <div 
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity"
+          onClick={() => setSelectedGalleryImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-2 z-10"
+            onClick={() => setSelectedGalleryImage(null)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl relative" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </div>
   );
 }

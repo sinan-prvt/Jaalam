@@ -50,6 +50,8 @@ import PremiumGroceryTheme from '../../components/themes/grocery/PremiumGroceryT
 import MinimalGroceryTheme from '../../components/themes/grocery/MinimalGroceryTheme';
 import OrganicGroceryTheme from '../../components/themes/grocery/OrganicGroceryTheme';
 import PlayfulGroceryTheme from '../../components/themes/grocery/PlayfulGroceryTheme';
+import NoirGroceryTheme from '../../components/themes/grocery/NoirGroceryTheme';
+import PopGroceryTheme from '../../components/themes/grocery/PopGroceryTheme';
 import ModernTextilesTheme from '../../components/themes/textiles/ModernTextilesTheme';
 import BoutiqueTextilesTheme from '../../components/themes/textiles/BoutiqueTextilesTheme';
 import MinimalTextilesTheme from '../../components/themes/textiles/MinimalTextilesTheme';
@@ -261,6 +263,8 @@ export default function PublicWebsite() {
     if (website.theme === 'Minimal') return <MinimalGroceryTheme website={website} content={content} />;
     if (website.theme === 'Organic') return <OrganicGroceryTheme website={website} content={content} />;
     if (website.theme === 'Playful') return <PlayfulGroceryTheme website={website} content={content} />;
+    if (website.theme === 'Noir') return <NoirGroceryTheme website={website} content={content} />;
+    if (website.theme === 'Pop') return <PopGroceryTheme website={website} content={content} />;
     return <ModernGroceryTheme website={website} content={content} />;
   }
 

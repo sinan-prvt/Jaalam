@@ -88,7 +88,16 @@ export default function ModernGroceryTheme({ website, content }: any) {
               className="text-slate-500 cursor-pointer md:hidden" 
               onClick={() => setIsMenuOpen(!isMenuOpen)} 
             />
-            <span className="font-modern text-2xl font-bold text-emerald-600 tracking-tight">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+            <div className="flex items-center gap-3 min-w-0 pr-4">
+              {content?.settings_json?.logo_image ? (
+                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-12 w-auto object-contain shrink-0" />
+              ) : (
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald-600 rounded-xl flex items-center justify-center rotate-3 shrink-0">
+                  <ShoppingBag className="text-white h-4 w-4 md:h-5 md:w-5" />
+                </div>
+              )}
+              <span className="font-modern text-xl md:text-3xl font-bold tracking-tight text-slate-900 truncate block">{siteName}</span>
+            </div>
           </div>
           
           <div className="hidden md:flex flex-1 max-w-2xl relative">
@@ -250,53 +259,69 @@ export default function ModernGroceryTheme({ website, content }: any) {
             </div>
           </div>
 
-          <div className="flex justify-center gap-4 mb-8">
-            {content.social_links?.facebook && (
-              <a href={content.social_links.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                <Facebook size={20} />
-              </a>
-            )}
-            {content.social_links?.instagram && (
-              <a href={content.social_links.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                <Instagram size={20} />
-              </a>
-            )}
-            {content.social_links?.twitter && (
-              <a href={content.social_links.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                <Twitter size={20} />
-              </a>
-            )}
-            {content.social_links?.whatsapp && (
-              <a href={content.social_links.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                <WhatsApp size={20} />
-              </a>
-            )}
-            {(!content.social_links?.facebook && !content.social_links?.instagram && !content.social_links?.twitter && !content.social_links?.whatsapp) && (
-              <>
-                <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                  <Facebook size={20} />
-                </a>
-                <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                  <Instagram size={20} />
-                </a>
-                <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                  <WhatsApp size={20} />
-                </a>
-              </>
-            )}
-          </div>
+          <div className="flex flex-col md:flex-row gap-8 mb-8 text-left">
+            <div className="flex-1 space-y-6">
+              <h3 className="font-modern text-xl font-bold text-slate-900 mb-4">Connect With Us</h3>
+              <div className="flex gap-4">
+                {content.contact_info?.facebook && (
+                  <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                    <Facebook size={20} />
+                  </a>
+                )}
+                {content.contact_info?.instagram && (
+                  <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                    <Instagram size={20} />
+                  </a>
+                )}
+                {content.contact_info?.twitter && (
+                  <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                    <Twitter size={20} />
+                  </a>
+                )}
+                {(!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter) && (
+                  <>
+                    <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                      <Facebook size={20} />
+                    </a>
+                    <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                      <Instagram size={20} />
+                    </a>
+                  </>
+                )}
+              </div>
+              
+              <div className="mt-8 pt-8 border-t border-emerald-200/50">
+                <h3 className="font-modern text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Clock className="text-emerald-600" size={24} /> Store Hours
+                </h3>
+                <ul className="space-y-3 text-slate-700">
+                  {content.contact_info?.hours ? (
+                    <li className="whitespace-pre-wrap font-medium text-slate-900">{content.contact_info.hours}</li>
+                  ) : (
+                    <>
+                      <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Monday - Friday</span> <span className="font-medium text-slate-900">8:00 AM - 10:00 PM</span></li>
+                      <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Saturday</span> <span className="font-medium text-slate-900">9:00 AM - 9:00 PM</span></li>
+                      <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-emerald-600">Closed</span></li>
+                    </>
+                  )}
+                </ul>
+              </div>
+            </div>
 
-          <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden border-4 border-white shadow-md relative">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2798902705!2d-74.25986548248684!3d40.697670067823786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1689264426578!5m2!1sen!2sin" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-            ></iframe>
+            <div className="flex-1 min-h-[300px]">
+              <div className="w-full h-full rounded-2xl overflow-hidden border-4 border-white shadow-md relative">
+                <iframe 
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  title="Store Location"
+                  className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+                ></iframe>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -15,7 +15,7 @@ export default function AllProductsModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[90] bg-white overflow-y-auto">
+    <div className="fixed inset-0 z-[90] bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       <div className="max-w-7xl mx-auto px-6 py-20 relative">
         <button 
           className="fixed top-8 right-8 text-black hover:text-gray-600 z-[100] bg-gray-100 rounded-full p-2 shadow-md transition-colors" 

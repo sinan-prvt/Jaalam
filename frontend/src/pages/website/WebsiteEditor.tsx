@@ -20,6 +20,7 @@ const categoryThemes: Record<string, string[]> = {
   'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Custom'],
   'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
+  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],
   'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop']
 };
 
