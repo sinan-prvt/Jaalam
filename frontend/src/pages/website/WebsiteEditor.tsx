@@ -21,7 +21,7 @@ const categoryThemes: Record<string, string[]> = {
   'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
   'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],
-  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop']
+  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
 };
 
 const ImageUpload = ({ value, onChange, label, hint }: any) => {

@@ -67,6 +67,13 @@ import TechStartupTheme from '../../components/themes/consulting/TechStartupThem
 import ManagementConsultingTheme from '../../components/themes/consulting/ManagementConsultingTheme';
 import MinimalConsultingTheme from '../../components/themes/consulting/MinimalConsultingTheme';
 import LegalFirmTheme from '../../components/themes/consulting/LegalFirmTheme';
+
+import ModernOtherTheme from '../../components/themes/other/ModernOtherTheme';
+import ClassicOtherTheme from '../../components/themes/other/ClassicOtherTheme';
+import MinimalOtherTheme from '../../components/themes/other/MinimalOtherTheme';
+import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
+import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
+import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 
 export default function LivePreview() {
@@ -243,6 +250,15 @@ export default function LivePreview() {
     if (data.website.theme === 'Minimal') return <MinimalConsultingTheme website={data.website} content={data.content} />;
     if (data.website.theme === 'Legal Firm') return <LegalFirmTheme website={data.website} content={data.content} />;
     return <CorporateConsultingTheme website={data.website} content={data.content} />;
+  }
+
+  if (data.website.business_type === 'Other') {
+    if (data.website.theme === 'Classic') return <ClassicOtherTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Minimal') return <MinimalOtherTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Noir') return <NoirOtherTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Pop') return <PopOtherTheme website={data.website} content={data.content} />;
+    if (data.website.theme === 'Corporate') return <CorporateOtherTheme website={data.website} content={data.content} />;
+    return <ModernOtherTheme website={data.website} content={data.content} />;
   }
 
   // Fallback for others

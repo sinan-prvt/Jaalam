@@ -88,7 +88,7 @@ export default function Dashboard() {
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-    'Other': ['Modern', 'Classic', 'Minimal', 'Custom']
+    'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
   
   const [newTheme, setNewTheme] = useState(categoryThemes['Restaurant'][0]);

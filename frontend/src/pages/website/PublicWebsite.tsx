@@ -70,6 +70,13 @@ import TechStartupTheme from '../../components/themes/consulting/TechStartupThem
 import ManagementConsultingTheme from '../../components/themes/consulting/ManagementConsultingTheme';
 import MinimalConsultingTheme from '../../components/themes/consulting/MinimalConsultingTheme';
 import LegalFirmTheme from '../../components/themes/consulting/LegalFirmTheme';
+
+import ModernOtherTheme from '../../components/themes/other/ModernOtherTheme';
+import ClassicOtherTheme from '../../components/themes/other/ClassicOtherTheme';
+import MinimalOtherTheme from '../../components/themes/other/MinimalOtherTheme';
+import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
+import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
+import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 
 export default function PublicWebsite() {
@@ -291,6 +298,15 @@ export default function PublicWebsite() {
     if (website.theme === 'Minimal') return <MinimalConsultingTheme website={website} content={content} />;
     if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
     return <CorporateConsultingTheme website={website} content={content} />;
+  }
+
+  if (website.business_type === 'Other') {
+    if (website.theme === 'Classic') return <ClassicOtherTheme website={website} content={content} />;
+    if (website.theme === 'Minimal') return <MinimalOtherTheme website={website} content={content} />;
+    if (website.theme === 'Noir') return <NoirOtherTheme website={website} content={content} />;
+    if (website.theme === 'Pop') return <PopOtherTheme website={website} content={content} />;
+    if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
+    return <ModernOtherTheme website={website} content={content} />;
   }
 
   const contact = content?.contact_info || {};
