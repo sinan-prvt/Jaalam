@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3 } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3, ShieldCheck, Bell } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
+import NotificationBell from '../../components/ui/NotificationBell';
+import NotificationsPage from './NotificationsPage';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
@@ -364,8 +366,13 @@ export default function Dashboard() {
                <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
                <span className="text-xl font-black text-slate-900 tracking-tight">Jaalam</span>
             </div>
-            <div className="w-8 h-8 rounded-lg bg-white border border-white shadow-sm flex items-center justify-center text-slate-700 font-black text-sm">
-               {user?.username?.[0]?.toUpperCase()}
+            <div className="flex items-center gap-3">
+               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-2">
+                 <Bell size={20} />
+               </button>
+               <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none">
+                 {user?.username?.[0]?.toUpperCase()}
+               </button>
             </div>
           </div>
 
@@ -759,6 +766,9 @@ export default function Dashboard() {
           )}
 
           {/* Create Modal */}
+          {activeTab === 'Notifications' && (
+            <NotificationsPage />
+          )}
           {isCreating && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
               <div className="bg-white/90 backdrop-blur-2xl border border-white rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">

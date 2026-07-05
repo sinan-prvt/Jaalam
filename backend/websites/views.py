@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from .models import Website, WebsiteContent
 from .serializers import WebsiteSerializer, WebsiteContentSerializer
 from .ai_service import generate_website_json, modify_website_json
+from users.notifications import create_notification, notify_all_admins
 
 class WebsiteViewSet(viewsets.ModelViewSet):
     serializer_class = WebsiteSerializer
@@ -30,6 +31,22 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             hero_title=f"Welcome to {website.slug}",
             about_text="Add your business description here."
         )
+        
+        notify_all_admins(
+            title="New Website Created",
+            message=f"User {self.request.user.username} created a new website: {website.slug}",
+            notification_type="new_website"
+        )
+
+    def perform_destroy(self, instance):
+        if self.request.user.is_superuser and instance.user != self.request.user:
+            create_notification(
+                user=instance.user,
+                title="Website Deleted",
+                message=f"Your website '{instance.slug}' has been permanently deleted by an administrator.",
+                notification_type="website_deleted"
+            )
+        super().perform_destroy(instance)
 
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
     def public(self, request, slug=None):
@@ -75,6 +92,15 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         website = self.get_object()
         website.is_blocked = not getattr(website, 'is_blocked', False)
         website.save()
+        
+        status_text = "suspended" if website.is_blocked else "restored"
+        create_notification(
+            user=website.user,
+            title=f"Website {status_text.capitalize()}",
+            message=f"Your website '{website.slug}' has been {status_text} by an administrator.",
+            notification_type="website_status"
+        )
+        
         return Response({"status": "blocked" if website.is_blocked else "unblocked"})
 
 @api_view(['POST'])

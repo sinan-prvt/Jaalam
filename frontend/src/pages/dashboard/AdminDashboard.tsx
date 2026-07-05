@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Plus } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import NotificationBell from '../../components/ui/NotificationBell';
+import NotificationsPage from './NotificationsPage';
 
 interface AdminUser {
   id: number;
@@ -32,7 +34,7 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [websites, setWebsites] = useState<Website[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications'>('overview');
   const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
   const [selectedUserForWebsites, setSelectedUserForWebsites] = useState<AdminUser | null>(null);
   const [websiteSortBy, setWebsiteSortBy] = useState<'newest' | 'visitors'>('newest');
@@ -120,8 +122,11 @@ export default function AdminDashboard() {
   const handleDeleteWebsite = async (slug: string) => {
     if (!window.confirm(`Are you sure you want to delete website ${slug}?`)) return;
     try {
-      await axios.delete(`http://localhost:8000/api/websites/${slug}/`);
+      await axios.delete(`http://localhost:8000/api/websites/${slug}/?all=true`, { withCredentials: true });
       setWebsites(websites.filter(w => w.slug !== slug));
+      if (selectedProjectDetails?.slug === slug) {
+        setSelectedProjectDetails(null);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -179,6 +184,13 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-3"><Globe size={18} /> Websites</div>
             <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{websites.length}</span>
           </button>
+
+          <button 
+            onClick={() => { setActiveTab('notifications'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'notifications' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <ShieldAlert size={18} /> Support Tickets
+          </button>
         </div>
 
         <div className="p-4 bg-slate-950 border-t border-slate-800">
@@ -217,8 +229,11 @@ export default function AdminDashboard() {
                 />
               </div>
             )}
-            <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-black flex items-center justify-center text-sm border border-primary-200">
-              {user?.username?.[0]?.toUpperCase()}
+            <div className="flex items-center gap-4">
+              <NotificationBell />
+              <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-black flex items-center justify-center text-sm border border-primary-200">
+                {user?.username?.[0]?.toUpperCase()}
+              </div>
             </div>
           </div>
         </header>
@@ -550,6 +565,11 @@ export default function AdminDashboard() {
                   )}
                 </div>
               )}
+            </div>
+          )}
+          {activeTab === 'notifications' && (
+            <div className="h-full flex-1 w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+              <NotificationsPage />
             </div>
           )}
         </div>

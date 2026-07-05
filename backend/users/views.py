@@ -4,7 +4,9 @@ from rest_framework.decorators import action
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
-from .serializers import UserSerializer
+from .serializers import UserSerializer, NotificationSerializer
+from .models import Notification
+from .notifications import create_notification
 
 User = get_user_model()
 
@@ -70,7 +72,16 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"error": "Cannot block yourself"}, status=400)
         user.is_active = not user.is_active
         user.save()
-        return Response({"status": "blocked" if not user.is_active else "unblocked"})
+        
+        status_text = "blocked" if not user.is_active else "unblocked"
+        create_notification(
+            user=user, 
+            title=f"Account {status_text.capitalize()}", 
+            message=f"Your account has been {status_text} by an administrator.",
+            notification_type="account_status"
+        )
+        
+        return Response({"status": status_text})
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
     def toggle_role(self, request, pk=None):
@@ -80,7 +91,16 @@ class UserViewSet(viewsets.ModelViewSet):
         user.is_superuser = not user.is_superuser
         user.is_staff = user.is_superuser
         user.save()
-        return Response({"role": "Admin" if user.is_superuser else "User"})
+        
+        role_text = "Admin" if user.is_superuser else "User"
+        create_notification(
+            user=user, 
+            title="Role Updated", 
+            message=f"Your account role has been changed to {role_text}.",
+            notification_type="role_update"
+        )
+        
+        return Response({"role": role_text})
 
     @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
@@ -92,3 +112,58 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
+            return Notification.objects.all()
+        return self.request.user.notifications.all()
+
+    @action(detail=True, methods=['post'])
+    def reply(self, request, pk=None):
+        notification = self.get_object()
+        content = request.data.get('content')
+        if not content:
+            return Response({"error": "Content is required"}, status=400)
+        
+        from .models import NotificationMessage
+        NotificationMessage.objects.create(
+            notification=notification,
+            sender=request.user,
+            content=content
+        )
+        
+        # If an admin replies, mark the notification as unread so the user gets alerted
+        if request.user != notification.user:
+            notification.is_read = False
+            notification.save()
+        else:
+            # If a user replies, we could create a quick alert for admins (optional, but requested)
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            admins = User.objects.filter(is_superuser=True)
+            for admin in admins:
+                # Create a simple ping notification for admins
+                Notification.objects.create(
+                    user=admin,
+                    title=f"New Reply from {request.user.username}",
+                    message=f"User {request.user.username} replied to ticket: {notification.title}",
+                    notification_type='SYSTEM'
+                )
+
+        return Response({"status": "replied"})
+
+    @action(detail=True, methods=['post'])
+    def mark_read(self, request, pk=None):
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save()
+        return Response({"status": "read"})
+
+    @action(detail=False, methods=['post'])
+    def mark_all_read(self, request):
+        self.get_queryset().update(is_read=True)
+        return Response({"status": "all read"})

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell } from 'lucide-react';
+import NotificationBell from '../ui/NotificationBell';
 
 interface User {
   username?: string;
@@ -18,7 +19,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
   return (
     <>
       {/* COMPACT FLOATING SIDEBAR (Desktop) */}
-      <aside className="w-20 lg:w-[240px] h-[calc(100vh-32px)] my-[16px] ml-[16px] bg-white/70 backdrop-blur-xl border border-white/80 rounded-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex-col justify-between hidden md:flex z-30 overflow-hidden shrink-0">
+      <aside className="w-20 lg:w-[240px] h-[calc(100vh-32px)] my-[16px] ml-[16px] bg-white/70 backdrop-blur-xl border border-white/80 rounded-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex-col justify-between hidden md:flex z-30 shrink-0">
         <div>
           <div className="p-6 flex items-center justify-center lg:justify-start gap-3">
             <img src="/logo.png" className="w-10 h-10 object-contain relative z-10" alt="Jaalam Logo" />
@@ -31,6 +32,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
             {[
               { tab: 'Dashboard', icon: <Grid size={20} />, label: 'Overview' },
               { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites' },
+              { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox' },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
             ].map(item => (
@@ -76,9 +78,12 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                 <span className="text-[10px] text-indigo-600 font-bold uppercase tracking-wider">{user?.is_superuser ? 'SYSTEM ADMIN' : 'Creator PRO'}</span>
               </div>
             </div>
-            <button onClick={handleLogout} className="text-slate-400 hover:text-rose-500 transition-colors p-2 hover:bg-rose-50 rounded-xl bg-white/50 shadow-sm" title="Log out">
-              <LogOut size={16} />
-            </button>
+            <div className="flex items-center gap-1">
+              <NotificationBell isSidebar={true} />
+              <button onClick={handleLogout} className="text-slate-400 hover:text-rose-500 transition-colors p-2 hover:bg-rose-50 rounded-xl bg-white/50 shadow-sm" title="Log out">
+                <LogOut size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </aside>
@@ -99,11 +104,17 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
              </button>
           </div>
 
+          {user?.is_superuser ? (
+            <Link to="/admin" className="flex flex-col items-center p-2 rounded-xl transition-all text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm">
+              <ShieldCheck size={20} />
+            </Link>
+          ) : (
+            <button onClick={() => setActiveTab('Notifications')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Notifications' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
+              <Bell size={20} />
+            </button>
+          )}
           <button onClick={() => setActiveTab('Analytics')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Analytics' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
             <BarChart3 size={20} />
-          </button>
-          <button onClick={() => setActiveTab('Settings')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Settings' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
-            <Settings size={20} />
           </button>
         </div>
       </div>
