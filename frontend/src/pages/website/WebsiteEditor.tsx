@@ -1428,15 +1428,23 @@ export default function WebsiteEditor() {
                 </div>
 
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const isValid = orderForm.name && orderForm.phone && orderForm.email && orderForm.address;
                     if (!isValid) return;
                     setIsOrdering(true);
-                    setTimeout(() => {
+                    try {
+                      await axios.post('http://localhost:8000/api/websites/physical-orders/', {
+                        ...orderForm,
+                        website: website?.id
+                      }, { withCredentials: true });
                       setOrderSuccess(true);
-                      setIsOrdering(false);
                       setOrderForm({ name: '', phone: '', email: '', address: '' });
-                    }, 2000);
+                    } catch (err) {
+                      console.error(err);
+                      toast.error('Failed to place order. Please try again.');
+                    } finally {
+                      setIsOrdering(false);
+                    }
                   }}
                   disabled={isOrdering || !(orderForm.name && orderForm.phone && orderForm.email && orderForm.address)}
                   className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-xl transition-all shadow-md active:scale-95 text-sm flex items-center justify-center gap-2 mt-4"

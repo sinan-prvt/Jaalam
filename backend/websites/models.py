@@ -30,3 +30,25 @@ class WebsiteContent(models.Model):
 
     def __str__(self):
         return f"Content for {self.website.slug}"
+
+class PhysicalOrder(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('PROCESSING', 'Processing'),
+        ('SHIPPED', 'Shipped'),
+        ('DELIVERED', 'Delivered'),
+        ('CANCELLED', 'Cancelled')
+    ]
+    
+    website = models.ForeignKey(Website, on_delete=models.CASCADE, related_name='physical_orders')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='physical_orders')
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=50)
+    email = models.EmailField()
+    address = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Order #{self.id} for {self.website.slug}"

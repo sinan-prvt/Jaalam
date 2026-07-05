@@ -154,3 +154,24 @@ def chat_website(request):
         return Response(data)
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+
+class PhysicalOrderViewSet(viewsets.ModelViewSet):
+    serializer_class = __import__('websites.serializers', fromlist=['PhysicalOrderSerializer']).PhysicalOrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        from .models import PhysicalOrder
+        if self.request.user.is_superuser:
+            return PhysicalOrder.objects.all().order_by('-created_at')
+        return PhysicalOrder.objects.filter(user=self.request.user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+        # Notify admins
+        from users.notifications import notify_all_admins
+        notify_all_admins(
+            title="New Physical Order",
+            message=f"User {self.request.user.username} placed a new QR code sticker order.",
+            notification_type="new_order"
+        )

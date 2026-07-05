@@ -29,17 +29,31 @@ interface Website {
   created_at: string;
 }
 
+interface PhysicalOrder {
+  id: number;
+  website_slug: string;
+  user_email: string;
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  status: string;
+  created_at: string;
+}
+
 export default function AdminDashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [websites, setWebsites] = useState<Website[]>([]);
+  const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders'>('overview');
   const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
   const [selectedUserForWebsites, setSelectedUserForWebsites] = useState<AdminUser | null>(null);
   const [websiteSortBy, setWebsiteSortBy] = useState<'newest' | 'visitors'>('newest');
   const [websiteFilterStatus, setWebsiteFilterStatus] = useState<'all' | 'live' | 'draft'>('all');
   const [selectedProjectDetails, setSelectedProjectDetails] = useState<Website | null>(null);
+  const [selectedOrderDetails, setSelectedOrderDetails] = useState<PhysicalOrder | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
@@ -56,12 +70,14 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [usersRes, websitesRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/users/'),
-        axios.get('http://localhost:8000/api/websites/?all=true'),
+      const [usersRes, websitesRes, ordersRes] = await Promise.all([
+        axios.get('http://localhost:8000/api/users/', { withCredentials: true }),
+        axios.get('http://localhost:8000/api/websites/?all=true', { withCredentials: true }),
+        axios.get('http://localhost:8000/api/websites/physical-orders/', { withCredentials: true }),
       ]);
       setUsers(usersRes.data);
       setWebsites(websitesRes.data);
+      setPhysicalOrders(ordersRes.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -132,8 +148,21 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleUpdateOrderStatus = async (id: number, status: string) => {
+    try {
+      await axios.patch(`http://localhost:8000/api/websites/physical-orders/${id}/`, { status }, { withCredentials: true });
+      setPhysicalOrders(physicalOrders.map(o => o.id === id ? { ...o, status } : o));
+      if (selectedOrderDetails?.id === id) {
+        setSelectedOrderDetails({ ...selectedOrderDetails, status });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const filteredUsers = users.filter(u => u.username.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()));
   const filteredWebsites = websites.filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredOrders = physicalOrders.filter(o => o.website_slug.toLowerCase().includes(searchQuery.toLowerCase()) || o.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   // Analytics Math
   const totalVisitors = websites.reduce((acc, curr) => acc + (curr.visitors_count || 0), 0);
@@ -190,6 +219,16 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'notifications' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
             <ShieldAlert size={18} /> Support Tickets
+          </button>
+
+          <button 
+            onClick={() => { setActiveTab('orders'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'orders' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <div className="flex items-center gap-3"><Printer size={18} /> QR Orders</div>
+            {physicalOrders.filter(o => o.status === 'PENDING').length > 0 && (
+              <span className="bg-rose-500 text-white font-bold py-0.5 px-2 rounded-full text-xs">{physicalOrders.filter(o => o.status === 'PENDING').length}</span>
+            )}
           </button>
         </div>
 
@@ -567,6 +606,59 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+          {activeTab === 'orders' && (
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200">
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Order ID</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Website</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Customer Info</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Status</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredOrders.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="py-8 text-center text-slate-500 font-bold">No orders found.</td>
+                      </tr>
+                    ) : filteredOrders.map(o => (
+                      <tr key={o.id} className="hover:bg-slate-50/50 transition-colors">
+                        <td className="py-4 px-6 font-black text-slate-700">#{o.id}</td>
+                        <td className="py-4 px-6 font-bold text-primary-600">{o.website_slug}</td>
+                        <td className="py-4 px-6">
+                          <div className="font-bold text-slate-900">{o.name}</div>
+                          <div className="text-xs text-slate-500">{o.email}</div>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold border
+                            ${o.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
+                              o.status === 'PROCESSING' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                              o.status === 'SHIPPED' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                              o.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                              'bg-rose-50 text-rose-700 border-rose-200'
+                            }`}
+                          >
+                            {o.status}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <button 
+                            onClick={() => setSelectedOrderDetails(o)}
+                            className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold rounded-lg transition-colors text-xs"
+                          >
+                            View Details
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
           {activeTab === 'notifications' && (
             <div className="h-full flex-1 w-full bg-white rounded-xl overflow-hidden border border-slate-200">
               <NotificationsPage />
@@ -574,6 +666,86 @@ export default function AdminDashboard() {
           )}
         </div>
       </main>
+
+      {/* Order Details Modal */}
+      {selectedOrderDetails && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden relative animate-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => setSelectedOrderDetails(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+                <Printer className="text-primary-500" /> Order #{selectedOrderDetails.id}
+              </h3>
+              <p className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-1">
+                For website: 
+                <a 
+                  href={`/${selectedOrderDetails.website_slug}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary-600 hover:text-primary-700 font-bold hover:underline flex items-center gap-1"
+                >
+                  {selectedOrderDetails.website_slug}
+                  <ExternalLink size={12} />
+                </a>
+              </p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Customer Name</div>
+                  <div className="font-bold text-slate-800">{selectedOrderDetails.name}</div>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number</div>
+                  <div className="font-bold text-slate-800">{selectedOrderDetails.phone}</div>
+                </div>
+                <div className="col-span-2">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email Address</div>
+                  <div className="font-bold text-slate-800">{selectedOrderDetails.email}</div>
+                </div>
+                <div className="col-span-2">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Shipping Address</div>
+                  <div className="font-medium text-slate-700 bg-slate-50 p-3 rounded-lg whitespace-pre-wrap">
+                    {selectedOrderDetails.address}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-4 border-t border-slate-100">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Update Order Status</div>
+                <div className="flex gap-2 flex-wrap">
+                  {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map(status => (
+                    <button
+                      key={status}
+                      onClick={() => handleUpdateOrderStatus(selectedOrderDetails.id, status)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${
+                        selectedOrderDetails.status === status
+                          ? 'bg-slate-800 text-white border-slate-800 shadow-md'
+                          : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 text-right">
+              <button 
+                onClick={() => setSelectedOrderDetails(null)}
+                className="px-6 py-2 bg-slate-800 text-white font-bold hover:bg-slate-700 rounded-xl transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* QR Code Modal */}
       {selectedWebsite && (

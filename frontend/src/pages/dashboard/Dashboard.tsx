@@ -27,6 +27,12 @@ interface Website {
   };
 }
 
+interface PhysicalOrder {
+  id: number;
+  website_slug: string;
+  status: string;
+}
+
 const getThemeThumbnail = (theme: string, businessType?: string) => {
   // Generic mapping by business type to provide fallback defaults
   const defaults: Record<string, string> = {
@@ -172,6 +178,7 @@ const getThemeThumbnail = (theme: string, businessType?: string) => {
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [websites, setWebsites] = useState<Website[]>([]);
+  const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
@@ -229,8 +236,17 @@ export default function Dashboard() {
 
   const fetchWebsites = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/websites/');
-      setWebsites(res.data);
+      const [websitesRes, ordersRes] = await Promise.all([
+        axios.get('http://localhost:8000/api/websites/'),
+        axios.get('http://localhost:8000/api/websites/physical-orders/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`
+          },
+          withCredentials: true
+        }).catch(() => ({ data: [] }))
+      ]);
+      setWebsites(websitesRes.data);
+      setPhysicalOrders(ordersRes.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -567,6 +583,24 @@ export default function Dashboard() {
                         
                         {/* Status Badge */}
                         <div className="absolute top-3 right-3 flex items-center gap-1">
+                          {(() => {
+                            const order = physicalOrders.find(o => o.website_slug === site.slug);
+                            if (order) {
+                              return (
+                                <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-md border
+                                  ${order.status === 'PENDING' ? 'bg-amber-100/90 text-amber-800 border-amber-200' : 
+                                    order.status === 'PROCESSING' ? 'bg-blue-100/90 text-blue-800 border-blue-200' :
+                                    order.status === 'SHIPPED' ? 'bg-indigo-100/90 text-indigo-800 border-indigo-200' :
+                                    order.status === 'DELIVERED' ? 'bg-emerald-100/90 text-emerald-800 border-emerald-200' :
+                                    'bg-rose-100/90 text-rose-800 border-rose-200'
+                                  }`}
+                                >
+                                  Stickers: {order.status}
+                                </span>
+                              );
+                            }
+                            return null;
+                          })()}
                           <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-md ${site.published ? 'bg-emerald-400 text-white' : 'bg-white text-slate-700'}`}>
                             {site.published ? 'Live' : 'Draft'}
                           </span>
@@ -733,16 +767,7 @@ export default function Dashboard() {
                      </div>
                    </div>
                    
-                   <div>
-                     <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Notifications</label>
-                     <div className="flex items-center gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
-                       <div className="w-12 h-6 bg-indigo-500 rounded-full relative cursor-pointer shadow-inner shrink-0">
-                         <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
-                       </div>
-                       <span className="text-slate-900 font-bold text-sm">Receive product updates and news</span>
-                     </div>
-                   </div>
-                   
+
                    <div className="pt-6 flex flex-col sm:flex-row gap-3 border-t border-slate-100">
                      <button onClick={handleSaveSettings} disabled={isSavingSettings} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md text-sm w-full sm:w-auto hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">
                        {isSavingSettings ? 'Saving...' : 'Save Changes'}
