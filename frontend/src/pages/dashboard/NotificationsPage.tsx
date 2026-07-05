@@ -42,10 +42,21 @@ export default function NotificationsPage() {
         ? 'http://localhost:8000/api/users/notifications/?all=true'
         : 'http://localhost:8000/api/users/notifications/';
       const response = await axios.get(endpoint, { withCredentials: true });
+      
       setNotifications(response.data);
-      if (!selectedNotification && response.data.length > 0 && !isComposing) {
-        setSelectedNotification(response.data[0]);
-      }
+      
+      // Update selected notification or select the first one if none is selected
+      setSelectedNotification(current => {
+        if (current) {
+          const updated = response.data.find((n: any) => n.id === current.id);
+          return updated || current;
+        }
+        if (response.data.length > 0) {
+          return response.data[0];
+        }
+        return null;
+      });
+      
     } catch (err) {
       console.error(err);
     } finally {
@@ -125,7 +136,7 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="h-full flex flex-col md:flex-row gap-6 animate-in fade-in zoom-in-[0.98] duration-500">
+    <div className="h-auto md:h-full flex flex-col md:flex-row gap-6 animate-in fade-in zoom-in-[0.98] duration-500">
       
       {/* INBOX LIST (Left Sidebar) */}
       <div className="w-full md:w-1/3 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden h-[400px] md:h-full shrink-0">

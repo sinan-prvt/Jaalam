@@ -56,7 +56,7 @@ export default function AdminDashboard() {
   const [selectedOrderDetails, setSelectedOrderDetails] = useState<PhysicalOrder | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -118,10 +118,10 @@ export default function AdminDashboard() {
 
   const handleToggleBlockWebsite = async (slug: string) => {
     const isCurrentlyBlocked = websites.find(w => w.slug === slug)?.is_blocked;
-    const confirmMessage = isCurrentlyBlocked 
-      ? `Are you sure you want to unblock ${slug}?` 
+    const confirmMessage = isCurrentlyBlocked
+      ? `Are you sure you want to unblock ${slug}?`
       : `WARNING: Are you sure you want to block ${slug}? This will immediately suspend the website and hide it from the public.`;
-      
+
     if (!window.confirm(confirmMessage)) return;
 
     try {
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex text-slate-800 font-sans">
-      
+
       {/* SIDEBAR */}
       <aside className={`fixed inset-y-0 left-0 bg-slate-900 text-white w-64 z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:shrink-0 shadow-2xl`}>
         <div className="h-16 flex items-center justify-between px-6 bg-slate-950 border-b border-slate-800">
@@ -190,15 +190,15 @@ export default function AdminDashboard() {
 
         <div className="p-4 flex-1 overflow-y-auto space-y-1">
           <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 mt-4 px-3">Management</div>
-          
-          <button 
+
+          <button
             onClick={() => { setActiveTab('overview'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'overview' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
             <Activity size={18} /> Overview & Analytics
           </button>
-          
-          <button 
+
+          <button
             onClick={() => { setActiveTab('users'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'users' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
             <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{users.length}</span>
           </button>
 
-          <button 
+          <button
             onClick={() => { setActiveTab('websites'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'websites' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
@@ -214,14 +214,14 @@ export default function AdminDashboard() {
             <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{websites.length}</span>
           </button>
 
-          <button 
+          <button
             onClick={() => { setActiveTab('notifications'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'notifications' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
             <ShieldAlert size={18} /> Support Tickets
           </button>
 
-          <button 
+          <button
             onClick={() => { setActiveTab('orders'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'orders' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
@@ -233,7 +233,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="p-4 bg-slate-950 border-t border-slate-800">
-          <button 
+          <button
             onClick={() => navigate('/dashboard')}
             className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white py-2 rounded-lg text-sm font-bold transition-colors"
           >
@@ -254,14 +254,14 @@ export default function AdminDashboard() {
               {activeTab === 'overview' ? 'Command Center' : `${activeTab} Management`}
             </h1>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {activeTab !== 'overview' && (
               <div className="relative hidden md:block">
                 <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input 
-                  type="text" 
-                  placeholder={`Search ${activeTab}...`} 
+                <input
+                  type="text"
+                  placeholder={`Search ${activeTab}...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none w-64 transition-all"
@@ -269,7 +269,6 @@ export default function AdminDashboard() {
               </div>
             )}
             <div className="flex items-center gap-4">
-              <NotificationBell />
               <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-black flex items-center justify-center text-sm border border-primary-200">
                 {user?.username?.[0]?.toUpperCase()}
               </div>
@@ -286,7 +285,7 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              
+
               {/* TAB: OVERVIEW */}
               {activeTab === 'overview' && (
                 <>
@@ -331,42 +330,42 @@ export default function AdminDashboard() {
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                       <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Globe className="text-primary-500"/> Recent Websites</h3>
-                       <div className="space-y-4">
-                         {websites.slice(0, 5).map(site => (
-                           <div key={site.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
-                             <div>
-                               <div className="font-bold text-slate-900">{site.slug}</div>
-                               <div className="text-xs font-medium text-slate-500">{site.business_type}</div>
-                             </div>
-                             <div className="flex gap-2">
-                               <span className={`px-2 py-1 rounded text-xs font-bold ${site.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
-                                 {site.published ? 'LIVE' : 'DRAFT'}
-                               </span>
-                             </div>
-                           </div>
-                         ))}
-                       </div>
+                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Globe className="text-primary-500" /> Recent Websites</h3>
+                      <div className="space-y-4">
+                        {websites.slice(0, 5).map(site => (
+                          <div key={site.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
+                            <div>
+                              <div className="font-bold text-slate-900">{site.slug}</div>
+                              <div className="text-xs font-medium text-slate-500">{site.business_type}</div>
+                            </div>
+                            <div className="flex gap-2">
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${site.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
+                                {site.published ? 'LIVE' : 'DRAFT'}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                       <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Users className="text-primary-500"/> Newest Users</h3>
-                       <div className="space-y-4">
-                         {users.slice(0, 5).map(u => (
-                           <div key={u.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
-                             <div className="flex items-center gap-3">
-                               <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-black text-slate-600 text-sm">
-                                 {u.username[0].toUpperCase()}
-                               </div>
-                               <div>
-                                 <div className="font-bold text-slate-900">{u.username}</div>
-                                 <div className="text-xs font-medium text-slate-500">{u.email || 'No email'}</div>
-                               </div>
-                             </div>
-                             <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-1 rounded uppercase tracking-wider">{u.membership}</span>
-                           </div>
-                         ))}
-                       </div>
+                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Users className="text-primary-500" /> Newest Users</h3>
+                      <div className="space-y-4">
+                        {users.slice(0, 5).map(u => (
+                          <div key={u.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-black text-slate-600 text-sm">
+                                {u.username[0].toUpperCase()}
+                              </div>
+                              <div>
+                                <div className="font-bold text-slate-900">{u.username}</div>
+                                <div className="text-xs font-medium text-slate-500">{u.email || 'No email'}</div>
+                              </div>
+                            </div>
+                            <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-1 rounded uppercase tracking-wider">{u.membership}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </>
@@ -379,68 +378,68 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="bg-slate-50 border-b border-slate-200">
-                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">User</th>
-                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Status</th>
-                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Role</th>
-                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">User</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Status</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Role</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {filteredUsers.map((u) => (
                           <tr key={u.id} className="hover:bg-slate-50/50 transition-colors group">
-                            <td className="py-4 px-6">
-                              <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm border-2 ${u.is_superuser ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                            <td className="py-4 px-6 whitespace-nowrap">
+                              <div className="flex items-center gap-3 whitespace-nowrap">
+                                <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center font-black text-sm border-2 ${u.is_superuser ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
                                   {u.username[0].toUpperCase()}
                                 </div>
-                                <div>
-                                  <div className="font-black text-slate-900">{u.username}</div>
-                                  <div className="text-xs text-slate-500">{u.email || 'No email provided'}</div>
+                                <div className="whitespace-nowrap">
+                                  <div className="font-black text-slate-900 whitespace-nowrap">{u.username}</div>
+                                  <div className="text-xs text-slate-500 whitespace-nowrap">{u.email || 'No email provided'}</div>
                                 </div>
                               </div>
                             </td>
-                            <td className="py-4 px-6">
+                            <td className="py-4 px-6 whitespace-nowrap">
                               {u.is_active ? (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap">
                                   <CheckCircle2 size={12} /> Active
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 whitespace-nowrap">
                                   <ShieldBan size={12} /> Blocked
                                 </span>
                               )}
                             </td>
-                            <td className="py-4 px-6">
+                            <td className="py-4 px-6 whitespace-nowrap">
                               {u.is_superuser ? (
-                                <span className="text-purple-700 font-black text-xs uppercase tracking-wider flex items-center gap-1"><ShieldCheck size={14} /> Admin</span>
+                                <span className="text-purple-700 font-black text-xs uppercase tracking-wider flex items-center gap-1 whitespace-nowrap"><ShieldCheck size={14} /> Admin</span>
                               ) : (
-                                <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">User</span>
+                                <span className="text-slate-500 font-bold text-xs uppercase tracking-wider whitespace-nowrap">User</span>
                               )}
                             </td>
                             <td className="py-4 px-6 text-right">
-                              <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button 
+                              <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                                <button
                                   onClick={() => setSelectedUserForWebsites(u)}
                                   className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                   title="View User's Websites"
                                 >
                                   <Globe size={18} />
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleToggleRoleUser(u.id)}
                                   className="p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
                                   title={u.is_superuser ? "Demote to User" : "Promote to Admin"}
                                 >
                                   {u.is_superuser ? <UserMinus size={18} /> : <ShieldCheck size={18} />}
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleToggleBlockUser(u.id)}
                                   className={`p-2 rounded-lg transition-colors ${u.is_active ? 'text-slate-400 hover:text-amber-600 hover:bg-amber-50' : 'text-amber-600 bg-amber-50 hover:bg-amber-100'}`}
                                   title={u.is_active ? "Block User" : "Unblock User"}
                                 >
                                   <ShieldBan size={18} />
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleDeleteUser(u.id)}
                                   className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                                   title="Delete User"
@@ -462,45 +461,45 @@ export default function AdminDashboard() {
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[500px] flex flex-col">
                   {selectedUserForWebsites ? (
                     <>
-                      <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                         <div className="flex items-center gap-4">
-                           <button onClick={() => setSelectedUserForWebsites(null)} className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-slate-500">
-                             <ChevronRight className="rotate-180" size={20} />
-                           </button>
-                           <div>
-                             <h2 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                               Websites by {selectedUserForWebsites.username}
-                               <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider">{websites.filter(w => w.user === selectedUserForWebsites.id).length} Sites</span>
-                             </h2>
-                             <p className="text-xs font-medium text-slate-500 mt-1 flex items-center gap-2">
-                               {selectedUserForWebsites.email}
-                               <span className="text-slate-300">•</span>
-                               <span className="flex items-center gap-1 font-bold text-slate-600">
-                                 <Activity size={12} className="text-primary-500" />
-                                 {websites.filter(w => w.user === selectedUserForWebsites.id).reduce((sum, w) => sum + (w.visitors_count || 0), 0)} total visitors
-                               </span>
-                             </p>
-                           </div>
-                         </div>
-                         <div className="flex items-center gap-3">
-                           <select 
-                             value={websiteFilterStatus}
-                             onChange={(e) => setWebsiteFilterStatus(e.target.value as 'all' | 'live' | 'draft')}
-                             className="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-bold shadow-sm"
-                           >
-                             <option value="all">All Status</option>
-                             <option value="live">Live Only</option>
-                             <option value="draft">Draft Only</option>
-                           </select>
-                           <select 
-                             value={websiteSortBy}
-                             onChange={(e) => setWebsiteSortBy(e.target.value as 'newest' | 'visitors')}
-                             className="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-bold shadow-sm"
-                           >
-                             <option value="newest">Sort: Newest</option>
-                             <option value="visitors">Sort: Most Visited</option>
-                           </select>
-                         </div>
+                      <div className="p-4 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-50">
+                        <div className="flex items-start md:items-center gap-4 w-full md:w-auto">
+                          <button onClick={() => setSelectedUserForWebsites(null)} className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-slate-500 shrink-0 mt-1 md:mt-0">
+                            <ChevronRight className="rotate-180" size={20} />
+                          </button>
+                          <div className="min-w-0 flex-1">
+                            <h2 className="text-lg font-black text-slate-800 flex flex-wrap items-center gap-2">
+                              <span className="truncate">Websites by {selectedUserForWebsites.username}</span>
+                              <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0">{websites.filter(w => w.user === selectedUserForWebsites.id).length} Sites</span>
+                            </h2>
+                            <p className="text-xs font-medium text-slate-500 mt-1 flex flex-wrap items-center gap-2">
+                              <span className="truncate">{selectedUserForWebsites.email}</span>
+                              <span className="text-slate-300 hidden sm:inline">•</span>
+                              <span className="flex items-center gap-1 font-bold text-slate-600 shrink-0">
+                                <Activity size={12} className="text-primary-500" />
+                                {websites.filter(w => w.user === selectedUserForWebsites.id).reduce((sum, w) => sum + (w.visitors_count || 0), 0)} total visitors
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                          <select
+                            value={websiteFilterStatus}
+                            onChange={(e) => setWebsiteFilterStatus(e.target.value as 'all' | 'live' | 'draft')}
+                            className="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-bold shadow-sm"
+                          >
+                            <option value="all">All Status</option>
+                            <option value="live">Live Only</option>
+                            <option value="draft">Draft Only</option>
+                          </select>
+                          <select
+                            value={websiteSortBy}
+                            onChange={(e) => setWebsiteSortBy(e.target.value as 'newest' | 'visitors')}
+                            className="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-bold shadow-sm"
+                          >
+                            <option value="newest">Sort: Newest</option>
+                            <option value="visitors">Sort: Most Visited</option>
+                          </select>
+                        </div>
                       </div>
                       <div className="p-6 overflow-y-auto flex-1 bg-slate-50/50">
                         {websites.filter(w => w.user === selectedUserForWebsites.id).length === 0 ? (
@@ -520,27 +519,27 @@ export default function AdminDashboard() {
                                 return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
                               })
                               .map(w => (
-                              <div 
-                                key={w.id} 
-                                className="border border-slate-200 rounded-xl p-5 flex flex-col gap-3 hover:border-primary-300 hover:shadow-md transition-all cursor-pointer bg-white group/card"
-                                onClick={() => setSelectedProjectDetails(w)}
-                              >
-                                <div className="flex justify-between items-start">
-                                  <div>
-                                    <div className="font-black text-xl text-slate-900 group-hover/card:text-primary-600 transition-colors">{w.slug}</div>
-                                    <div className="text-xs text-slate-500 font-bold uppercase mt-1">{w.business_type} • {w.theme}</div>
+                                <div
+                                  key={w.id}
+                                  className="border border-slate-200 rounded-xl p-5 flex flex-col gap-3 hover:border-primary-300 hover:shadow-md transition-all cursor-pointer bg-white group/card"
+                                  onClick={() => setSelectedProjectDetails(w)}
+                                >
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <div className="font-black text-xl text-slate-900 group-hover/card:text-primary-600 transition-colors">{w.slug}</div>
+                                      <div className="text-xs text-slate-500 font-bold uppercase mt-1">{w.business_type} • {w.theme}</div>
+                                    </div>
+                                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${w.is_blocked ? 'bg-rose-100 text-rose-700' : w.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+                                      {w.is_blocked ? 'Suspended' : w.published ? 'Live' : 'Draft'}
+                                    </span>
                                   </div>
-                                  <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${w.is_blocked ? 'bg-rose-100 text-rose-700' : w.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
-                                    {w.is_blocked ? 'Suspended' : w.published ? 'Live' : 'Draft'}
-                                  </span>
-                                </div>
-                                <div className="mt-2 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                  <div className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                                    <Activity size={16} className="text-slate-400" /> {w.visitors_count || 0} visitors
+                                  <div className="mt-2 pt-4 border-t border-slate-100 flex items-center justify-between">
+                                    <div className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                                      <Activity size={16} className="text-slate-400" /> {w.visitors_count || 0} visitors
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
                           </div>
                         )}
                       </div>
@@ -548,16 +547,16 @@ export default function AdminDashboard() {
                   ) : (
                     <>
                       <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                         <h2 className="text-lg font-black text-slate-800">Select a User</h2>
+                        <h2 className="text-lg font-black text-slate-800">Select a User</h2>
                       </div>
                       <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                           <thead>
                             <tr className="bg-white border-b border-slate-200">
-                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Creator</th>
-                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-center">Total Websites</th>
-                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-center">Total Traffic</th>
-                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Creator</th>
+                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-center whitespace-nowrap">Total Websites</th>
+                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-center whitespace-nowrap">Total Traffic</th>
+                              <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">Actions</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100">
@@ -569,34 +568,34 @@ export default function AdminDashboard() {
                                 const totalTraffic = userWebsites.reduce((sum, w) => sum + (w.visitors_count || 0), 0);
                                 return (
                                   <tr key={u.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => setSelectedUserForWebsites(u)}>
-                                    <td className="py-4 px-6">
-                                      <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 font-bold flex items-center justify-center text-sm">
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <div className="flex items-center gap-3 whitespace-nowrap">
+                                        <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 font-bold flex items-center justify-center text-sm shrink-0">
                                           {u.username[0].toUpperCase()}
                                         </div>
-                                        <div>
-                                          <div className="font-black text-slate-900 text-lg group-hover:text-primary-600 transition-colors">{u.username}</div>
-                                          <div className="text-xs text-slate-500 font-medium">{u.email || 'No email'}</div>
+                                        <div className="whitespace-nowrap">
+                                          <div className="font-black text-slate-900 text-lg group-hover:text-primary-600 transition-colors whitespace-nowrap">{u.username}</div>
+                                          <div className="text-xs text-slate-500 font-medium whitespace-nowrap">{u.email || 'No email'}</div>
                                         </div>
                                       </div>
                                     </td>
-                                    <td className="py-4 px-6 text-center">
+                                    <td className="py-4 px-6 text-center whitespace-nowrap">
                                       <span className="font-black text-slate-700">{userWebsites.length}</span>
                                     </td>
-                                    <td className="py-4 px-6 text-center">
+                                    <td className="py-4 px-6 text-center whitespace-nowrap">
                                       <span className="font-black text-slate-700">{totalTraffic}</span>
                                     </td>
-                                    <td className="py-4 px-6 text-right">
-                                      <button 
+                                    <td className="py-4 px-6 text-right whitespace-nowrap">
+                                      <button
                                         onClick={(e) => { e.stopPropagation(); setSelectedUserForWebsites(u); }}
-                                        className="px-4 py-2 bg-primary-50 text-primary-600 hover:bg-primary-100 font-bold rounded-lg transition-colors text-sm inline-flex items-center gap-2 opacity-0 group-hover:opacity-100"
+                                        className="px-4 py-2 bg-primary-50 text-primary-600 hover:bg-primary-100 font-bold rounded-lg transition-colors text-sm inline-flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 whitespace-nowrap"
                                       >
                                         View Websites <ChevronRight size={16} />
                                       </button>
                                     </td>
                                   </tr>
                                 );
-                            })}
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -612,42 +611,42 @@ export default function AdminDashboard() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200">
-                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Order ID</th>
-                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Website</th>
-                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Customer Info</th>
-                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Status</th>
-                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Order ID</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Website</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Customer Info</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Status</th>
+                      <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {filteredOrders.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="py-8 text-center text-slate-500 font-bold">No orders found.</td>
+                        <td colSpan={5} className="py-8 text-center text-slate-500 font-bold whitespace-nowrap">No orders found.</td>
                       </tr>
                     ) : filteredOrders.map(o => (
                       <tr key={o.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 px-6 font-black text-slate-700">#{o.id}</td>
-                        <td className="py-4 px-6 font-bold text-primary-600">{o.website_slug}</td>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-6 font-black text-slate-700 whitespace-nowrap">#{o.id}</td>
+                        <td className="py-4 px-6 font-bold text-primary-600 whitespace-nowrap">{o.website_slug}</td>
+                        <td className="py-4 px-6 whitespace-nowrap">
                           <div className="font-bold text-slate-900">{o.name}</div>
                           <div className="text-xs text-slate-500">{o.email}</div>
                         </td>
-                        <td className="py-4 px-6">
-                          <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold border
-                            ${o.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
+                        <td className="py-4 px-6 whitespace-nowrap">
+                          <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold border whitespace-nowrap
+                            ${o.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                               o.status === 'PROCESSING' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                              o.status === 'SHIPPED' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
-                              o.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                              'bg-rose-50 text-rose-700 border-rose-200'
+                                o.status === 'SHIPPED' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                                  o.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                    'bg-rose-50 text-rose-700 border-rose-200'
                             }`}
                           >
                             {o.status}
                           </span>
                         </td>
-                        <td className="py-4 px-6 text-right">
-                          <button 
+                        <td className="py-4 px-6 text-right whitespace-nowrap">
+                          <button
                             onClick={() => setSelectedOrderDetails(o)}
-                            className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold rounded-lg transition-colors text-xs"
+                            className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold rounded-lg transition-colors text-xs whitespace-nowrap"
                           >
                             View Details
                           </button>
@@ -660,7 +659,7 @@ export default function AdminDashboard() {
             </div>
           )}
           {activeTab === 'notifications' && (
-            <div className="h-full flex-1 w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+            <div className="flex-1 w-full h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] overflow-y-auto lg:overflow-hidden bg-transparent">
               <NotificationsPage />
             </div>
           )}
@@ -671,7 +670,7 @@ export default function AdminDashboard() {
       {selectedOrderDetails && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden relative animate-in zoom-in-95 duration-200">
-            <button 
+            <button
               onClick={() => setSelectedOrderDetails(null)}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors"
             >
@@ -682,10 +681,10 @@ export default function AdminDashboard() {
                 <Printer className="text-primary-500" /> Order #{selectedOrderDetails.id}
               </h3>
               <p className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-1">
-                For website: 
-                <a 
-                  href={`/${selectedOrderDetails.website_slug}`} 
-                  target="_blank" 
+                For website:
+                <a
+                  href={`/${selectedOrderDetails.website_slug}`}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-bold hover:underline flex items-center gap-1"
                 >
@@ -715,7 +714,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="pt-4 border-t border-slate-100">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Update Order Status</div>
                 <div className="flex gap-2 flex-wrap">
@@ -723,11 +722,10 @@ export default function AdminDashboard() {
                     <button
                       key={status}
                       onClick={() => handleUpdateOrderStatus(selectedOrderDetails.id, status)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${
-                        selectedOrderDetails.status === status
+                      className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${selectedOrderDetails.status === status
                           ? 'bg-slate-800 text-white border-slate-800 shadow-md'
                           : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
-                      }`}
+                        }`}
                     >
                       {status}
                     </button>
@@ -735,10 +733,29 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
-            <div className="p-4 bg-slate-50 border-t border-slate-100 text-right">
-              <button 
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
+                  <QRCodeSVG
+                    value={`${window.location.origin}/${selectedOrderDetails.website_slug}`}
+                    size={40}
+                    level="H"
+                    includeMargin={false}
+                  />
+                </div>
+                <button
+                  onClick={() => {
+                    // Open the existing print-friendly QR code modal
+                    setSelectedWebsite({ slug: selectedOrderDetails.website_slug } as Website);
+                  }}
+                  className="px-4 py-2 bg-primary-50 text-primary-600 hover:bg-primary-100 font-bold rounded-xl flex items-center gap-2 transition-colors border border-primary-200 whitespace-nowrap"
+                >
+                  <Printer size={16} /> Print Sticker
+                </button>
+              </div>
+              <button
                 onClick={() => setSelectedOrderDetails(null)}
-                className="px-6 py-2 bg-slate-800 text-white font-bold hover:bg-slate-700 rounded-xl transition-colors"
+                className="px-6 py-2 bg-slate-800 text-white font-bold hover:bg-slate-700 rounded-xl transition-colors whitespace-nowrap"
               >
                 Close
               </button>
@@ -751,7 +768,7 @@ export default function AdminDashboard() {
       {selectedWebsite && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100] print:hidden">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative animate-in zoom-in-95 duration-200">
-            <button 
+            <button
               onClick={() => setSelectedWebsite(null)}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors"
             >
@@ -764,8 +781,8 @@ export default function AdminDashboard() {
             <div className="p-8 flex justify-center">
               <div className="bg-white p-6 rounded-3xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-slate-100 flex flex-col items-center">
                 <div className="font-black text-xl mb-4 text-slate-800 tracking-tight">{selectedWebsite.slug.toUpperCase()}</div>
-                <QRCodeSVG 
-                  value={`${window.location.origin}/${selectedWebsite.slug}`} 
+                <QRCodeSVG
+                  value={`${window.location.origin}/${selectedWebsite.slug}`}
                   size={200}
                   level="H"
                   includeMargin={false}
@@ -775,13 +792,13 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
-              <button 
+              <button
                 onClick={() => setSelectedWebsite(null)}
                 className="flex-1 px-4 py-3 text-slate-600 font-bold hover:bg-slate-200 rounded-xl transition-colors"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => window.print()}
                 className="flex-1 px-4 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg shadow-primary-600/30"
               >
@@ -796,7 +813,7 @@ export default function AdminDashboard() {
       {selectedProjectDetails && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[110] print:hidden">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden relative animate-in zoom-in-95 duration-200 flex flex-col">
-            <button 
+            <button
               onClick={() => setSelectedProjectDetails(null)}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors z-10"
             >
@@ -814,88 +831,86 @@ export default function AdminDashboard() {
             <div className="p-8 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Status</div>
-                   <div className="font-black text-slate-800 flex items-center gap-2">
-                     {selectedProjectDetails.is_blocked ? (
-                       <span className="text-rose-600 flex items-center gap-1"><ShieldBan size={16} /> Suspended</span>
-                     ) : selectedProjectDetails.published ? (
-                       <span className="text-emerald-600 flex items-center gap-1"><CheckCircle2 size={16} /> Live</span>
-                     ) : (
-                       <span className="text-slate-500 flex items-center gap-1">Draft</span>
-                     )}
-                   </div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Status</div>
+                  <div className="font-black text-slate-800 flex items-center gap-2">
+                    {selectedProjectDetails.is_blocked ? (
+                      <span className="text-rose-600 flex items-center gap-1"><ShieldBan size={16} /> Suspended</span>
+                    ) : selectedProjectDetails.published ? (
+                      <span className="text-emerald-600 flex items-center gap-1"><CheckCircle2 size={16} /> Live</span>
+                    ) : (
+                      <span className="text-slate-500 flex items-center gap-1">Draft</span>
+                    )}
+                  </div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Business Type</div>
-                   <div className="font-black text-slate-800 capitalize">{selectedProjectDetails.business_type}</div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Business Type</div>
+                  <div className="font-black text-slate-800 capitalize">{selectedProjectDetails.business_type}</div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Theme Used</div>
-                   <div className="font-black text-slate-800 capitalize">{selectedProjectDetails.theme}</div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Theme Used</div>
+                  <div className="font-black text-slate-800 capitalize">{selectedProjectDetails.theme}</div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Visitors</div>
-                   <div className="font-black text-slate-800 flex items-center gap-1">
-                     <Activity size={16} className="text-slate-400" /> {selectedProjectDetails.visitors_count || 0}
-                   </div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Visitors</div>
+                  <div className="font-black text-slate-800 flex items-center gap-1">
+                    <Activity size={16} className="text-slate-400" /> {selectedProjectDetails.visitors_count || 0}
+                  </div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 col-span-2 flex items-center justify-between">
-                   <div>
-                     <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Creation Date</div>
-                     <div className="font-black text-slate-800">
-                       {selectedProjectDetails.created_at ? new Date(selectedProjectDetails.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Date Unknown'}
-                     </div>
-                   </div>
-                   <div className="flex flex-col items-center mr-4">
-                     <QRCodeSVG 
-                       value={`${window.location.origin}/${selectedProjectDetails.slug}`} 
-                       size={64}
-                       level="H"
-                       includeMargin={false}
-                       className="rounded shadow-sm"
-                     />
-                     <span className="text-[8px] font-bold text-slate-400 uppercase mt-2 tracking-widest">SCAN QR</span>
-                   </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Creation Date</div>
+                    <div className="font-black text-slate-800">
+                      {selectedProjectDetails.created_at ? new Date(selectedProjectDetails.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Date Unknown'}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center mr-4">
+                    <QRCodeSVG
+                      value={`${window.location.origin}/${selectedProjectDetails.slug}`}
+                      size={64}
+                      level="H"
+                      includeMargin={false}
+                      className="rounded shadow-sm"
+                    />
+                    <span className="text-[8px] font-bold text-slate-400 uppercase mt-2 tracking-widest">SCAN QR</span>
+                  </div>
                 </div>
               </div>
-              
-              <div className="flex justify-between items-center pt-6 border-t border-slate-100 mt-6">
-                 <div className="flex items-center gap-3">
-                    <button 
-                      onClick={() => { setSelectedProjectDetails(null); setSelectedWebsite(selectedProjectDetails); }}
-                      className="p-2.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors bg-slate-50 border border-slate-200 focus:outline-none"
-                      title="Print QR Code"
-                    >
-                      <Printer size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleToggleBlockWebsite(selectedProjectDetails.slug)}
-                      className={`p-2.5 rounded-xl transition-colors border focus:outline-none ${selectedProjectDetails.is_blocked ? 'text-rose-600 bg-rose-50 border-rose-200 hover:bg-rose-100' : 'text-slate-500 hover:text-rose-600 hover:bg-rose-50 bg-slate-50 border-slate-200'}`}
-                      title={selectedProjectDetails.is_blocked ? "Unblock/Restore Site" : "Suspend/Block Site"}
-                    >
-                      <ShieldBan size={18} />
-                    </button>
-                    <button 
-                      onClick={() => {
-                        handleDeleteWebsite(selectedProjectDetails.slug);
-                        setSelectedProjectDetails(null);
-                      }}
-                      className="p-2.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors bg-slate-50 border border-slate-200 focus:outline-none"
-                      title="Delete Site"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                 </div>
-                 <div className="flex gap-2">
-                   <a 
-                      href={`/${selectedProjectDetails.slug}`} 
-                      target="_blank" 
-                      rel="noreferrer" 
-                      className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg shadow-primary-600/30"
-                   >
-                     Visit Website <ExternalLink size={18} />
-                   </a>
-                 </div>
+
+              <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center pt-6 border-t border-slate-100 mt-6 gap-3">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => { setSelectedProjectDetails(null); setSelectedWebsite(selectedProjectDetails); }}
+                    className="p-2.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors bg-slate-50 border border-slate-200 focus:outline-none"
+                    title="Print QR Code"
+                  >
+                    <Printer size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleToggleBlockWebsite(selectedProjectDetails.slug)}
+                    className={`p-2.5 rounded-xl transition-colors border focus:outline-none ${selectedProjectDetails.is_blocked ? 'text-rose-600 bg-rose-50 border-rose-200 hover:bg-rose-100' : 'text-slate-500 hover:text-rose-600 hover:bg-rose-50 bg-slate-50 border-slate-200'}`}
+                    title={selectedProjectDetails.is_blocked ? "Unblock/Restore Site" : "Suspend/Block Site"}
+                  >
+                    <ShieldBan size={18} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleDeleteWebsite(selectedProjectDetails.slug);
+                      setSelectedProjectDetails(null);
+                    }}
+                    className="p-2.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors bg-slate-50 border border-slate-200 focus:outline-none"
+                    title="Delete Site"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+                <a
+                  href={`/${selectedProjectDetails.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg shadow-primary-600/30 whitespace-nowrap"
+                >
+                  Visit Website <ExternalLink size={18} className="shrink-0" />
+                </a>
               </div>
             </div>
           </div>
@@ -907,8 +922,8 @@ export default function AdminDashboard() {
         <div className="hidden print:flex fixed inset-0 bg-white z-[9999] items-center justify-center">
           <div className="flex flex-col items-center border-4 border-black p-10 rounded-[3rem] w-[400px]">
             <div className="font-black text-3xl mb-8 uppercase text-center tracking-wider">{selectedWebsite.slug}</div>
-            <QRCodeSVG 
-              value={`${window.location.origin}/${selectedWebsite.slug}`} 
+            <QRCodeSVG
+              value={`${window.location.origin}/${selectedWebsite.slug}`}
               size={250}
               level="H"
               includeMargin={false}
