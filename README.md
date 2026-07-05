@@ -1,58 +1,24 @@
 # Jaalam Website Builder
 
-Jaalam is a lightning-fast, highly optimized website generator built specifically for local storefronts. It allows business owners—such as cafes, salons, restaurants, gyms, and retail stores—to instantly deploy clean, professional, and mobile-ready websites without any coding or database configuration.
+Jaalam is a monorepo for generating and managing storefront websites. It combines a Django REST backend with a React/Vite frontend for public websites, an authenticated dashboard, an editor, and live preview flows.
 
-## Core Features
+## Repository Layout
 
-- **Instant Deployment**: Go from zero to a fully functioning website in under 60 seconds.
-- **Industry-Specific Themes**: Hand-crafted themes designed explicitly for cafes, salons, fitness centers, and more.
-- **Storefront QR Codes**: Automatically generates scan-to-order/view QR codes for tables or entryways.
-- **Zero Configuration**: No complex builders or heavy scripts. Jaalam generates clean semantic markup for the fastest load speeds.
-- **Built-in Dashboard & Analytics**: Track your visitors, manage projects, and update your site's content from an intuitive dashboard.
+- [backend/](backend) - Django project, REST API, SQLite database, and server-side apps.
+- [frontend/](frontend) - React + TypeScript client, router, dashboard, editor, and themed website renderer.
 
-## Tech Stack
+## Documentation
 
-The platform is split into a robust backend API and a dynamic frontend engine:
-- **Frontend**: React (Vite), TypeScript, Tailwind CSS, Framer Motion
-- **Backend**: Django, Django REST Framework, SQLite
-- **State Management**: Redux Toolkit
-- **Icons & Graphics**: Lucide React, SVG integrations
+- [Backend README](backend/README.md)
+- [Frontend README](frontend/README.md)
 
-## Getting Started
+## Quick Start
 
-To run the project locally, you will need to start both the backend server and the frontend client.
+1. Start the backend from [backend/](backend): run migrations, then launch the Django server with `python manage.py runserver`.
+2. Start the frontend from [frontend/](frontend): install dependencies with `npm install`, then run `npm run dev`.
 
-### 1. Start the Backend
+## Project Notes
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Activate your virtual environment and install the dependencies (if you haven't already).
-3. Run the migrations:
-   ```bash
-   python manage.py migrate
-   ```
-4. Start the Django development server:
-   ```bash
-   python manage.py runserver
-   ```
-
-### 2. Start the Frontend
-
-1. Open a new terminal tab and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install the node modules:
-   ```bash
-   npm install
-   ```
-3. Start the Vite development server:
-   ```bash
-   npm run dev
-   ```
-
-## Contributing
-
-When contributing to this project, please ensure that you follow the existing code styles and submit pull requests with clear descriptions of your changes.
+- The backend uses SQLite with the database file at [backend/db.sqlite3](backend/db.sqlite3).
+- API routes are mounted under `/api/users/` and `/api/websites/`.
+- The frontend currently wraps the app with Google OAuth in [frontend/src/main.tsx](frontend/src/main.tsx); replace the client ID before production use.

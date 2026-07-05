@@ -1,73 +1,46 @@
-# React + TypeScript + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This package contains the React + TypeScript client for Jaalam. It powers the marketing landing page, authentication pages, dashboard, website editor, live preview, and public business pages.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite
+- Redux Toolkit
+- React Router
+- Tailwind CSS
+- Framer Motion
+- Axios
+- Google OAuth
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `npm run dev` - start the Vite development server.
+- `npm run build` - type-check and build for production.
+- `npm run lint` - run ESLint across the frontend source tree.
+- `npm run preview` - preview the production build locally.
 
-## Expanding the ESLint configuration
+## Routes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `/` - marketing landing page.
+- `/login` - sign-in page.
+- `/register` - account creation page.
+- `/dashboard` - authenticated dashboard.
+- `/admin` - authenticated admin dashboard.
+- `/editor/:websiteId` - authenticated website editor.
+- `/_preview` - live preview route.
+- `/:businessSlug` - public website route for a business.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Runtime Behavior
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Axios is configured to send credentials by default in [src/main.tsx](src/main.tsx).
+- A global 401 response handler clears the stored user session and redirects to `/login`.
+- The app is wrapped with `GoogleOAuthProvider` in [src/main.tsx](src/main.tsx).
+- The Google client ID in [src/main.tsx](src/main.tsx) is currently hardcoded and should be replaced before production use.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Project Structure
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [src/pages/](src/pages) contains route-level screens.
+- [src/components/](src/components) contains shared UI, layout, renderer, modal, and theme code.
+- [src/store.ts](src/store.ts), [src/authSlice.ts](src/authSlice.ts), and [src/websiteSlice.ts](src/websiteSlice.ts) hold the Redux state setup.
