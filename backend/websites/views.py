@@ -14,10 +14,10 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     lookup_field = 'slug'
     
     def get_queryset(self):
-        if self.action in ['public', 'retrieve']:
+        if self.action in ['public', 'retrieve', 'toggle_block']:
             return Website.objects.all()
         if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
+            if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
                 return Website.objects.all()
             return Website.objects.filter(user=self.request.user)
         return Website.objects.none()
@@ -68,8 +68,10 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
         
-    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
     def toggle_block(self, request, slug=None):
+        if not request.user.is_superuser:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         website = self.get_object()
         website.is_blocked = not getattr(website, 'is_blocked', False)
         website.save()
