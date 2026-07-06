@@ -7,6 +7,7 @@ const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import MiniGame from '../../components/games/MiniGame';
+import { useRazorpay } from 'react-razorpay';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -79,7 +80,8 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
 };
 
 export default function WebsiteEditor() {
-  const { websiteId } = useParams(); // actually slug
+  const { websiteId } = useParams();
+  const { Razorpay } = useRazorpay();
   const [website, setWebsite] = useState<any>(null);
   const [content, setContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -1433,15 +1435,53 @@ export default function WebsiteEditor() {
                     if (!isValid) return;
                     setIsOrdering(true);
                     try {
-                      await axios.post('http://localhost:8000/api/websites/physical-orders/', {
+                      // 1. Create Physical Order
+                      const res = await axios.post('http://localhost:8000/api/websites/physical-orders/', {
                         ...orderForm,
                         website: website?.id
                       }, { withCredentials: true });
-                      setOrderSuccess(true);
-                      setOrderForm({ name: '', phone: '', email: '', address: '' });
+                      
+                      // 2. Create Razorpay Order
+                      const rzpRes = await axios.post('http://localhost:8000/api/users/subscriptions/create_physical_order/', {
+                        order_id: res.data.id
+                      }, { withCredentials: true });
+                      
+                      const options = {
+                        key: rzpRes.data.key,
+                        amount: rzpRes.data.amount,
+                        currency: rzpRes.data.currency,
+                        name: "Jaalam QR Stickers",
+                        description: `Physical QR Code Order`,
+                        order_id: rzpRes.data.order_id,
+                        handler: async function (response: any) {
+                          try {
+                            await axios.post('http://localhost:8000/api/users/subscriptions/verify_physical_order/', {
+                              razorpay_payment_id: response.razorpay_payment_id,
+                              razorpay_order_id: response.razorpay_order_id,
+                              razorpay_signature: response.razorpay_signature
+                            }, { withCredentials: true });
+                            setOrderSuccess(true);
+                            setOrderForm({ name: '', phone: '', email: '', address: '' });
+                            toast.success('Order placed successfully!');
+                          } catch (err) {
+                            toast.error('Payment verification failed');
+                          }
+                        },
+                        prefill: {
+                          name: orderForm.name,
+                          email: orderForm.email,
+                          contact: orderForm.phone
+                        },
+                        theme: {
+                          color: "#10b981", // emerald-500
+                        },
+                      };
+                      
+                      const rzp = new window.Razorpay(options);
+                      rzp.open();
                     } catch (err) {
                       console.error(err);
-                      toast.error('Failed to place order. Please try again.');
+                      toast.error('Failed to initiate order. Please try again.');
                     } finally {
                       setIsOrdering(false);
                     }

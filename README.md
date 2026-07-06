@@ -22,3 +22,20 @@ Jaalam is a monorepo for generating and managing storefront websites. It combine
 - The backend uses SQLite with the database file at [backend/db.sqlite3](backend/db.sqlite3).
 - API routes are mounted under `/api/users/` and `/api/websites/`.
 - The frontend currently wraps the app with Google OAuth in [frontend/src/main.tsx](frontend/src/main.tsx); replace the client ID before production use.
+dssd
+d
+d
+
+dsd
+
+ds
+d
+s
+d
+s
+d
+sd
+ds
+d
+s
+ds

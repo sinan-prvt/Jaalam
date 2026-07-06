@@ -9,6 +9,7 @@ interface User {
   last_name?: string;
   membership: string;
   is_superuser?: boolean;
+  is_test_user?: boolean;
 }
 
 interface AuthState {

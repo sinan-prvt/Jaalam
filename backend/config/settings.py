@@ -272,3 +272,8 @@ REST_FRAMEWORK = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Razorpay settings
+RAZORPAY_KEY_ID = 'rzp_test_T9pRLlJJvZvPYh'
+RAZORPAY_KEY_SECRET = 'irv4jEX9tvQLlF5DGiIgY1HY'
+

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Plus } from 'lucide-react';
+import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Plus, Beaker } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import NotificationBell from '../../components/ui/NotificationBell';
 import NotificationsPage from './NotificationsPage';
@@ -15,6 +15,7 @@ interface AdminUser {
   membership: string;
   is_superuser: boolean;
   is_active: boolean;
+  is_test_user: boolean;
 }
 
 interface Website {
@@ -100,6 +101,15 @@ export default function AdminDashboard() {
     try {
       await axios.post(`http://localhost:8000/api/users/${userId}/toggle_role/`);
       setUsers(users.map(u => u.id === userId ? { ...u, is_superuser: !u.is_superuser } : u));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleToggleTestUser = async (userId: number) => {
+    try {
+      const res = await axios.post(`http://localhost:8000/api/users/${userId}/toggle_test_user/`);
+      setUsers(users.map(u => u.id === userId ? { ...u, is_test_user: res.data.is_test_user } : u));
     } catch (err) {
       console.error(err);
     }
@@ -431,6 +441,13 @@ export default function AdminDashboard() {
                                   title={u.is_superuser ? "Demote to User" : "Promote to Admin"}
                                 >
                                   {u.is_superuser ? <UserMinus size={18} /> : <ShieldCheck size={18} />}
+                                </button>
+                                <button
+                                  onClick={() => handleToggleTestUser(u.id)}
+                                  className={`p-2 rounded-lg transition-colors ${u.is_test_user ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'}`}
+                                  title={u.is_test_user ? "Remove Test User Status" : "Mark as Test User"}
+                                >
+                                  <Beaker size={18} />
                                 </button>
                                 <button
                                   onClick={() => handleToggleBlockUser(u.id)}

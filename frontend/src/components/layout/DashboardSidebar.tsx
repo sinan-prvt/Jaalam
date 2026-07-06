@@ -34,6 +34,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites' },
               { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox' },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
+              { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
             ].map(item => (
               <button 
@@ -115,6 +116,9 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
           )}
           <button onClick={() => setActiveTab('Analytics')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Analytics' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
             <BarChart3 size={20} />
+          </button>
+          <button onClick={() => setActiveTab('Billing')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Billing' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
+            <Zap size={20} />
           </button>
         </div>
       </div>

@@ -102,6 +102,22 @@ class UserViewSet(viewsets.ModelViewSet):
         
         return Response({"role": role_text})
 
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def toggle_test_user(self, request, pk=None):
+        user = self.get_object()
+        user.is_test_user = not getattr(user, 'is_test_user', False)
+        user.save()
+        
+        status_text = "Test User" if user.is_test_user else "Regular User"
+        create_notification(
+            user=user, 
+            title="Account Status Updated", 
+            message=f"Your account has been set to {status_text} by an administrator.",
+            notification_type="account_status"
+        )
+        
+        return Response({"is_test_user": user.is_test_user})
+
     @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         if request.method == 'GET':

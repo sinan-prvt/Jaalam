@@ -24,6 +24,20 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         return Website.objects.none()
 
     def perform_create(self, serializer):
+        user = self.request.user
+        current_count = Website.objects.filter(user=user).count()
+        
+        limit = {
+            'TEST': 1,
+            'STARTER': 2,
+            'BUSINESS': 10,
+            'PREMIUM': float('inf')
+        }.get(user.membership, 1)
+
+        if current_count >= limit and not user.is_test_user:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError({"error": f"Website limit reached for your plan."})
+
         website = serializer.save(user=self.request.user)
         # Create default content
         WebsiteContent.objects.create(

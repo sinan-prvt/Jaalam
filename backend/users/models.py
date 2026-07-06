@@ -3,15 +3,29 @@ from django.db import models
 
 class User(AbstractUser):
     MEMBERSHIP_CHOICES = [
-        ('FREE', 'Free'),
-        ('BASIC', 'Basic'),
-        ('PRO', 'Pro'),
-        ('AGENCY', 'Agency'),
+        ('TEST', 'Test Mode'),
+        ('STARTER', 'Starter'),
+        ('BUSINESS', 'Business'),
+        ('PREMIUM', 'Premium'),
     ]
-    membership = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES, default='FREE')
+    membership = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES, default='TEST')
+    is_test_user = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
+    plan_type = models.CharField(max_length=20, choices=User.MEMBERSHIP_CHOICES)
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    status = models.CharField(max_length=20, default='PENDING') # PENDING, SUCCESS, FAILED
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.plan_type} - {self.status}"
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')

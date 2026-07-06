@@ -8,6 +8,7 @@ import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationBell from '../../components/ui/NotificationBell';
 import NotificationsPage from './NotificationsPage';
+import Pricing from './Pricing';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
@@ -729,6 +730,10 @@ export default function Dashboard() {
             </div>
           )}
 
+          {activeTab === 'Billing' && (
+            <Pricing />
+          )}
+
           {activeTab === 'Settings' && (
             <div className="max-w-3xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Settings</h2>
@@ -741,7 +746,9 @@ export default function Dashboard() {
                   </div>
                   <div className="text-center sm:text-left pt-1 flex-1">
                     <h3 className="text-2xl font-black text-slate-900 mb-2">{user?.username}</h3>
-                    <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">Creator Pro</span>
+                    <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">
+                      {user?.is_test_user ? 'TEST USER (PRO)' : user?.membership || 'Creator'}
+                    </span>
                     <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
                   </div>
                 </div>
