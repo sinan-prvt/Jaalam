@@ -422,6 +422,8 @@ export default function AdminDashboard() {
                             <td className="py-4 px-6 whitespace-nowrap">
                               {u.is_superuser ? (
                                 <span className="text-purple-700 font-black text-xs uppercase tracking-wider flex items-center gap-1 whitespace-nowrap"><ShieldCheck size={14} /> Admin</span>
+                              ) : u.is_test_user ? (
+                                <span className="text-emerald-600 font-bold text-xs uppercase tracking-wider flex items-center gap-1 whitespace-nowrap"><Beaker size={14} /> Test User</span>
                               ) : (
                                 <span className="text-slate-500 font-bold text-xs uppercase tracking-wider whitespace-nowrap">User</span>
                               )}
