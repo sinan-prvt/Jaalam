@@ -12,6 +12,12 @@ import Pricing from './Pricing';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
+interface User {
+  username?: string;
+  is_superuser?: boolean;
+  has_completed_onboarding?: boolean;
+}
+
 interface Website {
   id: number;
   slug: string;
@@ -186,7 +192,10 @@ export default function Dashboard() {
   
   const location = useLocation();
   // Navigation State
-  const [activeTab, setActiveTab] = useState(location.state?.tab || 'Dashboard');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (user && (user as User).has_completed_onboarding === false) return 'Billing';
+    return location.state?.tab || 'Dashboard';
+  });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
 
   // Form State
@@ -235,6 +244,16 @@ export default function Dashboard() {
     fetchWebsites();
   }, []);
 
+  useEffect(() => {
+    if (user && (user as User).has_completed_onboarding === false) {
+      if (activeTab !== 'Billing' && activeTab !== 'Settings') {
+        setActiveTab('Billing');
+      }
+      setIsCreating(false);
+      setIsAIModalOpen(false);
+    }
+  }, [user, activeTab]);
+
   const fetchWebsites = async () => {
     try {
       const [websitesRes, ordersRes] = await Promise.all([
@@ -257,6 +276,7 @@ export default function Dashboard() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (user && (user as User).has_completed_onboarding === false) return;
     try {
       const res = await axios.post('http://localhost:8000/api/websites/', {
         slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
@@ -731,7 +751,9 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Billing' && (
-            <Pricing />
+            <div className="p-4 md:p-8 pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
+               <Pricing onSubscribeSuccess={() => setActiveTab('Dashboard')} />
+            </div>
           )}
 
           {activeTab === 'Settings' && (

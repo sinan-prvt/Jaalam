@@ -19,7 +19,11 @@ export default function Login() {
       });
       dispatch(loginSuccess(res.data));
       toast.success('Successfully logged in!');
-      navigate('/dashboard');
+      if (res.data.is_new_user) {
+        navigate('/dashboard', { state: { tab: 'Billing' } });
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
       toast.error(err.response?.data?.error || 'Login failed');

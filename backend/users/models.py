@@ -10,6 +10,7 @@ class User(AbstractUser):
     ]
     membership = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES, default='TEST')
     is_test_user = models.BooleanField(default=False)
+    has_completed_onboarding = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

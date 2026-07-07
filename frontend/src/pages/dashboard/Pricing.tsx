@@ -7,8 +7,9 @@ import type { RootState } from '../../store';
 import { loginSuccess } from '../../authSlice';
 import { useRazorpay } from 'react-razorpay';
 
-export default function Pricing() {
+export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: () => void }) {
   const { user } = useSelector((state: RootState) => state.auth);
+  const isUserLocked = user && (user as any).has_completed_onboarding === false;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { Razorpay } = useRazorpay();
@@ -88,7 +89,7 @@ export default function Pricing() {
   ];
 
   const handleSubscribe = async (planId: string) => {
-    if (planId === user?.membership) {
+    if (planId === user?.membership && !isUserLocked) {
       toast.error('You are already on this plan');
       return;
     }
@@ -108,6 +109,7 @@ export default function Pricing() {
         const meRes = await axios.get('http://localhost:8000/api/users/me/', { withCredentials: true });
         dispatch(loginSuccess(meRes.data));
         setLoading(false);
+        if (onSubscribeSuccess) onSubscribeSuccess();
         return;
       }
       
@@ -133,6 +135,7 @@ export default function Pricing() {
             toast.success('Subscription activated successfully!');
             const meRes = await axios.get('http://localhost:8000/api/users/me/', { withCredentials: true });
             dispatch(loginSuccess(meRes.data));
+            if (onSubscribeSuccess) onSubscribeSuccess();
           } catch (err) {
             toast.error('Payment verification failed');
           }
@@ -163,8 +166,11 @@ export default function Pricing() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {plans.map((plan) => (
-          <div key={plan.id} className={`bg-white/70 backdrop-blur-xl border-2 rounded-3xl p-6 flex flex-col relative overflow-hidden transition-all hover:-translate-y-1 shadow-sm hover:shadow-xl ${user?.membership === plan.id ? `border-${plan.color}-500 ring-4 ring-${plan.color}-100` : 'border-white/80'}`}>
+        {plans.map((plan) => {
+          const isCurrentPlan = user?.membership === plan.id && !isUserLocked;
+          
+          return (
+          <div key={plan.id} className={`bg-white/70 backdrop-blur-xl border-2 rounded-3xl p-6 flex flex-col relative overflow-hidden transition-all hover:-translate-y-1 shadow-sm hover:shadow-xl ${isCurrentPlan ? `border-${plan.color}-500 ring-4 ring-${plan.color}-100` : 'border-white/80'}`}>
             {plan.badge && (
               <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl rounded-tr-xl uppercase tracking-widest">
                 {plan.badge}
@@ -182,10 +188,10 @@ export default function Pricing() {
             
             <button
               onClick={() => handleSubscribe(plan.id)}
-              disabled={loading || user?.membership === plan.id || user?.is_test_user}
-              className={`w-full py-3 rounded-xl font-black transition-all mb-8 ${(user?.membership === plan.id) || user?.is_test_user ? `bg-${plan.color}-50 text-${plan.color}-500 border border-${plan.color}-100 cursor-default` : `bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-lg`}`}
+              disabled={loading || isCurrentPlan || user?.is_test_user}
+              className={`w-full py-3 rounded-xl font-black transition-all mb-8 ${isCurrentPlan || user?.is_test_user ? `bg-${plan.color}-50 text-${plan.color}-500 border border-${plan.color}-100 cursor-default` : `bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-lg`}`}
             >
-              {user?.is_test_user ? 'Free for Test Users' : user?.membership === plan.id ? 'Current Plan' : loading ? 'Processing...' : 'Subscribe'}
+              {user?.is_test_user ? 'Free for Test Users' : isCurrentPlan ? 'Current Plan' : loading ? 'Processing...' : plan.id === 'TEST' ? 'Start Free' : 'Subscribe'}
             </button>
             
             <div className="flex-1 space-y-4">
@@ -199,7 +205,7 @@ export default function Pricing() {
               ))}
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   );

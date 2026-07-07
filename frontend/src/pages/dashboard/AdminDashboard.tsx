@@ -16,6 +16,14 @@ interface AdminUser {
   is_superuser: boolean;
   is_active: boolean;
   is_test_user: boolean;
+  subscription_details?: {
+    plan_type: string;
+    status: string;
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    amount: string;
+    created_at: string;
+  } | null;
 }
 
 interface Website {
@@ -393,6 +401,7 @@ export default function AdminDashboard() {
                         <tr className="bg-slate-50 border-b border-slate-200">
                           <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">User</th>
                           <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Status</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Membership</th>
                           <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider whitespace-nowrap">Role</th>
                           <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">Actions</th>
                         </tr>
@@ -421,6 +430,24 @@ export default function AdminDashboard() {
                                   <ShieldBan size={12} /> Blocked
                                 </span>
                               )}
+                            </td>
+                            <td className="py-4 px-6 whitespace-nowrap">
+                              <div className="flex flex-col gap-1">
+                                <span className={`inline-flex w-fit px-2 py-0.5 rounded text-xs font-bold ${
+                                  u.membership === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
+                                  u.membership === 'BUSINESS' ? 'bg-blue-100 text-blue-700' :
+                                  u.membership === 'STARTER' ? 'bg-emerald-100 text-emerald-700' :
+                                  'bg-slate-100 text-slate-700'
+                                }`}>
+                                  {u.membership}
+                                </span>
+                                {u.subscription_details && u.subscription_details.razorpay_payment_id && (
+                                  <div className="text-[10px] text-slate-400 font-mono mt-1">
+                                    <span className="font-bold">PAY:</span> {u.subscription_details.razorpay_payment_id}
+                                    {u.subscription_details.status === 'SUCCESS' && <span className="ml-1 text-emerald-500 font-bold">(Paid)</span>}
+                                  </div>
+                                )}
+                              </div>
                             </td>
                             <td className="py-4 px-6 whitespace-nowrap">
                               {u.is_superuser ? (

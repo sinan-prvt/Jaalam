@@ -56,7 +56,9 @@ class UserViewSet(viewsets.ModelViewSet):
             
             login(request, user)
             serializer = self.get_serializer(user)
-            return Response(serializer.data)
+            data = serializer.data
+            data['is_new_user'] = created
+            return Response(data)
         except ValueError as e:
             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
             

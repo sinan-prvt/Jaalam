@@ -30,6 +30,7 @@ class SubscriptionViewSet(viewsets.ViewSet):
             # Handle free tier
             user = request.user
             user.membership = plan_type
+            user.has_completed_onboarding = True
             user.save()
             return Response({'status': 'success', 'plan': plan_type})
             
@@ -81,6 +82,7 @@ class SubscriptionViewSet(viewsets.ViewSet):
             
             user = request.user
             user.membership = subscription.plan_type
+            user.has_completed_onboarding = True
             user.save()
             
             return Response({'status': 'success'})
