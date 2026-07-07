@@ -306,6 +306,7 @@ export default function Dashboard() {
     e.preventDefault();
     if (user && (user as User).has_completed_onboarding === false) return;
     if (!checkCreationLimit()) return;
+    const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {
       const res = await axios.post('http://localhost:8000/api/websites/', {
         slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
@@ -330,29 +331,48 @@ export default function Dashboard() {
       setContactPhone('');
       setNewTheme('Modern');
       navigate(`/editor/${res.data.slug}`);
-      toast.success('Project launched successfully!');
+      toast.success('Project launched successfully!', { id: loadingToast });
     } catch (err) {
       console.error(err);
-      toast.error('Failed to create site. Slug might be taken.');
+      toast.error('Failed to create site. Slug might be taken.', { id: loadingToast });
     }
   };
 
   const handleDelete = async (slug: string, id: number) => {
-    if (confirm(`Are you sure you want to delete ${slug}?`)) {
-      setDeletingId(id);
-      try {
-        await axios.delete(`http://localhost:8000/api/websites/${slug}/`, {
-          withCredentials: true
-        });
-        setWebsites(websites.filter(w => w.id !== id));
-        toast.success('Project deleted successfully.');
-      } catch (err) {
-        console.error("Failed to delete", err);
-        toast.error('Failed to delete project. You may not have permission.');
-      } finally {
-        setDeletingId(null);
-      }
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">Are you sure you want to delete {slug}?</p>
+        <div className="flex gap-2 mt-1">
+          <button 
+            onClick={async () => {
+              toast.dismiss(t.id);
+              setDeletingId(id);
+              try {
+                await axios.delete(`http://localhost:8000/api/websites/${slug}/`, {
+                  withCredentials: true
+                });
+                setWebsites(prev => prev.filter(w => w.id !== id));
+                toast.success('Project deleted successfully.');
+              } catch (err) {
+                console.error("Failed to delete", err);
+                toast.error('Failed to delete project. You may not have permission.');
+              } finally {
+                setDeletingId(null);
+              }
+            }}
+            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
+          >
+            Yes, Delete
+          </button>
+          <button 
+            onClick={() => toast.dismiss(t.id)}
+            className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), { duration: Infinity });
   };
 
   const handleSaveSettings = async () => {

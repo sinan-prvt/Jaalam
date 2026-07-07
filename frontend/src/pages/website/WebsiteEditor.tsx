@@ -239,6 +239,7 @@ export default function WebsiteEditor() {
     setChatImages([]);
     setChatHistory([...chatHistory, { role: 'user', content: attachedImages.length > 0 ? `[Attached ${attachedImages.length} media file(s)] ${prompt}` : prompt }]);
     setIsChatting(true);
+    const loadingToast = toast.loading('AI is processing your request... This may take a minute.');
 
     try {
       const res = await axios.post(`http://localhost:8000/api/websites/chat/`, {
@@ -282,9 +283,9 @@ export default function WebsiteEditor() {
       setChatHistory(prev => [...prev, { role: 'ai', content: aiResponseMsg }]);
       
       if (imageMissing || failedToGenerateImage || newJsonString === oldJsonString) {
-        toast.error('AI was unable to complete all instructions.');
+        toast.error('AI was unable to complete all instructions.', { id: loadingToast });
       } else {
-        toast.success('Website updated by AI!');
+        toast.success('Website updated by AI!', { id: loadingToast });
       }
     } catch (err) {
       console.error(err);

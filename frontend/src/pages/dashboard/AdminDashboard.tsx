@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Plus, Beaker } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import NotificationBell from '../../components/ui/NotificationBell';
@@ -98,22 +99,32 @@ export default function AdminDashboard() {
   };
 
   const handleToggleBlockUser = async (userId: number) => {
-    if (String(userId) === String(user?.id)) return alert("You cannot block yourself.");
+    if (String(userId) === String(user?.id)) {
+      toast.error("You cannot block yourself.");
+      return;
+    }
     try {
       await axios.post(`http://localhost:8000/api/users/${userId}/toggle_block/`);
-      setUsers(users.map(u => u.id === userId ? { ...u, is_active: !u.is_active } : u));
+      setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_active: !u.is_active } : u));
+      toast.success("User status updated.");
     } catch (err) {
       console.error(err);
+      toast.error("Failed to update user.");
     }
   };
 
   const handleToggleRoleUser = async (userId: number) => {
-    if (String(userId) === String(user?.id)) return alert("You cannot change your own role.");
+    if (String(userId) === String(user?.id)) {
+      toast.error("You cannot change your own role.");
+      return;
+    }
     try {
       await axios.post(`http://localhost:8000/api/users/${userId}/toggle_role/`);
-      setUsers(users.map(u => u.id === userId ? { ...u, is_superuser: !u.is_superuser } : u));
+      setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_superuser: !u.is_superuser } : u));
+      toast.success("User role updated.");
     } catch (err) {
       console.error(err);
+      toast.error("Failed to update role.");
     }
   };
 
@@ -127,14 +138,34 @@ export default function AdminDashboard() {
   };
 
   const handleDeleteUser = async (userId: number) => {
-    if (String(userId) === String(user?.id)) return alert("You cannot delete yourself.");
-    if (!window.confirm("Are you sure you want to completely delete this user? This cannot be undone.")) return;
-    try {
-      await axios.delete(`http://localhost:8000/api/users/${userId}/`);
-      setUsers(users.filter(u => u.id !== userId));
-    } catch (err) {
-      console.error(err);
+    if (String(userId) === String(user?.id)) {
+      toast.error("You cannot delete yourself.");
+      return;
     }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">Are you sure you want to completely delete this user? This cannot be undone.</p>
+        <div className="flex gap-2 mt-1">
+          <button 
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await axios.delete(`http://localhost:8000/api/users/${userId}/`);
+                setUsers(prev => prev.filter(u => u.id !== userId));
+                toast.success('User deleted successfully.');
+              } catch (err) {
+                console.error(err);
+                toast.error('Failed to delete user.');
+              }
+            }}
+            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
+          >
+            Yes, Delete
+          </button>
+          <button onClick={() => toast.dismiss(t.id)} className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors">Cancel</button>
+        </div>
+      </div>
+    ), { duration: Infinity });
   };
 
   const handleToggleBlockWebsite = async (slug: string) => {
@@ -143,30 +174,63 @@ export default function AdminDashboard() {
       ? `Are you sure you want to unblock ${slug}?`
       : `WARNING: Are you sure you want to block ${slug}? This will immediately suspend the website and hide it from the public.`;
 
-    if (!window.confirm(confirmMessage)) return;
-
-    try {
-      await axios.post(`http://localhost:8000/api/websites/${slug}/toggle_block/`);
-      setWebsites(websites.map(w => w.slug === slug ? { ...w, is_blocked: !w.is_blocked } : w));
-      if (selectedProjectDetails?.slug === slug) {
-        setSelectedProjectDetails({ ...selectedProjectDetails, is_blocked: !selectedProjectDetails.is_blocked });
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">{confirmMessage}</p>
+        <div className="flex gap-2 mt-1">
+          <button 
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await axios.post(`http://localhost:8000/api/websites/${slug}/toggle_block/`);
+                setWebsites(prev => prev.map(w => w.slug === slug ? { ...w, is_blocked: !w.is_blocked } : w));
+                if (selectedProjectDetails?.slug === slug) {
+                  setSelectedProjectDetails({ ...selectedProjectDetails, is_blocked: !selectedProjectDetails.is_blocked });
+                }
+                toast.success('Website status updated.');
+              } catch (err) {
+                console.error(err);
+                toast.error('Failed to update website status.');
+              }
+            }}
+            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
+          >
+            Yes, Continue
+          </button>
+          <button onClick={() => toast.dismiss(t.id)} className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors">Cancel</button>
+        </div>
+      </div>
+    ), { duration: Infinity });
   };
 
   const handleDeleteWebsite = async (slug: string) => {
-    if (!window.confirm(`Are you sure you want to delete website ${slug}?`)) return;
-    try {
-      await axios.delete(`http://localhost:8000/api/websites/${slug}/?all=true`, { withCredentials: true });
-      setWebsites(websites.filter(w => w.slug !== slug));
-      if (selectedProjectDetails?.slug === slug) {
-        setSelectedProjectDetails(null);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">Are you sure you want to delete website {slug}?</p>
+        <div className="flex gap-2 mt-1">
+          <button 
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await axios.delete(`http://localhost:8000/api/websites/${slug}/?all=true`, { withCredentials: true });
+                setWebsites(prev => prev.filter(w => w.slug !== slug));
+                if (selectedProjectDetails?.slug === slug) {
+                  setSelectedProjectDetails(null);
+                }
+                toast.success('Website deleted successfully.');
+              } catch (err) {
+                console.error(err);
+                toast.error('Failed to delete website.');
+              }
+            }}
+            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
+          >
+            Yes, Delete
+          </button>
+          <button onClick={() => toast.dismiss(t.id)} className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors">Cancel</button>
+        </div>
+      </div>
+    ), { duration: Infinity });
   };
 
   const handleUpdateOrderStatus = async (id: number, status: string) => {
