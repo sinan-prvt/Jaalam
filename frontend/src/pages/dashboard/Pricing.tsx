@@ -36,7 +36,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
     {
       id: 'STARTER',
       name: 'Starter',
-      price: '₹199/mo',
+      price: '₹199',
       icon: <Zap size={24} className="text-blue-500" />,
       features: [
         { name: 'Up to 2 Websites', included: true },
@@ -55,7 +55,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
       id: 'BUSINESS',
       name: 'Business',
       badge: 'Popular',
-      price: '₹499/mo',
+      price: '₹499',
       icon: <Building2 size={24} className="text-indigo-500" />,
       features: [
         { name: 'Up to 10 Websites', included: true },
@@ -72,7 +72,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
     {
       id: 'PREMIUM',
       name: 'Premium',
-      price: '₹999/mo',
+      price: '₹999',
       icon: <Crown size={24} className="text-fuchsia-500" />,
       features: [
         { name: 'Unlimited Websites', included: true },
@@ -162,7 +162,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
     <div className="animate-in fade-in zoom-in-[0.98] duration-500">
       <div className="text-center max-w-2xl mx-auto mb-12">
         <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">Pricing Plans</h2>
-        <p className="text-slate-500 text-lg">Choose the perfect plan for your business. Upgrade anytime.</p>
+        <p className="text-slate-500 text-lg">Choose the perfect lifetime plan for your business. Pay once, build forever.</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -184,6 +184,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
             <h3 className="text-xl font-black text-slate-900 mb-1">{plan.name}</h3>
             <div className="flex items-baseline gap-1 mb-6">
               <span className="text-3xl font-black text-slate-900">{plan.price}</span>
+              {plan.id !== 'TEST' && <span className="text-sm font-bold text-slate-500">/ lifetime</span>}
             </div>
             
             <button

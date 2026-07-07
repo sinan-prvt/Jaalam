@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 export default function LoadingScreen({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+
+  const isPlatformRoute = ['/', '/login', '/register', '/dashboard', '/admin', '/editor'].some(
+    p => location.pathname === p || location.pathname.startsWith(p + '/')
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,7 +20,7 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
   return (
     <>
       <AnimatePresence>
-        {loading && (
+        {loading && isPlatformRoute && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}

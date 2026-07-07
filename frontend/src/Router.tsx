@@ -8,31 +8,34 @@ import WebsiteEditor from './pages/website/WebsiteEditor';
 import PublicWebsite from './pages/website/PublicWebsite';
 import LivePreview from './pages/website/LivePreview';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import LoadingScreen from './components/ui/LoadingScreen';
 
 function Router() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        
-        <Route
-          path="/dashboard"
-          element={<ProtectedRoute component={Dashboard} />}
-        />
-        <Route
-          path="/admin"
-          element={<ProtectedRoute component={AdminDashboard} />}
-        />
-        <Route
-          path="/editor/:websiteId"
-          element={<ProtectedRoute component={WebsiteEditor} />}
-        />
-        <Route path="/_preview" element={<LivePreview />} />
+      <LoadingScreen>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute component={Dashboard} />}
+          />
+          <Route
+            path="/admin"
+            element={<ProtectedRoute component={AdminDashboard} />}
+          />
+          <Route
+            path="/editor/:websiteId"
+            element={<ProtectedRoute component={WebsiteEditor} />}
+          />
+          <Route path="/_preview" element={<LivePreview />} />
 
-        <Route path="/:businessSlug" element={<PublicWebsite />} />
-      </Routes>
+          <Route path="/:businessSlug" element={<PublicWebsite />} />
+        </Routes>
+      </LoadingScreen>
     </BrowserRouter>
   );
 }

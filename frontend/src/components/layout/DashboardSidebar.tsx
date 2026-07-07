@@ -84,10 +84,11 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
           {user?.membership !== 'PREMIUM' && (
             <button 
               onClick={() => setActiveTab('Billing')}
-              className="hidden lg:flex w-full mb-4 items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl font-black text-xs tracking-wide uppercase shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5"
+              className="relative overflow-hidden group hidden lg:flex w-full mb-4 items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl font-black text-xs tracking-wide uppercase shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5"
             >
-              <Zap size={14} className="fill-white/30" />
-              <span>Upgrade Plan</span>
+              <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
+              <Zap size={14} className="fill-white/30 relative z-10" />
+              <span className="relative z-10">Upgrade Plan</span>
             </button>
           )}
           <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-3">
@@ -151,9 +152,6 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
             className={`flex flex-col items-center p-2 rounded-xl transition-all ${user?.has_completed_onboarding === false ? 'opacity-40' : activeTab === 'Analytics' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
           >
             <BarChart3 size={20} />
-          </button>
-          <button onClick={() => setActiveTab('Billing')} className={`flex flex-col items-center p-2 rounded-xl transition-all ${activeTab === 'Billing' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>
-            <Zap size={20} />
           </button>
         </div>
       </div>

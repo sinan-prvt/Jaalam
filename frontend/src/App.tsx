@@ -3,7 +3,6 @@ import { store } from './store';
 import Router from './Router';
 import { Toaster } from 'react-hot-toast';
 import ClickSpark from './components/ui/ClickSpark';
-import LoadingScreen from './components/ui/LoadingScreen';
 import './App.css';
 
 function App() {
@@ -11,9 +10,7 @@ function App() {
     <Provider store={store}>
       <Toaster position="bottom-right" toastOptions={{ duration: 4000, style: { background: '#1e293b', color: '#fff', borderRadius: '12px', fontWeight: 600 } }} />
       <ClickSpark sparkColor="#00ffff" sparkCount={6} sparkRadius={20} sparkSize={8} duration={350}>
-        <LoadingScreen>
-          <Router />
-        </LoadingScreen>
+        <Router />
       </ClickSpark>
     </Provider>
   );

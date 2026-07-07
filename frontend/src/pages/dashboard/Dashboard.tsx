@@ -274,9 +274,38 @@ export default function Dashboard() {
     }
   };
 
+  const getWebsiteLimit = () => {
+    switch(user?.membership) {
+      case 'TEST': return 1;
+      case 'STARTER': return 2;
+      case 'BUSINESS': return 10;
+      case 'PREMIUM': return Infinity;
+      default: return 1;
+    }
+  };
+
+  const hasAIBuilder = () => {
+    return user?.membership === 'BUSINESS' || user?.membership === 'PREMIUM';
+  };
+
+  const checkCreationLimit = (isAI: boolean = false) => {
+    if (isAI && !hasAIBuilder() && !user?.is_superuser) {
+      toast.error('AI Website Builder is only available on Business and Premium plans. Please upgrade to use this feature.');
+      return false;
+    }
+    
+    if (websites.length >= getWebsiteLimit() && !user?.is_test_user && !user?.is_superuser) {
+      toast.error(`You've reached your limit of ${getWebsiteLimit()} website(s) on the ${user?.membership || 'Free'} plan. Please upgrade to create more.`);
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user && (user as User).has_completed_onboarding === false) return;
+    if (!checkCreationLimit()) return;
     try {
       const res = await axios.post('http://localhost:8000/api/websites/', {
         slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
@@ -401,13 +430,28 @@ export default function Dashboard() {
           <div className="md:hidden flex items-center justify-between mb-6 px-2">
             <div className="flex items-center gap-2">
                <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
-               <span className="text-xl font-black text-slate-900 tracking-tight">Jaalam</span>
+               <div className="flex flex-col">
+                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
+                 <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
+                   {user?.is_superuser ? 'SYSTEM ADMIN' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                 </span>
+               </div>
             </div>
             <div className="flex items-center gap-3">
-               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-2">
+               {user?.membership !== 'PREMIUM' && (
+                 <button 
+                   onClick={() => setActiveTab('Billing')} 
+                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
+                 >
+                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
+                   <Zap size={12} className="fill-white/30 relative z-10" />
+                   <span className="relative z-10">Upgrade</span>
+                 </button>
+               )}
+               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
                  <Bell size={20} />
                </button>
-               <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none">
+               <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none shrink-0">
                  {user?.username?.[0]?.toUpperCase()}
                </button>
             </div>
@@ -523,14 +567,14 @@ export default function Dashboard() {
                     <option value="Draft">Drafts</option>
                   </select>
                   <button 
-                    onClick={() => setIsAIModalOpen(true)}
+                    onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
                     className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                   >
                     <Sparkles size={16} />
                     AI Design
                   </button>
                   <button 
-                    onClick={() => setIsCreating(true)}
+                    onClick={() => checkCreationLimit() && setIsCreating(true)}
                     className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                   >
                     <Plus size={16} className="text-indigo-400" />
@@ -556,14 +600,14 @@ export default function Dashboard() {
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
                         <button 
-                          onClick={() => setIsAIModalOpen(true)}
+                          onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
                           className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                         >
                           <Sparkles size={18} />
                           AI Design
                         </button>
                         <button 
-                          onClick={() => setIsCreating(true)}
+                          onClick={() => checkCreationLimit() && setIsCreating(true)}
                           className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                         >
                           <Plus size={18} className="text-indigo-400" />
