@@ -249,12 +249,38 @@ export default function AdminDashboard() {
   const filteredWebsites = websites.filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
   const filteredOrders = physicalOrders.filter(o => o.website_slug.toLowerCase().includes(searchQuery.toLowerCase()) || o.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  // Analytics Math
+  // Revenue Analytics
+  const subscriptionTransactions = users.filter(u => u.subscription_details).map(u => ({
+    id: `sub_${u.id}`,
+    email: u.email,
+    type: 'Subscription',
+    planType: u.subscription_details?.plan_type,
+    amount: parseFloat(u.subscription_details?.amount || '0'),
+    status: u.subscription_details?.status,
+    paymentId: u.subscription_details?.razorpay_payment_id,
+    date: u.subscription_details?.created_at
+  }));
+
+  const orderTransactions = physicalOrders.filter(o => o.payment_status !== 'FAILED').map(o => ({
+    id: `ord_${o.id}`,
+    email: o.user_email || o.email,
+    type: 'QR Order',
+    planType: 'QR Stickers',
+    amount: 100, // Fixed price for physical QR order
+    status: o.payment_status || 'SUCCESS',
+    paymentId: o.razorpay_payment_id,
+    date: o.created_at
+  }));
+
+  const allTransactions = [...subscriptionTransactions, ...orderTransactions].sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
+  const totalRevenue = allTransactions.reduce((acc, curr) => acc + curr.amount, 0);
+  const subscriptionRevenue = subscriptionTransactions.reduce((acc, curr) => acc + curr.amount, 0);
+  const qrRevenue = orderTransactions.reduce((acc, curr) => acc + curr.amount, 0);
+
+  // Overview Analytics
   const totalVisitors = websites.reduce((acc, curr) => acc + (curr.visitors_count || 0), 0);
   const activeUsers = users.filter(u => u.is_active).length;
-  // Mock earnings based on "CREATOR PRO" membership count (mock $29/mo)
   const proUsers = users.filter(u => u.membership.toUpperCase().includes('PRO')).length;
-  const mrr = proUsers * 29;
 
   if (!user?.is_superuser) return null;
 
@@ -281,6 +307,14 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'overview' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
             <Activity size={18} /> Overview & Analytics
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('revenue'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'revenue' ? 'bg-emerald-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <div className="flex items-center gap-3"><DollarSign size={18} /> Revenue</div>
+            <span className="bg-emerald-500/20 text-emerald-400 py-0.5 px-2 rounded-full text-xs font-bold">₹{totalRevenue.toLocaleString()}</span>
           </button>
 
           <button
@@ -405,10 +439,10 @@ export default function AdminDashboard() {
 
                     <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 shadow-lg border border-slate-700 flex flex-col relative overflow-hidden group">
                       <div className="absolute -right-6 -top-6 text-slate-700 opacity-50 group-hover:scale-110 transition-transform"><DollarSign size={120} /></div>
-                      <span className="text-slate-400 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Monthly Revenue (MRR)</span>
-                      <span className="text-4xl font-black text-emerald-400 tracking-tight relative z-10">${mrr.toLocaleString()}</span>
+                      <span className="text-slate-400 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Total Revenue</span>
+                      <span className="text-4xl font-black text-emerald-400 tracking-tight relative z-10">₹{totalRevenue.toLocaleString()}</span>
                       <div className="mt-4 flex items-center gap-1 text-slate-300 text-sm font-bold relative z-10">
-                        {proUsers} Active PRO Subscriptions
+                        {subscriptionTransactions.length} Paid Subscriptions
                       </div>
                     </div>
                   </div>
@@ -718,6 +752,83 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+
+          {activeTab === 'revenue' && (
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                    <DollarSign className="text-emerald-500 w-8 h-8" />
+                    Revenue Management
+                  </h1>
+                  <p className="text-slate-500 mt-1 font-medium text-sm">View all subscription payments and revenue details</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  <div className="absolute top-0 inset-x-0 h-1 bg-emerald-500"></div>
+                  <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">Total Revenue</div>
+                  <div className="text-4xl font-black text-slate-800">₹{totalRevenue.toLocaleString()}</div>
+                  <div className="text-emerald-500 font-bold text-xs mt-2 flex items-center gap-1"><TrendingUp size={14}/> Lifetime earnings</div>
+                </div>
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  <div className="absolute top-0 inset-x-0 h-1 bg-indigo-500"></div>
+                  <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">Subscriptions</div>
+                  <div className="text-4xl font-black text-slate-800">₹{subscriptionRevenue.toLocaleString()}</div>
+                  <div className="text-indigo-500 font-bold text-xs mt-2 flex items-center gap-1"><Users size={14}/> {subscriptionTransactions.length} payments</div>
+                </div>
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  <div className="absolute top-0 inset-x-0 h-1 bg-orange-500"></div>
+                  <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">QR Orders</div>
+                  <div className="text-4xl font-black text-slate-800">₹{qrRevenue.toLocaleString()}</div>
+                  <div className="text-orange-500 font-bold text-xs mt-2 flex items-center gap-1"><Printer size={14}/> {orderTransactions.length} orders</div>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm whitespace-nowrap">
+                    <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
+                      <tr>
+                        <th className="px-6 py-4">User Email</th>
+                        <th className="px-6 py-4">Type</th>
+                        <th className="px-6 py-4">Item/Plan</th>
+                        <th className="px-6 py-4">Amount</th>
+                        <th className="px-6 py-4">Status</th>
+                        <th className="px-6 py-4">Payment ID</th>
+                        <th className="px-6 py-4">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {allTransactions.length === 0 ? (
+                        <tr><td colSpan={7} className="px-6 py-8 text-center text-slate-500 italic font-medium">No payments recorded yet.</td></tr>
+                      ) : (
+                        allTransactions.map(tx => (
+                          <tr key={tx.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-6 py-4 font-bold text-slate-800">{tx.email}</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider whitespace-nowrap ${tx.type === 'Subscription' ? 'bg-indigo-100 text-indigo-700' : 'bg-orange-100 text-orange-700'}`}>
+                                {tx.type}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-bold text-slate-700">{tx.planType}</td>
+                            <td className="px-6 py-4 font-black text-emerald-600">₹{tx.amount}</td>
+                            <td className="px-6 py-4">
+                              <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider inline-flex items-center gap-1 whitespace-nowrap"><CheckCircle2 size={12}/>{tx.status}</span>
+                            </td>
+                            <td className="px-6 py-4 font-mono text-xs text-slate-500">{tx.paymentId || 'N/A'}</td>
+                            <td className="px-6 py-4 font-medium text-slate-600">{new Date(tx.date || '').toLocaleDateString()}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'orders' && (
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
               <div className="overflow-x-auto">

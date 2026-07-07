@@ -38,7 +38,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
               { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
-            ].map(item => {
+            ].filter(item => !(user?.is_superuser && item.tab === 'Billing')).map(item => {
               const isLocked = user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings';
               return (
                 <button 
@@ -81,7 +81,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
         </div>
         
         <div className="p-4 lg:p-5 border-t border-white/30 bg-white/30">
-          {user?.membership !== 'PREMIUM' && (
+          {user?.membership !== 'PREMIUM' && !user?.is_superuser && (
             <button 
               onClick={() => setActiveTab('Billing')}
               className="relative overflow-hidden group hidden lg:flex w-full mb-4 items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl font-black text-xs tracking-wide uppercase shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5"
