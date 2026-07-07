@@ -1492,7 +1492,7 @@ export default function WebsiteEditor() {
                   {isOrdering ? (
                     <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Processing Order...</>
                   ) : (
-                    <><ShoppingCart size={16} /> Place Order Now at just ₹50</>
+                    <><ShoppingCart size={16} /> Place Order Now at just ₹100</>
                   )}
                 </button>
               </div>

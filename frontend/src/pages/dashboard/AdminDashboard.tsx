@@ -39,6 +39,9 @@ interface PhysicalOrder {
   email: string;
   address: string;
   status: string;
+  payment_status?: string;
+  razorpay_order_id?: string;
+  razorpay_payment_id?: string;
   created_at: string;
 }
 
@@ -688,14 +691,14 @@ export default function AdminDashboard() {
       {/* Order Details Modal */}
       {selectedOrderDetails && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden relative animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden relative animate-in zoom-in-95 duration-200 flex flex-col max-h-[95vh]">
             <button
               onClick={() => setSelectedOrderDetails(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 bg-slate-100 rounded-full transition-colors z-10"
             >
               <X size={20} />
             </button>
-            <div className="p-6 border-b border-slate-100 bg-slate-50">
+            <div className="p-6 border-b border-slate-100 bg-slate-50 shrink-0">
               <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 <Printer className="text-primary-500" /> Order #{selectedOrderDetails.id}
               </h3>
@@ -712,47 +715,76 @@ export default function AdminDashboard() {
                 </a>
               </p>
             </div>
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Customer Name</div>
-                  <div className="font-bold text-slate-800">{selectedOrderDetails.name}</div>
+            
+            <div className="flex flex-col md:flex-row overflow-y-auto">
+              <div className="p-6 md:w-2/3 space-y-6 md:border-r border-slate-100">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Customer Name</div>
+                    <div className="font-bold text-slate-800">{selectedOrderDetails.name}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number</div>
+                    <div className="font-bold text-slate-800">{selectedOrderDetails.phone}</div>
+                  </div>
+                  <div className="col-span-2">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email Address</div>
+                    <div className="font-bold text-slate-800">{selectedOrderDetails.email}</div>
+                  </div>
+                  <div className="col-span-2">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Shipping Address</div>
+                    <div className="font-medium text-slate-700 bg-slate-50 p-3 rounded-lg whitespace-pre-wrap">
+                      {selectedOrderDetails.address}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number</div>
-                  <div className="font-bold text-slate-800">{selectedOrderDetails.phone}</div>
-                </div>
-                <div className="col-span-2">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email Address</div>
-                  <div className="font-bold text-slate-800">{selectedOrderDetails.email}</div>
-                </div>
-                <div className="col-span-2">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Shipping Address</div>
-                  <div className="font-medium text-slate-700 bg-slate-50 p-3 rounded-lg whitespace-pre-wrap">
-                    {selectedOrderDetails.address}
+
+                <div className="pt-4 border-t border-slate-100">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Update Order Status</div>
+                  <div className="flex gap-2 flex-wrap">
+                    {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map(status => (
+                      <button
+                        key={status}
+                        onClick={() => handleUpdateOrderStatus(selectedOrderDetails.id, status)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${selectedOrderDetails.status === status
+                            ? 'bg-slate-800 text-white border-slate-800 shadow-md'
+                            : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
+                          }`}
+                      >
+                        {status}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Update Order Status</div>
-                <div className="flex gap-2 flex-wrap">
-                  {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map(status => (
-                    <button
-                      key={status}
-                      onClick={() => handleUpdateOrderStatus(selectedOrderDetails.id, status)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${selectedOrderDetails.status === status
-                          ? 'bg-slate-800 text-white border-slate-800 shadow-md'
-                          : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
-                        }`}
-                    >
-                      {status}
-                    </button>
-                  ))}
+              <div className="p-6 md:w-1/3 bg-slate-50/50 space-y-6">
+                <h4 className="font-black text-slate-800 border-b border-slate-200 pb-2 mb-4">Payment Info</h4>
+                <div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Payment Status</div>
+                  <div className={`inline-flex px-3 py-1.5 rounded-lg text-sm font-bold border shadow-sm ${selectedOrderDetails.payment_status === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
+                    {selectedOrderDetails.payment_status || 'PENDING'}
+                  </div>
                 </div>
+                {(selectedOrderDetails.razorpay_order_id || selectedOrderDetails.razorpay_payment_id) && (
+                  <div className="space-y-4">
+                    {selectedOrderDetails.razorpay_payment_id && (
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Razorpay Payment ID</div>
+                        <div className="font-mono text-slate-700 text-xs break-all bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">{selectedOrderDetails.razorpay_payment_id}</div>
+                      </div>
+                    )}
+                    {selectedOrderDetails.razorpay_order_id && (
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Razorpay Order ID</div>
+                        <div className="font-mono text-slate-700 text-xs break-all bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">{selectedOrderDetails.razorpay_order_id}</div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
-            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center gap-4">
+            <div className="p-4 bg-white border-t border-slate-100 flex justify-between items-center gap-4 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
                   <QRCodeSVG
