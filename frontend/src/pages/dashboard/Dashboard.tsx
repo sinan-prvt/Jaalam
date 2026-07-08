@@ -193,7 +193,7 @@ export default function Dashboard() {
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false) return 'Billing';
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser) return 'Billing';
     return location.state?.tab || 'Dashboard';
   });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
@@ -245,7 +245,7 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false) {
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser) {
       if (activeTab !== 'Billing' && activeTab !== 'Settings') {
         setActiveTab('Billing');
       }

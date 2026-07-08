@@ -39,7 +39,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
             ].filter(item => !(user?.is_superuser && item.tab === 'Billing')).map(item => {
-              const isLocked = user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings';
+              const isLocked = user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser;
               return (
                 <button 
                   key={item.tab}
@@ -68,7 +68,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               <div className="mt-4 pt-4 border-t border-slate-200/50">
                 <Link 
                   to="/admin"
-                  className={`w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-3 rounded-xl transition-all font-bold text-indigo-600 hover:bg-indigo-50 group ${user?.has_completed_onboarding === false ? 'opacity-40 pointer-events-none' : ''}`}
+                  className="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-3 rounded-xl transition-all font-bold text-indigo-600 hover:bg-indigo-50 group"
                 >
                   <div className="text-indigo-500 group-hover:scale-110 transition-transform duration-300">
                     <ShieldCheck size={20} />

@@ -154,23 +154,9 @@ class NotificationViewSet(viewsets.ModelViewSet):
             content=content
         )
         
-        # If an admin replies, mark the notification as unread so the user gets alerted
-        if request.user != notification.user:
-            notification.is_read = False
-            notification.save()
-        else:
-            # If a user replies, we could create a quick alert for admins (optional, but requested)
-            from django.contrib.auth import get_user_model
-            User = get_user_model()
-            admins = User.objects.filter(is_superuser=True)
-            for admin in admins:
-                # Create a simple ping notification for admins
-                Notification.objects.create(
-                    user=admin,
-                    title=f"New Reply from {request.user.username}",
-                    message=f"User {request.user.username} replied to ticket: {notification.title}",
-                    notification_type='SYSTEM'
-                )
+        # Always mark the thread as unread so it bumps up in the inbox
+        notification.is_read = False
+        notification.save()
 
         return Response({"status": "replied"})
 

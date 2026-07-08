@@ -4,9 +4,9 @@ import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Plus, Beaker } from 'lucide-react';
+import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import NotificationBell from '../../components/ui/NotificationBell';
+
 import NotificationsPage from './NotificationsPage';
 
 interface AdminUser {
@@ -60,7 +60,13 @@ export default function AdminDashboard() {
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders'>('overview');
+  
+  // Messaging state
+  const [messagingUser, setMessagingUser] = useState<AdminUser | 'ALL' | null>(null);
+  const [messageTitle, setMessageTitle] = useState('');
+  const [messageContent, setMessageContent] = useState('');
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders' | 'revenue'>('overview');
   const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
   const [selectedUserForWebsites, setSelectedUserForWebsites] = useState<AdminUser | null>(null);
   const [websiteSortBy, setWebsiteSortBy] = useState<'newest' | 'visitors'>('newest');
@@ -72,15 +78,7 @@ export default function AdminDashboard() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user?.is_superuser) {
-      navigate('/dashboard');
-      return;
-    }
-    fetchData();
-  }, [user, navigate]);
-
-  const fetchData = async () => {
+  async function fetchData() {
     setLoading(true);
     try {
       const [usersRes, websitesRes, ordersRes] = await Promise.all([
@@ -97,6 +95,15 @@ export default function AdminDashboard() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!user?.is_superuser) {
+      navigate('/dashboard');
+      return;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData();
+  }, [user, navigate]);
 
   const handleToggleBlockUser = async (userId: number) => {
     if (String(userId) === String(user?.id)) {
@@ -142,30 +149,64 @@ export default function AdminDashboard() {
       toast.error("You cannot delete yourself.");
       return;
     }
-    toast((t) => (
-      <div className="flex flex-col gap-3">
-        <p className="text-sm font-bold text-white">Are you sure you want to completely delete this user? This cannot be undone.</p>
-        <div className="flex gap-2 mt-1">
-          <button 
-            onClick={async () => {
+    toast.custom((t) => (
+      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-slate-900 shadow-2xl rounded-2xl pointer-events-auto flex ring-1 ring-black ring-opacity-5 border border-slate-700/50 p-6`}>
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-bold text-white">Are you sure you want to completely delete this user? This cannot be undone.</p>
+          <div className="flex gap-2">
+            <button onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.delete(`http://localhost:8000/api/users/${userId}/`);
+                await axios.delete(`http://localhost:8000/api/users/${userId}/`, { withCredentials: true });
                 setUsers(prev => prev.filter(u => u.id !== userId));
-                toast.success('User deleted successfully.');
+                toast.success("User deleted permanently.");
               } catch (err) {
                 console.error(err);
-                toast.error('Failed to delete user.');
+                toast.error("Failed to delete user.");
               }
-            }}
-            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
-          >
-            Yes, Delete
-          </button>
-          <button onClick={() => toast.dismiss(t.id)} className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors">Cancel</button>
+            }} className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-rose-900/50">Yes, Delete</button>
+            <button onClick={() => toast.dismiss(t.id)} className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-sm transition-colors">Cancel</button>
+          </div>
         </div>
       </div>
-    ), { duration: Infinity });
+    ), { duration: 5000, position: 'top-center' });
+  };
+
+  const handleSendMessage = async () => {
+    if (!messagingUser || !messageTitle.trim() || !messageContent.trim()) return;
+    setIsSendingMessage(true);
+    try {
+      if (messagingUser === 'ALL') {
+        // Send to all users
+        const promises = users.map(u => 
+          axios.post('http://localhost:8000/api/users/notifications/', {
+            title: messageTitle,
+            message: messageContent,
+            notification_type: 'SYSTEM',
+            user: u.id
+          }, { withCredentials: true }).catch(err => console.error(`Failed for ${u.username}`, err))
+        );
+        await Promise.all(promises);
+        toast.success(`Message broadcasted to all ${users.length} users!`);
+      } else {
+        // Send to specific user
+        await axios.post('http://localhost:8000/api/users/notifications/', {
+          title: messageTitle,
+          message: messageContent,
+          notification_type: 'SYSTEM',
+          user: messagingUser.id
+        }, { withCredentials: true });
+        toast.success(`Message sent to ${messagingUser.username}!`);
+      }
+      setMessagingUser(null);
+      setMessageTitle('');
+      setMessageContent('');
+    } catch (err) {
+      toast.error('Failed to send message');
+      console.error(err);
+    } finally {
+      setIsSendingMessage(false);
+    }
   };
 
   const handleToggleBlockWebsite = async (slug: string) => {
@@ -246,7 +287,9 @@ export default function AdminDashboard() {
   };
 
   const filteredUsers = users.filter(u => u.username.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()));
-  const filteredWebsites = websites.filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const filteredWebsites = websites
+.filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
   const filteredOrders = physicalOrders.filter(o => o.website_slug.toLowerCase().includes(searchQuery.toLowerCase()) || o.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   // Revenue Analytics
@@ -279,7 +322,9 @@ export default function AdminDashboard() {
 
   // Overview Analytics
   const totalVisitors = websites.reduce((acc, curr) => acc + (curr.visitors_count || 0), 0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const activeUsers = users.filter(u => u.is_active).length;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const proUsers = users.filter(u => u.membership.toUpperCase().includes('PRO')).length;
 
   if (!user?.is_superuser) return null;
@@ -405,6 +450,10 @@ export default function AdminDashboard() {
           ) : (
             <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
+fdfDFdFdFDfdf
+dashboardd
+dashboard
+fdfDFdFdFDfdf
               {/* TAB: OVERVIEW */}
               {activeTab === 'overview' && (
                 <>
@@ -493,6 +542,15 @@ export default function AdminDashboard() {
               {/* TAB: USERS */}
               {activeTab === 'users' && (
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                  <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
+                    <h3 className="font-bold text-slate-800 flex items-center gap-2"><Users size={18} className="text-primary-500" /> All Users</h3>
+                    <button 
+                      onClick={() => setMessagingUser('ALL')}
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-bold rounded-lg shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
+                    >
+                      <MessageSquare size={16} /> Broadcast Message
+                    </button>
+                  </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
@@ -558,6 +616,13 @@ export default function AdminDashboard() {
                             </td>
                             <td className="py-4 px-6 text-right">
                               <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                                <button
+                                  onClick={() => setMessagingUser(u)}
+                                  className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                  title="Send Message"
+                                >
+                                  <MessageSquare size={18} />
+                                </button>
                                 <button
                                   onClick={() => setSelectedUserForWebsites(u)}
                                   className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -884,9 +949,96 @@ export default function AdminDashboard() {
           )}
           {activeTab === 'notifications' && (
             <div className="flex-1 w-full h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] overflow-y-auto lg:overflow-hidden bg-transparent">
-              <NotificationsPage />
+              <NotificationsPage isAdminView={true} />
             </div>
           )}
+
+          {/* SEND MESSAGE MODAL */}
+          {messagingUser && (
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[100] animate-in fade-in duration-200">
+              <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-8 duration-300">
+                <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-inner">
+                      <MessageSquare size={20} />
+                    </div>
+                    <div>
+                      <h3 className="font-black text-slate-900 text-lg">
+                        {messagingUser === 'ALL' ? 'Broadcast Message' : 'Send Message'}
+                      </h3>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        {messagingUser === 'ALL' ? `To: All ${users.length} Users` : `To: ${(messagingUser as AdminUser).username} (${(messagingUser as AdminUser).email})`}
+                      </p>
+                    </div>
+                  </div>
+                  <button onClick={() => setMessagingUser(null)} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-200 rounded-xl transition-colors">
+                    <X size={20} />
+                  </button>
+                </div>
+                
+                <div className="p-6 space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Subject</label>
+                    <input 
+                      type="text" 
+                      value={messageTitle}
+                      onChange={e => setMessageTitle(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium" 
+                      placeholder="e.g. Account Update" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Message</label>
+                    <div className="relative">
+                      <textarea 
+                        value={messageContent}
+                        onChange={e => setMessageContent(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all min-h-[150px] resize-none" 
+                        placeholder="Type your message to the user here..."
+                      ></textarea>
+                      <button
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'image/*';
+                          input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                const base64 = reader.result as string;
+                                setMessageContent(prev => prev + (prev ? '\n\n' : '') + `[ATTACHMENT:${file.name}:${base64}]`);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          };
+                          input.click();
+                        }}
+                        className="absolute bottom-3 left-3 text-slate-400 hover:text-indigo-500 transition-colors p-2 bg-white rounded-lg border border-slate-200 hover:bg-indigo-50 shadow-sm"
+                        title="Attach Image/Screenshot"
+                      >
+                        <Paperclip size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6 pt-0 flex justify-end gap-3">
+                  <button onClick={() => setMessagingUser(null)} className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={handleSendMessage}
+                    disabled={isSendingMessage || !messageTitle.trim() || !messageContent.trim()}
+                    className="px-6 py-2.5 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isSendingMessage ? 'Sending...' : <><Send size={16}/> Send Message</>}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       </main>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Bell, Send, CheckCircle2, Circle, Clock, Plus, X } from 'lucide-react';
+import { Bell, Send, CheckCircle2, Circle, Clock, Plus, X, Paperclip } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
@@ -38,7 +38,7 @@ export default function NotificationsPage() {
 
   const fetchNotifications = async () => {
     try {
-      const endpoint = user?.is_superuser 
+      const endpoint = isAdminView 
         ? 'http://localhost:8000/api/users/notifications/?all=true'
         : 'http://localhost:8000/api/users/notifications/';
       const response = await axios.get(endpoint, { withCredentials: true });
@@ -48,7 +48,7 @@ export default function NotificationsPage() {
       // Update selected notification or select the first one if none is selected
       setSelectedNotification(current => {
         if (current) {
-          const updated = response.data.find((n: any) => n.id === current.id);
+          const updated = response.data.find((n: Notification) => n.id === current.id);
           return updated || current;
         }
         if (response.data.length > 0) {
@@ -65,6 +65,7 @@ export default function NotificationsPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 10000);
     return () => clearInterval(interval);
@@ -89,7 +90,7 @@ export default function NotificationsPage() {
   const handleSendReply = async () => {
     if (!replyText.trim() || !selectedNotification) return;
     try {
-      const endpoint = user?.is_superuser 
+      const endpoint = isAdminView 
         ? `http://localhost:8000/api/users/notifications/${selectedNotification.id}/reply/?all=true`
         : `http://localhost:8000/api/users/notifications/${selectedNotification.id}/reply/`;
         
@@ -126,9 +127,48 @@ export default function NotificationsPage() {
     }
   };
 
-  const filteredNotifications = notifications.filter(n => {
+  // Group identical notifications for all users to prevent inbox clutter
+  const displayNotifications = (() => {
+    const grouped = new Map<string, Notification & { groupCount?: number }>();
+    const result: Array<Notification & { groupCount?: number }> = [];
+    
+    for (const n of notifications) {
+      // If it has replies, it's an active thread, always show independently
+      if (n.messages && n.messages.length > 0) {
+        result.push(n);
+        continue;
+      }
+      
+      const sig = `${n.title.trim()}|${n.message.trim()}`;
+      if (grouped.has(sig)) {
+        const existing = grouped.get(sig);
+        existing.groupCount = (existing.groupCount || 1) + 1;
+      } else {
+        const copy = { ...n, groupCount: 1 };
+        grouped.set(sig, copy);
+        result.push(copy);
+      }
+    }
+    
+    // Modify titles for grouped broadcasts
+    return result.map(n => {
+      if (n.groupCount > 1) {
+        if (isAdminView) {
+          return { ...n, title: `[Broadcast] ${n.title} (Sent to ${n.groupCount} users)` };
+        } else {
+          return { ...n, title: `${n.title} (${n.groupCount})` };
+        }
+      }
+      return n;
+    });
+  })();
+
+  const filteredNotifications = [...displayNotifications].filter(n => {
     if (filter === 'Unread') return !n.is_read;
     return true;
+  }).sort((a, b) => {
+    if (a.is_read === b.is_read) return 0;
+    return a.is_read ? 1 : -1;
   });
 
   if (loading) {
@@ -154,9 +194,11 @@ export default function NotificationsPage() {
                <option value="All">All</option>
                <option value="Unread">Unread</option>
              </select>
-             <button onClick={() => { setIsComposing(true); setSelectedNotification(null); }} className="bg-indigo-600 text-white p-1.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
-               <Plus size={16} />
-             </button>
+             {!isAdminView && (
+               <button onClick={() => { setIsComposing(true); setSelectedNotification(null); }} className="bg-indigo-600 text-white p-1.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
+                 <Plus size={16} />
+               </button>
+             )}
           </div>
         </div>
         <div className="flex-1 overflow-y-auto p-2 space-y-2">
@@ -215,7 +257,32 @@ export default function NotificationsPage() {
                </div>
                <div className="flex-1 flex flex-col min-h-[200px]">
                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Message</label>
-                 <textarea value={composeMessage} onChange={e => setComposeMessage(e.target.value)} className="w-full flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none transition-all" placeholder="Type your message here..."></textarea>
+                 <div className="relative flex-1 flex flex-col">
+                   <textarea value={composeMessage} onChange={e => setComposeMessage(e.target.value)} className="w-full flex-1 bg-white border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none transition-all" placeholder="Type your message here..."></textarea>
+                   <button
+                     onClick={() => {
+                       const input = document.createElement('input');
+                       input.type = 'file';
+                       input.accept = 'image/*';
+                       input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                         const file = e.target.files?.[0];
+                         if (file) {
+                           const reader = new FileReader();
+                           reader.onloadend = () => {
+                             const base64 = reader.result as string;
+                             setComposeMessage(prev => prev + (prev ? '\n\n' : '') + `[ATTACHMENT:${file.name}:${base64}]`);
+                           };
+                           reader.readAsDataURL(file);
+                         }
+                       };
+                       input.click();
+                     }}
+                     className="absolute bottom-3 left-3 text-slate-400 hover:text-indigo-500 transition-colors p-2 bg-slate-50 rounded-lg border border-slate-200 hover:bg-white shadow-sm"
+                     title="Attach Image/Screenshot"
+                   >
+                     <Paperclip size={18} />
+                   </button>
+                 </div>
                </div>
              </div>
              <div className="pt-6 mt-2 border-t border-white/50 flex justify-end">
@@ -243,7 +310,20 @@ export default function NotificationsPage() {
                   <span className="text-xs font-black text-slate-400 uppercase tracking-wider">System</span>
                 </div>
                 <div className="bg-white border border-slate-100 shadow-sm p-4 rounded-2xl rounded-tl-sm text-slate-700 text-sm leading-relaxed">
-                  {selectedNotification.message}
+                  {selectedNotification.message.split(/(\[ATTACHMENT:[^:]+:data:image\/[^;]+;base64,[^\]]+\])/).map((part, idx) => {
+                    if (part.startsWith('[ATTACHMENT:')) {
+                      const match = part.match(/\[ATTACHMENT:([^:]+):(.+)\]/);
+                      if (match) {
+                        return (
+                          <div key={idx} className="mt-2 mb-2">
+                            <div className="text-xs opacity-70 mb-1 font-mono">{match[1]}</div>
+                            <img src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
+                          </div>
+                        );
+                      }
+                    }
+                    return <span key={idx} className="whitespace-pre-wrap">{part}</span>;
+                  })}
                 </div>
               </div>
 
@@ -260,7 +340,20 @@ export default function NotificationsPage() {
                         ? 'bg-indigo-600 text-white rounded-tr-sm' 
                         : 'bg-white border border-slate-100 text-slate-700 rounded-tl-sm'
                     }`}>
-                      {msg.content}
+                      {msg.content.split(/(\[ATTACHMENT:[^:]+:data:image\/[^;]+;base64,[^\]]+\])/).map((part, idx) => {
+                        if (part.startsWith('[ATTACHMENT:')) {
+                          const match = part.match(/\[ATTACHMENT:([^:]+):(.+)\]/);
+                          if (match) {
+                            return (
+                              <div key={idx} className="mt-2 mb-2">
+                                <div className="text-xs opacity-70 mb-1 font-mono">{match[1]}</div>
+                                <img src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
+                              </div>
+                            );
+                          }
+                        }
+                        return <span key={idx} className="whitespace-pre-wrap">{part}</span>;
+                      })}
                     </div>
                   </div>
                 );
@@ -270,14 +363,39 @@ export default function NotificationsPage() {
             {/* Reply Input Box */}
             <div className="p-4 bg-white/40 border-t border-white/50">
               <div className="flex gap-2">
-                <input 
-                  type="text" 
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
-                  placeholder="Type a reply..."
-                  className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                />
+                <div className="relative flex-1 flex items-center">
+                  <input 
+                    type="text" 
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
+                    placeholder="Type a reply..."
+                    className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                  />
+                  <button
+                    onClick={() => {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = 'image/*';
+                      input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            const base64 = reader.result as string;
+                            setReplyText(prev => prev + (prev ? ' ' : '') + `[ATTACHMENT:${file.name}:${base64}]`);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      };
+                      input.click();
+                    }}
+                    className="absolute left-3 text-slate-400 hover:text-indigo-500 transition-colors p-1"
+                    title="Attach Image/Screenshot"
+                  >
+                    <Paperclip size={18} />
+                  </button>
+                </div>
                 <button 
                   onClick={handleSendReply}
                   disabled={!replyText.trim()}
