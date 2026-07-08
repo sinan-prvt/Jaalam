@@ -60,7 +60,7 @@ export default function AdminDashboard() {
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Messaging state
   const [messagingUser, setMessagingUser] = useState<AdminUser | 'ALL' | null>(null);
   const [messageTitle, setMessageTitle] = useState('');
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
     try {
       if (messagingUser === 'ALL') {
         // Send to all users
-        const promises = users.map(u => 
+        const promises = users.map(u =>
           axios.post('http://localhost:8000/api/users/notifications/', {
             title: messageTitle,
             message: messageContent,
@@ -219,7 +219,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col gap-3">
         <p className="text-sm font-bold text-white">{confirmMessage}</p>
         <div className="flex gap-2 mt-1">
-          <button 
+          <button
             onClick={async () => {
               toast.dismiss(t.id);
               try {
@@ -249,7 +249,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col gap-3">
         <p className="text-sm font-bold text-white">Are you sure you want to delete website {slug}?</p>
         <div className="flex gap-2 mt-1">
-          <button 
+          <button
             onClick={async () => {
               toast.dismiss(t.id);
               try {
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
   const filteredUsers = users.filter(u => u.username.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()));
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const filteredWebsites = websites
-.filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
+    .filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
   const filteredOrders = physicalOrders.filter(o => o.website_slug.toLowerCase().includes(searchQuery.toLowerCase()) || o.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   // Revenue Analytics
@@ -450,10 +450,7 @@ export default function AdminDashboard() {
           ) : (
             <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-fdfDFdFdFDfdf
-dashboardd
-dashboard
-fdfDFdFdFDfdf
+
               {/* TAB: OVERVIEW */}
               {activeTab === 'overview' && (
                 <>
@@ -544,7 +541,7 @@ fdfDFdFdFDfdf
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
                     <h3 className="font-bold text-slate-800 flex items-center gap-2"><Users size={18} className="text-primary-500" /> All Users</h3>
-                    <button 
+                    <button
                       onClick={() => setMessagingUser('ALL')}
                       className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-bold rounded-lg shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
                     >
@@ -589,12 +586,11 @@ fdfDFdFdFDfdf
                             </td>
                             <td className="py-4 px-6 whitespace-nowrap">
                               <div className="flex flex-col gap-1">
-                                <span className={`inline-flex w-fit px-2 py-0.5 rounded text-xs font-bold ${
-                                  u.membership === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
-                                  u.membership === 'BUSINESS' ? 'bg-blue-100 text-blue-700' :
-                                  u.membership === 'STARTER' ? 'bg-emerald-100 text-emerald-700' :
-                                  'bg-slate-100 text-slate-700'
-                                }`}>
+                                <span className={`inline-flex w-fit px-2 py-0.5 rounded text-xs font-bold ${u.membership === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
+                                    u.membership === 'BUSINESS' ? 'bg-blue-100 text-blue-700' :
+                                      u.membership === 'STARTER' ? 'bg-emerald-100 text-emerald-700' :
+                                        'bg-slate-100 text-slate-700'
+                                  }`}>
                                   {u.membership}
                                 </span>
                                 {u.subscription_details && u.subscription_details.razorpay_payment_id && (
@@ -829,28 +825,28 @@ fdfDFdFdFDfdf
                   <p className="text-slate-500 mt-1 font-medium text-sm">View all subscription payments and revenue details</p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
                   <div className="absolute top-0 inset-x-0 h-1 bg-emerald-500"></div>
                   <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">Total Revenue</div>
                   <div className="text-4xl font-black text-slate-800">₹{totalRevenue.toLocaleString()}</div>
-                  <div className="text-emerald-500 font-bold text-xs mt-2 flex items-center gap-1"><TrendingUp size={14}/> Lifetime earnings</div>
+                  <div className="text-emerald-500 font-bold text-xs mt-2 flex items-center gap-1"><TrendingUp size={14} /> Lifetime earnings</div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
                   <div className="absolute top-0 inset-x-0 h-1 bg-indigo-500"></div>
                   <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">Subscriptions</div>
                   <div className="text-4xl font-black text-slate-800">₹{subscriptionRevenue.toLocaleString()}</div>
-                  <div className="text-indigo-500 font-bold text-xs mt-2 flex items-center gap-1"><Users size={14}/> {subscriptionTransactions.length} payments</div>
+                  <div className="text-indigo-500 font-bold text-xs mt-2 flex items-center gap-1"><Users size={14} /> {subscriptionTransactions.length} payments</div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
                   <div className="absolute top-0 inset-x-0 h-1 bg-orange-500"></div>
                   <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">QR Orders</div>
                   <div className="text-4xl font-black text-slate-800">₹{qrRevenue.toLocaleString()}</div>
-                  <div className="text-orange-500 font-bold text-xs mt-2 flex items-center gap-1"><Printer size={14}/> {orderTransactions.length} orders</div>
+                  <div className="text-orange-500 font-bold text-xs mt-2 flex items-center gap-1"><Printer size={14} /> {orderTransactions.length} orders</div>
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm whitespace-nowrap">
@@ -880,7 +876,7 @@ fdfDFdFdFDfdf
                             <td className="px-6 py-4 font-bold text-slate-700">{tx.planType}</td>
                             <td className="px-6 py-4 font-black text-emerald-600">₹{tx.amount}</td>
                             <td className="px-6 py-4">
-                              <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider inline-flex items-center gap-1 whitespace-nowrap"><CheckCircle2 size={12}/>{tx.status}</span>
+                              <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider inline-flex items-center gap-1 whitespace-nowrap"><CheckCircle2 size={12} />{tx.status}</span>
                             </td>
                             <td className="px-6 py-4 font-mono text-xs text-slate-500">{tx.paymentId || 'N/A'}</td>
                             <td className="px-6 py-4 font-medium text-slate-600">{new Date(tx.date || '').toLocaleDateString()}</td>
@@ -975,25 +971,25 @@ fdfDFdFdFDfdf
                     <X size={20} />
                   </button>
                 </div>
-                
+
                 <div className="p-6 space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Subject</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={messageTitle}
                       onChange={e => setMessageTitle(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium" 
-                      placeholder="e.g. Account Update" 
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+                      placeholder="e.g. Account Update"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Message</label>
                     <div className="relative">
-                      <textarea 
+                      <textarea
                         value={messageContent}
                         onChange={e => setMessageContent(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all min-h-[150px] resize-none" 
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all min-h-[150px] resize-none"
                         placeholder="Type your message to the user here..."
                       ></textarea>
                       <button
@@ -1022,17 +1018,17 @@ fdfDFdFdFDfdf
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-6 pt-0 flex justify-end gap-3">
                   <button onClick={() => setMessagingUser(null)} className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">
                     Cancel
                   </button>
-                  <button 
+                  <button
                     onClick={handleSendMessage}
                     disabled={isSendingMessage || !messageTitle.trim() || !messageContent.trim()}
                     className="px-6 py-2.5 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    {isSendingMessage ? 'Sending...' : <><Send size={16}/> Send Message</>}
+                    {isSendingMessage ? 'Sending...' : <><Send size={16} /> Send Message</>}
                   </button>
                 </div>
               </div>
@@ -1069,7 +1065,7 @@ fdfDFdFdFDfdf
                 </a>
               </p>
             </div>
-            
+
             <div className="flex flex-col md:flex-row overflow-y-auto">
               <div className="p-6 md:w-2/3 space-y-6 md:border-r border-slate-100">
                 <div className="grid grid-cols-2 gap-4">
@@ -1101,8 +1097,8 @@ fdfDFdFdFDfdf
                         key={status}
                         onClick={() => handleUpdateOrderStatus(selectedOrderDetails.id, status)}
                         className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all border ${selectedOrderDetails.status === status
-                            ? 'bg-slate-800 text-white border-slate-800 shadow-md'
-                            : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
+                          ? 'bg-slate-800 text-white border-slate-800 shadow-md'
+                          : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50'
                           }`}
                       >
                         {status}
