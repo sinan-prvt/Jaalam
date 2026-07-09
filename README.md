@@ -123,9 +123,48 @@ npm install
 npm run dev
 ```
 
+## Deployment Guide (100% Free Tier)
+
+Jaalam is designed to be fully deployed using free tiers on Vercel, Render, and Neon.
+
+### 1. Database (Neon Postgres)
+By default, the backend uses SQLite. For production, you must use a proper database like PostgreSQL.
+1. Create a free account on [Neon.tech](https://neon.tech/) and create a new project.
+2. Copy the connection string provided (it looks like `postgresql://user:password@endpoint...`).
+3. Set this as your `DATABASE_URL` environment variable.
+
+### 2. Backend Hosting (Render.com)
+1. Go to [Render.com](https://render.com/) and create a new **Web Service**.
+2. Connect your GitHub repository.
+3. Configuration:
+   - **Root Directory:** `backend`
+   - **Build Command:** `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+   - **Start Command:** `gunicorn config.wsgi:application`
+   - **Instance Type:** Free
+4. **Environment Variables:**
+   - `DATABASE_URL`: Your Neon connection string.
+   - `PYTHON_VERSION`: `3.11.0` (Recommended for stable dependency building).
+
+### 3. Frontend Hosting (Vercel)
+1. Go to [Vercel](https://vercel.com/) and create a **New Project**.
+2. Import your GitHub repository.
+3. Set the **Root Directory** to `frontend`.
+4. Leave the default Vite settings and click **Deploy**.
+*(Note: A `vercel.json` file is included in the frontend folder to handle client-side React routing automatically).*
+
+### 4. Google OAuth Configuration
+After deploying your frontend, Google Login will throw an `origin_mismatch` error until you whitelist your new Vercel domain.
+1. Go to your [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+2. Under **OAuth 2.0 Client IDs**, edit your Web Client.
+3. Under **Authorized JavaScript origins**, add your live Vercel URL (e.g., `https://jaalam.vercel.app`).
+4. Under **Authorized redirect URIs**, add the same URL.
+5. Save changes.
+
+---
+
 ## Project Notes
 
-- **Database**: The backend uses SQLite with the database file located at `backend/db.sqlite3`.
+- **Database**: Defaults to local `db.sqlite3`. Automatically switches to PostgreSQL when `DATABASE_URL` is provided.
 - **API Endpoints**: API routes are mounted under `/api/users/` and `/api/websites/`.
-- **OAuth**: The frontend currently wraps the app with Google OAuth in `frontend/src/main.tsx`. Replace the default client ID with your own before production use.
-- **Payments**: Razorpay keys need to be configured in both backend environment variables and frontend integration files.
+- **OAuth**: Google OAuth is wrapped in `frontend/src/main.tsx`. Replace the default client ID with your own for production.
+- **Payments**: Razorpay keys (`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`) must be configured in your backend environment variables for production processing.
