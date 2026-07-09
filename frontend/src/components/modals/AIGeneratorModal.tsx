@@ -34,7 +34,7 @@ export default function AIGeneratorModal({ isOpen, onClose, category, onSuccess 
         vibe,
         category: 'Dynamic'
       };
-      const res = await axios.post('http://localhost:8000/api/websites/generate/', payload);
+      const res = await axios.post('https://jaalam-backend.onrender.com/api/websites/generate/', payload);
       toast.success('Website generated successfully!');
       onSuccess({ ...res.data, _input: payload });
       onClose();

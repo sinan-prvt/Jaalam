@@ -14,7 +14,7 @@ export default function Login() {
   const handleGoogleSuccess = async (credentialResponse: any) => {
     dispatch(loginStart());
     try {
-      const res = await axios.post('http://localhost:8000/api/users/google_login/', {
+      const res = await axios.post('https://jaalam-backend.onrender.com/api/users/google_login/', {
         credential: credentialResponse.credential,
       });
       dispatch(loginSuccess(res.data));

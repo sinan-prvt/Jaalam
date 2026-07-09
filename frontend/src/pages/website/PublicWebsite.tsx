@@ -88,7 +88,7 @@ export default function PublicWebsite() {
   useEffect(() => {
     const fetchWebsite = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/websites/${businessSlug}/public/`);
+        const res = await axios.get(`https://jaalam-backend.onrender.com/api/websites/${businessSlug}/public/`);
         setWebsite(res.data);
       } catch (err: any) {
         console.error(err);

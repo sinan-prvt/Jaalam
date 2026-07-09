@@ -18,7 +18,7 @@ export default function NotificationBell({ isSidebar = false }: { isSidebar?: bo
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/notifications/', { withCredentials: true });
+      const response = await axios.get('https://jaalam-backend.onrender.com/api/users/notifications/', { withCredentials: true });
       setNotifications(response.data);
     } catch (err) {
       console.error('Error fetching notifications:', err);
@@ -45,7 +45,7 @@ export default function NotificationBell({ isSidebar = false }: { isSidebar?: bo
 
   const markAsRead = async (id: number) => {
     try {
-      await axios.post(`http://localhost:8000/api/users/notifications/${id}/mark_read/`, {}, { withCredentials: true });
+      await axios.post(`https://jaalam-backend.onrender.com/api/users/notifications/${id}/mark_read/`, {}, { withCredentials: true });
       setNotifications(notifications.map(n => n.id === id ? { ...n, is_read: true } : n));
     } catch (err) {
       console.error(err);
@@ -54,7 +54,7 @@ export default function NotificationBell({ isSidebar = false }: { isSidebar?: bo
 
   const markAllAsRead = async () => {
     try {
-      await axios.post('http://localhost:8000/api/users/notifications/mark_all_read/', {}, { withCredentials: true });
+      await axios.post('https://jaalam-backend.onrender.com/api/users/notifications/mark_all_read/', {}, { withCredentials: true });
       setNotifications(notifications.map(n => ({ ...n, is_read: true })));
     } catch (err) {
       console.error(err);

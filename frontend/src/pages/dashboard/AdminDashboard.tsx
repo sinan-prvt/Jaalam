@@ -82,9 +82,9 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const [usersRes, websitesRes, ordersRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/users/', { withCredentials: true }),
-        axios.get('http://localhost:8000/api/websites/?all=true', { withCredentials: true }),
-        axios.get('http://localhost:8000/api/websites/physical-orders/', { withCredentials: true }),
+        axios.get('https://jaalam-backend.onrender.com/api/users/', { withCredentials: true }),
+        axios.get('https://jaalam-backend.onrender.com/api/websites/?all=true', { withCredentials: true }),
+        axios.get('https://jaalam-backend.onrender.com/api/websites/physical-orders/', { withCredentials: true }),
       ]);
       setUsers(usersRes.data);
       setWebsites(websitesRes.data);
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
       return;
     }
     try {
-      await axios.post(`http://localhost:8000/api/users/${userId}/toggle_block/`);
+      await axios.post(`https://jaalam-backend.onrender.com/api/users/${userId}/toggle_block/`);
       setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_active: !u.is_active } : u));
       toast.success("User status updated.");
     } catch (err) {
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
       return;
     }
     try {
-      await axios.post(`http://localhost:8000/api/users/${userId}/toggle_role/`);
+      await axios.post(`https://jaalam-backend.onrender.com/api/users/${userId}/toggle_role/`);
       setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_superuser: !u.is_superuser } : u));
       toast.success("User role updated.");
     } catch (err) {
@@ -137,7 +137,7 @@ export default function AdminDashboard() {
 
   const handleToggleTestUser = async (userId: number) => {
     try {
-      const res = await axios.post(`http://localhost:8000/api/users/${userId}/toggle_test_user/`);
+      const res = await axios.post(`https://jaalam-backend.onrender.com/api/users/${userId}/toggle_test_user/`);
       setUsers(users.map(u => u.id === userId ? { ...u, is_test_user: res.data.is_test_user } : u));
     } catch (err) {
       console.error(err);
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
             <button onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.delete(`http://localhost:8000/api/users/${userId}/`, { withCredentials: true });
+                await axios.delete(`https://jaalam-backend.onrender.com/api/users/${userId}/`, { withCredentials: true });
                 setUsers(prev => prev.filter(u => u.id !== userId));
                 toast.success("User deleted permanently.");
               } catch (err) {
@@ -179,7 +179,7 @@ export default function AdminDashboard() {
       if (messagingUser === 'ALL') {
         // Send to all users
         const promises = users.map(u =>
-          axios.post('http://localhost:8000/api/users/notifications/', {
+          axios.post('https://jaalam-backend.onrender.com/api/users/notifications/', {
             title: messageTitle,
             message: messageContent,
             notification_type: 'SYSTEM',
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
         toast.success(`Message broadcasted to all ${users.length} users!`);
       } else {
         // Send to specific user
-        await axios.post('http://localhost:8000/api/users/notifications/', {
+        await axios.post('https://jaalam-backend.onrender.com/api/users/notifications/', {
           title: messageTitle,
           message: messageContent,
           notification_type: 'SYSTEM',
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
             onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.post(`http://localhost:8000/api/websites/${slug}/toggle_block/`);
+                await axios.post(`https://jaalam-backend.onrender.com/api/websites/${slug}/toggle_block/`);
                 setWebsites(prev => prev.map(w => w.slug === slug ? { ...w, is_blocked: !w.is_blocked } : w));
                 if (selectedProjectDetails && selectedProjectDetails.slug === slug) {
                   setSelectedProjectDetails({ ...selectedProjectDetails, is_blocked: !selectedProjectDetails.is_blocked });
@@ -253,7 +253,7 @@ export default function AdminDashboard() {
             onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.delete(`http://localhost:8000/api/websites/${slug}/?all=true`, { withCredentials: true });
+                await axios.delete(`https://jaalam-backend.onrender.com/api/websites/${slug}/?all=true`, { withCredentials: true });
                 setWebsites(prev => prev.filter(w => w.slug !== slug));
                 if (selectedProjectDetails?.slug === slug) {
                   setSelectedProjectDetails(null);
@@ -276,7 +276,7 @@ export default function AdminDashboard() {
 
   const handleUpdateOrderStatus = async (id: number, status: string) => {
     try {
-      await axios.patch(`http://localhost:8000/api/websites/physical-orders/${id}/`, { status }, { withCredentials: true });
+      await axios.patch(`https://jaalam-backend.onrender.com/api/websites/physical-orders/${id}/`, { status }, { withCredentials: true });
       setPhysicalOrders(physicalOrders.map(o => o.id === id ? { ...o, status } : o));
       if (selectedOrderDetails && selectedOrderDetails.id === id) {
         setSelectedOrderDetails({ ...selectedOrderDetails, status });

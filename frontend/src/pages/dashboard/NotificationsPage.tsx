@@ -42,8 +42,8 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
   const fetchNotifications = async () => {
     try {
       const endpoint = isAdminView 
-        ? 'http://localhost:8000/api/users/notifications/?all=true'
-        : 'http://localhost:8000/api/users/notifications/';
+        ? 'https://jaalam-backend.onrender.com/api/users/notifications/?all=true'
+        : 'https://jaalam-backend.onrender.com/api/users/notifications/';
       const response = await axios.get(endpoint, { withCredentials: true });
       
       setNotifications(response.data);
@@ -77,8 +77,8 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
   const handleMarkAsRead = async (id: number) => {
     try {
       const endpoint = user?.is_superuser 
-        ? `http://localhost:8000/api/users/notifications/${id}/mark_read/?all=true`
-        : `http://localhost:8000/api/users/notifications/${id}/mark_read/`;
+        ? `https://jaalam-backend.onrender.com/api/users/notifications/${id}/mark_read/?all=true`
+        : `https://jaalam-backend.onrender.com/api/users/notifications/${id}/mark_read/`;
         
       await axios.post(endpoint, {}, { withCredentials: true });
       setNotifications(notifications.map(n => n.id === id ? { ...n, is_read: true } : n));
@@ -94,8 +94,8 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
     if (!replyText.trim() || !selectedNotification) return;
     try {
       const endpoint = isAdminView 
-        ? `http://localhost:8000/api/users/notifications/${selectedNotification.id}/reply/?all=true`
-        : `http://localhost:8000/api/users/notifications/${selectedNotification.id}/reply/`;
+        ? `https://jaalam-backend.onrender.com/api/users/notifications/${selectedNotification.id}/reply/?all=true`
+        : `https://jaalam-backend.onrender.com/api/users/notifications/${selectedNotification.id}/reply/`;
         
       await axios.post(endpoint, {
         content: replyText
@@ -113,7 +113,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
   const handleSendMessage = async () => {
     if (!composeTitle.trim() || !composeMessage.trim()) return;
     try {
-      await axios.post('http://localhost:8000/api/users/notifications/', {
+      await axios.post('https://jaalam-backend.onrender.com/api/users/notifications/', {
         title: composeTitle,
         message: composeMessage,
         notification_type: 'SYSTEM',
