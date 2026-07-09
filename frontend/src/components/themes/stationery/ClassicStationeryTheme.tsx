@@ -1,7 +1,7 @@
 import React from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { BookOpen, Feather, Search, MapPin, Mail, Phone, Menu, X } from 'lucide-react';
+import { Feather, MapPin, Mail, Phone, Menu, X } from 'lucide-react';
 
 export default function ClassicStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];

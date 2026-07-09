@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, ArrowRight, CheckCircle, Briefcase, BarChart, Users } from 'lucide-react';
-import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
+import { MapPin, Phone, Mail, ArrowRight, CheckCircle, Briefcase, BarChart, Users } from 'lucide-react';
+import { Facebook, Twitter } from '../scrap/SocialIcons';
 
 export default function CorporateOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);

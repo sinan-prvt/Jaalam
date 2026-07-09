@@ -39,7 +39,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
             ].filter(item => !(user?.is_superuser && item.tab === 'Billing')).map(item => {
-              const isLocked = user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser;
+              const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser);
               return (
                 <button 
                   key={item.tab}

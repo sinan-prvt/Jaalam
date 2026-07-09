@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Briefcase, MapPin, Phone, Mail, Clock, X, Menu, Scale, Shield, Landmark, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, X, Menu, Scale, Shield, Landmark, ArrowRight } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 
 export default function LegalFirmTheme({ website, content }: any) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Gem, MapPin, Mail, Phone, ArrowRight } from 'lucide-react';
+import { MapPin, Mail, Phone, ArrowRight } from 'lucide-react';
 
 export default function BoutiqueFancyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);

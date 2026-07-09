@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Wine, Search, MapPin, Mail, Phone, ChevronRight, Menu, X } from 'lucide-react';
+import { Wine, Menu, X } from 'lucide-react';
 
 export default function PremiumGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);

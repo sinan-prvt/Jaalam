@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Home, Search, MapPin, ChevronRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
+import { Home, MapPin, ChevronRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function ModernRealEstateTheme({ website, content }: any) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Cpu, Monitor, Smartphone, Headphones, ShoppingCart, Search, Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
+import { Cpu, ShoppingCart, Search, Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 
 const Github = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.98a5.1 5.1 0 0 0-.1-3.18s-1.03-.33-3.37 1.25a11.6 11.6 0 0 0-6 0C7.23 1.47 6.2 1.8 6.2 1.8a5.1 5.1 0 0 0-.1 3.18A5.44 5.44 0 0 0 4 8.98c0 5.45 3.3 6.65 6.44 7A4.8 4.8 0 0 0 9.4 19.33V22"/><path d="M9 20c-5 1.5-5-2.5-7-3"/></svg>

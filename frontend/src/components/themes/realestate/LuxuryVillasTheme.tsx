@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Home, Key, MapPin, Phone, Mail, CheckCircle2, X, Clock, Menu } from 'lucide-react';
+import { Key, MapPin, Phone, Mail, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function LuxuryVillasTheme({ website, content }: any) {

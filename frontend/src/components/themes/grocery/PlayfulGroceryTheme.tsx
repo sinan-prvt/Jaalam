@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { ShoppingCart, Star, MapPin, Mail, Phone, Smile, Menu, X } from 'lucide-react';
+import { ShoppingCart, Star, MapPin, Phone, Smile, Menu, X } from 'lucide-react';
 
 export default function PlayfulGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);

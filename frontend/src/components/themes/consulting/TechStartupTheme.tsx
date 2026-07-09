@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Briefcase, MapPin, Phone, Mail, Clock, X, Menu, ArrowRight, Activity, Cpu, Cloud, Zap } from 'lucide-react';
+import { MapPin, Phone, Mail, X, Menu, ArrowRight, Activity, Cpu, Cloud, Zap } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 
 export default function TechStartupTheme({ website, content }: any) {

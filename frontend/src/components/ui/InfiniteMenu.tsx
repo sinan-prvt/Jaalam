@@ -519,7 +519,7 @@ class ArcballControl {
   update(deltaTime: number, targetFrameDuration = 16) {
     const timeScale = deltaTime / targetFrameDuration + 0.00001;
     let angleFactor = timeScale;
-    let snapRotation = quat.create();
+    const snapRotation = quat.create();
 
     if (this.isPointerDown) {
       const INTENSITY = 0.3 * timeScale;
@@ -895,7 +895,7 @@ class InfiniteGridMenu {
     const gl = this.gl;
     this.control.update(deltaTime, this.TARGET_FRAME_DURATION);
 
-    let positions = this.instancePositions.map(p => vec3.transformQuat(vec3.create(), p, this.control.orientation));
+    const positions = this.instancePositions.map(p => vec3.transformQuat(vec3.create(), p, this.control.orientation));
     const scale = 0.25;
     const SCALE_INTENSITY = 0.6;
     positions.forEach((p, ndx) => {

@@ -47,7 +47,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
   const [showAllMenu, setShowAllMenu] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   let primaryColor = 'bg-rose-600';
@@ -264,7 +264,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     products = [...products, ...defaultProducts.slice(products.length, 4)];
   }
   
-  let galleryImages = content.gallery_json && content.gallery_json.length > 0
+  const galleryImages = content.gallery_json && content.gallery_json.length > 0
     ? [...content.gallery_json]
     : [...defaultGallery];
 

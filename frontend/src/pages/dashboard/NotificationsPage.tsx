@@ -21,8 +21,11 @@ interface Notification {
   notification_type: string;
   messages: NotificationMessage[];
 }
+interface NotificationsPageProps {
+  isAdminView?: boolean;
+}
 
-export default function NotificationsPage() {
+export default function NotificationsPage({ isAdminView = false }: NotificationsPageProps) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
   const [replyText, setReplyText] = useState('');
@@ -141,7 +144,7 @@ export default function NotificationsPage() {
       
       const sig = `${n.title.trim()}|${n.message.trim()}`;
       if (grouped.has(sig)) {
-        const existing = grouped.get(sig);
+        const existing = grouped.get(sig)!;
         existing.groupCount = (existing.groupCount || 1) + 1;
       } else {
         const copy = { ...n, groupCount: 1 };
@@ -152,7 +155,7 @@ export default function NotificationsPage() {
     
     // Modify titles for grouped broadcasts
     return result.map(n => {
-      if (n.groupCount > 1) {
+      if (n.groupCount && n.groupCount > 1) {
         if (isAdminView) {
           return { ...n, title: `[Broadcast] ${n.title} (Sent to ${n.groupCount} users)` };
         } else {
@@ -264,8 +267,9 @@ export default function NotificationsPage() {
                        const input = document.createElement('input');
                        input.type = 'file';
                        input.accept = 'image/*';
-                       input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                         const file = e.target.files?.[0];
+                       input.onchange = (e: Event) => {
+                         const target = e.target as HTMLInputElement;
+                         const file = target.files?.[0];
                          if (file) {
                            const reader = new FileReader();
                            reader.onloadend = () => {
@@ -377,8 +381,9 @@ export default function NotificationsPage() {
                       const input = document.createElement('input');
                       input.type = 'file';
                       input.accept = 'image/*';
-                      input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                        const file = e.target.files?.[0];
+                      input.onchange = (e: Event) => {
+                        const target = e.target as HTMLInputElement;
+                        const file = target.files?.[0];
                         if (file) {
                           const reader = new FileReader();
                           reader.onloadend = () => {

@@ -3,10 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3, ShieldCheck, Bell } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3, Bell } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
-import NotificationBell from '../../components/ui/NotificationBell';
 import NotificationsPage from './NotificationsPage';
 import Pricing from './Pricing';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
@@ -189,7 +188,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
-  
+
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
@@ -208,7 +207,7 @@ export default function Dashboard() {
   const [editFirstName, setEditFirstName] = useState(user?.first_name || '');
   const [editLastName, setEditLastName] = useState(user?.last_name || '');
   const [isSavingSettings, setIsSavingSettings] = useState(false);
-  
+
   const categoryThemes: Record<string, string[]> = {
     'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Custom'],
     'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'Custom'],
@@ -224,13 +223,13 @@ export default function Dashboard() {
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
-  
+
   const [newTheme, setNewTheme] = useState(categoryThemes['Restaurant'][0]);
   const [heroTitle, setHeroTitle] = useState('');
   const [aboutText, setAboutText] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactPhone, setContactPhone] = useState('');
-  
+
   // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
@@ -275,7 +274,7 @@ export default function Dashboard() {
   };
 
   const getWebsiteLimit = () => {
-    switch(user?.membership) {
+    switch (user?.membership) {
       case 'TEST': return 1;
       case 'STARTER': return 2;
       case 'BUSINESS': return 10;
@@ -293,12 +292,12 @@ export default function Dashboard() {
       toast.error('AI Website Builder is only available on Business and Premium plans. Please upgrade to use this feature.');
       return false;
     }
-    
+
     if (websites.length >= getWebsiteLimit() && !user?.is_test_user && !user?.is_superuser) {
       toast.error(`You've reached your limit of ${getWebsiteLimit()} website(s) on the ${user?.membership || 'Free'} plan. Please upgrade to create more.`);
       return false;
     }
-    
+
     return true;
   };
 
@@ -313,7 +312,7 @@ export default function Dashboard() {
         business_type: newType,
         theme: newTheme,
       });
-      
+
       await axios.put(`http://localhost:8000/api/websites/${res.data.slug}/content/`, {
         hero_title: heroTitle || `Welcome to ${websiteName || res.data.slug}`,
         about_text: aboutText || "Add your business description here.",
@@ -343,7 +342,7 @@ export default function Dashboard() {
       <div className="flex flex-col gap-3">
         <p className="text-sm font-bold text-white">Are you sure you want to delete {slug}?</p>
         <div className="flex gap-2 mt-1">
-          <button 
+          <button
             onClick={async () => {
               toast.dismiss(t.id);
               setDeletingId(id);
@@ -364,7 +363,7 @@ export default function Dashboard() {
           >
             Yes, Delete
           </button>
-          <button 
+          <button
             onClick={() => toast.dismiss(t.id)}
             className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors"
           >
@@ -414,19 +413,19 @@ export default function Dashboard() {
   const totalVisitors = websites.reduce((acc, site) => acc + (site.visitors_count || 0), 0);
 
   const filteredWebsites = websites.filter(site => {
-    const matchesSearch = site.slug.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          site.business_type.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filterStatus === 'All' 
-      ? true 
-      : filterStatus === 'Live' 
-        ? site.published 
+    const matchesSearch = site.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      site.business_type.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filterStatus === 'All'
+      ? true
+      : filterStatus === 'Live'
+        ? site.published
         : !site.published;
     return matchesSearch && matchesFilter;
   });
 
   return (
     <div className="min-h-screen font-sans selection:bg-indigo-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
-      
+
       {/* VIBRANT BENTO MESH BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
@@ -434,85 +433,85 @@ export default function Dashboard() {
         <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 mix-blend-multiply filter blur-[90px] opacity-30 animate-pulse"></div>
       </div>
 
-      <DashboardSidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        user={user} 
-        handleLogout={handleLogout} 
-        setIsCreating={setIsCreating} 
+      <DashboardSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+        handleLogout={handleLogout}
+        setIsCreating={setIsCreating}
       />
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 h-screen overflow-y-auto relative z-10 scroll-smooth pb-24 md:pb-0">
         <div className="p-4 md:p-8 lg:p-8 max-w-[1400px] mx-auto min-h-full">
-          
+
           {/* MOBILE HEADER */}
           <div className="md:hidden flex items-center justify-between mb-6 px-2">
             <div className="flex items-center gap-2">
-               <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
-               <div className="flex flex-col">
-                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
-                 <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
-                   {user?.is_superuser ? 'SYSTEM ADMIN' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
-                 </span>
-               </div>
+              <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
+              <div className="flex flex-col">
+                <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
+                <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                </span>
+              </div>
             </div>
             <div className="flex items-center gap-3">
-               {user?.membership !== 'PREMIUM' && (
-                 <button 
-                   onClick={() => setActiveTab('Billing')} 
-                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
-                 >
-                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
-                   <Zap size={12} className="fill-white/30 relative z-10" />
-                   <span className="relative z-10">Upgrade</span>
-                 </button>
-               )}
-               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
-                 <Bell size={20} />
-               </button>
-               <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none shrink-0">
-                 {user?.username?.[0]?.toUpperCase()}
-               </button>
+              {user?.membership !== 'PREMIUM' && (
+                <button
+                  onClick={() => setActiveTab('Billing')}
+                  className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
+                >
+                  <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
+                  <Zap size={12} className="fill-white/30 relative z-10" />
+                  <span className="relative z-10">Upgrade</span>
+                </button>
+              )}
+              <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
+                <Bell size={20} />
+              </button>
+              <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none shrink-0">
+                {user?.username?.[0]?.toUpperCase()}
+              </button>
             </div>
           </div>
 
           {activeTab === 'Dashboard' && (
             <div className="animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-5 px-2">Overview</h2>
-              
+
               {/* COMPACT BENTO GRID */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-                
+
                 {/* BIG HERO BENTO */}
                 <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
-                   <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-indigo-300 to-blue-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
-                   
-                   <div>
-                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/50 backdrop-blur-md shadow-sm border border-white text-[10px] font-black uppercase tracking-wider mb-6 text-indigo-700">
-                       <span className="relative flex h-1.5 w-1.5">
-                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                       </span>
-                       Workspace Active
-                     </div>
-                     <h1 className="text-4xl lg:text-5xl font-black mb-4 tracking-tight leading-tight text-slate-900">
-                       Design.<br/>Build.<br/>
-                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">Launch.</span>
-                     </h1>
-                     <p className="text-slate-600 text-sm md:text-base font-medium leading-relaxed max-w-sm">
-                       Manage your projects, analyze traffic, and deploy sites in seconds.
-                     </p>
-                   </div>
-                   
-                   <div className="mt-8 hidden md:flex gap-3">
-                      <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
-                        <Plus size={18} className="text-indigo-400" /> New Project
-                      </button>
-                      <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
-                        View All
-                      </button>
-                   </div>
+                  <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-indigo-300 to-blue-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
+
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/50 backdrop-blur-md shadow-sm border border-white text-[10px] font-black uppercase tracking-wider mb-6 text-indigo-700">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                      </span>
+                      Workspace Active
+                    </div>
+                    <h1 className="text-4xl lg:text-5xl font-black mb-4 tracking-tight leading-tight text-slate-900">
+                      Design.<br />Build.<br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">Launch.</span>
+                    </h1>
+                    <p className="text-slate-600 text-sm md:text-base font-medium leading-relaxed max-w-sm">
+                      Manage your projects, analyze traffic, and deploy sites in seconds.
+                    </p>
+                  </div>
+
+                  <div className="mt-8 hidden md:flex gap-3">
+                    <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
+                      <Plus size={18} className="text-indigo-400" /> New Project
+                    </button>
+                    <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
+                      View All
+                    </button>
+                  </div>
                 </div>
 
                 {/* SMALL BENTO 1 */}
@@ -568,8 +567,8 @@ export default function Dashboard() {
                 <div className="flex flex-col sm:flex-row items-center gap-2 w-full xl:w-auto bg-white/60 backdrop-blur-xl p-1.5 rounded-2xl shadow-sm border border-white/60">
                   <div className="relative flex-1 w-full sm:w-56">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="Search..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -577,7 +576,7 @@ export default function Dashboard() {
                     />
                   </div>
                   <div className="w-px h-6 bg-slate-200 hidden sm:block"></div>
-                  <select 
+                  <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                     className="w-full sm:w-auto bg-white sm:bg-transparent px-3 py-2 text-slate-700 outline-none cursor-pointer font-black text-sm appearance-none rounded-xl sm:rounded-none"
@@ -586,14 +585,14 @@ export default function Dashboard() {
                     <option value="Live">Live Sites</option>
                     <option value="Draft">Drafts</option>
                   </select>
-                  <button 
+                  <button
                     onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
                     className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                   >
                     <Sparkles size={16} />
                     AI Design
                   </button>
-                  <button 
+                  <button
                     onClick={() => checkCreationLimit() && setIsCreating(true)}
                     className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                   >
@@ -619,14 +618,14 @@ export default function Dashboard() {
                       <h3 className="text-2xl font-black text-slate-900 mb-2">Nothing here yet</h3>
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-                        <button 
+                        <button
                           onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
                           className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                         >
                           <Sparkles size={18} />
                           AI Design
                         </button>
-                        <button 
+                        <button
                           onClick={() => checkCreationLimit() && setIsCreating(true)}
                           className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                         >
@@ -642,7 +641,7 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-xl font-black text-slate-900 mb-2">No matches found</h3>
                       <p className="text-slate-500 font-medium text-sm">Try tweaking your search terms or filters.</p>
-                      <button 
+                      <button
                         onClick={() => { setSearchQuery(''); setFilterStatus('All'); }}
                         className="mt-6 text-indigo-600 hover:text-indigo-800 font-black text-sm underline underline-offset-4"
                       >
@@ -655,17 +654,17 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {filteredWebsites.map(site => (
                     <div key={site.id} className={`group bg-white/70 backdrop-blur-xl rounded-3xl border border-white overflow-hidden flex flex-col transition-all hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${deletingId === site.id ? 'opacity-50 pointer-events-none' : ''}`}>
-                      
+
                       <div className="h-40 bg-slate-100/50 relative overflow-hidden flex items-center justify-center m-2 rounded-2xl group/img">
                         <img src={getThemeThumbnail(site.theme, site.business_type)} alt={site.theme} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/50 transition-colors duration-500 backdrop-blur-[2px]"></div>
-                        
+
                         {/* Dynamic Overlay Text */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 pointer-events-none z-10 scale-95 group-hover:scale-100 transition-transform duration-500">
                           <h4 className="text-white font-black text-2xl tracking-tight drop-shadow-lg capitalize">{site.content?.settings_json?.website_name || site.slug.replace(/-/g, ' ')}</h4>
                           <span className="text-white/90 font-bold text-[10px] uppercase tracking-widest mt-1 drop-shadow-md">{site.business_type} • {site.theme}</span>
                         </div>
-                        
+
                         {/* Status Badge */}
                         <div className="absolute top-3 right-3 flex items-center gap-1">
                           {(() => {
@@ -673,11 +672,11 @@ export default function Dashboard() {
                             if (order) {
                               return (
                                 <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-md border
-                                  ${order.status === 'PENDING' ? 'bg-amber-100/90 text-amber-800 border-amber-200' : 
+                                  ${order.status === 'PENDING' ? 'bg-amber-100/90 text-amber-800 border-amber-200' :
                                     order.status === 'PROCESSING' ? 'bg-blue-100/90 text-blue-800 border-blue-200' :
-                                    order.status === 'SHIPPED' ? 'bg-indigo-100/90 text-indigo-800 border-indigo-200' :
-                                    order.status === 'DELIVERED' ? 'bg-emerald-100/90 text-emerald-800 border-emerald-200' :
-                                    'bg-rose-100/90 text-rose-800 border-rose-200'
+                                      order.status === 'SHIPPED' ? 'bg-indigo-100/90 text-indigo-800 border-indigo-200' :
+                                        order.status === 'DELIVERED' ? 'bg-emerald-100/90 text-emerald-800 border-emerald-200' :
+                                          'bg-rose-100/90 text-rose-800 border-rose-200'
                                   }`}
                                 >
                                   Stickers: {order.status}
@@ -690,17 +689,17 @@ export default function Dashboard() {
                             {site.published ? 'Live' : 'Draft'}
                           </span>
                         </div>
-                        
+
                         {/* Quick Actions (Hover) */}
                         <div className="absolute top-3 left-3 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1.5">
-                          <button 
+                          <button
                             onClick={() => handleCopyLink(site.slug)}
                             className="p-2 bg-white/90 backdrop-blur-md hover:bg-white text-slate-700 hover:text-indigo-600 rounded-lg shadow-sm transition-all"
                             title="Copy link"
                           >
                             {copiedSlug === site.slug ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDelete(site.slug, site.id)}
                             className="p-2 bg-white/90 backdrop-blur-md hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-lg shadow-sm transition-all"
                             title="Delete site"
@@ -709,7 +708,7 @@ export default function Dashboard() {
                           </button>
                         </div>
                       </div>
-                      
+
                       <div className="p-5 pt-3 flex-1 flex flex-col">
                         <div className="mb-4">
                           <h3 className="font-black text-xl text-slate-900 group-hover:text-indigo-600 transition-colors cursor-pointer truncate" onClick={() => setSelectedProject(site)}>{site.content?.settings_json?.website_name || site.slug}</h3>
@@ -718,7 +717,7 @@ export default function Dashboard() {
                             <span className="px-2.5 py-1 bg-white shadow-sm border border-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">{site.theme}</span>
                           </div>
                         </div>
-                        
+
                         <div className="mt-auto pt-4 flex flex-col gap-2">
                           <button onClick={() => setSelectedProject(site)} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-md text-sm">
                             <BarChart3 size={16} className="text-indigo-400" /> Analytics
@@ -743,7 +742,7 @@ export default function Dashboard() {
           {activeTab === 'Analytics' && (
             <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics Overview</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
                   <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
@@ -754,7 +753,7 @@ export default function Dashboard() {
                     <div className="text-3xl font-black text-slate-900">{totalVisitors.toLocaleString()}</div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
                   <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
                     <Globe size={24} />
@@ -764,7 +763,7 @@ export default function Dashboard() {
                     <div className="text-3xl font-black text-slate-900">{activeSites}</div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
                   <div className="w-14 h-14 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center shadow-inner">
                     <Activity size={24} />
@@ -778,7 +777,7 @@ export default function Dashboard() {
 
               <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
                 <h3 className="text-xl font-black text-slate-900 mb-6">Top Performing Sites</h3>
-                
+
                 {websites.filter(w => w.published).length === 0 ? (
                   <div className="text-center py-10">
                     <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -792,22 +791,22 @@ export default function Dashboard() {
                       .filter(w => w.published)
                       .sort((a, b) => (b.visitors_count || 0) - (a.visitors_count || 0))
                       .map((site, index) => (
-                      <div key={site.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${index === 0 ? 'bg-amber-100 text-amber-700' : index === 1 ? 'bg-slate-200 text-slate-700' : index === 2 ? 'bg-orange-100 text-orange-700' : 'bg-slate-50 text-slate-400'}`}>
-                            {index + 1}
+                        <div key={site.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="flex items-center gap-4">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${index === 0 ? 'bg-amber-100 text-amber-700' : index === 1 ? 'bg-slate-200 text-slate-700' : index === 2 ? 'bg-orange-100 text-orange-700' : 'bg-slate-50 text-slate-400'}`}>
+                              {index + 1}
+                            </div>
+                            <div>
+                              <h4 className="font-black text-slate-900">{site.content?.settings_json?.website_name || site.slug}</h4>
+                              <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">{site.business_type} • {site.theme}</div>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="font-black text-slate-900">{site.content?.settings_json?.website_name || site.slug}</h4>
-                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">{site.business_type} • {site.theme}</div>
+                          <div className="text-right">
+                            <div className="font-black text-lg text-slate-900">{site.visitors_count || 0}</div>
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Visitors</div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="font-black text-lg text-slate-900">{site.visitors_count || 0}</div>
-                          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Visitors</div>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 )}
               </div>
@@ -816,14 +815,14 @@ export default function Dashboard() {
 
           {activeTab === 'Billing' && (
             <div className="p-4 md:p-8 pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
-               <Pricing onSubscribeSuccess={() => setActiveTab('Dashboard')} />
+              <Pricing onSubscribeSuccess={() => setActiveTab('Dashboard')} />
             </div>
           )}
 
           {activeTab === 'Settings' && (
             <div className="max-w-3xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Settings</h2>
-              
+
               <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-8 pb-8 border-b border-slate-200/50">
                   <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border-2 border-white shadow-md flex items-center justify-center text-slate-900 text-3xl font-black relative overflow-hidden">
@@ -838,40 +837,40 @@ export default function Dashboard() {
                     <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
                   </div>
                 </div>
-                
-                <div className="space-y-6">
-                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                     <div>
-                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Username</label>
-                       <input type="text" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
-                     </div>
-                     <div>
-                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Email Address</label>
-                       <input type="email" disabled value={user?.email || ''} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed font-bold text-sm shadow-inner" />
-                       <p className="text-[10px] text-slate-400 mt-1.5 font-bold uppercase tracking-wider">Contact support to change</p>
-                     </div>
-                     <div>
-                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">First Name</label>
-                       <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} placeholder="e.g. Jane" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
-                     </div>
-                     <div>
-                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Last Name</label>
-                       <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} placeholder="e.g. Doe" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
-                     </div>
-                   </div>
-                   
 
-                   <div className="pt-6 flex flex-col sm:flex-row gap-3 border-t border-slate-100">
-                     <button onClick={handleSaveSettings} disabled={isSavingSettings} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md text-sm w-full sm:w-auto hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">
-                       {isSavingSettings ? 'Saving...' : 'Save Changes'}
-                     </button>
-                     <button onClick={() => { setEditUsername(user?.username || ''); setEditFirstName(user?.first_name || ''); setEditLastName(user?.last_name || ''); }} className="bg-white text-slate-700 border border-slate-200 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-50">
-                       Cancel
-                     </button>
-                   </div>
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Username</label>
+                      <input type="text" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Email Address</label>
+                      <input type="email" disabled value={user?.email || ''} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed font-bold text-sm shadow-inner" />
+                      <p className="text-[10px] text-slate-400 mt-1.5 font-bold uppercase tracking-wider">Contact support to change</p>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">First Name</label>
+                      <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} placeholder="e.g. Jane" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Last Name</label>
+                      <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} placeholder="e.g. Doe" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                    </div>
+                  </div>
+
+
+                  <div className="pt-6 flex flex-col sm:flex-row gap-3 border-t border-slate-100">
+                    <button onClick={handleSaveSettings} disabled={isSavingSettings} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md text-sm w-full sm:w-auto hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                      {isSavingSettings ? 'Saving...' : 'Save Changes'}
+                    </button>
+                    <button onClick={() => { setEditUsername(user?.username || ''); setEditFirstName(user?.first_name || ''); setEditLastName(user?.last_name || ''); }} className="bg-white text-slate-700 border border-slate-200 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-50">
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
-              
+
               <div className="mt-6 bg-white/40 backdrop-blur-xl border border-rose-100 rounded-3xl p-6 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-rose-200 rounded-full mix-blend-multiply blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 opacity-50"></div>
                 <h3 className="text-xl font-black text-rose-600 mb-2">Danger Zone</h3>
@@ -899,13 +898,13 @@ export default function Dashboard() {
                     <X size={20} />
                   </button>
                 </div>
-                
+
                 <form onSubmit={handleCreate} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Website Name</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         required
                         value={websiteName}
                         onChange={(e) => {
@@ -918,13 +917,13 @@ export default function Dashboard() {
                         placeholder="My Awesome Business"
                       />
                     </div>
-                    
+
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Project Slug</label>
                       <div className="flex bg-white border border-slate-100 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm">
                         <span className="px-4 py-2.5 text-indigo-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           required
                           value={newSlug}
                           onChange={(e) => setNewSlug(e.target.value)}
@@ -933,10 +932,10 @@ export default function Dashboard() {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category</label>
-                      <select 
+                      <select
                         value={newType}
                         onChange={(e) => {
                           const val = e.target.value;
@@ -950,10 +949,10 @@ export default function Dashboard() {
                         ))}
                       </select>
                     </div>
-                    
+
                     <div className="bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Theme</label>
-                      <select 
+                      <select
                         value={newTheme}
                         onChange={(e) => setNewTheme(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
@@ -991,7 +990,7 @@ export default function Dashboard() {
                     <X size={20} />
                   </button>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
                     <div className="text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-2">Total Visitors</div>
@@ -1020,7 +1019,7 @@ export default function Dashboard() {
                     <div className="text-lg font-black text-slate-900">{selectedProject.updated_at ? new Date(selectedProject.updated_at).toLocaleDateString() : 'Just now'}</div>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-end pt-5 border-t border-white">
                   <button onClick={() => setSelectedProject(null)} className="w-full sm:w-auto px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-sm rounded-xl transition-all shadow-md">
                     Close Details
@@ -1042,17 +1041,17 @@ export default function Dashboard() {
         onSuccess={async (data: any) => {
           try {
             // Ensure unique slug
-            const generatedSlug = websiteName 
-                ? websiteName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
-                : (data.name || data._input?.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
-            
+            const generatedSlug = websiteName
+              ? websiteName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+              : (data.name || data._input?.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
+
             // Create new site
             const siteRes = await axios.post('http://localhost:8000/api/websites/', {
               slug: generatedSlug,
               business_type: data._input?.category || data.business_category || 'Other',
               theme: data._input?.theme || data.theme_name || data.theme || 'Custom',
             });
-            
+
             let products = [];
             if (data.menus && data.menus.length > 0) {
               products = data.menus.flatMap((m: any) => m.items.map((item: any) => ({
@@ -1069,35 +1068,35 @@ export default function Dashboard() {
             }
 
             await axios.put(`http://localhost:8000/api/websites/${siteRes.data.slug}/content/`, {
-                hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || data._input?.name || 'our site'}`,
-                hero_description: data.hero?.description || data.desc || data._input?.description,
-                settings_json: {
-                  about_title: data.about?.title || data.tagline || 'About Us',
-                  about_description: data.about?.content || data.desc || data._input?.description,
-                  website_name: data.name || data._input?.name,
-                  theme: data.theme || 'light',
-                  primary_color: data.primary_color || 'indigo-600',
-                  font: data.font || 'sans',
-                  blocks: data.blocks
-                },
-                services_json: data.services?.map((s: any) => ({
-                  title: s.name,
-                  description: s.desc,
-                  image: `https://source.unsplash.com/400x300/?${encodeURIComponent(s.name)}`
-                })) || [],
-                products_json: products,
-                gallery_json: gallery,
-                contact_info: {
-                  address: data.contact?.address || data.address,
-                  phone: data.contact?.phone,
-                  email: data.contact?.email,
-                  hours: data.contact?.hours || data.hours
-                }
+              hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || data._input?.name || 'our site'}`,
+              hero_description: data.hero?.description || data.desc || data._input?.description,
+              settings_json: {
+                about_title: data.about?.title || data.tagline || 'About Us',
+                about_description: data.about?.content || data.desc || data._input?.description,
+                website_name: data.name || data._input?.name,
+                theme: data.theme || 'light',
+                primary_color: data.primary_color || 'indigo-600',
+                font: data.font || 'sans',
+                blocks: data.blocks
+              },
+              services_json: data.services?.map((s: any) => ({
+                title: s.name,
+                description: s.desc,
+                image: `https://source.unsplash.com/400x300/?${encodeURIComponent(s.name)}`
+              })) || [],
+              products_json: products,
+              gallery_json: gallery,
+              contact_info: {
+                address: data.contact?.address || data.address,
+                phone: data.contact?.phone,
+                email: data.contact?.email,
+                hours: data.contact?.hours || data.hours
+              }
             });
 
             toast.success('AI Website created successfully!');
             navigate(`/editor/${siteRes.data.slug}`);
-          } catch(err) {
+          } catch (err) {
             console.error(err);
             toast.error("Failed to save generated site");
           }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Search, ShoppingCart, ArrowRight, Menu, X } from 'lucide-react';
+import { Search, ArrowRight, Menu, X } from 'lucide-react';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -40,7 +40,7 @@ export default function MinimalistTheme({ website, content }: any) {
 
   const products = content.products_json?.length > 0 ? content.products_json : defaultProducts;
   const services = content.services_json?.length > 0 ? content.services_json : defaultServices;
-  let galleryImages = content.gallery_json?.length > 0 ? content.gallery_json : [
+  const galleryImages = content.gallery_json?.length > 0 ? content.gallery_json : [
     'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',

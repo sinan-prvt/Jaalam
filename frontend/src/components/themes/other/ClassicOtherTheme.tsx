@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, ArrowRight, Check } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 
 export default function ClassicOtherTheme({ website, content }: any) {

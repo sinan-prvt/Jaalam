@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, Mail, ChevronRight, X, Swords, Target, Flame, ShieldAlert, ArrowRight, Menu } from 'lucide-react';
+import { MapPin, Phone, Mail, X, Swords, Target, Flame, ArrowRight, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -69,7 +69,7 @@ export default function CombatGymTheme({ website, content }: Props) {
 
   const heroImage = content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1600&q=80';
 
-  let galleryImages = content.gallery_json?.length > 0 ? content.gallery_json.map((img: string) => img || 'https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=600&q=80') : [
+  const galleryImages = content.gallery_json?.length > 0 ? content.gallery_json.map((img: string) => img || 'https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=600&q=80') : [
     'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Search, Star, Clock, Scissors, Activity, Grid, ChevronDown, Phone, Mail, ChevronLeft, X } from 'lucide-react';
+import { MapPin, Search, Star, Clock, Scissors, Activity, Grid, ChevronDown, Phone, Mail, X } from 'lucide-react';
 
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -200,7 +200,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
     'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
   ];
 
-  let galleryImages = content.gallery_json && content.gallery_json.length > 0
+  const galleryImages = content.gallery_json && content.gallery_json.length > 0
     ? [...content.gallery_json]
     : [...defaultGallery];
 

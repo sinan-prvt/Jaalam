@@ -30,7 +30,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
   const [currentView, setCurrentView] = useState<'home' | 'menu'>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
@@ -42,7 +42,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // eslint-disable-next-line no-restricted-imports
+   
   useEffect(() => {
     if (content?.contact_info?.address) {
       const defaultLocation: Location = {
@@ -113,7 +113,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
     '/media/hero.png'
   ];
 
-  let galleryImages = content.gallery_json && content.gallery_json.length > 0
+  const galleryImages = content.gallery_json && content.gallery_json.length > 0
     ? [...content.gallery_json]
     : [...defaultGallery];
 

@@ -24,7 +24,7 @@ export default function AIGeneratorModal({ isOpen, onClose, category, onSuccess 
       toast.error('Please enter a business name and description.');
       return;
     }
-    
+
     setIsGenerating(true);
     try {
       const payload = {
@@ -49,11 +49,11 @@ export default function AIGeneratorModal({ isOpen, onClose, category, onSuccess 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
       <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden relative animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Header */}
         <div className="bg-indigo-600 p-6 text-white relative">
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             disabled={isGenerating}
             className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white p-1.5 rounded-full transition-colors disabled:opacity-50"
           >
@@ -72,7 +72,7 @@ export default function AIGeneratorModal({ isOpen, onClose, category, onSuccess 
 
         {/* Body */}
         <div className="p-6 h-[400px] overflow-y-auto custom-scrollbar">
-          
+
           <div className="mb-4">
             <label className="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">
               Business Name *

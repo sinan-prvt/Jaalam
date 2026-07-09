@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, Mail, Star, Clock, X, ChevronLeft, Scissors, Quote, Camera, Menu } from 'lucide-react';
+import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Quote, Camera, Menu } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -71,7 +71,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
 
   const heroImage = content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80';
 
-  let galleryImages = content.gallery_json?.length > 0 ? [...content.gallery_json] : [
+  const galleryImages = content.gallery_json?.length > 0 ? [...content.gallery_json] : [
     'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=600&q=80',

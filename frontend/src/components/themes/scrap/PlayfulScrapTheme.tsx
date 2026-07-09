@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Package, Truck, Phone, Mail, MapPin, DollarSign, X, Clock } from 'lucide-react';
-import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from './SocialIcons';
+import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 
 export default function PlayfulScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];

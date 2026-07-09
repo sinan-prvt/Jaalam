@@ -1,7 +1,7 @@
 import React from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Book, PenTool, ArrowRight, MapPin, Mail, Phone, Search, Menu, X } from 'lucide-react';
+import { Book, ArrowRight, MapPin, Mail, Phone, Search, Menu, X } from 'lucide-react';
 
 export default function ModernStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];

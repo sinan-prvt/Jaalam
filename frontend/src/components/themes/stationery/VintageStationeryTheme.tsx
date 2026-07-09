@@ -1,6 +1,6 @@
 import AllProductsModal from '../../shared/AllProductsModal';
 import React, { useState } from 'react';
-import { Type, Stamp, PenTool, MapPin, Mail, Phone } from 'lucide-react';
+import { Type, Stamp, PenTool } from 'lucide-react';
 
 export default function VintageStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);

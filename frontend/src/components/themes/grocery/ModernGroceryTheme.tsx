@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { ShoppingCart, Search, Menu, User, MapPin, Clock, Phone, ChevronRight, X, Mail } from 'lucide-react';
-import { Facebook, Instagram, Twitter, WhatsApp } from '../scrap/SocialIcons';
+import { ShoppingCart, ShoppingBag, Search, Menu, MapPin, Clock, Phone, ChevronRight, X, Mail } from 'lucide-react';
+import { Facebook, Instagram, Twitter } from '../scrap/SocialIcons';
 
 export default function ModernGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { ShoppingBag, Search, MapPin } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 
 export default function MinimalTextilesTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);

@@ -225,7 +225,7 @@ export default function AdminDashboard() {
               try {
                 await axios.post(`http://localhost:8000/api/websites/${slug}/toggle_block/`);
                 setWebsites(prev => prev.map(w => w.slug === slug ? { ...w, is_blocked: !w.is_blocked } : w));
-                if (selectedProjectDetails?.slug === slug) {
+                if (selectedProjectDetails && selectedProjectDetails.slug === slug) {
                   setSelectedProjectDetails({ ...selectedProjectDetails, is_blocked: !selectedProjectDetails.is_blocked });
                 }
                 toast.success('Website status updated.');
@@ -278,7 +278,7 @@ export default function AdminDashboard() {
     try {
       await axios.patch(`http://localhost:8000/api/websites/physical-orders/${id}/`, { status }, { withCredentials: true });
       setPhysicalOrders(physicalOrders.map(o => o.id === id ? { ...o, status } : o));
-      if (selectedOrderDetails?.id === id) {
+      if (selectedOrderDetails && selectedOrderDetails.id === id) {
         setSelectedOrderDetails({ ...selectedOrderDetails, status });
       }
     } catch (err) {
@@ -287,7 +287,7 @@ export default function AdminDashboard() {
   };
 
   const filteredUsers = users.filter(u => u.username.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const filteredWebsites = websites
     .filter(w => w.slug.toLowerCase().includes(searchQuery.toLowerCase()));
   const filteredOrders = physicalOrders.filter(o => o.website_slug.toLowerCase().includes(searchQuery.toLowerCase()) || o.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -322,9 +322,9 @@ export default function AdminDashboard() {
 
   // Overview Analytics
   const totalVisitors = websites.reduce((acc, curr) => acc + (curr.visitors_count || 0), 0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const activeUsers = users.filter(u => u.is_active).length;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const proUsers = users.filter(u => u.membership.toUpperCase().includes('PRO')).length;
 
   if (!user?.is_superuser) return null;
@@ -997,8 +997,9 @@ export default function AdminDashboard() {
                           const input = document.createElement('input');
                           input.type = 'file';
                           input.accept = 'image/*';
-                          input.onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                            const file = e.target.files?.[0];
+                          input.onchange = (e: Event) => {
+                            const target = e.target as HTMLInputElement;
+                            const file = target.files?.[0];
                             if (file) {
                               const reader = new FileReader();
                               reader.onloadend = () => {

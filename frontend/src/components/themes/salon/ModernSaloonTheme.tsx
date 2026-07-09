@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, Mail, Star, Clock, X, ChevronLeft, Scissors, Sparkles, Zap } from 'lucide-react';
+import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Sparkles, Zap } from 'lucide-react';
 
 /* ─── Intersection-observer fade-in ─── */
 function SlideIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -79,7 +79,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
     'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=600&q=80',
   ];
-  let galleryImages = content.gallery_json?.length > 0 ? [...content.gallery_json] : [...defaultGallery];
+  const galleryImages = content.gallery_json?.length > 0 ? [...content.gallery_json] : [...defaultGallery];
 
 
   const tabs = ['Haircut', 'Beauty', 'Color'];

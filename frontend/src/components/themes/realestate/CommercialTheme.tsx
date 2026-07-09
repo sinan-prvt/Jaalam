@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Briefcase, MapPin, Building, ArrowRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
+import { Briefcase, MapPin, Building, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function CommercialTheme({ website, content }: any) {

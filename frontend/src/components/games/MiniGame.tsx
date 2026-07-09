@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Gamepad2, Sparkles, Layout, Palette, Code, Smartphone, Image as ImageIcon, Zap, Trophy, AlertTriangle, RefreshCw, ChevronLeft, Circle, X } from 'lucide-react';
+import { Gamepad2, Layout, Palette, Code, Smartphone, Image as ImageIcon, Zap, Trophy, AlertTriangle, RefreshCw, ChevronLeft, Circle, X } from 'lucide-react';
 
 interface MiniGameProps {
   onClose: () => void;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Bell, Check, Trash2, X } from 'lucide-react';
+import { Bell } from 'lucide-react';
 
 interface Notification {
   id: number;

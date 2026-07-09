@@ -5,7 +5,6 @@ import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquar
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
-import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
 
@@ -160,7 +159,7 @@ export default function WebsiteEditor() {
     try {
       const res = await axios.get(`http://localhost:8000/api/websites/${websiteId}/`);
       setWebsite(res.data);
-      let fetchedContent = res.data.content || {};
+      const fetchedContent = res.data.content || {};
       if (fetchedContent.contact_info?.address && typeof fetchedContent.contact_info.address === 'object') {
         const addr = fetchedContent.contact_info.address;
         fetchedContent.contact_info.address = Object.values(addr).filter(Boolean).join(', ');

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Building2, Search, MapPin, ArrowRight, ArrowUpRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
+import { Building2, MapPin, ArrowRight, ArrowUpRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 
 export default function UrbanApartmentsTheme({ website, content }: any) {

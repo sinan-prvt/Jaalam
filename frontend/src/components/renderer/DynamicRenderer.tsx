@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Star, Zap, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, Star, Zap } from 'lucide-react';
 
 export default function DynamicRenderer({ website, content }: { website: any, content: any }) {
   const blocks = content.settings_json?.blocks || [];
