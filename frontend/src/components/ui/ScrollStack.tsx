@@ -270,6 +270,22 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     }
   }, [handleScroll, useWindowScroll, scrollContainerSelector]);
   useLayoutEffect(() => {
+    let lenisInstance: any = null;
+    let rafId: number;
+
+    if (useWindowScroll && typeof window !== 'undefined') {
+      lenisInstance = new Lenis({
+        lerp: 0.1,
+        smoothWheel: true,
+      });
+
+      const raf = (time: number) => {
+        lenisInstance?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
+      rafId = requestAnimationFrame(raf);
+    }
+
     const scroller = scrollContainerSelector
       ? (document.querySelector(scrollContainerSelector) as HTMLElement)
       : scrollerRef.current;
@@ -337,6 +353,8 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      if (rafId) cancelAnimationFrame(rafId);
+      if (lenisInstance) lenisInstance.destroy();
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();

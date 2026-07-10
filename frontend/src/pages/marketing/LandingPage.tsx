@@ -1018,6 +1018,7 @@ export default function LandingPage() {
             itemStackDistance={24}
             baseScale={0.93}
             itemScale={0.025}
+            className="pb-[80vh] md:pb-[100vh]"
           >
             {/* STEP 1 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
@@ -1159,6 +1160,9 @@ export default function LandingPage() {
                 </div>
               </div>
             </ScrollStackItem>
+
+            {/* Spacer to increase scroll duration and prevent overlap with next section */}
+            <div className="h-[50vh] md:h-[80vh] w-full pointer-events-none" />
           </ScrollStack>
 
         </div>
