@@ -188,23 +188,24 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       }
 
       const newTransform = {
-        translateY: Math.round(translateY * 100) / 100,
-        scale: Math.round(scale * 1000) / 1000,
-        rotation: Math.round(rotation * 100) / 100,
-        blur: Math.round(blur * 100) / 100
+        translateY: translateY,
+        scale: scale,
+        rotation: rotation,
+        blur: blur
       };
 
       const lastTransform = lastTransformsRef.current.get(i);
       const hasChanged =
         !lastTransform ||
-        Math.abs(lastTransform.translateY - newTransform.translateY) > 0.1 ||
-        Math.abs(lastTransform.scale - newTransform.scale) > 0.001 ||
-        Math.abs(lastTransform.rotation - newTransform.rotation) > 0.1 ||
-        Math.abs(lastTransform.blur - newTransform.blur) > 0.1;
+        Math.abs(lastTransform.translateY - newTransform.translateY) > 0.001 ||
+        Math.abs(lastTransform.scale - newTransform.scale) > 0.0001 ||
+        Math.abs(lastTransform.rotation - newTransform.rotation) > 0.001 ||
+        Math.abs(lastTransform.blur - newTransform.blur) > 0.01;
 
       if (hasChanged) {
-        const transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale}) rotate(${newTransform.rotation}deg)`;
-        const filter = newTransform.blur > 0 ? `blur(${newTransform.blur}px)` : '';
+        // Sub-pixel accurate hardware translation
+        const transform = `translate3d(0, ${newTransform.translateY.toFixed(3)}px, 0) scale(${newTransform.scale.toFixed(4)}) rotate(${newTransform.rotation.toFixed(3)}deg)`;
+        const filter = newTransform.blur > 0 ? `blur(${newTransform.blur.toFixed(2)}px)` : '';
 
         card.style.transform = transform;
         card.style.filter = filter;
@@ -270,22 +271,8 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     }
   }, [handleScroll, useWindowScroll, scrollContainerSelector]);
   useLayoutEffect(() => {
-    let lenisInstance: any = null;
-    let rafId: number;
-
-    if (useWindowScroll && typeof window !== 'undefined') {
-      lenisInstance = new Lenis({
-        lerp: 0.1,
-        smoothWheel: true,
-      });
-
-      const raf = (time: number) => {
-        lenisInstance?.raf(time);
-        rafId = requestAnimationFrame(raf);
-      };
-      rafId = requestAnimationFrame(raf);
-    }
-
+    // We removed Lenis here to allow native mobile momentum scrolling
+    // and rely exclusively on CSS position: sticky for zero-lag pinning.
     const scroller = scrollContainerSelector
       ? (document.querySelector(scrollContainerSelector) as HTMLElement)
       : scrollerRef.current;
@@ -353,8 +340,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (rafId) cancelAnimationFrame(rafId);
-      if (lenisInstance) lenisInstance.destroy();
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();
