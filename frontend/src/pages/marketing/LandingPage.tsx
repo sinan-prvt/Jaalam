@@ -1029,14 +1029,14 @@ export default function LandingPage() {
           {/* SCROLLSTACK CARDS FOR LANDING PAGE */}
           <ScrollStack 
             useWindowScroll={true} 
-            itemDistance={280} 
+            itemDistance={150}  
             itemStackDistance={24} 
             baseScale={0.93} 
             itemScale={0.025}
           >
             {/* STEP 1 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full mix-blend-multiply blur-3xl opacity-60 pointer-events-none"></div>
+              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
               
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
@@ -1082,7 +1082,7 @@ export default function LandingPage() {
 
             {/* STEP 2 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-full mix-blend-multiply blur-3xl opacity-60 pointer-events-none"></div>
+              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
               
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
@@ -1136,7 +1136,7 @@ export default function LandingPage() {
 
             {/* STEP 3 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full mix-blend-multiply blur-3xl opacity-60 pointer-events-none"></div>
+              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
               
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>

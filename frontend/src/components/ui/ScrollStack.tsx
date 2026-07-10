@@ -414,7 +414,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   if (scrollContainerSelector) {
     return (
       <div className={containerClassName} style={containerStyles}>
-        <div className="scroll-stack-inner pt-[10vh] px-4 pb-[20rem]">
+        <div className="scroll-stack-inner pt-[10vh] px-4 pb-12">
           {children}
           <div className="scroll-stack-end w-full h-px" />
         </div>
@@ -424,7 +424,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   return (
     <div className={containerClassName} ref={scrollerRef} style={containerStyles}>
-      <div className="scroll-stack-inner pt-[10vh] px-4 pb-[20rem]">
+      <div className="scroll-stack-inner pt-[10vh] px-4 pb-12">
         {children}
         <div className="scroll-stack-end w-full h-px" />
       </div>
