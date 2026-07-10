@@ -1,20 +1,20 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { 
-  ArrowRight, 
-  Layout, 
-  Smartphone, 
-  QrCode, 
-  Sparkles, 
-  Check, 
-  ChevronDown, 
-  Star, 
-  Zap, 
-  Play, 
-  Globe, 
-  MapPin, 
-  Clock, 
+import {
+  ArrowRight,
+  Layout,
+  Smartphone,
+  QrCode,
+  Sparkles,
+  Check,
+  ChevronDown,
+  Star,
+  Zap,
+  Play,
+  Globe,
+  MapPin,
+  Clock,
   Phone,
   ArrowUpRight,
   Eye,
@@ -47,8 +47,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="border-b border-zinc-800/80 py-5">
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
+      <button
+        onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center py-2 text-left font-medium text-base sm:text-lg text-zinc-200 hover:text-white transition-colors group"
       >
         <span>{question}</span>
@@ -93,10 +93,10 @@ function ThreeDTiltCard({ children, className = "" }: { children: React.ReactNod
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-    
+
     const mouseX = event.clientX - rect.left - width / 2;
     const mouseY = event.clientY - rect.top - height / 2;
-    
+
     x.set(mouseX);
     y.set(mouseY);
   };
@@ -239,42 +239,39 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased overflow-x-hidden relative bg-grid-pattern">
-      
+
       {/* Top soft center light - clean, low-opacity depth */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-indigo-500/5 to-transparent blur-[80px] rounded-full pointer-events-none" />
 
       {/* Navigation */}
-      <motion.nav 
-        initial={{ y: -10, opacity: 0 }}
+      <motion.nav
+        initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="sticky top-0 z-50 backdrop-blur-md bg-[#09090b]/80 border-b border-zinc-900 px-6 py-4"
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="sticky top-6 z-50 mx-auto max-w-5xl w-[92%] backdrop-blur-xl bg-zinc-950/60 border border-zinc-800/80 px-4 py-2.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.6)]"
       >
-        <div className="container mx-auto flex justify-between items-center max-w-7xl">
-          <div className="flex items-center gap-2.5 cursor-pointer">
-            <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
-            <span className="text-lg font-bold tracking-tight font-display text-white">
+        <div className="flex justify-between items-center px-2">
+          <div className="flex items-center gap-2 cursor-pointer">
+            <img src="/logo.png" className="w-7 h-7 object-contain" alt="Jaalam Logo" />
+            <span className="text-base font-bold tracking-tight font-display text-white">
               Jaalam
             </span>
-            <span className="text-[10px] font-mono text-zinc-500 border border-zinc-800 rounded bg-zinc-900/50 px-1 py-0.5">
-              v2.0
-            </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-7">
-            <a href="#features" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Features</a>
-            <a href="#simulator" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Interactive Demo</a>
-            <a href="#process" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">How It Works</a>
-            <a href="#testimonials" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Testimonials</a>
-            <a href="#faq" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">FAQ</a>
+          <div className="hidden md:flex items-center gap-8 bg-zinc-900/50 px-6 py-2 rounded-full border border-zinc-800/50">
+            <a href="#features" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Features</a>
+            <a href="#simulator" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Demo</a>
+            <a href="#process" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Process</a>
+            <a href="#testimonials" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Stories</a>
+            <a href="#faq" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">FAQ</a>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link to="/login" className="text-zinc-400 hover:text-white transition-colors text-sm font-semibold px-2 py-1">
-              Login
+          <div className="flex items-center gap-3">
+            <Link to="/login" className="text-zinc-300 hover:text-white transition-colors text-xs font-semibold px-2 py-1">
+              Log in
             </Link>
-            <Link to="/register" className="bg-zinc-100 hover:bg-zinc-200 text-black text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg transition-all active:scale-97 shadow-sm">
-              Start Free
+            <Link to="/register" className="bg-white hover:bg-zinc-200 text-black text-xs font-bold px-4 py-2 rounded-full transition-all active:scale-95 shadow-sm">
+              Get Started
             </Link>
           </div>
         </div>
@@ -284,15 +281,15 @@ export default function LandingPage() {
       <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 px-6">
         <div className="container mx-auto max-w-7xl">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
+
             {/* Hero Left Info */}
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
               className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left"
             >
-              <motion.div 
+              <motion.div
                 variants={fadeInUp}
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono mb-6"
               >
@@ -300,7 +297,7 @@ export default function LandingPage() {
                 <ShinyText text="Lightning Fast Site Generator" speed={3} color="#a1a1aa" shineColor="#ffffff" />
               </motion.div>
 
-              <motion.h1 
+              <motion.h1
                 variants={fadeInUp}
                 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-[1.08] mb-6 font-display text-white"
               >
@@ -310,26 +307,26 @@ export default function LandingPage() {
                 </span>
               </motion.h1>
 
-              <motion.p 
+              <motion.p
                 variants={fadeInUp}
                 className="text-zinc-400 text-base sm:text-lg max-w-xl mb-10 leading-relaxed font-light"
               >
                 No coding. No complicated builders. Just enter your business details and instantly launch a clean, professional, mobile-ready site with a scan-to-order QR code.
               </motion.p>
 
-              <motion.div 
+              <motion.div
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto"
               >
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="bg-white hover:bg-zinc-200 text-black font-semibold text-base px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm active:scale-97"
                 >
                   Create Your Website Now
                   <ArrowRight className="w-4.5 h-4.5" />
                 </Link>
-                <a 
-                  href="#simulator" 
+                <a
+                  href="#simulator"
                   className="bg-zinc-900/60 hover:bg-zinc-800/80 text-zinc-200 border border-zinc-800 font-medium text-base px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"
                 >
                   <Play className="w-4 h-4 text-zinc-400 fill-zinc-400/20" />
@@ -338,7 +335,7 @@ export default function LandingPage() {
               </motion.div>
 
               {/* Minimal Trust Badge row */}
-              <motion.div 
+              <motion.div
                 variants={fadeInUp}
                 className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-zinc-900 w-full text-zinc-500"
               >
@@ -364,7 +361,7 @@ export default function LandingPage() {
             <div className="lg:col-span-6 flex justify-center relative perspective-1000">
               <ThreeDTiltCard className="w-full max-w-[540px]">
                 <div className="w-full rounded-xl border border-zinc-800 bg-[#09090b]/90 shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden relative">
-                  
+
                   {/* Mockup Top Header */}
                   <div className="flex items-center justify-between px-4 py-3 bg-[#0d0d11] border-b border-zinc-800">
                     <div className="flex items-center gap-1.5">
@@ -383,7 +380,7 @@ export default function LandingPage() {
 
                   {/* Desktop Layout Split */}
                   <div className="grid grid-cols-12 h-[320px] bg-[#09090b]">
-                    
+
                     {/* Mock Editor Sidebar */}
                     <div className="col-span-4 border-r border-zinc-800/80 p-3.5 space-y-4 text-left font-mono">
                       <div>
@@ -395,11 +392,10 @@ export default function LandingPage() {
                             { name: 'Services Catalog', active: false },
                             { name: 'Contact Cards', active: false },
                           ].map((layer, i) => (
-                            <div 
-                              key={i} 
-                              className={`flex items-center justify-between px-2 py-1.5 rounded text-[9px] ${
-                                layer.active ? 'bg-zinc-900 text-zinc-200 border border-zinc-800/50' : 'text-zinc-500'
-                              }`}
+                            <div
+                              key={i}
+                              className={`flex items-center justify-between px-2 py-1.5 rounded text-[9px] ${layer.active ? 'bg-zinc-900 text-zinc-200 border border-zinc-800/50' : 'text-zinc-500'
+                                }`}
                             >
                               <span className="truncate">{layer.name}</span>
                               <Eye className="w-3 h-3 text-zinc-500" />
@@ -425,7 +421,7 @@ export default function LandingPage() {
 
                     {/* Editor Main Canvas */}
                     <div className="col-span-8 p-4 bg-zinc-950/40 flex flex-col justify-between relative">
-                      
+
                       {/* Grid background on canvas */}
                       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 
@@ -478,7 +474,7 @@ export default function LandingPage() {
                 </div>
               </ThreeDTiltCard>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -486,8 +482,8 @@ export default function LandingPage() {
       {/* Simulator Section */}
       <section id="simulator" className="py-20 bg-[#09090b]/80 border-t border-b border-zinc-900 px-6 relative">
         <div className="container mx-auto max-w-7xl relative z-10">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-16"
           >
@@ -503,7 +499,7 @@ export default function LandingPage() {
           </motion.div>
 
           <div className="grid lg:grid-cols-12 gap-10 items-center">
-            
+
             {/* Input Controls */}
             <div className="lg:col-span-5 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between shadow-lg">
               <div className="space-y-6">
@@ -547,11 +543,10 @@ export default function LandingPage() {
                       <button
                         key={ind.id}
                         onClick={() => handleIndustryChange(ind.id as any)}
-                        className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg border font-medium text-xs text-left transition-all font-mono ${
-                          industry === ind.id 
-                            ? 'bg-zinc-900 border-zinc-700 text-white font-bold' 
-                            : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
-                        }`}
+                        className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg border font-medium text-xs text-left transition-all font-mono ${industry === ind.id
+                          ? 'bg-zinc-900 border-zinc-700 text-white font-bold'
+                          : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                          }`}
                       >
                         <span className="text-xs">{ind.icon}</span>
                         <span>{ind.name}</span>
@@ -576,11 +571,10 @@ export default function LandingPage() {
                         key={col.id}
                         onClick={() => setAccentColor(col.id as any)}
                         title={col.name}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${col.class} ${
-                          accentColor === col.id 
-                            ? 'ring-2 ring-offset-2 ring-offset-zinc-950 ring-white scale-105 shadow-md' 
-                            : 'opacity-60 hover:opacity-100'
-                        }`}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${col.class} ${accentColor === col.id
+                          ? 'ring-2 ring-offset-2 ring-offset-zinc-950 ring-white scale-105 shadow-md'
+                          : 'opacity-60 hover:opacity-100'
+                          }`}
                       >
                         {accentColor === col.id && (
                           <Check className="w-4 h-4 text-black font-bold" />
@@ -600,11 +594,10 @@ export default function LandingPage() {
                       <button
                         key={layout}
                         onClick={() => setLayoutStyle(layout as any)}
-                        className={`px-3 py-2 rounded-lg border font-medium text-xs text-center transition-all capitalize font-mono ${
-                          layoutStyle === layout 
-                            ? 'bg-zinc-900 border-zinc-700 text-white font-bold' 
-                            : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
-                        }`}
+                        className={`px-3 py-2 rounded-lg border font-medium text-xs text-center transition-all capitalize font-mono ${layoutStyle === layout
+                          ? 'bg-zinc-900 border-zinc-700 text-white font-bold'
+                          : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                          }`}
                       >
                         {layout}
                       </button>
@@ -630,10 +623,10 @@ export default function LandingPage() {
 
             {/* Mobile Mockup Showcase */}
             <div className="lg:col-span-7 flex justify-center items-center">
-              
+
               {/* iPhone Minimalist Bezel */}
               <div className="w-[310px] sm:w-[330px] aspect-[9/16] bg-[#000000] rounded-[2.5rem] border-4 border-zinc-800 shadow-2xl relative flex flex-col overflow-hidden ring-1 ring-zinc-900">
-                
+
                 {/* Phone Speaker Notch */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-zinc-800 rounded-b-xl z-40 flex justify-center items-start">
                   <div className="w-10 h-0.5 bg-black rounded-full mt-1.5" />
@@ -649,31 +642,28 @@ export default function LandingPage() {
 
                 {/* Content Frame */}
                 <div className="flex-1 flex flex-col bg-[#09090b] overflow-y-auto scrollbar-hide relative text-left">
-                  
+
                   {/* Category Image Header */}
-                  <div className={`relative flex flex-col justify-between p-4 shrink-0 border-zinc-900 overflow-hidden ${
-                    layoutStyle === 'classic' ? 'h-40 border-b' : 
-                    layoutStyle === 'modern' ? 'h-48 border-none' : 
-                    'h-32 border-b'
-                  }`}>
+                  <div className={`relative flex flex-col justify-between p-4 shrink-0 border-zinc-900 overflow-hidden ${layoutStyle === 'classic' ? 'h-40 border-b' :
+                    layoutStyle === 'modern' ? 'h-48 border-none' :
+                      'h-32 border-b'
+                    }`}>
                     {layoutStyle === 'classic' && (
                       <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 to-zinc-950/98 z-0" />
                     )}
                     {layoutStyle === 'modern' && (
                       <div className={`absolute inset-0 opacity-20 ${selectedAccent.bg} z-0`} />
                     )}
-                    
+
                     {/* Mini Brand Navigation */}
                     <div className="flex justify-between items-center z-10">
-                      <span className={`font-bold tracking-tight text-white max-w-[130px] truncate ${
-                        layoutStyle === 'modern' ? 'text-sm' : 'text-[10px]'
-                      }`}>
+                      <span className={`font-bold tracking-tight text-white max-w-[130px] truncate ${layoutStyle === 'modern' ? 'text-sm' : 'text-[10px]'
+                        }`}>
                         {businessName || 'My Website'}
                       </span>
                       {layoutStyle !== 'minimal' && (
-                        <span className={`text-[7px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${
-                          layoutStyle === 'modern' ? 'bg-black/40 border-transparent text-white' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400'
-                        }`}>
+                        <span className={`text-[7px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${layoutStyle === 'modern' ? 'bg-black/40 border-transparent text-white' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400'
+                          }`}>
                           {industry}
                         </span>
                       )}
@@ -682,17 +672,15 @@ export default function LandingPage() {
                     {/* Hero Slogan */}
                     <div className="z-10 mt-auto">
                       {layoutStyle !== 'minimal' && (
-                        <span className={`text-[8px] font-mono font-bold uppercase ${
-                          layoutStyle === 'modern' ? 'text-white/80' : selectedAccent.text
-                        } block mb-0.5`}>
+                        <span className={`text-[8px] font-mono font-bold uppercase ${layoutStyle === 'modern' ? 'text-white/80' : selectedAccent.text
+                          } block mb-0.5`}>
                           {currentContent.tagline}
                         </span>
                       )}
-                      <h4 className={`text-white leading-tight font-display tracking-tight ${
-                        layoutStyle === 'modern' ? 'text-xl font-black' : 
-                        layoutStyle === 'minimal' ? 'text-xs font-medium' : 
-                        'text-sm font-bold'
-                      }`}>
+                      <h4 className={`text-white leading-tight font-display tracking-tight ${layoutStyle === 'modern' ? 'text-xl font-black' :
+                        layoutStyle === 'minimal' ? 'text-xs font-medium' :
+                          'text-sm font-bold'
+                        }`}>
                         {currentContent.slogan}
                       </h4>
                     </div>
@@ -704,11 +692,10 @@ export default function LandingPage() {
                       <button
                         key={tab}
                         onClick={() => setSimulatorTab(tab)}
-                        className={`flex-1 text-center py-2 text-[9px] font-bold tracking-wider uppercase border-b transition-colors font-mono ${
-                          simulatorTab === tab
-                            ? `border-white text-white`
-                            : 'border-transparent text-zinc-600 hover:text-zinc-400'
-                        }`}
+                        className={`flex-1 text-center py-2 text-[9px] font-bold tracking-wider uppercase border-b transition-colors font-mono ${simulatorTab === tab
+                          ? `border-white text-white`
+                          : 'border-transparent text-zinc-600 hover:text-zinc-400'
+                          }`}
                       >
                         {tab}
                       </button>
@@ -730,18 +717,16 @@ export default function LandingPage() {
                           <p>{currentContent.desc}</p>
 
                           {/* CTA Card */}
-                          <div className={`p-4 relative overflow-hidden ${
-                            layoutStyle === 'modern' ? `rounded-3xl border-none ${selectedAccent.bg}` :
+                          <div className={`p-4 relative overflow-hidden ${layoutStyle === 'modern' ? `rounded-3xl border-none ${selectedAccent.bg}` :
                             layoutStyle === 'minimal' ? 'rounded-none border-y border-zinc-800 bg-transparent py-4 px-0' :
-                            'rounded-xl border border-zinc-800 bg-zinc-900/30'
-                          }`}>
+                              'rounded-xl border border-zinc-800 bg-zinc-900/30'
+                            }`}>
                             <h5 className={`font-bold mb-1 text-[11px] font-mono ${layoutStyle === 'modern' ? 'text-black' : 'text-zinc-200'}`}>Reserve a Spot</h5>
                             <p className={`text-[9px] mb-3 leading-normal ${layoutStyle === 'modern' ? 'text-black/70 font-medium' : 'text-zinc-500'}`}>Schedule appointments or reservations directly on our website.</p>
-                            <button className={`w-full py-1.5 text-[9px] font-bold transition-colors ${
-                              layoutStyle === 'modern' ? 'bg-black text-white rounded-full' :
+                            <button className={`w-full py-1.5 text-[9px] font-bold transition-colors ${layoutStyle === 'modern' ? 'bg-black text-white rounded-full' :
                               layoutStyle === 'minimal' ? 'bg-transparent border border-zinc-700 text-white rounded-sm hover:bg-zinc-900' :
-                              'bg-zinc-100 hover:bg-zinc-200 text-black rounded'
-                            }`}>
+                                'bg-zinc-100 hover:bg-zinc-200 text-black rounded'
+                              }`}>
                               Book Instantly
                             </button>
                           </div>
@@ -797,8 +782,8 @@ export default function LandingPage() {
                         >
                           <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-900 flex flex-col items-center text-center">
                             <div className="bg-white p-2 rounded-lg mb-3 shadow-inner">
-                              <QRCodeSVG 
-                                value={`https://jaalam.com/${industry}/${encodeURIComponent(businessName)}`} 
+                              <QRCodeSVG
+                                value={`https://jaalam.com/${industry}/${encodeURIComponent(businessName)}`}
                                 size={80}
                                 level="M"
                               />
@@ -842,8 +827,8 @@ export default function LandingPage() {
       {/* Features Grid */}
       <section id="features" className="py-24 px-6 relative">
         <div className="container mx-auto max-w-7xl">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-20"
           >
@@ -895,8 +880,8 @@ export default function LandingPage() {
                 key={idx}
                 initial="hidden"
                 whileInView="visible"
-                whileHover={{ 
-                  y: -6, 
+                whileHover={{
+                  y: -6,
                   borderColor: 'rgba(255, 255, 255, 0.15)',
                   boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)'
                 }}
@@ -928,8 +913,8 @@ export default function LandingPage() {
       {/* Interactive 3D Showcase Gallery */}
       <section className="py-24 border-t border-zinc-900 bg-[#09090b]/40 px-6 relative overflow-hidden">
         <div className="container mx-auto max-w-7xl relative z-10">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-12"
           >
@@ -946,9 +931,9 @@ export default function LandingPage() {
 
           <div className="w-full max-w-4xl mx-auto border border-zinc-800 bg-zinc-900/10 backdrop-blur-xl rounded-3xl p-6 shadow-2xl relative overflow-hidden group select-none">
             <div className="absolute top-[-30%] right-[-10%] w-[60%] h-[80%] bg-indigo-500/5 rounded-full mix-blend-multiply blur-3xl opacity-50 pointer-events-none"></div>
-            
+
             <div className="relative w-full h-[450px] md:h-[550px] overflow-hidden rounded-2xl bg-black/40 border border-zinc-800/50">
-              <InfiniteMenu 
+              <InfiniteMenu
                 items={[
                   { image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Bistro', description: 'Warm, appetizing layout style.' },
                   { image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Retail Boutique', description: 'Elegant fashion storefront.' },
@@ -997,7 +982,7 @@ export default function LandingPage() {
                 scale={0.8}
               />
             </div>
-            
+
             <div className="flex items-center justify-between mt-4 px-2 text-xs text-zinc-500 font-mono">
               <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-zinc-500" /> Click and drag sphere to rotate</span>
               <span>Jaalam Core Engine v2.0</span>
@@ -1010,8 +995,8 @@ export default function LandingPage() {
       {/* Timeline Section */}
       <section id="process" className="py-24 bg-zinc-950/40 border-t border-zinc-900 px-6 relative">
         <div className="container mx-auto max-w-7xl">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-20"
           >
@@ -1027,17 +1012,17 @@ export default function LandingPage() {
           </motion.div>
 
           {/* SCROLLSTACK CARDS FOR LANDING PAGE */}
-          <ScrollStack 
-            useWindowScroll={true} 
-            itemDistance={150}  
-            itemStackDistance={24} 
-            baseScale={0.93} 
+          <ScrollStack
+            useWindowScroll={true}
+            itemDistance={150}
+            itemStackDistance={24}
+            baseScale={0.93}
             itemScale={0.025}
           >
             {/* STEP 1 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
               <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-              
+
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">01</div>
@@ -1064,7 +1049,7 @@ export default function LandingPage() {
                       Playfair / Serif
                     </div>
                   </div>
-                  
+
                   <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono mt-2">Brand Accent</div>
                   <div className="flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-indigo-500 ring-2 ring-offset-2 ring-offset-zinc-950 ring-indigo-500"></span>
@@ -1083,7 +1068,7 @@ export default function LandingPage() {
             {/* STEP 2 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
               <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-              
+
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">02</div>
@@ -1102,7 +1087,7 @@ export default function LandingPage() {
               <div className="w-full md:w-80 h-48 md:h-full bg-zinc-950 border border-zinc-800/80 rounded-2xl p-4 flex flex-col justify-between shadow-inner relative overflow-hidden select-none z-10 shrink-0">
                 <div className="space-y-3 text-left">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono">Mock Offerings</div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center justify-between p-2 bg-zinc-900 border border-zinc-800 rounded-xl">
                       <div className="flex items-center gap-2">
@@ -1114,7 +1099,7 @@ export default function LandingPage() {
                       </div>
                       <span className="text-[10px] font-bold text-zinc-300">$65.00</span>
                     </div>
-                    
+
                     <div className="flex items-center justify-between p-2 bg-zinc-900 border border-zinc-800 rounded-xl opacity-80">
                       <div className="flex items-center gap-2">
                         <span className="text-xs">💇</span>
@@ -1137,7 +1122,7 @@ export default function LandingPage() {
             {/* STEP 3 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
               <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-              
+
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">03</div>
@@ -1155,7 +1140,7 @@ export default function LandingPage() {
 
               <div className="w-full md:w-80 h-48 md:h-full bg-zinc-950 border border-zinc-800/80 rounded-2xl p-4 flex flex-col items-center justify-between shadow-inner relative overflow-hidden select-none z-10 shrink-0">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono w-full text-left">Deploy status</div>
-                
+
                 <div className="bg-white p-2.5 rounded-xl flex items-center justify-center w-24 h-24 my-2 hover:scale-105 transition-transform duration-500">
                   <div className="w-full h-full bg-zinc-950 rounded flex flex-col justify-between p-1">
                     <div className="flex justify-between w-full">
@@ -1168,7 +1153,7 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl text-[9px] text-zinc-400 font-mono truncate max-w-full text-center">
                   jaalam.app/vintage-glow
                 </div>
@@ -1182,8 +1167,8 @@ export default function LandingPage() {
       {/* Testimonials */}
       <section id="testimonials" className="py-24 px-6 relative border-t border-zinc-900">
         <div className="container mx-auto max-w-7xl">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-20"
           >
@@ -1217,11 +1202,11 @@ export default function LandingPage() {
                 rating: 5
               }
             ].map((tst, idx) => (
-              <motion.div 
-                key={idx} 
+              <motion.div
+                key={idx}
                 initial="hidden"
                 whileInView="visible"
-                whileHover={{ 
+                whileHover={{
                   y: -5,
                   borderColor: 'rgba(255, 255, 255, 0.12)',
                   boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.03)'
@@ -1262,8 +1247,8 @@ export default function LandingPage() {
       {/* FAQ Accordion */}
       <section id="faq" className="py-24 px-6 border-t border-zinc-900 bg-zinc-950/20 relative">
         <div className="container mx-auto max-w-4xl">
-          
-          <motion.div 
+
+          <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center mb-16"
           >
@@ -1277,25 +1262,25 @@ export default function LandingPage() {
           </motion.div>
 
           <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 sm:p-10 space-y-2">
-            <FAQItem 
-              question="How does Jaalam build a website in 60 seconds?" 
-              answer="Jaalam hosts pre-structured layouts tailored for local storefronts. You type in your location details, pricing, and operating times, and our compiler automatically shapes a lightweight, custom-themed website. No database configurations or coding required." 
+            <FAQItem
+              question="How does Jaalam build a website in 60 seconds?"
+              answer="Jaalam hosts pre-structured layouts tailored for local storefronts. You type in your location details, pricing, and operating times, and our compiler automatically shapes a lightweight, custom-themed website. No database configurations or coding required."
             />
-            <FAQItem 
-              question="Do I need to pay for web hosting or domain registration?" 
-              answer="No. All accounts include secure cloud hosting on our global edge CDN network. You receive a free customizable subdomain (myjaalam.com/business). We maintain SSL certificates, server upkeep, and loading speeds out-of-the-box." 
+            <FAQItem
+              question="Do I need to pay for web hosting or domain registration?"
+              answer="No. All accounts include secure cloud hosting on our global edge CDN network. You receive a free customizable subdomain (myjaalam.com/business). We maintain SSL certificates, server upkeep, and loading speeds out-of-the-box."
             />
-            <FAQItem 
-              question="What is the purpose of the storefront QR code?" 
-              answer="The storefront QR code links offline visitors to your digital details. Print and display it on table stands, entry doors, or registers. When clients scan the code, they instantly see menu items, price lists, or booking details on their phones." 
+            <FAQItem
+              question="What is the purpose of the storefront QR code?"
+              answer="The storefront QR code links offline visitors to your digital details. Print and display it on table stands, entry doors, or registers. When clients scan the code, they instantly see menu items, price lists, or booking details on their phones."
             />
-            <FAQItem 
-              question="Can I customize details or upload menu/service items later?" 
-              answer="Yes. We provide a clean, simple Admin Dashboard. You can modify hours, swap pictures, add or delete pricing tiers, change social links, and rearrange text blocks. Everything updates on the public page in real-time." 
+            <FAQItem
+              question="Can I customize details or upload menu/service items later?"
+              answer="Yes. We provide a clean, simple Admin Dashboard. You can modify hours, swap pictures, add or delete pricing tiers, change social links, and rearrange text blocks. Everything updates on the public page in real-time."
             />
-            <FAQItem 
-              question="Are these websites optimized for search engines (SEO)?" 
-              answer="Yes! Unlike complex site builders that load heavy scripts and slow down, Jaalam generates clean semantic markup. Speed is a top ranking factor for local search, so our lightweight design guarantees rapid load times to help you score higher on Google and Bing." 
+            <FAQItem
+              question="Are these websites optimized for search engines (SEO)?"
+              answer="Yes! Unlike complex site builders that load heavy scripts and slow down, Jaalam generates clean semantic markup. Speed is a top ranking factor for local search, so our lightweight design guarantees rapid load times to help you score higher on Google and Bing."
             />
           </div>
 
@@ -1306,29 +1291,29 @@ export default function LandingPage() {
       <section className="py-24 px-6 relative overflow-hidden border-t border-zinc-900">
         <div className="container mx-auto max-w-5xl text-center relative z-10">
           <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-8 sm:p-16 relative overflow-hidden">
-            
-            <motion.h2 
+
+            <motion.h2
               initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true, margin: "-50px" }}
               className="text-3xl sm:text-4xl font-extrabold mb-6 tracking-tighter font-display text-white"
             >
               Ready to launch your business online?
             </motion.h2>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true, margin: "-50px" }}
               className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-10 font-light leading-relaxed"
             >
               Join thousands of salon owners, restaurant managers, gym coaches, and local services using Jaalam to reach local clients.
             </motion.p>
-            
+
             <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
-              <Link 
-                to="/register" 
+              <Link
+                to="/register"
                 className="bg-white hover:bg-zinc-200 text-black font-semibold text-sm px-6 py-3 rounded-lg shadow-sm transition-all hover:scale-102 w-full sm:w-auto"
               >
                 Create My Site Free
               </Link>
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 font-semibold text-sm px-6 py-3 rounded-lg transition-all w-full sm:w-auto flex items-center justify-center gap-1.5"
               >
                 <span>Access Dashboard</span>
@@ -1346,7 +1331,7 @@ export default function LandingPage() {
             <img src="/logo.png" className="w-6 h-6 object-contain" alt="Jaalam Logo" />
             <span className="font-extrabold text-zinc-300 font-display">Jaalam</span>
           </div>
-          
+
           <div className="flex gap-6 text-zinc-500">
             <a href="#features" className="hover:text-zinc-300 transition-colors">Features</a>
             <a href="#simulator" className="hover:text-zinc-300 transition-colors">Demo</a>
@@ -1357,7 +1342,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      </div>
+    </div>
   );
 }
 

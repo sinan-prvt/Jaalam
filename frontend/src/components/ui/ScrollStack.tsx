@@ -59,7 +59,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const scrollerRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef<boolean>(false);
   const animationFrameRef = useRef<number | null>(null);
-  const lenisRef = useRef<Lenis | null>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
   const lastTransformsRef = useRef<Map<number, CardTransform>>(new Map());
   const isUpdatingRef = useRef<boolean>(false);
@@ -243,61 +242,33 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     updateCardTransforms();
   }, [updateCardTransforms]);
 
-  const setupLenis = useCallback(() => {
+  const setupScroll = useCallback(() => {
     if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: false,
-        syncTouchLerp: 0.075
-      });
-
-      lenis.on('scroll', handleScroll);
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Trigger initial scroll handle
+      handleScroll();
+      
+      const cleanup = () => {
+        window.removeEventListener('scroll', handleScroll);
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
+      return cleanup;
     } else {
       const scroller = scrollContainerSelector
         ? (document.querySelector(scrollContainerSelector) as HTMLElement)
         : scrollerRef.current;
-      if (!scroller) return;
+      if (!scroller) return () => {};
 
-      const lenis = new Lenis({
-        wrapper: scroller,
-        content: scroller.firstElementChild as HTMLElement || scroller,
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: false,
-        syncTouchLerp: 0.075
-      });
+      scroller.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
 
-      lenis.on('scroll', handleScroll);
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      const cleanup = () => {
+        scroller.removeEventListener('scroll', handleScroll);
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
+      return cleanup;
     }
   }, [handleScroll, useWindowScroll, scrollContainerSelector]);
-
   useLayoutEffect(() => {
     const scroller = scrollContainerSelector
       ? (document.querySelector(scrollContainerSelector) as HTMLElement)
@@ -326,7 +297,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       (card.style as any).webkitPerspective = '1000px';
     });
 
-    setupLenis();
+    const cleanupScroll = setupScroll();
 
     // Trigger initial layout caching immediately and after a short render delay
     calculateOffsets();
@@ -362,11 +333,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('load', handleResize);
       resizeObserver.disconnect();
+      cleanupScroll();
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];
@@ -385,7 +354,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     useWindowScroll,
     scrollContainerSelector,
     onStackComplete,
-    setupLenis,
+    setupScroll,
     calculateOffsets,
     updateCardTransforms
   ]);
