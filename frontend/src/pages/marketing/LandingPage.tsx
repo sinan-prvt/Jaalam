@@ -1020,28 +1020,6 @@ export default function LandingPage() {
             itemScale={0.025}
             className="pb-[80vh] md:pb-[100vh]"
           >
-            fdfdFD
-            FDFDFDFDFDFDFd
-            FDFDFDFDFDFDFdDFdF
-            FDFDFDFDFDFDFdDFdFDf
-            Df
-            Df
-            Df
-            d
-            Df
-            Df
-            Df
-            df
-            df
-            df
-            d
-            Fd
-            F
-            fd
-            d
-            f
-            df
-
             {/* STEP 1 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
               <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
