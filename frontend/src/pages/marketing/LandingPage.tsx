@@ -1023,12 +1023,6 @@ export default function LandingPage() {
             {/* STEP 1 */}
             <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
               <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-fdfdfddfd
-fdfddfdffd
-fdfddfdffdfdff
-
-defaultddf
-d1262f71b8a3fd
 
               <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
                 <div>
