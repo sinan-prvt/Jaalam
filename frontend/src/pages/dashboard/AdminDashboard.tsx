@@ -593,10 +593,10 @@ export default function AdminDashboard() {
                                   }`}>
                                   {u.membership}
                                 </span>
-                                {u.subscription_details && u.subscription_details.razorpay_payment_id && (
+                                {u.subscription_details && u.subscription_details.razorpay_payment_id && u.membership !== 'STARTER' && !u.is_test_user && (
                                   <div className="text-[10px] text-slate-400 font-mono mt-1">
                                     <span className="font-bold">PAY:</span> {u.subscription_details.razorpay_payment_id}
-                                    {u.subscription_details.status === 'SUCCESS' && <span className="ml-1 text-emerald-500 font-bold">(Paid)</span>}
+                                    {u.subscription_details.status === 'SUCCESS' && <span className="ml-1 text-emerald-500 font-bold">(Paid ₹{u.subscription_details.amount || '0'})</span>}
                                   </div>
                                 )}
                               </div>
