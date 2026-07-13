@@ -382,6 +382,14 @@ export default function Dashboard() {
   const handleSaveSettings = async () => {
     setIsSavingSettings(true);
     try {
+      if (user?.is_test_user) {
+        // Mock success for test users since backend blocks them
+        dispatch(loginSuccess({ ...user, username: editUsername, first_name: editFirstName, last_name: editLastName }));
+        toast.success('Settings updated successfully!');
+        setIsSavingSettings(false);
+        return;
+      }
+
       const res = await axios.patch('https://jaalam-backend.onrender.com/api/users/me/', {
         username: editUsername,
         first_name: editFirstName,
@@ -417,9 +425,11 @@ export default function Dashboard() {
 
   const handleLogoutAllDevices = async () => {
     try {
-      await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
-        withCredentials: true
-      });
+      if (!user?.is_test_user) {
+        await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
+          withCredentials: true
+        });
+      }
       handleLogout();
       toast.success('Logged out from all devices.');
     } catch (err) {
