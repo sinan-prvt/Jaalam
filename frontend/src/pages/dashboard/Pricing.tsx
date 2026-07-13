@@ -97,9 +97,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
     setLoading(true);
     try {
       const res = await axios.post('https://jaalam-backend.onrender.com/api/users/subscriptions/create_order/', { plan_type: planId }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`
-        },
         withCredentials: true
       });
 
@@ -127,9 +124,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature
             }, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`
-              },
               withCredentials: true
             });
             toast.success('Subscription activated successfully!');

@@ -6,6 +6,8 @@ import axios from 'axios';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 axios.defaults.withCredentials = true;
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 // Add a response interceptor to handle 401 Unauthorized errors globally
 axios.interceptors.response.use(

@@ -259,13 +259,9 @@ export default function Dashboard() {
     try {
       const [websitesRes, ordersRes] = await Promise.all([
         axios.get('https://jaalam-backend.onrender.com/api/websites/', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
           withCredentials: true
         }),
         axios.get('https://jaalam-backend.onrender.com/api/websites/physical-orders/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`
-          },
           withCredentials: true
         }).catch(() => ({ data: [] }))
       ]);
@@ -317,7 +313,6 @@ export default function Dashboard() {
         business_type: newType,
         theme: newTheme,
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
         withCredentials: true
       });
 
@@ -327,7 +322,6 @@ export default function Dashboard() {
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
         withCredentials: true
       });
 
@@ -359,7 +353,6 @@ export default function Dashboard() {
               setDeletingId(id);
               try {
                 await axios.delete(`https://jaalam-backend.onrender.com/api/websites/${slug}/`, {
-                  headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
                   withCredentials: true
                 });
                 setWebsites(prev => prev.filter(w => w.id !== id));
@@ -394,7 +387,6 @@ export default function Dashboard() {
         first_name: editFirstName,
         last_name: editLastName,
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
         withCredentials: true
       });
       dispatch(loginSuccess(res.data));
@@ -426,7 +418,6 @@ export default function Dashboard() {
   const handleLogoutAllDevices = async () => {
     try {
       await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
         withCredentials: true
       });
       handleLogout();
@@ -447,7 +438,6 @@ export default function Dashboard() {
               toast.dismiss(t.id);
               try {
                 await axios.delete('https://jaalam-backend.onrender.com/api/users/me/', {
-                  headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
                   withCredentials: true
                 });
                 handleLogout();
