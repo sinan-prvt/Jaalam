@@ -121,14 +121,26 @@ export default function AdminDashboard() {
   };
 
   const handleToggleRoleUser = async (userId: number) => {
-    if (String(userId) === String(user?.id)) {
-      toast.error("You cannot change your own role.");
+    const adminCount = users.filter(u => u.is_superuser).length;
+    const targetUser = users.find(u => u.id === userId);
+    
+    if (targetUser?.is_superuser && adminCount <= 1) {
+      toast.error("Action denied: There must be at least one System Admin.");
       return;
     }
+    
     try {
       await axios.post(`/api/users/${userId}/toggle_role/`);
       setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_superuser: !u.is_superuser } : u));
       toast.success("User role updated.");
+      
+      // If the user demoted themselves, they will lose access to the admin dashboard,
+      // but we let the useEffect handle the redirection on the next fetch/render if needed,
+      // or we can explicitly redirect if they are no longer an admin.
+      if (String(userId) === String(user?.id)) {
+        navigate('/dashboard');
+        toast('You have demoted yourself and left the Admin Dashboard.', { icon: '👋' });
+      }
     } catch (err) {
       console.error(err);
       toast.error("Failed to update role.");
@@ -145,8 +157,11 @@ export default function AdminDashboard() {
   };
 
   const handleDeleteUser = async (userId: number) => {
-    if (String(userId) === String(user?.id)) {
-      toast.error("You cannot delete yourself.");
+    const adminCount = users.filter(u => u.is_superuser).length;
+    const targetUser = users.find(u => u.id === userId);
+
+    if (targetUser?.is_superuser && adminCount <= 1) {
+      toast.error("Action denied: You cannot delete the last System Admin.");
       return;
     }
     toast.custom((t) => (
@@ -628,8 +643,9 @@ export default function AdminDashboard() {
                                 </button>
                                 <button
                                   onClick={() => handleToggleRoleUser(u.id)}
-                                  className="p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
-                                  title={u.is_superuser ? "Demote to User" : "Promote to Admin"}
+                                  disabled={u.is_superuser && users.filter(a => a.is_superuser).length <= 1}
+                                  className={`p-2 rounded-lg transition-colors ${u.is_superuser && users.filter(a => a.is_superuser).length <= 1 ? 'text-slate-200 cursor-not-allowed' : 'text-slate-400 hover:text-purple-600 hover:bg-purple-50'}`}
+                                  title={u.is_superuser && users.filter(a => a.is_superuser).length <= 1 ? "Cannot demote last admin" : u.is_superuser ? "Demote to User" : "Promote to Admin"}
                                 >
                                   {u.is_superuser ? <UserMinus size={18} /> : <ShieldCheck size={18} />}
                                 </button>
@@ -649,8 +665,9 @@ export default function AdminDashboard() {
                                 </button>
                                 <button
                                   onClick={() => handleDeleteUser(u.id)}
-                                  className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                                  title="Delete User"
+                                  disabled={u.is_superuser && users.filter(a => a.is_superuser).length <= 1}
+                                  className={`p-2 rounded-lg transition-colors ${u.is_superuser && users.filter(a => a.is_superuser).length <= 1 ? 'text-slate-200 cursor-not-allowed' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'}`}
+                                  title={u.is_superuser && users.filter(a => a.is_superuser).length <= 1 ? "Cannot delete last admin" : "Delete User"}
                                 >
                                   <Trash2 size={18} />
                                 </button>
