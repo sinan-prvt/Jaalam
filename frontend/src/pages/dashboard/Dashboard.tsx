@@ -423,6 +423,55 @@ export default function Dashboard() {
     navigate('/');
   };
 
+  const handleLogoutAllDevices = async () => {
+    try {
+      await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+        withCredentials: true
+      });
+      handleLogout();
+      toast.success('Logged out from all devices.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to logout from all devices. The endpoint might not be available.');
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+        <div className="flex gap-2 mt-1">
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await axios.delete('https://jaalam-backend.onrender.com/api/users/me/', {
+                  headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+                  withCredentials: true
+                });
+                handleLogout();
+                toast.success('Account deleted successfully.');
+              } catch (err) {
+                console.error("Failed to delete account", err);
+                toast.error('Failed to delete account. Please try again later.');
+              }
+            }}
+            className="px-4 py-2 bg-rose-500 text-white text-xs font-black rounded-lg hover:bg-rose-600 transition-colors shadow-sm"
+          >
+            Yes, Delete My Account
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), { duration: Infinity });
+  };
+
   const activeSites = websites.filter(w => w.published).length;
   const totalSites = websites.length;
   const totalVisitors = websites.reduce((acc, site) => acc + (site.visitors_count || 0), 0);
@@ -889,10 +938,15 @@ export default function Dashboard() {
               <div className="mt-6 bg-white/40 backdrop-blur-xl border border-rose-100 rounded-3xl p-6 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-rose-200 rounded-full mix-blend-multiply blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 opacity-50"></div>
                 <h3 className="text-xl font-black text-rose-600 mb-2">Danger Zone</h3>
-                <p className="text-slate-700 mb-6 font-medium text-sm max-w-lg leading-relaxed">Once you delete your account, there is no going back. All projects will be permanently wiped.</p>
-                <button className="bg-white border-2 border-rose-200 text-rose-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-rose-50 hover:border-rose-300">
-                  Delete Account
-                </button>
+                <p className="text-slate-700 mb-6 font-medium text-sm max-w-lg leading-relaxed">Once you delete your account, there is no going back. All projects will be permanently wiped. You can also securely log out from all active sessions.</p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button onClick={handleDeleteAccount} className="bg-white border-2 border-rose-200 text-rose-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-rose-50 hover:border-rose-300">
+                    Delete Account
+                  </button>
+                  <button onClick={handleLogoutAllDevices} className="bg-white border-2 border-slate-200 text-slate-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-50 hover:border-slate-300">
+                    Logout from All Devices
+                  </button>
+                </div>
               </div>
             </div>
           )}
