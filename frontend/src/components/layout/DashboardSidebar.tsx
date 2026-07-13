@@ -39,7 +39,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
               { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
-            ].filter(item => !(user?.is_superuser && item.tab === 'Billing')).map(item => {
+            ].filter(item => !(user?.is_superuser && item.tab === 'Billing') && !(user?.is_test_user && item.tab === 'Billing')).map(item => {
               const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user);
               return (
                 <button 
@@ -82,7 +82,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
         </div>
         
         <div className="p-4 lg:p-5 border-t border-white/30 bg-white/30">
-          {user?.membership !== 'PREMIUM' && !user?.is_superuser && (
+          {user?.membership !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && (
             <button 
               onClick={() => setActiveTab('Billing')}
               className="relative overflow-hidden group hidden lg:flex w-full mb-4 items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl font-black text-xs tracking-wide uppercase shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5"
@@ -100,7 +100,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               <div className="flex flex-col hidden lg:flex">
                 <span className="text-xs font-black text-slate-900 truncate max-w-[100px]">{user?.username}</span>
                 <span className="text-[10px] text-indigo-600 font-bold uppercase tracking-wider">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
                 </span>
               </div>
             </div>

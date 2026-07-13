@@ -15,6 +15,8 @@ interface User {
   username?: string;
   is_superuser?: boolean;
   has_completed_onboarding?: boolean;
+  is_test_user?: boolean;
+  membership?: string;
 }
 
 interface Website {
@@ -192,7 +194,7 @@ export default function Dashboard() {
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser) return 'Billing';
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) return 'Billing';
     return location.state?.tab || 'Dashboard';
   });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
@@ -244,7 +246,7 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser) {
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) {
       if (activeTab !== 'Billing' && activeTab !== 'Settings') {
         setActiveTab('Billing');
       }
@@ -288,7 +290,7 @@ export default function Dashboard() {
   };
 
   const checkCreationLimit = (isAI: boolean = false) => {
-    if (isAI && !hasAIBuilder() && !user?.is_superuser) {
+    if (isAI && !hasAIBuilder() && !user?.is_superuser && !(user as User).is_test_user) {
       toast.error('AI Website Builder is only available on Business and Premium plans. Please upgrade to use this feature.');
       return false;
     }
@@ -303,7 +305,7 @@ export default function Dashboard() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user && (user as User).has_completed_onboarding === false) return;
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) return;
     if (!checkCreationLimit()) return;
     const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {
@@ -452,12 +454,12 @@ export default function Dashboard() {
               <div className="flex flex-col">
                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
                 <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {user?.membership !== 'PREMIUM' && (
+              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && (
                 <button
                   onClick={() => setActiveTab('Billing')}
                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
