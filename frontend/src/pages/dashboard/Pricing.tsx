@@ -96,14 +96,14 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
 
     setLoading(true);
     try {
-      const res = await axios.post('https://jaalam-backend.onrender.com/api/users/subscriptions/create_order/', { plan_type: planId }, {
+      const res = await axios.post('/api/users/subscriptions/create_order/', { plan_type: planId }, {
         withCredentials: true
       });
 
       if (res.data.status === 'success' && res.data.plan === 'TEST') {
         // Free tier update
         toast.success('Successfully switched to Test Mode');
-        const meRes = await axios.get('https://jaalam-backend.onrender.com/api/users/me/', { withCredentials: true });
+        const meRes = await axios.get('/api/users/me/', { withCredentials: true });
         dispatch(loginSuccess(meRes.data));
         setLoading(false);
         if (onSubscribeSuccess) onSubscribeSuccess();
@@ -119,7 +119,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
         order_id: res.data.order_id,
         handler: async function (response: any) {
           try {
-            await axios.post('https://jaalam-backend.onrender.com/api/users/subscriptions/verify_payment/', {
+            await axios.post('/api/users/subscriptions/verify_payment/', {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature
@@ -127,7 +127,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
               withCredentials: true
             });
             toast.success('Subscription activated successfully!');
-            const meRes = await axios.get('https://jaalam-backend.onrender.com/api/users/me/', { withCredentials: true });
+            const meRes = await axios.get('/api/users/me/', { withCredentials: true });
             dispatch(loginSuccess(meRes.data));
             if (onSubscribeSuccess) onSubscribeSuccess();
           } catch (err) {

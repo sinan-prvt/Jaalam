@@ -33,7 +33,7 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await axios.post('https://jaalam-backend.onrender.com/api/websites/upload/', formData, {
+      const res = await axios.post('/api/websites/upload/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       onChange(res.data.url);
@@ -157,7 +157,7 @@ export default function WebsiteEditor() {
 
   const fetchWebsiteData = async () => {
     try {
-      const res = await axios.get(`https://jaalam-backend.onrender.com/api/websites/${websiteId}/`);
+      const res = await axios.get(`/api/websites/${websiteId}/`);
       setWebsite(res.data);
       const fetchedContent = res.data.content || {};
       if (fetchedContent.contact_info?.address && typeof fetchedContent.contact_info.address === 'object') {
@@ -176,9 +176,9 @@ export default function WebsiteEditor() {
     setSaving(true);
     try {
       // Save Theme explicitly
-      await axios.patch(`https://jaalam-backend.onrender.com/api/websites/${websiteId}/`, { theme: website.theme });
+      await axios.patch(`/api/websites/${websiteId}/`, { theme: website.theme });
       // Save Content
-      const res = await axios.patch(`https://jaalam-backend.onrender.com/api/websites/${websiteId}/content/`, content);
+      const res = await axios.patch(`/api/websites/${websiteId}/content/`, content);
       setContent(res.data);
       toast.success('Saved successfully!');
     } catch (err) {
@@ -194,7 +194,7 @@ export default function WebsiteEditor() {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await axios.post('https://jaalam-backend.onrender.com/api/websites/upload/', formData, {
+      const res = await axios.post('/api/websites/upload/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setChatImages(prev => [...prev, res.data.url]);
@@ -241,7 +241,7 @@ export default function WebsiteEditor() {
     const loadingToast = toast.loading('AI is processing your request... This may take a minute.');
 
     try {
-      const res = await axios.post(`https://jaalam-backend.onrender.com/api/websites/chat/`, {
+      const res = await axios.post(`/api/websites/chat/`, {
         prompt: prompt,
         current_content: content.settings_json || {},
         image_urls: attachedImages
@@ -299,7 +299,7 @@ export default function WebsiteEditor() {
     setSaving(true);
     const newStatus = !website.published;
     try {
-      await axios.patch(`https://jaalam-backend.onrender.com/api/websites/${websiteId}/`, { published: newStatus });
+      await axios.patch(`/api/websites/${websiteId}/`, { published: newStatus });
       setWebsite({ ...website, published: newStatus });
       if (newStatus) {
         toast.success('Site Published! It is now Live.');
@@ -1436,13 +1436,13 @@ export default function WebsiteEditor() {
                     setIsOrdering(true);
                     try {
                       // 1. Create Physical Order
-                      const res = await axios.post('https://jaalam-backend.onrender.com/api/websites/physical-orders/', {
+                      const res = await axios.post('/api/websites/physical-orders/', {
                         ...orderForm,
                         website: website?.id
                       }, { withCredentials: true });
                       
                       // 2. Create Razorpay Order
-                      const rzpRes = await axios.post('https://jaalam-backend.onrender.com/api/users/subscriptions/create_physical_order/', {
+                      const rzpRes = await axios.post('/api/users/subscriptions/create_physical_order/', {
                         order_id: res.data.id
                       }, { withCredentials: true });
                       
@@ -1455,7 +1455,7 @@ export default function WebsiteEditor() {
                         order_id: rzpRes.data.order_id,
                         handler: async function (response: any) {
                           try {
-                            await axios.post('https://jaalam-backend.onrender.com/api/users/subscriptions/verify_physical_order/', {
+                            await axios.post('/api/users/subscriptions/verify_physical_order/', {
                               razorpay_payment_id: response.razorpay_payment_id,
                               razorpay_order_id: response.razorpay_order_id,
                               razorpay_signature: response.razorpay_signature

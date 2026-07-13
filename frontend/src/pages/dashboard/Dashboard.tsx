@@ -258,10 +258,10 @@ export default function Dashboard() {
   const fetchWebsites = async () => {
     try {
       const [websitesRes, ordersRes] = await Promise.all([
-        axios.get('https://jaalam-backend.onrender.com/api/websites/', {
+        axios.get('/api/websites/', {
           withCredentials: true
         }),
-        axios.get('https://jaalam-backend.onrender.com/api/websites/physical-orders/', {
+        axios.get('/api/websites/physical-orders/', {
           withCredentials: true
         }).catch(() => ({ data: [] }))
       ]);
@@ -308,7 +308,7 @@ export default function Dashboard() {
     if (!checkCreationLimit()) return;
     const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {
-      const res = await axios.post('https://jaalam-backend.onrender.com/api/websites/', {
+      const res = await axios.post('/api/websites/', {
         slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
         business_type: newType,
         theme: newTheme,
@@ -316,7 +316,7 @@ export default function Dashboard() {
         withCredentials: true
       });
 
-      await axios.put(`https://jaalam-backend.onrender.com/api/websites/${res.data.slug}/content/`, {
+      await axios.put(`/api/websites/${res.data.slug}/content/`, {
         hero_title: heroTitle || `Welcome to ${websiteName || res.data.slug}`,
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
@@ -352,7 +352,7 @@ export default function Dashboard() {
               toast.dismiss(t.id);
               setDeletingId(id);
               try {
-                await axios.delete(`https://jaalam-backend.onrender.com/api/websites/${slug}/`, {
+                await axios.delete(`/api/websites/${slug}/`, {
                   withCredentials: true
                 });
                 setWebsites(prev => prev.filter(w => w.id !== id));
@@ -390,7 +390,7 @@ export default function Dashboard() {
         return;
       }
 
-      const res = await axios.patch('https://jaalam-backend.onrender.com/api/users/me/', {
+      const res = await axios.patch('/api/users/me/', {
         username: editUsername,
         first_name: editFirstName,
         last_name: editLastName,
@@ -464,7 +464,7 @@ export default function Dashboard() {
             onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.delete('https://jaalam-backend.onrender.com/api/users/me/', {
+                await axios.delete('/api/users/me/', {
                   withCredentials: true
                 });
                 handleLogout();
@@ -1132,7 +1132,7 @@ export default function Dashboard() {
               : (data.name || data._input?.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
 
             // Create new site
-            const siteRes = await axios.post('https://jaalam-backend.onrender.com/api/websites/', {
+            const siteRes = await axios.post('/api/websites/', {
               slug: generatedSlug,
               business_type: data._input?.category || data.business_category || 'Other',
               theme: data._input?.theme || data.theme_name || data.theme || 'Custom',
@@ -1153,7 +1153,7 @@ export default function Dashboard() {
               gallery = data.gallery.map((term: string) => `https://source.unsplash.com/800x600/?${encodeURIComponent(term)}`);
             }
 
-            await axios.put(`https://jaalam-backend.onrender.com/api/websites/${siteRes.data.slug}/content/`, {
+            await axios.put(`/api/websites/${siteRes.data.slug}/content/`, {
               hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || data._input?.name || 'our site'}`,
               hero_description: data.hero?.description || data.desc || data._input?.description,
               settings_json: {
