@@ -258,7 +258,10 @@ export default function Dashboard() {
   const fetchWebsites = async () => {
     try {
       const [websitesRes, ordersRes] = await Promise.all([
-        axios.get('https://jaalam-backend.onrender.com/api/websites/'),
+        axios.get('https://jaalam-backend.onrender.com/api/websites/', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+          withCredentials: true
+        }),
         axios.get('https://jaalam-backend.onrender.com/api/websites/physical-orders/', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`
@@ -313,6 +316,9 @@ export default function Dashboard() {
         slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
         business_type: newType,
         theme: newTheme,
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+        withCredentials: true
       });
 
       await axios.put(`https://jaalam-backend.onrender.com/api/websites/${res.data.slug}/content/`, {
@@ -320,6 +326,9 @@ export default function Dashboard() {
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+        withCredentials: true
       });
 
       setWebsites([res.data, ...websites]);
@@ -350,6 +359,7 @@ export default function Dashboard() {
               setDeletingId(id);
               try {
                 await axios.delete(`https://jaalam-backend.onrender.com/api/websites/${slug}/`, {
+                  headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
                   withCredentials: true
                 });
                 setWebsites(prev => prev.filter(w => w.id !== id));
@@ -383,7 +393,10 @@ export default function Dashboard() {
         username: editUsername,
         first_name: editFirstName,
         last_name: editLastName,
-      }, { withCredentials: true });
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token') || ''}` },
+        withCredentials: true
+      });
       dispatch(loginSuccess(res.data));
       toast.success('Settings updated successfully!');
     } catch (err: any) {
