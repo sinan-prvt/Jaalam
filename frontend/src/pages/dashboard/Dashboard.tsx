@@ -424,18 +424,39 @@ export default function Dashboard() {
   };
 
   const handleLogoutAllDevices = async () => {
-    try {
-      if (!user?.is_test_user) {
-        await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
-          withCredentials: true
-        });
-      }
-      handleLogout();
-      toast.success('Logged out from all devices.');
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to logout from all devices. The endpoint might not be available.');
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-bold text-white">Are you sure you want to log out from all active sessions on every device?</p>
+        <div className="flex gap-2 mt-1">
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                if (!user?.is_test_user) {
+                  await axios.post('https://jaalam-backend.onrender.com/api/users/logout_all/', {}, {
+                    withCredentials: true
+                  });
+                }
+                handleLogout();
+                toast.success('Logged out from all devices.');
+              } catch (err) {
+                console.error(err);
+                toast.error('Failed to logout from all devices. The endpoint might not be available.');
+              }
+            }}
+            className="px-4 py-2 bg-slate-900 text-white text-xs font-black rounded-lg hover:bg-slate-800 transition-colors shadow-sm"
+          >
+            Yes, Log out everywhere
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-black rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), { duration: Infinity });
   };
 
   const handleDeleteAccount = async () => {
