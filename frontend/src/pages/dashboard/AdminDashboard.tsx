@@ -86,6 +86,7 @@ export default function AdminDashboard() {
         axios.get('/api/users/', { withCredentials: true }),
         axios.get('/api/websites/?all=true', { withCredentials: true }),
         axios.get('/api/websites/physical-orders/', { withCredentials: true }),
+        loading ? new Promise(resolve => setTimeout(resolve, 1500)) : Promise.resolve()
       ]);
       setUsers(usersRes.data);
       setWebsites(websitesRes.data);
@@ -479,9 +480,12 @@ export default function AdminDashboard() {
         {/* SCROLLABLE AREA */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-full text-slate-400">
-              <div className="w-12 h-12 border-4 border-slate-200 border-t-primary-500 rounded-full animate-spin mb-4"></div>
-              <p className="font-bold">Loading system data...</p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 animate-pulse">
+              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
+              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
+              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
+              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
+              <div className="col-span-1 md:col-span-4 bg-white/40 border border-slate-100 rounded-2xl h-[400px]"></div>
             </div>
           ) : (
             <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">

@@ -44,7 +44,10 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
       const endpoint = isAdminView 
         ? '/api/users/notifications/?all=true'
         : '/api/users/notifications/';
-      const response = await axios.get(endpoint, { withCredentials: true });
+      const [response] = await Promise.all([
+        axios.get(endpoint, { withCredentials: true }),
+        loading ? new Promise(resolve => setTimeout(resolve, 1500)) : Promise.resolve()
+      ]);
       
       setNotifications(response.data);
       
@@ -175,7 +178,12 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
   });
 
   if (loading) {
-    return <div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>;
+    return (
+      <div className="h-full flex-1 flex flex-col md:flex-row gap-4 md:gap-6 animate-pulse">
+        <div className="w-full md:w-1/3 bg-white/40 border border-white/60 rounded-3xl h-full min-h-[400px]"></div>
+        <div className="flex-1 bg-white/40 border border-white/60 rounded-3xl h-full min-h-[400px]"></div>
+      </div>
+    );
   }
 
   return (
