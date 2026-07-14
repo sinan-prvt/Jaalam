@@ -21,7 +21,8 @@ import {
   Settings,
   Layers,
   Search,
-  Menu
+  Menu,
+  X
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
@@ -134,6 +135,7 @@ export default function LandingPage() {
   const [accentColor, setAccentColor] = useState<'purple' | 'rose' | 'emerald' | 'amber'>('amber');
   const [layoutStyle, setLayoutStyle] = useState<'classic' | 'modern' | 'minimal'>('classic');
   const [simulatorTab, setSimulatorTab] = useState<'home' | 'services' | 'contact'>('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Accent Color Mapping
   const colorMap = {
@@ -330,8 +332,8 @@ export default function LandingPage() {
               <span className="font-extrabold text-[#1a1a1a] tracking-tight text-lg md:text-xl uppercase mt-1">JAALAM</span>
             </div>
             
-            <button className="md:hidden text-[#1a1a1a] p-2">
-              <Menu className="w-6 h-6" />
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-[#1a1a1a] p-2 z-50">
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
             <div className="hidden md:flex items-center gap-12 text-sm font-semibold text-[#1a1a1a]">
@@ -347,6 +349,24 @@ export default function LandingPage() {
             <Link to="/login" className="text-[#1a1a1a] hover:opacity-70 transition-opacity px-4">Log in</Link>
             <Link to="/register" className="bg-[#1a1a1a] text-white px-6 py-2.5 rounded-full hover:bg-black transition-all shadow-md">Get Started</Link>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-black/10 shadow-2xl flex flex-col p-8 gap-6 z-40 md:hidden"
+              >
+                <a href="#simulator" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-[#1a1a1a]">Try Simulator</a>
+                <a href="#faq" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-[#1a1a1a]">FAQ</a>
+                <div className="h-[1px] w-full bg-black/10 my-2"></div>
+                <Link to="/login" className="text-xl font-bold text-[#1a1a1a]">Log in</Link>
+                <Link to="/register" className="bg-[#1a1a1a] text-center text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-black transition-all shadow-md">Get Started</Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
 
         {/* Content */}
