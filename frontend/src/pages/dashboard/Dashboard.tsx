@@ -288,7 +288,8 @@ export default function Dashboard() {
         }),
         axios.get('/api/websites/physical-orders/', {
           withCredentials: true
-        }).catch(() => ({ data: [] }))
+        }).catch(() => ({ data: [] })),
+        new Promise(resolve => setTimeout(resolve, 1500)) // Artificial delay to show off skeleton loader
       ]);
       setWebsites(websitesRes.data);
       setPhysicalOrders(ordersRes.data);
