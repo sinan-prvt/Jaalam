@@ -1,21 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useAnimationFrame, useTransform } from 'framer-motion';
+import './ShinyText.css';
 
-interface ShinyTextProps {
-  text: string;
-  disabled?: boolean;
-  speed?: number;
-  className?: string;
-  color?: string;
-  shineColor?: string;
-  spread?: number;
-  yoyo?: boolean;
-  pauseOnHover?: boolean;
-  direction?: 'left' | 'right';
-  delay?: number;
-}
-
-export default function ShinyText({
+const ShinyText = ({
   text,
   disabled = false,
   speed = 2,
@@ -27,7 +14,7 @@ export default function ShinyText({
   pauseOnHover = false,
   direction = 'left',
   delay = 0
-}: ShinyTextProps) {
+}: any) => {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
@@ -53,7 +40,6 @@ export default function ShinyText({
 
     elapsedRef.current += deltaTime;
 
-    // Animation goes from 0 to 100
     if (yoyo) {
       const cycleDuration = animationDuration + delayDuration;
       const fullCycle = cycleDuration * 2;
@@ -118,7 +104,7 @@ export default function ShinyText({
 
   return (
     <motion.span
-      className={`inline-block ${className}`}
+      className={`shiny-text ${className}`}
       style={{ ...gradientStyle, backgroundPosition }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -126,4 +112,6 @@ export default function ShinyText({
       {text}
     </motion.span>
   );
-}
+};
+
+export default ShinyText;

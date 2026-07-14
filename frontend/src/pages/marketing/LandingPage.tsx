@@ -238,10 +238,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased overflow-x-hidden relative bg-grid-pattern">
-
-      {/* Top soft center light - clean, low-opacity depth */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-indigo-500/5 to-transparent blur-[80px] rounded-full pointer-events-none" />
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased overflow-x-hidden relative">
 
       {/* Navigation */}
       <motion.nav
@@ -293,17 +290,17 @@ export default function LandingPage() {
                 variants={fadeInUp}
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono mb-6"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
-                <ShinyText text="Lightning Fast Site Generator" speed={3} color="#a1a1aa" shineColor="#ffffff" />
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+                <ShinyText text="Fast Site Generator" speed={3} color="#a1a1aa" shineColor="#ffffff" />
               </motion.div>
 
               <motion.h1
                 variants={fadeInUp}
-                className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-[1.08] mb-6 font-display text-white"
+                className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 font-display text-white"
               >
-                Create your business website <br className="hidden sm:inline" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-                  in 60 seconds.
+                Build your website <br className="hidden sm:inline" />
+                <span className="text-zinc-400">
+                  in minutes.
                 </span>
               </motion.h1>
 
@@ -311,7 +308,7 @@ export default function LandingPage() {
                 variants={fadeInUp}
                 className="text-zinc-400 text-base sm:text-lg max-w-xl mb-10 leading-relaxed font-light"
               >
-                No coding. No complicated builders. Just enter your business details and instantly launch a clean, professional, mobile-ready site with a scan-to-order QR code.
+                Launch a professional, mobile-ready site instantly. No coding required.
               </motion.p>
 
               <motion.div
@@ -824,91 +821,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section id="features" className="py-24 px-6 relative">
-        <div className="container mx-auto max-w-7xl">
 
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
-            className="text-center max-w-2xl mx-auto mb-20"
-          >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
-              <ShinyText text="✨ Core Toolkit" speed={3} color="#71717a" shineColor="#ffffff" />
-            </motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
-              Designed for physical storefronts.
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
-              Simple, high-contrast layouts packed with tools that bridge offline traffic to your online hub.
-            </motion.p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: <Layout className="text-zinc-300 w-5 h-5" />,
-                title: 'Niche Structure Blocks',
-                desc: 'Optimized page sections tailored specifically for local restaurants, beauty salons, gyms, and contract services.'
-              },
-              {
-                icon: <Smartphone className="text-zinc-300 w-5 h-5" />,
-                title: 'Mobile-First Framework',
-                desc: 'Over 85% of local web traffic starts on a phone. Your page loads instantly and displays beautifully on all mobile views.'
-              },
-              {
-                icon: <QrCode className="text-zinc-300 w-5 h-5" />,
-                title: 'Printable Storefront QR',
-                desc: 'Automatically generate high-contrast vector QR codes to place on store windows, tables, or brochures.'
-              },
-              {
-                icon: <Sparkles className="text-zinc-300 w-5 h-5" />,
-                title: 'Distraction-Free Editor',
-                desc: 'Upload menus, edit services lists, add scheduling triggers, and publish updates in single clicks.'
-              },
-              {
-                icon: <Globe className="text-zinc-300 w-5 h-5" />,
-                title: 'SaaS Cloud Hosting',
-                desc: 'No server configurations, database builds, or SSL certificates. Your site resides on a fast edge CDN out-of-the-box.'
-              },
-              {
-                icon: <Zap className="text-zinc-300 w-5 h-5" />,
-                title: 'Local SEO Engine',
-                desc: 'Semantic HTML markup structure optimized for Google Lighthouse and local web crawler rankings.'
-              }
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                initial="hidden"
-                whileInView="visible"
-                whileHover={{
-                  y: -6,
-                  borderColor: 'rgba(255, 255, 255, 0.15)',
-                  boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)'
-                }}
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                  hidden: { opacity: 0, y: 15 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] } }
-                }}
-                className="bg-zinc-950 border border-zinc-900 p-8 rounded-2xl flex flex-col justify-between transition-colors duration-300 group cursor-default relative overflow-hidden"
-              >
-                <div>
-                  <div className="bg-[#09090b] border border-zinc-800 w-10 h-10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-zinc-700 transition-all duration-300">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-base font-bold mb-2.5 text-zinc-100 font-display">
-                    {feature.title}
-                  </h3>
-                  <p className="text-zinc-400 text-sm font-light leading-relaxed">
-                    {feature.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-        </div>
-      </section>
 
       {/* Interactive 3D Showcase Gallery */}
       <section className="py-24 border-t border-zinc-900 bg-[#09090b]/40 px-6 relative overflow-hidden">
@@ -992,181 +905,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section id="process" className="py-24 bg-zinc-950/40 border-t border-zinc-900 px-6 relative">
-        <div className="container mx-auto max-w-7xl">
-
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
-            className="text-center max-w-2xl mx-auto mb-20"
-          >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
-              <ShinyText text="✨ Direct Flow" speed={3} color="#71717a" shineColor="#ffffff" />
-            </motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
-              Launch in three steps.
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
-              No developer hiring delays, no lengthy designs. Go live without traditional complexity.
-            </motion.p>
-          </motion.div>
-
-          {/* SCROLLSTACK CARDS FOR LANDING PAGE */}
-          <ScrollStack
-            useWindowScroll={true}
-            itemDistance={150}
-            itemStackDistance={24}
-            baseScale={0.93}
-            itemScale={0.025}
-            className="pb-[80vh] md:pb-[100vh]"
-          >
-            {/* STEP 1 */}
-            <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-indigo-500/10 to-violet-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-
-              <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">01</div>
-                  <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight mb-2 font-display">1. Input Store Details</h4>
-                  <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-md">
-                    Enter your business metadata, choose a matching typographic structure, and select a predefined style configuration to dynamically render your storefront.
-                  </p>
-                </div>
-                <div className="mt-6">
-                  <Link to="/register" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-zinc-200 text-black rounded-lg font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md">
-                    Try Sandbox <ArrowRight size={12} />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="w-full md:w-80 h-48 md:h-full bg-zinc-950 border border-zinc-800/80 rounded-2xl p-4 flex flex-col justify-between shadow-inner relative overflow-hidden select-none z-10 shrink-0">
-                <div className="space-y-3 text-left">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono">Typography presets</div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="p-2 bg-zinc-900 rounded-lg border border-zinc-800 text-xs font-semibold text-zinc-300 text-center cursor-pointer hover:border-zinc-700">
-                      Inter / Sans
-                    </div>
-                    <div className="p-2 bg-zinc-900 rounded-lg border border-indigo-500/20 text-xs font-semibold text-indigo-400 text-center cursor-pointer">
-                      Playfair / Serif
-                    </div>
-                  </div>
-
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono mt-2">Brand Accent</div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-indigo-500 ring-2 ring-offset-2 ring-offset-zinc-950 ring-indigo-500"></span>
-                    <span className="w-5 h-5 rounded-full bg-rose-500"></span>
-                    <span className="w-5 h-5 rounded-full bg-emerald-500"></span>
-                    <span className="w-5 h-5 rounded-full bg-amber-500"></span>
-                  </div>
-                </div>
-                <div className="bg-zinc-900 border border-zinc-800 p-2.5 rounded-xl text-[10px] text-zinc-400 flex items-center justify-between font-mono">
-                  <span>Theme: Elegant Amber</span>
-                  <span className="text-amber-400">Preview</span>
-                </div>
-              </div>
-            </ScrollStackItem>
-
-            {/* STEP 2 */}
-            <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-
-              <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">02</div>
-                  <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight mb-2 font-display">2. Add Services & Products</h4>
-                  <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-md">
-                    Quickly populate your price list tiers, product catalogs, or appointment scheduling options. No complicated configurations or developer delay.
-                  </p>
-                </div>
-                <div className="mt-6">
-                  <Link to="/register" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-zinc-200 text-black rounded-lg font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md">
-                    Start Free Trial <ArrowRight size={12} />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="w-full md:w-80 h-48 md:h-full bg-zinc-950 border border-zinc-800/80 rounded-2xl p-4 flex flex-col justify-between shadow-inner relative overflow-hidden select-none z-10 shrink-0">
-                <div className="space-y-3 text-left">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono">Mock Offerings</div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between p-2 bg-zinc-900 border border-zinc-800 rounded-xl">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs">💅</span>
-                        <div>
-                          <div className="text-[10px] font-bold text-zinc-200">Designer Cut & Blow</div>
-                          <div className="text-[8px] text-zinc-500">Wash, style consultation</div>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-zinc-300">$65.00</span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-2 bg-zinc-900 border border-zinc-800 rounded-xl opacity-80">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs">💇</span>
-                        <div>
-                          <div className="text-[10px] font-bold text-zinc-200">Balayage Color</div>
-                          <div className="text-[8px] text-zinc-500">Hand-painted highlights</div>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-zinc-300">$120.00</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-zinc-900 border border-zinc-800 p-2.5 rounded-xl text-[10px] text-zinc-400 flex items-center justify-between font-mono">
-                  <span>Auto-syncing menu</span>
-                  <span className="text-emerald-400 animate-pulse font-bold">Live</span>
-                </div>
-              </div>
-            </ScrollStackItem>
-
-            {/* STEP 3 */}
-            <ScrollStackItem itemClassName="bg-[#121214] border border-zinc-800/80 shadow-2xl rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:h-[350px] min-h-[300px] w-full relative overflow-hidden mb-12">
-              <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[80%] bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full opacity-60 pointer-events-none" style={{ filter: 'blur(40px)', willChange: 'transform' }}></div>
-
-              <div className="flex-1 flex flex-col justify-between h-full z-10 text-left">
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center font-mono font-bold text-xs mb-4">03</div>
-                  <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight mb-2 font-display">3. Deploy & Download QR</h4>
-                  <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-md">
-                    Deploy your page instantly onto our secure global edge CDN. Automatically generate and download unique vector QR codes to place on doors, table stands, or flyers.
-                  </p>
-                </div>
-                <div className="mt-6">
-                  <Link to="/register" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md">
-                    Go Live Now <Globe size={12} />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="w-full md:w-80 h-48 md:h-full bg-zinc-950 border border-zinc-800/80 rounded-2xl p-4 flex flex-col items-center justify-between shadow-inner relative overflow-hidden select-none z-10 shrink-0">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 font-mono w-full text-left">Deploy status</div>
-
-                <div className="bg-white p-2.5 rounded-xl flex items-center justify-center w-24 h-24 my-2 hover:scale-105 transition-transform duration-500">
-                  <div className="w-full h-full bg-zinc-950 rounded flex flex-col justify-between p-1">
-                    <div className="flex justify-between w-full">
-                      <div className="w-3.5 h-3.5 bg-white rounded-[1.5px] flex items-center justify-center"><div className="w-1.5 h-1.5 bg-zinc-950 rounded-[0.5px]"></div></div>
-                      <div className="w-3.5 h-3.5 bg-white rounded-[1.5px] flex items-center justify-center"><div className="w-1.5 h-1.5 bg-zinc-950 rounded-[0.5px]"></div></div>
-                    </div>
-                    <div className="flex justify-between items-end w-full">
-                      <div className="w-3.5 h-3.5 bg-white rounded-[1.5px] flex items-center justify-center"><div className="w-1.5 h-1.5 bg-zinc-950 rounded-[0.5px]"></div></div>
-                      <div className="w-2.5 h-2.5 bg-white rounded-[1px] flex items-center justify-center"><div className="w-1 h-1 bg-zinc-950 rounded-[0.5px]"></div></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl text-[9px] text-zinc-400 font-mono truncate max-w-full text-center">
-                  jaalam.app/vintage-glow
-                </div>
-              </div>
-            </ScrollStackItem>
-
-            {/* Spacer to increase scroll duration and prevent overlap with next section */}
-            <div className="h-[50vh] md:h-[80vh] w-full pointer-events-none" />
-          </ScrollStack>
-
-        </div>
-      </section>
 
       {/* Testimonials */}
       <section id="testimonials" className="py-24 px-6 relative border-t border-zinc-900">
@@ -1176,7 +914,7 @@ export default function LandingPage() {
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-20"
           >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Owner Feedback</motion.span>
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Owner Feedback" speed={3} color="#71717a" shineColor="#ffffff" /></motion.span>
             <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Trusted by store owners.
             </motion.h2>
@@ -1256,7 +994,7 @@ export default function LandingPage() {
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center mb-16"
           >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">Support</motion.span>
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Support" speed={3} color="#71717a" shineColor="#ffffff" /></motion.span>
             <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
               Questions & answers.
             </motion.h2>
