@@ -242,6 +242,16 @@ export default function Dashboard() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.tab) {
+      setActiveTab(location.state.tab);
+    }
+    if (location.state?.creating) {
+      setIsCreating(true);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     fetchWebsites();
