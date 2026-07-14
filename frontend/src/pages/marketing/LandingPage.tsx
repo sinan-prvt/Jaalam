@@ -19,7 +19,9 @@ import {
   ArrowUpRight,
   Eye,
   Settings,
-  Layers
+  Layers,
+  Search,
+  Menu
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
@@ -46,16 +48,16 @@ const staggerContainer = {
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border-b border-zinc-800/80 py-5">
+    <div className="border-b border-zinc-200 py-5">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center py-2 text-left font-medium text-base sm:text-lg text-zinc-200 hover:text-white transition-colors group"
+        className="w-full flex justify-between items-center py-2 text-left font-medium text-base sm:text-lg text-[#1a1a1a] hover:text-black transition-colors group"
       >
         <span>{question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="text-zinc-500 group-hover:text-zinc-300"
+          className="text-[#888888] group-hover:text-[#1a1a1a]"
         >
           <ChevronDown className="w-4 h-4" />
         </motion.div>
@@ -69,7 +71,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="text-zinc-400 pb-4 pr-6 leading-relaxed text-sm sm:text-base font-light">
+            <p className="text-[#555555] pb-4 pr-6 leading-relaxed text-sm sm:text-base font-light">
               {answer}
             </p>
           </motion.div>
@@ -236,248 +238,159 @@ export default function LandingPage() {
     else if (ind === 'restaurant') setAccentColor('purple');
     else if (ind === 'gym') setAccentColor('emerald');
   };
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#fbf6f0] font-sans antialiased overflow-x-hidden relative">
 
-      {/* Navigation */}
-      <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="sticky top-6 z-50 mx-auto max-w-5xl w-[92%] backdrop-blur-xl bg-zinc-950/60 border border-zinc-800/80 px-4 py-2.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.6)]"
-      >
-        <div className="flex justify-between items-center px-2">
-          <div className="flex items-center gap-2 cursor-pointer">
-            <img src="/logo.png" className="w-7 h-7 object-contain" alt="Jaalam Logo" />
-            <span className="text-base font-bold tracking-tight font-display text-white">
-              Jaalam
-            </span>
-          </div>
+      {/* New Peach Hero Section */}
+      <section className="relative w-full h-[100vh] min-h-[850px] md:min-h-[700px] overflow-hidden bg-gradient-to-br from-[#e49b6b] to-[#d08757] flex flex-col font-sans">
+        {/* Right side large concentric circles - Animated & Layered */}
+        <motion.div 
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 md:left-auto md:top-1/2 md:-translate-y-1/2 md:-translate-x-0 md:right-[-20%] w-[600px] md:w-[1200px] h-[600px] md:h-[1200px] rounded-full z-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.1)] bg-gradient-to-tr from-[#cf8553] to-[#e49b6b]"
+        ></motion.div>
+        
+        <motion.div 
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 md:left-auto md:top-1/2 md:-translate-y-1/2 md:-translate-x-0 md:right-[-10%] w-[450px] md:w-[900px] h-[450px] md:h-[900px] rounded-full z-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.15),0_20px_50px_rgba(0,0,0,0.2)] bg-gradient-to-tr from-[#c27a48] to-[#e49b6b]"
+        ></motion.div>
+        
+        <motion.div 
+          animate={{ scale: [1, 1.12, 1] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[5%] left-1/2 -translate-x-1/2 md:left-auto md:top-1/2 md:-translate-y-1/2 md:-translate-x-0 md:right-[5%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full z-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.2),0_30px_60px_rgba(0,0,0,0.3)] bg-gradient-to-tr from-[#b86938] to-[#e49b6b]"
+        ></motion.div>
 
-          <div className="hidden md:flex items-center gap-8 bg-zinc-900/50 px-6 py-2 rounded-full border border-zinc-800/50">
-            <a href="#features" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Features</a>
-            <a href="#simulator" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Demo</a>
-            <a href="#process" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Process</a>
-            <a href="#testimonials" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">Stories</a>
-            <a href="#faq" className="text-zinc-400 hover:text-white transition-colors text-xs font-semibold tracking-wide">FAQ</a>
-          </div>
+        {/* Mobile White Background Top Half */}
+        <div className="md:hidden absolute top-0 left-0 w-full h-[58%] bg-[#fbf6f0] z-10 rounded-b-[40px] shadow-[0_10px_30px_rgba(0,0,0,0.1)]"></div>
 
-          <div className="flex items-center gap-3">
-            <Link to="/login" className="text-zinc-300 hover:text-white transition-colors text-xs font-semibold px-2 py-1">
-              Log in
-            </Link>
-            <Link to="/register" className="bg-white hover:bg-zinc-200 text-black text-xs font-bold px-4 py-2 rounded-full transition-all active:scale-95 shadow-sm">
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </motion.nav>
+        {/* Desktop White wavy shape on the left with drop shadow */}
+        <svg
+          className="hidden md:block absolute top-0 left-0 h-full w-[75%] lg:w-[65%] z-10"
+          preserveAspectRatio="none"
+          viewBox="0 0 100 100"
+          fill="#fbf6f0"
+          style={{ filter: 'drop-shadow(20px 0px 25px rgba(0,0,0,0.15))' }}
+        >
+          <path d="M0,0 L60,0 C80,0 80,30 65,45 C50,60 80,75 75,100 L0,100 Z" />
+        </svg>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        {/* Floating Hero Mockup Card */}
+        <motion.div
+          animate={{ y: [-15, 15, -15], rotate: [-2, 2, -2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[82%] md:top-1/2 left-1/2 md:left-auto -translate-x-1/2 md:-translate-x-0 -translate-y-1/2 right-auto md:right-[5%] lg:right-[12%] w-[220px] md:w-[280px] lg:w-[320px] aspect-[4/5] bg-white/20 backdrop-blur-xl border border-white/40 rounded-3xl p-3 shadow-[0_40px_80px_rgba(0,0,0,0.3)] z-30"
+        >
+          <div className="w-full h-full rounded-[20px] overflow-hidden relative shadow-inner bg-black">
+            <img
+              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=800&q=80"
+              alt="Storefront mockup"
+              className="w-full h-full object-cover opacity-90"
+            />
 
-            {/* Hero Left Info */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-              className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left"
-            >
-              <motion.div
-                variants={fadeInUp}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono mb-6"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-                <ShinyText text="Fast Site Generator" speed={3} color="#a1a1aa" shineColor="#ffffff" />
-              </motion.div>
+            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/60 to-transparent"></div>
 
-              <motion.h1
-                variants={fadeInUp}
-                className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 font-display text-white"
-              >
-                Build your website <br className="hidden sm:inline" />
-                <span className="text-zinc-400">
-                  in minutes.
-                </span>
-              </motion.h1>
-
-              <motion.p
-                variants={fadeInUp}
-                className="text-zinc-400 text-base sm:text-lg max-w-xl mb-10 leading-relaxed font-light"
-              >
-                Launch a professional, mobile-ready site instantly. No coding required.
-              </motion.p>
-
-              <motion.div
-                variants={fadeInUp}
-                className="flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto"
-              >
-                <Link
-                  to="/register"
-                  className="bg-white hover:bg-zinc-200 text-black font-semibold text-base px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm active:scale-97"
-                >
-                  Create Your Website Now
-                  <ArrowRight className="w-4.5 h-4.5" />
-                </Link>
-                <a
-                  href="#simulator"
-                  className="bg-zinc-900/60 hover:bg-zinc-800/80 text-zinc-200 border border-zinc-800 font-medium text-base px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"
-                >
-                  <Play className="w-4 h-4 text-zinc-400 fill-zinc-400/20" />
-                  Try Simulator
-                </a>
-              </motion.div>
-
-              {/* Minimal Trust Badge row */}
-              <motion.div
-                variants={fadeInUp}
-                className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-zinc-900 w-full text-zinc-500"
-              >
-                <div>
-                  <div className="flex items-center text-zinc-300 mb-0.5">
-                    <Star className="w-3.5 h-3.5 fill-current text-amber-500/80" />
-                    <span className="ml-1 text-xs font-bold">4.9/5 Rating</span>
-                  </div>
-                  <span className="text-[11px] font-light">From 500+ local owners</span>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-zinc-300 block mb-0.5">10k+ Live Sites</span>
-                  <span className="text-[11px] font-light">Hosted globally</span>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-zinc-300 block mb-0.5">100% Free Trial</span>
-                  <span className="text-[11px] font-light">No credit card needed</span>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Hero Right: Clean, realistic editor interface mockup */}
-            <div className="lg:col-span-6 flex justify-center relative perspective-1000">
-              <ThreeDTiltCard className="w-full max-w-[540px]">
-                <div className="w-full rounded-xl border border-zinc-800 bg-[#09090b]/90 shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden relative">
-
-                  {/* Mockup Top Header */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-[#0d0d11] border-b border-zinc-800">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
-                    </div>
-                    <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-mono">
-                      <Layers className="w-3.5 h-3.5" />
-                      <span>editor.jaalam.com/workspace</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-full bg-zinc-900 border border-zinc-800" />
-                    </div>
-                  </div>
-
-                  {/* Desktop Layout Split */}
-                  <div className="grid grid-cols-12 h-[320px] bg-[#09090b]">
-
-                    {/* Mock Editor Sidebar */}
-                    <div className="col-span-4 border-r border-zinc-800/80 p-3.5 space-y-4 text-left font-mono">
-                      <div>
-                        <span className="text-[9px] uppercase tracking-wider text-zinc-500 block mb-2 font-bold">Element Layers</span>
-                        <div className="space-y-1">
-                          {[
-                            { name: 'Header & Brand', active: true },
-                            { name: 'Hero Block', active: true },
-                            { name: 'Services Catalog', active: false },
-                            { name: 'Contact Cards', active: false },
-                          ].map((layer, i) => (
-                            <div
-                              key={i}
-                              className={`flex items-center justify-between px-2 py-1.5 rounded text-[9px] ${layer.active ? 'bg-zinc-900 text-zinc-200 border border-zinc-800/50' : 'text-zinc-500'
-                                }`}
-                            >
-                              <span className="truncate">{layer.name}</span>
-                              <Eye className="w-3 h-3 text-zinc-500" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <span className="text-[9px] uppercase tracking-wider text-zinc-500 block mb-2 font-bold">Preferences</span>
-                        <div className="p-2 rounded bg-zinc-900/50 border border-zinc-800/50 space-y-1.5">
-                          <div className="flex justify-between items-center text-[8px] text-zinc-400">
-                            <span>Mobile Optimization</span>
-                            <span className="text-emerald-500 font-bold">Active</span>
-                          </div>
-                          <div className="flex justify-between items-center text-[8px] text-zinc-400">
-                            <span>CDN Server Edge</span>
-                            <span className="text-zinc-500">US-West</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Editor Main Canvas */}
-                    <div className="col-span-8 p-4 bg-zinc-950/40 flex flex-col justify-between relative">
-
-                      {/* Grid background on canvas */}
-                      <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
-
-                      {/* Header inside Canvas */}
-                      <div className="flex justify-between items-center z-10">
-                        <span className="font-extrabold text-[10px] tracking-tight text-white flex items-center gap-1">
-                          ☕ Bean & Brew
-                        </span>
-                        <span className="text-[8px] text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
-                          Live Preview
-                        </span>
-                      </div>
-
-                      {/* Content block */}
-                      <div className="my-auto z-10 text-center py-4 space-y-2">
-                        <h2 className="text-base font-black text-white leading-tight font-display tracking-tight">
-                          Freshly Roasted Coffee,<br />Crafted Daily.
-                        </h2>
-                        <p className="text-[9px] text-zinc-400 max-w-[200px] mx-auto leading-normal">
-                          Premium single origin espresso, pastries, and local Seattle hospitality.
-                        </p>
-                        <div className="flex justify-center gap-1.5 pt-1">
-                          <span className="bg-zinc-100 text-black font-semibold text-[8px] px-2.5 py-1 rounded">
-                            View Menu
-                          </span>
-                          <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 text-[8px] px-2.5 py-1 rounded">
-                            Contact Us
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Bottom Footer Details */}
-                      <div className="flex justify-between items-center pt-2 border-t border-zinc-900 z-10 text-[7px] text-zinc-500 font-mono">
-                        <span>Built with Jaalam</span>
-                        <span>myjaalam.com/beanbrew</span>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* Mockup Toolbar Overlay */}
-                  <div className="px-4 py-2 bg-[#0d0d11] border-t border-zinc-800/80 flex items-center justify-between text-[9px] text-zinc-500 font-mono">
-                    <div className="flex items-center gap-2">
-                      <Settings className="w-3.5 h-3.5 text-zinc-400" />
-                      <span>Auto-saving changes...</span>
-                    </div>
-                    <span className="text-emerald-500 font-bold">● Live on Cloud</span>
-                  </div>
-
-                </div>
-              </ThreeDTiltCard>
+            <div className="absolute top-3 left-0 w-full px-5 flex justify-between items-center text-white">
+              <span className="text-[10px] font-bold font-mono">9:41</span>
+              <div className="flex gap-1 items-center">
+                <div className="w-3 h-2 rounded-[2px] bg-white"></div>
+                <div className="w-2.5 h-2 rounded-[2px] bg-white"></div>
+              </div>
             </div>
 
+            <div className="absolute bottom-5 left-5 right-5 p-4 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/50">
+              <h3 className="text-black font-extrabold text-sm tracking-tight">Bistro Cafe Demo</h3>
+              <p className="text-gray-500 text-[10px] mt-1 font-medium leading-relaxed">A perfectly structured layout generated in clicks.</p>
+              <button className="mt-3 w-full bg-gradient-to-r from-[#e49b6b] to-[#d08757] text-white text-[10px] font-bold py-2.5 rounded-lg shadow-md hover:opacity-90 transition-opacity uppercase tracking-wider">Preview Site</button>
+            </div>
           </div>
+        </motion.div>
+
+        {/* Floating 3D Spheres */}
+        <div className="absolute top-[65%] right-[15%] md:top-[20%] md:left-[35%] w-[50px] md:w-[70px] h-[50px] md:h-[70px] rounded-full z-20 shadow-[0_15px_30px_rgba(180,100,50,0.5)]" style={{ background: 'radial-gradient(circle at 35% 35%, #fce2c6 0%, #e69d6b 40%, #b86938 100%)' }}>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-3 md:h-4 rounded-full bg-[#d08757] shadow-inner opacity-60"></div>
         </div>
+
+        <div className="absolute bottom-[5%] left-[20%] md:bottom-[20%] md:left-[55%] w-[60px] md:w-[90px] h-[60px] md:h-[90px] rounded-full z-20 shadow-[0_20px_40px_rgba(180,100,50,0.6)]" style={{ background: 'radial-gradient(circle at 35% 35%, #fce2c6 0%, #e69d6b 40%, #b86938 100%)' }}>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 md:w-5 h-4 md:h-5 rounded-full bg-[#d08757] shadow-inner opacity-60"></div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="relative z-30 w-full flex justify-between items-center px-6 md:px-12 py-6 md:py-8">
+          <div className="flex items-center gap-12 md:gap-40 w-full md:w-auto justify-between md:justify-start">
+            <div className="flex items-center gap-3 cursor-pointer">
+              <img src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+              <span className="font-extrabold text-[#1a1a1a] tracking-tight text-lg md:text-xl uppercase mt-1">JAALAM</span>
+            </div>
+            
+            <button className="md:hidden text-[#1a1a1a] p-2">
+              <Menu className="w-6 h-6" />
+            </button>
+
+            <div className="hidden md:flex items-center gap-12 text-sm font-semibold text-[#1a1a1a]">
+              <a href="#simulator" className="hover:opacity-70 transition-opacity">Try</a>
+              <a href="#faq" className="hover:opacity-70 transition-opacity">FAQ</a>
+              <button className="hover:opacity-70 transition-opacity">
+                <Search className="w-5 h-5 stroke-[2.5]" />
+              </button>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-4 text-sm font-bold">
+            <Link to="/login" className="text-[#1a1a1a] hover:opacity-70 transition-opacity px-4">Log in</Link>
+            <Link to="/register" className="bg-[#1a1a1a] text-white px-6 py-2.5 rounded-full hover:bg-black transition-all shadow-md">Get Started</Link>
+          </div>
+        </nav>
+
+        {/* Content */}
+        <div className="relative z-30 flex-1 flex flex-col justify-start md:justify-center px-6 pt-12 md:pt-0 md:px-16 max-w-2xl mt-4 md:mt-[-5%]">
+          <motion.h1
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-[#1a1a1a] leading-[1.1] mb-8 md:mb-12 tracking-tight font-display"
+          >
+            Creative.<br />Site Builder
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex items-stretch gap-6 md:gap-8 h-[120px] md:h-[140px] relative ml-14 md:ml-16 mt-4"
+          >
+            {/* Vertical Line */}
+            <div className="w-[2px] bg-[#1a1a1a] h-full shrink-0"></div>
+
+            {/* Rotated Text */}
+            <span className="absolute -left-[54px] top-1/2 -translate-y-1/2 -rotate-90 text-[11px] uppercase font-bold tracking-[0.2em] text-[#1a1a1a]">
+              Creative
+            </span>
+
+            <div className="flex flex-col justify-between py-1">
+              <p className="text-[#1a1a1a] text-sm md:text-base max-w-[280px] leading-relaxed font-semibold">
+                Build your business website in minutes. No coding. Professional and fast.
+              </p>
+
+              <div className="text-[#1a1a1a] font-extrabold text-sm tracking-wide">
+                4K — LAYOUT
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
       </section>
 
       {/* Simulator Section */}
-      <section id="simulator" className="py-20 bg-[#09090b]/80 border-t border-b border-zinc-900 px-6 relative">
+      <section id="simulator" className="py-20 bg-[#fbf6f0] border-t border-b border-[#e49b6b]/20 px-6 relative">
         <div className="container mx-auto max-w-7xl relative z-10">
 
           <motion.div
@@ -485,12 +398,12 @@ export default function LandingPage() {
             className="text-center max-w-2xl mx-auto mb-16"
           >
             <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
-              <ShinyText text="✨ Live Interactive Sandbox" speed={3} color="#71717a" shineColor="#ffffff" />
+              <ShinyText text="✨ Live Interactive Sandbox" speed={3} color="#a1a1aa" shineColor="#1a1a1a" />
             </motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-[#1a1a1a]">
               Try the design engine.
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-[#555555] text-sm sm:text-base leading-relaxed">
               Adjust variables inside the builder panel and watch the mock mobile device compile structural changes in real time.
             </motion.p>
           </motion.div>
@@ -498,21 +411,21 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-12 gap-10 items-center">
 
             {/* Input Controls */}
-            <div className="lg:col-span-5 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between shadow-lg">
+            <div className="lg:col-span-5 bg-white border border-[#e49b6b]/30 rounded-2xl p-6 flex flex-col justify-between shadow-xl shadow-[#e49b6b]/10">
               <div className="space-y-6">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-900">
-                  <h3 className="text-sm font-bold tracking-wider uppercase text-zinc-400 font-mono flex items-center gap-2">
-                    <Settings className="w-4 h-4 text-zinc-500" />
+                <div className="flex items-center justify-between pb-3 border-b border-[#fbf6f0]">
+                  <h3 className="text-sm font-bold tracking-wider uppercase text-[#1a1a1a] font-mono flex items-center gap-2">
+                    <Settings className="w-4 h-4 text-[#e49b6b]" />
                     Builder Controls
                   </h3>
-                  <span className="text-[10px] font-mono text-emerald-500 bg-emerald-950/30 px-2 py-0.5 rounded border border-emerald-900/30">
+                  <span className="text-[10px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     Compiled Live
                   </span>
                 </div>
 
                 {/* Name Input */}
                 <div>
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2 font-mono">
+                  <label className="block text-[11px] font-bold text-[#555555] uppercase tracking-wider mb-2 font-mono">
                     1. Brand Name
                   </label>
                   <input
@@ -520,14 +433,14 @@ export default function LandingPage() {
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     maxLength={32}
-                    className="w-full bg-[#09090b] border border-zinc-800 rounded-lg px-3.5 py-2.5 text-zinc-100 font-medium focus:outline-none focus:border-zinc-500 transition-all text-sm font-mono"
+                    className="w-full bg-[#fbf6f0] border border-[#e49b6b]/30 rounded-lg px-3.5 py-2.5 text-[#1a1a1a] font-medium focus:outline-none focus:border-[#e49b6b] transition-all text-sm font-mono"
                     placeholder="E.g. Vintage Salon"
                   />
                 </div>
 
                 {/* Category Toggles */}
                 <div>
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5 font-mono">
+                  <label className="block text-[11px] font-bold text-[#555555] uppercase tracking-wider mb-2.5 font-mono">
                     2. Industry Archetype
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -541,8 +454,8 @@ export default function LandingPage() {
                         key={ind.id}
                         onClick={() => handleIndustryChange(ind.id as any)}
                         className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg border font-medium text-xs text-left transition-all font-mono ${industry === ind.id
-                          ? 'bg-zinc-900 border-zinc-700 text-white font-bold'
-                          : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                          ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white font-bold'
+                          : 'bg-transparent border-[#e49b6b]/30 text-[#555555] hover:border-[#e49b6b]/60 hover:text-[#1a1a1a]'
                           }`}
                       >
                         <span className="text-xs">{ind.icon}</span>
@@ -554,7 +467,7 @@ export default function LandingPage() {
 
                 {/* Accent Selection */}
                 <div>
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5 font-mono">
+                  <label className="block text-[11px] font-bold text-[#555555] uppercase tracking-wider mb-2.5 font-mono">
                     3. Theme Accent
                   </label>
                   <div className="flex gap-2">
@@ -569,12 +482,12 @@ export default function LandingPage() {
                         onClick={() => setAccentColor(col.id as any)}
                         title={col.name}
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${col.class} ${accentColor === col.id
-                          ? 'ring-2 ring-offset-2 ring-offset-zinc-950 ring-white scale-105 shadow-md'
+                          ? 'ring-2 ring-offset-2 ring-offset-white ring-[#1a1a1a] scale-105 shadow-md'
                           : 'opacity-60 hover:opacity-100'
                           }`}
                       >
                         {accentColor === col.id && (
-                          <Check className="w-4 h-4 text-black font-bold" />
+                          <Check className="w-4 h-4 text-white font-bold" />
                         )}
                       </button>
                     ))}
@@ -583,7 +496,7 @@ export default function LandingPage() {
 
                 {/* Theme Layout Selection */}
                 <div>
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5 font-mono">
+                  <label className="block text-[11px] font-bold text-[#555555] uppercase tracking-wider mb-2.5 font-mono">
                     4. Theme Layout
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -592,8 +505,8 @@ export default function LandingPage() {
                         key={layout}
                         onClick={() => setLayoutStyle(layout as any)}
                         className={`px-3 py-2 rounded-lg border font-medium text-xs text-center transition-all capitalize font-mono ${layoutStyle === layout
-                          ? 'bg-zinc-900 border-zinc-700 text-white font-bold'
-                          : 'bg-transparent border-zinc-900 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                          ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white font-bold'
+                          : 'bg-transparent border-[#e49b6b]/30 text-[#555555] hover:border-[#e49b6b]/60 hover:text-[#1a1a1a]'
                           }`}
                       >
                         {layout}
@@ -604,15 +517,15 @@ export default function LandingPage() {
               </div>
 
               {/* Action Callout */}
-              <div className="mt-8 pt-6 border-t border-zinc-900">
+              <div className="mt-8 pt-6 border-t border-[#fbf6f0]">
                 <Link
                   to="/register"
-                  className="w-full py-3 bg-zinc-100 hover:bg-zinc-200 text-black rounded-lg font-semibold flex items-center justify-center gap-2 transition-all text-sm shadow-sm"
+                  className="w-full py-3 bg-[#e49b6b] hover:bg-[#d98b5a] text-white rounded-lg font-bold flex items-center justify-center gap-2 transition-all text-sm shadow-md shadow-[#e49b6b]/20"
                 >
                   <span>Build This Site Free</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <span className="text-center block text-[10px] text-zinc-600 mt-3 font-mono">
+                <span className="text-center block text-[10px] text-[#555555] mt-3 font-mono">
                   Cloud hosting & custom domain included.
                 </span>
               </div>
@@ -622,44 +535,44 @@ export default function LandingPage() {
             <div className="lg:col-span-7 flex justify-center items-center">
 
               {/* iPhone Minimalist Bezel */}
-              <div className="w-[310px] sm:w-[330px] aspect-[9/16] bg-[#000000] rounded-[2.5rem] border-4 border-zinc-800 shadow-2xl relative flex flex-col overflow-hidden ring-1 ring-zinc-900">
+              <div className="w-[310px] sm:w-[330px] aspect-[9/16] bg-white rounded-[2.5rem] border-4 border-zinc-200 shadow-2xl relative flex flex-col overflow-hidden ring-1 ring-zinc-200/50">
 
                 {/* Phone Speaker Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-zinc-800 rounded-b-xl z-40 flex justify-center items-start">
-                  <div className="w-10 h-0.5 bg-black rounded-full mt-1.5" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-zinc-100 rounded-b-xl z-40 flex justify-center items-start">
+                  <div className="w-10 h-0.5 bg-zinc-300 rounded-full mt-1.5" />
                 </div>
 
                 {/* Status Bar */}
-                <div className="h-8 bg-zinc-950 px-5 flex justify-between items-end pb-1 text-[9px] font-mono text-zinc-500 select-none z-30">
+                <div className="h-8 bg-zinc-50 px-5 flex justify-between items-end pb-1 text-[9px] font-mono text-zinc-400 select-none z-30">
                   <span>9:41 AM</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-1.5 bg-zinc-500 rounded-xs inline-block" />
+                    <span className="w-2.5 h-1.5 bg-zinc-400 rounded-xs inline-block" />
                   </div>
                 </div>
 
                 {/* Content Frame */}
-                <div className="flex-1 flex flex-col bg-[#09090b] overflow-y-auto scrollbar-hide relative text-left">
+                <div className="flex-1 flex flex-col bg-white overflow-y-auto scrollbar-hide relative text-left">
 
                   {/* Category Image Header */}
-                  <div className={`relative flex flex-col justify-between p-4 shrink-0 border-zinc-900 overflow-hidden ${layoutStyle === 'classic' ? 'h-40 border-b' :
+                  <div className={`relative flex flex-col justify-between p-4 shrink-0 border-zinc-100 overflow-hidden ${layoutStyle === 'classic' ? 'h-40 border-b' :
                     layoutStyle === 'modern' ? 'h-48 border-none' :
                       'h-32 border-b'
                     }`}>
                     {layoutStyle === 'classic' && (
-                      <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 to-zinc-950/98 z-0" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-white/98 z-0" />
                     )}
                     {layoutStyle === 'modern' && (
-                      <div className={`absolute inset-0 opacity-20 ${selectedAccent.bg} z-0`} />
+                      <div className={`absolute inset-0 opacity-10 ${selectedAccent.bg} z-0`} />
                     )}
 
                     {/* Mini Brand Navigation */}
                     <div className="flex justify-between items-center z-10">
-                      <span className={`font-bold tracking-tight text-white max-w-[130px] truncate ${layoutStyle === 'modern' ? 'text-sm' : 'text-[10px]'
+                      <span className={`font-bold tracking-tight text-[#1a1a1a] max-w-[130px] truncate ${layoutStyle === 'modern' ? 'text-sm' : 'text-[10px]'
                         }`}>
                         {businessName || 'My Website'}
                       </span>
                       {layoutStyle !== 'minimal' && (
-                        <span className={`text-[7px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${layoutStyle === 'modern' ? 'bg-black/40 border-transparent text-white' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400'
+                        <span className={`text-[7px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${layoutStyle === 'modern' ? 'bg-black/10 border-transparent text-[#1a1a1a]' : 'bg-zinc-100 border-zinc-200 text-zinc-500'
                           }`}>
                           {industry}
                         </span>
@@ -669,12 +582,12 @@ export default function LandingPage() {
                     {/* Hero Slogan */}
                     <div className="z-10 mt-auto">
                       {layoutStyle !== 'minimal' && (
-                        <span className={`text-[8px] font-mono font-bold uppercase ${layoutStyle === 'modern' ? 'text-white/80' : selectedAccent.text
+                        <span className={`text-[8px] font-mono font-bold uppercase ${layoutStyle === 'modern' ? 'text-[#1a1a1a]/80' : selectedAccent.text
                           } block mb-0.5`}>
                           {currentContent.tagline}
                         </span>
                       )}
-                      <h4 className={`text-white leading-tight font-display tracking-tight ${layoutStyle === 'modern' ? 'text-xl font-black' :
+                      <h4 className={`text-[#1a1a1a] leading-tight font-display tracking-tight ${layoutStyle === 'modern' ? 'text-xl font-black' :
                         layoutStyle === 'minimal' ? 'text-xs font-medium' :
                           'text-sm font-bold'
                         }`}>
@@ -684,14 +597,14 @@ export default function LandingPage() {
                   </div>
 
                   {/* Local Tab bar */}
-                  <div className="flex bg-[#09090b] border-b border-zinc-900 sticky top-0 z-20">
+                  <div className="flex bg-white border-b border-zinc-100 sticky top-0 z-20">
                     {(['home', 'services', 'contact'] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setSimulatorTab(tab)}
                         className={`flex-1 text-center py-2 text-[9px] font-bold tracking-wider uppercase border-b transition-colors font-mono ${simulatorTab === tab
-                          ? `border-white text-white`
-                          : 'border-transparent text-zinc-600 hover:text-zinc-400'
+                          ? `border-[#1a1a1a] text-[#1a1a1a]`
+                          : 'border-transparent text-[#888888] hover:text-[#1a1a1a]'
                           }`}
                       >
                         {tab}
@@ -709,33 +622,33 @@ export default function LandingPage() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -5 }}
                           transition={{ duration: 0.15 }}
-                          className="space-y-4 text-xs font-light text-zinc-400 leading-relaxed"
+                          className="space-y-4 text-xs font-light text-[#555555] leading-relaxed"
                         >
                           <p>{currentContent.desc}</p>
 
                           {/* CTA Card */}
                           <div className={`p-4 relative overflow-hidden ${layoutStyle === 'modern' ? `rounded-3xl border-none ${selectedAccent.bg}` :
-                            layoutStyle === 'minimal' ? 'rounded-none border-y border-zinc-800 bg-transparent py-4 px-0' :
-                              'rounded-xl border border-zinc-800 bg-zinc-900/30'
+                            layoutStyle === 'minimal' ? 'rounded-none border-y border-zinc-200 bg-transparent py-4 px-0' :
+                              'rounded-xl border border-zinc-200 bg-zinc-50'
                             }`}>
-                            <h5 className={`font-bold mb-1 text-[11px] font-mono ${layoutStyle === 'modern' ? 'text-black' : 'text-zinc-200'}`}>Reserve a Spot</h5>
-                            <p className={`text-[9px] mb-3 leading-normal ${layoutStyle === 'modern' ? 'text-black/70 font-medium' : 'text-zinc-500'}`}>Schedule appointments or reservations directly on our website.</p>
+                            <h5 className={`font-bold mb-1 text-[11px] font-mono ${layoutStyle === 'modern' ? 'text-black' : 'text-[#1a1a1a]'}`}>Reserve a Spot</h5>
+                            <p className={`text-[9px] mb-3 leading-normal ${layoutStyle === 'modern' ? 'text-black/70 font-medium' : 'text-[#555555]'}`}>Schedule appointments or reservations directly on our website.</p>
                             <button className={`w-full py-1.5 text-[9px] font-bold transition-colors ${layoutStyle === 'modern' ? 'bg-black text-white rounded-full' :
-                              layoutStyle === 'minimal' ? 'bg-transparent border border-zinc-700 text-white rounded-sm hover:bg-zinc-900' :
-                                'bg-zinc-100 hover:bg-zinc-200 text-black rounded'
+                              layoutStyle === 'minimal' ? 'bg-transparent border border-zinc-300 text-black rounded-sm hover:bg-zinc-100' :
+                                'bg-[#1a1a1a] hover:bg-black text-white rounded'
                               }`}>
                               Book Instantly
                             </button>
                           </div>
 
                           {/* Quick Info Blocks */}
-                          <div className="space-y-1.5 text-[9px] text-zinc-500 bg-zinc-950 p-3 rounded-lg border border-zinc-900 font-mono">
+                          <div className="space-y-1.5 text-[9px] text-[#555555] bg-zinc-50 p-3 rounded-lg border border-zinc-200 font-mono">
                             <div className="flex items-center gap-2">
-                              <Clock className="w-3 h-3 text-zinc-600" />
+                              <Clock className="w-3 h-3 text-[#888888]" />
                               <span>{currentContent.hours}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <MapPin className="w-3 h-3 text-zinc-600" />
+                              <MapPin className="w-3 h-3 text-[#888888]" />
                               <span className="truncate">{currentContent.address}</span>
                             </div>
                           </div>
@@ -751,13 +664,13 @@ export default function LandingPage() {
                           transition={{ duration: 0.15 }}
                           className="space-y-3"
                         >
-                          <h5 className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-mono">Menu / Offerings</h5>
+                          <h5 className="text-[10px] font-bold text-[#888888] uppercase tracking-wider font-mono">Menu / Offerings</h5>
                           <div className="space-y-2">
                             {currentContent.services.map((srv, idx) => (
-                              <div key={idx} className="p-3 bg-zinc-900/30 border border-zinc-900 rounded-lg flex justify-between items-start gap-4">
+                              <div key={idx} className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg flex justify-between items-start gap-4">
                                 <div>
-                                  <span className="text-[10px] font-bold text-zinc-200 block">{srv.name}</span>
-                                  <span className="text-[8px] text-zinc-500 block leading-tight mt-0.5">{srv.desc}</span>
+                                  <span className="text-[10px] font-bold text-[#1a1a1a] block">{srv.name}</span>
+                                  <span className="text-[8px] text-[#555555] block leading-tight mt-0.5">{srv.desc}</span>
                                 </div>
                                 <span className={`text-[10px] font-bold ${selectedAccent.text} shrink-0`}>
                                   {srv.price}
@@ -777,27 +690,27 @@ export default function LandingPage() {
                           transition={{ duration: 0.15 }}
                           className="space-y-4"
                         >
-                          <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-900 flex flex-col items-center text-center">
-                            <div className="bg-white p-2 rounded-lg mb-3 shadow-inner">
+                          <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200 flex flex-col items-center text-center">
+                            <div className="bg-white p-2 rounded-lg mb-3 shadow-sm border border-zinc-200">
                               <QRCodeSVG
                                 value={`https://jaalam.com/${industry}/${encodeURIComponent(businessName)}`}
                                 size={80}
                                 level="M"
                               />
                             </div>
-                            <span className="text-[9px] font-bold text-zinc-200 block mb-0.5 font-mono">Storefront QR Code</span>
-                            <span className="text-[8px] text-zinc-500 block max-w-[170px] leading-snug font-light">
+                            <span className="text-[9px] font-bold text-[#1a1a1a] block mb-0.5 font-mono">Storefront QR Code</span>
+                            <span className="text-[8px] text-[#555555] block max-w-[170px] leading-snug font-light">
                               Download this code to put on doors, table stands, or flyers.
                             </span>
                           </div>
 
-                          <div className="space-y-1.5 bg-zinc-900/30 p-3 rounded-lg border border-zinc-900 text-[9px] font-mono text-zinc-400">
+                          <div className="space-y-1.5 bg-zinc-50 p-3 rounded-lg border border-zinc-200 text-[9px] font-mono text-[#555555]">
                             <div className="flex items-center gap-2">
-                              <Phone className="w-3 h-3 text-zinc-600" />
+                              <Phone className="w-3 h-3 text-[#888888]" />
                               <span>(555) 019-2834</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Globe className="w-3 h-3 text-zinc-600" />
+                              <Globe className="w-3 h-3 text-[#888888]" />
                               <span className="truncate">contact@{businessName.toLowerCase().replace(/\s+/g, '')}.com</span>
                             </div>
                           </div>
@@ -808,8 +721,8 @@ export default function LandingPage() {
                 </div>
 
                 {/* Bottom home indicator line */}
-                <div className="h-4 bg-zinc-950 flex justify-center items-center shrink-0 z-30 select-none">
-                  <div className="w-20 h-0.5 bg-zinc-800 rounded-full" />
+                <div className="h-4 bg-zinc-50 flex justify-center items-center shrink-0 z-30 select-none">
+                  <div className="w-20 h-0.5 bg-zinc-300 rounded-full" />
                 </div>
 
               </div>
@@ -824,7 +737,7 @@ export default function LandingPage() {
 
 
       {/* Interactive 3D Showcase Gallery */}
-      <section className="py-24 border-t border-zinc-900 bg-[#09090b]/40 px-6 relative overflow-hidden">
+      <section className="py-24 border-t border-[#e49b6b]/20 bg-white/40 px-6 relative overflow-hidden">
         <div className="container mx-auto max-w-7xl relative z-10">
 
           <motion.div
@@ -832,20 +745,20 @@ export default function LandingPage() {
             className="text-center max-w-2xl mx-auto mb-12"
           >
             <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
-              <ShinyText text="✨ Infinite Exploration" speed={3} color="#71717a" shineColor="#ffffff" />
+              <ShinyText text="✨ Infinite Exploration" speed={3} color="#a1a1aa" shineColor="#1a1a1a" />
             </motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-[#1a1a1a]">
               Stunning aesthetic presets.
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
+            <motion.p variants={fadeInUp} className="text-[#555555] text-sm sm:text-base font-light">
               Drag, rotate, and interact with our 3D sphere gallery containing real storefront theme layouts.
             </motion.p>
           </motion.div>
 
-          <div className="w-full max-w-4xl mx-auto border border-zinc-800 bg-zinc-900/10 backdrop-blur-xl rounded-3xl p-6 shadow-2xl relative overflow-hidden group select-none">
-            <div className="absolute top-[-30%] right-[-10%] w-[60%] h-[80%] bg-indigo-500/5 rounded-full mix-blend-multiply blur-3xl opacity-50 pointer-events-none"></div>
+          <div className="w-full max-w-4xl mx-auto border border-zinc-200 bg-white/50 backdrop-blur-xl rounded-3xl p-6 shadow-xl relative overflow-hidden group select-none">
+            <div className="absolute top-[-30%] right-[-10%] w-[60%] h-[80%] bg-[#e49b6b]/20 rounded-full mix-blend-multiply blur-3xl opacity-50 pointer-events-none"></div>
 
-            <div className="relative w-full h-[450px] md:h-[550px] overflow-hidden rounded-2xl bg-black/40 border border-zinc-800/50">
+            <div className="relative w-full h-[450px] md:h-[550px] overflow-hidden rounded-2xl bg-white/80 border border-zinc-200/50">
               <InfiniteMenu
                 items={[
                   { image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=600&q=80', link: '/register', title: 'Bistro', description: 'Warm, appetizing layout style.' },
@@ -896,8 +809,8 @@ export default function LandingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between mt-4 px-2 text-xs text-zinc-500 font-mono">
-              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-zinc-500" /> Click and drag sphere to rotate</span>
+            <div className="flex items-center justify-between mt-4 px-2 text-xs text-[#888888] font-mono">
+              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-[#888888]" /> Click and drag sphere to rotate</span>
               <span>Jaalam Core Engine v2.0</span>
             </div>
           </div>
@@ -907,18 +820,18 @@ export default function LandingPage() {
 
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-24 px-6 relative border-t border-zinc-900">
+      <section id="testimonials" className="py-24 px-6 relative border-t border-[#e49b6b]/20 bg-[#fbf6f0]">
         <div className="container mx-auto max-w-7xl">
 
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center max-w-2xl mx-auto mb-20"
           >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Owner Feedback" speed={3} color="#71717a" shineColor="#ffffff" /></motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Owner Feedback" speed={3} color="#a1a1aa" shineColor="#1a1a1a" /></motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-[#1a1a1a]">
               Trusted by store owners.
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm sm:text-base font-light">
+            <motion.p variants={fadeInUp} className="text-[#555555] text-sm sm:text-base font-light">
               Hear how other local entrepreneurs generated storefront layouts and QR menus in clicks.
             </motion.p>
           </motion.div>
@@ -950,33 +863,33 @@ export default function LandingPage() {
                 whileInView="visible"
                 whileHover={{
                   y: -5,
-                  borderColor: 'rgba(255, 255, 255, 0.12)',
-                  boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.03)'
+                  borderColor: 'rgba(228, 155, 107, 0.4)',
+                  boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05)'
                 }}
                 viewport={{ once: true, margin: "-100px" }}
                 variants={{
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="bg-zinc-950 p-8 rounded-2xl border border-zinc-900 flex flex-col justify-between transition-colors duration-300 cursor-default"
+                className="bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm flex flex-col justify-between transition-all duration-300 cursor-default"
               >
                 <div>
                   <div className="flex gap-1 mb-6">
                     {[...Array(tst.rating)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 text-zinc-400 fill-zinc-400" />
+                      <Star key={i} className="w-3.5 h-3.5 text-[#e49b6b] fill-[#e49b6b]" />
                     ))}
                   </div>
-                  <p className="text-zinc-300 italic text-sm leading-relaxed mb-6 font-light">
+                  <p className="text-[#1a1a1a] italic text-sm leading-relaxed mb-6 font-medium">
                     "{tst.quote}"
                   </p>
                 </div>
-                <div className="flex items-center gap-3 pt-4 border-t border-zinc-900/60 font-mono">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-200 uppercase">
+                <div className="flex items-center gap-3 pt-4 border-t border-zinc-100 font-mono">
+                  <div className="w-8 h-8 rounded-lg bg-[#fbf6f0] flex items-center justify-center text-[10px] font-bold text-[#1a1a1a] uppercase">
                     {tst.author.slice(0, 2)}
                   </div>
                   <div>
-                    <span className="font-bold text-xs text-zinc-200 block">{tst.author}</span>
-                    <span className="text-[9px] text-zinc-500 block font-light">{tst.role}</span>
+                    <span className="font-bold text-xs text-[#1a1a1a] block">{tst.author}</span>
+                    <span className="text-[9px] text-[#888888] block font-light">{tst.role}</span>
                   </div>
                 </div>
               </motion.div>
@@ -987,23 +900,23 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ Accordion */}
-      <section id="faq" className="py-24 px-6 border-t border-zinc-900 bg-zinc-950/20 relative">
+      <section id="faq" className="py-24 px-6 border-t border-[#e49b6b]/20 bg-white relative">
         <div className="container mx-auto max-w-4xl">
 
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
             className="text-center mb-16"
           >
-            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Support" speed={3} color="#71717a" shineColor="#ffffff" /></motion.span>
-            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-white">
+            <motion.span variants={fadeInUp} className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3"><ShinyText text="✨ Support" speed={3} color="#a1a1aa" shineColor="#1a1a1a" /></motion.span>
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-extrabold mb-4 tracking-tighter font-display text-[#1a1a1a]">
               Questions & answers.
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-zinc-400 text-sm font-light">
+            <motion.p variants={fadeInUp} className="text-[#555555] text-sm font-light">
               Clear details on pricing, setup, hosting, and domains.
             </motion.p>
           </motion.div>
 
-          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 sm:p-10 space-y-2">
+          <div className="bg-[#fbf6f0] border border-zinc-200 rounded-2xl p-6 sm:p-10 space-y-2">
             <FAQItem
               question="How does Jaalam build a website in 60 seconds?"
               answer="Jaalam hosts pre-structured layouts tailored for local storefronts. You type in your location details, pricing, and operating times, and our compiler automatically shapes a lightweight, custom-themed website. No database configurations or coding required."
@@ -1030,19 +943,19 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 relative overflow-hidden border-t border-zinc-900">
+      <section className="py-24 px-6 relative overflow-hidden border-t border-[#e49b6b]/20 bg-[#fbf6f0]">
         <div className="container mx-auto max-w-5xl text-center relative z-10">
-          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-8 sm:p-16 relative overflow-hidden">
+          <div className="bg-white border border-[#e49b6b]/30 shadow-xl shadow-[#e49b6b]/10 rounded-2xl p-8 sm:p-16 relative overflow-hidden">
 
             <motion.h2
               initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true, margin: "-50px" }}
-              className="text-3xl sm:text-4xl font-extrabold mb-6 tracking-tighter font-display text-white"
+              className="text-3xl sm:text-4xl font-extrabold mb-6 tracking-tighter font-display text-[#1a1a1a]"
             >
               Ready to launch your business online?
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true, margin: "-50px" }}
-              className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-10 font-light leading-relaxed"
+              className="text-[#555555] text-sm sm:text-base max-w-xl mx-auto mb-10 font-light leading-relaxed"
             >
               Join thousands of salon owners, restaurant managers, gym coaches, and local services using Jaalam to reach local clients.
             </motion.p>
@@ -1050,16 +963,16 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
               <Link
                 to="/register"
-                className="bg-white hover:bg-zinc-200 text-black font-semibold text-sm px-6 py-3 rounded-lg shadow-sm transition-all hover:scale-102 w-full sm:w-auto"
+                className="bg-[#e49b6b] hover:bg-[#d98b5a] text-white shadow-md shadow-[#e49b6b]/20 font-bold text-sm px-6 py-3 rounded-lg transition-all hover:scale-102 w-full sm:w-auto"
               >
                 Create My Site Free
               </Link>
               <Link
                 to="/login"
-                className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 font-semibold text-sm px-6 py-3 rounded-lg transition-all w-full sm:w-auto flex items-center justify-center gap-1.5"
+                className="bg-white border border-zinc-200 hover:bg-zinc-50 text-[#1a1a1a] shadow-sm font-semibold text-sm px-6 py-3 rounded-lg transition-all w-full sm:w-auto flex items-center justify-center gap-1.5"
               >
                 <span>Access Dashboard</span>
-                <ArrowUpRight className="w-4 h-4 text-zinc-500" />
+                <ArrowUpRight className="w-4 h-4 text-[#555555]" />
               </Link>
             </div>
           </div>
@@ -1067,17 +980,17 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-900 py-12 px-6 bg-[#09090b] text-zinc-500 text-xs font-mono">
+      <footer className="border-t border-[#e49b6b]/20 py-12 px-6 bg-[#fbf6f0] text-[#888888] text-xs font-mono">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-6 max-w-7xl">
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" className="w-6 h-6 object-contain" alt="Jaalam Logo" />
-            <span className="font-extrabold text-zinc-300 font-display">Jaalam</span>
+          <div className="flex items-center gap-3 cursor-pointer">
+            <img src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 object-contain opacity-80" />
+            <span className="font-extrabold text-[#1a1a1a] font-display uppercase tracking-tight text-lg mt-1">JAALAM</span>
           </div>
 
-          <div className="flex gap-6 text-zinc-500">
-            <a href="#features" className="hover:text-zinc-300 transition-colors">Features</a>
-            <a href="#simulator" className="hover:text-zinc-300 transition-colors">Demo</a>
-            <a href="#process" className="hover:text-zinc-300 transition-colors">How it works</a>
+          <div className="flex gap-6 text-[#888888]">
+            <a href="#features" className="hover:text-[#1a1a1a] transition-colors">Features</a>
+            <a href="#simulator" className="hover:text-[#1a1a1a] transition-colors">Demo</a>
+            <a href="#process" className="hover:text-[#1a1a1a] transition-colors">How it works</a>
           </div>
 
           <p>© {new Date().getFullYear()} Jaalam Inc. All rights reserved.</p>
@@ -1087,4 +1000,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
