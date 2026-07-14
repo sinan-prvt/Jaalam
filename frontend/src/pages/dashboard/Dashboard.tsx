@@ -382,14 +382,6 @@ export default function Dashboard() {
   const handleSaveSettings = async () => {
     setIsSavingSettings(true);
     try {
-      if (user?.is_test_user) {
-        // Mock success for test users since backend blocks them
-        dispatch(loginSuccess({ ...user, username: editUsername, first_name: editFirstName, last_name: editLastName }));
-        toast.success('Settings updated successfully!');
-        setIsSavingSettings(false);
-        return;
-      }
-
       const res = await axios.patch('/api/users/me/', {
         username: editUsername,
         first_name: editFirstName,
