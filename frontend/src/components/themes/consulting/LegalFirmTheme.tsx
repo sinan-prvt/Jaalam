@@ -46,7 +46,7 @@ export default function LegalFirmTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 md:h-12 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 md:h-12 w-auto object-contain" />
             ) : (
               <Scale className="text-[#C4A962]" size={32} />
             )}
@@ -99,7 +99,7 @@ export default function LegalFirmTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center flex flex-col items-center">
                     <div className="mb-6">
-                      {srv.image ? <img src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-legal-title text-2xl font-bold mb-4 text-[#1B3D2E]">{srv.title}</h3>
                     <p className="font-legal-body text-[#1B3D2E]/70 leading-relaxed text-lg">{srv.description}</p>
@@ -123,7 +123,7 @@ export default function LegalFirmTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer border border-[#E5E0D8] bg-[#F5F0E8] hover:shadow-xl transition-all duration-300" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/3] overflow-hidden">
-                   <img src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
+                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
                 </div>
                 <div className="p-8">
                   <h3 className="font-legal-title text-2xl font-bold mb-3 text-[#1B3D2E]">{service.name}</h3>
@@ -175,7 +175,7 @@ export default function LegalFirmTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=800&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square bg-gray-100 cursor-pointer overflow-hidden group" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                 </div>
               ))}
             </div>
@@ -190,7 +190,7 @@ export default function LegalFirmTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-legal-title text-3xl md:text-4xl font-bold text-[#1B3D2E] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-legal-body text-lg text-[#1B3D2E]/80 leading-relaxed text-center">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full border-4 border-white shadow-lg" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full border-4 border-white shadow-lg" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-[#1B3D2E]/10" />;
               return null;
             })}
@@ -298,7 +298,7 @@ export default function LegalFirmTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-[#C4A962] hover:text-white transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl border-4 border-[#F5F0E8]" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl border-4 border-[#F5F0E8]" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

@@ -65,7 +65,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
       <header className="bg-[#3E2723] text-[#FDFBF7] py-6 relative z-10 border-b-8 border-[#B71C1C]">
         <div className="container mx-auto px-6 flex flex-col items-center">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="h-20 object-contain mb-4" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-20 object-contain mb-4" />
           ) : (
             <>
               <Scissors size={32} className="text-[#B71C1C] mb-2" />
@@ -92,7 +92,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 <p className="font-body text-lg text-[#5D4037] mb-10 leading-relaxed max-w-2xl mx-auto">
                   {content.about_text || content.hero_text || 'We take pride in offering the finest, locally sourced meats cut to perfection by our master butchers.'}
                 </p>
-                <img src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1000&q=80"} alt="Butcher Block" className="w-full h-80 object-cover border-4 border-[#3E2723] shadow-xl" />
+                <img loading="lazy" src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1000&q=80"} alt="Butcher Block" className="w-full h-80 object-cover border-4 border-[#3E2723] shadow-xl" />
               </div>
             </section>
           );
@@ -109,7 +109,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 </div>
                 <div className="md:w-1/2">
                   <div className="border-4 border-[#3E2723] p-2 bg-[#FDFBF7] shadow-[8px_8px_0_#B71C1C]">
-                    <img src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full aspect-[4/3] object-cover filter contrast-125 saturate-150" />
+                    <img loading="lazy" src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full aspect-[4/3] object-cover filter contrast-125 saturate-150" />
                   </div>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                     const desc = typeof srv === 'string' ? '' : srv.description;
                     return (
                       <div key={idx} className="bg-[#EFEBE9] p-8 border-2 border-[#D7CCC8]">
-                        {srv.image && <img src={srv.image} alt={title} className="w-full h-32 object-cover mb-4 border-2 border-[#D7CCC8]" />}
+                        {srv.image && <img loading="lazy" src={srv.image} alt={title} className="w-full h-32 object-cover mb-4 border-2 border-[#D7CCC8]" />}
                         <h4 className="font-body font-bold text-xl text-[#B71C1C] mb-3">{title}</h4>
                         <p className="font-body text-[#5D4037]">{desc}</p>
                       </div>
@@ -148,7 +148,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                   {products.slice(0, 4).map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="flex bg-[#FDFBF7] p-4 border-2 border-[#3E2723] shadow-[4px_4px_0_#B71C1C] cursor-pointer hover:bg-[#F5E6E6] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_#B71C1C] transition-all">
                       <div className="w-32 h-32 shrink-0 border border-[#8D6E63] overflow-hidden">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 saturate-150" />
+                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 saturate-150" />
                       </div>
                       <div className="ml-4 flex flex-col justify-center">
                         <h4 className="font-body font-bold text-xl text-[#3E2723] mb-1">{p.name}</h4>
@@ -183,7 +183,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                     const imgUrl = typeof img === 'string' ? img : img.url;
                     return (
                       <div key={idx} className="aspect-square border-4 border-[#3E2723] overflow-hidden group">
-                        <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter contrast-125 saturate-150 group-hover:scale-110 transition-transform duration-500" />
+                        <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter contrast-125 saturate-150 group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     );
                   })}
@@ -237,7 +237,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h3 key={idx} className="font-butcher text-3xl text-center text-[#3E2723]">{block.content}</h3>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-lg text-[#5D4037] text-center max-w-2xl mx-auto">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="border-4 border-[#3E2723] shadow-[8px_8px_0_#B71C1C] p-2 bg-[#FDFBF7]"><img src={block.url} alt="Custom" className="w-full h-auto" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="border-4 border-[#3E2723] shadow-[8px_8px_0_#B71C1C] p-2 bg-[#FDFBF7]"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-16 h-1 bg-[#B71C1C] mx-auto"></div>;
                   return null;
                 })}
@@ -264,7 +264,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 relative z-10">
               <div className="h-48 md:h-auto md:aspect-square bg-[#EFEBE9] border-2 border-[#8D6E63] shadow-[4px_4px_0_#3E2723] overflow-hidden">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter contrast-125 saturate-150" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter contrast-125 saturate-150" />
               </div>
               <div className="flex flex-col justify-center mt-2 md:mt-0">
                 <h2 className="text-2xl md:text-5xl font-butcher mb-2 text-[#3E2723] uppercase">{selectedProduct.name}</h2>
@@ -293,7 +293,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

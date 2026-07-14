@@ -298,7 +298,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       <nav className="absolute top-0 left-0 w-full z-50 px-6 lg:px-16 py-6 flex items-center justify-between text-white border-b border-white/10">
         <div className="flex items-center gap-2 lg:gap-3">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover shadow-sm" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover shadow-sm" />
           ) : (
             <Utensils size={24} className={`${primaryText} mt-0.5`} />
           )}
@@ -366,7 +366,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
         if (sectionId === 'hero') return (
           <div id="home" key="hero" className="relative min-h-[100vh] lg:min-h-[85vh] flex items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden">
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Restaurant Interior" className="w-full h-full object-cover" />
+              <img loading="lazy" src={heroImage} alt="Restaurant Interior" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-slate-900/70 mix-blend-multiply"></div>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
             </div>
@@ -469,7 +469,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                     return (
                       <div key={idx} onClick={() => setSelectedProduct(item)} className="flex flex-col group cursor-pointer bg-white p-4 pb-8 transition-transform hover:-translate-y-2 duration-500 shadow-sm hover:shadow-2xl border border-stone-100">
                         <div className="w-full h-72 overflow-hidden mb-6 relative">
-                          <img src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                          <img loading="lazy" src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                         </div>
                         <div className="text-center px-4">
                           <h3 className={`text-2xl font-bold mb-3 text-stone-900 ${headingFont}`}>{item.name}</h3>
@@ -484,7 +484,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                     return (
                       <div key={idx} onClick={() => setSelectedProduct(item)} className="flex flex-col bg-slate-50 rounded-[2rem] p-4 lg:p-6 group cursor-pointer hover:shadow-xl transition-all border border-transparent hover:border-slate-200">
                         <div className="w-full h-64 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
-                          <img src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                          <img loading="lazy" src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                         </div>
                         <div className="flex justify-between items-start mb-3 px-2">
                           <h3 className={`text-2xl font-bold text-slate-900 ${headingFont}`}>{item.name}</h3>
@@ -500,7 +500,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                       <div key={idx} onClick={() => setSelectedProduct(item)} className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-lime-100/50 pb-8 pt-6 group cursor-pointer hover:bg-lime-50/20 px-4 sm:px-6 rounded-2xl transition-colors gap-6">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-6 flex-1">
                           <div className="w-full sm:w-24 h-56 sm:h-24 lg:w-32 lg:h-32 shrink-0 rounded-2xl sm:rounded-full overflow-hidden shadow-sm border-2 border-white relative">
-                            <img src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                            <img loading="lazy" src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                           </div>
                           <div className="pr-0 sm:pr-4 max-w-2xl flex-1">
                             <div className="flex justify-between items-start sm:block mb-2 sm:mb-3">
@@ -519,7 +519,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                     return (
                       <div key={idx} onClick={() => setSelectedProduct(item)} className="flex flex-col md:flex-row bg-slate-900 text-white group cursor-pointer hover:bg-slate-800 transition-colors shadow-2xl">
                         <div className="w-full md:w-5/12 h-72 md:h-auto overflow-hidden relative">
-                          <img src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                          <img loading="lazy" src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900 via-transparent to-transparent opacity-60"></div>
                         </div>
                         <div className="p-8 md:p-12 flex-1 flex flex-col justify-center">
@@ -537,8 +537,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   return (
                     <div key={idx} onClick={() => setSelectedProduct(item)} className="flex flex-col sm:flex-row gap-6 group cursor-pointer">
                       <div className="w-full sm:w-32 h-48 sm:h-32 rounded-full overflow-hidden shrink-0 shadow-lg border-4 border-slate-50 relative bg-slate-200">
-                        <img 
-                          src={imageSrc} 
+                        <img loading="lazy" src={imageSrc} 
                           alt={item.name} 
                           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 bg-slate-100" 
                           onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
@@ -596,14 +595,14 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 if (galleryStyle === 'masonry') {
                   return (
                     <div key={idx} className="mb-6 break-inside-avoid relative group overflow-hidden bg-stone-100 cursor-pointer shadow-md" onClick={() => setSelectedImage(imageSrc)}>
-                      <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                      <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                     </div>
                   );
                 }
                 if (galleryStyle === 'grid-rounded') {
                   return (
                     <div key={idx} className="aspect-[4/3] rounded-[2rem] overflow-hidden relative group cursor-pointer shadow-sm hover:shadow-2xl transition-shadow duration-500" onClick={() => setSelectedImage(imageSrc)}>
-                      <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                      <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                     </div>
                   );
                 }
@@ -611,7 +610,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   return (
                     <div key={idx} className="bg-white p-4 pb-16 shadow-lg border border-stone-200 transform hover:-translate-y-4 hover:rotate-2 transition-all duration-500 cursor-pointer" onClick={() => setSelectedImage(imageSrc)}>
                       <div className="aspect-square w-full overflow-hidden mb-2 bg-stone-100">
-                        <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover filter sepia-[0.2] hover:sepia-0 transition-all duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                        <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover filter sepia-[0.2] hover:sepia-0 transition-all duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                       </div>
                     </div>
                   );
@@ -619,14 +618,14 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 if (galleryStyle === 'grid-circles') {
                   return (
                     <div key={idx} className="w-48 h-48 lg:w-72 lg:h-72 rounded-full overflow-hidden relative group cursor-pointer shadow-xl hover:shadow-2xl transition-all ring-8 ring-white" onClick={() => setSelectedImage(imageSrc)}>
-                      <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                      <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                     </div>
                   );
                 }
                 if (galleryStyle === 'grid-wide') {
                   return (
                     <div key={idx} className="aspect-[4/3] lg:aspect-[2/1] relative group overflow-hidden bg-slate-900 cursor-pointer border-r border-slate-800" onClick={() => setSelectedImage(imageSrc)}>
-                      <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-70 group-hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                      <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-70 group-hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                     </div>
                   );
                 }
@@ -634,7 +633,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 // Classic Style
                 return (
                   <div key={idx} className="aspect-square relative group overflow-hidden bg-slate-900 cursor-pointer" onClick={() => setSelectedImage(imageSrc)}>
-                    <img src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
+                    <img loading="lazy" src={imageSrc} alt={`Gallery ${idx}`} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Star size={32} className="text-white drop-shadow-lg" />
                     </div>
@@ -649,7 +648,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
         if (sectionId === 'contact') return (
           <div id="contact" key="contact" className={`relative py-24 lg:py-32 px-6 ${bgDarkSec} text-white overflow-hidden`}>
             <div className="absolute inset-0 z-0 opacity-20">
-              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Restaurant Ambiance" className="w-full h-full object-cover grayscale" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Restaurant Ambiance" className="w-full h-full object-cover grayscale" />
             </div>
             <FadeInView>
             <div className={`max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center ${alignment.replace('items-center justify-center', 'items-start text-left').replace('items-start justify-start text-left', 'items-start text-left')}`}>
@@ -728,7 +727,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   return <p key={block.id} className="text-slate-600 text-lg leading-relaxed font-light whitespace-pre-wrap text-center">{block.content}</p>;
                 }
                 if (block.type === 'image') {
-                  return block.url ? <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" /> : null;
+                  return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" /> : null;
                 }
                 if (block.type === 'divider') {
                   return <div key={block.id} className="w-full h-px bg-slate-200 my-12"></div>;
@@ -752,7 +751,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -767,7 +766,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-3 mb-6">
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover shadow-sm" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover shadow-sm" />
               ) : (
                 <Utensils size={24} className={primaryText} />
               )}
@@ -862,8 +861,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
           >
             {/* Image section */}
             <div className="relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
-              <img 
-                src={selectedProduct.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
+              <img loading="lazy" src={selectedProduct.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
                 alt={selectedProduct.name} 
                 className="w-full h-full object-cover"
                 onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}

@@ -167,7 +167,7 @@ export default function CrossFitTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between absolute top-0 z-50 bg-black/10 backdrop-blur-sm border-b-4 border-black">
           <div className="cf-heading text-4xl text-black flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 object-cover rounded-full shadow-md border-2 border-black" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 object-cover rounded-full shadow-md border-2 border-black" />
             ) : (
               <Anchor size={36} className="text-black fill-black/20" />
             )}
@@ -209,7 +209,7 @@ export default function CrossFitTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-16 border-b-8 border-black">
             <div className="absolute inset-0 z-0 bg-[#E6FF00]">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale mix-blend-multiply opacity-60" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale mix-blend-multiply opacity-60" />
               <div className="absolute inset-0 halftone-pattern opacity-20"></div>
             </div>
 
@@ -262,7 +262,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                   <FadeIn dir="left">
                     <div className="relative">
                       <div className="absolute inset-0 bg-[#E6FF00] translate-x-4 -translate-y-4 border-4 border-black"></div>
-                      <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" alt="About Box" className="relative z-10 w-full h-auto object-cover grayscale border-4 border-black" />
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" alt="About Box" className="relative z-10 w-full h-auto object-cover grayscale border-4 border-black" />
                     </div>
                   </FadeIn>
                   <FadeIn dir="right">
@@ -320,7 +320,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                         >
                           <div className="h-64 relative border-b-4 border-black">
                             {s.image ? (
-                              <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105" />
+                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105" />
                             ) : (
                               <div className="w-full h-full bg-[#DDDDDD] flex items-center justify-center">
                                 <Activity size={64} className="text-black" />
@@ -368,7 +368,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                             </div>
                           )}
                           <div className={`w-full h-48 border-b-4 ${idx === 1 ? 'border-black bg-black' : 'border-white bg-black'} overflow-hidden relative`}>
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                           </div>
                           <div className={`p-8 border-b-4 ${idx === 1 ? 'border-black' : 'border-white'}`}>
                             <h3 className="cf-heading text-4xl mb-2 break-words">{product.name}</h3>
@@ -424,7 +424,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                           onClick={() => setSelectedImage(img)}
                           className="aspect-square cursor-pointer relative group overflow-hidden border-4 border-black bg-black"
                         >
-                          <img src={img} alt={`Box ${idx + 1}`} className="w-full h-full object-cover grayscale opacity-70 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100" />
+                          <img loading="lazy" src={img} alt={`Box ${idx + 1}`} className="w-full h-full object-cover grayscale opacity-70 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100" />
                           <div className="absolute inset-0 bg-[#E6FF00]/0 group-hover:bg-[#E6FF00]/20 transition-colors duration-300 mix-blend-multiply"></div>
                         </div>
                       </FadeIn>
@@ -515,7 +515,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden border-8 border-black my-8">
-                              <img src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale mix-blend-multiply" />
+                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale mix-blend-multiply" />
                             </div>
                           );
                         case 'divider':
@@ -554,7 +554,7 @@ export default function CrossFitTheme({ website, content }: Props) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -572,7 +572,7 @@ export default function CrossFitTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -583,7 +583,7 @@ export default function CrossFitTheme({ website, content }: Props) {
       <footer className="bg-black py-16 px-6 text-center border-t-8 border-[#E6FF00]">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md border-4 border-[#E6FF00] mx-auto mb-6 bg-white" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md border-4 border-[#E6FF00] mx-auto mb-6 bg-white" />
             ) : (
               <Anchor size={48} className="text-[#E6FF00] mx-auto mb-6" />
             )}
@@ -619,7 +619,7 @@ export default function CrossFitTheme({ website, content }: Props) {
 
               <div className="h-28 md:h-48 w-full border-b-2 md:border-b-4 border-white shrink-0">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
                 ) : (
                   <div className="w-full h-full bg-[#111] flex items-center justify-center">
                     <Activity size={32} className="md:w-12 md:h-12 text-[#E6FF00]" />
@@ -652,8 +652,7 @@ export default function CrossFitTheme({ website, content }: Props) {
             >
               <X size={40} />
             </button>
-            <img
-              src={selectedImage}
+            <img loading="lazy" src={selectedImage}
               alt="Gallery Preview"
               className="max-w-full max-h-[90vh] object-contain border-8 border-white shadow-[12px_12px_0px_#E6FF00]"
               onClick={e => e.stopPropagation()}
@@ -678,7 +677,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col border-4 bg-[#222] border-white text-white relative transition-transform hover:-translate-y-2 group">
                       <div className="w-full h-56 border-b-4 border-white bg-black">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                       </div>
                       <div className="p-8 border-b-4 border-white">
                         <h3 className="cf-heading text-4xl mb-2 break-words whitespace-pre-wrap">{product.name}</h3>

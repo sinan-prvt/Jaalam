@@ -160,7 +160,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-16 py-8 flex items-center justify-between absolute top-0 z-50">
           <div className="lc-heading text-2xl tracking-widest text-white flex items-center gap-3">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-md border border-[#D4C5B9]/30" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-md border border-[#D4C5B9]/30" />
             ) : null}
             {siteName.toUpperCase()}
           </div>
@@ -207,7 +207,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-16">
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale-[30%] opacity-80" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale-[30%] opacity-80" />
               <div className="absolute inset-0 bg-gradient-to-b from-[#0A1128]/80 via-[#0A1128]/40 to-[#0A1128]/80"></div>
             </div>
             
@@ -266,7 +266,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                     <div className="relative p-4">
                       <div className="absolute top-0 left-0 w-1/2 h-1/2 border-t border-l border-[#D4C5B9]"></div>
                       <div className="absolute bottom-0 right-0 w-1/2 h-1/2 border-b border-r border-[#D4C5B9]"></div>
-                      <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80" alt="Club Interior" className="relative z-10 w-full aspect-[4/5] object-cover" />
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80" alt="Club Interior" className="relative z-10 w-full aspect-[4/5] object-cover" />
                     </div>
                   </FadeIn>
                   <FadeIn dir="right">
@@ -326,7 +326,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                         >
                           <div className="aspect-[4/3] overflow-hidden mb-6 relative">
                             {s.image ? (
-                              <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale-[20%] transition-transform duration-1000 group-hover:scale-105" />
+                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale-[20%] transition-transform duration-1000 group-hover:scale-105" />
                             ) : (
                               <div className="w-full h-full bg-[#F9F9F9] flex items-center justify-center">
                                 <HeartPulse size={48} className="text-[#D4C5B9]" strokeWidth={1} />
@@ -368,7 +368,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                           className={`flex flex-col border h-full transition-all duration-500 hover:-translate-y-2 group overflow-hidden ${idx === 1 ? 'border-[#D4C5B9] bg-[#D4C5B9]/5' : 'border-white/10 bg-white/5 hover:border-white/30'}`}
                         >
                           <div className="w-full h-56 relative border-b border-white/10 overflow-hidden bg-black/20">
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                           </div>
                           <div className="p-10 flex flex-col flex-1">
                             <h3 className="lc-heading text-3xl text-white mb-2 break-words">{product.name}</h3>
@@ -427,7 +427,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                           onClick={() => setSelectedImage(img)}
                           className={`cursor-pointer overflow-hidden relative group ${idx === 0 || idx === 3 ? 'aspect-square md:aspect-[3/4]' : 'aspect-square'}`}
                         >
-                          <img src={img} alt={`Space ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                          <img loading="lazy" src={img} alt={`Space ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-white/0 group-hover:bg-white/20 transition-colors duration-500"></div>
                         </div>
                       </FadeIn>
@@ -522,7 +522,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden my-12 border border-gray-200 p-2">
-                              <img src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale-[20%]" />
+                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale-[20%]" />
                             </div>
                           );
                         case 'divider':
@@ -554,7 +554,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -565,7 +565,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
       <footer className="bg-[#0A1128] py-20 px-6 text-center border-t border-white/10">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md border border-[#D4C5B9]/30 mx-auto mb-8 bg-[#0A1128]" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md border border-[#D4C5B9]/30 mx-auto mb-8 bg-[#0A1128]" />
             ) : null}
             <h4 className="lc-heading text-2xl text-white mb-10 tracking-widest">{siteName.toUpperCase()}</h4>
             
@@ -599,7 +599,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
               
               <div className="h-48 md:h-64 w-full relative shrink-0">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-[#F9F9F9] flex items-center justify-center">
                     <Star size={40} className="text-[#D4C5B9]" />
@@ -632,8 +632,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
             >
               <X size={32} />
             </button>
-            <img 
-              src={selectedImage} 
+            <img loading="lazy" src={selectedImage} 
               alt="Gallery Preview" 
               className="max-w-full max-h-[90vh] object-contain shadow-2xl"
               onClick={e => e.stopPropagation()}
@@ -658,7 +657,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col border bg-white/5 border-white/10 transition-all duration-500 hover:-translate-y-2 hover:border-white/30 hover:bg-white/10 group overflow-hidden">
                       <div className="w-full h-56 relative border-b border-white/10 bg-black/20">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                       </div>
                       <div className="p-10 flex flex-col flex-1">
                         <h3 className="lc-heading text-3xl text-white mb-2 break-words whitespace-pre-wrap">{product.name}</h3>

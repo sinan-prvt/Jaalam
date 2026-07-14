@@ -45,7 +45,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
         <div className="container mx-auto px-8 py-8 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain grayscale" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain grayscale" />
             ) : (
               <div className="w-8 h-8 bg-black flex items-center justify-center">
                  <Briefcase className="text-white" size={16} />
@@ -117,7 +117,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[3/4] overflow-hidden mb-6 bg-gray-100">
-                   <img src={service.image} alt={service.name} className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
                 </div>
                 <h3 className="font-minimal text-2xl font-bold mb-3 tracking-tight">{service.name}</h3>
                 <p className="font-minimal text-gray-500 mb-6 font-light">{service.description}</p>
@@ -170,7 +170,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="break-inside-avoid cursor-pointer overflow-hidden bg-gray-50" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105" />
                 </div>
               ))}
             </div>
@@ -185,7 +185,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-minimal text-4xl md:text-5xl font-bold tracking-tighter">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-minimal text-xl text-gray-500 font-light leading-relaxed">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full grayscale" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full grayscale" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-black/10" />;
               return null;
             })}
@@ -288,7 +288,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-black hover:opacity-50 transition-opacity">
             <X size={32} strokeWidth={1} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain grayscale" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain grayscale" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

@@ -39,7 +39,7 @@ export default function PopOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-12 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-12 w-auto object-contain" />
             ) : (
               <div className="font-pop-title font-bold text-3xl tracking-tight text-[#FF4D4D] drop-shadow-sm">
                 {siteName}
@@ -78,7 +78,7 @@ export default function PopOtherTheme({ website, content }: any) {
           </div>
           <div className="w-full md:w-1/2">
             <div className="relative rounded-3xl overflow-hidden border-8 border-white shadow-[12px_12px_0px_0px_rgba(45,55,72,1)] bg-white rotate-3 hover:rotate-0 transition-transform duration-300">
-              <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80" alt="Hero" className="w-full aspect-square md:aspect-[4/3] object-cover" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80" alt="Hero" className="w-full aspect-square md:aspect-[4/3] object-cover" />
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function PopOtherTheme({ website, content }: any) {
                 const rot = rotations[i % rotations.length];
                 return (
                   <div key={i} className={`aspect-square overflow-hidden cursor-pointer rounded-2xl border-4 border-[#2D3748] shadow-[6px_6px_0px_0px_rgba(45,55,72,1)] ${rot} hover:rotate-0 hover:z-10 transition-transform`} onClick={() => setSelectedGalleryImage(img)}>
-                    <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
                   </div>
                 );
               })}
@@ -270,7 +270,7 @@ export default function PopOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-[#2D3748]/90 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] rounded-3xl border-8 border-white shadow-[12px_12px_0px_0px_rgba(255,77,77,1)]" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] rounded-3xl border-8 border-white shadow-[12px_12px_0px_0px_rgba(255,77,77,1)]" />
         </div>
       )}
     </div>

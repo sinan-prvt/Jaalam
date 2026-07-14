@@ -137,7 +137,7 @@ export default function PopFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                   <div className="w-full lg:w-1/2 relative h-[50vh] md:h-[60vh] lg:h-[75vh] rounded-3xl overflow-hidden shadow-2xl">
-                    <img src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
+                    <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 </section>
               );
@@ -195,7 +195,7 @@ export default function PopFancyTheme({ website, content }: any) {
                       {products.slice(0, 8).map((product: any, idx: number) => (
                         <div key={idx} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(product)}>
                           <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden bg-slate-100 mb-6 relative shadow-sm group-hover:shadow-lg transition-all duration-300">
-                            <img src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
+                            <img loading="lazy" src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
                             <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                           </div>
                           <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
@@ -221,7 +221,7 @@ export default function PopFancyTheme({ website, content }: any) {
 
                         return (
                           <div key={idx} className={`${spanClasses} rounded-2xl overflow-hidden cursor-pointer group relative bg-slate-200 shadow-sm hover:shadow-xl transition-all duration-300`} onClick={() => setSelectedGalleryImage(imgUrl)}>
-                            <img src={imgUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Gallery" />
+                            <img loading="lazy" src={imgUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Gallery" />
                             <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-colors duration-300"></div>
                           </div>
                         );
@@ -310,7 +310,7 @@ export default function PopFancyTheme({ website, content }: any) {
                       {content.custom_blocks_json.map((block: any, idx: number) => {
                         if (block.type === 'heading') return <h2 key={idx} className="font-pop-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 text-center">{block.content}</h2>;
                         if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-pop-body text-xl md:text-2xl text-slate-600 leading-relaxed text-center whitespace-pre-wrap">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden rounded-3xl shadow-xl"><img src={block.url} alt="Custom" className="w-full h-auto object-cover" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden rounded-3xl shadow-xl"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover" /></div>;
                         if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-slate-200 my-16"></div>;
                         return null;
                       })}
@@ -337,7 +337,7 @@ export default function PopFancyTheme({ website, content }: any) {
                 {products.map((product: any, idx: number) => (
                   <div key={idx} className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 flex flex-col" onClick={() => setSelectedProduct(product)}>
                     <div className="w-full aspect-square bg-slate-100 relative overflow-hidden">
-                      <img src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
+                      <img loading="lazy" src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
                     </div>
                     <div className="p-6">
                       <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
@@ -359,7 +359,7 @@ export default function PopFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -381,7 +381,7 @@ export default function PopFancyTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors z-10" onClick={() => setSelectedGalleryImage(null)}>
             <X size={28} strokeWidth={2} />
           </button>
-          <img src={selectedGalleryImage} alt="Enlarged" className="max-w-[95vw] max-h-[90vh] object-contain rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Enlarged" className="max-w-[95vw] max-h-[90vh] object-contain rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()} />
         </div>
       )}
       

@@ -62,7 +62,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-3">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
             ) : (
               <div className="bg-[#2563EB] text-white p-2 rounded">
                 <Scale size={24} />
@@ -108,7 +108,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
                   </div>
                   <div className="relative">
                     <div className="absolute inset-0 bg-[#2563EB] rounded-lg translate-x-4 translate-y-4 opacity-20"></div>
-                    <img src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"} alt="Industrial Facility" className="rounded-lg shadow-xl relative z-10 w-full object-cover aspect-[4/3]" />
+                    <img loading="lazy" src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"} alt="Industrial Facility" className="rounded-lg shadow-xl relative z-10 w-full object-cover aspect-[4/3]" />
                   </div>
                 </div>
               </div>
@@ -138,8 +138,8 @@ export default function CorporateScrapTheme({ website, content }: any) {
               <div className="container mx-auto max-w-6xl">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                   <div className="order-2 md:order-1 grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=400&q=80" alt="Recycling 1" className="rounded-lg shadow-md w-full h-48 object-cover" />
-                    <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=400&q=80" alt="Recycling 2" className="rounded-lg shadow-md w-full h-48 object-cover mt-8" />
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=400&q=80" alt="Recycling 1" className="rounded-lg shadow-md w-full h-48 object-cover" />
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=400&q=80" alt="Recycling 2" className="rounded-lg shadow-md w-full h-48 object-cover mt-8" />
                   </div>
                   <div className="order-1 md:order-2">
                     <h2 className="font-corp text-sm font-bold text-[#2563EB] uppercase tracking-wider mb-2">Corporate Profile</h2>
@@ -249,7 +249,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {gallery.map((img: string, i: number) => (
                     <div key={i} className="rounded-lg overflow-hidden border border-slate-700 aspect-video md:aspect-square">
-                      <img src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 opacity-80 hover:opacity-100" />
+                      <img loading="lazy" src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 opacity-80 hover:opacity-100" />
                     </div>
                   ))}
                 </div>
@@ -336,7 +336,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -353,7 +353,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -370,7 +370,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -383,7 +383,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
         <div className="container mx-auto max-w-6xl grid md:grid-cols-4 gap-8 font-corp text-sm mb-8">
           <div className="md:col-span-2">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain mb-4 opacity-80" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain mb-4 opacity-80" />
             ) : null}
             <span className="text-xl font-bold text-white mb-4 block">{siteName}</span>
             <p className="max-w-md leading-relaxed text-slate-500">
@@ -429,7 +429,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row h-full">
               {selectedProduct.image && (
                 <div className="w-full md:w-2/5 bg-slate-100 h-48 md:h-auto">
-                  <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
                 </div>
               )}
               

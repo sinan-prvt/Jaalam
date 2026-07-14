@@ -40,7 +40,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover" />
             ) : (
               <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white">
                 <Book size={18} />
@@ -108,7 +108,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                   <div className="relative">
                     <div className="aspect-square bg-blue-50 rounded-3xl overflow-hidden relative">
-                      <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80" alt="Workspace" className="w-full h-full object-cover mix-blend-multiply" />
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80" alt="Workspace" className="w-full h-full object-cover mix-blend-multiply" />
                     </div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                         <div key={idx} className="p-8 border border-current border-opacity-20 rounded-2xl hover:-translate-y-2 hover:border-opacity-100 transition-all cursor-pointer">
                           {image && (
                             <div className="w-16 h-16 mx-auto mb-6 rounded-xl overflow-hidden bg-slate-100/50">
-                              <img src={image} alt={title} className="w-full h-full object-cover" />
+                              <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover" />
                             </div>
                           )}
                           <h3 className="text-2xl font-bold mb-4">{title}</h3>
@@ -170,8 +170,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                     {products.slice(0, 4).map((p: any, i: number) => (
                       <div key={i} className="bg-white rounded-xl p-4 border border-slate-200 hover:shadow-lg transition-shadow group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                         <div className="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
-                          <img 
-                            src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
+                          <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
                             onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
                             alt={p.name || 'Product Image'} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
@@ -216,8 +215,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                        const imgUrl = typeof item === 'string' ? item : (item.image || item.url || '');
                        return (
                          <div key={idx} className="aspect-square overflow-hidden group bg-slate-100 cursor-pointer" onClick={() => setSelectedImage(imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80')}>
-                           <img 
-                             src={imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'} 
+                           <img loading="lazy" src={imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'} 
                              onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'; }}
                              alt={`Gallery image ${idx + 1}`} 
                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0" 
@@ -290,7 +288,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                       {content.custom_blocks_json.map((block: any, idx: number) => {
                         if (block.type === 'heading') return <h2 key={idx} className="text-3xl md:text-5xl font-bold mb-8">{block.content}</h2>;
                         if (block.type === 'text' || block.type === 'paragraph') return <p key={idx} className="text-xl opacity-80 leading-relaxed mb-8">{block.content}</p>;
-                        if (block.type === 'image') return <img key={idx} src={block.url || block.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80'} alt="Custom" className="max-w-full h-auto rounded-lg mb-8 mx-auto" />;
+                        if (block.type === 'image') return <img loading="lazy" key={idx} src={block.url || block.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80'} alt="Custom" className="max-w-full h-auto rounded-lg mb-8 mx-auto" />;
                         if (block.type === 'divider') return <hr key={idx} className="my-10 border-current opacity-20" />;
                         return null;
                       })}
@@ -335,8 +333,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="bg-white rounded-xl p-4 border border-slate-200 hover:shadow-lg transition-shadow group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
-                    <img 
-                      src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
+                    <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
                       onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
                       alt={p.name || 'Product Image'} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
@@ -371,7 +368,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -386,7 +383,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
             <div>
               <div className="flex items-center gap-2 mb-6 text-white">
                 {content.settings_json?.logo_image ? (
-                  <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover bg-white" />
+                  <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover bg-white" />
                 ) : (
                   <Book size={24} />
                 )}
@@ -418,7 +415,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
             <button onClick={() => setSelectedImage(null)} className="absolute -top-12 right-0 text-white hover:text-slate-300 p-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <img src={selectedImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+            <img loading="lazy" src={selectedImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
           </div>
         </div>
       )}

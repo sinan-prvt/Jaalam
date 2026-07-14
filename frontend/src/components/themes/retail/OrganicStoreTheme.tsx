@@ -101,7 +101,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
       <header className="relative z-50 py-6 px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover" />
           ) : (
             <Leaf className="text-[#8B5A2B]" size={28} />
           )}
@@ -170,8 +170,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
             </div>
             <div className="w-full lg:w-1/2 relative">
               <div className="aspect-[4/5] md:aspect-square relative overflow-hidden os-blob-1 border-4 border-white shadow-xl">
-                <img
-                  src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
                   alt="Hero"
                   className="w-full h-full object-cover"
                 />
@@ -205,7 +204,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               {services.map((srv: any, i: number) => (
                 <div key={i} className="text-center">
                   <div className="aspect-square mx-auto max-w-[200px] rounded-full overflow-hidden mb-8 border-4 border-[#E8EDDF]">
-                    <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="os-heading text-2xl font-semibold text-[#4A5D23] mb-4">{srv.title}</h3>
                   <p className="os-body text-[#6B705C] leading-relaxed">{srv.description}</p>
@@ -226,7 +225,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               {products.slice(0, 4).map((p: any, i: number) => (
                 <div key={i} className="os-card-hover bg-white rounded-3xl p-4 cursor-pointer border border-[#E8EDDF]" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-square rounded-2xl overflow-hidden bg-[#FDFBF7] mb-6">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="text-center px-2">
                     <h3 className="os-heading font-semibold text-lg text-[#4A5D23] mb-2 break-words">{p.name}</h3>
@@ -253,7 +252,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {galleryImages.slice(0, 6).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-2xl overflow-hidden bg-white cursor-pointer relative group" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-[#4A5D23]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Search className="text-white drop-shadow-md" size={32} />
                   </div>
@@ -299,7 +298,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               <div key={idx} className="mb-12 last:mb-0">
                 {block.type === 'heading' && <h3 className="os-heading text-3xl font-semibold text-[#4A5D23] mb-6 text-center">{block.content}</h3>}
                 {block.type === 'paragraph' && <p className="os-body text-lg text-[#6B705C] leading-relaxed break-words whitespace-pre-wrap text-center">{block.content}</p>}
-                {block.type === 'image' && <img src={block.url} alt="Custom" className="w-full rounded-3xl my-8 object-cover shadow-lg" />}
+                {block.type === 'image' && <img loading="lazy" src={block.url} alt="Custom" className="w-full rounded-3xl my-8 object-cover shadow-lg" />}
                 {block.type === 'divider' && <hr className="my-12 border-t-2 border-[#E8EDDF] w-1/3 mx-auto" />}
               </div>
             ))}
@@ -317,7 +316,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -330,7 +329,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-t border-[#D4C3B3] pt-8">
           <div className="flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-6 h-6 rounded-full object-cover" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-6 h-6 rounded-full object-cover" />
             ) : (
               <Leaf className="text-[#8B5A2B]" size={20} />
             )}
@@ -358,7 +357,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
             <X size={32} />
           </button>
           <div className="max-w-5xl w-full max-h-[90vh] flex items-center justify-center relative">
-            <img src={selectedGalleryImage} alt="Gallery Full View" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
+            <img loading="lazy" src={selectedGalleryImage} alt="Gallery Full View" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
           </div>
         </div>
       )}

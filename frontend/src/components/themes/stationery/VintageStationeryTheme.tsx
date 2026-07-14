@@ -49,7 +49,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
       {/* Hero */}
       <section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="w-full md:w-1/2">
-           <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80" alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
+           <img loading="lazy" src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80" alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="font-vintage text-4xl mb-6 italic text-[#5C4A3D]">
@@ -73,7 +73,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             <div key={i} className="flex gap-4 p-4 border border-[#8B7355] bg-[#F7F4F0] relative group">
               <div className="absolute top-2 right-2 opacity-20"><Stamp size={48} /></div>
               <div className="w-32 h-32 shrink-0 border border-[#8B7355] p-1 bg-white">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
+                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
               </div>
               <div className="flex flex-col justify-center z-10">
                 <h4 className="font-vintage text-xl font-bold mb-1 text-[#3E362E]">{p.name}</h4>
@@ -146,7 +146,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
              'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=400&q=80'
            ].map((img, idx) => (
               <div key={idx} className="aspect-square border-4 border-[#F7F4F0] shadow-md bg-white p-2 transform transition-transform hover:scale-105 hover:-rotate-1">
-                <img src={img} alt="Gallery image" className="w-full h-full object-cover filter sepia contrast-125" />
+                <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover filter sepia contrast-125" />
               </div>
            ))}
         </div>
@@ -206,7 +206,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

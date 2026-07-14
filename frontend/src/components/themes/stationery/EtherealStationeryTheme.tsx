@@ -72,7 +72,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
           <div className="glass-panel rounded-full max-w-5xl mx-auto px-8 py-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
               ) : (
                 <Sparkles className="text-[#8A73A6]" size={20} />
               )}
@@ -147,7 +147,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                         </p>
                       </div>
                       <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl border-4 border-white/50">
-                        <img src="https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
                       </div>
                     </div>
                   </section>
@@ -164,8 +164,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       {products.slice(0, 4).map((p: any, i: number) => (
                         <div key={i} className="glass-panel rounded-2xl p-4 cursor-pointer group hover:-translate-y-2 transition-transform duration-300" onClick={() => setSelectedProduct(p)}>
                           <div className="aspect-square rounded-xl overflow-hidden mb-4 relative">
-                            <img 
-                              src={p.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
+                            <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
                               onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'; }}
                               alt={p.name} 
                               className="w-full h-full object-cover filter saturate-50 group-hover:saturate-100 transition-all duration-500 group-hover:scale-110" 
@@ -206,7 +205,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                           <div key={idx} className="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition-transform cursor-pointer">
                             {image && (
                               <div className="w-16 h-16 mb-6 rounded-2xl overflow-hidden shadow-inner border border-white/30">
-                                <img src={image} alt={title} className="w-full h-full object-cover filter saturate-50 hue-rotate-15" />
+                                <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover filter saturate-50 hue-rotate-15" />
                               </div>
                             )}
                             {!image && <Heart className="w-10 h-10 mb-6 text-[#FF9CEE]" />}
@@ -283,8 +282,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                          const imgUrl = typeof item === 'string' ? item : (item.image || item.url || '');
                          return (
                           <div key={idx} className="glass-panel aspect-square rounded-2xl overflow-hidden cursor-pointer hover:scale-105 transition-transform" onClick={() => setSelectedImage(imgUrl)}>
-                            <img 
-                              src={imgUrl || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'} 
+                            <img loading="lazy" src={imgUrl || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'} 
                               onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'; }}
                               alt={`Gallery ${idx + 1}`} 
                               className="w-full h-full object-cover filter saturate-50 hover:saturate-100 transition-all duration-500" 
@@ -306,7 +304,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="flex-1 w-full aspect-square rounded-3xl overflow-hidden shadow-xl border-4 border-white/50">
-                            <img src={block.image} alt={block.title} className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
+                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
                           </div>
                         )}
                       </div>
@@ -332,8 +330,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="glass-panel rounded-2xl p-4 cursor-pointer group hover:-translate-y-2 transition-transform duration-300" onClick={() => setSelectedProduct(p)}>
                     <div className="aspect-square rounded-xl overflow-hidden mb-4 relative">
-                      <img 
-                        src={p.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
+                      <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'} 
                         onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80'; }}
                         alt={p.name} 
                         className="w-full h-full object-cover filter saturate-50 group-hover:saturate-100 transition-all duration-500" 
@@ -367,7 +364,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -387,7 +384,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
           <button onClick={() => setSelectedImage(null)} className="absolute top-6 right-6 p-2 bg-white/50 rounded-full text-[#6A4C93] hover:bg-white transition-colors">
             <X size={20} />
           </button>
-          <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[90vh] object-contain filter saturate-50 hue-rotate-15 rounded-2xl glass-panel p-2" />
+          <img loading="lazy" src={selectedImage} alt="Gallery" className="max-w-full max-h-[90vh] object-contain filter saturate-50 hue-rotate-15 rounded-2xl glass-panel p-2" />
         </div>
       )}
       

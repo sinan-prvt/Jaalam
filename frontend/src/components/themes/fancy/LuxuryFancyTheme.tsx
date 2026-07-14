@@ -38,7 +38,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
         <div className="container mx-auto px-8 py-6 flex justify-between items-center">
           <div className="flex flex-col items-center gap-1">
             {!content?.settings_json?.logo_image && <Crown size={20} className="text-[#E5C158]" />}
-            <span className="font-luxury text-xl tracking-[0.3em] uppercase">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+            <span className="font-luxury text-xl tracking-[0.3em] uppercase">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           </div>
           <nav className="hidden md:flex gap-12 font-body text-[10px] tracking-[0.3em] uppercase text-gray-400">
             <a href="#exclusive" className="hover:text-[#E5C158] transition-colors">Exclusive</a>
@@ -76,7 +76,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
                 <div className="relative aspect-square overflow-hidden mb-8 border border-[#E5C158]/20 bg-[#0A0A0A] flex items-center justify-center p-8">
                   <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-                  <img src={p.image} alt={p.name} className="relative z-10 max-h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-700 group-hover:scale-105" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="relative z-10 max-h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div className="text-center">
                   <h3 className="font-luxury text-2xl text-white mb-3 tracking-wide">{p.name}</h3>
@@ -113,7 +113,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -137,7 +137,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -176,7 +176,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

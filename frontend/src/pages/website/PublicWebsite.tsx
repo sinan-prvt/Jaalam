@@ -387,7 +387,7 @@ export default function PublicWebsite() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {content.gallery_json.map((img: string, index: number) => (
                 <div key={index} className="aspect-square rounded-[2rem] overflow-hidden bg-slate-100 shadow-md">
-                  <img src={img} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                  <img loading="lazy" src={img} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                 </div>
               ))}
             </div>

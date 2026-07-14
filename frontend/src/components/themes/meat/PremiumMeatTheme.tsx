@@ -52,7 +52,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-3">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="h-10 object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-10 object-contain" />
             ) : (
               <>
                 <Crown size={24} className="text-[#D4AF37]" />
@@ -74,7 +74,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
           if (sectionId === 'hero') return (
             <section key="hero" id="hero" className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-[#1A1A1A]">
               <div className="absolute inset-0">
-                <img src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1600&q=80"} alt="Hero Background" className="w-full h-full object-cover opacity-30 mix-blend-luminosity filter contrast-125" />
+                <img loading="lazy" src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1600&q=80"} alt="Hero Background" className="w-full h-full object-cover opacity-30 mix-blend-luminosity filter contrast-125" />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50"></div>
               
@@ -119,7 +119,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                 <div className="md:w-1/2 w-full relative">
                   <div className="absolute inset-0 bg-[#D4AF37] translate-x-4 translate-y-4 opacity-20 border border-[#D4AF37]"></div>
                   <div className="relative aspect-[4/5] bg-[#111]">
-                    <img src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80"} alt="About" className="w-full h-full object-cover filter grayscale contrast-125 hover:grayscale-0 transition-all duration-1000" />
+                    <img loading="lazy" src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80"} alt="About" className="w-full h-full object-cover filter grayscale contrast-125 hover:grayscale-0 transition-all duration-1000" />
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                     return (
                       <div key={idx} className="border border-[#1A1A1A] p-10 hover:border-[#D4AF37]/30 transition-colors bg-[#0A0A0A] group">
                         {srv.image ? (
-                          <img src={srv.image} alt={title} className="w-full h-32 object-cover mb-6 filter grayscale contrast-125 border border-[#1A1A1A]" />
+                          <img loading="lazy" src={srv.image} alt={title} className="w-full h-32 object-cover mb-6 filter grayscale contrast-125 border border-[#1A1A1A]" />
                         ) : (
                           <Check size={20} className="text-[#8C2323] mb-6 opacity-50 group-hover:opacity-100 transition-opacity" />
                         )}
@@ -167,7 +167,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                     <div key={i} onClick={() => setSelectedProduct(p)} className="flex flex-col md:flex-row gap-6 items-center group cursor-pointer border border-[#1A1A1A] p-4 hover:border-[#D4AF37]/50 transition-colors bg-[#0D0D0D]">
                       <div className="w-full md:w-1/2 aspect-square overflow-hidden relative">
                         <div className="absolute inset-0 bg-[#8C2323] mix-blend-overlay opacity-20 group-hover:opacity-0 transition-opacity z-10"></div>
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 grayscale group-hover:grayscale-0 transition-all duration-700" />
+                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 grayscale group-hover:grayscale-0 transition-all duration-700" />
                       </div>
                       <div className="w-full md:w-1/2 text-center md:text-left py-4 relative">
                         <Star size={12} className="text-[#D4AF37] mb-2 mx-auto md:mx-0" />
@@ -211,7 +211,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                     return (
                       <div key={idx} className="aspect-[16/9] overflow-hidden relative group">
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-500 z-10"></div>
-                        <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-1000" />
+                        <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-1000" />
                       </div>
                     );
                   })}
@@ -286,7 +286,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-premium text-3xl text-white tracking-widest uppercase">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-gray-400 text-sm leading-loose font-light">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-[#1A1A1A] p-2 bg-[#111]"><img src={block.url} alt="Custom" className="w-full h-auto filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-[#1A1A1A] p-2 bg-[#111]"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-px h-16 bg-[#D4AF37] mx-auto opacity-30"></div>;
                   return null;
                 })}
@@ -310,7 +310,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
             </button>
             <div className="w-full md:w-1/2 h-40 sm:h-48 md:h-auto md:min-h-[400px] relative border-b md:border-b-0 md:border-r border-[#1A1A1A] shrink-0">
               <div className="absolute inset-0 bg-[#8C2323] mix-blend-overlay opacity-10"></div>
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter contrast-125" />
+              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter contrast-125" />
             </div>
             <div className="w-full md:w-1/2 p-5 md:p-10 flex flex-col justify-center">
               <Star size={14} className="text-[#D4AF37] mb-3 md:mb-6" />
@@ -338,7 +338,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

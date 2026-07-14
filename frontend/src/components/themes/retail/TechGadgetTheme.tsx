@@ -110,7 +110,7 @@ export default function TechGadgetTheme({ website, content }: any) {
       <header className="tg-glass sticky top-0 z-50 flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover border border-[#4285F4]" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover border border-[#4285F4]" />
           ) : (
             <Cpu className="text-[#4285F4]" size={28} />
           )}
@@ -223,7 +223,7 @@ export default function TechGadgetTheme({ website, content }: any) {
               {products.slice(0, 4).map((p: any, i: number) => (
                 <div key={i} className="tg-glass rounded-lg overflow-hidden flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-[4/3] bg-black relative overflow-hidden p-6 flex items-center justify-center border-b border-[#4285F4]/20">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(66,133,244,0.3)] group-hover:scale-110 transition-transform duration-500" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(66,133,244,0.3)] group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute top-2 right-2 flex gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]"></span>
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]/30"></span>
@@ -263,7 +263,7 @@ export default function TechGadgetTheme({ website, content }: any) {
                 <div key={i} className="tg-glass rounded-lg overflow-hidden flex flex-col group hover:-translate-y-2 transition-transform duration-300">
                   {s.image && (
                     <div className="aspect-[16/9] relative overflow-hidden border-b border-[#4285F4]/20">
-                      <img src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                     </div>
                   )}
                   <div className="p-6">
@@ -287,7 +287,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {galleryImages.slice(0, 6).map((img: string, i: number) => (
                 <div key={i} className="aspect-square bg-black border border-[#4285F4]/20 overflow-hidden relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                   <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#4285F4]/50 flex items-center justify-center transition-colors">
                     <Search size={32} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_10px_rgba(66,133,244,0.8)]" />
                   </div>
@@ -357,7 +357,7 @@ export default function TechGadgetTheme({ website, content }: any) {
                   {content.custom_blocks_json.map((block: any) => {
                     if (block.type === 'heading') return <h2 key={block.id} className="tg-display text-4xl md:text-5xl font-bold text-white break-words w-full">{block.content}</h2>;
                     if (block.type === 'paragraph') return <p key={block.id} className="tg-mono text-lg text-[#8ab4f8]/80 leading-relaxed break-words whitespace-pre-wrap w-full">{block.content}</p>;
-                    if (block.type === 'image') return block.url ? <img key={block.id} src={block.url} alt="" className="w-full h-auto rounded border border-[#4285F4]/20 shadow-[0_0_20px_rgba(66,133,244,0.15)]" /> : null;
+                    if (block.type === 'image') return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="" className="w-full h-auto rounded border border-[#4285F4]/20 shadow-[0_0_20px_rgba(66,133,244,0.15)]" /> : null;
                     if (block.type === 'divider') return <div key={block.id} className="w-full h-px bg-gradient-to-r from-transparent via-[#4285F4]/50 to-transparent my-10"></div>;
                     return null;
                   })}
@@ -404,7 +404,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -418,7 +418,7 @@ export default function TechGadgetTheme({ website, content }: any) {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover border border-[#4285F4]" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover border border-[#4285F4]" />
               ) : (
                 <Cpu className="text-[#4285F4]" size={24} />
               )}
@@ -462,7 +462,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             
             <div className="w-full md:w-1/2 p-6 md:p-8 bg-black/50 border-r border-[#4285F4]/20 flex items-center justify-center relative min-h-[200px]">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="relative z-10 w-full max-h-48 md:max-h-64 object-contain filter drop-shadow-[0_0_20px_rgba(66,133,244,0.4)]" />
+              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="relative z-10 w-full max-h-48 md:max-h-64 object-contain filter drop-shadow-[0_0_20px_rgba(66,133,244,0.4)]" />
             </div>
             
             <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
@@ -492,7 +492,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             <X size={32} />
           </button>
           <div className="max-w-5xl w-full max-h-[90vh] flex items-center justify-center relative">
-            <img src={selectedGalleryImage} alt="Gallery Full View" className="max-w-full max-h-[90vh] object-contain rounded border border-[#4285F4]/30 shadow-[0_0_30px_rgba(66,133,244,0.3)]" onClick={e => e.stopPropagation()} />
+            <img loading="lazy" src={selectedGalleryImage} alt="Gallery Full View" className="max-w-full max-h-[90vh] object-contain rounded border border-[#4285F4]/30 shadow-[0_0_30px_rgba(66,133,244,0.3)]" onClick={e => e.stopPropagation()} />
           </div>
         </div>
       )}

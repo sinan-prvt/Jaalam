@@ -39,7 +39,7 @@ export default function NoirOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-6 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
             ) : (
               <div className="font-noir-title font-bold text-2xl tracking-[0.2em] uppercase text-white">
                 {siteName}
@@ -59,7 +59,7 @@ export default function NoirOtherTheme({ website, content }: any) {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a] z-10"></div>
-          <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=80" alt="Hero Background" className="w-full h-full object-cover opacity-40 grayscale" />
+          <img loading="lazy" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=80" alt="Hero Background" className="w-full h-full object-cover opacity-40 grayscale" />
         </div>
         
         <div className="container mx-auto max-w-6xl relative z-20">
@@ -94,7 +94,7 @@ export default function NoirOtherTheme({ website, content }: any) {
                 </p>
               </div>
               <div className="w-full md:w-1/2 p-8 md:p-12 bg-[#111] border border-[#222]">
-                <img src="https://images.unsplash.com/photo-1584984260275-01e4a3c10aeb?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto grayscale opacity-80" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1584984260275-01e4a3c10aeb?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto grayscale opacity-80" />
               </div>
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function NoirOtherTheme({ website, content }: any) {
                 "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
               ]).map((img: string, i: number) => (
                 <div key={i} className={`overflow-hidden cursor-pointer ${i === 0 ? 'col-span-2 row-span-2' : ''}`} onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover min-h-[200px] grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-700" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover min-h-[200px] grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-700" />
                 </div>
               ))}
             </div>
@@ -266,7 +266,7 @@ export default function NoirOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-[#0a0a0a]/95 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] object-contain border border-[#333]" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] object-contain border border-[#333]" />
         </div>
       )}
     </div>

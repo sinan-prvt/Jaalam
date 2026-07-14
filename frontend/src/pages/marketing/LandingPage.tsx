@@ -290,8 +290,7 @@ export default function LandingPage() {
           className="absolute top-[82%] md:top-1/2 left-1/2 md:left-auto -translate-x-1/2 md:-translate-x-0 -translate-y-1/2 right-auto md:right-[5%] lg:right-[12%] w-[220px] md:w-[280px] lg:w-[320px] aspect-[4/5] bg-white/20 backdrop-blur-xl border border-white/40 rounded-3xl p-3 shadow-[0_40px_80px_rgba(0,0,0,0.3)] z-30"
         >
           <div className="w-full h-full rounded-[20px] overflow-hidden relative shadow-inner bg-black">
-            <img
-              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=800&q=80"
+            <img loading="lazy" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&h=800&q=80"
               alt="Storefront mockup"
               className="w-full h-full object-cover opacity-90"
             />
@@ -327,7 +326,7 @@ export default function LandingPage() {
         <nav className="relative z-30 w-full flex justify-between items-center px-6 md:px-12 py-6 md:py-8">
           <div className="flex items-center gap-12 md:gap-40 w-full md:w-auto justify-between md:justify-start">
             <div className="flex items-center gap-3 cursor-pointer">
-              <img src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+              <img loading="lazy" src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
               <span className="font-extrabold text-[#1a1a1a] tracking-tight text-lg md:text-xl uppercase mt-1">JAALAM</span>
             </div>
             
@@ -983,7 +982,7 @@ export default function LandingPage() {
       <footer className="border-t border-[#e49b6b]/20 py-12 px-6 bg-[#fbf6f0] text-[#888888] text-xs font-mono">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-6 max-w-7xl">
           <div className="flex items-center gap-3 cursor-pointer">
-            <img src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 object-contain opacity-80" />
+            <img loading="lazy" src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 object-contain opacity-80" />
             <span className="font-extrabold text-[#1a1a1a] font-display uppercase tracking-tight text-lg mt-1">JAALAM</span>
           </div>
 

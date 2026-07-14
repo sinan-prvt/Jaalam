@@ -67,7 +67,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
           <div className="flex justify-between md:justify-center items-center">
             <div className="flex items-center gap-3 text-[#8C3A3A] md:mb-4">
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
               ) : (
                 <Diamond size={24} />
               )}
@@ -117,7 +117,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 <p className="font-classic italic text-lg text-[#6B5A4E] mb-12 max-w-2xl mx-auto leading-relaxed">
                   {content.hero_description || content.settings_json?.hero_description || content.about_text || content.hero_text || 'An exquisite collection of traditional imitation jewelry, imported cosmetics, and fancy accessories for your most cherished moments.'}
                 </p>
-                <img src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />
+                <img loading="lazy" src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />
               </div>
             </section>
           );
@@ -135,7 +135,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   </div>
                   <div className="md:w-1/2 w-full">
                     <div className="aspect-[4/3] overflow-hidden rounded-sm border-8 border-[#FDF8F5] shadow-lg">
-                      <img src={content.about_image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full h-full object-cover" />
+                      <img loading="lazy" src={content.about_image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                       <div key={idx} className="bg-white p-12 border border-[#E8DFD8] hover:border-[#8C3A3A] transition-colors group">
                         {image ? (
                           <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full border-4 border-[#FDF8F5] shadow-sm">
-                            <img src={image} alt={title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover" />
                           </div>
                         ) : (
                           <Diamond className="text-[#D9C5B2] group-hover:text-[#8C3A3A] mx-auto mb-6 transition-colors" size={32} />
@@ -182,7 +182,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   {products.slice(0, 4).map((p: any, i: number) => (
                     <div key={i} className="flex gap-6 items-center group cursor-pointer bg-[#FDF8F5] p-4 border border-[#E8DFD8] hover:border-[#8C3A3A] transition-colors" onClick={() => setSelectedProduct(p)}>
                       <div className="w-1/2 aspect-square overflow-hidden bg-white">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                       </div>
                       <div className="w-1/2 flex flex-col justify-center">
                         <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>
@@ -219,7 +219,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                     const imgUrl = typeof img === 'string' ? img : img.url;
                     return (
                       <div key={idx} className="aspect-square overflow-hidden border-4 border-white shadow-md cursor-pointer" onClick={() => setSelectedGalleryImage(imgUrl)}>
-                        <img src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img loading="lazy" src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                       </div>
                     );
                   })}
@@ -240,7 +240,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                     </div>
                     {block.image && (
                       <div className="flex-1 w-full aspect-square border-8 border-[#FDF8F5] shadow-lg">
-                        <img src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -322,7 +322,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="flex gap-6 items-center group cursor-pointer bg-white p-4 border border-[#E8DFD8] hover:border-[#8C3A3A] transition-colors" onClick={() => setSelectedProduct(p)}>
                     <div className="w-1/2 aspect-square overflow-hidden bg-white">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                     </div>
                     <div className="w-1/2 flex flex-col justify-center">
                       <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>
@@ -354,7 +354,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -391,7 +391,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
             >
               <X size={24} />
             </button>
-            <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain border-8 border-white shadow-2xl" />
+            <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain border-8 border-white shadow-2xl" />
           </div>
         </div>
       )}

@@ -69,7 +69,7 @@ export default function ModernFancyTheme({ website, content }: any) {
       <header className="glass-panel sticky top-4 mx-4 md:mx-auto max-w-6xl rounded-2xl z-50 px-6 py-4 flex justify-between items-center transition-all">
         <div className="flex items-center gap-2">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
           ) : (
             <Sparkles className="text-purple-500" size={24} />
           )}
@@ -137,7 +137,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                       </p>
                     </div>
                     <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl">
-                      <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80" alt="About" className="w-full h-full object-cover" />
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80" alt="About" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </section>
@@ -156,7 +156,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                           <div key={idx} className="glass-panel p-8 rounded-3xl text-center hover:-translate-y-2 transition-transform duration-300">
                             {image && (
                               <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 shadow-sm">
-                                <img src={image} alt={title} className="w-full h-full object-cover" />
+                                <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover" />
                               </div>
                             )}
                             <h3 className="font-modern text-2xl font-bold text-slate-900 mb-4">{title}</h3>
@@ -177,7 +177,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                       {products.slice(0, 4).map((p: any, i: number) => (
                         <div key={i} className="glass-panel rounded-3xl p-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                            <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <button
                               className="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full text-slate-400 hover:text-pink-500 transition-colors shadow-sm"
                               onClick={(e) => e.stopPropagation()}
@@ -218,7 +218,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                         const imgUrl = typeof img === 'string' ? img : img.url;
                         return (
                           <div key={idx} className="glass-panel rounded-2xl overflow-hidden aspect-square hover:scale-105 transition-transform duration-300">
-                            <img src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
                           </div>
                         );
                       })}
@@ -238,7 +238,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl">
-                            <img src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
                           </div>
                         )}
                       </div>
@@ -311,7 +311,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="glass-panel rounded-3xl p-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                     <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <button
                         className="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full text-slate-400 hover:text-pink-500 transition-colors shadow-sm"
                         onClick={(e) => e.stopPropagation()}
@@ -348,7 +348,7 @@ export default function ModernFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -362,7 +362,7 @@ export default function ModernFancyTheme({ website, content }: any) {
           <div>
             <div className="flex items-center gap-2 mb-6">
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 object-cover rounded-full" />
               ) : (
                 <Sparkles className="text-purple-500" size={24} />
               )}

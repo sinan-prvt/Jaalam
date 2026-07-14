@@ -37,8 +37,7 @@ export default function AllProductsModal({
               }}
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-white p-4">
-                <img 
-                  src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
+                <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
                   onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
                   alt={p.name} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 

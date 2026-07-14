@@ -58,7 +58,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-4">
             {content.settings_json?.logo_image && (
-              <img src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
             )}
             <span className="font-minimal text-xl font-bold tracking-tighter">{siteName}.</span>
           </div>
@@ -126,7 +126,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       </p>
                     </div>
                     <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                      <img src={content.about_image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80"} alt="About" className="w-full h-full object-cover" />
+                      <img loading="lazy" src={content.about_image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80"} alt="About" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </section>
@@ -142,7 +142,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       const image = typeof srv !== 'string' ? srv.image : null;
                       return (
                         <div key={idx} className="group">
-                          {image && <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden"><img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" /></div>}
+                          {image && <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden"><img loading="lazy" src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" /></div>}
                           <h3 className="font-minimal font-bold text-xl mb-2">{title}</h3>
                           <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
                         </div>
@@ -161,7 +161,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     {products.slice(0, 4).map((p: any, i: number) => (
                       <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                         <div className="aspect-[4/5] bg-gray-100 mb-6 overflow-hidden">
-                          <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                          <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
                         </div>
                         <div className="flex justify-between items-start font-minimal">
                           <div>
@@ -197,7 +197,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       const imgUrl = typeof img === 'string' ? img : img.url;
                       return (
                         <div key={idx} className="aspect-square bg-gray-100 overflow-hidden cursor-pointer" onClick={() => setSelectedGalleryImage(imgUrl)}>
-                          <img src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-in-out" />
+                          <img loading="lazy" src={imgUrl} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-in-out" />
                         </div>
                       );
                     })}
@@ -215,7 +215,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       </div>
                       {block.image && (
                         <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                          <img src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                          <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
                         </div>
                       )}
                     </div>
@@ -280,7 +280,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-[4/5] bg-gray-100 mb-6 overflow-hidden">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
                   </div>
                   <div className="flex justify-between items-start font-minimal">
                     <div>
@@ -314,7 +314,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -347,7 +347,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
             >
               <X size={24} />
             </button>
-            <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain shadow-2xl" />
+            <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain shadow-2xl" />
           </div>
         </div>
       )}

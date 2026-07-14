@@ -68,7 +68,7 @@ export default function ModernMeatTheme({ website, content }: any) {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="h-10 object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-10 object-contain" />
             ) : (
               <div className="bg-red-600 text-white p-2 rounded-lg font-bold text-xl">PC</div>
             )}
@@ -101,7 +101,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                   </a>
                 </div>
                 <div className="w-full md:w-1/2">
-                  <img src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"} alt="Fresh Meat" className="w-full h-auto rounded-3xl shadow-2xl border-8 border-white" />
+                  <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"} alt="Fresh Meat" className="w-full h-auto rounded-3xl shadow-2xl border-8 border-white" />
                 </div>
               </div>
             </section>
@@ -119,8 +119,8 @@ export default function ModernMeatTheme({ website, content }: any) {
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=400&q=80" alt="Meat 1" className="w-full h-48 object-cover rounded-2xl shadow-lg" />
-                    <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=400&q=80" alt="Meat 2" className="w-full h-48 object-cover rounded-2xl shadow-lg mt-8" />
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=400&q=80" alt="Meat 1" className="w-full h-48 object-cover rounded-2xl shadow-lg" />
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=400&q=80" alt="Meat 2" className="w-full h-48 object-cover rounded-2xl shadow-lg mt-8" />
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div key={idx} className="flex flex-col items-center">
                         <div className="w-20 h-20 bg-red-600/20 rounded-full flex items-center justify-center mb-6 overflow-hidden">
                           {srv.image ? (
-                            <img src={srv.image} alt={title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={srv.image} alt={title} className="w-full h-full object-cover" />
                           ) : (
                             typeof srv === 'object' && srv.icon ? <Icon size={40} className="text-red-500" /> : <ShieldCheck size={40} className="text-red-500" />
                           )}
@@ -172,7 +172,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                   {products.slice(0, 4).map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-shadow bg-white flex flex-col cursor-pointer hover:-translate-y-1 transform duration-300">
                       <div className="h-48 overflow-hidden bg-slate-100 relative">
-                        {p.image && <img src={p.image} alt={p.name} className="w-full h-full object-cover" />}
+                        {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />}
                         <div className="absolute top-3 left-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-sm">Fresh</div>
                       </div>
                       <div className="p-5 flex-1 flex flex-col">
@@ -198,7 +198,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                     const imgUrl = typeof img === 'string' ? img : img.url;
                     return (
                       <div key={idx} onClick={() => setSelectedImage(imgUrl)} className="aspect-square rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                        <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                        <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                       </div>
                     );
                   })}
@@ -272,7 +272,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-modern text-3xl font-extrabold text-slate-900 text-center">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="text-slate-600 text-lg leading-relaxed text-center">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-xl"><img src={block.url} alt="Custom" className="w-full h-auto" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-xl"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-full h-px bg-slate-200 my-12"></div>;
                   return null;
                 })}
@@ -296,7 +296,7 @@ export default function ModernMeatTheme({ website, content }: any) {
             </button>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12">
               <div className="h-48 md:h-auto md:aspect-square bg-slate-50 rounded-2xl overflow-hidden relative">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
                 <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-green-500 text-white text-[10px] md:text-xs font-bold px-2 py-1 md:px-3 md:py-1.5 rounded uppercase tracking-wider shadow-md">Fresh Cut</div>
               </div>
               <div className="flex flex-col justify-center font-modern">
@@ -324,7 +324,7 @@ export default function ModernMeatTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full z-10 transition-colors" onClick={() => setSelectedImage(null)}>
             <span className="text-xl font-bold leading-none px-2 py-1">×</span>
           </button>
-          <img src={selectedImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-lg" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-lg" onClick={e => e.stopPropagation()} />
         </div>
       )}
 
@@ -336,7 +336,7 @@ export default function ModernMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

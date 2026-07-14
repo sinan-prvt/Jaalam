@@ -39,7 +39,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-12 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-12 w-auto object-contain" />
             ) : (
               <div className="font-classic-title font-bold text-2xl tracking-wide text-[#2C2C2C] uppercase border-y border-[#2C2C2C] py-1">
                 {siteName}
@@ -77,7 +77,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-16 items-center">
               <div className="w-full md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto rounded shadow-2xl border-4 border-white" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto rounded shadow-2xl border-4 border-white" />
               </div>
               <div className="w-full md:w-1/2">
                 <h2 className="font-classic-title text-4xl font-bold mb-6 text-[#2C2C2C]">
@@ -112,7 +112,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
               {services.map((srv: any, i: number) => (
                 <div key={i} className="text-center group">
                   {srv.image ? (
-                    <img src={srv.image} alt={srv.title} className="w-24 h-24 object-cover mx-auto rounded-full mb-6 border-4 border-[#F9F7F1] shadow-md group-hover:border-[#8C1C13] transition-colors" />
+                    <img loading="lazy" src={srv.image} alt={srv.title} className="w-24 h-24 object-cover mx-auto rounded-full mb-6 border-4 border-[#F9F7F1] shadow-md group-hover:border-[#8C1C13] transition-colors" />
                   ) : (
                     <div className="w-20 h-20 mx-auto rounded-full border-2 border-[#E8E1D5] flex items-center justify-center mb-6 group-hover:border-[#8C1C13] transition-colors text-[#8C1C13]">
                        <span className="font-classic-title text-2xl font-bold">{i + 1}</span>
@@ -168,7 +168,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
                 "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-[4/5] overflow-hidden cursor-pointer group" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
               ))}
             </div>
@@ -271,7 +271,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] object-contain border-4 border-white" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] object-contain border-4 border-white" />
         </div>
       )}
     </div>

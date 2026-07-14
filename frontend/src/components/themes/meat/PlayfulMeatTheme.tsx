@@ -53,7 +53,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
         <div className="container mx-auto bg-white rounded-[2rem] border-4 border-[#E03A3E] shadow-[8px_8px_0_#E03A3E] px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="h-12 object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-12 object-contain" />
             ) : (
               <>
                 <Bone className="text-[#E03A3E] transform -rotate-12" size={32} />
@@ -86,7 +86,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 </p>
                 {content.settings_json?.hero_image && (
                   <div className="w-full max-w-2xl mb-12 rounded-[3rem] overflow-hidden border-8 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1">
-                    <img src={content.settings_json.hero_image} alt="Hero" className="w-full h-auto object-cover" />
+                    <img loading="lazy" src={content.settings_json.hero_image} alt="Hero" className="w-full h-auto object-cover" />
                   </div>
                 )}
                 <a href="#shop" className="bg-[#F48C06] hover:bg-[#ff9f1c] text-white font-playful text-3xl md:text-4xl py-4 px-12 rounded-[3rem] border-4 border-[#E03A3E] shadow-[8px_8px_0_#E03A3E] active:translate-y-2 active:shadow-none transition-all flex items-center gap-4 hover:-rotate-3">
@@ -107,7 +107,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 </div>
                 <div className="md:w-1/2">
                   <div className="rounded-[2rem] overflow-hidden border-8 border-white shadow-[8px_8px_0_#F48C06] -rotate-3 bg-white">
-                    <img src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full h-full object-cover" />
+                    <img loading="lazy" src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"} alt="About Us" className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                       <div key={idx} className={`bg-white p-8 rounded-[3rem] border-4 border-[#E03A3E] text-center shadow-[8px_8px_0_#F48C06] transition-transform hover:-translate-y-2 ${idx === 1 ? 'md:-translate-y-8' : ''}`}>
                         <div className="w-20 h-20 bg-[#F48C06] rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-[#E03A3E] overflow-hidden">
                           {srv.image ? (
-                            <img src={srv.image} alt={title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={srv.image} alt={title} className="w-full h-full object-cover" />
                           ) : (
                             <Smile size={40} className="text-white" />
                           )}
@@ -154,7 +154,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                   {products.map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-[2rem] p-4 border-4 border-[#E03A3E] hover:-translate-y-4 transition-transform shadow-[8px_8px_0_#F48C06]">
                       <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 border-4 border-[#F48C06]">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
                       </div>
                       <h3 className="font-playful text-2xl text-[#E03A3E] mb-2 leading-none">{p.name}</h3>
                       <p className="font-body font-bold text-sm text-[#F48C06] mb-4">{p.description}</p>
@@ -192,7 +192,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                     return (
                       <div key={idx} className={`bg-white p-3 rounded-[2rem] border-4 border-[#E03A3E] shadow-[6px_6px_0_#F48C06] ${rotation} hover:rotate-0 transition-transform hover:scale-105 hover:z-10`}>
                         <div className="aspect-square rounded-[1rem] overflow-hidden">
-                          <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover" />
+                          <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover" />
                         </div>
                       </div>
                     );
@@ -249,7 +249,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-playful text-5xl text-center text-[#E03A3E] drop-shadow-sm">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body font-bold text-xl text-[#F48C06] text-center bg-white p-8 rounded-[3rem] border-4 border-[#E03A3E] shadow-[8px_8px_0_#E03A3E]">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="p-4 bg-white rounded-[3rem] border-4 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1 hover:-rotate-1 transition-transform"><img src={block.url} alt="Custom" className="w-full h-auto rounded-[2rem]" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="p-4 bg-white rounded-[3rem] border-4 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1 hover:-rotate-1 transition-transform"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto rounded-[2rem]" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="flex justify-center gap-4"><Bone className="text-[#F48C06]" size={32}/><Bone className="text-[#E03A3E]" size={32}/><Bone className="text-[#F48C06]" size={32}/></div>;
                   return null;
                 })}
@@ -269,7 +269,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

@@ -55,7 +55,7 @@ export default function RusticMeatTheme({ website, content }: any) {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2 text-[#4A5D23]">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="h-12 object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-12 object-contain" />
             ) : (
               <>
                 <Sun size={32} className="fill-[#D4AF37]" />
@@ -91,7 +91,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 <div className="w-full md:w-1/2 relative">
                    <div className="absolute inset-0 bg-[#8F9779] rounded-t-full translate-x-4 translate-y-4 opacity-20"></div>
                    <div className="relative rounded-t-full overflow-hidden border-8 border-white shadow-xl aspect-[3/4]">
-                     <img src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80"} alt="Farm" className="w-full h-full object-cover" />
+                     <img loading="lazy" src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80"} alt="Farm" className="w-full h-full object-cover" />
                    </div>
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="rounded-2xl overflow-hidden border-4 border-white shadow-lg">
-                     <img src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80"} alt="About Farm" className="w-full h-full object-cover aspect-[4/3]" />
+                     <img loading="lazy" src={content.settings_json?.about_image || content.about_image || "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80"} alt="About Farm" className="w-full h-full object-cover aspect-[4/3]" />
                   </div>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                     return (
                       <div key={idx} className="bg-[#2A3614] p-8 rounded-3xl border border-[#5C6B3E] text-center hover:-translate-y-2 transition-transform overflow-hidden">
                         {srv.image ? (
-                          <img src={srv.image} alt={title} className="w-full h-40 object-cover rounded-2xl mb-6" />
+                          <img loading="lazy" src={srv.image} alt={title} className="w-full h-40 object-cover rounded-2xl mb-6" />
                         ) : (
                           <ShieldCheck size={40} className="text-[#8F9779] mx-auto mb-6" />
                         )}
@@ -162,7 +162,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                   {products.map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group flex flex-col">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4 relative">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute top-2 left-2 bg-[#8F9779] text-white font-body text-xs font-bold px-2 py-1 rounded uppercase">Farm Fresh</div>
                       </div>
                       <h3 className="font-rustic text-xl font-bold text-[#2A3614] mb-2">{p.name}</h3>
@@ -195,7 +195,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                     const imgUrl = typeof img === 'string' ? img : img.url;
                     return (
                       <div key={idx} className={`rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all ${idx % 2 === 0 ? 'aspect-[4/5]' : 'aspect-square'}`}>
-                        <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                       </div>
                     );
                   })}
@@ -263,7 +263,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-rustic text-4xl font-bold text-center text-[#2A3614]">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-[#5C6B3E] text-lg text-center leading-relaxed">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-lg border-4 border-white"><img src={block.url} alt="Custom" className="w-full h-auto" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-lg border-4 border-white"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-16 h-1 bg-[#8F9779] mx-auto"></div>;
                   return null;
                 })}
@@ -283,7 +283,7 @@ export default function RusticMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

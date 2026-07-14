@@ -547,7 +547,7 @@ export default function Dashboard() {
           {/* MOBILE HEADER */}
           <div className="md:hidden flex items-center justify-between mb-6 px-2">
             <div className="flex items-center gap-2">
-              <img src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
+              <img loading="lazy" src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
               <div className="flex flex-col">
                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
                 <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
@@ -755,7 +755,7 @@ export default function Dashboard() {
                     <div key={site.id} className={`group bg-white/70 backdrop-blur-xl rounded-3xl border border-white overflow-hidden flex flex-col transition-all hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${deletingId === site.id ? 'opacity-50 pointer-events-none' : ''}`}>
 
                       <div className="h-40 bg-slate-100/50 relative overflow-hidden flex items-center justify-center m-2 rounded-2xl group/img">
-                        <img src={getThemeThumbnail(site.theme, site.business_type)} alt={site.theme} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <img loading="lazy" src={getThemeThumbnail(site.theme, site.business_type)} alt={site.theme} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/50 transition-colors duration-500 backdrop-blur-[2px]"></div>
 
                         {/* Dynamic Overlay Text */}

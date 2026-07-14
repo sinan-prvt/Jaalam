@@ -191,7 +191,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
             HEADER
         ════════════════════════════════════════ */}
         <header className="w-full px-6 sm:px-12 py-5 flex items-center justify-between border-b-2" style={{ borderColor: ESPRESSO }}>
-          <div className="vb-display text-2xl sm:text-3xl tracking-wider">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</div>
+          <div className="vb-display text-2xl sm:text-3xl tracking-wider">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</div>
           <nav className="hidden md:flex items-center gap-8 font-bold text-sm">
             {['About', 'Services', 'Menu', 'Gallery', 'Contact'].map(l => (
               <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#9E2A2B] transition-colors relative group">
@@ -283,7 +283,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
 
             {/* Right image */}
             <div className="w-full md:w-[45%] h-[50vh] md:h-auto relative overflow-hidden bg-black">
-              <img src={heroImage} alt="Barbershop" className="w-full h-full object-cover opacity-80 vb-sepia-img" />
+              <img loading="lazy" src={heroImage} alt="Barbershop" className="w-full h-full object-cover opacity-80 vb-sepia-img" />
               
               {/* Overlay Badge */}
               <div className="absolute bottom-8 right-8 bg-white p-4 text-center vb-border transform rotate-[-5deg] shadow-lg">
@@ -365,7 +365,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                           >
                             <div className="w-full sm:w-2/5 h-48 sm:h-auto border-b-2 sm:border-b-0 sm:border-r-2 relative overflow-hidden" style={{ borderColor: ESPRESSO }}>
                               {s.image ? (
-                                <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover vb-sepia-img" />
+                                <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover vb-sepia-img" />
                               ) : (
                                 <div className="w-full h-full bg-stone-200 flex items-center justify-center">
                                   <Scissors size={32} />
@@ -405,7 +405,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                             className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 cursor-pointer p-4 hover:bg-black/5 transition-colors group border-b border-black/10 pb-6"
                           >
                             <div className="w-16 h-16 rounded-full overflow-hidden vb-border shrink-0 hidden sm:block">
-                              <img src={style.image} alt={style.name} className="w-full h-full object-cover vb-sepia-img" />
+                              <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover vb-sepia-img" />
                             </div>
                             
                             <div className="flex-1 w-full text-center sm:text-left">
@@ -454,7 +454,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                             onClick={() => setSelectedImage(img)}
                             className="aspect-square bg-stone-300 vb-border cursor-pointer relative group overflow-hidden shadow-[4px_4px_0_rgba(0,0,0,0.1)]"
                           >
-                            <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover vb-sepia-img" />
+                            <img loading="lazy" src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover vb-sepia-img" />
                             <div className="absolute inset-0 bg-[#9E2A2B]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                               <span className="vb-display text-white text-xl border-2 border-white px-4 py-2">VIEW</span>
                             </div>
@@ -526,7 +526,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                       {content.custom_blocks_json.map((block: any, i: number) => {
                         if (block.type === 'heading') return <h3 key={block.id || i} className="vb-display text-2xl text-center mt-8">{block.content}</h3>;
                         if (block.type === 'paragraph') return <p key={block.id || i} className="vb-serif text-lg leading-relaxed text-center">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="vb-border my-6"><img src={block.url} alt="" className="w-full h-auto vb-sepia-img" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="vb-border my-6"><img loading="lazy" src={block.url} alt="" className="w-full h-auto vb-sepia-img" /></div>;
                         if (block.type === 'divider') return <div key={block.id || i} className="vb-line-decor my-8"></div>;
                         return null;
                       })}
@@ -550,7 +550,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -598,7 +598,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               </button>
               
               <div className="h-56 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
-                <img src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover vb-sepia-img" />
+                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover vb-sepia-img" />
               </div>
 
               <div className="p-8">
@@ -645,7 +645,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               
               <div className="h-56 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover vb-sepia-img" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover vb-sepia-img" />
                 ) : (
                   <div className="w-full h-full bg-stone-200 flex items-center justify-center">
                     <Scissors size={40} />
@@ -684,7 +684,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               onClick={e => { e.stopPropagation(); setSelectedImage(null); }}>
               <X size={24} />
             </button>
-            <img src={selectedImage} alt="Gallery" className="max-w-full max-h-full object-contain vb-border shadow-[16px_16px_0_rgba(0,0,0,0.5)] bg-[#F4EFE6] p-2" onClick={e => e.stopPropagation()} />
+            <img loading="lazy" src={selectedImage} alt="Gallery" className="max-w-full max-h-full object-contain vb-border shadow-[16px_16px_0_rgba(0,0,0,0.5)] bg-[#F4EFE6] p-2" onClick={e => e.stopPropagation()} />
           </div>
         )}
 

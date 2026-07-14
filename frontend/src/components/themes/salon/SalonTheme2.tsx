@@ -346,8 +346,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     <div className="relative">
                       {/* Image */}
                       <div className="glamour-hero-img rounded-3xl md:rounded-none overflow-hidden aspect-[3/4] md:aspect-auto md:h-screen relative">
-                        <img
-                          src={heroImage}
+                        <img loading="lazy" src={heroImage}
                           alt="Salon"
                           className="w-full h-full object-cover"
                         />
@@ -410,8 +409,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                           {/* Image */}
                           <div className="w-full md:w-1/2 shrink-0">
                             <div className="relative">
-                              <img
-                                src={content.settings_json?.about_image || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                              <img loading="lazy" src={content.settings_json?.about_image || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
                                 alt="About Us"
                                 className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg"
                               />
@@ -472,8 +470,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                             >
                               <div className="aspect-[4/3] overflow-hidden">
                                 {service.image ? (
-                                  <img
-                                    src={service.image}
+                                  <img loading="lazy" src={service.image}
                                     alt={service.title || service.name}
                                     className="w-full h-full object-cover glamour-img-zoom"
                                   />
@@ -534,7 +531,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                               className="glamour-card flex gap-5 items-center cursor-pointer group bg-white border border-stone-100 rounded-2xl p-4 md:p-5 hover:border-amber-200"
                             >
                               <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl overflow-hidden shrink-0">
-                                <img src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
+                                <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
                               </div>
                               <div className="flex-1 py-1 text-left">
                                 <h4 className="font-glamour font-bold text-base md:text-lg text-stone-900 mb-1.5 group-hover:text-amber-800 transition-colors">
@@ -593,8 +590,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                               className={`overflow-hidden rounded-2xl relative group cursor-pointer ${idx === 0 ? 'md:row-span-2 md:col-span-1' : ''}`}
                             >
                               <div className={`${idx === 0 ? 'aspect-square md:aspect-auto md:h-full' : 'aspect-square'}`}>
-                                <img
-                                  src={img}
+                                <img loading="lazy" src={img}
                                   alt={`Gallery ${idx + 1}`}
                                   className="w-full h-full object-cover glamour-img-zoom"
                                 />
@@ -742,7 +738,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                               return <p key={block.id || idx} className="text-sm md:text-base text-stone-600 leading-relaxed whitespace-pre-wrap text-center font-medium">{block.content}</p>;
                             }
                             if (block.type === 'image') {
-                              return block.url ? <img key={block.id || idx} src={block.url} alt="Custom Block" className="w-full h-auto object-cover rounded-2xl shadow-md max-h-[400px] md:max-h-[500px]" /> : null;
+                              return block.url ? <img loading="lazy" key={block.id || idx} src={block.url} alt="Custom Block" className="w-full h-auto object-cover rounded-2xl shadow-md max-h-[400px] md:max-h-[500px]" /> : null;
                             }
                             if (block.type === 'divider') {
                               return <div key={block.id || idx} className="w-full h-px bg-stone-200 my-6" />;
@@ -853,7 +849,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     className="glamour-card flex gap-5 items-center cursor-pointer group bg-white border border-stone-100 rounded-2xl p-4 md:p-5 hover:border-amber-200"
                   >
                     <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl overflow-hidden shrink-0">
-                      <img src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
+                      <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
                     </div>
                     <div className="flex-1 py-1">
                       <h4 className="font-glamour font-bold text-base md:text-lg text-stone-900 mb-1.5 group-hover:text-amber-800 transition-colors">
@@ -893,7 +889,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
             >
               {/* Image Header */}
               <div className="relative aspect-[16/10] w-full bg-stone-100 overflow-hidden shrink-0">
-                <img src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover" />
                 <button
                   onClick={() => setSelectedStyle(null)}
                   className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm hover:bg-white text-stone-800 p-2 rounded-full shadow-md transition-all active:scale-95 z-20"
@@ -968,8 +964,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
             >
               <X size={32} />
             </button>
-            <img
-              src={selectedImage}
+            <img loading="lazy" src={selectedImage}
               alt="Fullscreen Gallery"
               className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
               onClick={e => e.stopPropagation()}

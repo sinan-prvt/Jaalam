@@ -39,7 +39,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
       <nav className="p-6 md:p-8 flex justify-between items-center bg-white sticky top-0 z-50 border-b border-slate-100">
         <div className="flex items-center gap-2">
           {content?.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
           ) : (
             <Building2 size={24} className="text-blue-600" />
           )}
@@ -75,8 +75,8 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
           </div>
           <div className="w-full md:w-1/2">
             <div className="grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-tr-[4rem] shadow-xl" alt="Urban Appt" />
-              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-bl-[4rem] shadow-xl mt-12" alt="Urban Loft" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-tr-[4rem] shadow-xl" alt="Urban Appt" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80" className="rounded-2xl rounded-bl-[4rem] shadow-xl mt-12" alt="Urban Loft" />
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
                 <div className="aspect-square overflow-hidden relative">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-slate-900 font-urban font-bold text-xs px-2 py-1 rounded-md">
                     {p.type}
                   </div>
@@ -144,7 +144,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -168,7 +168,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -183,7 +183,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -264,7 +264,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
           <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-2 mb-6">
               {content?.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
               ) : (
                 <Building2 size={24} className="text-blue-400" />
               )}
@@ -290,7 +290,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

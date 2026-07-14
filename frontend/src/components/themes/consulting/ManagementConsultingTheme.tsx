@@ -46,7 +46,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
         <div className="container mx-auto px-8 md:px-12 flex justify-between items-center border-b border-[#2D2D2D]/10 pb-6">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 md:h-12 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 md:h-12 w-auto object-contain" />
             ) : (
               <Briefcase className="text-[#8B1A1A]" size={32} />
             )}
@@ -88,7 +88,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             </a>
           </div>
           <div className="w-full md:w-1/2">
-             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Consulting" className="w-full h-auto object-cover rounded-tl-[100px] rounded-br-[100px] shadow-2xl filter sepia-[0.2]" />
+             <img loading="lazy" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Consulting" className="w-full h-auto object-cover rounded-tl-[100px] rounded-br-[100px] shadow-2xl filter sepia-[0.2]" />
           </div>
         </div>
       </section>
@@ -103,7 +103,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center flex flex-col items-center">
                     <div className="mb-8">
-                      {srv.image ? <img src={srv.image} alt={srv.title} className="w-10 h-10 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-10 h-10 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-management-title text-2xl font-bold mb-4 text-[#2D2D2D]">{srv.title}</h3>
                     <p className="font-management-body text-[#2D2D2D]/70 leading-relaxed text-lg font-light">{srv.description}</p>
@@ -127,7 +127,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/3] overflow-hidden mb-8">
-                   <img src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div>
                   <h3 className="font-management-title text-2xl md:text-3xl font-bold mb-4 group-hover:text-[#8B1A1A] transition-colors">{service.name}</h3>
@@ -175,7 +175,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className={`aspect-square overflow-hidden cursor-pointer ${i % 3 === 0 ? 'md:col-span-2 md:row-span-2' : ''}`} onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500 hover:scale-105" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500 hover:scale-105" />
                 </div>
               ))}
             </div>
@@ -190,7 +190,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-management-title text-3xl md:text-5xl font-bold text-[#2D2D2D] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-management-body text-xl text-[#2D2D2D]/80 leading-relaxed font-light">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-sm" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-sm" />;
               if (block.type === 'divider') return <div key={block.id} className="w-24 h-[1px] bg-[#8B1A1A] mx-auto my-16"></div>;
               return null;
             })}
@@ -294,7 +294,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-[#F7F3ED]/50 hover:text-[#F7F3ED] transition-colors">
             <X size={32} strokeWidth={1} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

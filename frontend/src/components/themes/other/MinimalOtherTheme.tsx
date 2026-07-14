@@ -37,7 +37,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-8 py-8 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 w-auto object-contain invert" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 w-auto object-contain invert" />
             ) : (
               <div className="font-minimal font-bold text-lg tracking-tight uppercase">
                 {siteName}
@@ -83,7 +83,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
                 </p>
               </div>
               <div className="relative">
-                <img src="https://images.unsplash.com/photo-1507090960745-b32f65d3113a?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-full object-cover grayscale" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1507090960745-b32f65d3113a?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-full object-cover grayscale" />
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
                 "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-[4/3] overflow-hidden cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
                 </div>
               ))}
             </div>
@@ -233,7 +233,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-full object-contain" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-full object-contain" />
         </div>
       )}
     </div>

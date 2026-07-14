@@ -116,7 +116,7 @@ export default function StreetwearTheme({ website, content }: any) {
         </nav>
         <div className="flex-1 flex justify-end gap-6 text-gray-400 items-center">
           <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#ccff00] cursor-pointer hover:scale-110 transition-transform">
-            <img src={content.settings_json?.logo_image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=100&q=80'} alt="Logo" className="w-full h-full object-cover" />
+            <img loading="lazy" src={content.settings_json?.logo_image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=100&q=80'} alt="Logo" className="w-full h-full object-cover" />
           </div>
         </div>
       </header>
@@ -169,7 +169,7 @@ export default function StreetwearTheme({ website, content }: any) {
                 <div key={i} className="st-brutal-card flex flex-col group hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(204,255,0,1)] transition-all overflow-hidden">
                   {s.image && (
                     <div className="w-full aspect-video border-b-2 border-[#333] overflow-hidden">
-                      <img src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                     </div>
                   )}
                   <div className="p-6 md:p-8">
@@ -196,7 +196,7 @@ export default function StreetwearTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                     <div className="absolute top-4 left-4 bg-white text-black font-bold px-2 py-1 text-xs">NEW</div>
                   </div>
                   <div className="p-4 flex flex-col flex-1">
@@ -238,7 +238,7 @@ export default function StreetwearTheme({ website, content }: any) {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               {galleryImages.slice(0, 6).map((img: string, i: number) => (
                 <div key={i} className="aspect-[3/4] bg-[#111] overflow-hidden border-2 border-[#333] hover:border-[#ccff00] transition-colors relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
                 </div>
               ))}
             </div>
@@ -315,7 +315,7 @@ export default function StreetwearTheme({ website, content }: any) {
                     return <p key={block.id} className="text-xl font-bold text-gray-400 break-words whitespace-pre-wrap w-full">{block.content}</p>;
                   }
                   if (block.type === 'image') {
-                    return block.url ? <img key={block.id} src={block.url} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
+                    return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
                   }
                   if (block.type === 'divider') {
                     return <div key={block.id} className="w-24 h-2 bg-[#ccff00] mx-auto my-8"></div>;
@@ -358,7 +358,7 @@ export default function StreetwearTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -371,7 +371,7 @@ export default function StreetwearTheme({ website, content }: any) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border-2 border-[#333] p-8 md:p-12">
           <div>
             {content.settings_json?.logo_image && (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 rounded-full object-cover border-2 border-[#ccff00] mb-6" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 rounded-full object-cover border-2 border-[#ccff00] mb-6" />
             )}
             <h3 className="st-font text-4xl font-black italic text-[#ccff00] mb-6">{siteName}</h3>
           </div>
@@ -398,7 +398,7 @@ export default function StreetwearTheme({ website, content }: any) {
               <X size={20} />
             </button>
             <div className="w-full md:w-1/2 h-64 md:h-auto p-4 md:p-12 bg-[#0A0A0A] border-b-2 md:border-b-0 md:border-r-2 border-[#333]">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
+              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
             </div>
             <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
               <div className="inline-block bg-white text-black font-bold px-3 py-1 text-xs md:text-sm self-start mb-4 md:mb-6 uppercase">Drop 01</div>
@@ -442,7 +442,7 @@ export default function StreetwearTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                   </div>
                   <div className="p-4 flex flex-col flex-1">
                     <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>
@@ -464,7 +464,7 @@ export default function StreetwearTheme({ website, content }: any) {
           <button className="absolute top-4 right-4 md:top-8 md:right-8 z-10 w-12 h-12 bg-black border-2 border-[#ccff00] text-[#ccff00] flex items-center justify-center hover:bg-[#ccff00] hover:text-black transition-colors" onClick={() => setSelectedGalleryImage(null)}>
             <X size={24} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-[#333]" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-[#333]" onClick={e => e.stopPropagation()} />
         </div>
       )}
     

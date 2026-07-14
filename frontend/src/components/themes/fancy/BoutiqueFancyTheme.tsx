@@ -36,7 +36,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
       {/* Header */}
       <header className="py-8 border-b border-[#E8E1D5]">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="font-boutique text-4xl tracking-[0.2em] uppercase mb-4 text-[#8C2323]">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</h1>
+          <h1 className="font-boutique text-4xl tracking-[0.2em] uppercase mb-4 text-[#8C2323]">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</h1>
           <nav className="flex justify-center gap-10 font-body text-xs tracking-widest uppercase text-[#5A4A42]">
             <a href="#collections" className="hover:text-[#8C2323] transition-colors">Collections</a>
             <a href="#about" className="hover:text-[#8C2323] transition-colors">The Boutique</a>
@@ -63,7 +63,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
           <div className="w-full md:w-1/2">
             <div className="relative">
               <div className="absolute inset-0 border border-[#8C2323] translate-x-4 translate-y-4"></div>
-              <img src="https://images.unsplash.com/photo-1515562141207-7a48fb3c274d?auto=format&fit=crop&w=800&q=80" alt="Boutique" className="relative z-10 w-full h-[500px] object-cover" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1515562141207-7a48fb3c274d?auto=format&fit=crop&w=800&q=80" alt="Boutique" className="relative z-10 w-full h-[500px] object-cover" />
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
                 <div className="aspect-[3/4] overflow-hidden mb-6 relative">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                 </div>
                 <h4 className="font-boutique text-lg mb-1">{p.name}</h4>
@@ -128,7 +128,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -152,7 +152,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -167,7 +167,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

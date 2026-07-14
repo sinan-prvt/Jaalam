@@ -54,7 +54,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
             ) : (
               <div className="w-12 h-12 bg-[#FFC107] flex items-center justify-center text-[#1A1A1A] rounded-sm transform -skew-x-12">
                  <AlertTriangle size={28} className="transform skew-x-12" />
@@ -107,7 +107,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
               <div className="container mx-auto max-w-6xl flex flex-col md:flex-row gap-16 items-center">
                 <div className="w-full md:w-1/2 relative">
                   <div className="absolute inset-0 bg-[#FFC107] transform translate-x-4 translate-y-4"></div>
-                  <img src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"} alt="Facility" className="relative z-10 w-full object-cover aspect-square grayscale hover:grayscale-0 transition-all duration-500 border-4 border-[#1A1A1A]" />
+                  <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"} alt="Facility" className="relative z-10 w-full object-cover aspect-square grayscale hover:grayscale-0 transition-all duration-500 border-4 border-[#1A1A1A]" />
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="flex items-center gap-4 mb-6">
@@ -220,7 +220,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                   {gallery.map((img: string, i: number) => (
                     <div key={i} className="border-4 border-[#1A1A1A] aspect-square relative group overflow-hidden bg-black">
-                      <img src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 opacity-80 group-hover:opacity-100" />
+                      <img loading="lazy" src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 opacity-80 group-hover:opacity-100" />
                       <div className="absolute inset-0 border-8 border-transparent group-hover:border-[#FFC107] transition-colors duration-300 pointer-events-none"></div>
                     </div>
                   ))}
@@ -307,7 +307,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -324,7 +324,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -341,7 +341,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -354,7 +354,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div className="flex items-center gap-3">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain grayscale" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain grayscale" />
             ) : (
               <AlertTriangle size={32} className="text-[#FFC107]" />
             )}
@@ -383,7 +383,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full border-b-8 border-[#1A1A1A] relative">
                 <div className="absolute inset-0 bg-[#FFC107]/20 z-10"></div>
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
               </div>
             )}
             

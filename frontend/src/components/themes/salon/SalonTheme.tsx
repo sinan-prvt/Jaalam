@@ -258,7 +258,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
 
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Barber" className={`w-full h-full object-cover ${heroTheme === 'dark' ? 'opacity-40' : 'opacity-20'}`} />
+              <img loading="lazy" src={heroImage} alt="Barber" className={`w-full h-full object-cover ${heroTheme === 'dark' ? 'opacity-40' : 'opacity-20'}`} />
               <div className={`absolute inset-0`} style={heroTheme === 'light' ? { background: `linear-gradient(to top, ${bgSecondaryHex} 0%, ${bgSecondaryHex}d0 60%, transparent 100%)` } : { background: 'linear-gradient(to top, black 0%, rgba(0,0,0,0.6) 60%, transparent 100%)' }}></div>
             </div>
 
@@ -330,7 +330,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
 
                 {/* Highlight Image overlaid on right side */}
                 <div className="absolute right-0 bottom-0 w-1/2 md:w-[45%] h-full flex items-end justify-end pointer-events-none">
-                  <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Premium Experience" className="h-[120%] md:h-[140%] object-cover object-bottom drop-shadow-2xl" />
+                  <img loading="lazy" src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Premium Experience" className="h-[120%] md:h-[140%] object-cover object-bottom drop-shadow-2xl" />
                 </div>
               </div>
             </FadeInView>
@@ -358,8 +358,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                               </p>
                             </div>
                             <div className="w-full md:w-1/2 shrink-0">
-                              <img
-                                src={content.settings_json?.about_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                              <img loading="lazy" src={content.settings_json?.about_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
                                 alt="About Us"
                                 className={`w-full h-48 md:h-64 object-cover ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-2xl'} shadow-md`}
                               />
@@ -405,7 +404,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                             <div key={idx} className={`${serviceCardClass}`}>
                               <div className={`w-16 h-16 md:w-20 md:h-20 ${buttonShape === 'rounded-none' ? 'rounded-none border border-[#1E1B18]' : 'rounded-xl'} overflow-hidden shrink-0 bg-gray-50 flex items-center justify-center`}>
                                 {service.image ? (
-                                  <img src={service.image} alt={service.title || service.name} className="w-full h-full object-cover" />
+                                  <img loading="lazy" src={service.image} alt={service.title || service.name} className="w-full h-full object-cover" />
                                 ) : (
                                   <Scissors style={{ color: primaryGold }} size={28} />
                                 )}
@@ -436,7 +435,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                           {haircutStyles.slice(0, 4).map((style: any, idx: number) => (
                             <div key={idx} onClick={() => setSelectedStyle(style)} className={`${itemCardClass}`}>
                               <div className={`w-20 h-20 md:w-28 md:h-28 ${buttonShape === 'rounded-none' ? 'rounded-none border border-[#1E1B18]' : 'rounded-[1.25rem]'} overflow-hidden shrink-0 shadow-inner`}>
-                                <img src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                               </div>
                               <div className="flex-1 py-1 text-left">
                                 <h4 className={`font-bold text-base md:text-xl ${textColor} mb-1.5 md:mb-2 ${fontHeading}`}>{style.name}</h4>
@@ -481,8 +480,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                               onClick={() => setSelectedImage(img)}
                               className={`aspect-square ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18] shadow-[4px_4px_0px_#1E1B18] hover:shadow-[6px_6px_0px_#1E1B18]' : 'rounded-2xl'} overflow-hidden relative group cursor-pointer shadow-sm hover:shadow-md transition-all duration-300`}
                             >
-                              <img
-                                src={img}
+                              <img loading="lazy" src={img}
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
@@ -598,8 +596,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                             }
                             if (block.type === 'image') {
                               return block.url ? (
-                                <img
-                                  key={block.id || idx}
+                                <img loading="lazy" key={block.id || idx}
                                   src={block.url}
                                   alt="Custom Block"
                                   className={`w-full h-auto object-cover ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-2xl'} shadow-md max-h-[400px] md:max-h-[500px]`}
@@ -631,7 +628,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -647,7 +644,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
               {/* Brand Column */}
               <div className="space-y-5">
                 <h4 className={`text-white text-xl font-bold tracking-wider uppercase ${fontHeading}`} style={{ color: footerAccentColor }}>
-                  {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+                  {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
                 </h4>
                 <p className="text-sm leading-relaxed font-medium">
                   {content.hero_description || content.settings_json?.hero_description || 'Find a barber close to you and book at your convenience. Premium experience tailored just for you.'}
@@ -735,8 +732,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             >
               {/* Image Header */}
               <div className="relative aspect-[4/3] w-full bg-stone-100 overflow-hidden">
-                <img
-                  src={selectedStyle.image}
+                <img loading="lazy" src={selectedStyle.image}
                   alt={selectedStyle.name}
                   className="w-full h-full object-cover"
                 />
@@ -818,8 +814,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             >
               <X size={32} />
             </button>
-            <img
-              src={selectedImage}
+            <img loading="lazy" src={selectedImage}
               alt="Fullscreen Gallery"
               className="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
               onClick={(e) => e.stopPropagation()}

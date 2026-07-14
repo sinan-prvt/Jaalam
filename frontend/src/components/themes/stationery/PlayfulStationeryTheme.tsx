@@ -55,7 +55,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
         <div className="container mx-auto bg-white rounded-full shadow-lg px-8 py-4 flex justify-between items-center border-4 border-[#FF6B6B]">
           <div className="flex items-center gap-3">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full border-2 border-[#FF6B6B]" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full border-2 border-[#FF6B6B]" />
             ) : (
               <div className="bg-[#FF6B6B] p-2 rounded-full text-white transform -rotate-12"><Pencil size={20} /></div>
             )}
@@ -158,7 +158,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                           <div key={idx} className={`p-8 bg-white rounded-3xl border-4 ${colorClass} hover:-translate-y-4 hover:shadow-2xl transition-all cursor-pointer`}>
                             {image && (
                               <div className="w-16 h-16 mx-auto mb-6 rounded-full overflow-hidden border-2 border-dashed border-gray-200">
-                                <img src={image} alt={title} className="w-full h-full object-cover" />
+                                <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover" />
                               </div>
                             )}
                             <h3 className="font-playful text-2xl text-[#2D3142] mb-4">{title}</h3>
@@ -185,8 +185,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                       {products.slice(0, 4).map((p: any, i: number) => (
                         <div key={i} className="bg-white rounded-3xl p-4 border-4 border-[#4ECDC4] hover:-translate-y-4 hover:shadow-2xl transition-all cursor-pointer" onClick={() => setSelectedProduct(p)}>
                           <div className="aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-50 border-2 border-dashed border-gray-200">
-                            <img 
-                              src={p.image || 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80'} 
+                            <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80'} 
                               onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80'; }}
                               alt={p.name} 
                               className="w-full h-full object-cover" 
@@ -232,8 +231,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                          const imgUrl = typeof item === 'string' ? item : (item.image || item.url || '');
                          return (
                           <div key={idx} className="aspect-square overflow-hidden rounded-3xl border-4 border-[#4ECDC4] cursor-pointer group" onClick={() => setSelectedImage(imgUrl)}>
-                            <img 
-                              src={imgUrl || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80'} 
+                            <img loading="lazy" src={imgUrl || 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80'} 
                               onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80'; }}
                               alt={`Gallery ${idx + 1}`} 
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
@@ -257,7 +255,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden border-4 border-yellow-400 transform rotate-3">
-                            <img src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
                           </div>
                         )}
                       </div>
@@ -339,8 +337,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="bg-white rounded-3xl p-4 border-4 border-[#4ECDC4] hover:-translate-y-4 hover:shadow-2xl transition-all cursor-pointer" onClick={() => setSelectedProduct(p)}>
                     <div className="aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-50 border-2 border-dashed border-gray-200">
-                      <img 
-                        src={p.image || 'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=600&q=80'} 
+                      <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=600&q=80'} 
                         onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=600&q=80'; }}
                         alt={p.name} 
                         className="w-full h-full object-cover" 
@@ -367,7 +364,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -398,7 +395,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
           >
             <X size={24} strokeWidth={4} />
           </button>
-          <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[85vh] object-contain rounded-3xl border-8 border-white shadow-2xl transform rotate-1" />
+          <img loading="lazy" src={selectedImage} alt="Gallery" className="max-w-full max-h-[85vh] object-contain rounded-3xl border-8 border-white shadow-2xl transform rotate-1" />
         </div>
       )}
       

@@ -175,7 +175,7 @@ export default function CombatGymTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-12 py-4 flex items-center justify-between absolute top-0 z-50 bg-gradient-to-b from-black/80 to-transparent">
           <div className="cg-heading text-5xl text-white flex items-center gap-2 tracking-wide">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 object-cover rounded-full shadow-lg border border-white/20" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 object-cover rounded-full shadow-lg border border-white/20" />
             ) : (
               <Swords size={32} className="text-[#D90429]" />
             )}
@@ -223,7 +223,7 @@ export default function CombatGymTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-16 diagonal-cut">
             <div className="absolute inset-0 z-0 bg-black">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-40 grayscale" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-40 grayscale" />
               <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)]"></div>
             </div>
@@ -310,7 +310,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                   <div className="lg:col-span-7 order-1 lg:order-2">
                     <FadeIn dir="right">
                       <div className="relative">
-                        <img src="https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=1000&q=80" alt="Training" className="w-full h-auto object-cover grayscale brightness-75 contrast-125" />
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1591117207239-788bf8de6c3b?auto=format&fit=crop&w=1000&q=80" alt="Training" className="w-full h-auto object-cover grayscale brightness-75 contrast-125" />
                         <div className="absolute top-0 right-0 w-full h-full border-4 border-[#D90429] translate-x-4 -translate-y-4 -z-10"></div>
                       </div>
                     </FadeIn>
@@ -339,7 +339,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                         >
                           <div className="h-64 relative overflow-hidden">
                             {s.image ? (
-                              <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100" />
+                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100" />
                             ) : (
                               <div className="w-full h-full bg-[#111] flex items-center justify-center">
                                 <Target size={64} className="text-[#333]" />
@@ -383,7 +383,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                             <div className="bg-[#D90429] text-white text-center cg-subheading py-1 mb-6">BEST SELLER</div>
                           )}
                           <div className="w-full h-48 mb-6 overflow-hidden bg-black border border-[#222]">
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                           </div>
                           <h3 className="cg-heading text-5xl text-white mb-1 break-words">{product.name}</h3>
                           <p className="cg-subheading text-gray-500 mb-6 break-words">{product.time}</p>
@@ -440,7 +440,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                           onClick={() => setSelectedImage(img)}
                           className="aspect-square cursor-pointer overflow-hidden relative group"
                         >
-                          <img src={img} alt={`Gym ${idx + 1}`} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-110 group-hover:grayscale-0" />
+                          <img loading="lazy" src={img} alt={`Gym ${idx + 1}`} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-110 group-hover:grayscale-0" />
                           <div className="absolute inset-0 bg-[#D90429]/0 group-hover:bg-[#D90429]/20 transition-colors duration-300 mix-blend-overlay"></div>
                         </div>
                       </FadeIn>
@@ -532,7 +532,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden border-2 border-[#D90429] my-8">
-                              <img src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale" />
+                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale" />
                             </div>
                           );
                         case 'divider':
@@ -564,7 +564,7 @@ export default function CombatGymTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -575,7 +575,7 @@ export default function CombatGymTheme({ website, content }: Props) {
       <footer className="bg-[#050505] py-16 px-6 text-center border-t border-[#222]">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-[#D90429] mx-auto mb-8" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-[#D90429] mx-auto mb-8" />
             ) : (
               <h4 className="cg-heading text-5xl text-[#D90429] mb-8">{siteName}</h4>
             )}
@@ -610,7 +610,7 @@ export default function CombatGymTheme({ website, content }: Props) {
               
               <div className="h-48 md:h-56 w-full shrink-0">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
                 ) : (
                   <div className="w-full h-full bg-[#222] flex items-center justify-center">
                     <Target size={48} className="text-[#444]" />
@@ -643,8 +643,7 @@ export default function CombatGymTheme({ website, content }: Props) {
             >
               <X size={40} />
             </button>
-            <img 
-              src={selectedImage} 
+            <img loading="lazy" src={selectedImage} 
               alt="Gallery Preview" 
               className="max-w-full max-h-[90vh] object-contain border-4 border-[#222]"
               onClick={e => e.stopPropagation()}
@@ -669,7 +668,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col bg-[#111] border border-[#222] transition-transform hover:-translate-y-2 group">
                       <div className="w-full h-56 bg-black border-b border-[#222]">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                       </div>
                       <div className="p-8 flex-1 flex flex-col">
                         <h3 className="cg-heading text-5xl text-white mb-1">{product.name}</h3>

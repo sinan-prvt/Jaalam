@@ -50,7 +50,7 @@ export default function EcoScrapTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2 text-[#4CAF50]">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
             ) : (
               <Leaf size={28} />
             )}
@@ -100,7 +100,7 @@ export default function EcoScrapTheme({ website, content }: any) {
             <section key="about" id="about" className="py-24 px-6 bg-white">
               <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center gap-16">
                 <div className="w-full md:w-1/2">
-                  <img src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80"} alt="Nature" className="w-full h-auto rounded-[3rem] rounded-tl-none shadow-2xl" />
+                  <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80"} alt="Nature" className="w-full h-auto rounded-[3rem] rounded-tl-none shadow-2xl" />
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="flex items-center gap-2 text-[#4CAF50] font-bold mb-4">
@@ -166,7 +166,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                     <div key={i} onClick={() => setSelectedProduct(p)} className="bg-[#F0F4F1] rounded-3xl overflow-hidden hover:shadow-lg transition-all border border-[#D1E2D6] group flex flex-col cursor-pointer">
                       {p.image && (
                         <div className="h-40 overflow-hidden relative">
-                           <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                           <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="p-6 flex flex-col flex-grow">
@@ -211,7 +211,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                   {gallery.map((img: string, i: number) => (
                     <div key={i} className={`rounded-3xl overflow-hidden ${i === 0 ? 'col-span-2 md:col-span-2 md:row-span-2' : ''}`}>
-                      <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 min-h-[200px]" />
+                      <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 min-h-[200px]" />
                     </div>
                   ))}
                 </div>
@@ -298,7 +298,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -315,7 +315,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -332,7 +332,7 @@ export default function EcoScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -345,7 +345,7 @@ export default function EcoScrapTheme({ website, content }: any) {
         <div className="container mx-auto max-w-5xl flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2 text-[#4CAF50]">
             {content.settings_json?.logo_image || website.logo_url ? (
-              <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain opacity-80" />
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain opacity-80" />
             ) : (
               <Leaf size={24} />
             )}
@@ -372,7 +372,7 @@ export default function EcoScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
               </div>
             )}
             <div className="p-6 md:p-8">

@@ -43,8 +43,7 @@ export default function ProductModal({ product, onClose, contactInfo }: ProductM
 
         {/* Image Section */}
         <div className="w-full md:w-1/2 bg-gray-100 flex-shrink-0 h-40 sm:h-56 md:h-auto relative">
-          <img 
-            src={product.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'} 
+          <img loading="lazy" src={product.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'} 
             alt={product.name} 
             className="w-full h-full object-cover absolute inset-0" 
           />

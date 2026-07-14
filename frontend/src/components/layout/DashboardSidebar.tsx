@@ -25,7 +25,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
       <aside className="w-20 lg:w-[240px] h-[calc(100vh-32px)] my-[16px] ml-[16px] bg-white/70 backdrop-blur-xl border border-white/80 rounded-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex-col justify-between hidden md:flex z-30 shrink-0">
         <div>
           <div className="p-6 flex items-center justify-center lg:justify-start gap-3">
-            <img src="/logo.png" className="w-10 h-10 object-contain relative z-10" alt="Jaalam Logo" />
+            <img loading="lazy" src="/logo.png" className="w-10 h-10 object-contain relative z-10" alt="Jaalam Logo" />
             <span className="text-xl font-black tracking-tight text-slate-900 hidden lg:block">
               Jaalam
             </span>

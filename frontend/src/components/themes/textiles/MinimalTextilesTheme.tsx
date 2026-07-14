@@ -34,7 +34,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="p-6 md:p-10 flex justify-between items-center fixed w-full top-0 mix-blend-difference text-white z-50 pointer-events-none">
-        <span className="font-min font-bold text-2xl tracking-tighter uppercase pointer-events-auto">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+        <span className="font-min font-bold text-2xl tracking-tighter uppercase pointer-events-auto">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
         <div className="flex gap-8 text-sm font-medium tracking-widest uppercase pointer-events-auto">
           <a href="#shop" className="hover:opacity-50 transition-opacity hidden md:block">Shop</a>
           <a href="#info" className="hover:opacity-50 transition-opacity hidden md:block">Info</a>
@@ -48,7 +48,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
            <div className="w-1/2 h-full bg-[#EAEAEA]"></div>
            <div className="w-1/2 h-full bg-[#F5F5F5]"></div>
         </div>
-        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80" alt="Fashion Editorial" className="absolute inset-0 w-full h-full object-cover filter grayscale" />
+        <img loading="lazy" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80" alt="Fashion Editorial" className="absolute inset-0 w-full h-full object-cover filter grayscale" />
         
         <div className="absolute bottom-10 left-10 md:left-20 max-w-lg mix-blend-difference text-white">
           <h1 className="font-min text-4xl md:text-6xl font-bold tracking-tighter leading-none mb-6 uppercase">
@@ -66,7 +66,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
               <div className="aspect-[3/4] bg-[#EAEAEA] mb-6 overflow-hidden">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
               </div>
               <div className="flex justify-between items-start font-min text-sm tracking-widest uppercase">
                  <div>
@@ -116,7 +116,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -140,7 +140,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -179,7 +179,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

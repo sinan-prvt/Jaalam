@@ -38,7 +38,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
       {/* Header */}
       <header className="p-8 md:p-12 flex justify-between items-center bg-white sticky top-0 z-50 relative">
         <div className="flex items-center gap-4">
-          {content?.settings_json?.logo_image && <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />}
+          {content?.settings_json?.logo_image && <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />}
           <span className="font-min font-bold text-2xl tracking-tighter uppercase">{siteName}</span>
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-medium tracking-wide uppercase">
@@ -72,7 +72,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             </p>
           </div>
           <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-             <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80" alt="Architecture" className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" />
+             <img loading="lazy" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80" alt="Architecture" className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" />
           </div>
         </div>
       </section>
@@ -89,7 +89,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer">
                 <div className="aspect-[3/2] overflow-hidden mb-6 bg-gray-900">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div className="flex justify-between items-start font-min">
                    <div>
@@ -134,7 +134,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -158,7 +158,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -173,7 +173,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -251,7 +251,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-black pt-16">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <span className="font-bold text-3xl tracking-tighter uppercase">
-              {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+              {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
             </span>
             <p className="text-gray-500 leading-relaxed max-w-sm text-sm text-center md:text-left">
               {content.about_text || "Redefining real estate through design, architecture, and simplicity."}
@@ -273,7 +273,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

@@ -40,7 +40,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2 min-w-0 pr-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-10 w-auto object-contain shrink-0" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-10 w-auto object-contain shrink-0" />
             ) : (
               <Leaf className="text-[#6B8E23] shrink-0 h-6 w-6 md:h-7 md:w-7" />
             )}
@@ -79,7 +79,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
           </div>
           <div className="w-full md:w-1/2 relative">
             <div className="absolute -top-6 -left-6 bg-[#E8E4D9] w-full h-full rounded-full opacity-50"></div>
-            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80" alt="Organic Produce" className="relative z-10 w-full h-auto rounded-full object-cover aspect-square shadow-sm" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80" alt="Organic Produce" className="relative z-10 w-full h-auto rounded-full object-cover aspect-square shadow-sm" />
           </div>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-[#FDFBF7]">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="font-body text-xs text-[#8B9A8B] uppercase tracking-wider mb-1">{p.farm}</div>
                 <h3 className="font-organic text-lg text-[#2C362B] mb-2">{p.name}</h3>
@@ -146,7 +146,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -170,7 +170,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} onClick={() => setSelectedGalleryImage(img)} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer group relative">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <span className="text-white font-body font-bold tracking-widest uppercase text-sm border border-white px-6 py-2 rounded-full">View</span>
                   </div>
@@ -266,7 +266,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -295,7 +295,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors" onClick={() => setSelectedGalleryImage(null)}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
-          <img src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={e => e.stopPropagation()} />
         </div>
       )}
 

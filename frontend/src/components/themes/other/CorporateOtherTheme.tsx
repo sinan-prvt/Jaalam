@@ -51,7 +51,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
             ) : (
               <div className="font-corp-heading font-bold text-2xl text-[#0056b3] flex items-center gap-2">
                 <div className="w-8 h-8 bg-[#0056b3] text-white flex items-center justify-center rounded-sm text-lg">C</div>
@@ -70,7 +70,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative bg-[#003366] text-white">
         <div className="absolute inset-0 z-0">
-           <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80" alt="Corporate" className="w-full h-full object-cover opacity-20" />
+           <img loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80" alt="Corporate" className="w-full h-full object-cover opacity-20" />
            <div className="absolute inset-0 bg-gradient-to-r from-[#003366] via-[#003366]/90 to-transparent"></div>
         </div>
         <div className="container mx-auto max-w-6xl relative z-10 py-32 px-6 flex items-center">
@@ -99,7 +99,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
           <div className="container mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row gap-16 items-center">
               <div className="w-full md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="About Us" className="rounded-lg shadow-xl" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="About Us" className="rounded-lg shadow-xl" />
               </div>
               <div className="w-full md:w-1/2">
                 <div className="text-[#0056b3] font-corp-body font-bold text-sm tracking-wider uppercase mb-2">Company Overview</div>
@@ -188,7 +188,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
                 "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-[4/3] overflow-hidden rounded group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -294,7 +294,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] rounded shadow-2xl" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-[90vh] rounded shadow-2xl" />
         </div>
       )}
     </div>

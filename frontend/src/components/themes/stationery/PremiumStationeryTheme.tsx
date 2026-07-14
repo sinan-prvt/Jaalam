@@ -75,7 +75,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer">
                 <div className="relative aspect-[4/3] overflow-hidden mb-8 border border-[#D4AF37]/10">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                 </div>
                 <div className="text-center">
@@ -159,7 +159,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
                'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=600&q=80'
              ].map((img, idx) => (
                 <div key={idx} className="aspect-[4/5] overflow-hidden group">
-                  <img src={img} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 filter grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100" />
+                  <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 filter grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100" />
                 </div>
              ))}
           </div>
@@ -223,7 +223,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

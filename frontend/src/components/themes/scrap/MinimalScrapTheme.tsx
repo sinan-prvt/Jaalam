@@ -49,7 +49,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
       <header className="p-6 md:p-12 border-b-4 border-black flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white">
         <div className="flex items-end gap-4">
           {content.settings_json?.logo_image || website.logo_url ? (
-            <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
+            <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
           ) : null}
           <span className="font-bold text-4xl">{siteName}</span>
         </div>
@@ -150,7 +150,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {gallery.map((img: string, i: number) => (
                   <div key={i} className="border-4 border-black aspect-square">
-                    <img src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
+                    <img loading="lazy" src={img} alt={`Facility ${i+1}`} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
                   </div>
                 ))}
               </div>
@@ -220,7 +220,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -237,7 +237,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                     <div key={idx} className="mb-12 last:mb-0">
                       {block.type === 'heading' && <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.content}</h2>}
                       {block.type === 'paragraph' && <p className="text-lg text-slate-600 mb-6 whitespace-pre-wrap">{block.content}</p>}
-                      {block.type === 'image' && <img src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
+                      {block.type === 'image' && <img loading="lazy" src={block.url || block.image} className="w-full rounded-2xl mb-6 shadow-md" alt="" />}
                       {block.type === 'divider' && <hr className="my-12 border-t-2 border-slate-100" />}
                     </div>
                  ))}
@@ -254,7 +254,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -266,7 +266,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
       <footer className="p-6 md:p-12 bg-black text-white flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-4">
           {content.settings_json?.logo_image || website.logo_url ? (
-            <img src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain filter invert" />
+            <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-8 object-contain filter invert" />
           ) : null}
           <span className="font-bold text-2xl">{siteName}</span>
         </div>
@@ -290,7 +290,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full border-b-4 border-black">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale" />
               </div>
             )}
             <div className="p-6 md:p-8">

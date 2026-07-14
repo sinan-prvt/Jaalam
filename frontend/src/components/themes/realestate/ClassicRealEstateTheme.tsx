@@ -41,7 +41,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
         <div className="container mx-auto flex justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
             ) : (
               <Home className="text-[#1A252C]" size={32} />
             )}
@@ -90,7 +90,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
 
           </div>
           <div className="w-full md:w-1/2 relative p-4 bg-white border border-[#EAE3D2] shadow-sm">
-             <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80" alt="Classic Home" className="w-full h-auto object-cover" />
+             <img loading="lazy" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80" alt="Classic Home" className="w-full h-auto object-cover" />
           </div>
         </div>
       </section>
@@ -107,7 +107,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="bg-white border border-[#EAE3D2] p-4 flex flex-col md:flex-row gap-6 group hover:shadow-md transition-shadow cursor-pointer">
                 <div className="w-full md:w-2/5 aspect-[4/3] md:aspect-auto overflow-hidden">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="w-full md:w-3/5 py-2 flex flex-col justify-between">
                   <div>
@@ -167,7 +167,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -191,7 +191,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -285,7 +285,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -297,7 +297,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       <footer id="about" className="bg-[#1A252C] text-[#EFECE5] py-20 px-6">
         <div className="container mx-auto max-w-5xl text-center">
           {content?.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt={siteName} className="mx-auto h-12 w-auto object-contain mb-6 filter brightness-0 invert opacity-70" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="mx-auto h-12 w-auto object-contain mb-6 filter brightness-0 invert opacity-70" />
           ) : (
             <Home className="mx-auto text-[#8B9DAE] mb-6" size={40} />
           )}
@@ -323,7 +323,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-[#EFECE5]/70 hover:text-[#EFECE5] transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-white shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain border-4 border-white shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

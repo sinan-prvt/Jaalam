@@ -321,7 +321,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                         return (
                           <div key={idx} className="mt-2 mb-2">
                             <div className="text-xs opacity-70 mb-1 font-mono">{match[1]}</div>
-                            <img src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
+                            <img loading="lazy" src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
                           </div>
                         );
                       }
@@ -351,7 +351,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                             return (
                               <div key={idx} className="mt-2 mb-2">
                                 <div className="text-xs opacity-70 mb-1 font-mono">{match[1]}</div>
-                                <img src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
+                                <img loading="lazy" src={match[2]} alt={match[1]} className="max-w-full h-auto rounded-lg shadow-sm border border-black/10 max-h-[300px] object-contain bg-white/10" />
                               </div>
                             );
                           }

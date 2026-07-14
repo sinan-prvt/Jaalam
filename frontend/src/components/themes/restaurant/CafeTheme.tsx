@@ -245,8 +245,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {/* Centered Illustration Wrapper for perfect laptop/desktop alignment and bottom placement */}
             <div className="absolute inset-0 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none z-10 flex justify-end overflow-hidden">
               <div className="w-[85%] lg:w-[45%] h-full flex items-end justify-end relative">
-                <img
-                  src="/media/chef_transparent_fixed.png"
+                <img loading="lazy" src="/media/chef_transparent_fixed.png"
                   alt="Chef"
                   className="w-full h-full object-contain object-right-bottom opacity-100 drop-shadow-2xl origin-bottom-right translate-y-4 lg:translate-y-6"
                   style={{
@@ -390,8 +389,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="bg-white rounded-[2.5rem] p-6 lg:p-12 shadow-[0_15px_50px_rgba(0,0,0,0.04)] border border-slate-50 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
                           {/* Promo Image */}
                           <div className="w-full lg:w-1/2 aspect-[4/3] rounded-[2rem] overflow-hidden bg-slate-100 shadow-md">
-                            <img
-                              src="/media/promo.png"
+                            <img loading="lazy" src="/media/promo.png"
                               alt="Our Craft"
                               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
@@ -444,8 +442,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               className="overflow-hidden rounded-[1.5rem] lg:rounded-[2.5rem] group cursor-pointer aspect-square bg-slate-100 relative shadow-sm border border-slate-50"
                               onClick={() => setSelectedImage(imgSrc)}
                             >
-                              <img
-                                src={imgSrc}
+                              <img loading="lazy" src={imgSrc}
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                               />
@@ -584,7 +581,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               return <p key={idx} className="text-slate-500 font-bold leading-relaxed text-sm lg:text-base whitespace-pre-wrap">{block.content || 'Text content'}</p>;
                             }
                             if (block.type === 'image') {
-                              return <img key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-[1.5rem] lg:rounded-[2rem] mb-6 mt-4 shadow-sm" />;
+                              return <img loading="lazy" key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-[1.5rem] lg:rounded-[2rem] mb-6 mt-4 shadow-sm" />;
                             }
                             if (block.type === 'divider') {
                               return <hr key={idx} className="my-8 border-t-2 border-slate-100 w-1/4 mx-auto" />;
@@ -634,8 +631,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     >
                       {/* Image Container */}
                       <div className="w-full aspect-square lg:aspect-[4/3] bg-[#FFECD6] rounded-[1.5rem] lg:rounded-[2rem] mb-2 lg:mb-4 flex items-center justify-center relative overflow-hidden">
-                        <img
-                          src={prod.image || '/media/placeholder_pastry.png'}
+                        <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                           alt={prod.name}
                           className="w-5/6 h-5/6 object-cover rounded-2xl lg:rounded-3xl drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
                         />
@@ -672,7 +668,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <div className="lg:col-span-2 space-y-6">
                   <div className="flex items-center gap-3 mb-6">
                     {content.settings_json?.logo_image ? (
-                      <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
+                      <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
                     ) : (
                       <div className="w-12 h-12 rounded-full bg-[#C19A6B] flex items-center justify-center">
                         <Coffee size={24} className="text-white" />
@@ -746,8 +742,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               >
                 {/* Image section */}
                 <div className="relative aspect-[16/10] w-full bg-[#FFECD6] overflow-hidden flex items-center justify-center">
-                  <img
-                    src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                  <img loading="lazy" src={selectedProduct.image || '/media/placeholder_pastry.png'}
                     alt={selectedProduct.name}
                     className="w-full h-full object-cover"
                   />
@@ -854,7 +849,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleNavClick('home', e)}>
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
               ) : (
                 <div className={`w-10 h-10 rounded-full ${bakeryColors.primary} flex items-center justify-center`}>
                   <Coffee size={18} className="text-white" />
@@ -929,8 +924,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             animate={{ y: [0, -10, 0], rotate: [index % 2 === 0 ? 0 : 3, index % 2 === 0 ? -3 : 0, 0] }}
                             transition={{ duration: 4 + index, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
                           >
-                            <img
-                              src={bread.url}
+                            <img loading="lazy" src={bread.url}
                               alt={bread.name}
                               className="w-full h-full object-cover rounded-2xl shadow-2xl opacity-90 border border-white/5"
                             />
@@ -988,8 +982,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                           <div className="w-full lg:w-1/2 relative flex justify-center items-center">
                             <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 shadow-md border border-[#EBE6DD]">
-                              <img
-                                src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
+                              <img loading="lazy" src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
                                 alt="Wheat Ears and Flour"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                               />
@@ -1054,8 +1047,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             >
                               <div>
                                 <div className="aspect-[4/3] rounded-2xl bg-[#FAF7F2] border border-[#EBE6DD]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                                  <img
-                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                  <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                                     alt={prod.name}
                                     className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                                   />
@@ -1100,8 +1092,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-[#FAF7F2] border border-[#EBE6DD] relative shadow-sm"
                             >
-                              <img
-                                src={imgSrc}
+                              <img loading="lazy" src={imgSrc}
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
@@ -1225,7 +1216,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             return <p key={idx} className="text-[#6B6155] font-outfit text-sm lg:text-base leading-relaxed whitespace-pre-wrap">{block.content || 'Text content'}</p>;
                           }
                           if (block.type === 'image') {
-                            return <img key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-3xl mb-8 mt-4 shadow-md border border-[#EBE6DD]" />;
+                            return <img loading="lazy" key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-3xl mb-8 mt-4 shadow-md border border-[#EBE6DD]" />;
                           }
                           if (block.type === 'divider') {
                             return <hr key={idx} className="my-12 border-t border-[#EBE6DD] w-1/4 mx-auto" />;
@@ -1280,8 +1271,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   >
                     <div>
                       <div className="aspect-square rounded-2xl bg-[#FAF7F2] border border-[#EBE6DD]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img
-                          src={prod.image || '/media/placeholder_pastry.png'}
+                        <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                           alt={prod.name}
                           className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                         />
@@ -1344,7 +1334,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -1362,7 +1352,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -1377,7 +1367,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <div className="lg:col-span-2 space-y-6">
                 <div className="flex items-center gap-3">
                   {content.settings_json?.logo_image ? (
-                    <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
+                    <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-[#C5A880] flex items-center justify-center">
                       <Coffee size={24} className="text-white" />
@@ -1438,7 +1428,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             <button className="absolute top-6 right-6 text-white hover:text-[#C5A880] transition-colors p-2" aria-label="Close">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <img src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+            <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
           </div>
         )}
 
@@ -1456,8 +1446,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#FAF7F2] overflow-hidden flex items-center justify-center border-b border-[#EBE6DD]">
-                <img
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                <img loading="lazy" src={selectedProduct.image || '/media/placeholder_pastry.png'}
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover"
                 />
@@ -1547,7 +1536,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleNavClick('home', e)}>
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
               ) : (
                 <div className={`w-10 h-10 rounded-full ${artisanColors.primary} flex items-center justify-center`}>
                   <Coffee size={18} className="text-white" />
@@ -1628,8 +1617,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             transition={{ duration: 0.8 }}
                             className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(42,75,58,0.15)] border-4 border-white"
                           >
-                            <img
-                              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80"
+                            <img loading="lazy" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80"
                               alt="Kneading Dough"
                               className="w-full h-full object-cover"
                             />
@@ -1667,8 +1655,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                           <div className="w-full lg:w-1/2 relative flex justify-center items-center">
                             <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 shadow-md border border-[#E6DEC9]">
-                              <img
-                                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80"
+                              <img loading="lazy" src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80"
                                 alt="Wheat Ears and Flour"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                               />
@@ -1732,8 +1719,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             >
                               <div>
                                 <div className="aspect-[4/3] rounded-2xl bg-[#FAF5ED] border border-[#E6DEC9]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                                  <img
-                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                  <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                                     alt={prod.name}
                                     className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                                   />
@@ -1778,8 +1764,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-[#FAF5ED] border border-[#E6DEC9] relative shadow-sm"
                             >
-                              <img
-                                src={imgSrc}
+                              <img loading="lazy" src={imgSrc}
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
@@ -1900,7 +1885,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             return <p key={idx} className="text-[#5E6B61] font-montserrat text-sm lg:text-base leading-relaxed whitespace-pre-wrap">{block.content || 'Text content'}</p>;
                           }
                           if (block.type === 'image') {
-                            return <img key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-3xl mb-8 mt-4 shadow-md border border-[#E6DEC9]" />;
+                            return <img loading="lazy" key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-3xl mb-8 mt-4 shadow-md border border-[#E6DEC9]" />;
                           }
                           if (block.type === 'divider') {
                             return <hr key={idx} className="my-12 border-t border-[#E6DEC9] w-1/4 mx-auto" />;
@@ -1955,8 +1940,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   >
                     <div>
                       <div className="aspect-square rounded-2xl bg-[#FAF5ED] border border-[#E6DEC9]/60 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img
-                          src={prod.image || '/media/placeholder_pastry.png'}
+                        <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                           alt={prod.name}
                           className="w-5/6 h-5/6 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                         />
@@ -1999,7 +1983,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <div className="lg:col-span-2 space-y-6">
                 <div className="flex items-center gap-3">
                   {content.settings_json?.logo_image ? (
-                    <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
+                    <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-[#C27D56] flex items-center justify-center">
                       <Coffee size={24} className="text-white" />
@@ -2060,7 +2044,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             <button className="absolute top-6 right-6 text-white hover:text-[#C27D56] transition-colors p-2" aria-label="Close">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <img src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+            <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
           </div>
         )}
 
@@ -2078,8 +2062,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#FAF5ED] overflow-hidden flex items-center justify-center border-b border-[#E6DEC9]">
-                <img
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                <img loading="lazy" src={selectedProduct.image || '/media/placeholder_pastry.png'}
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover"
                 />
@@ -2171,7 +2154,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleNavClick('home', e)}>
               {content.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover bg-white" />
               ) : (
                 <div className={`w-10 h-10 rounded-full ${customColors.primary} flex items-center justify-center`}>
                   <Coffee size={18} className="text-[#D4A373]" />
@@ -2238,8 +2221,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                           className="w-72 h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden border border-white/10 p-2"
                         >
-                          <img
-                            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80"
+                          <img loading="lazy" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80"
                             alt="Premium Close-up Pastry"
                             className="w-full h-full object-cover rounded-full filter grayscale"
                           />
@@ -2352,8 +2334,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             >
                               <div>
                                 <div className="aspect-[4/3] bg-slate-50 overflow-hidden flex items-center justify-center mb-6 relative">
-                                  <img
-                                    src={prod.image || '/media/placeholder_pastry.png'}
+                                  <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                                     alt={prod.name}
                                     className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                                   />
@@ -2396,8 +2377,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               onClick={() => setSelectedImage(imgSrc)}
                               className="overflow-hidden group cursor-pointer aspect-square bg-white border border-[#EAEAEA] hover:border-[#D4A373] transition-colors p-2 relative shadow-sm"
                             >
-                              <img
-                                src={imgSrc}
+                              <img loading="lazy" src={imgSrc}
                                 alt={`Gallery ${idx + 1}`}
                                 className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                               />
@@ -2509,7 +2489,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             return <p key={idx} className="text-[#7A7A7A] font-inter text-sm lg:text-base leading-relaxed font-light whitespace-pre-wrap">{block.content || 'Text content'}</p>;
                           }
                           if (block.type === 'image') {
-                            return <img key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-none mb-8 mt-4 shadow-sm border border-[#EAEAEA]" />;
+                            return <img loading="lazy" key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-none mb-8 mt-4 shadow-sm border border-[#EAEAEA]" />;
                           }
                           if (block.type === 'divider') {
                             return <hr key={idx} className="my-12 border-t border-[#EAEAEA] w-1/4 mx-auto" />;
@@ -2564,8 +2544,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   >
                     <div>
                       <div className="aspect-square bg-slate-50 overflow-hidden flex items-center justify-center mb-4 relative">
-                        <img
-                          src={prod.image || '/media/placeholder_pastry.png'}
+                        <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'}
                           alt={prod.name}
                           className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                         />
@@ -2608,7 +2587,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <div className="lg:col-span-2 space-y-6">
                 <div className="flex items-center gap-3">
                   {content.settings_json?.logo_image ? (
-                    <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
+                    <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-[#D4A373] flex items-center justify-center">
                       <Coffee size={24} className="text-[#111111]" />
@@ -2669,7 +2648,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             <button className="absolute top-6 right-6 text-white hover:text-[#D4A373] transition-colors p-2" aria-label="Close">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <img src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-none shadow-2xl" onClick={(e) => e.stopPropagation()} />
+            <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-none shadow-2xl" onClick={(e) => e.stopPropagation()} />
           </div>
         )}
 
@@ -2687,8 +2666,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/10] w-full bg-[#F9F9FB] overflow-hidden flex items-center justify-center border-b border-[#EAEAEA]">
-                <img
-                  src={selectedProduct.image || '/media/placeholder_pastry.png'}
+                <img loading="lazy" src={selectedProduct.image || '/media/placeholder_pastry.png'}
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover filter grayscale"
                 />
@@ -2756,7 +2734,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
           <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleNavClick('home', e)}>
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover bg-white" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover bg-white" />
             ) : (
               <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full ${colors.primary} flex items-center justify-center`}>
                 <Coffee size={20} className="text-white" />
@@ -2809,7 +2787,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 return (
                   <section key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 z-0">
-                      <img src={heroImage} alt="Bakery Interior" className="w-full h-full object-cover" />
+                      <img loading="lazy" src={heroImage} alt="Bakery Interior" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/60 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                     </div>
 
@@ -2907,7 +2885,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         {products.slice(0, 6).map((prod: any, idx: number) => (
                           <div key={idx} onClick={() => setSelectedProduct(prod)} className="group hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                             <div className="relative overflow-hidden mb-6 aspect-[4/3] rounded-sm bg-slate-100">
-                              <img src={prod.image || '/media/placeholder_pastry.png'} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                              <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                               <div className="absolute top-4 left-4 bg-white px-3 py-1.5 flex items-center gap-1 shadow-sm rounded-sm">
                                 <Star size={12} className="text-[#C19A6B] fill-current" />
                                 <span className="text-xs font-bold text-slate-800">{prod.rating || '4.5'}</span>
@@ -2942,7 +2920,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {galleryImages.map((imgSrc, idx) => (
                           <div key={idx} className="overflow-hidden rounded-sm group cursor-pointer aspect-square bg-slate-100 relative" onClick={() => setSelectedImage(imgSrc)}>
-                            <img src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                            <img loading="lazy" src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center">
                               <Search className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500" size={32} />
                             </div>
@@ -3051,7 +3029,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           return <p key={idx} className={`${colors.textMuted} text-lg mb-6 leading-relaxed whitespace-pre-wrap`}>{block.content || 'Text content'}</p>;
                         }
                         if (block.type === 'image') {
-                          return <img key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-sm mb-8 mt-4 shadow-sm" />;
+                          return <img loading="lazy" key={idx} src={block.url || '/media/placeholder_pastry.png'} alt="Custom element" className="w-full h-auto rounded-sm mb-8 mt-4 shadow-sm" />;
                         }
                         if (block.type === 'divider') {
                           return <hr key={idx} className="my-12 border-t-2 border-slate-100 w-1/4 mx-auto" />;
@@ -3105,7 +3083,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   <div key={idx} onClick={() => setSelectedProduct(prod)} className="bg-white rounded-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between">
                     <div>
                       <div className="relative overflow-hidden aspect-square bg-slate-100">
-                        <img src={prod.image || '/media/placeholder_pastry.png'} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <img loading="lazy" src={prod.image || '/media/placeholder_pastry.png'} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 flex items-center gap-1 shadow-sm rounded-sm">
                           <Star size={10} className="text-[#C19A6B] fill-current" />
                           <span className="text-[10px] font-bold text-slate-800">{prod.rating || '4.5'}</span>
@@ -3143,7 +3121,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center gap-3 mb-6">
                 {content.settings_json?.logo_image ? (
-                  <img src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
+                  <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-12 h-12 rounded-full object-cover bg-white" />
                 ) : (
                   <div className={`w-12 h-12 rounded-full ${colors.primary} flex items-center justify-center`}>
                     <Coffee size={24} className="text-white" />
@@ -3205,7 +3183,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <button className="absolute top-6 right-6 text-white hover:text-[#C19A6B] transition-colors p-2" aria-label="Close">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
-          <img src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
 
@@ -3225,8 +3203,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           >
             {/* Image section */}
             <div className="relative aspect-[16/10] w-full bg-[#FFECD6] overflow-hidden flex items-center justify-center">
-              <img
-                src={selectedProduct.image || '/media/placeholder_pastry.png'}
+              <img loading="lazy" src={selectedProduct.image || '/media/placeholder_pastry.png'}
                 alt={selectedProduct.name}
                 className="w-full h-full object-cover"
               />

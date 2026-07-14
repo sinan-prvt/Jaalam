@@ -183,7 +183,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-16 py-6 flex items-center justify-between absolute top-0 z-50 bg-gradient-to-b from-[#0B132B]/90 to-transparent backdrop-blur-sm">
           <div className="rs-heading text-2xl md:text-3xl font-bold tracking-widest text-white flex items-center gap-3">
             {!content?.settings_json?.logo_image && <Crown size={28} className="rs-text-gold" />}
-              {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+              {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
           </div>
           
           <nav className="hidden md:flex items-center gap-10 text-sm tracking-widest uppercase">
@@ -222,7 +222,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[100svh] flex flex-col justify-center text-center px-6 pt-32 pb-16">
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-30" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-[#0B132B]/50 via-[#0B132B]/60 to-[#0B132B]"></div>
             </div>
             
@@ -291,8 +291,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                       <div className="relative p-4 border border-[#D4AF37]/30 group">
                         <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#D4AF37] -translate-x-2 -translate-y-2 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></div>
                         <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#D4AF37] translate-x-2 translate-y-2 transition-transform group-hover:-translate-x-0 group-hover:-translate-y-0"></div>
-                        <img 
-                          src={content.gallery_json?.[0] || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80'} 
+                        <img loading="lazy" src={content.gallery_json?.[0] || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80'} 
                           alt="About" 
                           className="w-full h-auto object-cover grayscale-[30%] contrast-125"
                         />
@@ -353,8 +352,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                             className="rs-card group cursor-pointer h-full flex flex-col overflow-hidden"
                           >
                             <div className="h-64 overflow-hidden relative rs-image-overlay">
-                              <img 
-                                src={s.image} 
+                              <img loading="lazy" src={s.image} 
                                 alt={s.title || s.name} 
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[20%]" 
                               />
@@ -445,7 +443,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                             onClick={() => setSelectedImage(img)}
                             className="aspect-[4/5] cursor-pointer relative group overflow-hidden border border-[#D4AF37]/20"
                           >
-                            <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[40%]" />
+                            <img loading="lazy" src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[40%]" />
                             <div className="absolute inset-0 bg-[#0B132B]/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                               <span className="rs-heading text-white text-lg tracking-widest border border-white px-6 py-2 uppercase">View</span>
                             </div>
@@ -512,7 +510,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                       {content.custom_blocks_json.map((block: any, i: number) => {
                         if (block.type === 'heading') return <h3 key={block.id || i} className="rs-heading text-2xl text-white mt-8">{block.content}</h3>;
                         if (block.type === 'paragraph') return <p key={block.id || i} className="text-lg leading-relaxed">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="border border-[#D4AF37]/30 my-8 p-2"><img src={block.url} alt="" className="w-full h-auto" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="border border-[#D4AF37]/30 my-8 p-2"><img loading="lazy" src={block.url} alt="" className="w-full h-auto" /></div>;
                         if (block.type === 'divider') return <div key={block.id || i} className="rs-separator"></div>;
                         return null;
                       })}
@@ -536,7 +534,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -576,7 +574,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               </button>
               
               <div className="h-40 w-full relative">
-                <img src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover grayscale-[20%]" />
+                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover grayscale-[20%]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] to-transparent"></div>
               </div>
 
@@ -619,7 +617,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               
               <div className="h-40 w-full relative">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale-[20%]" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale-[20%]" />
                 ) : (
                   <div className="w-full h-full bg-[#070b1a] flex items-center justify-center">
                     <Crown size={48} className="rs-text-gold opacity-50" />
@@ -656,7 +654,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               <X size={24} />
             </button>
             <div className="p-2 border border-[#D4AF37]/50 bg-[#0B132B]" onClick={e => e.stopPropagation()}>
-              <img src={selectedImage} alt="Gallery" className="max-w-full max-h-[85vh] object-contain" />
+              <img loading="lazy" src={selectedImage} alt="Gallery" className="max-w-full max-h-[85vh] object-contain" />
             </div>
           </div>
         )}

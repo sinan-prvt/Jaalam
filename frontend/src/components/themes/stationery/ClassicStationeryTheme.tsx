@@ -40,7 +40,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         <div className="container mx-auto px-6 flex justify-between md:justify-center items-center relative">
           <div className="flex items-center gap-3 md:absolute md:left-6">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 rounded-full object-cover" />
             ) : (
               <Feather size={24} className="text-[#8C6D53]" />
             )}
@@ -98,7 +98,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   <p className="font-body text-lg text-[#6A5A4A] mb-12 max-w-2xl mx-auto italic">
                     {content.about_text || 'Discover our curated collection of premium fountain pens, handcrafted leather journals, and timeless stationery accessories.'}
                   </p>
-                  <img src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80'} alt="Classic Stationery" className="w-full h-96 object-cover shadow-2xl border-4 border-white" />
+                  <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80'} alt="Classic Stationery" className="w-full h-96 object-cover shadow-2xl border-4 border-white" />
                 </div>
               </section>
             );
@@ -131,7 +131,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                         <div key={idx} className="p-8 border border-current border-opacity-20 rounded-2xl hover:-translate-y-2 hover:border-opacity-100 transition-all cursor-pointer bg-white shadow-sm hover:shadow-md">
                           {image && (
                             <div className="w-16 h-16 mx-auto mb-6 rounded-full overflow-hidden bg-[#F5EFE6] border-2 border-[#E6DFD3]">
-                              <img src={image} alt={title} className="w-full h-full object-cover" />
+                              <img loading="lazy" src={image} alt={title} className="w-full h-full object-cover" />
                             </div>
                           )}
                           <h3 className="text-2xl font-bold mb-4 font-classic">{title}</h3>
@@ -153,8 +153,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                     {products.slice(0, 4).map((p: any, i: number) => (
                       <div key={i} className="flex gap-6 group cursor-pointer bg-white p-4 shadow-sm hover:shadow-xl transition-shadow" onClick={() => setSelectedProduct(p)}>
                         <div className="w-1/2 aspect-[3/4] overflow-hidden bg-[#FDFBF7] shadow-inner p-2">
-                          <img 
-                            src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
+                          <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
                             onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
                             alt={p.name} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-125" 
@@ -197,8 +196,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                        const imgUrl = typeof item === 'string' ? item : (item.image || item.url || '');
                        return (
                         <div key={idx} className="aspect-square overflow-hidden group cursor-pointer border-4 border-white shadow-sm" onClick={() => setSelectedImage(imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80')}>
-                          <img 
-                            src={imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'} 
+                          <img loading="lazy" src={imgUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'} 
                             onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'; }}
                             alt={`Gallery image ${idx + 1}`} 
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter sepia-[.3] group-hover:sepia-0" 
@@ -271,7 +269,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                       {content.custom_blocks_json.map((block: any, idx: number) => {
                         if (block.type === 'heading') return <h2 key={idx} className="font-classic text-3xl md:text-5xl font-bold mb-8 text-[#2C241E]">{block.content}</h2>;
                         if (block.type === 'text' || block.type === 'paragraph') return <p key={idx} className="font-body text-xl opacity-90 leading-relaxed mb-8 italic text-[#6A5A4A]">{block.content}</p>;
-                        if (block.type === 'image') return <img key={idx} src={block.url || block.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80'} alt="Custom" className="max-w-full h-auto border-4 border-white shadow-lg mb-8 mx-auto" />;
+                        if (block.type === 'image') return <img loading="lazy" key={idx} src={block.url || block.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80'} alt="Custom" className="max-w-full h-auto border-4 border-white shadow-lg mb-8 mx-auto" />;
                         if (block.type === 'divider') return <div key={idx} className="flex justify-center my-10"><Feather className="text-[#E6DFD3]" size={32} /></div>;
                         return null;
                       })}
@@ -322,8 +320,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="bg-white p-6 shadow-md hover:shadow-2xl transition-all group cursor-pointer border border-[#E6DFD3]" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-[4/5] bg-[#FDFBF7] mb-6 overflow-hidden relative">
-                    <img 
-                      src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
+                    <img loading="lazy" src={p.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'} 
                       onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'; }}
                       alt={p.name} 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter contrast-110" 
@@ -360,7 +357,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -373,7 +370,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         <div className="container mx-auto px-6 max-w-5xl text-center">
           <div className="flex justify-center items-center gap-3 mb-8">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover bg-white" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 rounded-full object-cover bg-white" />
             ) : (
               <Feather size={32} />
             )}
@@ -401,7 +398,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
             <button onClick={() => setSelectedImage(null)} className="absolute -top-12 right-0 md:-right-12 text-[#D8CBB6] hover:text-white p-2 border border-[#D8CBB6] rounded-full">
               <X size={24} />
             </button>
-            <img src={selectedImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain border-8 border-white shadow-2xl" />
+            <img loading="lazy" src={selectedImage} alt="Gallery view" className="max-w-full max-h-[85vh] object-contain border-8 border-white shadow-2xl" />
           </div>
         </div>
       )}

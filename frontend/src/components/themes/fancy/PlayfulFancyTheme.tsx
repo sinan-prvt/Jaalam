@@ -38,7 +38,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             {!content?.settings_json?.logo_image && <Star className="text-yellow-400 fill-current animate-bounce" size={28} />}
-            <span className="font-playful text-3xl font-bold text-pink-500 tracking-wider">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+            <span className="font-playful text-3xl font-bold text-pink-500 tracking-wider">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           </div>
           <nav className="hidden md:flex gap-6 font-body font-bold text-lg text-purple-600">
             <a href="#shop" className="hover:text-pink-500 hover:-translate-y-1 transition-transform">Shop</a>
@@ -85,7 +85,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-purple-50 rounded-[2rem] p-4 border-4 border-purple-200 hover:border-pink-400 hover:-translate-y-2 hover:shadow-xl transition-all group">
                 <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 bg-white relative">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 right-3 bg-yellow-400 text-white font-playful px-3 py-1 rounded-full text-sm shadow-sm rotate-12">
                     {p.price}
                   </div>
@@ -126,7 +126,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -150,7 +150,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -189,7 +189,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

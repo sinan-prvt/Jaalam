@@ -157,7 +157,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-12 py-6 flex items-center justify-between absolute top-0 z-50 bg-white/20 backdrop-blur-md">
           <div className="zy-heading text-3xl text-[#2C402E] flex items-center gap-2">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-md" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-md" />
             ) : (
               <Leaf size={24} className="text-[#8CA392]" />
             )}
@@ -200,7 +200,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[90svh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-16 overflow-hidden">
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-30" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-[#F4F1EA]/50 via-transparent to-[#F4F1EA]"></div>
             </div>
             
@@ -254,7 +254,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <FadeIn dir="left">
                       <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4]">
-                        <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=800&q=80" alt="About Studio" className="w-full h-full object-cover" />
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=800&q=80" alt="About Studio" className="w-full h-full object-cover" />
                       </div>
                     </FadeIn>
                     <FadeIn dir="right">
@@ -314,7 +314,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           <div className="h-64 relative overflow-hidden p-3 pb-0">
                             <div className="w-full h-full rounded-t-[1.25rem] overflow-hidden relative">
                               {s.image ? (
-                                <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                               ) : (
                                 <div className="w-full h-full bg-[#F4F1EA] flex items-center justify-center">
                                   <Leaf size={48} className="text-[#8CA392] opacity-50" />
@@ -355,7 +355,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           className={`rounded-[2rem] flex flex-col items-center text-center h-full transition-transform duration-500 hover:-translate-y-2 overflow-hidden ${idx === 1 ? 'bg-[#2C402E] text-white shadow-2xl' : 'bg-[#F4F1EA] text-[#2C402E]'}`}
                         >
                           <div className="w-full h-48 bg-white/20">
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover" />
                           </div>
                           <div className="p-8 w-full flex flex-col items-center flex-1">
                             <h3 className="zy-heading text-3xl mb-2 break-words">{product.name}</h3>
@@ -414,7 +414,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           onClick={() => setSelectedImage(img)}
                           className="cursor-pointer group overflow-hidden rounded-2xl break-inside-avoid relative"
                         >
-                          <img src={img} alt={`Studio ${idx + 1}`} className="w-full h-auto transition-transform duration-700 group-hover:scale-105" />
+                          <img loading="lazy" src={img} alt={`Studio ${idx + 1}`} className="w-full h-auto transition-transform duration-700 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-[#2C402E]/0 group-hover:bg-[#2C402E]/20 transition-colors duration-300"></div>
                         </div>
                       </FadeIn>
@@ -519,7 +519,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden rounded-[2rem] shadow-sm my-8">
-                              <img src={block.url} alt="Custom" className="w-full h-auto object-cover" />
+                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover" />
                             </div>
                           );
                         case 'divider':
@@ -558,7 +558,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -576,7 +576,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -587,7 +587,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
       <footer className="zy-bg-bone py-12 px-6 text-center text-[#2C402E]">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md mx-auto mb-6" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md mx-auto mb-6" />
             ) : (
               <Leaf size={32} className="text-[#8CA392] mx-auto mb-6" />
             )}
@@ -623,7 +623,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
               
               <div className="h-40 md:h-48 w-full relative shrink-0">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-[#8CA392]/20 flex items-center justify-center">
                     <Wind size={40} className="text-[#8CA392]" />
@@ -656,8 +656,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
             >
               <X size={32} />
             </button>
-            <img 
-              src={selectedImage} 
+            <img loading="lazy" src={selectedImage} 
               alt="Gallery Preview" 
               className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
               onClick={e => e.stopPropagation()}
@@ -682,7 +681,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer bg-white rounded-[2rem] flex flex-col items-center text-center shadow-lg transition-transform hover:-translate-y-2 overflow-hidden">
                       <div className="w-full h-48 bg-gray-100">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="p-10 w-full flex flex-col items-center flex-1">
                         <h3 className="zy-heading text-3xl mb-2 text-[#2C402E] break-words whitespace-pre-wrap">{product.name}</h3>

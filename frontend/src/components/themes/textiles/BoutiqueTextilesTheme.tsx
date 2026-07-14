@@ -47,7 +47,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
         <div className="container mx-auto text-center">
           <Sparkles className="mx-auto text-[#D4AF37] mb-4" size={24} />
           <h1 className="font-elegant text-5xl md:text-6xl text-[#8C3A3A] tracking-wider mb-6">
-            {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+            {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
           </h1>
           <nav className="flex justify-center gap-10 font-body text-[10px] tracking-[0.3em] uppercase text-[#6B5A4E]">
             <a href="#collection" className="hover:text-[#8C3A3A] transition-colors">Collections</a>
@@ -62,7 +62,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
         <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-16">
           <div className="w-full md:w-1/2 relative">
              <div className="absolute inset-0 bg-[#8C3A3A] translate-x-4 translate-y-4"></div>
-             <img src="https://images.unsplash.com/photo-1610030469983-98e550d615ef?auto=format&fit=crop&w=800&q=80" alt="Silk Saree" className="relative z-10 w-full h-auto object-cover shadow-xl border-4 border-white" />
+             <img loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d615ef?auto=format&fit=crop&w=800&q=80" alt="Silk Saree" className="relative z-10 w-full h-auto object-cover shadow-xl border-4 border-white" />
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="font-elegant text-4xl md:text-5xl font-bold mb-6 text-[#4A3B32] leading-tight">
@@ -88,7 +88,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer flex gap-6 group cursor-pointer">
                 <div className="w-1/2 aspect-[3/4] relative overflow-hidden bg-[#FAFAF8]">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 border-2 border-[#D4AF37]/30 m-4 pointer-events-none"></div>
                 </div>
                 <div className="w-1/2 flex flex-col justify-center py-6 pr-6">
@@ -141,7 +141,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -165,7 +165,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -180,7 +180,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

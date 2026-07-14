@@ -67,7 +67,7 @@ export default function MinimalistTheme({ website, content }: any) {
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100 py-4 px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <span className="min-sans font-semibold tracking-widest uppercase text-xl">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+          <span className="min-sans font-semibold tracking-widest uppercase text-xl">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           <nav className="hidden md:flex gap-6 min-sans text-sm text-gray-500">
             <a href="#shop" className="hover:text-black transition-colors">Shop</a>
             <a href="#about" className="hover:text-black transition-colors">About</a>
@@ -90,8 +90,7 @@ export default function MinimalistTheme({ website, content }: any) {
       {!hiddenSections.includes('hero') && (
         <section className="pt-24 md:pt-32 pb-12 px-6 md:px-12">
           <div className="w-full aspect-[16/9] md:aspect-[21/9] bg-gray-100 relative overflow-hidden group">
-            <img
-              src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=2000&q=80'}
+            <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=2000&q=80'}
               alt="Hero"
               className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-105"
             />
@@ -128,7 +127,7 @@ export default function MinimalistTheme({ website, content }: any) {
                 <div key={i} className="flex flex-col items-center text-center group">
                   {service.image ? (
                     <div className="w-32 h-32 rounded-full overflow-hidden mb-8 bg-gray-50">
-                      <img src={service.image} alt={service.title} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
+                      <img loading="lazy" src={service.image} alt={service.title} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
                     </div>
                   ) : (
                     <div className="w-16 h-16 flex items-center justify-center mb-6 min-sans text-xl font-light text-gray-400 border-b border-gray-200 pb-4 w-full">
@@ -158,7 +157,7 @@ export default function MinimalistTheme({ website, content }: any) {
             {products.slice(0, 6).map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer hover-lift" onClick={() => setSelectedProduct(p)}>
                 <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
                 </div>
                 <div className="flex justify-between items-start min-sans">
                   <div className="flex-1 min-w-0 pr-4">
@@ -188,7 +187,7 @@ export default function MinimalistTheme({ website, content }: any) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {galleryImages.map((img: string, idx: number) => (
               <div key={idx} className="aspect-square bg-gray-50 overflow-hidden cursor-pointer group" onClick={() => setSelectedImage(img)}>
-                <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
+                <img loading="lazy" src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
               </div>
             ))}
           </div>
@@ -249,7 +248,7 @@ export default function MinimalistTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -287,7 +286,7 @@ export default function MinimalistTheme({ website, content }: any) {
             </button>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <div className="h-48 md:h-auto md:aspect-square bg-gray-50">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
               </div>
               <div className="flex flex-col justify-center min-sans">
                 <h2 className="text-xl md:text-3xl font-medium mb-2 break-all">{selectedProduct.name}</h2>
@@ -321,7 +320,7 @@ export default function MinimalistTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="group cursor-pointer hover-lift" onClick={() => { setSelectedProduct(p); }}>
                     <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
+                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
                     </div>
                     <div className="flex justify-between items-start min-sans">
                       <div className="flex-1 min-w-0 pr-4">
@@ -353,7 +352,7 @@ export default function MinimalistTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full" onClick={() => setSelectedImage(null)}>
             <X size={24} />
           </button>
-          <img src={selectedImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={e => e.stopPropagation()} />
         </div>
       )}
     

@@ -38,7 +38,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
         <div className="container mx-auto">
           <p className="font-body text-xs tracking-[0.3em] uppercase mb-4">Established 1982</p>
           <h1 className="font-vintage text-5xl md:text-7xl font-bold tracking-tight mb-6">
-            {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+            {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
           </h1>
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-16 h-px bg-[#3D312A]"></div>
@@ -62,7 +62,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
             {content.hero_text || 'Embrace the charm of slow fashion with our collection of hand-loomed textiles, crafted using age-old techniques.'}
           </p>
           <div className="border-4 border-[#3D312A] p-2 inline-block bg-[#F4EFE6] transform rotate-1 shadow-lg">
-             <img src="https://images.unsplash.com/photo-1605808365542-bc9884a15a50?auto=format&fit=crop&w=800&q=80" alt="Weaving" className="w-full h-auto max-w-lg filter sepia-[0.3] contrast-125" />
+             <img loading="lazy" src="https://images.unsplash.com/photo-1605808365542-bc9884a15a50?auto=format&fit=crop&w=800&q=80" alt="Weaving" className="w-full h-auto max-w-lg filter sepia-[0.3] contrast-125" />
           </div>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer flex flex-col items-center text-center group cursor-pointer">
                 <div className="w-full aspect-square bg-[#EBE3D5] mb-6 p-4 border border-[#D4C3A3]">
                   <div className="w-full h-full border border-dashed border-[#8C4A32]/50 p-2">
-                     <img src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia-[0.2] group-hover:sepia-0 transition-all duration-500" />
+                     <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia-[0.2] group-hover:sepia-0 transition-all duration-500" />
                   </div>
                 </div>
                 <h4 className="font-vintage text-2xl font-bold mb-2 group-hover:text-[#8C4A32] transition-colors">{p.name}</h4>
@@ -113,7 +113,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -137,7 +137,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -176,7 +176,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

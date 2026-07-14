@@ -52,7 +52,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
           </div>
 
           <span className="font-modern text-2xl font-semibold tracking-widest uppercase absolute left-1/2 transform -translate-x-1/2">
-            {content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
+            {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
           </span>
 
           <div className="flex gap-6 items-center">
@@ -90,13 +90,13 @@ export default function ModernTextilesTheme({ website, content }: any) {
       <section className="py-24 px-6 container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div className="relative h-96 group cursor-pointer overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Womenswear" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Womenswear" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                  <h2 className="font-modern text-white text-3xl font-medium tracking-widest uppercase">Womenswear</h2>
               </div>
            </div>
            <div className="relative h-96 group cursor-pointer overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1490578474895-699bc4e3f444?auto=format&fit=crop&w=800&q=80" alt="Menswear" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1490578474895-699bc4e3f444?auto=format&fit=crop&w=800&q=80" alt="Menswear" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                  <h2 className="font-modern text-white text-3xl font-medium tracking-widest uppercase">Menswear</h2>
               </div>
@@ -115,7 +115,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
               <div className="relative aspect-[3/4] mb-4 bg-slate-100 overflow-hidden">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <button className="absolute bottom-0 left-0 w-full bg-white/90 text-slate-900 font-modern text-xs tracking-widest uppercase py-3 translate-y-full group-hover:translate-y-0 transition-transform">
                   Quick Add
                 </button>
@@ -164,7 +164,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -188,7 +188,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -227,7 +227,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

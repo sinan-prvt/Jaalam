@@ -45,7 +45,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
       <nav style={{ order: 0 }} className="fixed top-0 w-full z-50 bg-[#0a0a0a]/95 backdrop-blur border-b border-zinc-900 px-4 md:px-16 py-4 md:py-5 flex items-center justify-between">
         <div className="flex items-center gap-3 min-w-0 pr-4">
           {content.settings_json?.logo_image && (
-            <img src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain filter invert shrink-0" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain filter invert shrink-0" />
           )}
           <span className="font-noir text-base md:text-2xl font-semibold tracking-wider md:tracking-[0.3em] text-white uppercase truncate block">
             {siteName}
@@ -76,7 +76,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
         <section id="hero" style={{ order: sectionOrder.indexOf('hero') + 1 }} className="min-h-screen flex flex-col justify-end px-6 md:px-16 pb-20 pt-32 relative overflow-hidden">
           {content.settings_json?.about_image && (
             <div className="absolute inset-0">
-              <img src={content.settings_json.about_image} alt="Hero" className="w-full h-full object-cover opacity-30 filter grayscale" />
+              <img loading="lazy" src={content.settings_json.about_image} alt="Hero" className="w-full h-full object-cover opacity-30 filter grayscale" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
             </div>
           )}
@@ -160,7 +160,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
               {products.slice(0, 8).map((p: any, i: number) => (
                 <div key={i} onClick={() => setSelectedProduct(p)} className="bg-[#0a0a0a] group cursor-pointer hover:bg-zinc-950 transition-colors">
                   <div className="aspect-square overflow-hidden bg-zinc-950">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70 group-hover:opacity-100" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70 group-hover:opacity-100" />
                   </div>
                   <div className="p-6 border-t border-zinc-900">
                     <div className="flex justify-between items-baseline mb-1">
@@ -191,7 +191,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
                 const imgUrl = typeof img === 'string' ? img : img.url;
                 return (
                   <div key={i} className={`overflow-hidden cursor-pointer group relative ${i === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`} onClick={() => setSelectedGalleryImage(imgUrl)}>
-                    <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                    <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000" />
                     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/0 transition-colors duration-700" />
                   </div>
                 );
@@ -274,7 +274,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, idx: number) => {
               if (block.type === 'heading') return <h2 key={idx} className="font-noir text-5xl text-white font-light">{block.content}</h2>;
               if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-zinc-400 text-lg leading-relaxed font-light whitespace-pre-wrap">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={idx} src={block.url} alt="Custom" className="w-full filter grayscale contrast-125" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={idx} src={block.url} alt="Custom" className="w-full filter grayscale contrast-125" />;
               if (block.type === 'divider') return <div key={idx} className="w-full h-px bg-zinc-900 my-10" />;
               return null;
             })}
@@ -294,7 +294,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white" onClick={() => setSelectedGalleryImage(null)}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
-          <img src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain filter grayscale contrast-125" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain filter grayscale contrast-125" onClick={e => e.stopPropagation()} />
         </div>
       )}
 

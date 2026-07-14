@@ -162,7 +162,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
         <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between absolute top-0 z-50 bg-[#0D0D0D]/90 backdrop-blur-md border-b border-white/10">
           <div className="hi-heading text-3xl md:text-4xl font-bold tracking-wider text-white flex items-center gap-3">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)] border border-white/20" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-10 h-10 object-cover rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)] border border-white/20" />
             ) : (
               <Dumbbell size={32} className="hi-text-neon" />
             )}
@@ -205,7 +205,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
         {!hiddenSections.includes('hero') && (
           <div className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-16">
             <div className="absolute inset-0 z-0">
-              <img src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale-[80%] opacity-40 mix-blend-overlay" />
+              <img loading="lazy" src={heroImage} alt="Hero" className="w-full h-full object-cover grayscale-[80%] opacity-40 mix-blend-overlay" />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-[#0D0D0D]/80 to-transparent"></div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
               <div className="absolute inset-0 diagonal-stripes"></div>
@@ -300,7 +300,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                   <FadeIn dir="right" delay={200}>
                     <div className="relative">
                       <div className="absolute inset-0 bg-[#FF2A2A] translate-x-4 translate-y-4"></div>
-                      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="About Gym" className="relative z-10 w-full h-auto object-cover grayscale" />
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="About Gym" className="relative z-10 w-full h-auto object-cover grayscale" />
                     </div>
                   </FadeIn>
                 </div>
@@ -329,7 +329,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                         >
                           <div className="h-48 relative overflow-hidden">
                             {s.image ? (
-                              <img src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0" />
+                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0" />
                             ) : (
                               <div className="w-full h-full bg-black flex items-center justify-center">
                                 <Flame size={48} className="text-[#FF2A2A]" />
@@ -377,7 +377,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                             </div>
                           )}
                           <div className="w-full h-48 mb-6 overflow-hidden bg-black relative border border-white/10">
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 mix-blend-luminosity hover:mix-blend-normal" />
+                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 mix-blend-luminosity hover:mix-blend-normal" />
                           </div>
                           <h3 className="hi-heading text-4xl text-white mb-2 break-words">{product.name}</h3>
                           <div className="flex items-end gap-2 mb-6 break-words">
@@ -432,7 +432,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                           onClick={() => setSelectedImage(img)}
                           className="aspect-square cursor-pointer relative group overflow-hidden bg-[#1A1A1A]"
                         >
-                          <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
+                          <img loading="lazy" src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
                           <div className="absolute inset-0 bg-[#FF2A2A]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div className="bg-black/80 p-3 rounded-full">
@@ -568,7 +568,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative group overflow-hidden border-2 border-white/10 my-8">
-                              <img src={block.url} alt="Custom" className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                               <div className="absolute inset-0 bg-[#FF2A2A]/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                             </div>
                           );
@@ -608,7 +608,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -626,7 +626,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -637,7 +637,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
       <footer className="bg-[#0D0D0D] py-16 px-6 text-center border-t border-white/10">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 mx-auto mb-6" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 mx-auto mb-6" />
             ) : (
               <Dumbbell size={48} className="hi-text-neon mx-auto mb-6" />
             )}
@@ -675,7 +675,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               </button>
               
               <div className="h-32 sm:h-48 w-full relative shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
               </div>
 
@@ -726,7 +726,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               
               <div className="h-32 sm:h-48 w-full relative shrink-0">
                 {selectedService.image ? (
-                  <img src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
+                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
                 ) : (
                   <div className="w-full h-full bg-[#0D0D0D] flex items-center justify-center">
                     <Flame size={40} className="text-[#FF2A2A] opacity-50" />
@@ -767,8 +767,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
             >
               <X size={32} />
             </button>
-            <img 
-              src={selectedImage} 
+            <img loading="lazy" src={selectedImage} 
               alt="Gallery Preview" 
               className="max-w-full max-h-[90vh] object-contain shadow-2xl border-2 border-[#1A1A1A]"
               onClick={e => e.stopPropagation()}

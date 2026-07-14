@@ -36,7 +36,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
       {/* Header */}
       <header className="p-4 md:p-8 relative z-10">
         <div className="container mx-auto bg-white rounded-full border-4 border-[#1D3557] shadow-[6px_6px_0_#1D3557] px-8 py-4 flex justify-between items-center transform rotate-1">
-          <span className="font-fun text-3xl text-[#E63946]">{content?.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
+          <span className="font-fun text-3xl text-[#E63946]">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</span>
           <nav className="hidden md:flex gap-8 font-fun text-[#457B9D] text-lg">
             <a href="#shop" className="hover:text-[#E63946] transition-colors">Shop</a>
             <a href="#contact" className="hover:text-[#E63946] transition-colors">Contact</a>
@@ -77,7 +77,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
                   {p.tag}
                 </div>
                 <div className="aspect-square rounded-2xl overflow-hidden mb-4 border-4 border-[#F0F4FF]">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-fun text-xl text-[#1D3557] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
@@ -128,7 +128,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -152,7 +152,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -167,7 +167,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

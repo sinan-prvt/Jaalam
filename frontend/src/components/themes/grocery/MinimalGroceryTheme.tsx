@@ -38,7 +38,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
       <nav className="p-4 md:p-12 flex flex-col md:flex-row justify-between items-center fixed w-full top-0 bg-white/90 backdrop-blur z-50 gap-4 md:gap-0">
           <div className="flex items-center gap-3 min-w-0 pr-4">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain grayscale shrink-0" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-6 md:h-8 w-auto object-contain grayscale shrink-0" />
             ) : (
               <div className="w-6 h-6 md:w-8 md:h-8 bg-black flex items-center justify-center shrink-0">
                 <span className="text-white font-bold text-[10px] md:text-xs">M</span>
@@ -78,7 +78,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer flex flex-col">
               <div className="aspect-[4/5] bg-gray-50 mb-6 overflow-hidden">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
+                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="flex justify-between items-start mb-2">
                  <h3 className="font-min font-medium text-lg">{p.name}</h3>
@@ -124,7 +124,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -148,7 +148,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <span className="text-white font-bold tracking-widest uppercase text-sm border border-white px-4 py-2 rounded-full">View</span>
                   </div>
@@ -239,7 +239,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -290,7 +290,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl relative" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl relative" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

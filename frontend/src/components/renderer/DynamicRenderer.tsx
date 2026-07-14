@@ -20,7 +20,7 @@ export default function DynamicRenderer({ website, content }: { website: any, co
     if (url.match(/\.(mp4|webm|ogg)$/i) || url.startsWith('data:video')) {
       return <video src={url} className={className} autoPlay loop muted playsInline />;
     }
-    return <img src={url} alt={alt} className={className} />;
+    return <img loading="lazy" src={url} alt={alt} className={className} />;
   };
 
   const sortedBlocks = [...blocks].sort((a: any, b: any) => {
@@ -120,7 +120,7 @@ export default function DynamicRenderer({ website, content }: { website: any, co
                       {block.image_url ? (
                         renderMedia(block.image_url, "w-full h-full object-cover")
                       ) : (
-                        <img src={`https://source.unsplash.com/800x600/?${encodeURIComponent(block.title)}`} alt="Content" className="w-full h-full object-cover" />
+                        <img loading="lazy" src={`https://source.unsplash.com/800x600/?${encodeURIComponent(block.title)}`} alt="Content" className="w-full h-full object-cover" />
                       )}
                     </div>
                   )}
@@ -139,7 +139,7 @@ export default function DynamicRenderer({ website, content }: { website: any, co
                         {term.startsWith('http') || term.startsWith('/') || term.startsWith('data:') ? (
                           renderMedia(term, "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", `Gallery Item ${i}`)
                         ) : (
-                          <img src={`https://source.unsplash.com/600x400/?${encodeURIComponent(term)}`} alt={term} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <img loading="lazy" src={`https://source.unsplash.com/600x400/?${encodeURIComponent(term)}`} alt={term} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                         )}
                       </div>
                     ))}

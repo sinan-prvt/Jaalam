@@ -45,7 +45,7 @@ export default function Login() {
         <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 sm:p-10 border border-white">
           
           <div className="flex justify-center mb-8">
-            <img src="/logo.png" className="w-16 h-16 object-contain" alt="Jaalam Logo" />
+            <img loading="lazy" src="/logo.png" className="w-16 h-16 object-contain" alt="Jaalam Logo" />
           </div>
           
           <div className="text-center mb-10">

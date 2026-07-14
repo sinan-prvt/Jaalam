@@ -46,7 +46,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
             ) : (
               <div className="w-10 h-10 bg-gradient-to-tr from-[#FF0055] to-[#7000FF] rounded-xl flex items-center justify-center">
                 <span className="font-creative-title font-black text-white text-xl">{siteName.charAt(0)}</span>
@@ -110,7 +110,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
                  return (
                   <div key={i} className="flex flex-col">
                     <div className="mb-6">
-                      {srv.image ? <img src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-creative-title text-3xl font-bold mb-4 text-[#1A1A1A]">{srv.title}</h3>
                     <p className="font-creative-body text-lg text-gray-600 leading-relaxed">{srv.description}</p>
@@ -137,7 +137,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer rounded-3xl bg-[#2A2A2A] overflow-hidden" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/5] overflow-hidden relative">
                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                   <img src={service.image} alt={service.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                    
                    <div className="absolute bottom-0 left-0 p-8 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <div className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-creative-title uppercase tracking-wider mb-3">
@@ -186,7 +186,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&w=800&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className={`flex-grow h-[300px] cursor-pointer overflow-hidden rounded-3xl ${i % 3 === 0 ? 'w-full md:w-[60%]' : 'w-full md:w-[35%]'}`} onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -201,7 +201,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-creative-title text-4xl md:text-5xl font-black tracking-tighter text-[#1A1A1A]">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-creative-body text-xl text-gray-600 leading-relaxed">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t-2 border-black/10 my-16" />;
               return null;
             })}
@@ -305,7 +305,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors bg-white/10 rounded-full p-2">
             <X size={24} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

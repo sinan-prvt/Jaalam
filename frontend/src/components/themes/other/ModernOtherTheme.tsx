@@ -38,7 +38,7 @@ export default function ModernOtherTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-10 w-auto object-contain" />
             ) : (
               <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-modern font-bold text-xl">
                 {siteName.charAt(0)}
@@ -78,7 +78,7 @@ export default function ModernOtherTheme({ website, content }: any) {
           </div>
           <div className="w-full lg:w-1/2">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-100 bg-white">
-              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Hero" className="w-full aspect-video object-cover" />
+              <img loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Hero" className="w-full aspect-video object-cover" />
             </div>
           </div>
         </div>
@@ -99,8 +99,8 @@ export default function ModernOtherTheme({ website, content }: any) {
                 </p>
               </div>
               <div className="w-full md:w-1/2 grid grid-cols-2 gap-4">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="About 1" className="rounded-2xl h-48 w-full object-cover shadow-md" />
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="About 2" className="rounded-2xl h-48 w-full object-cover shadow-md mt-8" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="About 1" className="rounded-2xl h-48 w-full object-cover shadow-md" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="About 2" className="rounded-2xl h-48 w-full object-cover shadow-md mt-8" />
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function ModernOtherTheme({ website, content }: any) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {services.map((srv: any, i: number) => (
                 <div key={i} className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:border-blue-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  {srv.image && <img src={srv.image} alt={srv.title} className="w-16 h-16 object-cover rounded-xl mb-6 shadow-sm" />}
+                  {srv.image && <img loading="lazy" src={srv.image} alt={srv.title} className="w-16 h-16 object-cover rounded-xl mb-6 shadow-sm" />}
                   <h3 className="font-modern text-2xl font-bold mb-4 text-slate-800">{srv.title}</h3>
                   <p className="font-modern text-slate-600 leading-relaxed">{srv.description}</p>
                 </div>
@@ -139,7 +139,7 @@ export default function ModernOtherTheme({ website, content }: any) {
             <div className="space-y-4">
               {menuItems.map((item: any, i: number) => (
                 <div key={i} className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
-                  {item.image && <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-2xl" />}
+                  {item.image && <img loading="lazy" src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-2xl" />}
                   <div className="flex-1">
                     <h3 className="font-modern text-xl font-bold text-slate-900 mb-2">{item.name}</h3>
                     <p className="font-modern text-slate-600">{item.description}</p>
@@ -167,7 +167,7 @@ export default function ModernOtherTheme({ website, content }: any) {
                 "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-3xl overflow-hidden cursor-pointer group" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -283,7 +283,7 @@ export default function ModernOtherTheme({ website, content }: any) {
       {/* Gallery Modal */}
       {selectedGalleryImage && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-pointer" onClick={() => setSelectedGalleryImage(null)}>
-          <img src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-full rounded-lg" />
+          <img loading="lazy" src={selectedGalleryImage} alt="Fullscreen" className="max-w-full max-h-full rounded-lg" />
         </div>
       )}
     </div>

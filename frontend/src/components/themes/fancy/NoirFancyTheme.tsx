@@ -103,7 +103,7 @@ export default function NoirFancyTheme({ website, content }: any) {
       <header className={`fixed w-full top-0 z-50 p-8 flex justify-between items-center transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent'}`}>
         <a href="#" className="font-noir-display text-2xl text-white tracking-[0.5em] uppercase z-40 blend-diff">
           {content.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt="Logo" className="h-6 filter invert" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-6 filter invert" />
           ) : siteName}
         </a>
         <button onClick={() => setIsMenuOpen(true)} className="text-white hover:text-zinc-400 transition-colors z-40 blend-diff flex items-center gap-4 group">
@@ -123,7 +123,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                   {content.settings_json?.about_image && (
                     <>
                       <div className="absolute inset-0 bg-black/60 z-10"></div>
-                      <img src={content.settings_json.about_image} alt="Hero" className="absolute inset-0 w-full h-full object-cover scale-105 animate-[pulse_10s_ease-in-out_infinite] filter grayscale contrast-125" />
+                      <img loading="lazy" src={content.settings_json.about_image} alt="Hero" className="absolute inset-0 w-full h-full object-cover scale-105 animate-[pulse_10s_ease-in-out_infinite] filter grayscale contrast-125" />
                     </>
                   )}
                   <div className="relative z-20 text-center px-6 w-full max-w-7xl">
@@ -188,7 +188,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     {products.slice(0, 6).map((product: any, idx: number) => (
                       <div key={idx} className="shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center group cursor-pointer" onClick={() => setSelectedProduct(product)}>
                         <div className="aspect-[4/3] bg-zinc-950 overflow-hidden relative border border-zinc-900 group-hover:border-zinc-700 transition-colors">
-                          <img src={product.image} className="w-full h-full object-cover filter grayscale contrast-125 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={product.name} />
+                          <img loading="lazy" src={product.image} className="w-full h-full object-cover filter grayscale contrast-125 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={product.name} />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                           <div className="absolute bottom-8 left-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                             <h3 className="font-noir-display text-3xl text-white uppercase tracking-widest mb-2">{product.name}</h3>
@@ -213,7 +213,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                       return (
                         <div key={idx} className={`${spanClasses} overflow-hidden cursor-pointer group relative bg-zinc-950`} onClick={() => setSelectedGalleryImage(imgUrl)}>
                           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-700 z-10"></div>
-                          <img src={imgUrl} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Visual" />
+                          <img loading="lazy" src={imgUrl} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Visual" />
                         </div>
                       );
                     })}
@@ -286,7 +286,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                       {content.custom_blocks_json.map((block: any, idx: number) => {
                         if (block.type === 'heading') return <h2 key={idx} className="font-noir-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-widest text-center">{block.content}</h2>;
                         if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-noir-body text-lg md:text-2xl text-zinc-400 leading-relaxed text-center font-light whitespace-pre-wrap">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img src={block.url} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img loading="lazy" src={block.url} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
                         if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-zinc-900 my-16"></div>;
                         return null;
                       })}
@@ -319,7 +319,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     <div className="flex items-center gap-12 w-full md:w-auto justify-between md:justify-end">
                       <span className="font-noir-body text-sm tracking-[0.2em] text-zinc-500">{product.price}</span>
                       <div className="w-16 h-16 bg-zinc-900 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">
-                        <img src={product.image} className="w-full h-full object-cover filter grayscale" alt={product.name} />
+                        <img loading="lazy" src={product.image} className="w-full h-full object-cover filter grayscale" alt={product.name} />
                       </div>
                     </div>
                   </div>
@@ -338,7 +338,7 @@ export default function NoirFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -364,7 +364,7 @@ export default function NoirFancyTheme({ website, content }: any) {
           <button className="absolute top-8 right-8 text-white hover:rotate-90 transition-transform duration-500 z-10" onClick={() => setSelectedGalleryImage(null)}>
             <X size={40} strokeWidth={1} />
           </button>
-          <img src={selectedGalleryImage} alt="Enlarged" className="max-w-[90vw] max-h-[90vh] object-contain filter grayscale contrast-125" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Enlarged" className="max-w-[90vw] max-h-[90vh] object-contain filter grayscale contrast-125" onClick={e => e.stopPropagation()} />
         </div>
       )}
 

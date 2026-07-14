@@ -47,7 +47,7 @@ export default function PopGroceryTheme({ website, content }: any) {
       <nav style={{ order: 0 }} className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm px-6 md:px-12 py-4 flex items-center justify-between">
         <span className="font-pop text-2xl font-black text-emerald-600 flex items-center gap-3">
           {content.settings_json?.logo_image && (
-            <img src={content.settings_json.logo_image} alt={siteName} className="h-9 w-auto object-contain" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-9 w-auto object-contain" />
           )}
           <span>{siteName}</span>
         </span>
@@ -122,8 +122,7 @@ export default function PopGroceryTheme({ website, content }: any) {
           </div>
           {/* Right: Image */}
           <div className="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-0 bg-emerald-500 overflow-hidden">
-            <img 
-              src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80"} 
+            <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80"} 
               alt="Hero" 
               className="w-full h-full object-cover absolute inset-0" 
             />
@@ -199,7 +198,7 @@ export default function PopGroceryTheme({ website, content }: any) {
               {products.slice(0, 8).map((p: any, i: number) => (
                 <div key={i} onClick={() => setSelectedProduct(p)} className="group cursor-pointer bg-gray-50 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-emerald-100">
                   <div className="aspect-[4/3] overflow-hidden bg-white">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500" />
+                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500" />
                   </div>
                   <div className="p-5">
                     <h3 className="font-pop font-bold text-gray-900 text-lg mb-1 truncate">{p.name}</h3>
@@ -232,7 +231,7 @@ export default function PopGroceryTheme({ website, content }: any) {
                 return (
                   <div key={i} className={`rounded-3xl overflow-hidden cursor-pointer group relative bg-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${i === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}
                     onClick={() => setSelectedGalleryImage(imgUrl)}>
-                    <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-emerald-900/0 group-hover:bg-emerald-900/20 transition-colors duration-300 flex items-center justify-center">
                       <span className="text-white font-pop font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity bg-emerald-500 px-4 py-2 rounded-full">View</span>
                     </div>
@@ -337,7 +336,7 @@ export default function PopGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, idx: number) => {
               if (block.type === 'heading') return <h2 key={idx} className="font-pop text-4xl font-black text-gray-900">{block.content}</h2>;
               if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-lg text-gray-600 leading-relaxed whitespace-pre-wrap">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={idx} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={idx} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
               if (block.type === 'divider') return <div key={idx} className="w-full h-0.5 bg-gray-100 my-10" />;
               return null;
             })}
@@ -357,7 +356,7 @@ export default function PopGroceryTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors" onClick={() => setSelectedGalleryImage(null)}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
-          <img src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="View" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
         </div>
       )}
 

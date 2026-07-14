@@ -45,7 +45,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
                 <div className="aspect-square bg-slate-50 relative p-4">
-                   <img src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
+                   <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
                 </div>
                 <div className="p-4">
                   <div className="text-xs text-slate-400 mb-1">{p.category}</div>
@@ -90,7 +90,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             />
             <div className="flex items-center gap-3 min-w-0 pr-4">
               {content?.settings_json?.logo_image ? (
-                <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-12 w-auto object-contain shrink-0" />
+                <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-12 w-auto object-contain shrink-0" />
               ) : (
                 <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald-600 rounded-xl flex items-center justify-center rotate-3 shrink-0">
                   <ShoppingBag className="text-white h-4 w-4 md:h-5 md:w-5" />
@@ -174,7 +174,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             ]).map((srv: any, i: number) => (
               <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center flex flex-col items-center">
                 <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                  {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <Clock size={24} />}
+                  {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <Clock size={24} />}
                 </div>
                 <h3 className="font-bold text-lg mb-2">{srv.title}</h3>
                 <p className="text-slate-600 text-sm">{srv.description}</p>
@@ -206,7 +206,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
               <div className="aspect-square bg-slate-50 relative p-4">
-                 <img src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
+                 <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
               </div>
               <div className="p-4">
                 <div className="text-xs text-slate-400 mb-1">{p.category}</div>
@@ -232,7 +232,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
               'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
             ]).map((img: string, i: number) => (
               <div key={i} className="aspect-square rounded-xl overflow-hidden bg-slate-200">
-                <img src={img} alt="Store Gallery" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                <img loading="lazy" src={img} alt="Store Gallery" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
               </div>
             ))}
           </div>
@@ -333,7 +333,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-modern text-3xl font-bold text-slate-900">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-slate-600 leading-relaxed whitespace-pre-wrap">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom Content" className="w-full rounded-2xl shadow-sm" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom Content" className="w-full rounded-2xl shadow-sm" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-slate-200 my-8" />;
               return null;
             })}
@@ -349,7 +349,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -392,7 +392,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             </button>
             <div className="h-48 bg-slate-50 relative p-6 flex items-center justify-center border-b border-slate-100">
               {selectedProduct.image ? (
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
               ) : (
                 <ShoppingCart size={48} className="text-slate-300" />
               )}

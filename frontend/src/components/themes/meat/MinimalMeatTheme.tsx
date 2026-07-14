@@ -49,7 +49,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
       {/* Header */}
       <header className="p-8 flex justify-between items-center fixed w-full top-0 bg-white z-50 border-b border-gray-200">
         {content.settings_json?.logo_image ? (
-          <img src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
+          <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="h-8 object-contain" />
         ) : (
           <span className="font-minimal text-2xl font-bold">{siteName}</span>
         )}
@@ -73,7 +73,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
               </p>
               {content.settings_json?.about_image && (
                 <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-                  <img src={content.settings_json.about_image} alt="Background" className="w-full h-full object-cover filter grayscale" />
+                  <img loading="lazy" src={content.settings_json.about_image} alt="Background" className="w-full h-full object-cover filter grayscale" />
                 </div>
               )}
               <a href="#about" className="w-16 h-16 rounded-full bg-red-600 mx-auto flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform relative z-10">
@@ -93,7 +93,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 </div>
                 {content.settings_json?.about_image && (
                   <div className="aspect-square border border-gray-200 p-2 bg-white">
-                    <img src={content.settings_json.about_image} alt="About" className="w-full h-full object-cover filter grayscale" />
+                    <img loading="lazy" src={content.settings_json.about_image} alt="About" className="w-full h-full object-cover filter grayscale" />
                   </div>
                 )}
               </div>
@@ -109,7 +109,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                   const desc = typeof srv === 'string' ? '' : srv.description;
                   return (
                     <div key={idx} className={`p-8 ${idx !== 2 ? 'border-b md:border-b-0 md:border-r border-gray-200' : ''}`}>
-                      {srv.image && <img src={srv.image} alt={title} className="w-full h-40 object-cover mb-6 filter grayscale" />}
+                      {srv.image && <img loading="lazy" src={srv.image} alt={title} className="w-full h-40 object-cover mb-6 filter grayscale" />}
                       <h3 className="font-minimal font-bold text-red-600 mb-4">{title}</h3>
                       <p className="text-gray-500 text-xs leading-loose">{desc}</p>
                     </div>
@@ -126,7 +126,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 {products.slice(0, 4).map((p: any, i: number) => (
                   <div key={i} onClick={() => setSelectedProduct(p)} className="group border-r border-b border-gray-200 p-6 flex flex-col hover:bg-gray-50 transition-colors cursor-pointer">
                     <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden border border-gray-200">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300" />
+                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300" />
                     </div>
                     <h3 className="font-minimal font-bold text-sm mb-1 uppercase">{p.name}</h3>
                     <p className="text-xs text-gray-500 mb-6 flex-1">{p.description}</p>
@@ -155,7 +155,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                   const imgUrl = typeof img === 'string' ? img : img.url;
                   return (
                     <div key={idx} onClick={() => setSelectedImage(imgUrl)} className="aspect-square border border-gray-200 overflow-hidden bg-white cursor-pointer group">
-                      <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
+                      <img loading="lazy" src={imgUrl} alt="Gallery" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
                     </div>
                   );
                 })}
@@ -214,7 +214,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-minimal text-3xl font-bold text-center border-b border-black pb-4 inline-block">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="text-gray-600 leading-loose text-sm text-center">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-gray-200 p-2 bg-white"><img src={block.url} alt="Custom" className="w-full h-auto filter grayscale hover:grayscale-0 transition-all" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-gray-200 p-2 bg-white"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto filter grayscale hover:grayscale-0 transition-all" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-full h-px bg-gray-200 my-8"></div>;
                   return null;
                 })}
@@ -239,7 +239,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-16 relative z-10">
               <div className="h-48 md:h-auto md:aspect-[4/5] bg-gray-100 border border-gray-200 overflow-hidden">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
+                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
               </div>
               <div className="flex flex-col justify-center mt-2 md:mt-0">
                 <p className="text-[10px] md:text-xs font-minimal text-gray-400 tracking-widest mb-2 md:mb-4">PRODUCT DETAILS</p>
@@ -268,7 +268,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
           <div className="relative max-w-5xl max-h-[90vh] w-full border-4 border-gray-100 shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
-            <img src={selectedImage} alt="Gallery view" className="w-full h-full object-contain max-h-[90vh]" />
+            <img loading="lazy" src={selectedImage} alt="Gallery view" className="w-full h-full object-contain max-h-[90vh]" />
           </div>
         </div>
       )}
@@ -281,7 +281,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

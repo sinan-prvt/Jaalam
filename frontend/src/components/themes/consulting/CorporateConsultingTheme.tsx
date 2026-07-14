@@ -46,7 +46,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" />
             ) : (
               <Briefcase className="text-[#C49A3C]" size={28} />
             )}
@@ -95,7 +95,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
             <div className="border-4 border-[#C49A3C] p-2 relative">
                 <div className="absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-white"></div>
                 <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-white"></div>
-                <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=600&q=80" alt="Corporate Boardroom" className="w-full aspect-[3/4] object-cover grayscale contrast-125" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=600&q=80" alt="Corporate Boardroom" className="w-full aspect-[3/4] object-cover grayscale contrast-125" />
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer border border-gray-100 bg-[#F8F9FA] hover:bg-white hover:shadow-xl transition-all duration-300" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[16/9] overflow-hidden relative">
                    <div className="absolute inset-0 bg-[#0B1D3A]/20 group-hover:bg-transparent transition-colors z-10"></div>
-                   <img src={service.image} alt={service.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                 </div>
                 <div className="p-8">
                   <h3 className="font-serif-title text-2xl font-bold mb-3 text-[#0B1D3A] group-hover:text-[#C49A3C] transition-colors">{service.name}</h3>
@@ -163,7 +163,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center md:text-left flex flex-col items-center md:items-start">
                     <div className="w-16 h-16 bg-[#0B1D3A] text-[#C49A3C] flex items-center justify-center rounded-sm mb-6">
-                      {srv.image ? <img src={srv.image} alt={srv.title} className="w-8 h-8 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-8 h-8 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-serif-title text-2xl font-bold mb-3 text-[#0B1D3A]">{srv.title}</h3>
                     <p className="font-sans-body text-gray-600 leading-relaxed">{srv.description}</p>
@@ -191,7 +191,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square bg-gray-100 cursor-pointer overflow-hidden group" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500" />
                 </div>
               ))}
             </div>
@@ -206,7 +206,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-serif-title text-3xl md:text-4xl font-bold text-[#0B1D3A] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-sans-body text-lg text-gray-600 leading-relaxed text-center">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full h-auto object-cover border border-gray-200" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full h-auto object-cover border border-gray-200" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-gray-200" />;
               return null;
             })}
@@ -312,7 +312,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
         <div className="container mx-auto">
           <div className="flex justify-center items-center gap-3 mb-6">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-6 w-auto object-contain grayscale opacity-50" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-6 w-auto object-contain grayscale opacity-50" />
             ) : (
               <Briefcase className="text-gray-500" size={20} />
             )}
@@ -332,7 +332,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

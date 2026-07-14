@@ -40,7 +40,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
         <div className="container mx-auto flex justify-between items-center text-white">
           <div className="flex items-center gap-3">
             {content?.settings_json?.logo_image ? (
-              <img src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain shrink-0" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain shrink-0" />
             ) : (
               <Key className="text-[#D4AF37] shrink-0" size={28} />
             )}
@@ -97,7 +97,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer bg-white shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                 <div className="aspect-[4/3] relative overflow-hidden">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                   <div className="absolute top-4 right-4 bg-[#D4AF37] text-white font-body text-xs tracking-wider px-3 py-1 z-20 shadow-md">
                     {p.price}
                   </div>
@@ -174,7 +174,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -198,7 +198,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
               ]).map((img: string, i: number) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -213,7 +213,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -316,7 +316,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
       <footer className="bg-[#111] text-white py-16 px-6">
         <div className="container mx-auto max-w-3xl text-center">
           {content?.settings_json?.logo_image ? (
-            <img src={content.settings_json.logo_image} alt={siteName} className="mx-auto h-12 w-auto object-contain mb-6" />
+            <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="mx-auto h-12 w-auto object-contain mb-6" />
           ) : (
             <Key className="mx-auto text-[#D4AF37] mb-6" size={32} />
           )}
@@ -337,7 +337,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
           <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
             <X size={32} />
           </button>
-          <img src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" src={selectedGalleryImage} alt="Gallery view" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

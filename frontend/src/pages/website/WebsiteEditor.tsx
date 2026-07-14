@@ -56,7 +56,7 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
       <div className="flex flex-col gap-3">
         {value && (
           <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-slate-200 shadow-sm group">
-            <img src={value} alt="Preview" className="w-full h-full object-cover" />
+            <img loading="lazy" src={value} alt="Preview" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => onChange('')}
@@ -492,7 +492,7 @@ export default function WebsiteEditor() {
                         {img.match(/\.(mp4|webm|ogg)$/i) ? (
                           <video src={img} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                         ) : (
-                          <img src={img} alt="Attached" className="w-full h-full object-cover" />
+                          <img loading="lazy" src={img} alt="Attached" className="w-full h-full object-cover" />
                         )}
                         <button
                           onClick={() => setChatImages(prev => prev.filter((_, i) => i !== idx))}
