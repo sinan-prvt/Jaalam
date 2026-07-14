@@ -604,8 +604,15 @@ export default function Dashboard() {
             <div className="animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-5 px-2">Overview</h2>
 
-              {/* COMPACT BENTO GRID */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 animate-pulse">
+                  <div className="md:col-span-2 md:row-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[300px]"></div>
+                  <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
+                  <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
+                  <div className="md:col-span-2 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
 
                 {/* BIG HERO BENTO */}
                 <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
@@ -678,6 +685,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
+              )}
             </div>
           )}
 
@@ -867,7 +875,18 @@ export default function Dashboard() {
             <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics Overview</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+              {loading ? (
+                <div className="animate-pulse">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
+                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
+                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
+                  </div>
+                  <div className="bg-white/40 border border-white/60 rounded-3xl h-[400px]"></div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
                   <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
                     <Users size={24} />
@@ -934,6 +953,8 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
+              </>
+              )}
             </div>
           )}
 
