@@ -1020,7 +1020,7 @@ export default function Dashboard() {
           )}
           {isCreating && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
-              <div className="bg-white/90 backdrop-blur-2xl border border-white rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="bg-white/90 backdrop-blur-2xl border border-white rounded-3xl p-6 pb-28 md:p-8 max-w-2xl w-full shadow-2xl relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <div className="flex justify-between items-center mb-6">
                   <div>
                     <h2 className="text-2xl font-black text-slate-900 tracking-tight">Launch New Site</h2>
