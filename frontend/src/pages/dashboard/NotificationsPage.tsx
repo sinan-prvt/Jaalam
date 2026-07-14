@@ -182,7 +182,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
     <div className="h-full flex-1 flex flex-col md:flex-row gap-4 md:gap-6 animate-in fade-in zoom-in-[0.98] duration-500 overflow-hidden">
       
       {/* INBOX LIST (Left Sidebar) */}
-      <div className="w-full md:w-1/3 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden h-[400px] md:h-full shrink-0">
+      <div className="w-full md:w-1/3 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden flex-1 md:flex-none md:h-full shrink-0 min-h-[200px]">
         <div className="p-4 border-b border-white/50 bg-white/40 flex items-center justify-between">
           <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
             <Bell size={20} className="text-indigo-500" />
@@ -246,7 +246,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
       </div>
 
       {/* READING & REPLY PANE (Right Side) */}
-      <div className="flex-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden h-[500px] md:h-full">
+      <div className="flex-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden min-h-[300px] md:h-full">
         {isComposing ? (
            <div className="p-6 h-full flex flex-col bg-white/40">
              <div className="border-b border-white/50 pb-4 mb-4 flex items-center justify-between">
