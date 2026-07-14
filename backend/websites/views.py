@@ -62,6 +62,15 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             )
         super().perform_destroy(instance)
 
+    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    def check_slug(self, request):
+        slug = request.query_params.get('slug')
+        if not slug:
+            return Response({'error': 'Slug parameter is required'}, status=400)
+        
+        exists = Website.objects.filter(slug=slug).exists()
+        return Response({'available': not exists})
+
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
     def public(self, request, slug=None):
         website = self.get_object()

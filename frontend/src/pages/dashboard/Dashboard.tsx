@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, BarChart3, Edit3, Bell } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
@@ -202,6 +202,8 @@ export default function Dashboard() {
   // Form State
   const [websiteName, setWebsiteName] = useState('');
   const [newSlug, setNewSlug] = useState('');
+  const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
+  const [isCheckingSlug, setIsCheckingSlug] = useState(false);
   const [newType, setNewType] = useState('Restaurant');
 
   // Settings State
@@ -244,6 +246,29 @@ export default function Dashboard() {
   useEffect(() => {
     fetchWebsites();
   }, []);
+
+  useEffect(() => {
+    if (!newSlug) {
+      setSlugAvailable(null);
+      return;
+    }
+    
+    setIsCheckingSlug(true);
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axios.get(`/api/websites/check_slug/?slug=${newSlug}`, {
+          withCredentials: true
+        });
+        setSlugAvailable(res.data.available);
+      } catch (err) {
+        setSlugAvailable(false);
+      } finally {
+        setIsCheckingSlug(false);
+      }
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, [newSlug]);
 
   useEffect(() => {
     if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) {
@@ -1027,7 +1052,7 @@ export default function Dashboard() {
 
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Project Slug</label>
-                      <div className="flex bg-white border border-slate-100 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm">
+                      <div className={`flex bg-white border ${slugAvailable === false ? 'border-red-400' : 'border-slate-100'} rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm`}>
                         <span className="px-4 py-2.5 text-indigo-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
                         <input
                           type="text"
@@ -1037,7 +1062,21 @@ export default function Dashboard() {
                           className="flex-1 bg-transparent px-4 py-2.5 outline-none text-slate-900 placeholder-slate-300 font-black text-sm w-full min-w-0"
                           placeholder="my-business"
                         />
+                        {newSlug && (
+                          <div className="flex items-center pr-3">
+                            {isCheckingSlug ? (
+                              <div className="w-4 h-4 rounded-full border-2 border-indigo-400 border-t-transparent animate-spin"></div>
+                            ) : slugAvailable ? (
+                              <CheckCircle2 size={16} className="text-emerald-500" />
+                            ) : (
+                              <XCircle size={16} className="text-red-500" />
+                            )}
+                          </div>
+                        )}
                       </div>
+                      {slugAvailable === false && (
+                        <p className="text-red-500 text-[10px] font-bold mt-1">This domain is not available.</p>
+                      )}
                     </div>
 
                     <div className="bg-white/50 p-4 rounded-2xl border border-white">
@@ -1074,7 +1113,7 @@ export default function Dashboard() {
 
                   <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 mt-4 border-t border-white">
                     <button type="button" onClick={() => setIsCreating(false)} className="w-full sm:w-auto px-6 py-3 text-slate-600 bg-white border border-white shadow-sm font-black hover:bg-slate-50 rounded-xl transition-colors text-sm">Cancel</button>
-                    <button type="submit" className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white font-black rounded-xl transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-sm">
+                    <button type="submit" disabled={isCheckingSlug || slugAvailable === false} className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white font-black rounded-xl transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-sm disabled:opacity-50 disabled:pointer-events-none">
                       <Edit3 size={16} className="text-indigo-400" />
                       Create & Edit
                     </button>
