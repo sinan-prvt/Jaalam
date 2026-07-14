@@ -325,7 +325,7 @@ export default function LandingPage() {
         </div>
 
         {/* Navigation */}
-        <nav className="relative z-30 w-full flex justify-between items-center px-6 md:px-12 py-6 md:py-8">
+        <nav className="relative z-50 w-full flex justify-between items-center px-6 md:px-12 py-6 md:py-8">
           <div className="flex items-center gap-12 md:gap-40 w-full md:w-auto justify-between md:justify-start">
             <div className="flex items-center gap-3 cursor-pointer">
               <img loading="lazy" src="/logo.png" alt="Jaalam Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
