@@ -91,7 +91,10 @@ export default function PublicWebsite() {
   useEffect(() => {
     const fetchWebsite = async () => {
       try {
-        const res = await axios.get(`/api/websites/${businessSlug}/public/`);
+        const [res] = await Promise.all([
+          axios.get(`/api/websites/${businessSlug}/public/`),
+          new Promise(resolve => setTimeout(resolve, 1500)) // Artificial delay to showcase skeleton
+        ]);
         setWebsite(res.data);
       } catch (err: any) {
         console.error(err);
