@@ -974,12 +974,15 @@ export default function Dashboard() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-rose-200 rounded-full mix-blend-multiply blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 opacity-50"></div>
                 <h3 className="text-xl font-black text-rose-600 mb-2">Danger Zone</h3>
                 <p className="text-slate-700 mb-6 font-medium text-sm max-w-lg leading-relaxed">Once you delete your account, there is no going back. All projects will be permanently wiped. You can also securely log out from all active sessions.</p>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                   <button onClick={handleDeleteAccount} className="bg-white border-2 border-rose-200 text-rose-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-rose-50 hover:border-rose-300">
                     Delete Account
                   </button>
                   <button onClick={handleLogoutAllDevices} className="bg-white border-2 border-slate-200 text-slate-600 px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-50 hover:border-slate-300">
                     Logout from All Devices
+                  </button>
+                  <button onClick={handleLogout} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-sm text-sm w-full sm:w-auto hover:bg-slate-800">
+                    Logout
                   </button>
                 </div>
               </div>
