@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from './store';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import LoadingScreen from './components/ui/LoadingScreen';
+import CommandPalette from './components/ui/CommandPalette';
 
 // Lazy load all page components for better performance
 const LandingPage = lazy(() => import('./pages/marketing/LandingPage'));
@@ -55,6 +56,7 @@ const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
 function Router() {
   return (
     <BrowserRouter>
+      <CommandPalette />
       <LoadingScreen>
         <MaintenanceWrapper>
           <Suspense fallback={<div className="flex h-screen items-center justify-center bg-[#FAFAFC]"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>}>

@@ -4,14 +4,12 @@ import Router from './Router';
 import { Toaster } from 'react-hot-toast';
 import ClickSpark from './components/ui/ClickSpark';
 import CustomCursor from './components/ui/CustomCursor';
-import CommandPalette from './components/ui/CommandPalette';
 import './App.css';
 
 function App() {
   return (
     <Provider store={store}>
       <CustomCursor />
-      <CommandPalette />
       <Toaster 
         position="bottom-right" 
         toastOptions={{ 
