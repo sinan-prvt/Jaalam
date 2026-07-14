@@ -25,8 +25,12 @@ export default function CommandPalette() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      const isK = e.key.toLowerCase() === 'k' || e.code === 'KeyK';
+      const isSlash = e.key === '/' || e.code === 'Slash';
+      
+      if ((e.metaKey || e.ctrlKey) && (isK || isSlash)) {
         e.preventDefault();
+        e.stopPropagation();
         setIsOpen((open) => !open);
       }
       
@@ -35,8 +39,8 @@ export default function CommandPalette() {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
+    return () => window.removeEventListener('keydown', handleKeyDown, { capture: true });
   }, []);
 
   useEffect(() => {
@@ -106,7 +110,7 @@ export default function CommandPalette() {
                   setQuery(e.target.value);
                   setSelectedIndex(0);
                 }}
-                placeholder="What do you want to do? (e.g., 'Analytics')"
+                placeholder="What do you want to do? (Ctrl+K or Ctrl+/)"
                 className="flex-1 bg-transparent border-none outline-none text-slate-800 text-lg font-bold placeholder-slate-400"
               />
               <button onClick={() => setIsOpen(false)} className="bg-slate-100 hover:bg-slate-200 text-slate-500 p-1.5 rounded-lg transition-colors ml-2">
