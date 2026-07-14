@@ -27,6 +27,15 @@
   }
 }
 
+@media (pointer: fine) {
+  body, a, button, [role="button"], select {
+    cursor: none !important;
+  }
+  input, textarea, [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
