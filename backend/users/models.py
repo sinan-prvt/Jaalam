@@ -53,3 +53,16 @@ class NotificationMessage(models.Model):
 
     def __str__(self):
         return f"Reply by {self.sender.username} on {self.notification.title}"
+
+class SystemSettings(models.Model):
+    maintenance_mode = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj

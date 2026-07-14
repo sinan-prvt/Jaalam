@@ -75,6 +75,7 @@ export default function AdminDashboard() {
   const [selectedOrderDetails, setSelectedOrderDetails] = useState<PhysicalOrder | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
 
   const navigate = useNavigate();
 
@@ -89,10 +90,30 @@ export default function AdminDashboard() {
       setUsers(usersRes.data);
       setWebsites(websitesRes.data);
       setPhysicalOrders(ordersRes.data);
+      
+      try {
+        const settingsRes = await axios.get('/api/users/system-settings/', { withCredentials: true });
+        setMaintenanceMode(settingsRes.data.maintenance_mode);
+      } catch (e) {
+        console.error("Settings error:", e);
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleMaintenance = async () => {
+    try {
+      const res = await axios.post('/api/users/system-settings/', {
+        maintenance_mode: !maintenanceMode
+      }, { withCredentials: true });
+      setMaintenanceMode(res.data.maintenance_mode);
+      toast.success(res.data.maintenance_mode ? 'Maintenance Mode ENABLED' : 'Maintenance Mode DISABLED');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to toggle maintenance mode');
     }
   };
 
@@ -506,6 +527,26 @@ export default function AdminDashboard() {
                         {subscriptionTransactions.length} Paid Subscriptions
                       </div>
                     </div>
+                  </div>
+
+                  <div className="mt-6 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-black text-slate-800 flex items-center gap-2"><ShieldAlert className="text-rose-500" /> System Controls</h3>
+                        <p className="text-sm text-slate-500 font-medium mt-1">Manage global platform settings and maintenance status.</p>
+                      </div>
+                      <button 
+                        onClick={handleToggleMaintenance}
+                        className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors ${maintenanceMode ? 'bg-rose-500' : 'bg-slate-300'}`}
+                      >
+                        <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${maintenanceMode ? 'translate-x-8' : 'translate-x-1'}`} />
+                      </button>
+                    </div>
+                    {maintenanceMode && (
+                      <div className="mt-4 p-3 bg-rose-50 border border-rose-100 rounded-xl text-rose-700 text-sm font-bold flex items-center gap-2">
+                        <ShieldAlert size={16} /> The application is currently in Maintenance Mode. Only System Admins can access it.
+                      </div>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">

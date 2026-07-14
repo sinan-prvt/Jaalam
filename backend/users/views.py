@@ -171,3 +171,19 @@ class NotificationViewSet(viewsets.ModelViewSet):
     def mark_all_read(self, request):
         self.get_queryset().update(is_read=True)
         return Response({"status": "all read"})
+
+from .models import SystemSettings
+
+class SystemSettingsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        settings = SystemSettings.load()
+        return Response({"maintenance_mode": settings.maintenance_mode})
+        
+    def create(self, request):
+        if not request.user.is_superuser:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        settings = SystemSettings.load()
+        settings.maintenance_mode = request.data.get('maintenance_mode', settings.maintenance_mode)
+        settings.save()
+        return Response({"maintenance_mode": settings.maintenance_mode})
+
