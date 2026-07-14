@@ -242,7 +242,6 @@ export default function Dashboard() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     if (location.state?.tab) {
