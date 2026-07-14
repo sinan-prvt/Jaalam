@@ -515,8 +515,34 @@ export default function Dashboard() {
       />
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 h-screen overflow-y-auto relative z-10 scroll-smooth pb-24 md:pb-0">
-        <div className="p-4 md:p-8 lg:p-8 max-w-[1400px] mx-auto min-h-full">
+      <main className={`flex-1 h-screen relative z-10 scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
+        <div className={`mx-auto w-full max-w-[1400px] ${activeTab === 'Notifications' ? 'flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-6' : 'min-h-full p-4 md:p-8 lg:p-8'}`}>
+
+          {/* DESKTOP HEADER */}
+          <div className={`hidden md:flex items-center justify-between shrink-0 ${activeTab === 'Notifications' ? 'mb-4' : 'mb-8'}`}>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              {activeTab === 'Dashboard' && <LayoutDashboard className="text-indigo-500" size={28} />}
+              {activeTab}
+            </h1>
+            <div className="flex items-center gap-4">
+              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && (
+                <button
+                  onClick={() => setActiveTab('Billing')}
+                  className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl shadow-sm shadow-indigo-200 font-black text-sm uppercase tracking-wider"
+                >
+                  <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
+                  <Zap size={16} className="fill-white/30 relative z-10" />
+                  <span className="relative z-10">Upgrade Plan</span>
+                </button>
+              )}
+              <div className="flex items-center gap-2 px-3 py-2 bg-white/50 backdrop-blur-xl border border-white rounded-xl shadow-sm text-slate-600">
+                <span className="font-black text-xs uppercase">{user?.username}</span>
+                <div className="w-6 h-6 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-700 font-black text-[10px]">
+                  {user?.username?.[0]?.toUpperCase()}
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* MOBILE HEADER */}
           <div className="md:hidden flex items-center justify-between mb-6 px-2">

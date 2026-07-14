@@ -179,7 +179,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
   }
 
   return (
-    <div className="h-auto md:h-full flex flex-col md:flex-row gap-6 animate-in fade-in zoom-in-[0.98] duration-500">
+    <div className="h-full flex-1 flex flex-col md:flex-row gap-4 md:gap-6 animate-in fade-in zoom-in-[0.98] duration-500 overflow-hidden">
       
       {/* INBOX LIST (Left Sidebar) */}
       <div className="w-full md:w-1/3 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden h-[400px] md:h-full shrink-0">
