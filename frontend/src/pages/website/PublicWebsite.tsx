@@ -78,12 +78,15 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
+import useScrollReveal from '../../hooks/useScrollReveal';
 
 export default function PublicWebsite() {
   const { businessSlug } = useParams();
   const [website, setWebsite] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  useScrollReveal([website?.theme, website?.business_type]);
 
   useEffect(() => {
     const fetchWebsite = async () => {

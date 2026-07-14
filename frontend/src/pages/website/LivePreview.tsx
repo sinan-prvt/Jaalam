@@ -75,9 +75,11 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
+import useScrollReveal from '../../hooks/useScrollReveal';
 
 export default function LivePreview() {
   const [data, setData] = useState<any>(null);
+  useScrollReveal([data?.website?.theme, data?.website?.business_type]);
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
