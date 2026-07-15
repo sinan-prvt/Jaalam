@@ -150,6 +150,13 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
 
                 {whatsappNumber ? (
                   <>
+                    <div className="w-full bg-amber-50/50 border border-amber-200/60 rounded-xl p-3 mb-4 flex items-start gap-2.5 text-left shrink-0">
+                      <div className="text-amber-500 mt-0.5">⚠️</div>
+                      <p className="text-[10px] text-amber-700/90 font-bold leading-tight">
+                        <span className="text-amber-600 font-black uppercase tracking-wider block mb-0.5">Action Required</span>
+                        Your order will only be confirmed after you share the successful payment screenshot on WhatsApp.
+                      </p>
+                    </div>
                     <a 
                       href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just completed a payment of ₹${cleanAmount} for ${productName || 'my order'}. I will share the payment screenshot below. Please confirm.`)}`}
                       target="_blank"
@@ -158,11 +165,8 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
                       className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
                     >
                       <MessageCircle size={18} />
-                      Send Order on WhatsApp
+                      Send Screenshot on WhatsApp
                     </a>
-                    <p className="text-[10px] text-slate-500 font-bold mt-3 text-center leading-tight">
-                      Don't forget to send a screenshot of your payment on WhatsApp!
-                    </p>
                   </>
                 ) : (
                   <button 
