@@ -106,18 +106,21 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
                 {/* Mobile Deep Link Button */}
                 <a 
                   href={upiLink}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0 mb-4"
                 >
                   <Smartphone size={16} />
                   Pay via UPI App
                 </a>
                 
-                <button
-                  onClick={handleConfirmPayment}
-                  className="w-full mt-3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold transition-all shadow-inner active:scale-95"
-                >
-                  I've completed the payment
-                </button>
+                <div className="w-full pt-3 border-t border-slate-100 flex flex-col items-center">
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2">After paying, click below</p>
+                  <button
+                    onClick={handleConfirmPayment}
+                    className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold transition-all shadow-inner active:scale-95"
+                  >
+                    I've completed the payment
+                  </button>
+                </div>
               </motion.div>
             )}
 
