@@ -98,7 +98,7 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
               (Works on mobile with GPay, PhonePe, Paytm, etc.)
             </p>
 
-            {whatsappNumber && (
+            {whatsappNumber ? (
               <a 
                 href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just made a payment of ₹${cleanAmount} for ${productName || 'my order'}. Please confirm my order.`)}`}
                 target="_blank"
@@ -106,8 +106,17 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
                 className="w-full mt-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
               >
                 <MessageCircle size={16} />
-                Notify on WhatsApp
+                I've Paid - Notify Seller
               </a>
+            ) : (
+              <button 
+                disabled
+                className="w-full mt-2 bg-slate-100 text-slate-400 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-inner shrink-0 cursor-not-allowed"
+                title="Add a phone number in the Contact section to enable WhatsApp notifications."
+              >
+                <MessageCircle size={16} />
+                WhatsApp Not Configured
+              </button>
             )}
           </div>
           </div>
