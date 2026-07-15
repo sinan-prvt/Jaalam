@@ -2773,7 +2773,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                       <span className="block text-[#C19A6B] font-bold tracking-[0.3em] uppercase text-sm md:text-base mb-4 drop-shadow-md">
                         Artisan Quality
                       </span>
-                      <h2 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight font-serif drop-shadow-xl whitespace-pre-line">
+                      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight font-serif drop-shadow-xl whitespace-pre-line">
                         {content.hero_title || 'Baked With Passion & Craft'}
                       </h2>
                       <p className="text-lg md:text-xl text-white/90 font-light mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
