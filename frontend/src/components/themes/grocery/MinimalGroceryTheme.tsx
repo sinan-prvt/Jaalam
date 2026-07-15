@@ -22,7 +22,8 @@ export default function MinimalGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+500;700&display=swap');
         .font-min { font-family: 'DM Sans', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -83,6 +84,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
               <div className="flex justify-between items-start mb-2">
                  <h3 className="font-min font-medium text-lg">{p.name}</h3>
                  <span className="font-min font-bold">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
               <div className="text-gray-400 text-sm mb-4">{p.size}</div>
             </div>

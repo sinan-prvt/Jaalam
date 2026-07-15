@@ -34,7 +34,8 @@ export default function NoirGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-zinc-300 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Jost:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600;700&family=Jost:wght@300;400;500&display=swap');
         .font-noir { font-family: 'Cormorant Garamond', serif; }
         .font-body { font-family: 'Jost', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -166,6 +167,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
                     <div className="flex justify-between items-baseline mb-1">
                       <h3 className="font-noir text-xl text-white font-normal">{p.name}</h3>
                       <span className="font-body text-sm text-zinc-400">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                     </div>
                     {p.size && <span className="font-body text-xs text-zinc-700">{p.size}</span>}
                   </div>

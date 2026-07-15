@@ -24,7 +24,8 @@ export default function CorporateOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#f4f7f6] text-[#333333] font-sans selection:bg-[#0056b3] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;500;700&family=Merriweather:wght@300;400;700&display=swap');
         .font-corp-heading { font-family: 'Merriweather', serif; }
         .font-corp-body { font-family: 'Roboto', sans-serif; }
       
@@ -159,6 +160,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
                   {i === 1 && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0056b3] text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Recommended</div>}
                   <h3 className="font-corp-heading text-xl font-bold mb-2 text-[#222]">{item.name}</h3>
                   <div className="font-corp-body text-3xl font-bold text-[#0056b3] mb-6">{item.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                   <p className="font-corp-body text-gray-600 mb-8 flex-1">{item.description}</p>
                   <button className={`w-full py-3 rounded font-medium transition-colors ${i === 1 ? 'bg-[#0056b3] text-white hover:bg-[#004494]' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}>
                     Select Plan

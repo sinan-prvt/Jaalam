@@ -141,7 +141,8 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;import ProductBuyButton from '../../payments/ProductBuyButton';
+1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
 
         .font-glamour { font-family: 'Playfair Display', 'Georgia', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
@@ -539,6 +540,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 </h4>
                                 <div className="flex items-center gap-2 mb-2">
                                   <span className="text-sm md:text-base font-bold text-stone-800">{style.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                                   <div className="w-1 h-1 rounded-full bg-stone-300" />
                                   <div className="flex items-center gap-1 text-stone-400 text-xs font-medium">
                                     <Clock size={13} />
@@ -857,6 +859,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                       </h4>
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-sm md:text-base font-bold text-stone-800">{style.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                         <div className="w-1 h-1 rounded-full bg-stone-300" />
                         <div className="flex items-center gap-1 text-stone-400 text-xs font-medium">
                           <Clock size={13} />
@@ -909,6 +912,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     <span className="text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm" style={{ backgroundColor: gold }}>
                       {selectedStyle.price}
                     </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedStyle} content={content} /></div>
                     <div className="flex items-center gap-1 px-2.5 py-1 rounded-md" style={{ backgroundColor: `${gold}12` }}>
                       <Star size={12} fill={gold} color={gold} />
                       <span className="text-xs sm:text-sm font-bold text-stone-800">{selectedStyle.rating}</span>

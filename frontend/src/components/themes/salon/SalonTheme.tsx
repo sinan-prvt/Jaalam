@@ -207,7 +207,8 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Cinzel:wght@400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;import ProductBuyButton from '../../payments/ProductBuyButton';
+1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Cinzel:wght@400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
         
         .font-luxury {
           font-family: 'Playfair Display', serif;
@@ -443,6 +444,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                   <span className={`text-sm md:text-base font-bold ${textColor}`}>
                                     {style.price}
                                   </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                                   <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
                                   <div className="flex items-center gap-1.5 text-gray-400 text-xs md:text-sm font-medium">
                                     <Clock size={14} />
@@ -756,6 +758,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                     <span className={`text-sm md:text-base font-bold px-4 py-1.5 text-white ${buttonShape} shadow-sm`} style={{ backgroundColor: primaryGold }}>
                       {selectedStyle.price}
                     </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedStyle} content={content} /></div>
 
                     <div className={`flex items-center gap-1 ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900/60' : 'bg-amber-50/50'} border border-amber-100/30 px-3 py-1.5 rounded-md`}>
                       <Star size={14} style={{ color: primaryGold }} fill={primaryGold} />

@@ -82,7 +82,8 @@ export default function CombatGymTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Oswald:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&family=Oswald:wght@400;700&display=swap');
 
         .cg-heading { font-family: 'Teko', sans-serif; text-transform: uppercase; line-height: 1; }
         .cg-body { font-family: 'Oswald', sans-serif; }
@@ -391,6 +392,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                           <div className="cg-heading text-6xl text-[#D90429] mb-6 break-words">
                             {product.price}
                           </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                           
                           <p className="cg-body text-gray-400 leading-relaxed mb-8 flex-1 min-w-0 break-words whitespace-pre-wrap">
                             {product.description}
@@ -674,6 +676,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                         <h3 className="cg-heading text-5xl text-white mb-1">{product.name}</h3>
                         <p className="cg-subheading text-gray-500 mb-6">{product.time}</p>
                         <div className="cg-heading text-6xl text-[#D90429] mb-6">{product.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                         <p className="cg-body text-gray-400 leading-relaxed mb-8 flex-1">{product.description}</p>
                         <button 
                           onClick={() => { setViewProductsPage(false); setSelectedProduct(product); }}

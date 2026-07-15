@@ -81,7 +81,8 @@ export default function ZenYogaTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600&family=Jost:wght@300;400;500&display=swap');
 
         .zy-heading { font-family: 'Cormorant Garamond', serif; }
         .zy-body { font-family: 'Jost', sans-serif; font-weight: 300; }
@@ -364,6 +365,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                             <div className="text-5xl font-light mb-6 break-words">
                               {product.price}
                             </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                             
                             <p className={`text-sm leading-relaxed mb-8 flex-1 min-w-0 break-words whitespace-pre-wrap ${idx === 1 ? 'text-gray-300' : 'text-gray-600'}`}>
                               {product.description}
@@ -687,6 +689,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                         <h3 className="zy-heading text-3xl mb-2 text-[#2C402E] break-words whitespace-pre-wrap">{product.name}</h3>
                         <p className="text-sm mb-6 text-[#8CA392] break-words whitespace-pre-wrap">{product.time}</p>
                         <div className="text-5xl font-light mb-6 text-[#2C402E] break-words whitespace-pre-wrap">{product.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                         <p className="text-sm leading-relaxed mb-8 flex-1 text-gray-600 break-words whitespace-pre-wrap">{product.description}</p>
                         <button 
                           onClick={() => { setViewProductsPage(false); setSelectedProduct(product); }}

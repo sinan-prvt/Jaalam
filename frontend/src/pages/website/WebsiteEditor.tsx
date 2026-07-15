@@ -1087,7 +1087,25 @@ export default function WebsiteEditor() {
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
                     placeholder="e.g. 9876543210@okicici or name@ybl"
                   />
-                  <p className="mt-3 text-xs text-slate-500 font-medium">Entering a valid UPI ID will automatically add a 'Pay Now' button to your public website. Customers can scan the generated QR code or tap to pay via their UPI app (GPay, PhonePe, Paytm, etc).</p>
+                  <p className="mt-3 text-xs text-slate-500 font-medium">Entering a valid UPI ID will automatically add a global 'Pay Now' button to your public website. Customers can scan the generated QR code or tap to pay via their UPI app (GPay, PhonePe, Paytm, etc).</p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 mt-4">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <div className="relative">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only peer"
+                        checked={content.settings_json?.enable_product_payments ?? true}
+                        onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), enable_product_payments: e.target.checked } })}
+                      />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600 shadow-inner"></div>
+                    </div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-800">Enable Individual Product Payments</span>
+                      <p className="text-xs text-slate-500 font-medium mt-1">If enabled, every product/menu item will display a "Buy Now" button allowing customers to pay the exact amount for that specific item.</p>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>

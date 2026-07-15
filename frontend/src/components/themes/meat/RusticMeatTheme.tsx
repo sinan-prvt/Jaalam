@@ -32,7 +32,8 @@ export default function RusticMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F4F1EA] text-[#4A5D23] font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,400&family=Karla:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,600;0,700;1,400&family=Karla:wght@400;700&display=swap');
         .font-rustic { font-family: 'Zilla Slab', serif; }
         .font-body { font-family: 'Karla', sans-serif; }
       
@@ -169,6 +170,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                       <p className="font-body text-sm text-[#5C6B3E] mb-6 flex-1">{p.description}</p>
                       <div className="flex justify-between items-center border-t border-[#F4F1EA] pt-4 mt-auto">
                         <span className="font-body font-bold text-lg text-[#8F9779]">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       </div>
                     </div>
                   ))}

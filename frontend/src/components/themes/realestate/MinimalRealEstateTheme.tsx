@@ -23,7 +23,8 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;500;600&display=swap');
         .font-min { font-family: 'Space Grotesk', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -97,6 +98,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                      <div className="text-gray-400 text-sm tracking-wide">{p.info}</div>
                    </div>
                    <span className="text-xl">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
                 <button onClick={() => setSelectedProduct(p)} className="mt-6 w-full border border-white/20 hover:border-white hover:bg-white hover:text-black font-min font-medium uppercase tracking-widest py-3 text-sm transition-all duration-300">
                   View Details

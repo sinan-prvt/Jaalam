@@ -41,7 +41,8 @@ export default function ModernFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] text-slate-800 font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600;800&display=swap');
         .font-modern { font-family: 'Poppins', sans-serif; }
         .glass-panel {
           background: rgba(255, 255, 255, 0.7);
@@ -188,6 +189,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                           <div className="px-2">
                             <h3 className="font-modern font-semibold text-slate-900 mb-1">{p.name}</h3>
                             <div className="font-modern font-bold text-purple-600">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           </div>
                         </div>
                       ))}
@@ -322,6 +324,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                     <div className="px-2">
                       <h3 className="font-modern font-semibold text-slate-900 mb-1">{p.name}</h3>
                       <div className="font-modern font-bold text-purple-600">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                     </div>
                   </div>
                 ))}

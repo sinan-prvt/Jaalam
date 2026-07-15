@@ -22,7 +22,8 @@ export default function ClassicStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#4A3B32] font-serif">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,600;0,700;1,400&family=Lora:ital,wght@0,400;1,400&display=swap');
         .font-classic { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Lora', serif; }
       
@@ -162,6 +163,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                         <div className="w-1/2 flex flex-col justify-center">
                           <h3 className="font-classic text-xl font-bold text-[#2C241E] mb-2">{p.name}</h3>
                           <div className="font-classic text-[#8C6D53] italic mb-4 font-semibold">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           <p className="font-body text-sm text-[#6A5A4A] leading-relaxed line-clamp-3">{p.description}</p>
                         </div>
                       </div>
@@ -332,6 +334,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   <div className="text-center">
                     <h3 className="font-classic text-xl font-bold text-[#2C241E] mb-2">{p.name}</h3>
                     <div className="font-classic text-[#8C6D53] italic font-semibold">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                 </div>
               ))}

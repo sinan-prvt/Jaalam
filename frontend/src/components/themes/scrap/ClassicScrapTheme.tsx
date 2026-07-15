@@ -33,7 +33,8 @@ export default function ClassicScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F4F4F4] text-[#1A1A1A] font-sans border-t-[12px] border-[#FFC107] selection:bg-[#FFC107] selection:text-[#1A1A1A]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&family=Roboto:wght@400;700;900&display=swap');
         .font-industrial { font-family: 'Oswald', sans-serif; }
         .font-body { font-family: 'Roboto', sans-serif; }
         .stripe-bg {
@@ -182,6 +183,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                         <div className="font-body font-black text-[#1A1A1A] bg-[#FFC107] group-hover:bg-white inline-block px-3 py-1 text-lg mb-4 uppercase border-2 border-[#1A1A1A]">
                           {p.price}
                         </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         <div className="flex justify-between items-end">
                           <p className="font-body font-bold text-gray-600 group-hover:text-[#1A1A1A]">{p.description}</p>
                           <button 
@@ -393,6 +395,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                 <span className="font-industrial text-2xl bg-[#FFC107] text-[#1A1A1A] px-4 py-2 border-4 border-[#1A1A1A] transform rotate-2">
                   {selectedProduct.price}
                 </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               
               <p className="font-body font-bold text-xl text-gray-700 leading-relaxed mb-8">

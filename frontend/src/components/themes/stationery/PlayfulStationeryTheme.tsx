@@ -31,7 +31,8 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFF0F5] text-[#4A4A4A] font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+600;700&display=swap');
         .font-playful { font-family: 'Fredoka One', cursive; }
         .font-body { font-family: 'Quicksand', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -194,6 +195,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                           <h3 className="font-playful text-lg text-[#2D3142] mb-2">{p.name}</h3>
                           <div className="flex justify-between items-center">
                             <span className="font-body font-bold text-xl text-[#FF6B6B]">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                             <button className="bg-yellow-400 p-2 rounded-full text-white hover:bg-yellow-500" onClick={(e) => { e.stopPropagation(); }}><Heart size={18} /></button>
                           </div>
                         </div>
@@ -346,6 +348,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     <h3 className="font-playful text-lg text-[#2D3142] mb-2">{p.name}</h3>
                     <div className="flex justify-between items-center">
                       <span className="font-body font-bold text-xl text-[#FF6B6B]">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button className="bg-yellow-400 p-2 rounded-full text-white hover:bg-yellow-500" onClick={(e) => { e.stopPropagation(); }}><Heart size={18} /></button>
                     </div>
                   </div>

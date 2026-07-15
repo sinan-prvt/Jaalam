@@ -34,7 +34,8 @@ export default function PremiumMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0A0A0A] text-[#D4AF37] font-sans selection:bg-[#D4AF37] selection:text-black pb-20">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+600;700&family=Montserrat:wght@300;400;500&display=swap');
         .font-premium { font-family: 'Cinzel', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
       
@@ -174,6 +175,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                         <h3 className="font-premium text-xl text-white mb-2">{p.name}</h3>
                         <div className="font-body text-xs text-gray-400 mb-4 tracking-wider leading-relaxed">{p.description}</div>
                         <div className="font-premium text-lg text-[#D4AF37] mb-6">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         
                         <div className="absolute bottom-4 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
                            <span className="text-[#D4AF37] font-body text-[10px] uppercase tracking-widest border-b border-[#D4AF37] pb-1">View</span>
@@ -316,6 +318,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
               <Star size={14} className="text-[#D4AF37] mb-3 md:mb-6" />
               <h3 className="font-premium text-2xl md:text-4xl text-white mb-2 leading-tight">{selectedProduct.name}</h3>
               <div className="font-premium text-lg md:text-xl text-[#D4AF37] mb-4 md:mb-8">{selectedProduct.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               <div className="w-8 md:w-12 h-px bg-[#D4AF37]/50 mb-4 md:mb-8"></div>
               <p className="font-body text-xs md:text-sm text-gray-400 mb-6 md:mb-10 leading-loose font-light">
                 {selectedProduct.description}

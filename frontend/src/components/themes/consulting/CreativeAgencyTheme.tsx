@@ -29,7 +29,8 @@ export default function CreativeAgencyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#1A1A1A] font-sans overflow-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Poppins:wght@400;600;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,9..40,500;0,9..40,700;1,9..40,400&family=Poppins:wght@400;600;800;900&display=swap');
         .font-creative-title { font-family: 'Poppins', sans-serif; }
         .font-creative-body { font-family: 'DM Sans', sans-serif; }
       
@@ -143,6 +144,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
                       <div className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-creative-title uppercase tracking-wider mb-3">
                          {service.price}
                       </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={service} content={content} /></div>
                       <h3 className="font-creative-title text-3xl font-bold text-white mb-2">{service.name}</h3>
                       <div className="w-12 h-1 bg-gradient-to-r from-[#FF0055] to-[#7000FF] rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                    </div>

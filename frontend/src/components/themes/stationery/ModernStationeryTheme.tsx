@@ -23,7 +23,8 @@ export default function ModernStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-slate-50 text-slate-800 font-sans selection:bg-blue-500 selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600;800&display=swap');
         .font-modern { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -180,6 +181,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                         <p className="font-modern text-xs text-slate-500 mb-3 line-clamp-2">{p.description}</p>
                         <div className="mt-auto pt-4">
                           <div className="font-modern font-bold text-lg text-slate-900">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         </div>
                       </div>
                     ))}
@@ -343,6 +345,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   <p className="font-modern text-xs text-slate-500 mb-3 line-clamp-2">{p.description}</p>
                   <div className="mt-auto pt-4">
                     <div className="font-modern font-bold text-lg text-slate-900">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                 </div>
               ))}

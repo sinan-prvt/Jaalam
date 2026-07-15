@@ -63,7 +63,8 @@ export default function TechGadgetTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#050B14] text-[#8ab4f8] selection:bg-[#4285F4] selection:text-white flex flex-col font-sans relative overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+500;600;700&family=Share+Tech+Mono&display=swap');
         .tg-display { font-family: 'Rajdhani', sans-serif; }
         .tg-mono { font-family: 'Share Tech Mono', monospace; }
         
@@ -233,6 +234,7 @@ export default function TechGadgetTheme({ website, content }: any) {
                     <h4 className="tg-display font-bold text-xl text-white mb-2 flex-1 break-words">{p.name}</h4>
                     <div className="flex items-center justify-between mt-4">
                       <span className="tg-mono text-[#4285F4]">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <ChevronRight size={20} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-white" />
                     </div>
                   </div>
@@ -470,6 +472,7 @@ export default function TechGadgetTheme({ website, content }: any) {
               <div className="tg-mono text-2xl text-[#4285F4] mb-8 bg-[#4285F4]/10 inline-block px-4 py-2 rounded self-start border border-[#4285F4]/20">
                 {selectedProduct.price}
               </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               <div className="space-y-4 mb-8">
                 <p className="tg-mono text-[#8ab4f8]/80 leading-relaxed break-words">{selectedProduct.description}</p>
                 <div className="tg-mono text-xs text-[#8ab4f8]/50 mt-4 border border-[#4285F4]/20 p-3 rounded bg-black/30">

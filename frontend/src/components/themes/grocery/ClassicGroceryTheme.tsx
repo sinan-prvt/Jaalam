@@ -22,7 +22,8 @@ export default function ClassicGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F8F9FA] text-[#212529] font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+500;700;900&display=swap');
         .font-classic { font-family: 'Roboto', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -114,6 +115,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                   <div>
                     <div className="text-gray-400 line-through text-sm font-medium">{p.originalPrice}</div>
                     <div className="font-classic font-black text-2xl text-[#E50914]">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                   
                 </div>

@@ -24,7 +24,8 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FAFAF8] text-[#4A3B32] font-serif border-x-[16px] border-x-[#8C3A3A] box-border">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,600;0,700;1,400&family=Montserrat:wght@300;400&display=swap');
         .font-elegant { font-family: 'Cormorant Garamond', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
         .bg-pattern {
@@ -95,6 +96,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
                   <h4 className="font-elegant text-2xl text-[#4A3B32] mb-3 leading-snug">{p.name}</h4>
                   <p className="font-body text-xs text-[#6B5A4E] leading-loose mb-6">{p.description}</p>
                   <div className="font-body text-[#8C3A3A] tracking-widest">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <button className="mt-8 border-b border-[#D4AF37] text-[#D4AF37] self-start font-body text-[10px] tracking-[0.2em] uppercase pb-1 group-hover:text-[#8C3A3A] group-hover:border-[#8C3A3A] transition-colors">
                     Inquire Now
                   </button>

@@ -20,7 +20,8 @@ export default function VintageTextilesTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F4EFE6] text-[#3D312A] font-serif border-x-[12px] border-[#D4C3A3] box-border">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Karla:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,700;1,400&family=Karla:wght@400;700&display=swap');
         .font-vintage { font-family: 'Old Standard TT', serif; }
         .font-body { font-family: 'Karla', sans-serif; }
       
@@ -83,6 +84,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
                 <h4 className="font-vintage text-2xl font-bold mb-2 group-hover:text-[#8C4A32] transition-colors">{p.name}</h4>
                 <p className="font-body text-sm text-[#5C4A3D] mb-4 italic">{p.description}</p>
                 <div className="font-body font-bold text-lg tracking-widest">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
             ))}
           </div>

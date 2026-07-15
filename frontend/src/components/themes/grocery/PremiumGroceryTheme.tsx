@@ -22,7 +22,8 @@ export default function PremiumGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#111111] text-[#E0D8C8] font-sans selection:bg-[#C9A66B] selection:text-[#111111]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,600;0,700;1,400&family=Lato:wght@300;400&display=swap');
         .font-premium { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Lato', sans-serif; }
       
@@ -104,6 +105,7 @@ export default function PremiumGroceryTheme({ website, content }: any) {
                   <div className="font-body text-[10px] text-gray-500 uppercase tracking-widest mb-3">{p.origin}</div>
                   <h3 className="font-premium text-lg text-white mb-3 group-hover:text-[#C9A66B] transition-colors">{p.name}</h3>
                   <div className="font-body text-[#C9A66B] text-sm tracking-wider">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             ))}

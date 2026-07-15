@@ -20,7 +20,8 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F0F4FF] text-[#1D3557] font-sans overflow-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;import ProductBuyButton from '../../payments/ProductBuyButton';
+700;800;900&display=swap');
         .font-fun { font-family: 'Fredoka One', cursive; }
         .font-body { font-family: 'Nunito', sans-serif; }
       
@@ -82,6 +83,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
                 <h3 className="font-fun text-xl text-[#1D3557] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
                   <span className="font-body font-black text-2xl text-[#457B9D]">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <button className="bg-[#E63946] text-white p-3 rounded-full hover:bg-red-600 transition-colors border-2 border-[#1D3557]">
                     <ShoppingBag size={20} />
                   </button>

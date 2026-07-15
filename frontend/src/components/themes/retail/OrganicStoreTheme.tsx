@@ -57,7 +57,8 @@ export default function OrganicStoreTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#4A5D23] selection:bg-[#4A5D23] selection:text-white flex flex-col font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
         .os-heading { font-family: 'Lora', serif; }
         .os-body { font-family: 'Outfit', sans-serif; }
         
@@ -230,6 +231,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
                   <div className="text-center px-2">
                     <h3 className="os-heading font-semibold text-lg text-[#4A5D23] mb-2 break-words">{p.name}</h3>
                     <p className="os-body font-medium text-[#8B5A2B]">{p.price}</p>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                 </div>
               ))}

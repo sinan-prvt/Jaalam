@@ -22,7 +22,8 @@ export default function LuxuryVillasTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F5F3ED] text-[#2C2C2C] font-serif">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+600;700&family=Lato:wght@300;400;700&display=swap');
         .font-luxury { font-family: 'Cinzel', serif; }
         .font-body { font-family: 'Lato', sans-serif; }
       
@@ -101,6 +102,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                   <div className="absolute top-4 right-4 bg-[#D4AF37] text-white font-body text-xs tracking-wider px-3 py-1 z-20 shadow-md">
                     {p.price}
                   </div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
                 <div className="p-8">
                   <h3 className="font-luxury text-xl mb-3 text-[#2C2C2C] group-hover:text-[#D4AF37] transition-colors">{p.name}</h3>

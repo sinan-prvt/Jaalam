@@ -33,7 +33,8 @@ export default function EcoScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F0F4F1] text-[#2C4A3B] font-sans selection:bg-[#4CAF50] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;600;800&display=swap');
         .font-eco { font-family: 'Outfit', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -174,6 +175,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                         <p className="font-eco text-sm text-[#5D806B] mb-6 flex-grow">{p.description}</p>
                         <div className="flex justify-between items-center mt-auto">
                           <div className="font-eco font-bold text-[#4CAF50] bg-[#E1EFE5] inline-block px-4 py-2 rounded-xl text-center">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           <button 
                             onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
                             className="font-eco font-bold text-white bg-[#4CAF50] hover:bg-[#388E3C] px-4 py-2 rounded-xl text-sm transition-colors shadow-sm"
@@ -381,6 +383,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                 <span className="font-eco font-bold text-[#4CAF50] bg-[#E1EFE5] px-3 py-1 rounded-lg">
                   {selectedProduct.price}
                 </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               <p className="font-eco text-[#5D806B] leading-relaxed mb-6">
                 {selectedProduct.detailed_description || selectedProduct.description || 'Detailed specifications and recycling impact for this material.'}

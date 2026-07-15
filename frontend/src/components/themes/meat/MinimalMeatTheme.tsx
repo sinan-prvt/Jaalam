@@ -34,7 +34,8 @@ export default function MinimalMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans uppercase tracking-widest">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&display=swap');
         .font-minimal { font-family: 'Space Grotesk', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -132,6 +133,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                     <p className="text-xs text-gray-500 mb-6 flex-1">{p.description}</p>
                     <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                       <span className="font-minimal font-bold text-red-600">{p.price}</span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button className="text-[10px] md:text-xs font-minimal font-bold uppercase tracking-widest text-black border border-gray-200 px-3 py-1 hover:border-black transition-colors">
                         VIEW
                       </button>
@@ -246,6 +248,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 <h2 className="text-2xl md:text-5xl font-minimal font-bold mb-2 md:mb-4 text-black uppercase tracking-tighter leading-none">{selectedProduct.name}</h2>
                 <div className="flex items-center gap-4 mb-4 md:mb-8">
                   <p className="text-lg md:text-3xl font-minimal font-bold text-red-600">{selectedProduct.price}</p>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
                 </div>
                 <div className="w-full h-px bg-gray-200 mb-4 md:mb-8"></div>
                 <p className="text-sm md:text-base text-gray-500 leading-loose mb-6 md:mb-12 uppercase">{selectedProduct.description}</p>

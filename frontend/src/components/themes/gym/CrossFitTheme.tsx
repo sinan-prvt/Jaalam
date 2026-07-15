@@ -81,7 +81,8 @@ export default function CrossFitTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:wght@400;700&family=Montserrat:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&family=Montserrat:wght@400;700;900&display=swap');
 
         .cf-heading { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.02em; }
         .cf-subheading { font-family: 'Roboto Mono', monospace; text-transform: uppercase; }
@@ -374,6 +375,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                             <h3 className="cf-heading text-4xl mb-2 break-words">{product.name}</h3>
                             <p className={`cf-subheading font-bold mb-4 break-words ${idx === 1 ? 'text-gray-800' : 'text-gray-400'}`}>{product.time}</p>
                             <div className="cf-heading text-6xl break-words">{product.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                           </div>
                           <div className="p-8 flex-1 flex flex-col">
                             <p className={`cf-body font-bold mb-8 flex-1 min-w-0 break-words whitespace-pre-wrap ${idx === 1 ? 'text-black' : 'text-gray-300'}`}>
@@ -683,6 +685,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                         <h3 className="cf-heading text-4xl mb-2 break-words whitespace-pre-wrap">{product.name}</h3>
                         <p className="cf-subheading font-bold mb-4 text-gray-400 break-words whitespace-pre-wrap">{product.time}</p>
                         <div className="cf-heading text-6xl break-words whitespace-pre-wrap">{product.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                       </div>
                       <div className="p-8 flex-1 flex flex-col">
                         <p className="cf-body font-bold mb-8 flex-1 text-gray-300 break-words whitespace-pre-wrap">

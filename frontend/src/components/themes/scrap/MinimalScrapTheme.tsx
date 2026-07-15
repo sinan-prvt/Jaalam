@@ -33,7 +33,8 @@ export default function MinimalScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#E5E5E5] text-black font-mono uppercase tracking-widest selection:bg-black selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&display=swap');
         .font-minimal { font-family: 'Space Mono', monospace; }
       
         /* Dynamic Layout Ordering */
@@ -121,6 +122,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                     </div>
                     <div className="flex justify-between items-end">
                       <div className="text-4xl font-bold">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button 
                         onClick={(e) => { e.stopPropagation(); setSelectedProduct(p); }}
                         className="bg-black text-white group-hover:bg-white group-hover:text-black px-4 py-2 font-bold text-xs uppercase transition-colors"
@@ -299,6 +301,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                 <span className="font-bold text-2xl">
                   {selectedProduct.price}
                 </span>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               <p className="text-lg leading-relaxed mb-8 opacity-80">
                 {selectedProduct.detailed_description || selectedProduct.description || 'DETAILED SPECIFICATIONS AND PROCESSING INFORMATION FOR THIS MATERIAL.'}

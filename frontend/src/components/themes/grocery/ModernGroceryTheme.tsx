@@ -51,6 +51,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
                   <div className="text-xs text-slate-400 mb-1">{p.category}</div>
                   <h3 className="font-modern font-semibold text-slate-800 text-sm md:text-base mb-3 line-clamp-2 h-10">{p.name}</h3>
                   <div className="font-modern font-bold text-slate-900">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             ))}
@@ -65,7 +66,8 @@ export default function ModernGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+500;600;700&display=swap');
         .font-modern { font-family: 'Inter', sans-serif; }
       `}</style>
 
@@ -213,6 +215,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
                 <h3 className="font-modern font-semibold text-slate-800 text-sm md:text-base mb-3 line-clamp-2 h-10">{p.name}</h3>
                 <div className="flex justify-between items-center">
                   <div className="font-modern font-bold text-slate-900">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             </div>
@@ -401,6 +404,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
               <div className="text-xs font-bold text-emerald-600 mb-1 uppercase tracking-wide">{selectedProduct.category || 'Product'}</div>
               <h3 className="font-modern text-xl md:text-2xl font-bold text-slate-900 mb-2 leading-tight">{selectedProduct.name}</h3>
               <div className="font-modern text-xl font-black text-slate-800 mb-4">{selectedProduct.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               <p className="text-slate-600 text-sm leading-relaxed">
                 {selectedProduct.description || 'Enjoy this high-quality product, sourced carefully to ensure the best experience.'}
               </p>

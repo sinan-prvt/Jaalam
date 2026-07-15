@@ -8,12 +8,15 @@ interface UPIPaymentModalProps {
   onClose: () => void;
   upiId: string;
   websiteName: string;
+  amount?: string;
 }
 
-export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName }: UPIPaymentModalProps) {
+export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, amount }: UPIPaymentModalProps) {
   if (!isOpen) return null;
 
-  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR`;
+  // Clean the amount if provided (e.g. remove currency symbols)
+  const cleanAmount = amount ? amount.replace(/[^0-9.]/g, '') : '';
+  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR${cleanAmount ? `&am=${cleanAmount}` : ''}`;
 
   return (
     <AnimatePresence>
@@ -50,9 +53,17 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName }:
           </div>
 
           <div className="p-6 pt-2 text-center flex flex-col items-center">
-            <p className="text-slate-500 text-sm font-medium mb-6">
-              Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> directly via UPI. Zero fees.
-            </p>
+            {amount ? (
+              <div className="mb-4">
+                <span className="text-sm font-medium text-slate-500 uppercase tracking-widest">Amount to Pay</span>
+                <div className="text-4xl font-black text-slate-900 mt-1 mb-2">₹{cleanAmount}</div>
+                <p className="text-slate-500 text-xs font-medium">Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> securely.</p>
+              </div>
+            ) : (
+              <p className="text-slate-500 text-sm font-medium mb-6">
+                Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> directly via UPI. Zero fees.
+              </p>
+            )}
             
             {/* QR Code Container */}
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex flex-col items-center justify-center relative group">

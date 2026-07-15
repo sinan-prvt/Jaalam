@@ -42,7 +42,8 @@ export default function ModernMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-slate-800 font-sans selection:bg-red-500 selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+600;800&display=swap');
         .font-modern { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -180,6 +181,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                         <p className="text-xs text-slate-500 mb-4 flex-1">{p.description}</p>
                         <div className="flex justify-between items-center mt-auto">
                           <div className="font-modern font-extrabold text-red-600 text-lg">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         </div>
                       </div>
                     </div>
@@ -304,6 +306,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                 <h2 className="text-2xl md:text-4xl font-extrabold mb-2 md:mb-4 text-slate-900 leading-tight">{selectedProduct.name}</h2>
                 <div className="flex items-center gap-4 mb-4 md:mb-6">
                   <p className="text-xl md:text-3xl font-extrabold text-red-600">{selectedProduct.price}</p>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
                 </div>
                 <div className="w-12 md:w-16 h-1 bg-red-600 mb-4 md:mb-8"></div>
                 <p className="text-sm md:text-lg text-slate-600 leading-relaxed mb-6 md:mb-8">{selectedProduct.description}</p>

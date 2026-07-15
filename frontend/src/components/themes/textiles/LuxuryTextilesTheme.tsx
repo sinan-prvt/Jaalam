@@ -20,7 +20,8 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#050505] text-[#D4AF37] font-sans selection:bg-[#D4AF37] selection:text-black">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+600;700&family=Montserrat:wght@300;400;500&display=swap');
         .font-luxury { font-family: 'Cinzel', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
       
@@ -87,6 +88,7 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
                     <h3 className="font-luxury text-xl text-white tracking-wider">{p.name}</h3>
                   </div>
                   <div className="font-body text-sm text-gray-400 tracking-wider">{p.price}</div>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             ))}

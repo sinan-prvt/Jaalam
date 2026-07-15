@@ -51,7 +51,8 @@ export default function BoutiqueTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FAF8F5] text-[#2C2C2C] selection:bg-[#D4AF37] selection:text-white flex flex-col font-serif">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
+0,600;1,400&family=Lato:wght@300;400&display=swap');
         .bt-serif { font-family: 'Playfair Display', serif; }
         .bt-sans { font-family: 'Lato', sans-serif; }
         .bt-fade-in { animation: fadeIn 1.5s ease-out; }
@@ -192,6 +193,7 @@ export default function BoutiqueTheme({ website, content }: any) {
                 </div>
                 <h3 className="bt-serif text-xl mb-2 flex-1 break-words leading-snug">{p.name}</h3>
                 <p className="bt-sans text-[#D4AF37] tracking-wider">{p.price}</p>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
             ))}
           </div>
@@ -404,6 +406,7 @@ export default function BoutiqueTheme({ website, content }: any) {
               </button>
               <h2 className="bt-serif text-3xl mb-4 break-words">{selectedProduct.name}</h2>
               <p className="bt-sans text-xl text-[#D4AF37] mb-8">{selectedProduct.price}</p>
+<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               <p className="bt-sans text-gray-600 leading-relaxed mb-8 break-words">{selectedProduct.description}</p>
               <button className="w-full bg-black text-white py-4 bt-sans tracking-widest uppercase text-sm hover:bg-[#D4AF37] transition-colors" onClick={() => setSelectedProduct(null)}>
                 Add to Bag
