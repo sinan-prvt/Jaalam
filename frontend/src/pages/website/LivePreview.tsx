@@ -77,7 +77,9 @@ import CorporateOtherTheme from '../../components/themes/other/CorporateOtherThe
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 
-export default function LivePreview() {
+import CustomCursor from '../../components/ui/CustomCursor';
+
+function LivePreviewContent() {
   const [data, setData] = useState<any>(null);
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
 
@@ -271,5 +273,14 @@ export default function LivePreview() {
         {JSON.stringify(data, null, 2)}
       </pre>
     </div>
+  );
+}
+
+export default function LivePreview() {
+  return (
+    <>
+      <CustomCursor />
+      <LivePreviewContent />
+    </>
   );
 }
