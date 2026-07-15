@@ -839,7 +839,14 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     </div>
 
       {/* Lightbox Modal */}
-      
+      {selectedImage && (
+        <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300" onClick={() => setSelectedImage(null)}>
+          <button className="absolute top-6 right-6 text-white hover:text-rose-400 transition-colors p-2" aria-label="Close">
+            <X size={32} />
+          </button>
+          <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
 
       {/* Product Detail Modal */}
       {selectedProduct && (

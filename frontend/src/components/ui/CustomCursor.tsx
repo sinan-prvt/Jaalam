@@ -26,7 +26,8 @@ export default function CustomCursor() {
         target.tagName.toLowerCase() === 'button' ||
         target.closest('a') ||
         target.closest('button') ||
-        target.getAttribute('role') === 'button';
+        target.getAttribute('role') === 'button' ||
+        target.closest('.cursor-pointer') !== null;
         
       const isText = 
         target.tagName.toLowerCase() === 'input' ||
