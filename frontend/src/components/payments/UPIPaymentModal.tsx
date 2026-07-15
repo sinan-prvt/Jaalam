@@ -131,11 +131,11 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
 
             {paymentState === 'success' && (
               <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center w-full py-4">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                  <CheckCircle2 size={32} className="text-emerald-500" />
+                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                  <CheckCircle2 size={32} className="text-indigo-500" />
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-1">Payment Successful!</h3>
-                <p className="text-xs font-medium text-slate-500 mb-6">Your order for <span className="font-bold text-slate-800">{productName || 'items'}</span> has been recorded.</p>
+                <h3 className="text-xl font-black text-slate-900 mb-1">Almost Done!</h3>
+                <p className="text-xs font-medium text-slate-500 mb-6 text-center px-4">You're one step away from ordering <span className="font-bold text-slate-800">{productName || 'items'}</span>.</p>
                 
                 <div className="w-full bg-slate-50 rounded-xl p-4 mb-6 border border-slate-100">
                   <div className="flex justify-between text-xs mb-2">
