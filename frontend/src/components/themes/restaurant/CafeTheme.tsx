@@ -687,10 +687,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <div>
                   <h4 className="text-lg font-bold text-white mb-6 tracking-wide uppercase">Contact Us</h4>
                   <ul className="space-y-4 text-slate-400 text-sm">
+                    {content.contact_info?.address && (
                     <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
                       <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
                       <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
                     </li>
+                    )}
                     <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
                       <Phone size={20} className="shrink-0 text-[#C19A6B]" />
                       <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
@@ -2385,6 +2387,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </h2>
 
                               <div className="space-y-8 font-inter font-light">
+                                {content.contact_info?.address && (
                                 <div className="flex items-start gap-4">
                                   <MapPin className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                   <div>
@@ -2392,7 +2395,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                     <p className="text-slate-400 text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {content.contact_info?.phone && (
                                 <div className="flex items-start gap-4">
                                   <Phone className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                   <div>
@@ -2400,7 +2405,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                     <p className="text-slate-400 text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {content.contact_info?.email && (
                                 <div className="flex items-start gap-4">
                                   <Mail className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                   <div>
@@ -2408,6 +2415,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                     <p className="text-slate-400 text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                                   </div>
                                 </div>
+                                )}
                               </div>
                             </div>
 
@@ -2921,6 +2929,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           Stop by our bakery for fresh coffee, warm pastries, and a welcoming atmosphere. We bake everything fresh daily.
                         </p>
                         <div className="space-y-6">
+                          {content.contact_info?.address && (
                           <div className="flex items-start gap-4">
                             <MapPin className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
                             <div>
@@ -2928,7 +2937,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <p className={colors.textMuted}>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
                             </div>
                           </div>
+                          )}
 
+                          {content.contact_info?.phone && (
                           <div className="flex items-start gap-4">
                             <Phone className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
                             <div>
@@ -2936,7 +2947,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <p className={colors.textMuted}>{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                             </div>
                           </div>
+                          )}
 
+                          {content.contact_info?.email && (
                           <div className="flex items-start gap-4">
                             <Mail className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
                             <div>
@@ -2944,6 +2957,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <p className={colors.textMuted}>{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                             </div>
                           </div>
+                          )}
 
                           {/* Social Media Links */}
                           <div className="pt-4">
