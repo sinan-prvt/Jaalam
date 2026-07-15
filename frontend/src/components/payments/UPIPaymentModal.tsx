@@ -36,13 +36,14 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-sm bg-white/90 backdrop-blur-2xl border border-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          className="relative w-full max-w-[300px] bg-white/95 backdrop-blur-2xl border border-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
         >
+          <div className="overflow-y-auto overflow-x-hidden flex flex-col items-center w-full scrollbar-hide">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 pb-2">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="text-emerald-500" size={24} />
-              <h3 className="text-xl font-black text-slate-900">Secure Payment</h3>
+          <div className="flex items-center justify-between p-4 pb-2 w-full shrink-0">
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="text-emerald-500" size={20} />
+              <h3 className="text-lg font-black text-slate-900">Secure Payment</h3>
             </div>
             <button 
               onClick={onClose}
@@ -52,27 +53,27 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
             </button>
           </div>
 
-          <div className="p-6 pt-2 text-center flex flex-col items-center">
+          <div className="p-4 pt-2 text-center flex flex-col items-center w-full">
             {amount ? (
-              <div className="mb-4">
-                <span className="text-sm font-medium text-slate-500 uppercase tracking-widest">Amount to Pay</span>
-                <div className="text-4xl font-black text-slate-900 mt-1 mb-2">₹{cleanAmount}</div>
-                <p className="text-slate-500 text-xs font-medium">Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> securely.</p>
+              <div className="mb-3">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount to Pay</span>
+                <div className="text-3xl font-black text-slate-900 mt-0.5 mb-1">₹{cleanAmount}</div>
+                <p className="text-slate-500 text-[11px] font-medium leading-tight">Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> securely.</p>
               </div>
             ) : (
-              <p className="text-slate-500 text-sm font-medium mb-6">
+              <p className="text-slate-500 text-xs font-medium mb-4 leading-tight">
                 Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> directly via UPI. Zero fees.
               </p>
             )}
             
             {/* QR Code Container */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex flex-col items-center justify-center relative group">
+            <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-4 flex flex-col items-center justify-center relative group shrink-0">
               <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-fuchsia-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              <QRCode value={upiLink} size={200} className="rounded-lg" />
-              <div className="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Scan to Pay</div>
+              <QRCode value={upiLink} size={150} className="rounded-lg" />
+              <div className="mt-2 text-[9px] font-black uppercase tracking-widest text-slate-400">Scan to Pay</div>
             </div>
 
-            <div className="flex items-center gap-4 w-full mb-6">
+            <div className="flex items-center gap-3 w-full mb-4">
               <div className="h-px bg-slate-200 flex-1"></div>
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">OR</span>
               <div className="h-px bg-slate-200 flex-1"></div>
@@ -81,14 +82,15 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
             {/* Mobile Deep Link Button */}
             <a 
               href={upiLink}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
             >
-              <Smartphone size={18} />
+              <Smartphone size={16} />
               Pay via UPI App
             </a>
-            <p className="text-xs text-slate-400 font-medium mt-3">
+            <p className="text-[10px] text-slate-400 font-medium mt-2 leading-tight">
               (Works on mobile with GPay, PhonePe, Paytm, etc.)
             </p>
+          </div>
           </div>
         </motion.div>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Loader2 } from 'lucide-react';
 import UPIPaymentModal from './UPIPaymentModal';
 
 interface ProductBuyButtonProps {
@@ -9,19 +9,31 @@ interface ProductBuyButtonProps {
 
 export default function ProductBuyButton({ product, content }: ProductBuyButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const upiId = content?.settings_json?.upi_id;
   const enableProductPayments = content?.settings_json?.enable_product_payments ?? true;
 
   // If no UPI ID is configured or product payments are disabled, don't show the button
   if (!upiId || !enableProductPayments || !product?.price) return null;
 
+  const handleBuyClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsModalOpen(true);
+    }, 2000);
+  };
+
   return (
     <>
       <button 
-        onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
-        className="mt-3 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow active:scale-95"
+        onClick={handleBuyClick}
+        disabled={isLoading}
+        className="mt-3 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow active:scale-95 disabled:opacity-80 disabled:cursor-not-allowed"
       >
-        <ShoppingBag size={14} /> Buy Now
+        {isLoading ? <Loader2 size={16} className="animate-spin" /> : <ShoppingBag size={16} />}
+        {isLoading ? 'Processing...' : 'Buy Now'}
       </button>
 
       <UPIPaymentModal 
