@@ -79,6 +79,7 @@ import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import SEOHead from '../../components/seo/SEOHead';
 
 export default function PublicWebsite() {
   const { businessSlug } = useParams();
@@ -163,299 +164,324 @@ export default function PublicWebsite() {
     content.contact_info.address = Object.values(addr).filter(Boolean).join(', ');
   }
 
-  // If this is a dynamic AI-generated site, use the new DynamicRenderer
-  if (content?.settings_json?.blocks) {
-    return <DynamicRenderer website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Restaurant') {
-    return <RestaurantTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Cafe / Bakery') {
-    return <CafeTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Salon' || website.business_type === 'Salon / Spa' || website.business_type === 'Saloon') {
-    if (website.theme === 'Glamour Beauty') {
-      return <SalonTheme2 website={website} content={content} />;
+  // Determine theme thumbnail for OG image fallback
+  const getThemeThumbnail = (theme: string) => {
+    switch (theme) {
+      case 'Restaurant': return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80';
+      case 'Cafe / Bakery': return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80';
+      case 'Salon': return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=1200&q=80';
+      case 'Gym': return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80';
+      case 'Real Estate': return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80';
+      default: return undefined;
     }
-    if (website.theme === 'Modern Saloon') {
-      return <ModernSaloonTheme website={website} content={content} />;
-    }
-    if (website.theme === 'Vintage Barber') {
-      return <VintageBarberTheme website={website} content={content} />;
-    }
-    if (website.theme === 'Royal Saloon') {
-      return <RoyalSaloonTheme website={website} content={content} />;
-    }
-    return <SalonTheme website={website} content={content} />;
-  }
+  };
 
-  if (website.business_type === 'Gym / Fitness' || website.business_type === 'Gym') {
-    if (website.theme === 'Hardcore Iron') {
+  const seoTitle = website?.content?.settings_json?.website_name || `${website?.business_type || 'Website'} - ${website?.slug || 'Live'}`;
+  const seoDesc = website?.content?.about_text || `Welcome to our ${website?.business_type || 'business'}.`;
+
+  const renderTheme = () => {
+    // If this is a dynamic AI-generated site, use the new DynamicRenderer
+    if (website?.content?.settings_json?.blocks) {
+      return <DynamicRenderer website={website} content={website.content} />;
+    }
+  
+    // Pre-built fallback templates
+    if (website?.business_type === 'Restaurant') {
+      return <RestaurantTheme website={website} content={website.content} />;
+    }
+  
+    if (website.business_type === 'Cafe / Bakery') {
+      return <CafeTheme website={website} content={content} />;
+    }
+  
+    if (website.business_type === 'Salon' || website.business_type === 'Salon / Spa' || website.business_type === 'Saloon') {
+      if (website.theme === 'Glamour Beauty') {
+        return <SalonTheme2 website={website} content={content} />;
+      }
+      if (website.theme === 'Modern Saloon') {
+        return <ModernSaloonTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Vintage Barber') {
+        return <VintageBarberTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Royal Saloon') {
+        return <RoyalSaloonTheme website={website} content={content} />;
+      }
+      return <SalonTheme website={website} content={content} />;
+    }
+  
+    if (website.business_type === 'Gym / Fitness' || website.business_type === 'Gym') {
+      if (website.theme === 'Hardcore Iron') {
+        return <HardcoreIronTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Zen Yoga Studio') {
+        return <ZenYogaTheme website={website} content={content} />;
+      }
+      if (website.theme === 'CrossFit Box') {
+        return <CrossFitTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Luxury Health Club') {
+        return <LuxuryClubTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Combat & MMA Gym') {
+        return <CombatGymTheme website={website} content={content} />;
+      }
       return <HardcoreIronTheme website={website} content={content} />;
     }
-    if (website.theme === 'Zen Yoga Studio') {
-      return <ZenYogaTheme website={website} content={content} />;
+  
+    if (website.business_type === 'Real Estate') {
+      if (website.theme === 'Luxury Villas') return <LuxuryVillasTheme website={website} content={content} />;
+      if (website.theme === 'Urban Apartments') return <UrbanApartmentsTheme website={website} content={content} />;
+      if (website.theme === 'Commercial') return <CommercialTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalRealEstateTheme website={website} content={content} />;
+      if (website.theme === 'Classic') return <ClassicRealEstateTheme website={website} content={content} />;
+      return <ModernRealEstateTheme website={website} content={content} />;
     }
-    if (website.theme === 'CrossFit Box') {
-      return <CrossFitTheme website={website} content={content} />;
-    }
-    if (website.theme === 'Luxury Health Club') {
-      return <LuxuryClubTheme website={website} content={content} />;
-    }
-    if (website.theme === 'Combat & MMA Gym') {
-      return <CombatGymTheme website={website} content={content} />;
-    }
-    return <HardcoreIronTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Real Estate') {
-    if (website.theme === 'Luxury Villas') return <LuxuryVillasTheme website={website} content={content} />;
-    if (website.theme === 'Urban Apartments') return <UrbanApartmentsTheme website={website} content={content} />;
-    if (website.theme === 'Commercial') return <CommercialTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalRealEstateTheme website={website} content={content} />;
-    if (website.theme === 'Classic') return <ClassicRealEstateTheme website={website} content={content} />;
-    return <ModernRealEstateTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Retail Store') {
-    if (website.theme === 'Boutique') {
+  
+    if (website.business_type === 'Retail Store') {
+      if (website.theme === 'Boutique') {
+        return <BoutiqueTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Minimalist') {
+        return <MinimalistTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Streetwear') {
+        return <StreetwearTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Tech Gadget') {
+        return <TechGadgetTheme website={website} content={content} />;
+      }
+      if (website.theme === 'Organic Store') {
+        return <OrganicStoreTheme website={website} content={content} />;
+      }
       return <BoutiqueTheme website={website} content={content} />;
     }
-    if (website.theme === 'Minimalist') {
-      return <MinimalistTheme website={website} content={content} />;
+  
+    if (website.business_type === 'Stationery / Books') {
+      if (website.theme === 'Classic') return <ClassicStationeryTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulStationeryTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalStationeryTheme website={website} content={content} />;
+      if (website.theme === 'Ethereal') return <EtherealStationeryTheme website={website} content={content} />;
+      return <ModernStationeryTheme website={website} content={content} />;
     }
-    if (website.theme === 'Streetwear') {
-      return <StreetwearTheme website={website} content={content} />;
+  
+    if (website.business_type === 'Fancy Store') {
+      if (website.theme === 'Boutique') return <BoutiqueFancyTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalFancyTheme website={website} content={content} />;
+      if (website.theme === 'Luxury') return <LuxuryFancyTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulFancyTheme website={website} content={content} />;
+      if (website.theme === 'Classic') return <ClassicFancyTheme website={website} content={content} />;
+      if (website.theme === 'Noir') return <NoirFancyTheme website={website} content={content} />;
+      if (website.theme === 'Pop') return <PopFancyTheme website={website} content={content} />;
+      return <ModernFancyTheme website={website} content={content} />;
     }
-    if (website.theme === 'Tech Gadget') {
-      return <TechGadgetTheme website={website} content={content} />;
+  
+    if (website.business_type === 'Chicken / Meat Stall') {
+      if (website.theme === 'Classic') return <ClassicMeatTheme website={website} content={content} />;
+      if (website.theme === 'Premium') return <PremiumMeatTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalMeatTheme website={website} content={content} />;
+      if (website.theme === 'Rustic') return <RusticMeatTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulMeatTheme website={website} content={content} />;
+      return <ModernMeatTheme website={website} content={content} />;
     }
-    if (website.theme === 'Organic Store') {
-      return <OrganicStoreTheme website={website} content={content} />;
+  
+    if (website.business_type === 'Scrap Dealer') {
+      if (website.theme === 'Classic') return <ClassicScrapTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalScrapTheme website={website} content={content} />;
+      if (website.theme === 'Corporate') return <CorporateScrapTheme website={website} content={content} />;
+      if (website.theme === 'Eco') return <EcoScrapTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulScrapTheme website={website} content={content} />;
+      return <ModernScrapTheme website={website} content={content} />;
     }
-    return <BoutiqueTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Stationery / Books') {
-    if (website.theme === 'Classic') return <ClassicStationeryTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulStationeryTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalStationeryTheme website={website} content={content} />;
-    if (website.theme === 'Ethereal') return <EtherealStationeryTheme website={website} content={content} />;
-    return <ModernStationeryTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Fancy Store') {
-    if (website.theme === 'Boutique') return <BoutiqueFancyTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalFancyTheme website={website} content={content} />;
-    if (website.theme === 'Luxury') return <LuxuryFancyTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulFancyTheme website={website} content={content} />;
-    if (website.theme === 'Classic') return <ClassicFancyTheme website={website} content={content} />;
-    if (website.theme === 'Noir') return <NoirFancyTheme website={website} content={content} />;
-    if (website.theme === 'Pop') return <PopFancyTheme website={website} content={content} />;
-    return <ModernFancyTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Chicken / Meat Stall') {
-    if (website.theme === 'Classic') return <ClassicMeatTheme website={website} content={content} />;
-    if (website.theme === 'Premium') return <PremiumMeatTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalMeatTheme website={website} content={content} />;
-    if (website.theme === 'Rustic') return <RusticMeatTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulMeatTheme website={website} content={content} />;
-    return <ModernMeatTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Scrap Dealer') {
-    if (website.theme === 'Classic') return <ClassicScrapTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalScrapTheme website={website} content={content} />;
-    if (website.theme === 'Corporate') return <CorporateScrapTheme website={website} content={content} />;
-    if (website.theme === 'Eco') return <EcoScrapTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulScrapTheme website={website} content={content} />;
-    return <ModernScrapTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Supermarket / Grocery') {
-    if (website.theme === 'Classic') return <ClassicGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Premium') return <PremiumGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Organic') return <OrganicGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Noir') return <NoirGroceryTheme website={website} content={content} />;
-    if (website.theme === 'Pop') return <PopGroceryTheme website={website} content={content} />;
-    return <ModernGroceryTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Textiles / Garments') {
-    if (website.theme === 'Boutique') return <BoutiqueTextilesTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalTextilesTheme website={website} content={content} />;
-    if (website.theme === 'Luxury') return <LuxuryTextilesTheme website={website} content={content} />;
-    if (website.theme === 'Vintage') return <VintageTextilesTheme website={website} content={content} />;
-    if (website.theme === 'Playful') return <PlayfulTextilesTheme website={website} content={content} />;
-    return <ModernTextilesTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Consulting') {
-    if (website.theme === 'Corporate') return <CorporateConsultingTheme website={website} content={content} />;
-    if (website.theme === 'Creative Agency') return <CreativeAgencyTheme website={website} content={content} />;
-    if (website.theme === 'Tech Startup') return <TechStartupTheme website={website} content={content} />;
-    if (website.theme === 'Management') return <ManagementConsultingTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalConsultingTheme website={website} content={content} />;
-    if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
-    return <CorporateConsultingTheme website={website} content={content} />;
-  }
-
-  if (website.business_type === 'Other') {
-    if (website.theme === 'Classic') return <ClassicOtherTheme website={website} content={content} />;
-    if (website.theme === 'Minimal') return <MinimalOtherTheme website={website} content={content} />;
-    if (website.theme === 'Noir') return <NoirOtherTheme website={website} content={content} />;
-    if (website.theme === 'Pop') return <PopOtherTheme website={website} content={content} />;
-    if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
-    return <ModernOtherTheme website={website} content={content} />;
-  }
-
-  const contact = content?.contact_info || {};
+  
+    if (website.business_type === 'Supermarket / Grocery') {
+      if (website.theme === 'Classic') return <ClassicGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Premium') return <PremiumGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Organic') return <OrganicGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Noir') return <NoirGroceryTheme website={website} content={content} />;
+      if (website.theme === 'Pop') return <PopGroceryTheme website={website} content={content} />;
+      return <ModernGroceryTheme website={website} content={content} />;
+    }
+  
+    if (website.business_type === 'Textiles / Garments') {
+      if (website.theme === 'Boutique') return <BoutiqueTextilesTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalTextilesTheme website={website} content={content} />;
+      if (website.theme === 'Luxury') return <LuxuryTextilesTheme website={website} content={content} />;
+      if (website.theme === 'Vintage') return <VintageTextilesTheme website={website} content={content} />;
+      if (website.theme === 'Playful') return <PlayfulTextilesTheme website={website} content={content} />;
+      return <ModernTextilesTheme website={website} content={content} />;
+    }
+  
+    if (website.business_type === 'Consulting') {
+      if (website.theme === 'Corporate') return <CorporateConsultingTheme website={website} content={content} />;
+      if (website.theme === 'Creative Agency') return <CreativeAgencyTheme website={website} content={content} />;
+      if (website.theme === 'Tech Startup') return <TechStartupTheme website={website} content={content} />;
+      if (website.theme === 'Management') return <ManagementConsultingTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalConsultingTheme website={website} content={content} />;
+      if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
+      return <CorporateConsultingTheme website={website} content={content} />;
+    }
+  
+    if (website.business_type === 'Other') {
+      if (website.theme === 'Classic') return <ClassicOtherTheme website={website} content={content} />;
+      if (website.theme === 'Minimal') return <MinimalOtherTheme website={website} content={content} />;
+      if (website.theme === 'Noir') return <NoirOtherTheme website={website} content={content} />;
+      if (website.theme === 'Pop') return <PopOtherTheme website={website} content={content} />;
+      if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
+      return <ModernOtherTheme website={website} content={content} />;
+    }
+  
+    const contact = content?.contact_info || {};
+  
+    return (
+      <div className={`min-h-screen ${website.theme === 'Modern' ? 'font-sans' : website.theme === 'Classic' ? 'font-serif' : website.theme === 'Minimal' ? 'font-mono' : 'font-sans'}`}>
+        
+        {/* Inject Custom CSS globally for this page view */}
+        {content.custom_css && (
+          <style dangerouslySetInnerHTML={{ __html: content.custom_css }} />
+        )}
+  
+        {/* Header */}
+        <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div className="text-xl font-bold">{website.slug}</div>
+            <nav className="hidden md:flex gap-6 text-sm font-medium">
+              <a href="#about" className="hover:text-indigo-400 transition-colors">About</a>
+              {content.services_json?.length > 0 && <a href="#services" className="hover:text-indigo-400 transition-colors">Services</a>}
+              {content.gallery_json?.length > 0 && <a href="#gallery" className="hover:text-indigo-400 transition-colors">Gallery</a>}
+              <a href="#contact" className="hover:text-indigo-400 transition-colors">Contact</a>
+            </nav>
+          </div>
+        </header>
+  
+        {/* Hero Section */}
+        <section className={`relative pt-32 pb-40 px-6 overflow-hidden ${website.theme === 'Vibrant' ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50' : 'bg-slate-50'}`}>
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-100 rounded-bl-[100px] -z-10 opacity-50" />
+          <div className="container mx-auto max-w-4xl text-center relative z-10">
+            <span className="inline-block py-1.5 px-4 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm mb-6 shadow-sm border border-indigo-200 uppercase tracking-wider">
+              {website.business_type}
+            </span>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-slate-900">
+              {content.hero_title || 'Welcome to our business'}
+            </h1>
+            <div className="flex justify-center gap-4 mt-12">
+              <a href="#contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-full font-bold transition-all shadow-lg shadow-indigo-500/25 hover:scale-105 active:scale-95">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </section>
+  
+        {/* About Section */}
+        <section id="about" className="py-24 px-6 bg-white">
+          <div className="container mx-auto max-w-3xl text-center">
+            <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-8">About Us</h2>
+            <p className="text-xl text-slate-600 leading-relaxed font-medium">
+              {content.about_text || 'Information about this business will appear here.'}
+            </p>
+          </div>
+        </section>
+  
+        {/* Services Section */}
+        {content.services_json && content.services_json.length > 0 && (
+          <section id="services" className="py-24 px-6 bg-slate-50 border-y border-slate-100">
+            <div className="container mx-auto max-w-5xl">
+              <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-12 text-center">Our Services</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {content.services_json.map((service: string, index: number) => (
+                  <div key={index} className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 hover:shadow-lg transition-all hover:-translate-y-1">
+                    <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-black mb-6">
+                      {index + 1}
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">{service}</h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+  
+        {/* Gallery Section */}
+        {content.gallery_json && content.gallery_json.length > 0 && (
+          <section id="gallery" className="py-24 px-6 bg-white">
+            <div className="container mx-auto max-w-6xl">
+              <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-12 text-center">Gallery</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {content.gallery_json.map((img: string, index: number) => (
+                  <div key={index} className="aspect-square rounded-[2rem] overflow-hidden bg-slate-100 shadow-md">
+                    <img loading="lazy" src={img} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+  
+        {/* Custom HTML Injection */}
+        {content.custom_html && (
+          <section className="py-24 px-6 bg-slate-50 border-t border-slate-100">
+             <div className="container mx-auto max-w-6xl">
+                <div dangerouslySetInnerHTML={{ __html: content.custom_html }} />
+             </div>
+          </section>
+        )}
+  
+        {/* Contact Section */}
+        <section id="contact" className="py-24 px-6 bg-slate-900 text-white rounded-t-[3rem] mt-10 shadow-2xl">
+          <div className="container mx-auto max-w-4xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+              <p className="text-slate-400 text-lg">We'd love to hear from you.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {contact.phone && (
+                <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-14 h-14 bg-indigo-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-500/20">
+                    <Phone size={24} />
+                  </div>
+                  <h3 className="font-bold mb-2 text-lg">Phone</h3>
+                  <p className="text-slate-300">{contact.phone}</p>
+                </div>
+              )}
+              
+              {contact.email && (
+                <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/20">
+                    <Mail size={24} />
+                  </div>
+                  <h3 className="font-bold mb-2 text-lg">Email</h3>
+                  <p className="text-slate-300">{contact.email}</p>
+                </div>
+              )}
+  
+              {contact.address && (
+                <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-14 h-14 bg-rose-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-rose-500/20">
+                    <MapPin size={24} />
+                  </div>
+                  <h3 className="font-bold mb-2 text-lg">Location</h3>
+                  <p className="text-slate-300">{contact.address}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+  
+        {/* Footer */}
+        <footer className="bg-slate-950 text-slate-500 py-10 text-center text-sm font-medium">
+          <p>&copy; {new Date().getFullYear()} {website.slug}. Created with <span className="font-bold text-white">Jaalam</span>.</p>
+        </footer>
+      </div>
+    );
+  };
 
   return (
-    <div className={`min-h-screen ${website.theme === 'Modern' ? 'font-sans' : website.theme === 'Classic' ? 'font-serif' : website.theme === 'Minimal' ? 'font-mono' : 'font-sans'}`}>
-      
-      {/* Inject Custom CSS globally for this page view */}
-      {content.custom_css && (
-        <style dangerouslySetInnerHTML={{ __html: content.custom_css }} />
-      )}
-
-      {/* Header */}
-      <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold">{website.slug}</div>
-          <nav className="hidden md:flex gap-6 text-sm font-medium">
-            <a href="#about" className="hover:text-indigo-400 transition-colors">About</a>
-            {content.services_json?.length > 0 && <a href="#services" className="hover:text-indigo-400 transition-colors">Services</a>}
-            {content.gallery_json?.length > 0 && <a href="#gallery" className="hover:text-indigo-400 transition-colors">Gallery</a>}
-            <a href="#contact" className="hover:text-indigo-400 transition-colors">Contact</a>
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className={`relative pt-32 pb-40 px-6 overflow-hidden ${website.theme === 'Vibrant' ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50' : 'bg-slate-50'}`}>
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-100 rounded-bl-[100px] -z-10 opacity-50" />
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <span className="inline-block py-1.5 px-4 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm mb-6 shadow-sm border border-indigo-200 uppercase tracking-wider">
-            {website.business_type}
-          </span>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-slate-900">
-            {content.hero_title || 'Welcome to our business'}
-          </h1>
-          <div className="flex justify-center gap-4 mt-12">
-            <a href="#contact" className="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-full font-bold transition-all shadow-lg shadow-indigo-500/25 hover:scale-105 active:scale-95">
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-white">
-        <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-8">About Us</h2>
-          <p className="text-xl text-slate-600 leading-relaxed font-medium">
-            {content.about_text || 'Information about this business will appear here.'}
-          </p>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      {content.services_json && content.services_json.length > 0 && (
-        <section id="services" className="py-24 px-6 bg-slate-50 border-y border-slate-100">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-12 text-center">Our Services</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {content.services_json.map((service: string, index: number) => (
-                <div key={index} className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 hover:shadow-lg transition-all hover:-translate-y-1">
-                  <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-black mb-6">
-                    {index + 1}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900">{service}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Gallery Section */}
-      {content.gallery_json && content.gallery_json.length > 0 && (
-        <section id="gallery" className="py-24 px-6 bg-white">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-12 text-center">Gallery</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {content.gallery_json.map((img: string, index: number) => (
-                <div key={index} className="aspect-square rounded-[2rem] overflow-hidden bg-slate-100 shadow-md">
-                  <img loading="lazy" src={img} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Custom HTML Injection */}
-      {content.custom_html && (
-        <section className="py-24 px-6 bg-slate-50 border-t border-slate-100">
-           <div className="container mx-auto max-w-6xl">
-              <div dangerouslySetInnerHTML={{ __html: content.custom_html }} />
-           </div>
-        </section>
-      )}
-
-      {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-slate-900 text-white rounded-t-[3rem] mt-10 shadow-2xl">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
-            <p className="text-slate-400 text-lg">We'd love to hear from you.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {contact.phone && (
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
-                <div className="w-14 h-14 bg-indigo-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-500/20">
-                  <Phone size={24} />
-                </div>
-                <h3 className="font-bold mb-2 text-lg">Phone</h3>
-                <p className="text-slate-300">{contact.phone}</p>
-              </div>
-            )}
-            
-            {contact.email && (
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
-                <div className="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/20">
-                  <Mail size={24} />
-                </div>
-                <h3 className="font-bold mb-2 text-lg">Email</h3>
-                <p className="text-slate-300">{contact.email}</p>
-              </div>
-            )}
-
-            {contact.address && (
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
-                <div className="w-14 h-14 bg-rose-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-rose-500/20">
-                  <MapPin size={24} />
-                </div>
-                <h3 className="font-bold mb-2 text-lg">Location</h3>
-                <p className="text-slate-300">{contact.address}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 text-slate-500 py-10 text-center text-sm font-medium">
-        <p>&copy; {new Date().getFullYear()} {website.slug}. Created with <span className="font-bold text-white">Jaalam</span>.</p>
-      </footer>
-    </div>
+    <>
+      <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
+      {renderTheme()}
+    </>
   );
 }
