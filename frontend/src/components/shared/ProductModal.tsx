@@ -52,7 +52,7 @@ export default function ProductModal({ product, onClose, contactInfo, content }:
         </div>
 
         {/* Details Section */}
-        <div className="w-full md:w-1/2 p-4 md:p-10 lg:p-12 overflow-y-auto flex flex-col [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="w-full md:w-1/2 p-4 md:p-10 lg:p-12 overflow-y-auto flex flex-col">
           <div className="mt-auto md:mt-0 flex-1">
             <h3 className="text-xl md:text-4xl font-bold text-gray-900 leading-tight mb-2">{product.name}</h3>
             
@@ -74,23 +74,11 @@ export default function ProductModal({ product, onClose, contactInfo, content }:
           </div>
 
           <div className="mt-auto pt-4 md:pt-6 border-t border-gray-100">
-            <button 
-              onClick={handleOrder}
-              className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 md:py-4 rounded-xl transition-all shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 md:gap-3 transform hover:-translate-y-1"
-            >
-              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 md:w-6 md:h-6">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              </svg>
-              <span className="text-base md:text-lg">Order on WhatsApp</span>
-            </button>
             {content && content.settings_json?.upi_id && content.settings_json?.enable_product_payments !== false && (
-              <div className="mt-3">
+              <div>
                 <ProductBuyButton product={product} content={content} />
               </div>
             )}
-            <p className="text-center text-xs md:text-sm text-gray-400 mt-3 md:mt-4">
-              Fast & secure checkout via WhatsApp
-            </p>
           </div>
         </div>
       </div>
