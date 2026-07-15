@@ -13,8 +13,8 @@ export default function ProductBuyButton({ product, content }: ProductBuyButtonP
   const upiId = content?.settings_json?.upi_id;
   const enableProductPayments = content?.settings_json?.enable_product_payments ?? true;
 
-  // If no UPI ID is configured, too short, or product payments disabled, don't show the button
-  if (!upiId || upiId.length < 5 || !enableProductPayments || !product?.price) return null;
+  // If product payments disabled, don't show the button
+  if (!enableProductPayments || !product?.price) return null;
 
   const handleBuyClick = (e: React.MouseEvent) => {
     e.stopPropagation();

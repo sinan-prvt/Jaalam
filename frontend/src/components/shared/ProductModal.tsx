@@ -74,11 +74,9 @@ export default function ProductModal({ product, onClose, contactInfo, content }:
           </div>
 
           <div className="mt-auto pt-4 md:pt-6 border-t border-gray-100">
-            {content && content.settings_json?.upi_id && content.settings_json?.enable_product_payments !== false && (
-              <div>
-                <ProductBuyButton product={product} content={content} />
-              </div>
-            )}
+            <div>
+              <ProductBuyButton product={product} content={content} />
+            </div>
           </div>
         </div>
       </div>

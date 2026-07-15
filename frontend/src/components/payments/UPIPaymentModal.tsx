@@ -24,7 +24,8 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
   
   // Ensure the UPI ID is a valid VPA. If it lacks an '@', it's likely a phone number.
   // We append a common handle (@ybl for PhonePe) so it doesn't hard-fail in apps like GPay.
-  const safeUpiId = upiId.includes('@') ? upiId.trim() : `${upiId.trim()}@ybl`;
+  const upiIdString = upiId || 'not-configured@ybl';
+  const safeUpiId = upiIdString.includes('@') ? upiIdString.trim() : `${upiIdString.trim()}@ybl`;
   
   const upiLink = `upi://pay?pa=${encodeURIComponent(safeUpiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR${cleanAmount ? `&am=${cleanAmount}` : ''}`;
 
