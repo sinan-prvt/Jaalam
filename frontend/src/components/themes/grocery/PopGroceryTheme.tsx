@@ -34,8 +34,7 @@ export default function PopGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
         .font-pop { font-family: 'Nunito', sans-serif; }
         .font-body { font-family: 'Inter', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -206,7 +205,6 @@ export default function PopGroceryTheme({ website, content }: any) {
                     {p.size && <span className="font-body text-xs text-gray-400 block mb-3">{p.size}</span>}
                     <div className="flex items-center justify-between">
                       <span className="font-pop font-black text-emerald-600 text-lg">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button className="bg-emerald-100 text-emerald-700 p-2 rounded-xl hover:bg-emerald-500 hover:text-white transition-all">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                       </button>
@@ -363,7 +361,7 @@ export default function PopGroceryTheme({ website, content }: any) {
       )}
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

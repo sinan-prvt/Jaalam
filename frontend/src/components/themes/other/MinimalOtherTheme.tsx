@@ -23,8 +23,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans selection:bg-black selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         .font-minimal { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -125,7 +124,6 @@ export default function MinimalOtherTheme({ website, content }: any) {
                   <div className="font-minimal text-2xl md:text-3xl font-light">
                     {item.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                 </div>
               ))}
             </div>

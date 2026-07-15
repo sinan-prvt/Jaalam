@@ -23,8 +23,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#2C3E50] font-serif border-t-8 border-[#1A252C]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap');
         .font-classic { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Source Sans Pro', sans-serif; }
       
@@ -124,7 +123,6 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                     <div className="font-classic font-bold text-2xl text-[#1A252C] mb-4">
                       {p.price}
                     </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                     <button onClick={() => setSelectedProduct(p)} className="bg-[#1A252C] hover:bg-[#2C3E50] text-white font-body font-semibold py-2 px-6 transition-colors shadow-sm text-sm">
                       View Details
                     </button>
@@ -317,7 +315,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Image Modal */}
       {selectedGalleryImage && (

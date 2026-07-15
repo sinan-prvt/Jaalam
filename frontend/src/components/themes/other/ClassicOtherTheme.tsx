@@ -24,8 +24,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F9F7F1] text-[#2C2C2C] font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
         .font-classic-title { font-family: 'Playfair Display', serif; }
         .font-classic-body { font-family: 'Lato', sans-serif; }
       
@@ -146,7 +145,6 @@ export default function ClassicOtherTheme({ website, content }: any) {
                   <div className="font-classic-title text-2xl font-bold text-[#8C1C13]">
                     {item.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                 </div>
               ))}
             </div>

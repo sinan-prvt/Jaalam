@@ -23,8 +23,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-slate-50 text-slate-800 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         .font-modern { font-family: 'Poppins', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -105,7 +104,6 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                 <div className="absolute top-6 left-6 bg-white/90 backdrop-blur text-slate-900 font-modern font-bold text-sm px-3 py-1 rounded-lg shadow-sm">
                   {p.price}
                 </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
               <div className="p-5">
                 <h3 className="font-modern font-bold text-lg text-slate-900 mb-1 truncate">{p.name}</h3>
@@ -308,7 +306,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Image Modal */}
       {selectedGalleryImage && (

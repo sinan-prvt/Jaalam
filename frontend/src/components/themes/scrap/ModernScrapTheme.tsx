@@ -33,8 +33,7 @@ export default function ModernScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-slate-50 text-slate-800 font-sans selection:bg-emerald-500 selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         .font-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -170,7 +169,6 @@ export default function ModernScrapTheme({ website, content }: any) {
                           <span className="font-modern font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg text-sm whitespace-nowrap ml-4">
                             {p.price}
                           </span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         </div>
                         <p className="font-modern text-sm text-slate-500 mt-2 mb-4">{p.description}</p>
                         <button 
@@ -376,7 +374,6 @@ export default function ModernScrapTheme({ website, content }: any) {
                 <span className="font-modern font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg">
                   {selectedProduct.price}
                 </span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               <p className="font-modern text-slate-600 leading-relaxed mb-6">
                 {selectedProduct.detailed_description || selectedProduct.description || 'Detailed specifications and processing information for this material.'}
@@ -401,7 +398,7 @@ export default function ModernScrapTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

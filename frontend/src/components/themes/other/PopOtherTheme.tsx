@@ -24,8 +24,7 @@ export default function PopOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFF5F5] text-[#2D3748] font-sans selection:bg-[#FF4D4D] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
         .font-pop-title { font-family: 'Fredoka', sans-serif; }
         .font-pop-body { font-family: 'Nunito', sans-serif; }
       
@@ -151,7 +150,6 @@ export default function PopOtherTheme({ website, content }: any) {
                   <div className="font-pop-title text-4xl font-black text-[#2D3748] bg-[#FFD700] px-8 py-3 rounded-full border-4 border-[#2D3748] shadow-[4px_4px_0px_0px_rgba(45,55,72,1)] rotate-2">
                     {item.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                 </div>
               ))}
             </div>

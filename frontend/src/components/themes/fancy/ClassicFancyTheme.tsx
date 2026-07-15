@@ -46,8 +46,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDF8F5] text-[#3D2B1F] font-serif">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
         .font-classic { font-family: 'Libre Baskerville', serif; }
         .font-sans { font-family: 'Lato', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -188,7 +187,6 @@ export default function ClassicFancyTheme({ website, content }: any) {
                       <div className="w-1/2 flex flex-col justify-center">
                         <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>
                         <div className="font-sans font-bold tracking-widest text-[#8C3A3A] mb-4">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         <p className="font-sans text-sm text-[#6B5A4E] leading-relaxed">{p.description}</p>
                       </div>
                     </div>
@@ -329,7 +327,6 @@ export default function ClassicFancyTheme({ website, content }: any) {
                     <div className="w-1/2 flex flex-col justify-center">
                       <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>
                       <div className="font-sans font-bold tracking-widest text-[#8C3A3A] mb-4">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <p className="font-sans text-sm text-[#6B5A4E] leading-relaxed">{p.description}</p>
                     </div>
                   </div>
@@ -400,7 +397,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
       )}
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

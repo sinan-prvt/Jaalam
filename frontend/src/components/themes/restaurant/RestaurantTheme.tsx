@@ -4,7 +4,6 @@ import ProductModal from '../../shared/ProductModal';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
 
-import ProductBuyButton from '../../payments/ProductBuyButton';
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -475,7 +474,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                         <div className="text-center px-4">
                           <h3 className={`text-2xl font-bold mb-3 text-stone-900 ${headingFont}`}>{item.name}</h3>
                           <span className={`text-lg font-semibold tracking-wider ${primaryText}`}>{item.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                           <p className="text-stone-500 text-sm mt-4 font-light leading-relaxed">{item.description}</p>
                         </div>
                       </div>
@@ -491,7 +489,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                         <div className="flex justify-between items-start mb-3 px-2">
                           <h3 className={`text-2xl font-bold text-slate-900 ${headingFont}`}>{item.name}</h3>
                           <span className={`text-xl font-black bg-white px-4 py-1.5 rounded-full shadow-sm ${primaryText}`}>{item.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                         </div>
                         <p className="text-slate-500 px-2 font-medium leading-relaxed">{item.description}</p>
                       </div>
@@ -509,13 +506,11 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                             <div className="flex justify-between items-start sm:block mb-2 sm:mb-3">
                               <h3 className={`text-2xl lg:text-3xl font-medium text-green-950 ${headingFont}`}>{item.name}</h3>
                               <span className={`text-2xl font-bold sm:hidden shrink-0 ${primaryText}`}>{item.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                             </div>
                             <p className="text-slate-500 text-sm lg:text-base font-light leading-relaxed">{item.description}</p>
                           </div>
                         </div>
                         <span className={`hidden sm:block text-2xl lg:text-3xl font-semibold shrink-0 ${primaryText}`}>{item.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                       </div>
                     );
                   }
@@ -531,7 +526,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
                             <h3 className={`text-3xl font-bold ${headingFont}`}>{item.name}</h3>
                             <span className={`text-2xl font-bold px-4 py-2 bg-slate-800 ${primaryText} inline-block w-max border border-slate-700`}>{item.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                           </div>
                           <p className="text-slate-300 text-lg font-light leading-relaxed">{item.description}</p>
                         </div>
@@ -896,7 +890,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   }`}>
                     {selectedProduct.price}
                   </span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
                   
                   <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 shadow-inner">
                     <Star size={14} className={`${primaryText} fill-current`} />
@@ -967,7 +960,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
         
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
       )}
     </>

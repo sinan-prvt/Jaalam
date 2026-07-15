@@ -32,8 +32,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFFBEA] text-[#E03A3E] font-sans border-[12px] border-[#E03A3E] box-border relative overflow-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Chewy&family=Quicksand:wght@500;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Chewy&family=Quicksand:wght@500;700;900&display=swap');
         .font-playful { font-family: 'Chewy', cursive; }
         .font-body { font-family: 'Quicksand', sans-serif; }
       
@@ -161,7 +160,6 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                       <p className="font-body font-bold text-sm text-[#F48C06] mb-4">{p.description}</p>
                       <div className="flex justify-between items-end mt-auto pt-4 border-t-4 border-dashed border-[#FFFBEA]">
                         <span className="font-body font-black text-xl text-[#F48C06]">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       </div>
                     </div>
                   ))}
@@ -295,7 +293,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

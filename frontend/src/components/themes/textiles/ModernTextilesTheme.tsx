@@ -20,8 +20,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-slate-900 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
         .font-modern { font-family: 'Jost', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -124,7 +123,6 @@ export default function ModernTextilesTheme({ website, content }: any) {
               <div className="font-modern text-sm text-slate-500 mb-1">{p.category}</div>
               <h3 className="font-modern text-base font-medium mb-1">{p.name}</h3>
               <div className="font-modern text-sm">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
             </div>
           ))}
         </div>
@@ -271,7 +269,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

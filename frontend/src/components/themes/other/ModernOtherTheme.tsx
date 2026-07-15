@@ -24,8 +24,7 @@ export default function ModernOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-slate-50 text-slate-800 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
         .font-modern { font-family: 'Outfit', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -148,7 +147,6 @@ export default function ModernOtherTheme({ website, content }: any) {
                   <div className="font-modern text-2xl font-black text-blue-600 bg-blue-50 px-6 py-2 rounded-full">
                     {item.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                 </div>
               ))}
             </div>

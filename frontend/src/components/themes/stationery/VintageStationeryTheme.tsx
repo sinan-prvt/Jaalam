@@ -19,8 +19,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#EFE9E1] text-[#3E362E] font-serif relative border-x-8 border-y-8 border-[#8B7355]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&family=IM+Fell+English:ital@0;import ProductBuyButton from '../../payments/ProductBuyButton';
-1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&family=IM+Fell+English:ital@0;1&display=swap');
         .font-typewriter { font-family: 'Cutive Mono', monospace; }
         .font-vintage { font-family: 'IM Fell English', serif; }
       
@@ -80,7 +79,6 @@ export default function VintageStationeryTheme({ website, content }: any) {
                 <h4 className="font-vintage text-xl font-bold mb-1 text-[#3E362E]">{p.name}</h4>
                 <p className="font-typewriter text-xs text-[#5C4A3D] mb-3 leading-tight">{p.description}</p>
                 <div className="font-vintage italic text-lg text-[#8B7355]">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
             </div>
           ))}

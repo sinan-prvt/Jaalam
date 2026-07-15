@@ -30,8 +30,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F0E6FA] text-[#4A3B69] font-sans selection:bg-[#B49FCC] selection:text-white relative overflow-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
         .font-ethereal { font-family: 'Outfit', sans-serif; }
         .glass-panel {
           background: rgba(255, 255, 255, 0.4);
@@ -175,7 +174,6 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                           <div className="font-ethereal text-center">
                             <h3 className="font-bold text-lg text-[#6A4C93] mb-1">{p.name}</h3>
                             <div className="text-sm font-medium opacity-70">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           </div>
                         </div>
                       ))}
@@ -341,7 +339,6 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                     <div className="font-ethereal text-center">
                       <h3 className="font-bold text-lg text-[#6A4C93] mb-1">{p.name}</h3>
                       <div className="text-sm font-medium opacity-70">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                     </div>
                   </div>
                 ))}
@@ -392,7 +389,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
       )}
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

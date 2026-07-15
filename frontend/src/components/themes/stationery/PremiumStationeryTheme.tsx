@@ -19,8 +19,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0A0A0A] text-[#D4AF37] font-sans selection:bg-[#D4AF37] selection:text-black">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-600;700&family=Montserrat:wght@200;300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@200;300;400;600&display=swap');
         .font-luxury { font-family: 'Cormorant Garamond', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
       
@@ -83,7 +82,6 @@ export default function PremiumStationeryTheme({ website, content }: any) {
                   <h3 className="font-luxury text-2xl text-white mb-2 tracking-wide">{p.name}</h3>
                   <p className="font-body text-xs text-gray-400 tracking-wider mb-4 leading-relaxed max-w-xs mx-auto">{p.description}</p>
                   <div className="font-body text-sm tracking-widest text-[#D4AF37]">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             ))}

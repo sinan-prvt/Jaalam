@@ -82,8 +82,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;import ProductBuyButton from '../../payments/ProductBuyButton';
-700&family=Teko:wght@500;700&family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Teko:wght@500;700&family=Inter:wght@400;700;900&display=swap');
 
         .hi-heading { font-family: 'Teko', sans-serif; text-transform: uppercase; }
         .hi-subheading { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
@@ -383,7 +382,6 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                           <h3 className="hi-heading text-4xl text-white mb-2 break-words">{product.name}</h3>
                           <div className="flex items-end gap-2 mb-6 break-words">
                             <span className="hi-heading text-5xl text-[#FF2A2A] leading-none break-words">{product.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                             {product.time && <span className="text-gray-500 hi-subheading mb-1 uppercase break-words">/ {product.time}</span>}
                           </div>
                           <p className="text-gray-400 text-sm font-bold mb-8 flex-1 min-w-0 break-words whitespace-pre-wrap">{product.description}</p>
@@ -686,7 +684,6 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                 
                 <div className="flex items-end gap-2 mb-4">
                   <span className="hi-heading text-3xl text-[#FF2A2A] leading-none">{selectedProduct.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
                   {selectedProduct.time && <span className="hi-subheading text-gray-400 text-sm mb-0.5">/ {selectedProduct.time}</span>}
                 </div>
                 
@@ -780,7 +777,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
       
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
     </>
   );

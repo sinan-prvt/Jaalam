@@ -24,8 +24,7 @@ export default function NoirOtherTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0a0a0a] text-[#e5e5e5] font-sans selection:bg-[#333] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;600;700&family=Montserrat:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap');
         .font-noir-title { font-family: 'Cinzel', serif; }
         .font-noir-body { font-family: 'Montserrat', sans-serif; }
       
@@ -142,7 +141,6 @@ export default function NoirOtherTheme({ website, content }: any) {
                   <div className="font-noir-body text-xl font-light text-white tracking-widest">
                     {item.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={item} content={content} /></div>
                 </div>
               ))}
             </div>

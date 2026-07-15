@@ -53,8 +53,7 @@ export default function StreetwearTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0A0A0A] text-[#F3F4F6] selection:bg-[#ccff00] selection:text-black flex flex-col font-mono overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
         .st-font { font-family: 'Space Grotesk', sans-serif; }
         .st-marquee { white-space: nowrap; animation: scroll 20s linear infinite; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -204,7 +203,6 @@ export default function StreetwearTheme({ website, content }: any) {
                     <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>
                     <div className="flex justify-between items-center mt-4">
                       <span className="text-[#ccff00] font-black text-xl">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button className="bg-[#333] text-white w-10 h-10 flex items-center justify-center font-black group-hover:bg-[#ccff00] group-hover:text-black transition-colors">+</button>
                     </div>
                   </div>
@@ -406,7 +404,6 @@ export default function StreetwearTheme({ website, content }: any) {
               <div className="inline-block bg-white text-black font-bold px-3 py-1 text-xs md:text-sm self-start mb-4 md:mb-6 uppercase">Drop 01</div>
               <h2 className="st-font text-3xl md:text-5xl font-black uppercase mb-2 md:mb-4 break-words">{selectedProduct.name}</h2>
               <p className="text-2xl md:text-3xl font-black text-[#ccff00] mb-6 md:mb-8">{selectedProduct.price}</p>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
               <p className="text-gray-400 font-bold text-sm md:text-base mb-6 md:mb-8 uppercase leading-relaxed break-words">{selectedProduct.description}</p>
               
               <div className="space-y-4">
@@ -451,7 +448,6 @@ export default function StreetwearTheme({ website, content }: any) {
                     <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>
                     <div className="flex justify-between items-center mt-4">
                       <span className="text-[#ccff00] font-black text-xl">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                       <button className="bg-[#333] text-white w-10 h-10 flex items-center justify-center font-black group-hover:bg-[#ccff00] group-hover:text-black transition-colors">+</button>
                     </div>
                   </div>
@@ -474,7 +470,7 @@ export default function StreetwearTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

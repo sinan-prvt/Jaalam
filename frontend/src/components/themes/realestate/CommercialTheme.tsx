@@ -23,8 +23,7 @@ export default function CommercialTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F8F9FA] text-[#212529] font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-600;800&family=Open+Sans:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap');
         .font-corp { font-family: 'Montserrat', sans-serif; }
         .font-body { font-family: 'Open Sans', sans-serif; }
       
@@ -115,7 +114,6 @@ export default function CommercialTheme({ website, content }: any) {
                 </div>
                 <div className="border-t border-[#DEE2E6] pt-4 flex justify-between items-center mb-4">
                   <span className="font-corp font-bold text-[#004B87]">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <Building className="text-[#CED4DA]" size={20} />
                 </div>
                 <button onClick={() => setSelectedProduct(p)} className="w-full bg-[#F8F9FA] hover:bg-[#004B87] text-[#004B87] hover:text-white font-corp font-bold py-2 transition-colors border border-[#DEE2E6] hover:border-[#004B87]">
@@ -293,7 +291,7 @@ export default function CommercialTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Image Modal */}
       {selectedGalleryImage && (

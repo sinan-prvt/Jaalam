@@ -84,8 +84,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Courier+Prime:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
         .vb-display { font-family: 'Rye', serif; letter-spacing: 0.05em; text-transform: uppercase; }
         .vb-body    { font-family: 'Courier Prime', monospace; }
@@ -414,7 +413,6 @@ export default function VintageBarberTheme({ website, content }: Props) {
                                 <h3 className="vb-display text-2xl group-hover:text-[#9E2A2B] transition-colors">{style.name}</h3>
                                 <div className="hidden sm:block border-b-2 border-dotted border-black/30 flex-1 mx-4 relative top-[-6px]"></div>
                                 <span className="vb-display text-2xl" style={{ color: CRIMSON }}>{style.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                               </div>
                               <div className="flex items-center justify-center sm:justify-start gap-4 font-bold text-xs uppercase tracking-widest opacity-60">
                                 <span className="flex items-center gap-1"><Clock size={12} /> {style.time}</span>
@@ -607,7 +605,6 @@ export default function VintageBarberTheme({ website, content }: Props) {
                 <h3 className="vb-display text-3xl mb-2">{selectedStyle.name}</h3>
                 <div className="flex items-center gap-4 mb-6 font-bold text-xs uppercase tracking-widest opacity-80">
                   <span className="vb-display text-2xl opacity-100" style={{ color: CRIMSON }}>{selectedStyle.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedStyle} content={content} /></div>
                   <span>•</span>
                   <span className="flex items-center gap-1"><Clock size={12} /> {selectedStyle.time}</span>
                   <span>•</span>
@@ -694,7 +691,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
       
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
     </>
   );

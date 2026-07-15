@@ -81,8 +81,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;import ProductBuyButton from '../../payments/ProductBuyButton';
-300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
         .lc-heading { font-family: 'Playfair Display', serif; }
         .lc-body { font-family: 'Montserrat', sans-serif; }
@@ -378,7 +377,6 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                             <div className="text-4xl text-white font-light mb-8 break-words">
                               {product.price}
                             </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                             
                             <p className="text-gray-300 text-sm leading-loose mb-10 flex-1 font-light break-words whitespace-pre-wrap">
                               {product.description}
@@ -665,7 +663,6 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                         <h3 className="lc-heading text-3xl text-white mb-2 break-words whitespace-pre-wrap">{product.name}</h3>
                         <p className="lc-subheading mb-8 text-[#D4C5B9] break-words whitespace-pre-wrap">{product.time}</p>
                         <div className="text-4xl text-white font-light mb-8 break-words whitespace-pre-wrap">{product.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                         <p className="text-gray-300 text-sm leading-loose mb-10 flex-1 font-light break-words whitespace-pre-wrap">{product.description}</p>
                         <button 
                           onClick={() => { setViewProductsPage(false); setSelectedProduct(product); }}
@@ -693,7 +690,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
       
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
     </>
   );

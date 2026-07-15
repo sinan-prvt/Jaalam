@@ -60,8 +60,7 @@ export default function NoirFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-black text-zinc-400 font-sans selection:bg-white selection:text-black scroll-smooth">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;900&family=Jost:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Jost:wght@300;400;500&display=swap');
         .font-noir-display { font-family: 'Cinzel', serif; }
         .font-noir-body { font-family: 'Jost', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -194,7 +193,6 @@ export default function NoirFancyTheme({ website, content }: any) {
                           <div className="absolute bottom-8 left-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                             <h3 className="font-noir-display text-3xl text-white uppercase tracking-widest mb-2">{product.name}</h3>
                             <span className="font-noir-body text-sm tracking-[0.2em] text-zinc-400">{product.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                           </div>
                         </div>
                       </div>
@@ -320,7 +318,6 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </div>
                     <div className="flex items-center gap-12 w-full md:w-auto justify-between md:justify-end">
                       <span className="font-noir-body text-sm tracking-[0.2em] text-zinc-500">{product.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                       <div className="w-16 h-16 bg-zinc-900 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">
                         <img loading="lazy" src={product.image} className="w-full h-full object-cover filter grayscale" alt={product.name} />
                       </div>
@@ -374,7 +371,7 @@ export default function NoirFancyTheme({ website, content }: any) {
 
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

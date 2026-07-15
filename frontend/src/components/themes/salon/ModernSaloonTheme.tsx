@@ -87,8 +87,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
         .ms-font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em; }
         .ms-font-body    { font-family: 'Space Grotesk', sans-serif; }
@@ -496,7 +495,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                               </div>
                               <div className="shrink-0 text-right ml-auto sm:hidden">
                                 <span className="ms-font-display text-2xl" style={{ color: TEAL }}>{style.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                                 <div className="text-[9px] ms-font-sub text-slate-500 mt-0.5 uppercase tracking-wider">per session</div>
                               </div>
                             </div>
@@ -520,7 +518,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                               <div className="hidden sm:flex items-center gap-8">
                                 <div className="shrink-0 text-right">
                                   <span className="ms-font-display text-3xl" style={{ color: TEAL }}>{style.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                                   <div className="text-[10px] ms-font-sub text-slate-500 mt-0.5 uppercase tracking-wider">per session</div>
                                 </div>
                                 <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all group-hover:ms-glow-sm"
@@ -749,7 +746,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                   <h3 className="ms-font-display text-2xl text-white">{selectedStyle.name}</h3>
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
                     <span className="text-base ms-font-display font-normal px-3 py-1 rounded-lg text-black" style={{ background: TEAL }}>{selectedStyle.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedStyle} content={content} /></div>
                     <span className="flex items-center gap-1 text-xs ms-font-sub font-bold" style={{ color: TEAL }}><Star size={12} fill={TEAL} />{selectedStyle.rating}</span>
                     <span className="flex items-center gap-1 text-xs ms-font-sub text-slate-400"><Clock size={12} />{selectedStyle.time}</span>
                   </div>
@@ -858,7 +854,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
       
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
     </>
   );

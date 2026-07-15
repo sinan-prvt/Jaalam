@@ -20,8 +20,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFF0F5] text-purple-900 font-sans overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-700&family=Nunito:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Nunito:wght@400;700;900&display=swap');
         .font-playful { font-family: 'Balsamiq Sans', cursive; }
         .font-body { font-family: 'Nunito', sans-serif; }
       
@@ -90,7 +89,6 @@ export default function PlayfulFancyTheme({ website, content }: any) {
                   <div className="absolute top-3 right-3 bg-yellow-400 text-white font-playful px-3 py-1 rounded-full text-sm shadow-sm rotate-12">
                     {p.price}
                   </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
                 <div className="px-2 pb-2 text-center">
                   <h3 className="font-playful text-xl text-purple-800 mb-2">{p.name}</h3>
@@ -219,7 +217,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

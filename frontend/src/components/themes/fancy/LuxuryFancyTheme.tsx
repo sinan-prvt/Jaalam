@@ -20,8 +20,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#050505] text-[#E5C158] font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,700;1,400&family=Montserrat:wght@200;300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400&display=swap');
         .font-luxury { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Montserrat', sans-serif; }
       
@@ -83,7 +82,6 @@ export default function LuxuryFancyTheme({ website, content }: any) {
                   <h3 className="font-luxury text-2xl text-white mb-3 tracking-wide">{p.name}</h3>
                   <div className="w-8 h-px bg-[#E5C158]/50 mx-auto mb-3"></div>
                   <div className="font-body text-xs tracking-widest text-[#E5C158]">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                 </div>
               </div>
             ))}
@@ -213,7 +211,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

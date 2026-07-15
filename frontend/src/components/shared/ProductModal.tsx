@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
+import ProductBuyButton from '../payments/ProductBuyButton';
 
 interface ProductModalProps {
   product: any;
   onClose: () => void;
   contactInfo: any;
+  content?: any;
 }
 
-export default function ProductModal({ product, onClose, contactInfo }: ProductModalProps) {
+export default function ProductModal({ product, onClose, contactInfo, content }: ProductModalProps) {
   // Close on Escape key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -81,6 +83,11 @@ export default function ProductModal({ product, onClose, contactInfo }: ProductM
               </svg>
               <span className="text-base md:text-lg">Order on WhatsApp</span>
             </button>
+            {content && content.settings_json?.upi_id && content.settings_json?.enable_product_payments !== false && (
+              <div className="mt-3">
+                <ProductBuyButton product={product} content={content} />
+              </div>
+            )}
             <p className="text-center text-xs md:text-sm text-gray-400 mt-3 md:mt-4">
               Fast & secure checkout via WhatsApp
             </p>

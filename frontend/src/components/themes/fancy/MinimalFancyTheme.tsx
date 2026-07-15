@@ -39,8 +39,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans selection:bg-black selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
         .font-minimal { font-family: 'DM Sans', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -170,7 +169,6 @@ export default function MinimalFancyTheme({ website, content }: any) {
                             <p className="text-sm text-gray-500">{p.description}</p>
                           </div>
                           <span className="font-medium">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                         </div>
                       </div>
                     ))}
@@ -290,7 +288,6 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       <p className="text-sm text-gray-500">{p.description}</p>
                     </div>
                     <span className="font-medium">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                 </div>
               ))}
@@ -357,7 +354,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

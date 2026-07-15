@@ -23,8 +23,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-slate-900 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap');
         .font-urban { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -104,7 +103,6 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                 </div>
                 <div className="p-5">
                   <div className="text-blue-600 font-urban font-black text-xl mb-1">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <h3 className="font-urban font-bold text-slate-900 mb-2 truncate">{p.name}</h3>
                   <div className="flex items-center gap-1 text-slate-500 font-urban text-xs mb-4">
                     <MapPin size={12} /> {p.location}
@@ -284,7 +282,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
 
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={properties} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Image Modal */}
       {selectedGalleryImage && (

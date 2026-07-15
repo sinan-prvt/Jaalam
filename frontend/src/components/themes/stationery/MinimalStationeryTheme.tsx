@@ -31,8 +31,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans selection:bg-black selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap');
         .font-minimal { font-family: 'Inter', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -180,7 +179,6 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                           <div className="flex justify-between items-start font-minimal">
                             <h3 className="font-bold text-sm uppercase tracking-wider">{p.name}</h3>
                             <span className="text-sm text-gray-500">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           </div>
                         </div>
                       ))}
@@ -323,7 +321,6 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                   <div className="font-minimal">
                     <h3 className="font-bold text-sm uppercase tracking-wider mb-1">{p.name}</h3>
                     <div className="text-sm text-gray-500">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   </div>
                 </div>
               ))}
@@ -388,7 +385,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
       )}
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

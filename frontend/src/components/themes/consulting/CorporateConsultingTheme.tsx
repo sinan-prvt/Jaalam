@@ -324,7 +324,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
 
       {/* Modals */}
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={services} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Modal */}
       {selectedGalleryImage && (

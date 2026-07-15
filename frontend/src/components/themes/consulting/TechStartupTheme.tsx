@@ -29,8 +29,7 @@ export default function TechStartupTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0A0A0F] text-[#E0E0E0] font-sans selection:bg-[#00D4FF] selection:text-[#0A0A0F]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
         .font-tech-title { font-family: 'JetBrains Mono', monospace; }
         .font-tech-body { font-family: 'Inter', sans-serif; }
       
@@ -164,7 +163,6 @@ export default function TechStartupTheme({ website, content }: any) {
                   <div className="flex justify-between items-start mb-4">
                      <h3 className="font-tech-title text-2xl font-bold text-white">{service.name}</h3>
                      <span className="font-tech-title text-xs font-bold bg-white/10 text-white px-3 py-1 rounded-sm uppercase">{service.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={service} content={content} /></div>
                   </div>
                   <p className="font-tech-body text-gray-400 mb-6 max-w-xl line-clamp-2">{service.description}</p>
                   <div className="inline-flex items-center gap-2 text-[#00D4FF] font-tech-title text-sm font-bold uppercase tracking-wider group-hover:translate-x-2 transition-transform">
@@ -330,7 +328,7 @@ export default function TechStartupTheme({ website, content }: any) {
 
       {/* Modals */}
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={services} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Modal */}
       {selectedGalleryImage && (

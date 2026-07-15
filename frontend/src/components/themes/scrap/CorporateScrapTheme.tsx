@@ -34,8 +34,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-[#2563EB] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         .font-corp { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -212,7 +211,6 @@ export default function CorporateScrapTheme({ website, content }: any) {
                           <div className="flex justify-between items-start mb-2">
                             <h4 className="font-corp text-lg font-bold text-[#0F172A]">{p.name}</h4>
                             <span className="bg-blue-100 text-[#2563EB] text-xs font-bold px-2 py-1 rounded">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                           </div>
                           <p className="font-corp text-[#475569] text-sm leading-relaxed mb-4">{p.description}</p>
                           <button 
@@ -439,7 +437,6 @@ export default function CorporateScrapTheme({ website, content }: any) {
                 <div className="inline-block bg-blue-50 text-[#2563EB] font-corp text-xs font-bold uppercase tracking-wider px-2 py-1 rounded mb-4">
                   {selectedProduct.price}
                 </div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedProduct} content={content} /></div>
                 <h3 className="font-corp text-3xl font-bold text-[#0F172A] mb-4">{selectedProduct.name}</h3>
                 
                 <p className="font-corp text-[#475569] leading-relaxed mb-6 pb-6 border-b border-slate-100">
@@ -466,7 +463,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

@@ -22,8 +22,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#3E4A3D] font-serif">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;import ProductBuyButton from '../../payments/ProductBuyButton';
-0,600;1,400&family=Nunito:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap');
         .font-organic { font-family: 'Lora', serif; }
         .font-body { font-family: 'Nunito', sans-serif; }
       
@@ -103,7 +102,6 @@ export default function OrganicGroceryTheme({ website, content }: any) {
                 <h3 className="font-organic text-lg text-[#2C362B] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#F4F1EA]">
                   <span className="font-body font-semibold text-[#6B8E23] text-lg">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <button className="text-[#D4A373] hover:text-[#BC8A5F] transition-colors"><ShoppingBag size={20} /></button>
                 </div>
               </div>
@@ -302,7 +300,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
       )}
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

@@ -56,8 +56,7 @@ export default function PopFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-fuchsia-500 selection:text-white overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
-400;500;600&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
         .font-pop-display { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-pop-body { font-family: 'Inter', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -201,7 +200,6 @@ export default function PopFancyTheme({ website, content }: any) {
                           </div>
                           <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
                           <span className="font-pop-body text-lg font-medium text-slate-600">{product.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                         </div>
                       ))}
                     </div>
@@ -344,7 +342,6 @@ export default function PopFancyTheme({ website, content }: any) {
                     <div className="p-6">
                       <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
                       <span className="font-pop-body text-lg font-medium text-slate-600">{product.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={product} content={content} /></div>
                     </div>
                   </div>
                 ))}
@@ -389,7 +386,7 @@ export default function PopFancyTheme({ website, content }: any) {
       )}
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

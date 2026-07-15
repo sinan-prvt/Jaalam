@@ -20,8 +20,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFFDF9] text-[#2C1E16] font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;700&family=Jost:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Jost:wght@300;400;500&display=swap');
         .font-boutique { font-family: 'Cinzel', serif; }
         .font-body { font-family: 'Jost', sans-serif; }
       
@@ -87,7 +86,6 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
                 </div>
                 <h4 className="font-boutique text-lg mb-1">{p.name}</h4>
                 <div className="font-body text-[#8C2323] tracking-widest">{p.price}</div>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
               </div>
             ))}
           </div>
@@ -204,7 +202,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
   );
 }

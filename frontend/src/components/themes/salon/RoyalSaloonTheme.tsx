@@ -83,8 +83,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-600;700&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
 
         .rs-heading { font-family: 'Cinzel', serif; }
         .rs-body    { font-family: 'Lato', sans-serif; }
@@ -406,7 +405,6 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                               </div>
                               <div className="hidden sm:block flex-1 border-b border-dashed border-[#D4AF37]/30 mx-4 relative top-[-10px]"></div>
                               <span className="rs-heading text-2xl rs-text-gold">{style.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                             </div>
                           </FadeIn>
                         ))}
@@ -585,7 +583,6 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                 
                 <div className="flex items-center gap-4 mb-5 text-xs uppercase tracking-widest text-[#D4AF37]">
                   <span className="text-xl font-bold">{selectedStyle.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={selectedStyle} content={content} /></div>
                   <div className="w-px h-5 bg-[#D4AF37]/30"></div>
                   <span className="flex items-center gap-1"><Clock size={12} /> {selectedStyle.time}</span>
                 </div>
@@ -698,7 +695,6 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                     </div>
                     <div className="hidden sm:block flex-1 border-b border-dashed border-[#D4AF37]/30 mx-4 relative top-[-20px]"></div>
                     <span className="rs-heading text-3xl rs-text-gold shrink-0">{style.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={style} content={content} /></div>
                   </div>
                 ))}
               </div>
@@ -708,7 +704,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
       
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
     </div>
     </>
   );

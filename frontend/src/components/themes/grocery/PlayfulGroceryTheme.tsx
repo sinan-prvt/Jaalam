@@ -22,8 +22,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#E0F7FA] text-[#006064] font-sans overflow-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700;900&display=swap');
         .font-fun { font-family: 'Fredoka One', cursive; }
         .font-body { font-family: 'Quicksand', sans-serif; }
       
@@ -103,7 +102,6 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                 <h3 className="font-fun text-xl text-[#006064] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
                   <span className="font-fun text-2xl text-[#FF4081]">{p.price}</span>
-<div className="mt-2 w-full" onClick={(e) => e.stopPropagation()}><ProductBuyButton product={p} content={content} /></div>
                   <button className="bg-[#00ACC1] text-white p-3 rounded-full hover:bg-[#0097A7] transition-colors border-2 border-[#006064]">
                     <ShoppingCart size={20} />
                   </button>
@@ -301,7 +299,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
 
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
-      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
 
       {/* Gallery Lightbox */}
       {selectedGalleryImage && (
