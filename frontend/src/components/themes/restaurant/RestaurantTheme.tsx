@@ -260,10 +260,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
   let products = content.products_json && content.products_json.length > 0
     ? [...content.products_json]
     : [...defaultProducts];
-
-  if (products.length > 0 && products.length < 4) {
-    products = [...products, ...defaultProducts.slice(products.length, 4)];
-  }
   
   const galleryImages = content.gallery_json && content.gallery_json.length > 0
     ? [...content.gallery_json]

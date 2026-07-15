@@ -32,10 +32,7 @@ export default function BoutiqueTheme({ website, content }: any) {
     { name: 'Cashmere Wrap Sweater', price: '?220', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80', description: 'Luxurious cashmere blend wrap sweater.' }
   ];
 
-  let products = content.products_json?.length > 0 ? [...content.products_json] : [...defaultProducts];
-  if (content.products_json?.length > 0 && content.products_json.length < defaultProducts.length) {
-    products = [...products, ...defaultProducts.slice(content.products_json.length)];
-  }
+  const products = content.products_json?.length > 0 ? content.products_json : defaultProducts;
 
   const defaultGallery = [
     'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80',
