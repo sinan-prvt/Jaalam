@@ -354,7 +354,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.95 }}
                                 >
-                                  <span className="font-black text-white text-sm lg:text-lg">{prod.price}</span>
+                                  <span className="font-black text-white text-sm lg:text-lg whitespace-nowrap">{prod.price}</span>
                                 </motion.div>
                                 <div className="flex flex-col flex-1 pb-1">
                                   <h3 className="font-black text-slate-900 leading-tight text-sm lg:text-xl mb-1 line-clamp-1 lg:line-clamp-2">{prod.name}</h3>
@@ -413,7 +413,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">Daily Pastries</span>
                               </div>
                               <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-slate-100/50">
-                                <span className="block text-2xl lg:text-3xl font-black text-[#A65E36]">100%</span>
+                                <span className="block text-2xl lg:text-3xl font-black text-[#A65E36] whitespace-nowrap">100%</span>
                                 <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">Organic Flour</span>
                               </div>
                             </div>
@@ -966,7 +966,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Daily Pastries</span>
                               </div>
                               <div>
-                                <span className="block text-3xl font-playfair font-black text-[#C5A880]">100%</span>
+                                <span className="block text-3xl font-playfair font-black text-[#C5A880] whitespace-nowrap">100%</span>
                                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Organic Flour</span>
                               </div>
                             </div>
@@ -1055,7 +1055,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
 
                               <div className="px-2 pt-2 border-t border-[#EBE6DD]/40 flex items-center justify-between">
-                                <span className="text-[#C5A880] font-outfit font-black text-lg">{prod.price}</span>
+                                <span className="text-[#C5A880] font-outfit font-black text-lg whitespace-nowrap">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-outfit uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full group-hover:bg-[#C5A880] group-hover:text-white transition-colors duration-300">
                                   Details
                                 </span>
@@ -1280,7 +1280,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     </div>
 
                     <div className="px-2 pt-4 mt-4 border-t border-[#EBE6DD]/40 flex items-center justify-between">
-                      <span className="text-[#C5A880] font-outfit font-black text-base">{prod.price}</span>
+                      <span className="text-[#C5A880] font-outfit font-black text-base whitespace-nowrap">{prod.price}</span>
                       <span className="text-[10px] font-bold font-outfit uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full group-hover:bg-[#C5A880] group-hover:text-white transition-colors duration-300">
                         Details
                       </span>
@@ -1460,8 +1460,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     {selectedProduct.name}
                   </h3>
 
-                  <div className="flex items-center gap-4 mt-3">
-                    <span className="text-base font-outfit font-black px-4 py-1.5 rounded-full text-white bg-[#C5A880] shadow-[0_4px_12px_rgba(197,168,128,0.25)]">
+                  <div className="flex items-center gap-4 mt-3 whitespace-nowrap">
+                    <span className="text-base font-outfit font-black px-4 py-1.5 rounded-full text-white bg-[#C5A880] shadow-[0_4px_12px_rgba(197,168,128,0.25)] whitespace-nowrap">
                       {selectedProduct.price}
                     </span>
 
@@ -1634,7 +1634,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Daily Pastries</span>
                               </div>
                               <div>
-                                <span className="block text-3xl font-playfair font-black text-[#C27D56]">100%</span>
+                                <span className="block text-3xl font-playfair font-black text-[#C27D56] whitespace-nowrap">100%</span>
                                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Organic Flour</span>
                               </div>
                             </div>
@@ -1722,7 +1722,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
 
                               <div className="px-2 pt-2 border-t border-[#E6DEC9]/40 flex items-center justify-between">
-                                <span className="text-[#C27D56] font-montserrat font-black text-lg">{prod.price}</span>
+                                <span className="text-[#C27D56] font-montserrat font-black text-lg whitespace-nowrap">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-montserrat uppercase tracking-wider text-[#5E6B61] bg-[#E6DEC9]/50 px-3 py-1 rounded-full group-hover:bg-[#C27D56] group-hover:text-white transition-colors duration-300">
                                   Details
                                 </span>
@@ -1944,7 +1944,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     </div>
 
                     <div className="px-2 pt-4 mt-4 border-t border-[#E6DEC9]/40 flex items-center justify-between">
-                      <span className="text-[#C27D56] font-montserrat font-black text-base">{prod.price}</span>
+                      <span className="text-[#C27D56] font-montserrat font-black text-base whitespace-nowrap">{prod.price}</span>
                       <span className="text-[10px] font-bold font-montserrat uppercase tracking-wider text-[#5E6B61] bg-[#E6DEC9]/50 px-3 py-1 rounded-full group-hover:bg-[#C27D56] group-hover:text-white transition-colors duration-300">
                         Details
                       </span>
@@ -2071,8 +2071,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     {selectedProduct.name}
                   </h3>
 
-                  <div className="flex items-center gap-4 mt-3">
-                    <span className="text-base font-montserrat font-black px-4 py-1.5 rounded-full text-white bg-[#C27D56] shadow-[0_4px_12px_rgba(194,125,86,0.25)]">
+                  <div className="flex items-center gap-4 mt-3 whitespace-nowrap">
+                    <span className="text-base font-montserrat font-black px-4 py-1.5 rounded-full text-white bg-[#C27D56] shadow-[0_4px_12px_rgba(194,125,86,0.25)] whitespace-nowrap">
                       {selectedProduct.price}
                     </span>
 
@@ -2255,7 +2255,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                               <span className="text-[10px] uppercase tracking-widest text-[#7A7A7A] font-bold font-grotesk">Daily Creations</span>
                             </div>
                             <div className="space-y-2">
-                              <span className="block text-3xl font-syne font-extrabold text-[#111111]">100%</span>
+                              <span className="block text-3xl font-syne font-extrabold text-[#111111] whitespace-nowrap">100%</span>
                               <span className="text-[10px] uppercase tracking-widest text-[#7A7A7A] font-bold font-grotesk">Organic Ingredients</span>
                             </div>
                           </div>
@@ -2331,7 +2331,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                               </div>
 
                               <div className="pt-4 border-t border-[#EAEAEA] flex items-center justify-between">
-                                <span className="text-[#111111] font-grotesk font-bold text-lg">{prod.price}</span>
+                                <span className="text-[#111111] font-grotesk font-bold text-lg whitespace-nowrap">{prod.price}</span>
                                 <span className="text-[10px] font-bold font-grotesk uppercase tracking-widest text-[#D4A373] group-hover:text-[#111111] transition-colors">
                                   Detail [→]
                                 </span>
@@ -2544,7 +2544,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                     </div>
 
                     <div className="px-2 pt-4 mt-4 border-t border-[#EAEAEA] flex items-center justify-between">
-                      <span className="text-[#111111] font-grotesk font-bold text-base">{prod.price}</span>
+                      <span className="text-[#111111] font-grotesk font-bold text-base whitespace-nowrap">{prod.price}</span>
                       <span className="text-[10px] font-bold font-grotesk uppercase tracking-widest text-[#D4A373] group-hover:text-[#111111] transition-colors">
                         Detail [→]
                       </span>
@@ -2671,8 +2671,8 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                     {selectedProduct.name}
                   </h3>
 
-                  <div className="flex items-center gap-4 mt-3">
-                    <span className="text-base font-grotesk font-bold px-4 py-1.5 text-[#111111] bg-[#D4A373] shadow-sm">
+                  <div className="flex items-center gap-4 mt-3 whitespace-nowrap">
+                    <span className="text-base font-grotesk font-bold px-4 py-1.5 text-[#111111] bg-[#D4A373] shadow-sm whitespace-nowrap">
                       {selectedProduct.price}
                     </span>
 
@@ -2808,7 +2808,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                         </div>
                         <div className="w-px h-16 bg-slate-200"></div>
                         <div>
-                          <h4 className={`text-4xl font-black ${colors.textDark}`}>100%</h4>
+                          <h4 className={`text-4xl font-black ${colors.textDark} whitespace-nowrap`}>100%</h4>
                           <p className={`text-sm uppercase tracking-wider ${colors.textMuted} font-bold mt-2`}>Organic Flour</p>
                         </div>
                       </div>
@@ -2873,7 +2873,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                             <div>
                               <div className="flex items-start justify-between mb-2">
                                 <h3 className={`text-xl font-serif font-bold ${colors.textDark} pr-4 group-hover:${colors.primaryText} transition-colors`}>{prod.name}</h3>
-                                <span className={`text-xl font-black ${colors.primaryText}`}>{prod.price}</span>
+                                <span className={`text-xl font-black ${colors.primaryText} whitespace-nowrap`}>{prod.price}</span>
                               </div>
                               <p className={`${colors.textMuted} text-sm leading-relaxed mb-4`}>{prod.description}</p>
                             </div>
@@ -3071,7 +3071,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                       <div className="p-5">
                         <div className="flex items-start justify-between mb-2 gap-2">
                           <h3 className={`text-lg font-serif font-bold ${colors.textDark} group-hover:${colors.primaryText} transition-colors leading-tight`}>{prod.name}</h3>
-                          <span className={`text-lg font-black ${colors.primaryText}`}>{prod.price}</span>
+                          <span className={`text-lg font-black ${colors.primaryText} whitespace-nowrap`}>{prod.price}</span>
                         </div>
                         <p className={`${colors.textMuted} text-xs leading-relaxed line-clamp-2`}>{prod.description}</p>
                       </div>
