@@ -13,8 +13,8 @@ export default function ProductBuyButton({ product, content }: ProductBuyButtonP
   const upiId = content?.settings_json?.upi_id;
   const enableProductPayments = content?.settings_json?.enable_product_payments ?? true;
 
-  // If no UPI ID is configured or product payments are disabled, don't show the button
-  if (!upiId || !enableProductPayments || !product?.price) return null;
+  // If no UPI ID is configured, too short, or product payments disabled, don't show the button
+  if (!upiId || upiId.length < 5 || !enableProductPayments || !product?.price) return null;
 
   const handleBuyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -42,6 +42,8 @@ export default function ProductBuyButton({ product, content }: ProductBuyButtonP
         upiId={upiId}
         websiteName={content?.settings_json?.website_name || 'Business'}
         amount={product.price}
+        productName={product.name}
+        whatsappNumber={content?.contact_info?.whatsapp || content?.contact_info?.phone}
       />
     </>
   );

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Smartphone, ShieldCheck } from 'lucide-react';
+import { X, Smartphone, ShieldCheck, MessageCircle } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 
@@ -9,9 +9,11 @@ interface UPIPaymentModalProps {
   upiId: string;
   websiteName: string;
   amount?: string;
+  productName?: string;
+  whatsappNumber?: string;
 }
 
-export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, amount }: UPIPaymentModalProps) {
+export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, amount, productName, whatsappNumber }: UPIPaymentModalProps) {
   if (!isOpen) return null;
 
   // Clean the amount if provided (e.g. remove currency symbols)
@@ -63,7 +65,7 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
               <div className="mb-3">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount to Pay</span>
                 <div className="text-3xl font-black text-slate-900 mt-0.5 mb-1">₹{cleanAmount}</div>
-                <p className="text-slate-500 text-[11px] font-medium leading-tight">Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span> securely.</p>
+                <p className="text-slate-500 text-[11px] font-medium leading-tight">Paying <span className="font-bold text-slate-800">{websiteName || 'this business'}</span>{productName ? <span> for <span className="font-bold text-indigo-600">{productName}</span></span> : ' securely'}.</p>
               </div>
             ) : (
               <p className="text-slate-500 text-xs font-medium mb-4 leading-tight">
@@ -92,9 +94,21 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
               <Smartphone size={16} />
               Pay via UPI App
             </a>
-            <p className="text-[10px] text-slate-400 font-medium mt-2 leading-tight">
+            <p className="text-[10px] text-slate-400 font-medium mt-2 mb-2 leading-tight">
               (Works on mobile with GPay, PhonePe, Paytm, etc.)
             </p>
+
+            {whatsappNumber && (
+              <a 
+                href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just made a payment of ₹${cleanAmount} for ${productName || 'my order'}. Please confirm my order.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full mt-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+              >
+                <MessageCircle size={16} />
+                Notify on WhatsApp
+              </a>
+            )}
           </div>
           </div>
         </motion.div>
