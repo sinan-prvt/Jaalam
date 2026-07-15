@@ -33,7 +33,8 @@ export default function MinimalScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#E5E5E5] text-black font-mono uppercase tracking-widest selection:bg-black selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&display=swap');
         .font-minimal { font-family: 'Space Mono', monospace; }
       
         /* Dynamic Layout Ordering */
@@ -299,6 +300,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                 <span className="font-bold text-2xl">
                   {selectedProduct.price}
                 </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               <p className="text-lg leading-relaxed mb-8 opacity-80">
                 {selectedProduct.detailed_description || selectedProduct.description || 'DETAILED SPECIFICATIONS AND PROCESSING INFORMATION FOR THIS MATERIAL.'}

@@ -50,7 +50,8 @@ export default function MinimalistTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black selection:bg-black selection:text-white flex flex-col font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;500;600&display=swap');
         .min-sans { font-family: 'Inter', sans-serif; }
         .hover-lift { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .hover-lift:hover { transform: translateY(-4px); }
@@ -291,6 +292,7 @@ export default function MinimalistTheme({ website, content }: any) {
               <div className="flex flex-col justify-center min-sans">
                 <h2 className="text-xl md:text-3xl font-medium mb-2 break-all">{selectedProduct.name}</h2>
                 <p className="text-lg md:text-xl text-gray-500 mb-4 md:mb-8">{selectedProduct.price}</p>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                 <div className="w-8 md:w-12 h-px bg-black mb-4 md:mb-8"></div>
                 <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 md:mb-12 break-all">{selectedProduct.description}</p>
                 <button className="bg-black text-white py-3 md:py-4 px-8 w-full hover:bg-gray-800 transition-colors" onClick={() => setSelectedProduct(null)}>

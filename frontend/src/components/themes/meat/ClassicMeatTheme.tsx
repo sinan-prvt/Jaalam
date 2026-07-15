@@ -45,7 +45,8 @@ export default function ClassicMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FDFBF7] text-[#3E2723] font-serif relative">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Slab:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Slab:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;700&display=swap');
         .font-butcher { font-family: 'Rye', cursive; }
         .font-body { font-family: 'Roboto Slab', serif; }
       
@@ -270,6 +271,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 <h2 className="text-2xl md:text-5xl font-butcher mb-2 text-[#3E2723] uppercase">{selectedProduct.name}</h2>
                 <div className="flex items-center gap-4 mb-3 md:mb-4">
                   <p className="text-xl md:text-4xl font-butcher text-[#B71C1C]">{selectedProduct.price}</p>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                 </div>
                 <div className="w-12 md:w-16 h-1 bg-[#3E2723] mb-4 md:mb-6"></div>
                 <p className="font-body text-sm md:text-lg text-[#5D4037] leading-relaxed mb-6 md:mb-8">{selectedProduct.description}</p>

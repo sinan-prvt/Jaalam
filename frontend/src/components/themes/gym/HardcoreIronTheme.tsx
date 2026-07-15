@@ -82,7 +82,8 @@ export default function HardcoreIronTheme({ website, content }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Teko:wght@500;700&family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&family=Teko:wght@500;700&family=Inter:wght@400;700;900&display=swap');
 
         .hi-heading { font-family: 'Teko', sans-serif; text-transform: uppercase; }
         .hi-subheading { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
@@ -684,6 +685,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                 
                 <div className="flex items-end gap-2 mb-4">
                   <span className="hi-heading text-3xl text-[#FF2A2A] leading-none">{selectedProduct.price}</span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                   {selectedProduct.time && <span className="hi-subheading text-gray-400 text-sm mb-0.5">/ {selectedProduct.time}</span>}
                 </div>
                 

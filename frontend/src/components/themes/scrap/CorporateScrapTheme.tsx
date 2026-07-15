@@ -34,7 +34,8 @@ export default function CorporateScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-[#2563EB] selection:text-white">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;import ProductBuyButton from '../../payments/ProductBuyButton';
+400;500;600;700&display=swap');
         .font-corp { font-family: 'Inter', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -437,6 +438,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
                 <div className="inline-block bg-blue-50 text-[#2563EB] font-corp text-xs font-bold uppercase tracking-wider px-2 py-1 rounded mb-4">
                   {selectedProduct.price}
                 </div>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                 <h3 className="font-corp text-3xl font-bold text-[#0F172A] mb-4">{selectedProduct.name}</h3>
                 
                 <p className="font-corp text-[#475569] leading-relaxed mb-6 pb-6 border-b border-slate-100">

@@ -772,6 +772,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         }`}>
                         {selectedProduct.price}
                       </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
 
                       <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full shadow-inner">
                         <Star size={14} className={`${website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
@@ -788,7 +789,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     </p>
                   </div>
 
-                  <button
+                  <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
+              <button
                     onClick={() => setSelectedProduct(null)}
                     className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${website.theme === 'App Style'
                         ? 'bg-[#EF8F63] hover:bg-[#E87D47] rounded-full'
@@ -1472,6 +1474,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     <span className="text-base font-outfit font-black px-4 py-1.5 rounded-full text-white bg-[#C5A880] shadow-[0_4px_12px_rgba(197,168,128,0.25)]">
                       {selectedProduct.price}
                     </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
 
                     <div className="flex items-center gap-1 bg-[#FAF7F2] border border-[#EBE6DD] px-3 py-1 rounded-full shadow-inner">
                       <Star size={12} className="text-[#C5A880] fill-[#C5A880]" />
@@ -1487,7 +1490,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button
+                <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
+              <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#C5A880] hover:bg-[#B3966E] font-outfit font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-full text-xs uppercase tracking-wider"
                 >
@@ -2088,6 +2092,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     <span className="text-base font-montserrat font-black px-4 py-1.5 rounded-full text-white bg-[#C27D56] shadow-[0_4px_12px_rgba(194,125,86,0.25)]">
                       {selectedProduct.price}
                     </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
 
                     <div className="flex items-center gap-1 bg-[#FAF5ED] border border-[#E6DEC9] px-3 py-1 rounded-full shadow-inner">
                       <Star size={12} className="text-[#C27D56] fill-[#C27D56]" />
@@ -2103,7 +2108,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button
+                <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
+              <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#C27D56] hover:bg-[#B06E49] font-montserrat font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-full text-xs uppercase tracking-wider"
                 >
@@ -2136,6 +2142,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         <style dangerouslySetInnerHTML={{
           __html: `
           @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Space+Grotesk:wght@300..700&family=Inter:wght@100..900&display=swap');
+import ProductBuyButton from '../../payments/ProductBuyButton';
           .font-syne {
             font-family: 'Syne', sans-serif;
           }
@@ -2692,6 +2699,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     <span className="text-base font-grotesk font-bold px-4 py-1.5 text-[#111111] bg-[#D4A373] shadow-sm">
                       {selectedProduct.price}
                     </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
 
                     <div className="flex items-center gap-1 bg-[#F9F9FB] border border-[#EAEAEA] px-3 py-1 shadow-inner">
                       <Star size={12} className="text-[#D4A373] fill-[#D4A373]" />
@@ -2707,7 +2715,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <button
+                <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
+              <button
                   onClick={() => setSelectedProduct(null)}
                   className="w-full bg-[#111111] hover:bg-[#222222] font-grotesk font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white rounded-none text-xs uppercase tracking-widest"
                 >
@@ -3233,6 +3242,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     }`}>
                     {selectedProduct.price}
                   </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
 
                   <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full shadow-inner">
                     <Star size={14} className={`${website.theme === 'App Style' ? 'text-[#e5533d] fill-[#e5533d]' : 'text-[#C19A6B] fill-[#C19A6B]'
@@ -3249,6 +3259,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 </p>
               </div>
 
+              <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
               <button
                 onClick={() => setSelectedProduct(null)}
                 className={`w-full font-black py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 text-white ${website.theme === 'App Style'

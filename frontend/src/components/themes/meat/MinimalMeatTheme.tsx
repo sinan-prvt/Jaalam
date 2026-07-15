@@ -34,7 +34,8 @@ export default function MinimalMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans uppercase tracking-widest">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
+700&display=swap');
         .font-minimal { font-family: 'Space Grotesk', sans-serif; }
       
         /* Dynamic Layout Ordering */
@@ -246,12 +247,14 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 <h2 className="text-2xl md:text-5xl font-minimal font-bold mb-2 md:mb-4 text-black uppercase tracking-tighter leading-none">{selectedProduct.name}</h2>
                 <div className="flex items-center gap-4 mb-4 md:mb-8">
                   <p className="text-lg md:text-3xl font-minimal font-bold text-red-600">{selectedProduct.price}</p>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                 </div>
                 <div className="w-full h-px bg-gray-200 mb-4 md:mb-8"></div>
                 <p className="text-sm md:text-base text-gray-500 leading-loose mb-6 md:mb-12 uppercase">{selectedProduct.description}</p>
                 
                 <div className="mt-auto">
-                  <button className="bg-black text-white font-minimal font-bold text-sm py-3 md:py-4 px-6 md:px-8 hover:bg-red-600 transition-colors w-full uppercase tracking-widest" onClick={() => setSelectedProduct(null)}>
+                  <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
+              <button className="bg-black text-white font-minimal font-bold text-sm py-3 md:py-4 px-6 md:px-8 hover:bg-red-600 transition-colors w-full uppercase tracking-widest" onClick={() => setSelectedProduct(null)}>
                     CLOSE
                   </button>
                 </div>

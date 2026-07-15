@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
 
+import ProductBuyButton from '../../payments/ProductBuyButton';
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -890,6 +891,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   }`}>
                     {selectedProduct.price}
                   </span>
+<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
                   
                   <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-3 py-1.5 shadow-inner">
                     <Star size={14} className={`${primaryText} fill-current`} />
@@ -905,6 +907,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 </p>
               </div>
 
+              <div className="mb-3"><ProductBuyButton product={selectedProduct} content={content} /></div>
               <button 
                 onClick={() => setSelectedProduct(null)}
                 className={`w-full text-white font-bold py-3 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 ${primaryColor} ${primaryColorHover} ${buttonShape}`}
