@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Smartphone, ShieldCheck, MessageCircle } from 'lucide-react';
+import { X, Smartphone, ShieldCheck, MessageCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 
@@ -14,6 +15,8 @@ interface UPIPaymentModalProps {
 }
 
 export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, amount, productName, whatsappNumber }: UPIPaymentModalProps) {
+  const [paymentState, setPaymentState] = useState<'pending' | 'processing' | 'success'>('pending');
+
   if (!isOpen) return null;
 
   // Clean the amount if provided (e.g. remove currency symbols)
@@ -25,6 +28,18 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
   
   const upiLink = `upi://pay?pa=${encodeURIComponent(safeUpiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR${cleanAmount ? `&am=${cleanAmount}` : ''}`;
 
+  const handleConfirmPayment = () => {
+    setPaymentState('processing');
+    setTimeout(() => {
+      setPaymentState('success');
+    }, 2500); // Simulate Razorpay processing delay
+  };
+
+  const handleClose = () => {
+    onClose();
+    setTimeout(() => setPaymentState('pending'), 300); // Reset state after close animation
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
@@ -33,7 +48,7 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
         />
         
@@ -53,7 +68,7 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
               <h3 className="text-lg font-black text-slate-900">Secure Payment</h3>
             </div>
             <button 
-              onClick={onClose}
+              onClick={handleClose}
               className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition-colors"
             >
               <X size={16} />
@@ -61,7 +76,9 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
           </div>
 
           <div className="p-4 pt-2 text-center flex flex-col items-center w-full">
-            {amount ? (
+            {paymentState === 'pending' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center w-full">
+                {amount ? (
               <div className="mb-3">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount to Pay</span>
                 <div className="text-3xl font-black text-slate-900 mt-0.5 mb-1">₹{cleanAmount}</div>
@@ -86,37 +103,73 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
               <div className="h-px bg-slate-200 flex-1"></div>
             </div>
 
-            {/* Mobile Deep Link Button */}
-            <a 
-              href={upiLink}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
-            >
-              <Smartphone size={16} />
-              Pay via UPI App
-            </a>
-            <p className="text-[10px] text-slate-400 font-medium mt-2 mb-2 leading-tight">
-              (Works on mobile with GPay, PhonePe, Paytm, etc.)
-            </p>
+                {/* Mobile Deep Link Button */}
+                <a 
+                  href={upiLink}
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                >
+                  <Smartphone size={16} />
+                  Pay via UPI App
+                </a>
+                
+                <button
+                  onClick={handleConfirmPayment}
+                  className="w-full mt-3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold transition-all shadow-inner active:scale-95"
+                >
+                  I've completed the payment
+                </button>
+              </motion.div>
+            )}
 
-            {whatsappNumber ? (
-              <a 
-                href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just made a payment of ₹${cleanAmount} for ${productName || 'my order'}. Please confirm my order.`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full mt-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
-              >
-                <MessageCircle size={16} />
-                I've Paid - Notify Seller
-              </a>
-            ) : (
-              <button 
-                disabled
-                className="w-full mt-2 bg-slate-100 text-slate-400 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-inner shrink-0 cursor-not-allowed"
-                title="Add a phone number in the Contact section to enable WhatsApp notifications."
-              >
-                <MessageCircle size={16} />
-                WhatsApp Not Configured
-              </button>
+            {paymentState === 'processing' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-12">
+                <Loader2 size={48} className="text-indigo-500 animate-spin mb-4" />
+                <h3 className="text-lg font-bold text-slate-900">Confirming Payment...</h3>
+                <p className="text-sm text-slate-500 mt-2">Please do not close this window.</p>
+              </motion.div>
+            )}
+
+            {paymentState === 'success' && (
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center w-full py-4">
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                  <CheckCircle2 size={32} className="text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">Payment Successful!</h3>
+                <p className="text-xs font-medium text-slate-500 mb-6">Your order for <span className="font-bold text-slate-800">{productName || 'items'}</span> has been recorded.</p>
+                
+                <div className="w-full bg-slate-50 rounded-xl p-4 mb-6 border border-slate-100">
+                  <div className="flex justify-between text-xs mb-2">
+                    <span className="text-slate-400 font-bold">AMOUNT PAID</span>
+                    <span className="text-slate-900 font-black">₹{cleanAmount}</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-400 font-bold">PAID TO</span>
+                    <span className="text-slate-900 font-black">{websiteName || 'Business'}</span>
+                  </div>
+                </div>
+
+                {whatsappNumber ? (
+                  <a 
+                    href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just completed a payment of ₹${cleanAmount} for ${productName || 'my order'}. Please confirm.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleClose}
+                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                  >
+                    <MessageCircle size={18} />
+                    Send Order on WhatsApp
+                  </a>
+                ) : (
+                  <button 
+                    disabled
+                    className="w-full bg-slate-100 text-slate-400 py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-inner shrink-0 cursor-not-allowed"
+                    title="Add a phone number in the Contact section to enable WhatsApp notifications."
+                  >
+                    <MessageCircle size={18} />
+                    WhatsApp Not Configured
+                  </button>
+                )}
+              </motion.div>
             )}
           </div>
           </div>
