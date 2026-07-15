@@ -378,7 +378,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 {content.hero_title || 'A Culinary Experience Like No Other'}
               </h1>
               <p className="text-slate-200 text-sm sm:text-base md:text-xl font-light max-w-2xl leading-relaxed mb-8 lg:mb-12 px-2 lg:px-4">
-                {content.about_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
               </p>
               <div className={`flex flex-col sm:flex-row gap-3 lg:gap-4 w-full sm:w-auto px-4 lg:px-6 ${alignment.replace('items-start', 'items-center').replace('text-left', 'justify-start')}`}>
                 <a href="#menu" className={`${primaryColor} ${primaryColorHover} text-white px-6 lg:px-8 py-3.5 lg:py-4 uppercase tracking-widest text-xs lg:text-sm font-bold transition-colors text-center shadow-lg w-full sm:w-auto ${buttonShape}`}>

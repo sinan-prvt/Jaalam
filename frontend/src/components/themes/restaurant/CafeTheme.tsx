@@ -223,7 +223,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     {content.hero_title || `Welcome to,\n${content.settings_json?.website_name || 'Cafe'}`}
                   </h1>
                   <p className="text-white/90 text-sm lg:text-base font-bold max-w-lg mb-6 leading-relaxed drop-shadow-sm">
-                    {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
+                    {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                   </p>
                   <div className="relative mt-4 lg:mt-6">
                     <button
@@ -933,7 +933,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           {content.hero_title || 'Quality breads\nand flavors'}
                         </h2>
                         <p className="text-white/80 font-outfit text-sm lg:text-base font-medium max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
-                          {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
+                          {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
                         <button
                           onClick={(e) => handleNavClick('menu', e)}
@@ -1587,7 +1587,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             {content.hero_title || 'Baked With\nPassion & Craft'}
                           </h2>
                           <p className="text-[#5E6B61] font-montserrat text-sm lg:text-base font-medium max-w-xl leading-relaxed">
-                            {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
+                            {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                           </p>
                           <button
                             onClick={(e) => handleNavClick('menu', e)}
@@ -2220,7 +2220,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                           {content.hero_title || 'Design & Taste'}
                         </h2>
                         <p className="text-slate-300 font-inter text-sm lg:text-base font-light max-w-lg mx-auto mb-10 leading-relaxed">
-                          {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
+                          {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
                         <button
                           onClick={(e) => handleNavClick('menu', e)}
@@ -2777,7 +2777,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                         {content.hero_title || 'Baked With Passion & Craft'}
                       </h2>
                       <p className="text-lg md:text-xl text-white/90 font-light mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
-                        {content.about_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
+                        {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                       </p>
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <button onClick={(e) => handleNavClick('menu', e)} className={`${colors.primary} text-white px-8 py-4 rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-[#292524] transition-all duration-300 flex items-center gap-2 group`}>
