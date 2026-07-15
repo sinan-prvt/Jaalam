@@ -1079,15 +1079,21 @@ export default function WebsiteEditor() {
 
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">UPI ID or Phone Number</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">VALID UPI ID</label>
                   <input
                     type="text"
                     value={content.settings_json?.upi_id || ''}
                     onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), upi_id: e.target.value } })}
-                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
-                    placeholder="e.g. 9876543210@okicici or name@ybl"
+                    className={`w-full px-4 py-3 bg-white border ${content.settings_json?.upi_id && !content.settings_json?.upi_id.includes('@') ? 'border-red-400 focus:ring-red-500/20' : 'border-slate-100 focus:ring-indigo-500/20'} rounded-xl focus:ring-2 outline-none transition-all font-bold text-sm shadow-inner`}
+                    placeholder="e.g. 9876543210@ybl or name@okicici"
                   />
-                  <p className="mt-3 text-xs text-slate-500 font-medium">Entering a valid UPI ID will automatically add a global 'Pay Now' button to your public website. Customers can scan the generated QR code or tap to pay via their UPI app (GPay, PhonePe, Paytm, etc).</p>
+                  {content.settings_json?.upi_id && !content.settings_json?.upi_id.includes('@') ? (
+                    <p className="mt-3 text-xs text-red-500 font-bold bg-red-50 p-3 rounded-lg border border-red-100">
+                      ⚠️ Invalid UPI ID format. You must include your bank handle (e.g., @ybl, @paytm, @okaxis). A plain phone number will fail in GPay and other apps.
+                    </p>
+                  ) : (
+                    <p className="mt-3 text-xs text-slate-500 font-medium">Entering a valid UPI ID will automatically add a global 'Pay Now' button to your public website. Customers can scan the generated QR code or tap to pay via their UPI app (GPay, PhonePe, Paytm, etc).</p>
+                  )}
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 mt-4">

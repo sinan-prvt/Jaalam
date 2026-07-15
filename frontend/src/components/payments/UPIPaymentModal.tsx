@@ -16,7 +16,12 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
 
   // Clean the amount if provided (e.g. remove currency symbols)
   const cleanAmount = amount ? amount.replace(/[^0-9.]/g, '') : '';
-  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR${cleanAmount ? `&am=${cleanAmount}` : ''}`;
+  
+  // Ensure the UPI ID is a valid VPA. If it lacks an '@', it's likely a phone number.
+  // We append a common handle (@ybl for PhonePe) so it doesn't hard-fail in apps like GPay.
+  const safeUpiId = upiId.includes('@') ? upiId.trim() : `${upiId.trim()}@ybl`;
+  
+  const upiLink = `upi://pay?pa=${encodeURIComponent(safeUpiId)}&pn=${encodeURIComponent(websiteName || 'Merchant')}&cu=INR${cleanAmount ? `&am=${cleanAmount}` : ''}`;
 
   return (
     <AnimatePresence>
