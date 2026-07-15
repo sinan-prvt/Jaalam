@@ -2780,9 +2780,9 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
                         {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                       </p>
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <button onClick={(e) => handleNavClick('menu', e)} className={`${colors.primary} text-white px-8 py-4 rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-[#292524] transition-all duration-300 flex items-center gap-2 group`}>
+                        <button onClick={(e) => handleNavClick('menu', e)} className={`${colors.primary} text-white px-6 py-3 text-sm rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-[#292524] transition-all duration-300 flex items-center gap-2 group`}>
                           Explore Full Menu
-                          <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                          <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                       </div>
                     </div>
