@@ -149,16 +149,21 @@ export default function UPIPaymentModal({ isOpen, onClose, upiId, websiteName, a
                 </div>
 
                 {whatsappNumber ? (
-                  <a 
-                    href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just completed a payment of ₹${cleanAmount} for ${productName || 'my order'}. Please confirm.`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleClose}
-                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
-                  >
-                    <MessageCircle size={18} />
-                    Send Order on WhatsApp
-                  </a>
+                  <>
+                    <a 
+                      href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I just completed a payment of ₹${cleanAmount} for ${productName || 'my order'}. I will share the payment screenshot below. Please confirm.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleClose}
+                      className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                    >
+                      <MessageCircle size={18} />
+                      Send Order on WhatsApp
+                    </a>
+                    <p className="text-[10px] text-slate-500 font-bold mt-3 text-center leading-tight">
+                      Don't forget to send a screenshot of your payment on WhatsApp!
+                    </p>
+                  </>
                 ) : (
                   <button 
                     disabled
