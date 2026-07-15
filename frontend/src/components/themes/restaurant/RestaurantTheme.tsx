@@ -483,9 +483,9 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                         <div className="w-full h-64 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
                           <img loading="lazy" src={imageSrc} alt={item.name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
                         </div>
-                        <div className="flex justify-between items-start mb-3 px-2">
+                        <div className="flex justify-between items-start mb-3 px-2 gap-2">
                           <h3 className={`text-2xl font-bold text-slate-900 ${headingFont}`}>{item.name}</h3>
-                          <span className={`text-xl font-black bg-white px-4 py-1.5 rounded-full shadow-sm ${primaryText}`}>{item.price}</span>
+                          <span className={`text-xl font-black bg-white px-4 py-1.5 rounded-full shadow-sm whitespace-nowrap shrink-0 ${primaryText}`}>{item.price}</span>
                         </div>
                         <p className="text-slate-500 px-2 font-medium leading-relaxed">{item.description}</p>
                       </div>
