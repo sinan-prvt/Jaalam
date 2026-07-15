@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
+import ProductBuyButton from '../../payments/ProductBuyButton';
 import { motion } from 'framer-motion';
 import { Coffee, ChevronRight, Star, MapPin, Phone, Search, ChevronLeft, Mail, MessageCircle } from 'lucide-react';
 
@@ -2118,7 +2119,6 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         <style dangerouslySetInnerHTML={{
           __html: `
           @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Space+Grotesk:wght@300..700&family=Inter:wght@100..900&display=swap');
-import ProductBuyButton from '../../payments/ProductBuyButton';
           .font-syne {
             font-family: 'Syne', sans-serif;
           }
