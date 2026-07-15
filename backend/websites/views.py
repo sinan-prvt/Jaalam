@@ -34,7 +34,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             'PREMIUM': float('inf')
         }.get(user.membership, 1)
 
-        if current_count >= limit and not user.is_test_user:
+        if current_count >= limit and not user.is_test_user and not user.is_superuser:
             from rest_framework.exceptions import ValidationError
             raise ValidationError({"error": f"Website limit reached for your plan."})
 
