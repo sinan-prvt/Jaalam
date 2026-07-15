@@ -1,5 +1,5 @@
-import React from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Search } from 'lucide-react';
 
 export default function AllProductsModal({ 
   isOpen, 
@@ -12,7 +12,14 @@ export default function AllProductsModal({
   products: any[]; 
   onProductSelect: (p: any) => void; 
 }) {
+  const [searchQuery, setSearchQuery] = useState('');
+
   if (!isOpen) return null;
+
+  const filteredProducts = products.filter(p => 
+    p.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    p.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="fixed inset-0 z-[90] bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -23,12 +30,33 @@ export default function AllProductsModal({
         >
           <X size={24} />
         </button>
-        <div className="text-center mb-16 fade-in">
+        <div className="text-center mb-10 fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">All Products</h2>
-          <div className="w-16 h-1 bg-black mx-auto"></div>
+          <div className="w-16 h-1 bg-black mx-auto mb-8"></div>
+          
+          <div className="max-w-md mx-auto relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search size={20} className="text-gray-400" />
+            </div>
+            <input 
+              type="text" 
+              placeholder="Search products..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+            />
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((p, i) => (
+        
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-20 text-gray-500">
+            <Search size={48} className="mx-auto mb-4 opacity-20" />
+            <p className="text-xl">No products found matching "{searchQuery}"</p>
+            <button onClick={() => setSearchQuery('')} className="mt-4 text-black font-bold underline hover:no-underline">Clear Search</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {filteredProducts.map((p, i) => (
             <div 
               key={i} 
               className="group cursor-pointer flex flex-col bg-gray-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100" 
@@ -48,8 +76,9 @@ export default function AllProductsModal({
                 <p className="text-gray-900 font-semibold text-lg mt-auto">{p.price}</p>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
