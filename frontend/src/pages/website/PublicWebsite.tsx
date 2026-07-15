@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, CreditCard } from 'lucide-react';
 import RestaurantTheme from '../../components/themes/restaurant/RestaurantTheme';
 import CafeTheme from '../../components/themes/restaurant/CafeTheme';
 import SalonTheme from '../../components/themes/salon/SalonTheme';
@@ -80,6 +80,7 @@ import CorporateOtherTheme from '../../components/themes/other/CorporateOtherThe
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
+import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 
 export default function PublicWebsite() {
   const { businessSlug } = useParams();
@@ -478,10 +479,32 @@ export default function PublicWebsite() {
     );
   };
 
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const upiId = website?.content?.settings_json?.upi_id;
+
   return (
     <>
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
+
+      {upiId && (
+        <>
+          <button 
+            onClick={() => setIsPaymentModalOpen(true)}
+            className="fixed bottom-6 right-6 z-[99990] bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-full font-black shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group"
+          >
+            <CreditCard size={20} className="group-hover:rotate-12 transition-transform" />
+            <span className="hidden sm:inline">Make a Payment</span>
+            <span className="sm:hidden">Pay</span>
+          </button>
+          <UPIPaymentModal 
+            isOpen={isPaymentModalOpen} 
+            onClose={() => setIsPaymentModalOpen(false)} 
+            upiId={upiId} 
+            websiteName={website?.content?.settings_json?.website_name || website.business_type || 'Website'} 
+          />
+        </>
+      )}
     </>
   );
 }

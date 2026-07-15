@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
@@ -334,6 +334,7 @@ export default function WebsiteEditor() {
 
   const tabs = isDynamicAI ? [
     { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
+    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ] : [
@@ -346,6 +347,7 @@ export default function WebsiteEditor() {
     { id: 'contact', icon: <Globe size={16} />, label: 'Contact' },
     { id: 'custom', icon: <PlusCircle size={16} />, label: 'Custom' },
     { id: 'layout', icon: <ArrowUpDown size={16} />, label: 'Layout' },
+    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ];
@@ -1062,6 +1064,32 @@ export default function WebsiteEditor() {
                   </button>
                 </>
               )}
+            </div>
+          )}
+
+          {activeTab === 'payments' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-indigo-600 p-6 text-white rounded-2xl relative shadow-md shrink-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <CreditCard size={24} className="text-indigo-100" />
+                  <h2 className="text-xl font-black">Payments</h2>
+                </div>
+                <p className="text-indigo-100 text-sm font-medium">Allow customers to pay you directly via UPI / GPay.</p>
+              </div>
+
+              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">UPI ID or Phone Number</label>
+                  <input
+                    type="text"
+                    value={content.settings_json?.upi_id || ''}
+                    onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), upi_id: e.target.value } })}
+                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
+                    placeholder="e.g. 9876543210@okicici or name@ybl"
+                  />
+                  <p className="mt-3 text-xs text-slate-500 font-medium">Entering a valid UPI ID will automatically add a 'Pay Now' button to your public website. Customers can scan the generated QR code or tap to pay via their UPI app (GPay, PhonePe, Paytm, etc).</p>
+                </div>
+              </div>
             </div>
           )}
 
