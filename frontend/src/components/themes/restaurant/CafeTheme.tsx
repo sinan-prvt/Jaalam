@@ -371,7 +371,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         {filteredProducts.length > 0 && (
                           <div className="mt-8 lg:mt-12 flex justify-center">
                             <button
-                              onClick={(e) => handleNavClick('menu', e)}
+                              onClick={() => setShowAllProducts(true)}
                               className="px-8 py-3.5 bg-white hover:bg-slate-50 text-[#EF8F63] border-2 border-[#EF8F63] rounded-full font-black text-sm lg:text-base transition-all duration-300 shadow-md active:scale-95 flex items-center gap-2"
                             >
                               View Full Menu
