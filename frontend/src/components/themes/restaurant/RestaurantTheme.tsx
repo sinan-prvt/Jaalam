@@ -953,12 +953,11 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
               </button>
             </div>
           </div>
-        
+        </div>
+      )}
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={content?.products_json || []} onProductSelect={setSelectedProduct} />
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} contactInfo={content.contact_info} content={content} />
-    </div>
-      )}
     </>
   );
 }
