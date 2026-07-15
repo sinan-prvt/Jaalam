@@ -464,7 +464,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 menuStyle === 'classic' || menuStyle === 'grid-cards' || menuStyle === 'minimal-cards' ? 'grid-cols-1 lg:grid-cols-2' : 
                 menuStyle === 'minimal-list' ? 'grid-cols-1 max-w-4xl mx-auto w-full' : 'grid-cols-1'
               }`}>
-                {products.slice(0, showAllMenu ? products.length : 4).map((item: any, idx: number) => {
+                {products.slice(0, 4).map((item: any, idx: number) => {
                   const imageSrc = item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
                   if (menuStyle === 'minimal-cards') {
                     return (
@@ -557,13 +557,13 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 })}
               </div>
 
-              {products.length > 4 && (
+              {products.length > 0 && (
                 <div className="mt-16 text-center">
                   <button 
-                    onClick={() => setShowAllMenu(!showAllMenu)}
+                    onClick={() => setShowAllProducts(true)}
                     className={`bg-transparent border-2 border-slate-900 text-slate-900 ${primaryColorHover} hover:text-white hover:border-transparent px-10 py-4 uppercase tracking-widest text-sm font-bold transition-all duration-300 shadow-sm`}
                   >
-                    {showAllMenu ? 'View Less' : 'View Full Menu'}
+                    View Full Menu
                   </button>
                 </div>
               )}
