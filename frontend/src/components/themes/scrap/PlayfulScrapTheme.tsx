@@ -33,8 +33,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#FFF4E6] text-[#2B3A67] font-sans overflow-hidden border-[16px] border-[#FF9F1C] box-border">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;import ProductBuyButton from '../../payments/ProductBuyButton';
-700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap');
         .font-fun { font-family: 'Fredoka One', cursive; }
         .font-body { font-family: 'Nunito', sans-serif; }
       
@@ -334,7 +333,6 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                 <span className="font-fun text-xl bg-[#4ECDC4] text-white px-4 py-2 rounded-2xl border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] transform rotate-3">
                   {selectedProduct.price}
                 </span>
-<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
               </div>
               <p className="font-body text-xl font-bold text-gray-600 mb-8 leading-relaxed">
                 {selectedProduct.detailed_description || selectedProduct.description || 'Awesome details about this scrap material. We love recycling this stuff!'}

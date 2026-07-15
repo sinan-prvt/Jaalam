@@ -65,8 +65,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         .font-modern { font-family: 'Inter', sans-serif; }
       `}</style>
 
@@ -402,7 +401,6 @@ export default function ModernGroceryTheme({ website, content }: any) {
               <div className="text-xs font-bold text-emerald-600 mb-1 uppercase tracking-wide">{selectedProduct.category || 'Product'}</div>
               <h3 className="font-modern text-xl md:text-2xl font-bold text-slate-900 mb-2 leading-tight">{selectedProduct.name}</h3>
               <div className="font-modern text-xl font-black text-slate-800 mb-4">{selectedProduct.price}</div>
-<div className="mt-4 w-full"><ProductBuyButton product={selectedProduct} content={content} /></div>
               <p className="text-slate-600 text-sm leading-relaxed">
                 {selectedProduct.description || 'Enjoy this high-quality product, sourced carefully to ensure the best experience.'}
               </p>
