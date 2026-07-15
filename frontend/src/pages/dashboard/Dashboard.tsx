@@ -344,7 +344,7 @@ export default function Dashboard() {
     const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {
       const res = await axios.post('/api/websites/', {
-        slug: newSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+        slug: newSlug,
         business_type: newType,
         theme: newTheme,
       }, {
@@ -371,9 +371,10 @@ export default function Dashboard() {
       setNewTheme('Modern');
       navigate(`/editor/${res.data.slug}`);
       toast.success('Project launched successfully!', { id: loadingToast });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      toast.error('Failed to create site. Slug might be taken.', { id: loadingToast });
+      const errorMessage = err.response?.data?.error || err.response?.data?.slug?.[0] || 'Failed to create site. Slug might be taken.';
+      toast.error(errorMessage, { id: loadingToast });
     }
   };
 
@@ -1089,7 +1090,7 @@ export default function Dashboard() {
                           type="text"
                           required
                           value={newSlug}
-                          onChange={(e) => setNewSlug(e.target.value)}
+                          onChange={(e) => setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
                           className="flex-1 bg-transparent px-4 py-2.5 outline-none text-slate-900 placeholder-slate-300 font-black text-sm w-full min-w-0"
                           placeholder="my-business"
                         />
