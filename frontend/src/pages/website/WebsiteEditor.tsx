@@ -343,11 +343,11 @@ export default function WebsiteEditor() {
     { id: 'about', icon: <MessageSquare size={16} />, label: 'About' },
     { id: 'services', icon: <Layers size={16} />, label: 'Services' },
     { id: 'products', icon: <ShoppingCart size={16} />, label: 'Menu' },
+    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'contact', icon: <Globe size={16} />, label: 'Contact' },
     { id: 'custom', icon: <PlusCircle size={16} />, label: 'Custom' },
     { id: 'layout', icon: <ArrowUpDown size={16} />, label: 'Layout' },
-    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ];
