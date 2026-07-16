@@ -13,6 +13,18 @@ export default function useScrollReveal(dependencies: any[] = []) {
       },
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
+    cxX
+    CXCXCXCXCXCXcxCxcx
+    c
+    xcx
+    CXCXCXCXCXCXcxCxcxcx
+    cxcx
+    cx
+    cxcx
+    cx
+    cx
+    cx
+    cxcxc
 
     const timer = setTimeout(() => {
       const sections = document.querySelectorAll('.theme-root section');
