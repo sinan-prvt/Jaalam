@@ -20,16 +20,16 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      
-      const isClickable = 
+
+      const isClickable =
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button' ||
         target.closest('a') ||
         target.closest('button') ||
         target.getAttribute('role') === 'button' ||
         target.closest('.cursor-pointer') !== null;
-        
-      const isText = 
+
+      const isText =
         target.tagName.toLowerCase() === 'input' ||
         target.tagName.toLowerCase() === 'textarea' ||
         target.getAttribute('contenteditable') === 'true';
@@ -37,7 +37,20 @@ export default function CustomCursor() {
       setIsHovering(isClickable);
       setIsTextHover(isText);
     };
+    ds
 
+    sd
+    sd
+    s
+    ds
+    ds
+    s
+    d
+    sd
+    sd
+    s
+    s
+    d
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
