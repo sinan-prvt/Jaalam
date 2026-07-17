@@ -37,20 +37,7 @@ export default function CustomCursor() {
       setIsHovering(isClickable);
       setIsTextHover(isText);
     };
-    ds
 
-    sd
-    sd
-    s
-    ds
-    ds
-    s
-    d
-    sd
-    sd
-    s
-    s
-    d
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
