@@ -16,21 +16,6 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
-d
-s
-ds
-ds
-ds
-dsds
-ds
-ds
-ds
-ds
-sd
-sd
-sd
-sds
-ds
 
   return (
     <>
@@ -49,20 +34,20 @@ ds
               className="flex flex-col items-center gap-6"
             >
               <motion.img
-                animate={{ 
+                animate={{
                   scale: [1, 1.05, 1],
-                  opacity: [0.8, 1, 0.8] 
+                  opacity: [0.8, 1, 0.8]
                 }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
                 }}
                 src="/jaalam1.png"
                 className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-sm"
                 alt="Jaalam Logo"
               />
-              
+
               <div className="flex items-center gap-1.5">
                 {[0, 1, 2].map((i) => (
                   <motion.div
