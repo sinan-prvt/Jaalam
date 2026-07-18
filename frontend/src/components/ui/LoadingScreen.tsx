@@ -16,6 +16,21 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+d
+s
+ds
+ds
+ds
+dsds
+ds
+ds
+ds
+ds
+sd
+sd
+sd
+sds
+ds
 
   return (
     <>

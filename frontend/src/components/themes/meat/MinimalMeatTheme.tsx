@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
+import ProductBuyButton from '../../payments/ProductBuyButton';
+
 
 export default function MinimalMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -34,8 +36,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
   return (
     <div className="min-h-screen theme-root flex flex-col bg-white text-black font-sans uppercase tracking-widest">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;import ProductBuyButton from '../../payments/ProductBuyButton';
-700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
         .font-minimal { font-family: 'Space Grotesk', sans-serif; }
       
         /* Dynamic Layout Ordering */
