@@ -9,8 +9,23 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
   const isPlatformRoute = ['/', '/login', '/register', '/dashboard', '/admin', '/editor'].some(
     p => location.pathname === p || location.pathname.startsWith(p + '/')
   );
-
+  hjjjjjjjjjjjjjjjjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
   useEffect(() => {
+    fd
+    FDF
+    DfDffD
+    Fdfd
+    Fd
+    Fd
+    fdfDfDfD
+    fDfdfDFDf
+    DfdFdFdFdfdfd
+    fd
+    fd
+    fd
+    fd
+    fd
+    fd
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
