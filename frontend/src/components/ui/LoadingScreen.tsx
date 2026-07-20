@@ -17,21 +17,7 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
     return () => clearTimeout(timer);
   }, []);
 
-  return (ds
-    ds
-    ds
-    ds
-    dsd
-    ss
-    ds
-    dsd
-    s
-    dsd
-    sds
-    fs
-    sd
-    fdf
-    dss
+  return (
     <>
       <AnimatePresence>
         {loading && isPlatformRoute && (
