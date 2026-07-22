@@ -33,23 +33,6 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="flex flex-col items-center gap-6"
             >
-
-            Dds
-            dsDS
-            D
-            DSdsdS
-            ds
-            dS
-            DsD
-            SdS
-            dS
-            dD
-            sd
-            sds
-            ds
-            dd
-            sDs
-            ds
               <motion.img
                 animate={{
                   scale: [1, 1.05, 1],
