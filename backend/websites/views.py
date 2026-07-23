@@ -126,6 +126,44 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         
         return Response({"status": "blocked" if website.is_blocked else "unblocked"})
 
+    @action(detail=True, methods=['post'], parser_classes=[MultiPartParser], permission_classes=[permissions.IsAuthenticated])
+    def upload_template(self, request, slug=None):
+        website = self.get_object()
+        if website.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+            
+        if 'template' not in request.FILES:
+            return Response({'error': 'No template file provided'}, status=400)
+            
+        file_obj = request.FILES['template']
+        if not file_obj.name.endswith('.json'):
+            return Response({'error': 'Only JSON templates are supported'}, status=400)
+            
+        try:
+            import json
+            template_data = json.loads(file_obj.read().decode('utf-8'))
+            
+            if not isinstance(template_data, dict):
+                return Response({'error': 'Invalid template format'}, status=400)
+                
+            if not hasattr(website, 'content'):
+                content = WebsiteContent.objects.create(website=website)
+            else:
+                content = website.content
+                
+            allowed_fields = ['settings_json', 'custom_blocks_json', 'custom_css', 'custom_html', 'hero_title', 'about_text', 'services_json', 'gallery_json', 'contact_info', 'products_json']
+            for field in allowed_fields:
+                if field in template_data:
+                    setattr(content, field, template_data[field])
+            
+            content.save()
+            serializer = WebsiteContentSerializer(content)
+            return Response({'message': 'Template applied successfully', 'content': serializer.data})
+        except json.JSONDecodeError:
+            return Response({'error': 'Invalid JSON file'}, status=400)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def upload_image(request):

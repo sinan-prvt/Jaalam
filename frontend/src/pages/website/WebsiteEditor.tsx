@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard, FileJson } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
+import TemplateUploader from '../../components/ui/TemplateUploader';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -334,11 +335,13 @@ export default function WebsiteEditor() {
 
   const tabs = isDynamicAI ? [
     { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
+    { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
     { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ] : [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
+    { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },
     { id: 'about', icon: <MessageSquare size={16} />, label: 'About' },
     { id: 'services', icon: <Layers size={16} />, label: 'Services' },
@@ -577,6 +580,18 @@ export default function WebsiteEditor() {
                   onChange={(val: string) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), logo_image: val } })}
                 />
               </div>
+            </div>
+          )}
+
+          {activeTab === 'template' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <TemplateUploader 
+                websiteSlug={website.slug}
+                currentContent={content}
+                onSuccess={(newContent: any) => {
+                  setContent(newContent);
+                }}
+              />
             </div>
           )}
 
