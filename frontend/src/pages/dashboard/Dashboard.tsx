@@ -1217,18 +1217,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Preview Modal */}
-          {showPreviewModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
-              <div className="bg-white rounded-3xl w-full max-w-5xl h-[80vh] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200">
-                <div className="flex justify-between items-center p-4 border-b">
-                  <h3 className="font-black text-slate-900">Live Preview</h3>
-                  <button onClick={() => setShowPreviewModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
-                </div>
-                <iframe src={previewUrl} className="w-full h-full border-0" title="Preview" />
-              </div>
-            </div>
-          )}
+
 
           {/* Create Modal */}
           {activeTab === 'Notifications' && (
