@@ -4,10 +4,11 @@ import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send } from 'lucide-react';
+import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send, LayoutTemplate, Plus } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
 import NotificationsPage from './NotificationsPage';
+import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 
 interface AdminUser {
   id: number;
@@ -66,7 +67,7 @@ export default function AdminDashboard() {
   const [messageTitle, setMessageTitle] = useState('');
   const [messageContent, setMessageContent] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders' | 'revenue'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders' | 'revenue' | 'templates'>('overview');
   const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
   const [selectedUserForWebsites, setSelectedUserForWebsites] = useState<AdminUser | null>(null);
   const [websiteSortBy, setWebsiteSortBy] = useState<'newest' | 'visitors'>('newest');
@@ -76,6 +77,7 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [templateFilterStatus, setTemplateFilterStatus] = useState<string>('All');
 
   const navigate = useNavigate();
 
@@ -416,6 +418,14 @@ export default function AdminDashboard() {
           </button>
 
           <button
+            onClick={() => { setActiveTab('templates'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'templates' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <div className="flex items-center gap-3"><LayoutTemplate size={18} /> Templates</div>
+            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{Object.values(categoryThemes).flat().length}</span>
+          </button>
+
+          <button
             onClick={() => { setActiveTab('notifications'); setMobileMenuOpen(false); }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'notifications' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
           >
@@ -722,6 +732,71 @@ export default function AdminDashboard() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB: TEMPLATES */}
+              {activeTab === 'templates' && (
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[500px] flex flex-col">
+                  <div className="p-4 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-50">
+                    <div className="flex items-start md:items-center gap-4 w-full md:w-auto">
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-lg font-black text-slate-800 flex flex-wrap items-center gap-2">
+                          <span className="truncate">Global Templates</span>
+                          <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0">{Object.values(categoryThemes).flat().length} Total</span>
+                        </h2>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                      <select
+                        value={templateFilterStatus}
+                        onChange={(e) => setTemplateFilterStatus(e.target.value)}
+                        className="bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2 font-bold shadow-sm"
+                      >
+                        <option value="All">All Categories</option>
+                        {Object.keys(categoryThemes).map(cat => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                      <button 
+                        onClick={() => toast.error('Template Builder is coming in the next update!')}
+                        className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-colors text-sm"
+                      >
+                        <Plus size={16} /> New Template
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-6 overflow-y-auto flex-1 bg-slate-50/50">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                      {Object.entries(categoryThemes).flatMap(([category, themes]) => 
+                        themes.map(theme => ({ category, theme }))
+                      )
+                      .filter(item => templateFilterStatus === 'All' || item.category === templateFilterStatus)
+                      .filter(item => item.theme.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((item, idx) => (
+                        <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all">
+                          <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative border-b border-slate-100">
+                            <img 
+                              src={getThemeThumbnail(item.theme, item.category)} 
+                              alt={item.theme}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-4 flex flex-col justify-between h-24">
+                            <div>
+                              <div className="flex items-center gap-2 mb-1.5">
+                                <span className="text-[9px] font-black uppercase tracking-wider text-primary-600 bg-primary-50 px-2 py-0.5 rounded-md">
+                                  {item.category}
+                                </span>
+                              </div>
+                              <h3 className="text-base font-black text-slate-800 tracking-tight">{item.theme}</h3>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
