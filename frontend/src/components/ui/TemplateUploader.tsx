@@ -5,11 +5,12 @@ import toast from 'react-hot-toast';
 
 interface TemplateUploaderProps {
   websiteSlug: string;
-  onSuccess: (newContent: any) => void;
+  onSuccess: (newContent: any, newWebsite?: any) => void;
   currentContent?: any;
+  currentWebsite?: any;
 }
 
-export default function TemplateUploader({ websiteSlug, onSuccess, currentContent }: TemplateUploaderProps) {
+export default function TemplateUploader({ websiteSlug, onSuccess, currentContent, currentWebsite }: TemplateUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +57,7 @@ export default function TemplateUploader({ websiteSlug, onSuccess, currentConten
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       toast.success('Template applied successfully!');
-      onSuccess(res.data.content);
+      onSuccess(res.data.content, res.data.website);
     } catch (err: any) {
       console.error(err);
       toast.error(err.response?.data?.error || 'Failed to upload template.');
@@ -84,7 +85,9 @@ export default function TemplateUploader({ websiteSlug, onSuccess, currentConten
       services_json: currentContent.services_json,
       gallery_json: currentContent.gallery_json,
       products_json: currentContent.products_json,
-      contact_info: currentContent.contact_info
+      contact_info: currentContent.contact_info,
+      theme: currentWebsite?.theme,
+      business_type: currentWebsite?.business_type
     };
     
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });

@@ -588,8 +588,21 @@ export default function WebsiteEditor() {
               <TemplateUploader 
                 websiteSlug={website.slug}
                 currentContent={content}
-                onSuccess={(newContent: any) => {
+                currentWebsite={website}
+                onSuccess={(newContent: any, newWebsite?: any) => {
                   setContent(newContent);
+                  if (newWebsite) {
+                    setWebsite(newWebsite);
+                  }
+                  
+                  // Force an immediate preview update to ensure the iframe receives the very latest state
+                  if (iframeRef.current && iframeRef.current.contentWindow) {
+                    iframeRef.current.contentWindow.postMessage({ 
+                      type: 'UPDATE_PREVIEW', 
+                      website: newWebsite || website, 
+                      content: newContent 
+                    }, '*');
+                  }
                 }}
               />
             </div>

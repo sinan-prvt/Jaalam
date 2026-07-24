@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
@@ -240,6 +240,10 @@ export default function Dashboard() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
+  // Template Preview State
+  const [previewTemplate, setPreviewTemplate] = useState<{category: string, theme: string} | null>(null);
+  const previewIframeRef = useRef<HTMLIFrameElement>(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -449,6 +453,81 @@ export default function Dashboard() {
     toast.success('Link copied to clipboard!');
     setTimeout(() => setCopiedSlug(null), 2000);
   };
+
+  const handleDownloadTemplate = (category: string, theme: string) => {
+    const templateData = {
+      theme: theme,
+      business_type: category,
+      settings_json: {
+        website_name: `My ${theme} Site`,
+        blocks: []
+      },
+      custom_blocks_json: [],
+      hero_title: `Welcome to my ${theme} site`,
+      about_text: `This is a beautiful website built with the ${theme} template.`,
+      contact_info: {
+        email: 'hello@example.com',
+        phone: '+1 234 567 8900'
+      }
+    };
+    
+    const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${category.replace(/\W+/g, '-').toLowerCase()}-${theme.replace(/\W+/g, '-').toLowerCase()}-template.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    toast.success('Template downloaded successfully!');
+  };
+
+  const handlePreviewTemplate = (category: string, theme: string) => {
+    setPreviewTemplate({ category, theme });
+  };
+
+  useEffect(() => {
+    if (previewTemplate && previewIframeRef.current) {
+      const templateData = {
+        theme: previewTemplate.theme,
+        business_type: previewTemplate.category,
+        settings_json: {
+          website_name: `My ${previewTemplate.theme} Site`,
+          blocks: []
+        },
+        custom_blocks_json: [],
+        hero_title: `Welcome to my ${previewTemplate.theme} site`,
+        about_text: `This is a beautiful website built with the ${previewTemplate.theme} template.`,
+        contact_info: {
+          email: 'hello@example.com',
+          phone: '+1 234 567 8900'
+        }
+      };
+
+      const handleIframeLoad = () => {
+        if (previewIframeRef.current?.contentWindow) {
+          previewIframeRef.current.contentWindow.postMessage({ 
+            type: 'UPDATE_PREVIEW', 
+            website: { theme: previewTemplate.theme, business_type: previewTemplate.category, slug: 'template-preview' }, 
+            content: templateData 
+          }, '*');
+        }
+      };
+
+      // In case iframe is already loaded
+      handleIframeLoad();
+
+      // Listen for when it's ready
+      const handleMessage = (e: MessageEvent) => {
+        if (e.data?.type === 'PREVIEW_READY') {
+          handleIframeLoad();
+        }
+      };
+      window.addEventListener('message', handleMessage);
+      return () => window.removeEventListener('message', handleMessage);
+    }
+  }, [previewTemplate]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -882,6 +961,98 @@ export default function Dashboard() {
             </div>
           )}
 
+          {activeTab === 'Templates' && (
+            <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Templates</h1>
+                  <p className="text-slate-500 mt-1">Browse and download starting templates for your next project.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white/60 backdrop-blur-xl p-3 md:p-4 rounded-2xl border border-white/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                <div className="relative w-full md:w-96">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                  <input
+                    type="text"
+                    placeholder="Search templates..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
+                  />
+                </div>
+                
+                <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{scrollbarWidth: 'none'}}>
+                  {['All', ...Object.keys(categoryThemes)].map(status => (
+                    <button
+                      key={status}
+                      onClick={() => setFilterStatus(status)}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
+                        filterStatus === status
+                          ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                          : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {[1, 2, 3, 4, 5, 6].map(n => (
+                    <div key={n} className="bg-white/40 border border-white/60 rounded-3xl h-64 animate-pulse"></div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {Object.entries(categoryThemes).flatMap(([category, themes]) => 
+                    themes.map(theme => ({ category, theme }))
+                  )
+                  .filter(item => filterStatus === 'All' || item.category === filterStatus)
+                  .filter(item => item.theme.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((item, idx) => (
+                    <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white/80 backdrop-blur-xl border border-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-1">
+                      <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative">
+                        <img 
+                          src={getThemeThumbnail(item.theme, item.category)} 
+                          alt={item.theme}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 gap-2">
+                          <button
+                            onClick={() => handlePreviewTemplate(item.category, item.theme)}
+                            className="w-full bg-indigo-600 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-500 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75"
+                          >
+                            <ExternalLink size={16} />
+                            Live Preview
+                          </button>
+                          <button
+                            onClick={() => handleDownloadTemplate(item.category, item.theme)}
+                            className="w-full bg-white text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 duration-300"
+                          >
+                            <Download size={16} />
+                            Download JSON
+                          </button>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            {item.category}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-black text-slate-900 tracking-tight">{item.theme}</h3>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {activeTab === 'Analytics' && (
             <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics Overview</h2>
@@ -1042,6 +1213,19 @@ export default function Dashboard() {
                     Logout
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Preview Modal */}
+          {showPreviewModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-200">
+              <div className="bg-white rounded-3xl w-full max-w-5xl h-[80vh] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200">
+                <div className="flex justify-between items-center p-4 border-b">
+                  <h3 className="font-black text-slate-900">Live Preview</h3>
+                  <button onClick={() => setShowPreviewModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
+                </div>
+                <iframe src={previewUrl} className="w-full h-full border-0" title="Preview" />
               </div>
             </div>
           )}
@@ -1214,6 +1398,43 @@ export default function Dashboard() {
 
         </div>
       </main>
+
+      {/* Template Preview Modal */}
+      {previewTemplate && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-sm p-4 md:p-8 animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl w-full h-full max-w-7xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-white/20 relative animate-in zoom-in-95 duration-300">
+            <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-white">
+              <div>
+                <h3 className="text-xl font-black text-slate-900">{previewTemplate.theme}</h3>
+                <p className="text-sm text-slate-500 font-medium">{previewTemplate.category}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleDownloadTemplate(previewTemplate.category, previewTemplate.theme)}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors"
+                >
+                  <Download size={16} />
+                  Download
+                </button>
+                <button 
+                  onClick={() => setPreviewTemplate(null)}
+                  className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 bg-slate-50 relative">
+              <iframe
+                ref={previewIframeRef}
+                src="/_preview"
+                className="w-full h-full border-none absolute inset-0"
+                title="Template Preview"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <AIGeneratorModal
         isOpen={isAIModalOpen}

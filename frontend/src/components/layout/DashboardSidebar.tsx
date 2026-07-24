@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate } from 'lucide-react';
 import NotificationBell from '../ui/NotificationBell';
 
 interface User {
@@ -35,6 +35,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
             {[
               { tab: 'Dashboard', icon: <Grid size={20} />, label: 'Overview' },
               { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites' },
+              { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates' },
               { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox' },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
               { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },

@@ -157,8 +157,25 @@ class WebsiteViewSet(viewsets.ModelViewSet):
                     setattr(content, field, template_data[field])
             
             content.save()
+            
+            website_updated = False
+            if 'theme' in template_data and template_data['theme']:
+                website.theme = template_data['theme']
+                website_updated = True
+            if 'business_type' in template_data and template_data['business_type']:
+                website.business_type = template_data['business_type']
+                website_updated = True
+                
+            if website_updated:
+                website.save()
+                
             serializer = WebsiteContentSerializer(content)
-            return Response({'message': 'Template applied successfully', 'content': serializer.data})
+            website_serializer = WebsiteSerializer(website)
+            return Response({
+                'message': 'Template applied successfully', 
+                'content': serializer.data,
+                'website': website_serializer.data
+            })
         except json.JSONDecodeError:
             return Response({'error': 'Invalid JSON file'}, status=400)
         except Exception as e:
