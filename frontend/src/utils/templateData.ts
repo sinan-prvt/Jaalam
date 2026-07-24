@@ -1,71 +1,75 @@
 export const categoryThemes: Record<string, string[]> = {
-  'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Modern', 'Classic', 'Minimal', 'Rustic'],
-  'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'Minimal', 'Playful', 'Boutique', 'Vintage'],
-  'Salon / Spa': ['Glamour Beauty', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Minimal', 'Luxury', 'Classic'],
-  'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym', 'Modern', 'Minimal'],
-  'Retail Store': ['Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic', 'Noir', 'Pop', 'Modern'],
-  'Chicken / Meat Stall': ['Classic', 'Premium', 'Minimal', 'Rustic', 'Playful', 'Modern'],
-  'Scrap Dealer': ['Classic', 'Minimal', 'Corporate', 'Eco', 'Playful', 'Modern'],
-  'Textiles / Garments': ['Boutique', 'Minimal', 'Luxury', 'Vintage', 'Playful', 'Modern'],
-  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Playful', 'Luxury', 'Pop', 'Eco']
-};
-
-export const defaults: Record<string, string> = {
-  'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
-  'Cafe / Bakery': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
-  'Salon': 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
-  'Gym': 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
-  'Retail Store': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
-  'Chicken / Meat Stall': 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80',
-  'Scrap Dealer': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
-  'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
-  'Consulting': 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
-  'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
-};
+    'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Custom'],
+    'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'Custom'],
+    'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
+    'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
+    'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Custom'],
+    'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
+    'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
+    'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
+    'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
+    'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
+    'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
+    'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
+    'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
+  };
 
 export const getThemeThumbnail = (theme: string, businessType?: string) => {
-  if (businessType === 'Restaurant') {
-    if (theme === 'Fine Dining') return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Casual Eats') return 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Bistro') return 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Rustic') return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
+  // Generic mapping by business type to provide fallback defaults
+  const defaults: Record<string, string> = {
+    'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
+    'Cafe / Bakery': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
+    'Salon': 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
+    'Gym': 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
+    'Real Estate': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
+    'Retail Store': 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80',
+    'Stationery / Books': 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+    'Fancy Store': 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80',
+    'Chicken / Meat Stall': 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80',
+    'Scrap Dealer': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
+    'Supermarket / Grocery': 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80',
+    'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
+    'Consulting': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+    'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
+  };
+
+  // Unique theme mappings
+  if (businessType === 'Real Estate') {
+    if (theme === 'Luxury Villas') return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Urban Apartments') return 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Commercial') return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=800&q=80';
   }
 
-  if (businessType === 'Cafe / Bakery') {
-    if (theme === 'Cozy Cafe') return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern Bakery') return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Artisan') return 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Vintage') return 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80';
-  }
-
-  if (businessType === 'Salon / Spa' || businessType === 'Salon' || businessType === 'Saloon') {
-    if (theme === 'Glamour Beauty') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern Saloon') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Vintage Barber') return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Royal Saloon') return 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
-  }
-
-  if (businessType === 'Gym / Fitness' || businessType === 'Gym') {
-    if (theme === 'Hardcore Iron') return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Zen Yoga Studio') return 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'CrossFit Box') return 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Luxury Health Club') return 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Combat & MMA Gym') return 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80';
+  if (businessType === 'Supermarket / Grocery') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Premium') return 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Organic') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1560159813-f66d40510006?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Noir') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80&grayscale';
+    if (theme === 'Pop') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80&sat=200';
   }
 
   if (businessType === 'Retail Store') {
+    if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimalist') return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Streetwear') return 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Tech Gadget') return 'https://images.unsplash.com/photo-1531297172864-45d1b11e2fb9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Organic Store') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Stationery / Books') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Ethereal') return 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Fancy Store') {
     if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80';
