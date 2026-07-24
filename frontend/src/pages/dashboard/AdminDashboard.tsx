@@ -9,6 +9,7 @@ import { QRCodeSVG } from 'qrcode.react';
 
 import NotificationsPage from './NotificationsPage';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
+import TemplateBuilderModal from '../../components/modals/TemplateBuilderModal';
 
 interface AdminUser {
   id: number;
@@ -78,6 +79,7 @@ export default function AdminDashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [templateFilterStatus, setTemplateFilterStatus] = useState<string>('All');
+  const [isTemplateBuilderOpen, setIsTemplateBuilderOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -760,7 +762,7 @@ export default function AdminDashboard() {
                         ))}
                       </select>
                       <button 
-                        onClick={() => toast.error('Template Builder is coming in the next update!')}
+                        onClick={() => setIsTemplateBuilderOpen(true)}
                         className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-colors text-sm"
                       >
                         <Plus size={16} /> New Template
@@ -1471,6 +1473,12 @@ export default function AdminDashboard() {
             <div className="text-xl font-bold tracking-[0.2em] text-center">SCAN TO VISIT US</div>
           </div>
         </div>
+      )}
+      </main>
+
+      {/* Modals */}
+      {isTemplateBuilderOpen && (
+        <TemplateBuilderModal onClose={() => setIsTemplateBuilderOpen(false)} />
       )}
     </div>
   );
