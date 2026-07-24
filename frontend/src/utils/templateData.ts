@@ -14,10 +14,10 @@ export const categoryThemes: Record<string, string[]> = {
 export const defaults: Record<string, string> = {
   'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
   'Cafe / Bakery': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
-  'Salon': 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80',
+  'Salon': 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
   'Gym': 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
   'Retail Store': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
-  'Chicken / Meat Stall': 'https://images.unsplash.com/photo-1607623814075-e51df1bd682f?auto=format&fit=crop&w=800&q=80',
+  'Chicken / Meat Stall': 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80',
   'Scrap Dealer': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
   'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
   'Consulting': 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
@@ -32,7 +32,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Modern') return 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Classic') return 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Rustic') return 'https://images.unsplash.com/photo-1525610553991-56e111143003?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Rustic') return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Cafe / Bakery') {
@@ -47,10 +47,10 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
 
   if (businessType === 'Salon / Spa' || businessType === 'Salon' || businessType === 'Saloon') {
     if (theme === 'Glamour Beauty') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern Saloon') return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Vintage Barber') return 'https://images.unsplash.com/photo-1532710093739-9470acff878b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern Saloon') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Vintage Barber') return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Royal Saloon') return 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1516975080661-46bd8e1b34f2?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Classic') return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
   }
@@ -67,7 +67,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
 
   if (businessType === 'Retail Store') {
     if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1600164318933-2ebf454c502f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Luxury') return 'https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Playful') return 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Classic') return 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80';
@@ -77,17 +77,17 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
   }
 
   if (businessType === 'Chicken / Meat Stall') {
-    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1607623814075-e51df1bd682f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Premium') return 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Rustic') return 'https://images.unsplash.com/photo-1615937657715-bc7b4b7962c1?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Playful') return 'https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1563514757303-a1286c757c91?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Scrap Dealer') {
     if (theme === 'Classic') return 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1558611997-60af99839eb9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1579389083078-4e7018379f7e?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Corporate') return 'https://images.unsplash.com/photo-1579389083078-4e7018379f7e?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Eco') return 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80&sat=-100';
     if (theme === 'Playful') return 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80';
@@ -130,8 +130,8 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     case 'Modern Bakery': return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80';
     case 'Artisan': return 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80';
     case 'Classic Barbershop': return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
-    case 'Modern Saloon': return 'https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?auto=format&fit=crop&w=800&q=80';
-    case 'Vintage Barber': return 'https://images.unsplash.com/photo-1532710093739-9470acff878b?auto=format&fit=crop&w=800&q=80';
+    case 'Modern Saloon': return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
+    case 'Vintage Barber': return 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80';
     case 'Royal Saloon': return 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80';
     case 'Glamour Beauty': return 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80';
     case 'Hardcore Iron': return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
