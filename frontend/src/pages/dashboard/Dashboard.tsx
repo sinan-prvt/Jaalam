@@ -685,6 +685,9 @@ export default function Dashboard() {
                   <span className="relative z-10">Upgrade</span>
                 </button>
               )}
+              <button onClick={() => setActiveTab('Templates')} className="text-slate-600 hover:text-indigo-600 transition-colors p-1">
+                <LayoutTemplate size={20} />
+              </button>
               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
                 <Bell size={20} />
               </button>
