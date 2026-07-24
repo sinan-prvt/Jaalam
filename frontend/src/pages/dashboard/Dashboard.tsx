@@ -463,6 +463,9 @@ export default function Dashboard() {
         blocks: []
       },
       custom_blocks_json: [],
+      services_json: [],
+      gallery_json: [],
+      products_json: [],
       hero_title: `Welcome to my ${theme} site`,
       about_text: `This is a beautiful website built with the ${theme} template.`,
       contact_info: {
@@ -497,6 +500,9 @@ export default function Dashboard() {
           blocks: []
         },
         custom_blocks_json: [],
+        services_json: [],
+        gallery_json: [],
+        products_json: [],
         hero_title: `Welcome to my ${previewTemplate.theme} site`,
         about_text: `This is a beautiful website built with the ${previewTemplate.theme} template.`,
         contact_info: {
