@@ -459,8 +459,7 @@ export default function Dashboard() {
       theme: theme,
       business_type: category,
       settings_json: {
-        website_name: `My ${theme} Site`,
-        blocks: []
+        website_name: `My ${theme} Site`
       },
       custom_blocks_json: [],
       services_json: [],
@@ -496,8 +495,7 @@ export default function Dashboard() {
         theme: previewTemplate.theme,
         business_type: previewTemplate.category,
         settings_json: {
-          website_name: `My ${previewTemplate.theme} Site`,
-          blocks: []
+          website_name: `My ${previewTemplate.theme} Site`
         },
         custom_blocks_json: [],
         services_json: [],
