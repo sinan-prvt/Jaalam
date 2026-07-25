@@ -6,27 +6,6 @@ THEMES_DIR = 'src/components/themes'
 def process_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-dsDSDsDsDsdSdsd
-d
-
-sd
-s
-ds
-
-d
-d
-s
-d
-sd
-s
-ds
-
-s
-ds
-d
-sd
-s
-
 
     # Skip if no inline modal using selectedProduct
     if 'selectedProduct' not in content:
