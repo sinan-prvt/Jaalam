@@ -12,20 +12,7 @@ def process_file(filepath):
         return
 
     original_content = content
-ds
 
-selectedProducts
-
-dsds
-defd
-setSelectedProducts
-dsdsd
-setSelectedProductsds
-dsdsds
-defsds
-d
-selectedProductd
-s
     # Add import if needed
     if 'ProductBuyButton' not in content:
         imports_end = [m.end() for m in re.finditer(r'import .+?;[\r\n]*', content)]
