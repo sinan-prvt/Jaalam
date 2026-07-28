@@ -18,19 +18,7 @@ def process_file(filepath):
         imports_end = [m.end() for m in re.finditer(r'import .+?;[\r\n]*', content)]
         if imports_end:
             insert_pos = imports_end[-1]
-            hgjhgg
-            
-            kj
-            kjkj
-            kjkj
-            kjk
-            jkj
-            jkj
-            jkjkj
-            kjkjkj
-            
-            jkjj
-            jkjcontent = content[:insert_pos] + "import ProductBuyButton from '../../payments/ProductBuyButton';\n" + content[insert_pos:]
+            content = content[:insert_pos] + "import ProductBuyButton from '../../payments/ProductBuyButton';\n" + content[insert_pos:]
 
     # Replace the Close button
     close_btn_pattern = re.compile(r'<button[^>]*onClick=\{\(\)\s*=>\s*setSelectedProduct\(null\)\}[^>]*>\s*(?:Close|Back)\s*</button>', re.IGNORECASE)
