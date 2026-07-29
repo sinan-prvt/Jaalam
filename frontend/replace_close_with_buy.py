@@ -25,24 +25,6 @@ def process_file(filepath):
     
     content, count = close_btn_pattern.subn(r'<div className="w-full mt-4"><ProductBuyButton product={selectedProduct} content={content} /></div>', content)
     
-    ds
-    d
-    s
-    ds
-    d
-    sd
-    s
-    ds
-    ds
-    sd
-    sd
-    sds
-    ds
-    ds
-    sdsds
-    ds
-    s
-    dsd
     if count > 0 and content != original_content:
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(content)
