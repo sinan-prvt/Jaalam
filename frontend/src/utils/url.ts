@@ -12,22 +12,28 @@ export const getWebsiteUrl = (slug: string) => {
      return `${protocol}//${slug}.${baseHost}`;
   }
   
-  let baseHost = host;
+  // VERCEL FREE DOMAIN LIMITATION:
+  // Vercel DOES NOT allow wildcard subdomains (*.jaalam.vercel.app) on their free .vercel.app domains.
+  // It only works for custom domains (*.jaalam.com).
+  // So if we are on a .vercel.app domain, we MUST use path-based routing (/slug).
   if (hostname.endsWith('.vercel.app')) {
-    // Base domain is something.vercel.app (3 parts)
+    let baseHost = host;
+    // If somehow we are on a subdomain of vercel.app, strip it to get the root
     if (parts.length >= 4) {
       parts.shift();
       baseHost = parts.join('.') + (window.location.port ? `:${window.location.port}` : '');
     }
-  } else {
-    // Base domain is something.com (2 parts)
-    if (parts.length >= 3 && parts[0] !== 'www') {
-      parts.shift();
-      baseHost = parts.join('.') + (window.location.port ? `:${window.location.port}` : '');
-    } else if (parts[0] === 'www') {
-      parts.shift();
-      baseHost = parts.join('.') + (window.location.port ? `:${window.location.port}` : '');
-    }
+    return `${protocol}//${baseHost}/${slug}`;
+  } 
+  
+  // CUSTOM DOMAINS (e.g. jaalam.com) -> use subdomain routing (slug.jaalam.com)
+  let baseHost = host;
+  if (parts.length >= 3 && parts[0] !== 'www') {
+    parts.shift();
+    baseHost = parts.join('.') + (window.location.port ? `:${window.location.port}` : '');
+  } else if (parts[0] === 'www') {
+    parts.shift();
+    baseHost = parts.join('.') + (window.location.port ? `:${window.location.port}` : '');
   }
   
   return `${protocol}//${slug}.${baseHost}`;
