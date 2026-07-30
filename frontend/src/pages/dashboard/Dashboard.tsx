@@ -9,6 +9,7 @@ import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
+import { getWebsiteUrl } from '../../utils/url';
 import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
@@ -800,7 +801,7 @@ export default function Dashboard() {
                             <Link to={`/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                               <Settings size={14} /> Edit
                             </Link>
-                            <a href={`/${site.slug}`} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-indigo-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                            <a href={getWebsiteUrl(site.slug)} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-indigo-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                               <ExternalLink size={14} /> Visit
                             </a>
                           </div>

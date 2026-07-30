@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send, LayoutTemplate, Plus } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import { getWebsiteUrl } from '../../utils/url';
 
 import NotificationsPage from './NotificationsPage';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
@@ -1205,7 +1206,7 @@ export default function AdminDashboard() {
               <p className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-1">
                 For website:
                 <a
-                  href={`/${selectedOrderDetails.website_slug}`}
+                  href={getWebsiteUrl(selectedOrderDetails.website_slug)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-bold hover:underline flex items-center gap-1"
@@ -1333,7 +1334,7 @@ export default function AdminDashboard() {
               <div className="bg-white p-6 rounded-3xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-slate-100 flex flex-col items-center">
                 <div className="font-black text-xl mb-4 text-slate-800 tracking-tight">{selectedWebsite.slug.toUpperCase()}</div>
                 <QRCodeSVG
-                  value={`${window.location.origin}/${selectedWebsite.slug}`}
+                  value={getWebsiteUrl(selectedWebsite.slug)}
                   size={200}
                   level="H"
                   includeMargin={false}
@@ -1455,7 +1456,7 @@ export default function AdminDashboard() {
                   </button>
                 </div>
                 <a
-                  href={`/${selectedProjectDetails.slug}`}
+                  href={getWebsiteUrl(selectedProjectDetails.slug)}
                   target="_blank"
                   rel="noreferrer"
                   className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg shadow-primary-600/30 whitespace-nowrap"
