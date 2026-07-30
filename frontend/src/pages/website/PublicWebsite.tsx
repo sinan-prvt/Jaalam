@@ -104,6 +104,7 @@ export default function PublicWebsite() {
   const [website, setWebsite] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   
   useScrollReveal([website?.theme, website?.business_type]);
 
@@ -496,7 +497,6 @@ export default function PublicWebsite() {
     );
   };
 
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const upiId = website?.content?.settings_json?.upi_id;
 
   return (
