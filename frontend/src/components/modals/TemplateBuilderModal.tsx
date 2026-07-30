@@ -51,6 +51,16 @@ export default function TemplateBuilderModal({ onClose }: TemplateBuilderModalPr
     // Simulate upload delay
     setTimeout(() => {
       setIsUploading(false);
+      
+      // Add the new template to the categoryThemes
+      if (categoryThemes[category]) {
+        if (!categoryThemes[category].includes(themeName)) {
+          categoryThemes[category].push(themeName);
+        }
+      } else {
+        categoryThemes[category] = [themeName];
+      }
+      
       toast.success('Template uploaded successfully!');
       onClose();
     }, 1500);

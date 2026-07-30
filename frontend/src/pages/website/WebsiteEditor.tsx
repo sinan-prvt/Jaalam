@@ -149,7 +149,7 @@ export default function WebsiteEditor() {
 
   // Set default tab based on whether it's an AI site or manual site
   useEffect(() => {
-    if (isDynamicAI && activeTab !== 'ai-chat' && activeTab !== 'domain' && activeTab !== 'qr') {
+    if (isDynamicAI && activeTab !== 'ai-chat' && activeTab !== 'domain' && activeTab !== 'qr' && activeTab !== 'template' && activeTab !== 'payments') {
       setActiveTab('ai-chat');
     } else if (!isDynamicAI && activeTab === 'ai-chat') {
       setActiveTab('theme');
@@ -602,6 +602,13 @@ export default function WebsiteEditor() {
                       website: newWebsite || website, 
                       content: newContent 
                     }, '*');
+                  }
+
+                  const newIsDynamicAI = newContent?.settings_json?.blocks !== undefined;
+                  if (newIsDynamicAI) {
+                     setActiveTab('ai-chat');
+                  } else {
+                     setActiveTab('theme');
                   }
                 }}
               />

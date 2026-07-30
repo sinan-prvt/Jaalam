@@ -761,12 +761,6 @@ export default function AdminDashboard() {
                           <option key={cat} value={cat}>{cat}</option>
                         ))}
                       </select>
-                      <button 
-                        onClick={() => setIsTemplateBuilderOpen(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-colors text-sm"
-                      >
-                        <Plus size={16} /> New Template
-                      </button>
                     </div>
                   </div>
                   <div className="p-6 overflow-y-auto flex-1 bg-slate-50/50">
@@ -785,6 +779,22 @@ export default function AdminDashboard() {
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                               loading="lazy"
                             />
+                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (window.confirm(`Are you sure you want to delete the "${item.theme}" template?`)) {
+                                    categoryThemes[item.category] = categoryThemes[item.category].filter(t => t !== item.theme);
+                                    setWebsites([...websites]); // force re-render
+                                    toast.success('Template deleted successfully');
+                                  }
+                                }}
+                                className="p-1.5 bg-rose-500 text-white rounded-lg hover:bg-rose-600 shadow-sm transition-colors"
+                                title="Delete Template"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
                           </div>
                           <div className="p-4 flex flex-col justify-between h-24">
                             <div>
