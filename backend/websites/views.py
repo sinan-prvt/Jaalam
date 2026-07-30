@@ -76,7 +76,9 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         website = self.get_object()
         
         if not website.published:
-            return Response({'error': 'Website is not published'}, status=403)
+            # Allow the owner to view their own unpublished site
+            if not (request.user.is_authenticated and request.user == website.user):
+                return Response({'error': 'Website is not published'}, status=403)
             
         if getattr(website, 'is_blocked', False):
             return Response({'error': 'Website is suspended'}, status=403)
