@@ -38,7 +38,16 @@ const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
     fetchSettings();
   }, []);
 
-  if (loading) return null; // Let the outer LoadingScreen handle initial load if needed, or just return null
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-[#FAFCFF] z-[9999] fixed inset-0">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+          <p className="text-slate-500 font-medium animate-pulse text-sm">Connecting to server...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isMaintenance && !user?.is_superuser) {
     if (location.pathname !== '/login') {
