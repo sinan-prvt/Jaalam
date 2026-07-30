@@ -83,7 +83,24 @@ import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 
 export default function PublicWebsite() {
-  const { businessSlug } = useParams();
+  const { businessSlug: paramSlug } = useParams();
+  
+  const getSubdomain = () => {
+    const host = window.location.hostname;
+    if (host.includes('localhost') || host.includes('127.0.0.1')) {
+      const parts = host.split('.');
+      if (parts.length >= 2 && parts[0] !== 'localhost' && parts[0] !== '127') return parts[0];
+    } else if (host.includes('vercel.app')) {
+      const parts = host.split('.');
+      if (parts.length >= 4) return parts[0];
+    } else {
+      const parts = host.split('.');
+      if (parts.length >= 3 && parts[0] !== 'www') return parts[0];
+    }
+    return null;
+  };
+
+  const businessSlug = paramSlug || getSubdomain();
   const [website, setWebsite] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

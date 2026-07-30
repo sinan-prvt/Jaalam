@@ -62,7 +62,41 @@ const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+const getSubdomain = () => {
+  const host = window.location.hostname;
+  if (host.includes('localhost') || host.includes('127.0.0.1')) {
+    const parts = host.split('.');
+    if (parts.length >= 2 && parts[0] !== 'localhost' && parts[0] !== '127') return parts[0];
+  } else if (host.includes('vercel.app')) {
+    const parts = host.split('.');
+    if (parts.length >= 4) return parts[0];
+  } else {
+    const parts = host.split('.');
+    if (parts.length >= 3 && parts[0] !== 'www') return parts[0];
+  }
+  return null;
+};
+
 function Router() {
+  const subdomain = getSubdomain();
+
+  if (subdomain) {
+    return (
+      <BrowserRouter>
+        <CommandPalette />
+        <LoadingScreen>
+          <MaintenanceWrapper>
+            <Suspense fallback={<div className="flex h-screen items-center justify-center bg-[#FAFAFC]"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>}>
+              <Routes>
+                <Route path="*" element={<PublicWebsite />} />
+              </Routes>
+            </Suspense>
+          </MaintenanceWrapper>
+        </LoadingScreen>
+      </BrowserRouter>
+    );
+  }
+
   return (
     <BrowserRouter>
       <CommandPalette />
