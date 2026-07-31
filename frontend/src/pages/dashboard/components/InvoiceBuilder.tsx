@@ -15,14 +15,15 @@ interface InvoiceItem {
 interface InvoiceBuilderProps {
   onBack: () => void;
   websiteId: number | string;
+  initialBusinessName?: string;
   onSuccess: () => void;
 }
 
-export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: InvoiceBuilderProps) {
+export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName, onSuccess }: InvoiceBuilderProps) {
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [businessName, setBusinessName] = useState('My Business');
+  const [businessName, setBusinessName] = useState(initialBusinessName || 'My Business');
   const [upiId, setUpiId] = useState('');
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [gstPercentage, setGstPercentage] = useState(18);

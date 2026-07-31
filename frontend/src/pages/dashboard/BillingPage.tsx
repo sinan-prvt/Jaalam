@@ -16,14 +16,19 @@ export default function BillingPage() {
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [search, setSearch] = useState('');
-
-  // Defaulting to 1 for this demo, in a real app you'd select the active website ID
-  const activeWebsiteId = 1; 
+  const [activeWebsite, setActiveWebsite] = useState<any>(null);
 
   const fetchInvoices = async () => {
     try {
-      const res = await axios.get('/api/billing/invoices/', { withCredentials: true });
-      setInvoices(res.data);
+      // Fetch both invoices and websites
+      const [invRes, siteRes] = await Promise.all([
+        axios.get('/api/billing/invoices/', { withCredentials: true }),
+        axios.get('/api/websites/', { withCredentials: true })
+      ]);
+      setInvoices(invRes.data);
+      if (siteRes.data && siteRes.data.length > 0) {
+        setActiveWebsite(siteRes.data[0]);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -39,7 +44,8 @@ export default function BillingPage() {
     return (
       <div className="h-full w-full bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200">
         <InvoiceBuilder 
-          websiteId={activeWebsiteId} 
+          websiteId={activeWebsite?.id || 1} 
+          initialBusinessName={activeWebsite?.content?.settings_json?.website_name || activeWebsite?.slug || 'My Business'} 
           onBack={() => setIsCreating(false)} 
           onSuccess={() => {
             fetchInvoices();
