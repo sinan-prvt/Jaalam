@@ -7,6 +7,7 @@ import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Ac
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
+import CustomersPage from './CustomersPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
@@ -812,6 +813,10 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
+          )}
+
+          {activeTab === 'Customers' && (
+            <CustomersPage />
           )}
 
           {activeTab === 'Templates' && (
