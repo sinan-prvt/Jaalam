@@ -22,6 +22,8 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [businessName, setBusinessName] = useState('My Business');
+  const [upiId, setUpiId] = useState('');
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [gstPercentage, setGstPercentage] = useState(18);
   const [loading, setLoading] = useState(false);
@@ -119,8 +121,9 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
   };
 
   // UPI Link format: upi://pay?pa=UPI_ID&pn=NAME&am=AMOUNT&cu=INR
-  // In a real app, UPI_ID would come from settings. We use a placeholder here.
-  const upiLink = `upi://pay?pa=shop@upi&pn=Business&am=${totalAmount.toFixed(2)}&cu=INR`;
+  const upiLink = upiId 
+    ? `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(businessName)}&am=${totalAmount.toFixed(2)}&cu=INR`
+    : `upi://pay?pa=shop@upi&pn=${encodeURIComponent(businessName)}&am=${totalAmount.toFixed(2)}&cu=INR`;
 
   return (
     <div className="flex flex-col h-full bg-slate-50 relative">
@@ -151,6 +154,21 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
         
         {/* Editor Form */}
         <div className="flex-1 space-y-6">
+          {/* Business Details Form */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <h3 className="font-bold text-slate-900 mb-4">Your Business Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Business Name</label>
+                <input type="text" value={businessName} onChange={e => setBusinessName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="Your Shop Name" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">UPI ID (For QR Code)</label>
+                <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="e.g. shop@okicici" />
+              </div>
+            </div>
+          </div>
+
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <h3 className="font-bold text-slate-900 mb-4">Customer Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -227,10 +245,14 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
           <div className="bg-slate-200 p-4 rounded-3xl h-full flex flex-col shadow-inner">
             <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest text-center mb-4">Receipt Preview</h3>
             
-            <div id="invoice-preview-container" className="bg-white p-8 shadow-sm rounded-2xl flex-1 max-h-[800px] relative overflow-hidden text-slate-800">
+            <div id="invoice-preview-container" className="bg-white p-8 shadow-sm rounded-2xl flex-1 max-h-[850px] relative overflow-hidden text-slate-800">
               {/* Receipt Content */}
               <div className="text-center mb-8 border-b border-dashed border-slate-300 pb-6">
-                <h1 className="text-2xl font-black tracking-tighter uppercase">TAX INVOICE</h1>
+                <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-black text-xl shadow-md">
+                  {businessName.charAt(0).toUpperCase()}
+                </div>
+                <h2 className="text-xl font-black text-slate-900 mb-2">{businessName}</h2>
+                <h1 className="text-lg font-bold tracking-widest text-slate-400 uppercase">TAX INVOICE</h1>
                 <p className="text-xs text-slate-500 mt-1">Invoice #{invoiceId || 'DRAFT'}</p>
                 <p className="text-xs text-slate-500">{new Date().toLocaleDateString()}</p>
               </div>
@@ -282,7 +304,7 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
                 <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
                   <QRCodeSVG value={upiLink} size={100} level="H" />
                 </div>
-                <p className="text-xs font-mono text-slate-400 mt-2">shop@upi</p>
+                <p className="text-xs font-mono text-slate-400 mt-2">{upiId || 'Configure UPI ID'}</p>
               </div>
               
               <div className="text-center mt-6 pt-4 border-t border-dashed border-slate-300">
