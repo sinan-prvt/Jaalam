@@ -101,3 +101,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Razorpay settings
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_T9pRLlJJvZvPYh')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'irv4jEX9tvQLlF5DGiIgY1HY')
+
+# Email settings
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
