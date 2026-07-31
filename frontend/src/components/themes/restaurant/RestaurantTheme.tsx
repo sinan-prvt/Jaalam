@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
+import ContactForm from '../shared/ContactForm';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
 
@@ -690,12 +691,19 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
               </div>
               
               <div className={`${bgDark}/80 backdrop-blur-xl p-8 lg:p-12 border border-white/5 shadow-2xl flex flex-col items-center text-center ${cardShape.replace('bg-white', '')}`}>
-                <h3 className={`text-2xl text-white mb-6 ${headingFont}`}>Follow Our Journey</h3>
-                <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                  Stay connected with us on social media for the latest culinary creations, behind-the-scenes moments, and exclusive events.
-                </p>
+                <h3 className={`text-2xl text-white mb-6 ${headingFont}`}>Send a Message</h3>
                 
-                <div className="flex gap-6 mb-10">
+                <div className="w-full mb-8">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor={primaryColor}
+                    primaryColorHover={primaryColorHover}
+                    buttonShape={buttonShape}
+                    inputStyles={`bg-white/5 border-white/10 text-white placeholder-white/40 focus:border-${primaryText.split('-')[1]}-500`}
+                  />
+                </div>
+                
+                <div className="flex gap-6 pt-8 border-t border-white/10 w-full justify-center">
                   <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors bg-slate-900 group`} aria-label="Facebook">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                   </a>
