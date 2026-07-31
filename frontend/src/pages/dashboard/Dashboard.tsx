@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, MessageCircle } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
@@ -613,9 +613,15 @@ export default function Dashboard() {
                   </div>
 
                   <div className="mt-8 hidden md:flex gap-3">
-                    <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
-                      <Plus size={18} className="text-indigo-400" /> New Project
-                    </button>
+                    {user && (user as any).role !== 'CLIENT' ? (
+                      <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
+                        <Plus size={18} className="text-indigo-400" /> New Project
+                      </button>
+                    ) : (
+                      <button onClick={() => setActiveTab('Inbox')} className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-indigo-600/20 flex items-center gap-2 text-sm hover:scale-105">
+                        <MessageCircle size={18} className="text-indigo-200" /> Contact Support
+                      </button>
+                    )}
                     <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
                       View All
                     </button>
