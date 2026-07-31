@@ -21,6 +21,7 @@ interface User {
   has_completed_onboarding?: boolean;
   is_test_user?: boolean;
   membership?: string;
+  role?: string;
 }
 
 interface Website {
@@ -58,7 +59,7 @@ export default function Dashboard() {
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) return 'Billing';
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Billing';
     return location.state?.tab || 'Dashboard';
   });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
@@ -147,7 +148,7 @@ export default function Dashboard() {
   }, [newSlug]);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) {
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
       if (activeTab !== 'Billing' && activeTab !== 'Settings') {
         setActiveTab('Billing');
       }
@@ -523,7 +524,7 @@ export default function Dashboard() {
               {activeTab}
             </h1>
             <div className="flex items-center gap-4">
-              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && (
+              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Billing')}
                   className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl shadow-sm shadow-indigo-200 font-black text-sm uppercase tracking-wider"
@@ -554,7 +555,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && (
+              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Billing')}
                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
@@ -693,20 +694,24 @@ export default function Dashboard() {
                     <option value="Live">Live Sites</option>
                     <option value="Draft">Drafts</option>
                   </select>
-                  <button
-                    onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
-                    className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
-                  >
-                    <Sparkles size={16} />
-                    AI Design
-                  </button>
-                  <button
-                    onClick={() => checkCreationLimit() && setIsCreating(true)}
-                    className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
-                  >
-                    <Plus size={16} className="text-indigo-400" />
-                    New
-                  </button>
+                  {user && (user as any).role !== 'CLIENT' && (
+                    <>
+                      <button
+                        onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
+                        className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
+                      >
+                        <Sparkles size={16} />
+                        AI Design
+                      </button>
+                      <button
+                        onClick={() => checkCreationLimit() && setIsCreating(true)}
+                        className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
+                      >
+                        <Plus size={16} className="text-indigo-400" />
+                        New
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -725,22 +730,24 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-2xl font-black text-slate-900 mb-2">Nothing here yet</h3>
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-                        <button
-                          onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
-                          className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
-                        >
-                          <Sparkles size={18} />
-                          AI Design
-                        </button>
-                        <button
-                          onClick={() => checkCreationLimit() && setIsCreating(true)}
-                          className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
-                        >
-                          <Plus size={18} className="text-indigo-400" />
-                          Create Manually
-                        </button>
-                      </div>
+                      {user && (user as any).role !== 'CLIENT' && (
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+                          <button
+                            onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
+                            className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                          >
+                            <Sparkles size={18} />
+                            AI Design
+                          </button>
+                          <button
+                            onClick={() => checkCreationLimit() && setIsCreating(true)}
+                            className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                          >
+                            <Plus size={18} className="text-indigo-400" />
+                            Create Manually
+                          </button>
+                        </div>
+                      )}
                     </>
                   ) : (
                     <>
@@ -807,13 +814,15 @@ export default function Dashboard() {
                           >
                             {copiedSlug === site.slug ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
-                          <button
-                            onClick={() => handleDelete(site.slug, site.id)}
-                            className="p-2 bg-white/90 backdrop-blur-md hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-lg shadow-sm transition-all"
-                            title="Delete site"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          {user && (user as any).role !== 'CLIENT' && (
+                            <button
+                              onClick={() => handleDelete(site.slug, site.id)}
+                              className="p-2 bg-white/90 backdrop-blur-md hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-lg shadow-sm transition-all"
+                              title="Delete site"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
                         </div>
                       </div>
 
@@ -831,9 +840,11 @@ export default function Dashboard() {
                             <BarChart3 size={16} className="text-indigo-400" /> Analytics
                           </button>
                           <div className="flex gap-2">
-                            <Link to={`/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
-                              <Settings size={14} /> Edit
-                            </Link>
+                            {user && (user as any).role !== 'CLIENT' && (
+                              <Link to={`/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                                <Settings size={14} /> Edit
+                              </Link>
+                            )}
                             <a href={getWebsiteUrl(site.slug)} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-indigo-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                               <ExternalLink size={14} /> Visit
                             </a>
