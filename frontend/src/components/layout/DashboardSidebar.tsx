@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt } from 'lucide-react';
 import NotificationBell from '../ui/NotificationBell';
 
 interface User {
@@ -41,10 +41,9 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Clients', icon: <Users size={20} />, label: 'Clients', roles: ['ADMIN', 'AGENT'] },
               { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
-              { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Billing', icon: <Receipt size={20} />, label: 'Invoices', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings', roles: ['ADMIN', 'AGENT', 'CLIENT'] }
             ].filter(item => {
-              if (user?.is_superuser && item.tab === 'Billing') return false;
               if (user?.is_test_user && item.tab === 'Billing') return false;
               const userRole = user?.role || 'AGENT';
               return item.roles.includes(userRole) || user?.is_superuser;

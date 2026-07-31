@@ -9,6 +9,7 @@ import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
+import BillingPage from './BillingPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
@@ -1052,8 +1053,8 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Billing' && (
-            <div className="p-4 md:p-8 pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
-              <Pricing onSubscribeSuccess={() => setActiveTab('Dashboard')} />
+            <div className="h-full pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
+              <BillingPage />
             </div>
           )}
 

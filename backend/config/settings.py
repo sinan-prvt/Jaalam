@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'users',
     'websites',
     'customers',
+    'billing',
 ]
 
 MIDDLEWARE = [
