@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Save, Download, CreditCard, ChevronLeft } from 'lucide-react';
+import { Plus, Trash2, Save, Download, CreditCard, ChevronLeft, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { QRCodeSVG } from 'qrcode.react';
@@ -24,6 +24,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [businessName, setBusinessName] = useState(initialBusinessName || 'My Business');
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [upiId, setUpiId] = useState('');
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [gstPercentage, setGstPercentage] = useState(18);
@@ -159,6 +160,39 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <h3 className="font-bold text-slate-900 mb-4">Your Business Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Business Logo (Optional)</label>
+                <div className="flex items-center gap-4">
+                  {logoUrl ? (
+                    <div className="relative w-16 h-16 rounded-xl border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center shrink-0">
+                      <img src={logoUrl} alt="Logo" className="max-w-full max-h-full object-contain" />
+                      <button onClick={() => setLogoUrl(null)} className="absolute -top-1 -right-1 bg-rose-500 text-white p-1 rounded-full shadow-sm hover:scale-110 transition-transform">
+                        <Trash2 size={12} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center text-slate-400 shrink-0">
+                      <ImageIcon size={24} />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => setLogoUrl(reader.result as string);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1">Upload a small square logo (PNG or JPG)</p>
+                  </div>
+                </div>
+              </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Business Name</label>
                 <input type="text" value={businessName} onChange={e => setBusinessName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="Your Shop Name" />
@@ -249,9 +283,15 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
             <div id="invoice-preview-container" className="bg-white p-8 shadow-sm rounded-2xl flex-1 max-h-[850px] relative overflow-hidden text-slate-800">
               {/* Receipt Content */}
               <div className="text-center mb-8 border-b border-dashed border-slate-300 pb-6">
-                <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-black text-xl shadow-md">
-                  {businessName.charAt(0).toUpperCase()}
-                </div>
+                {logoUrl ? (
+                  <div className="w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                    <img src={logoUrl} alt="Business Logo" className="max-w-full max-h-full object-contain" />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-black text-xl shadow-md">
+                    {businessName.charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <h2 className="text-xl font-black text-slate-900 mb-2">{businessName}</h2>
                 <h1 className="text-lg font-bold tracking-widest text-slate-400 uppercase">TAX INVOICE</h1>
                 <p className="text-xs text-slate-500 mt-1">Invoice #{invoiceId || 'DRAFT'}</p>
