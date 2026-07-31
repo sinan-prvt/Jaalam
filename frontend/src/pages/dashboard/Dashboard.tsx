@@ -618,8 +618,8 @@ export default function Dashboard() {
                         <Plus size={18} className="text-indigo-400" /> New Project
                       </button>
                     ) : (
-                      <button onClick={() => setActiveTab('Inbox')} className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-indigo-600/20 flex items-center gap-2 text-sm hover:scale-105">
-                        <MessageCircle size={18} className="text-indigo-200" /> Contact Support
+                      <button onClick={() => setActiveTab('Customers')} className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-indigo-600/20 flex items-center gap-2 text-sm hover:scale-105">
+                        <Users size={18} className="text-indigo-200" /> Open CRM
                       </button>
                     )}
                     <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
