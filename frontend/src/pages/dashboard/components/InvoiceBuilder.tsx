@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Trash2, Save, Download, CreditCard, ChevronLeft } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface InvoiceItem {
   id?: number;
@@ -280,7 +280,7 @@ export default function InvoiceBuilder({ onBack, websiteId, onSuccess }: Invoice
               <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 mt-auto">
                 <p className="text-xs font-bold text-slate-500 uppercase mb-3">Scan to Pay via UPI</p>
                 <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
-                  <QRCode value={upiLink} size={100} level="H" />
+                  <QRCodeSVG value={upiLink} size={100} level="H" />
                 </div>
                 <p className="text-xs font-mono text-slate-400 mt-2">shop@upi</p>
               </div>
