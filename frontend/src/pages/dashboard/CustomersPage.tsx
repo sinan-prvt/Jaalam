@@ -18,21 +18,27 @@ interface Customer {
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [websites, setWebsites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedWebsite, setSelectedWebsite] = useState<string>('all');
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
 
   useEffect(() => {
-    fetchCustomers();
+    fetchData();
   }, []);
 
-  const fetchCustomers = async () => {
+  const fetchData = async () => {
     try {
-      const res = await axios.get('/api/customers/', { withCredentials: true });
-      setCustomers(res.data);
+      const [customersRes, websitesRes] = await Promise.all([
+        axios.get('/api/customers/', { withCredentials: true }),
+        axios.get('/api/websites/', { withCredentials: true })
+      ]);
+      setCustomers(customersRes.data);
+      setWebsites(websitesRes.data);
     } catch (err) {
       console.error(err);
-      toast.error('Failed to load customers');
+      toast.error('Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -48,11 +54,18 @@ export default function CustomersPage() {
     }
   };
 
-  const filteredCustomers = customers.filter(c => 
-    c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    (c.email && c.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (c.phone && c.phone.includes(searchQuery))
-  );
+  const filteredCustomers = customers.filter(c => {
+    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      (c.email && c.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (c.phone && c.phone.includes(searchQuery));
+    const matchesWebsite = selectedWebsite === 'all' || c.website.toString() === selectedWebsite;
+    return matchesSearch && matchesWebsite;
+  });
+
+  const getWebsiteName = (websiteId: number) => {
+    const site = websites.find(w => w.id === websiteId);
+    return site?.content?.settings_json?.website_name || site?.slug || 'Unknown Site';
+  };
 
   return (
     <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
@@ -74,6 +87,21 @@ export default function CustomersPage() {
             className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
           />
         </div>
+        <div className="w-full md:w-auto flex items-center gap-2">
+          <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Filter by Site:</span>
+          <select
+            value={selectedWebsite}
+            onChange={(e) => setSelectedWebsite(e.target.value)}
+            className="w-full md:w-auto px-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-bold text-slate-700 shadow-inner outline-none cursor-pointer"
+          >
+            <option value="all">All Sites</option>
+            {websites.map(site => (
+              <option key={site.id} value={site.id}>
+                {site.content?.settings_json?.website_name || site.slug}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {loading ? (
@@ -94,6 +122,7 @@ export default function CustomersPage() {
                 <tr className="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-black">
                   <th className="p-4 pl-6">Name</th>
                   <th className="p-4">Contact</th>
+                  <th className="p-4">Website</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Date</th>
                   <th className="p-4 text-right pr-6">Actions</th>
@@ -115,6 +144,11 @@ export default function CustomersPage() {
                         {customer.email && <div className="flex items-center gap-1"><Mail size={12}/> {customer.email}</div>}
                         {customer.phone && <div className="flex items-center gap-1 mt-1"><Phone size={12}/> {customer.phone}</div>}
                       </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider border border-slate-200">
+                        {getWebsiteName(customer.website)}
+                      </span>
                     </td>
                     <td className="p-4">
                       <select 
