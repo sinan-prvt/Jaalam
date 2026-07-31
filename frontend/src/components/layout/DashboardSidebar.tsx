@@ -33,15 +33,21 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
           
           <div className="px-4 lg:px-5 space-y-2 mt-2">
             {[
-              { tab: 'Dashboard', icon: <Grid size={20} />, label: 'Overview' },
-              { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites' },
-              { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates' },
-              { tab: 'Customers', icon: <Users size={20} />, label: 'Customers' },
-              { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox' },
-              { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
-              { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing' },
-              { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings' }
-            ].filter(item => !(user?.is_superuser && item.tab === 'Billing') && !(user?.is_test_user && item.tab === 'Billing')).map(item => {
+              { tab: 'Dashboard', icon: <Grid size={20} />, label: 'Overview', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+              { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Customers', icon: <Users size={20} />, label: 'Customers', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+              { tab: 'Clients', icon: <Users size={20} />, label: 'Clients', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+              { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+              { tab: 'Billing', icon: <Zap size={20} />, label: 'Billing', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings', roles: ['ADMIN', 'AGENT', 'CLIENT'] }
+            ].filter(item => {
+              if (user?.is_superuser && item.tab === 'Billing') return false;
+              if (user?.is_test_user && item.tab === 'Billing') return false;
+              const userRole = user?.role || 'AGENT';
+              return item.roles.includes(userRole) || user?.is_superuser;
+            }).map(item => {
               const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user);
               return (
                 <button 

@@ -8,6 +8,8 @@ interface User {
   first_name?: string;
   last_name?: string;
   membership: string;
+  role?: string;
+  agent?: string;
   is_superuser?: boolean;
   is_test_user?: boolean;
 }

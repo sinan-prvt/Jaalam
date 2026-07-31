@@ -3,6 +3,7 @@ from django.conf import settings
 
 class Website(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='websites')
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='client_websites')
     slug = models.SlugField(unique=True)
     theme = models.CharField(max_length=50, default='Modern')
     business_type = models.CharField(max_length=100)

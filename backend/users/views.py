@@ -131,6 +131,39 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get', 'post'], permission_classes=[permissions.IsAuthenticated])
+    def clients(self, request):
+        if request.user.role != 'AGENT' and not request.user.is_superuser:
+            return Response({"error": "Only agents can manage clients"}, status=status.HTTP_403_FORBIDDEN)
+            
+        if request.method == 'GET':
+            clients = User.objects.filter(agent=request.user, role='CLIENT')
+            serializer = self.get_serializer(clients, many=True)
+            return Response(serializer.data)
+            
+        if request.method == 'POST':
+            # Create a new client
+            username = request.data.get('username')
+            password = request.data.get('password')
+            email = request.data.get('email', '')
+            
+            if not username or not password:
+                return Response({"error": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
+                
+            if User.objects.filter(username=username).exists():
+                return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
+                
+            client_user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                role='CLIENT',
+                agent=request.user
+            )
+            
+            serializer = self.get_serializer(client_user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]

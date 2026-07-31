@@ -8,6 +8,7 @@ import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
+import ClientsPage from './ClientsPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
@@ -28,6 +29,7 @@ interface Website {
   theme: string;
   business_type: string;
   published: boolean;
+  client?: number;
   visitors_count?: number;
   created_at?: string;
   updated_at?: string;
@@ -103,9 +105,23 @@ export default function Dashboard() {
     }
   }, [location.state]);
 
+  const [clients, setClients] = useState<any[]>([]);
+
   useEffect(() => {
     fetchWebsites();
+    if (user && (user as any).role !== 'CLIENT') {
+      fetchClients();
+    }
   }, []);
+
+  const fetchClients = async () => {
+    try {
+      const res = await axios.get('/api/users/clients/', { withCredentials: true });
+      setClients(res.data);
+    } catch (err) {
+      console.error('Failed to load clients', err);
+    }
+  };
 
   useEffect(() => {
     if (!newSlug) {
@@ -264,6 +280,22 @@ export default function Dashboard() {
         </div>
       </div>
     ), { duration: Infinity });
+  };
+
+  const handleAssignClient = async (slug: string, clientId: string) => {
+    try {
+      await axios.post(`/api/websites/${slug}/assign_client/`, {
+        client_id: clientId ? parseInt(clientId) : null
+      }, { withCredentials: true });
+      
+      setWebsites(websites.map(w => w.slug === slug ? { ...w, client: clientId ? parseInt(clientId) : undefined } : w));
+      if (selectedProject?.slug === slug) {
+        setSelectedProject({ ...selectedProject, client: clientId ? parseInt(clientId) : undefined });
+      }
+      toast.success('Client assigned successfully');
+    } catch (err) {
+      toast.error('Failed to assign client');
+    }
   };
 
   const handleSaveSettings = async () => {
@@ -819,6 +851,10 @@ export default function Dashboard() {
             <CustomersPage />
           )}
 
+          {activeTab === 'Clients' && (
+            <ClientsPage />
+          )}
+
           {activeTab === 'Templates' && (
             <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -1231,6 +1267,23 @@ export default function Dashboard() {
                     <div className="text-lg font-black text-slate-900">{selectedProject.updated_at ? new Date(selectedProject.updated_at).toLocaleDateString() : 'Just now'}</div>
                   </div>
                 </div>
+
+                {user && (user as any).role !== 'CLIENT' && (
+                  <div className="mb-6 bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-inner">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Assign to Client</label>
+                    <select
+                      value={selectedProject.client || ''}
+                      onChange={(e) => handleAssignClient(selectedProject.slug, e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-bold text-sm shadow-sm cursor-pointer"
+                    >
+                      <option value="">-- No Client (Agent Only) --</option>
+                      {clients.map(client => (
+                        <option key={client.id} value={client.id}>{client.username} ({client.email || 'No email'})</option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-slate-500 mt-2 font-medium">Assigning a client allows them to view CRM leads and analytics for this specific website in their portal.</p>
+                  </div>
+                )}
 
                 <div className="flex justify-end pt-5 border-t border-white">
                   <button onClick={() => setSelectedProject(null)} className="w-full sm:w-auto px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-sm rounded-xl transition-all shadow-md">

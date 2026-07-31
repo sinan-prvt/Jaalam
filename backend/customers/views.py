@@ -7,7 +7,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Only return customers for websites owned by the current user
+        # Return customers for websites owned by the current user OR assigned to the current client
+        if getattr(self.request.user, 'role', 'AGENT') == 'CLIENT':
+            return Customer.objects.filter(website__client=self.request.user).order_by('-created_at')
         return Customer.objects.filter(website__user=self.request.user).order_by('-created_at')
 
     def perform_create(self, serializer):

@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password', 'membership', 'is_test_user', 'is_superuser', 'is_active', 'subscription_details', 'has_completed_onboarding')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password', 'membership', 'role', 'agent', 'is_test_user', 'is_superuser', 'is_active', 'subscription_details', 'has_completed_onboarding')
 
     def get_subscription_details(self, obj):
         latest_sub = obj.subscriptions.order_by('-created_at').first()

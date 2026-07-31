@@ -20,8 +20,32 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
                 return Website.objects.all()
+            if getattr(self.request.user, 'role', 'AGENT') == 'CLIENT':
+                return Website.objects.filter(client=self.request.user)
             return Website.objects.filter(user=self.request.user)
         return Website.objects.none()
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def assign_client(self, request, slug=None):
+        website = self.get_object()
+        if website.user != request.user and not request.user.is_superuser:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+            
+        client_id = request.data.get('client_id')
+        if not client_id:
+            website.client = None
+            website.save()
+            return Response({'status': 'Client assignment removed'})
+            
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        try:
+            client = User.objects.get(id=client_id, agent=request.user, role='CLIENT')
+            website.client = client
+            website.save()
+            return Response({'status': 'Client assigned successfully'})
+        except User.DoesNotExist:
+            return Response({'error': 'Client not found or you do not have permission'}, status=400)
 
     def perform_create(self, serializer):
         user = self.request.user

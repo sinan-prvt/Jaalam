@@ -8,7 +8,16 @@ class User(AbstractUser):
         ('BUSINESS', 'Business'),
         ('PREMIUM', 'Premium'),
     ]
+    
+    ROLE_CHOICES = [
+        ('ADMIN', 'Admin'),
+        ('AGENT', 'Agent'),
+        ('CLIENT', 'Client'),
+    ]
+
     membership = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES, default='TEST')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='AGENT')
+    agent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='clients')
     is_test_user = models.BooleanField(default=False)
     has_completed_onboarding = models.BooleanField(default=False)
 
