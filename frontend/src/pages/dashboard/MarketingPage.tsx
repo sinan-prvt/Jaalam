@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone } from 'lucide-react';
+import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video } from 'lucide-react';
 
 interface Website {
   id: number;
@@ -23,6 +23,7 @@ interface MarketingData {
   email_body: string;
   sms: string;
   banner_text: string;
+  video_script: string;
 }
 
 interface MarketingPageProps {
@@ -32,6 +33,7 @@ interface MarketingPageProps {
 export default function MarketingPage({ websites }: MarketingPageProps) {
   const [selectedSite, setSelectedSite] = useState<number | ''>('');
   const [promotionDetails, setPromotionDetails] = useState('');
+  const [language, setLanguage] = useState('English');
   const [isGenerating, setIsGenerating] = useState(false);
   const [marketingData, setMarketingData] = useState<MarketingData | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -56,7 +58,8 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
       const res = await axios.post('/api/marketing/generate/', {
         business_name: site.content?.settings_json?.website_name || site.slug,
         business_type: site.business_type,
-        promotion_details: promotionDetails
+        promotion_details: promotionDetails,
+        language: language
       }, { withCredentials: true });
 
       setMarketingData(res.data);
@@ -124,6 +127,23 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       {w.content?.settings_json?.website_name || w.slug} ({w.business_type})
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Output Language
+                </label>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none"
+                >
+                  <option value="English">English</option>
+                  <option value="Malayalam">Malayalam (മലയാളം)</option>
+                  <option value="Hindi">Hindi (हिंदी)</option>
+                  <option value="Arabic">Arabic (العربية)</option>
+                  <option value="Spanish">Spanish (Español)</option>
                 </select>
               </div>
 
@@ -218,6 +238,15 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                 </div>
                 <div className="text-sm text-slate-700 font-medium pr-8">{marketingData.sms}</div>
                 <CopyButton text={marketingData.sms} field="sms" />
+                </div>
+
+              <div className="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm relative group md:col-span-2">
+                <div className="flex items-center gap-2 mb-3 text-rose-500">
+                  <Video size={18} />
+                  <h4 className="font-black text-sm uppercase tracking-wider">Video Script (TikTok/Reels)</h4>
+                </div>
+                <div className="text-sm text-slate-700 whitespace-pre-wrap font-medium pr-8">{marketingData.video_script}</div>
+                <CopyButton text={marketingData.video_script} field="video_script" />
               </div>
 
             </div>
