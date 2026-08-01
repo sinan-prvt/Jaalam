@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Sparkles, Copy, CheckCircle2, Megaphone, Instagram, Facebook, Mail, MessageSquare, Image as ImageIcon, Smartphone } from 'lucide-react';
+import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone } from 'lucide-react';
 
 interface Website {
   id: number;
@@ -163,7 +163,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
               
               <div className="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm relative group">
                 <div className="flex items-center gap-2 mb-3 text-pink-600">
-                  <Instagram size={18} />
+                  <Camera size={18} />
                   <h4 className="font-black text-sm uppercase tracking-wider">Instagram Post</h4>
                 </div>
                 <div className="text-sm text-slate-700 whitespace-pre-wrap font-medium pr-8">{marketingData.instagram}</div>
@@ -172,7 +172,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
 
               <div className="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm relative group">
                 <div className="flex items-center gap-2 mb-3 text-blue-600">
-                  <Facebook size={18} />
+                  <Share2 size={18} />
                   <h4 className="font-black text-sm uppercase tracking-wider">Facebook Post</h4>
                 </div>
                 <div className="text-sm text-slate-700 whitespace-pre-wrap font-medium pr-8">{marketingData.facebook}</div>
