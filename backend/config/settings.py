@@ -4,13 +4,14 @@ Django settings for config project.
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings configured for Render & Local
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-@fj*yjickc)4*5(75mw+l$%jf$bup6$-w1m)3)_uiklxwcgbob')
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-@fj*yjickc)4*5(75mw+l$%jf$bup6$-w1m)3)_uiklxwcgbob')
+DEBUG = config('DEBUG', default=True, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'websites',
     'customers',
     'billing',
+    'marketing',
 ]
 
 MIDDLEWARE = [
@@ -100,8 +102,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Razorpay settings
-RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_T9pRLlJJvZvPYh')
-RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'irv4jEX9tvQLlF5DGiIgY1HY')
+RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='rzp_test_T9pRLlJJvZvPYh')
+RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='irv4jEX9tvQLlF5DGiIgY1HY')
 
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')

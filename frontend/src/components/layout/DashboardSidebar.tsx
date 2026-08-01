@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt, Megaphone } from 'lucide-react';
 import NotificationBell from '../ui/NotificationBell';
 
 interface User {
@@ -39,6 +39,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates', roles: ['ADMIN', 'AGENT'] },
               { tab: 'Customers', icon: <Users size={20} />, label: 'Customers', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Clients', icon: <Users size={20} />, label: 'Clients', roles: ['ADMIN', 'AGENT'] },
+              { tab: 'Marketing', icon: <Megaphone size={20} />, label: 'Marketing', roles: ['ADMIN', 'AGENT'] },
               { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Billing', icon: <Receipt size={20} />, label: 'Invoices', roles: ['ADMIN', 'AGENT', 'CLIENT'] },

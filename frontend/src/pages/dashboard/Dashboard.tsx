@@ -10,6 +10,7 @@ import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
+import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
@@ -870,7 +871,11 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Clients' && (
-            <ClientsPage />
+            <ClientsPage websites={websites} clients={clients} handleAssignClient={handleAssignClient} />
+          )}
+
+          {activeTab === 'Marketing' && (
+            <MarketingPage websites={websites} />
           )}
 
           {activeTab === 'Templates' && (

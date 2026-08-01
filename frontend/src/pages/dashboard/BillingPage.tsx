@@ -70,13 +70,13 @@ export default function BillingPage() {
     toast((t) => (
       <div className="flex flex-col gap-3">
         <div>
-          <p className="font-bold text-slate-900">Delete Invoice #{id}?</p>
-          <p className="text-sm text-slate-500 mt-1">This action cannot be undone.</p>
+          <p className="font-bold">Delete Invoice #{id}?</p>
+          <p className="text-sm opacity-80 mt-1">This action cannot be undone.</p>
         </div>
         <div className="flex justify-end gap-2 mt-2">
           <button 
             onClick={() => toast.dismiss(t.id)} 
-            className="px-3 py-1.5 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition-colors"
+            className="cursor-pointer px-3 py-1.5 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-bold transition-colors"
           >
             Cancel
           </button>
@@ -91,7 +91,7 @@ export default function BillingPage() {
                 toast.error('Failed to delete invoice');
               }
             }} 
-            className="px-3 py-1.5 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-bold transition-colors"
+            className="cursor-pointer px-3 py-1.5 text-sm bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-bold transition-colors"
           >
             Delete
           </button>
