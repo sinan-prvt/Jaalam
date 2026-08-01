@@ -66,6 +66,11 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
       return;
     }
 
+    if (items.some(item => !item.description.trim())) {
+      toast.error('All items must have a description');
+      return;
+    }
+
     setLoading(true);
     try {
       const payload = {
@@ -280,7 +285,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
           <div className="bg-slate-200 p-4 rounded-3xl h-full flex flex-col shadow-inner">
             <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest text-center mb-4">Receipt Preview</h3>
             
-            <div id="invoice-preview-container" className="bg-white p-8 shadow-sm rounded-2xl flex-1 max-h-[850px] relative overflow-hidden text-slate-800">
+            <div id="invoice-preview-container" className="bg-white p-8 shadow-sm rounded-2xl h-fit relative text-slate-800">
               {/* Receipt Content */}
               <div className="text-center mb-8 border-b border-dashed border-slate-300 pb-6">
                 {logoUrl ? (
@@ -295,7 +300,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
                 <h2 className="text-xl font-black text-slate-900 mb-2">{businessName}</h2>
                 <h1 className="text-lg font-bold tracking-widest text-slate-400 uppercase">TAX INVOICE</h1>
                 <p className="text-xs text-slate-500 mt-1">Invoice #{invoiceId || 'DRAFT'}</p>
-                <p className="text-xs text-slate-500">{new Date().toLocaleDateString()}</p>
+                <p className="text-xs text-slate-500">{new Date().toLocaleString()}</p>
               </div>
 
               <div className="mb-6 space-y-1">
@@ -340,13 +345,17 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
               </div>
 
               {/* UPI QR Code Section */}
-              <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 mt-auto">
-                <p className="text-xs font-bold text-slate-500 uppercase mb-3">Scan to Pay via UPI</p>
-                <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
-                  <QRCodeSVG value={upiLink} size={100} level="H" />
+              {upiId ? (
+                <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 mt-auto">
+                  <p className="text-xs font-bold text-slate-500 uppercase mb-3">Scan to Pay via UPI</p>
+                  <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                    <QRCodeSVG value={upiLink} size={100} level="H" />
+                  </div>
+                  <p className="text-xs font-mono text-slate-400 mt-2">{upiId}</p>
                 </div>
-                <p className="text-xs font-mono text-slate-400 mt-2">{upiId || 'Configure UPI ID'}</p>
-              </div>
+              ) : (
+                <div className="mt-auto"></div>
+              )}
               
               <div className="text-center mt-6 pt-4 border-t border-dashed border-slate-300">
                 <p className="text-xs font-bold text-slate-400">Thank you for your business!</p>
