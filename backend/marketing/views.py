@@ -68,3 +68,35 @@ class GenerateMarketingCopyView(APIView):
         except Exception as e:
             print("AI Generation Error:", e)
             return Response({'error': 'Failed to generate content. Please try again.'}, status=500)
+
+ds
+ds
+ds
+ds
+ds
+ds
+ds
+ds
+ds
+ds
+ds
+d
+
+
+
+
+
+ds
+dsd
+sds
+ds
+ds
+dsd
+s
+ds
+dsd
+sd
+sd
+sd
+sds
+d
