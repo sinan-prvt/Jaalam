@@ -871,7 +871,7 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Clients' && (
-            <ClientsPage websites={websites} clients={clients} handleAssignClient={handleAssignClient} />
+            <ClientsPage />
           )}
 
           {activeTab === 'Marketing' && (

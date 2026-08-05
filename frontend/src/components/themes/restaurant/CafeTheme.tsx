@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import ProductBuyButton from '../../payments/ProductBuyButton';
 import { motion } from 'framer-motion';
 import { Coffee, ChevronRight, Star, MapPin, Phone, Search, ChevronLeft, Mail, MessageCircle } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 interface CafeThemeProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -549,6 +550,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 </a>
                               </div>
                             </div>
+                          
+                            <div className="border-t border-slate-100 pt-6 mt-6">
+                              <h4 className="font-bold text-slate-800 text-sm mb-4">Send a Message</h4>
+                              <ContactForm websiteId={website.id} primaryColor="bg-[#EF8F63]" primaryColorHover="hover:bg-[#E87D47]" inputStyles="bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 rounded-[2rem] shadow-sm" />
+                            </div>
                           </div>
 
                           {/* Google Map Card */}
@@ -565,7 +571,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             ></iframe>
                           </div>
                         </div>
-                      </div>
+                      
+          </div>
                     );
                   }
 
@@ -724,6 +731,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <p>Designed with <span className="text-[#C19A6B] font-bold">Jaalam</span></p>
               </div>
             </div>
+          
           </footer>
 
           {/* Lightbox Modal for App Style */}
@@ -1177,6 +1185,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <MessageCircle size={16} />
                                 </a>
                               </div>
+
+                              <div className="border-t border-[#EBE6DD]/40 pt-6 mt-8">
+                                <h4 className="font-bold text-slate-800 text-sm mb-4 font-outfit uppercase tracking-wider">Send a Message</h4>
+                                <ContactForm websiteId={website.id} primaryColor="bg-[#C5A880]" primaryColorHover="hover:bg-[#B3966E]" inputStyles="bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] rounded-xl shadow-sm" />
+                              </div>
                             </div>
                           </div>
 
@@ -1195,7 +1208,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    
+          </section>
                   );
                 }
 
@@ -1304,58 +1318,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
         
       
-      {/* Injected About Section */}
-      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
-      )}
-
-      {/* Injected Services Section */}
-      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* Footer */}
+{/* Footer */}
         <footer id="contact" className={`${bakeryColors.bgDark} text-white pt-20 pb-12`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
@@ -1415,7 +1378,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <p>Designed with <span className="text-[#C5A880] font-bold">Jaalam</span></p>
             </div>
           </div>
-        </footer>
+        
+          </footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -1842,6 +1806,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <MessageCircle size={16} />
                                 </a>
                               </div>
+
+                              <div className="border-t border-[#E6DEC9] pt-6 mt-8">
+                                <h4 className="font-bold text-[#2A4B3A] text-sm mb-4 font-montserrat uppercase tracking-wider">Send a Message</h4>
+                                <ContactForm websiteId={website.id} primaryColor="bg-[#C27D56]" primaryColorHover="hover:bg-[#A96642]" inputStyles="bg-white border-[#E6DEC9] text-[#2A4B3A] placeholder-[#5E6B61] focus:border-[#C27D56] focus:ring-1 focus:ring-[#C27D56] rounded-xl shadow-sm" />
+                              </div>
                             </div>
                           </div>
 
@@ -1859,7 +1828,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    
+          </section>
                   );
                 }
 
@@ -2026,7 +1996,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <p>Designed with <span className="text-[#C27D56] font-bold">Jaalam</span></p>
             </div>
           </div>
-        </footer>
+        
+          </footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -2447,6 +2418,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <MessageCircle size={16} />
                                 </a>
                               </div>
+
+                              <div className="border-t border-[#222222] pt-6 mt-8">
+                                <h4 className="font-bold text-white text-sm mb-4 tracking-[0.2em] uppercase">Send a Message</h4>
+                                <ContactForm websiteId={website.id} primaryColor="bg-[#D4A373]" primaryColorHover="hover:bg-[#C28C56]" inputStyles="bg-[#111111] border-[#222222] text-white placeholder-slate-500 focus:border-[#D4A373] focus:ring-1 focus:ring-[#D4A373] rounded-none shadow-sm" />
+                              </div>
                             </div>
                           </div>
 
@@ -2464,7 +2440,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    
+          </section>
                   );
                 }
 
@@ -2631,7 +2608,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <p>Designed with <span className="text-[#D4A373] font-bold">Jaalam</span></p>
             </div>
           </div>
-        </footer>
+        
+          </footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -2990,7 +2968,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      
+                            <div className="border-t border-slate-200 pt-6 mt-8">
+                              <h4 className={`font-bold ${colors.textDark} text-sm mb-4 uppercase tracking-wider`}>Send a Message</h4>
+                              <ContactForm websiteId={website.id} primaryColor="bg-[#C19A6B]" primaryColorHover="hover:bg-[#A8865C]" inputStyles="bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#C19A6B] focus:ring-1 focus:ring-[#C19A6B] rounded-sm shadow-sm" />
+                            </div>
+                          </div>
+
                       <div className="md:w-1/2 w-full bg-slate-200 aspect-square md:aspect-[4/3] rounded-sm overflow-hidden relative border border-slate-100">
                         <iframe
                           width="100%"
@@ -3004,7 +2988,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         ></iframe>
                       </div>
                     </div>
-                  </section>
+                  
+          </section>
                 );
               }
 
@@ -3167,7 +3152,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             <p>Designed with <span className="text-[#C19A6B] font-bold">Jaalam</span></p>
           </div>
         </div>
-      </footer>
+      
+          </footer>
 
       {/* Lightbox Modal */}
       {selectedImage && (

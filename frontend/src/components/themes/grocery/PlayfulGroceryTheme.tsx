@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, Star, MapPin, Phone, Smile, Menu, X } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function PlayfulGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -260,7 +261,9 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
               </div>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Dynamic Custom Section */}

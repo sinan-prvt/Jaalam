@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Briefcase, MapPin, Phone, Mail, Clock, X, Menu, ChevronRight, BarChart3, TrendingUp, Building2 } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function CorporateConsultingTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -304,7 +305,9 @@ export default function CorporateConsultingTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

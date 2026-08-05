@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Quote, Camera, Menu } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -498,6 +499,16 @@ export default function VintageBarberTheme({ website, content }: Props) {
                               <div className="flex justify-between"><span>Sunday:</span> <span style={{ color: CRIMSON }}>Closed</span></div>
                             </div>
                           </div>
+
+                          <div className="mt-10 pt-8 border-t-2" style={{ borderColor: ESPRESSO }}>
+                            <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-4">Send a Message</div>
+                            <ContactForm 
+                              websiteId={website.id} 
+                              primaryColor="bg-[#8A3A3A]"
+                              primaryColorHover="hover:bg-[#6D2E2E]"
+                              inputStyles="w-full bg-[#E8E2D2] border-[#C4B7A6] text-[#2C241B] focus:border-[#8A3A3A] focus:ring-1 focus:ring-[#8A3A3A] rounded-none shadow-inner"
+                            />
+                          </div>
                         </div>
                       </FadeIn>
 
@@ -514,8 +525,9 @@ export default function VintageBarberTheme({ website, content }: Props) {
                       </FadeIn>
                     </div>
                   </div>
-                </section>
-              );
+                
+          </section>
+        );
 
               /* ── CUSTOM BLOCKS ── */
               if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (

@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, ShoppingBag, Search, Menu, MapPin, Clock, Phone, ChevronRight, X, Mail } from 'lucide-react';
 import { Facebook, Instagram, Twitter } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function ModernGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -324,7 +325,9 @@ export default function ModernGroceryTheme({ website, content }: any) {
             </div>
           </div>
         </div>
-      </section>
+      
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
 
       {/* Custom Blocks Section */}
       {content.custom_blocks_json && content.custom_blocks_json.length > 0 && (

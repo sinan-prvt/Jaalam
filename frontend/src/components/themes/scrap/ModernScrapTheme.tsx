@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Recycle, ArrowRight, MapPin, Mail, Phone, Scale, DollarSign, Truck, X, Clock } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function ModernScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -281,8 +282,10 @@ export default function ModernScrapTheme({ website, content }: any) {
                   </div>
                 </div>
               </div>
-            </section>
-          );
+            
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
           if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
             <section key="custom" className="py-16 bg-white border-t border-slate-100">

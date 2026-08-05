@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShoppingBag, MapPin, Mail, Phone, Star } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function PlayfulTextilesTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -198,7 +199,9 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
             </div>
           </div>
         </div>
-      </footer>
+      
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </footer>
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />

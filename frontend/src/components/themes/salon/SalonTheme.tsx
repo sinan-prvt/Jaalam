@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Search, Star, Clock, Scissors, Activity, Grid, ChevronDown, Phone, Mail, X } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -553,6 +554,16 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5 2.8 12 3 11c-1.1 0-2-.5-2-.5s.7-2.1 2-3.4C1 6 4 6 4 6s1.6-1.5 3-1.5c2 0 3.7 1.6 3.7 3.6 0 .5-.1 1-.2 1.5 1.5-.1 3-.7 4.2-1.7.9 1 1.2 2 1 3-1.3-.8-2.6-1.3-4-1.5 2.5 1 3.8 2.7 4.5 4.5.3 1 .6 2 1 3z" /></svg>
                                 </a>
                               </div>
+                              
+                              <div className="border-t border-gray-200/20 pt-6 mt-8">
+                                <h4 className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-4`}>Send a Message</h4>
+                                <ContactForm 
+                                  websiteId={website.id} 
+                                  primaryColor={theme === 'Modern Saloon' ? 'bg-[#E0115F]' : theme === 'Vintage Barber' ? 'bg-[#E63946]' : theme === 'Royal Saloon' ? 'bg-[#D4AF37]' : 'bg-[#C69B38]'}
+                                  primaryColorHover={theme === 'Modern Saloon' ? 'hover:bg-[#B80E4E]' : theme === 'Vintage Barber' ? 'hover:bg-[#B82D38]' : theme === 'Royal Saloon' ? 'hover:bg-[#B5952F]' : 'hover:bg-[#A8822C]'}
+                                  inputStyles={`w-full ${theme === 'Modern Saloon' ? 'bg-[#0F0F12] border-stone-800 text-slate-200 focus:border-[#E0115F] focus:ring-[#E0115F]' : theme === 'Vintage Barber' ? 'bg-[#FAF6F0] border-slate-200 text-[#1D3557] focus:border-[#E63946] focus:ring-[#E63946]' : theme === 'Royal Saloon' ? 'bg-[#0B0F19] border-[#D4AF37]/30 text-slate-100 focus:border-[#D4AF37] focus:ring-[#D4AF37]' : 'bg-gray-50 border-gray-200 text-stone-900 focus:border-[#C69B38] focus:ring-[#C69B38]'} ${buttonShape === 'rounded-none' ? 'rounded-none' : 'rounded-xl'} shadow-sm`}
+                                />
+                              </div>
                             </div>
 
                             {/* Right Side: Map Embed */}
@@ -566,7 +577,6 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                               ></iframe>
                             </div>
                           </div>
-
                         </div>
                       </div>
                     </FadeInView>

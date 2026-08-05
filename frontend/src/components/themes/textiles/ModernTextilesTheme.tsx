@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShoppingBag, Search, Menu, ArrowRight, Heart, User, MapPin } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function ModernTextilesTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -217,7 +218,9 @@ export default function ModernTextilesTheme({ website, content }: any) {
               </div>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Dynamic Custom Section */}

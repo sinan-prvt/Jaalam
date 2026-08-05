@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Search, Star, Clock, Scissors, Phone, Mail, ChevronLeft, X, ArrowRight, Menu as MenuIcon } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 const InstagramIcon = ({ size = 18 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -696,7 +697,17 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                   <TwitterIcon size={18} />
                                 </a>
                               </div>
-                            </div>
+                                
+                                <div className="pt-6 mt-8 border-t border-stone-200">
+                                  <div className="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-4">Send a Message</div>
+                                  <ContactForm 
+                                    websiteId={website.id} 
+                                    primaryColor="bg-[#C5A365]"
+                                    primaryColorHover="hover:bg-[#A38243]"
+                                    inputStyles="w-full bg-stone-50 text-stone-900 border-stone-200 focus:border-[#C5A365] focus:ring-1 focus:ring-[#C5A365] rounded-none shadow-sm"
+                                  />
+                                </div>
+                              </div>
 
                             {/* Map */}
                             <div className="flex-1 min-h-[300px] lg:min-h-full relative bg-stone-100">

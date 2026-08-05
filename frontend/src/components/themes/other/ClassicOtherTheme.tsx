@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function ClassicOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -259,7 +260,9 @@ export default function ClassicOtherTheme({ website, content }: any) {
               </div>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

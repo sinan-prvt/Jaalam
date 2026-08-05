@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, X, Menu, ArrowUpRight, Palette, Code, Megaphone } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function CreativeAgencyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -284,7 +285,9 @@ export default function CreativeAgencyTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Key, MapPin, Phone, Mail, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function LuxuryVillasTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -309,7 +310,9 @@ export default function LuxuryVillasTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

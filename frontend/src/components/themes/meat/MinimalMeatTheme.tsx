@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import ProductBuyButton from '../../payments/ProductBuyButton';
+import ContactForm from '../shared/ContactForm';
 
 
 export default function MinimalMeatTheme({ website, content }: any) {
@@ -207,8 +208,10 @@ export default function MinimalMeatTheme({ website, content }: any) {
                   </div>
                 )}
               </div>
-            </section>
-          );
+            
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
           if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
             <section key="custom" id="custom" className="py-20 px-8 border-b border-gray-200 bg-gray-50">

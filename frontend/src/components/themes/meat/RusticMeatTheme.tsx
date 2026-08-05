@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Leaf, Truck, MapPin, Mail, Phone, Sun, ShieldCheck } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function RusticMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -254,8 +255,10 @@ export default function RusticMeatTheme({ website, content }: any) {
                   )}
                 </div>
               </div>
-            </section>
-          );
+            
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
           if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
             <section key="custom" id="custom" className="py-24 px-6 bg-[#F4F1EA]">

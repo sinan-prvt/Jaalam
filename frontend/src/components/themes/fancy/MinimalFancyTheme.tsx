@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function MinimalFancyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -256,8 +257,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       )}
                     </div>
                   </div>
-                </section>
-              );
+                
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
               return null;
             })}

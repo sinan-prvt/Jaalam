@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Briefcase, MapPin, Building, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function CommercialTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -251,7 +252,9 @@ export default function CommercialTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Dynamic Custom Section */}

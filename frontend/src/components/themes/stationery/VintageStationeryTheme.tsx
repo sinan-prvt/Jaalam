@@ -1,6 +1,7 @@
 import AllProductsModal from '../../shared/AllProductsModal';
 import React, { useState } from 'react';
 import { Type, Stamp, PenTool } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function VintageStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -248,7 +249,9 @@ export default function VintageStationeryTheme({ website, content }: any) {
             </div>
             
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, X, Swords, Target, Flame, ArrowRight, Menu } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -514,7 +515,9 @@ export default function CombatGymTheme({ website, content }: Props) {
                     </FadeIn>
                   </div>
                 </div>
-              </section>
+              
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
             );
 
             /* ── CUSTOM ── */

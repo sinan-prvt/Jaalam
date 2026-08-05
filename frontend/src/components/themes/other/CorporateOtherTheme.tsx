@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, ArrowRight, CheckCircle, Briefcase, BarChart, Users } from 'lucide-react';
 import { Facebook, Twitter } from '../scrap/SocialIcons';
+import ContactForm from '../shared/ContactForm';
 
 export default function CorporateOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -280,7 +281,9 @@ export default function CorporateOtherTheme({ website, content }: any) {
               </div>
             </div>
           </div>
-        </section>
+        
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
       )}
 
       {/* Footer */}

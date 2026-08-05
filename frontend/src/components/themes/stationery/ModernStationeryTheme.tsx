@@ -2,6 +2,7 @@ import React from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Book, ArrowRight, MapPin, Mail, Phone, Search, Menu, X } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function ModernStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -404,7 +405,9 @@ export default function ModernStationeryTheme({ website, content }: any) {
             </div>
           </div>
         </div>
-      </footer>
+      
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </footer>
       
       {/* Product Modal */}
 

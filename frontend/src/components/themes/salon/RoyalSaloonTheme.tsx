@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, ChevronRight, Crown, CheckCircle, Menu } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -481,6 +482,16 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                                 </div>
                               </div>
                             ))}
+                          </div>
+                            
+                          <div className="mt-10 pt-8 border-t border-[#D4AF37]/20">
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] mb-4 font-bold">Send a Message</div>
+                            <ContactForm 
+                              websiteId={website.id} 
+                              primaryColor="bg-[#D4AF37]"
+                              primaryColorHover="hover:bg-[#B5952F]"
+                              inputStyles="w-full bg-[#0B132B]/50 border-[#D4AF37]/30 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] shadow-inner"
+                            />
                           </div>
                         </div>
                       </FadeIn>

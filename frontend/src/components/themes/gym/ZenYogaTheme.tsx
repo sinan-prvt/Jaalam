@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Heart, Wind, Sunrise, Leaf, Menu } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up', className = '' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right'; className?: string }) {
@@ -501,7 +502,9 @@ export default function ZenYogaTheme({ website, content }: Props) {
                       </div>
                     </FadeIn>
                 </div>
-              </section>
+              
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
             );
 
             /* ── CUSTOM ── */

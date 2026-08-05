@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Sparkles, Zap } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
 function SlideIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -618,6 +619,17 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                               </a>
                             ))}
                           </div>
+
+                          <div className="pt-6 mt-8 border-t border-[#1F2937]">
+                            <h4 className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500 mb-4">Send a Message</h4>
+                            <ContactForm 
+                              websiteId={website.id} 
+                              primaryColor="bg-[#00C9B1]"
+                              primaryColorHover="hover:bg-[#00A896]"
+                              inputStyles="w-full bg-[#111827] border-[#1F2937] text-[#E2E8F0] focus:border-[#00C9B1] focus:ring-[#00C9B1] rounded-xl shadow-sm"
+                            />
+                          </div>
+
                         </div>
                       </SlideIn>
 
@@ -635,8 +647,9 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                       </SlideIn>
                     </div>
                   </div>
-                </section>
-              );
+                
+          </section>
+        );
 
               /* ── CUSTOM BLOCKS ── */
               if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (

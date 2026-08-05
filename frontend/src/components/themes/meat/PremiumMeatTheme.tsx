@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Crown, Star, MapPin, Mail, Phone, Flame, Check } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function PremiumMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -277,8 +278,10 @@ export default function PremiumMeatTheme({ website, content }: any) {
                   )}
                 </div>
               </div>
-            </section>
-          );
+            
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
           if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
             <section key="custom" id="custom" className="py-24 px-6 bg-[#0A0A0A]">

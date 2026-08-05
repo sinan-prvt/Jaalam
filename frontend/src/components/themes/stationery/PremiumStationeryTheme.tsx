@@ -1,6 +1,7 @@
 import AllProductsModal from '../../shared/AllProductsModal';
 import React, { useState } from 'react';
 import { PenTool, Diamond, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function PremiumStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -256,7 +257,9 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             © {new Date().getFullYear()} {siteName}. All Rights Reserved.
           </div>
         </div>
-      </footer>
+      
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </footer>
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
     </div>

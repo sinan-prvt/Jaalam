@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Smile, Bone, MapPin, Mail, Phone, ShoppingCart, Star } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function PlayfulMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -240,8 +241,10 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                   )}
                 </div>
               </div>
-            </section>
-          );
+            
+            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+          </section>
+        );
 
           if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
             <section key="custom" id="custom" className="py-20 px-6">
