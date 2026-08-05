@@ -488,6 +488,15 @@ export default function ZenYogaTheme({ website, content }: Props) {
                 </FadeIn>
                   
                     <FadeIn dir="right">
+                      <div className="bg-[#FAF9F6] p-8 md:p-12 rounded-[2rem] shadow-xl border border-[#8CA392]/20 mb-8">
+                        <h4 className="zen-subheading text-[#8CA392] text-sm tracking-[0.2em] uppercase mb-6">Send a Message</h4>
+                        <ContactForm 
+                          websiteId={website.id} 
+                          primaryColor="bg-[#8CA392]"
+                          primaryColorHover="hover:bg-[#758A7A]"
+                          inputStyles="w-full bg-[#FAF9F6] border-[#8CA392]/30 text-[#2C3E35] focus:border-[#8CA392] focus:ring-1 focus:ring-[#8CA392] rounded-2xl py-3 px-4 transition-all"
+                        />
+                      </div>
                       <div className="w-full h-full min-h-[400px] rounded-[2rem] overflow-hidden border border-[#8CA392]/30 relative shadow-2xl">
                          <iframe 
                            src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
@@ -503,7 +512,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                     </FadeIn>
                 </div>
               
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            
           </section>
             );
 
@@ -548,46 +557,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
         ════════════════════════════════════════ */}
         
       
-      {/* Injected Services Section */}
-      {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
-
-      <footer className="zy-bg-bone py-12 px-6 text-center text-[#2C402E]">
+<footer className="zy-bg-bone py-12 px-6 text-center text-[#2C402E]">
           <div className="max-w-4xl mx-auto">
             {content.settings_json?.logo_image ? (
               <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-16 h-16 object-cover rounded-full shadow-md mx-auto mb-6" />

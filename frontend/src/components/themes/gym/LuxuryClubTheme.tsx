@@ -506,7 +506,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                   </div>
                 </div>
               
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            
           </section>
             );
 
