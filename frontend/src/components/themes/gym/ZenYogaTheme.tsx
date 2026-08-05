@@ -497,7 +497,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           inputStyles="w-full bg-[#FAF9F6] border-[#8CA392]/30 text-[#2C3E35] focus:border-[#8CA392] focus:ring-1 focus:ring-[#8CA392] rounded-2xl py-3 px-4 transition-all"
                         />
                       </div>
-                      <div className="w-full h-full min-h-[400px] rounded-[2rem] overflow-hidden border border-[#8CA392]/30 relative shadow-2xl">
+                      <div className="w-full h-[400px] rounded-[2rem] overflow-hidden border border-[#8CA392]/30 relative shadow-2xl">
                          <iframe 
                            src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
                            width="100%" 
