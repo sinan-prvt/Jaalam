@@ -44,16 +44,16 @@ export default function VintageBarberTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultStyles = [
-    { name: 'The Gentleman', time: '45 mins', price: '?42', rating: 4.9, image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Pompadour', time: '50 mins', price: '?38', rating: 5.0, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Hot Towel Shave', time: '30 mins', price: '?28', rating: 4.8, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Classic Fade', time: '60 mins', price: '?55', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?auto=format&fit=crop&w=500&q=80' },
+    { name: 'The Gentleman', time: '45 mins', price: '₹42', rating: 4.9, image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Pompadour', time: '50 mins', price: '₹38', rating: 5.0, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Hot Towel Shave', time: '30 mins', price: '₹28', rating: 4.8, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Classic Fade', time: '60 mins', price: '₹55', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?auto=format&fit=crop&w=500&q=80' },
   ];
 
   const haircutStyles = content.products_json?.length > 0
     ? content.products_json.map((p: any) => ({
         name: p.name || p.title || 'Classic Cut',
-        price: p.price || '?0',
+        price: p.price || '₹0',
         time: (p.description && (p.description.toLowerCase().includes('min') || p.description.length < 12)) ? p.description : '45 mins',
         description: p.description && !p.description.toLowerCase().includes('min') && p.description.length > 12 ? p.description : `An old-school ${p.name || 'cut'} crafted with precision.`,
         rating: 4.9,

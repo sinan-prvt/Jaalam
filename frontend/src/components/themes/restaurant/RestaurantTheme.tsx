@@ -545,7 +545,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                       <div className="flex-1 flex flex-col justify-center">
                         <div className="flex justify-between items-baseline mb-3 border-b border-slate-200 border-dashed pb-3">
                           <h3 className={`text-xl sm:text-2xl font-bold text-slate-900 ${headingFont}`}>{item.name}</h3>
-                          <span className={`text-xl font-black shrink-0 ml-4 ${primaryText}`}>{item.price || '?0'}</span>
+                          <span className={`text-xl font-black shrink-0 ml-4 ${primaryText}`}>{item.price || '₹0'}</span>
                         </div>
                         <p className="text-slate-500 text-sm leading-relaxed italic">{item.description}</p>
                       </div>

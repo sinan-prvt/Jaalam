@@ -45,14 +45,14 @@ export default function CrossFitTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultProducts = [
-    { name: 'Knee Sleeves', time: 'Pair', price: '?45', rating: 4.8, image: 'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=500&q=80', description: '7mm neoprene knee support for heavy lifting.' },
-    { name: 'Speed Rope', time: 'Adjustable', price: '?25', rating: 5.0, image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80', description: 'Fast, smooth bearing jump rope for double unders.' },
-    { name: 'Lifting Belt', time: 'Leather', price: '?60', rating: 4.9, image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80', description: '4-inch leather belt for core stability during heavy lifts.' },
+    { name: 'Knee Sleeves', time: 'Pair', price: '₹45', rating: 4.8, image: 'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=500&q=80', description: '7mm neoprene knee support for heavy lifting.' },
+    { name: 'Speed Rope', time: 'Adjustable', price: '₹25', rating: 5.0, image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80', description: 'Fast, smooth bearing jump rope for double unders.' },
+    { name: 'Lifting Belt', time: 'Leather', price: '₹60', rating: 4.9, image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80', description: '4-inch leather belt for core stability during heavy lifts.' },
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json.map((p: any) => ({
     name: p.name || p.title || 'Equipment',
-    price: p.price || '?0',
+    price: p.price || '₹0',
     time: p.subtitle || '',
     description: p.description || 'Premium fitness gear.',
     rating: 5.0,

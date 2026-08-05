@@ -46,14 +46,14 @@ export default function CombatGymTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultProducts = [
-    { name: 'Boxing Gloves', time: '16oz', price: '?85', rating: 4.8, image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=500&q=80', description: 'Premium leather training gloves for bag work and sparring.' },
-    { name: 'Shin Guards', time: 'Pro', price: '?75', rating: 5.0, image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80', description: 'High-density foam protection for heavy kicks.' },
-    { name: 'Recovery Shake', time: 'Protein', price: '?45', rating: 5.0, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80', description: 'Post-training recovery formula to rebuild muscle.' },
+    { name: 'Boxing Gloves', time: '16oz', price: '₹85', rating: 4.8, image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=500&q=80', description: 'Premium leather training gloves for bag work and sparring.' },
+    { name: 'Shin Guards', time: 'Pro', price: '₹75', rating: 5.0, image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80', description: 'High-density foam protection for heavy kicks.' },
+    { name: 'Recovery Shake', time: 'Protein', price: '₹45', rating: 5.0, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80', description: 'Post-training recovery formula to rebuild muscle.' },
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json.map((p: any) => ({
     name: p.name || p.title || 'Gear',
-    price: p.price || '?0',
+    price: p.price || '₹0',
     time: p.subtitle || '',
     description: p.description || 'Premium combat gear.',
     rating: 5.0,

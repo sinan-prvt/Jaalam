@@ -45,14 +45,14 @@ export default function LuxuryClubTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultProducts = [
-    { name: 'Signature Duffel', time: 'Leather', price: '?250', rating: 4.8, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80', description: 'Handcrafted full-grain leather gym bag with bespoke compartments.' },
-    { name: 'Wellness Elixir', time: 'Supplement', price: '?85', rating: 5.0, image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=500&q=80', description: 'Our proprietary blend of superfoods and nootropics for peak performance.' },
-    { name: 'Cashmere Hoodie', time: 'Apparel', price: '?400', rating: 4.9, image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80', description: 'The ultimate post-workout comfort. 100% pure Mongolian cashmere.' },
+    { name: 'Signature Duffel', time: 'Leather', price: '₹250', rating: 4.8, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80', description: 'Handcrafted full-grain leather gym bag with bespoke compartments.' },
+    { name: 'Wellness Elixir', time: 'Supplement', price: '₹85', rating: 5.0, image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=500&q=80', description: 'Our proprietary blend of superfoods and nootropics for peak performance.' },
+    { name: 'Cashmere Hoodie', time: 'Apparel', price: '₹400', rating: 4.9, image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80', description: 'The ultimate post-workout comfort. 100% pure Mongolian cashmere.' },
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json.map((p: any) => ({
     name: p.name || p.title || 'Collection Item',
-    price: p.price || '?0',
+    price: p.price || '₹0',
     time: p.subtitle || '',
     description: p.description || 'Exclusive club offering.',
     rating: 5.0,

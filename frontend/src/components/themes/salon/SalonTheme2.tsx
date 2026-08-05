@@ -80,10 +80,10 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
   const heroDescription = content.hero_description || content.settings_json?.hero_description || content.about_text || 'Experience the art of beauty in a luxurious setting. Our expert stylists create stunning transformations tailored uniquely for you.';
 
   const defaultStyles = [
-    { name: 'Precision Haircut', time: '45 mins', price: '?65.00', rating: 4.9, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
-    { name: 'Balayage Highlights', time: '120 mins', price: '?180.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
-    { name: 'Hydrating Parlour Facial', time: '60 mins', price: '?95.00', rating: 4.8, image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
-    { name: 'Bridal & Parlour Makeup', time: '120 mins', price: '?250.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
+    { name: 'Precision Haircut', time: '45 mins', price: '₹65.00', rating: 4.9, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
+    { name: 'Balayage Highlights', time: '120 mins', price: '₹180.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
+    { name: 'Hydrating Parlour Facial', time: '60 mins', price: '₹95.00', rating: 4.8, image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
+    { name: 'Bridal & Parlour Makeup', time: '120 mins', price: '₹250.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
   ];
 
   const haircutStyles = content.products_json && content.products_json.length > 0

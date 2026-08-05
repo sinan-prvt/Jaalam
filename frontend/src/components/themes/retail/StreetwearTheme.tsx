@@ -95,7 +95,7 @@ export default function StreetwearTheme({ website, content }: any) {
           <Flame size={16} />
           <span>LIMITED STOCK</span>
           <Flame size={16} />
-          <span>FREE SHIPPING OVER ?100</span>
+          <span>FREE SHIPPING OVER ₹100</span>
           <Flame size={16} />
           <span>NEW DROP LIVE</span>
           <Flame size={16} />

@@ -26,11 +26,11 @@ export default function BoutiqueTheme({ website, content }: any) {
   const siteName = content.settings_json?.website_name || website.slug || 'LUMEN BOUTIQUE';
   
   const defaultProducts = [
-    { name: 'Silk Midi Dress', price: '?245', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80', description: 'Elegant silk slip dress with delicate straps.' },
-    { name: 'Tailored Linen Blazer', price: '?310', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=600&q=80', description: 'Perfectly structured linen blend blazer for any occasion.' },
-    { name: 'Woven Leather Tote', price: '?185', image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&w=600&q=80', description: 'Hand-woven Italian leather tote bag.' },
-    { name: 'Pearl Drop Earrings', price: '?95', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80', description: 'Freshwater pearls on 14k gold-filled hoops.' },
-    { name: 'Cashmere Wrap Sweater', price: '?220', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80', description: 'Luxurious cashmere blend wrap sweater.' }
+    { name: 'Silk Midi Dress', price: '₹245', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80', description: 'Elegant silk slip dress with delicate straps.' },
+    { name: 'Tailored Linen Blazer', price: '₹310', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=600&q=80', description: 'Perfectly structured linen blend blazer for any occasion.' },
+    { name: 'Woven Leather Tote', price: '₹185', image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&w=600&q=80', description: 'Hand-woven Italian leather tote bag.' },
+    { name: 'Pearl Drop Earrings', price: '₹95', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80', description: 'Freshwater pearls on 14k gold-filled hoops.' },
+    { name: 'Cashmere Wrap Sweater', price: '₹220', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80', description: 'Luxurious cashmere blend wrap sweater.' }
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json : defaultProducts;

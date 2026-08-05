@@ -154,10 +154,10 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
   ];
 
   const defaultStyles = [
-    { name: 'Classic Fade', time: '45 mins', price: '?35.00', rating: 4.8, image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-    { name: 'Textured Crop', time: '60 mins', price: '?45.00', rating: 4.9, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-    { name: 'Beard Trim & Line Up', time: '30 mins', price: '?25.00', rating: 4.7, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-    { name: 'Signature Styling', time: '45 mins', price: '?40.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+    { name: 'Classic Fade', time: '45 mins', price: '₹35.00', rating: 4.8, image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+    { name: 'Textured Crop', time: '60 mins', price: '₹45.00', rating: 4.9, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+    { name: 'Beard Trim & Line Up', time: '30 mins', price: '₹25.00', rating: 4.7, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+    { name: 'Signature Styling', time: '45 mins', price: '₹40.00', rating: 5.0, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
   ];
 
   const haircutStyles = content.products_json && content.products_json.length > 0
@@ -185,9 +185,9 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
     : defaultServices;
 
   // const salonProducts = [
-  //   { name: 'Matte Clay Pomade', price: '?24.00', image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-  //   { name: 'Premium Beard Oil', price: '?18.50', image: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-  //   { name: 'Hydrating Shampoo', price: '?22.00', image: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+  //   { name: 'Matte Clay Pomade', price: '₹24.00', image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+  //   { name: 'Premium Beard Oil', price: '₹18.50', image: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+  //   { name: 'Hydrating Shampoo', price: '₹22.00', image: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
   // ];
 
   const heroImage = content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';

@@ -45,15 +45,15 @@ export default function HardcoreIronTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultProducts = [
-    { name: 'Whey Protein Isolate', time: '5 lbs', price: '?59', rating: 4.8, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80', description: 'Premium grass-fed whey protein isolate for maximum muscle recovery.' },
-    { name: 'Pre-Workout Matrix', time: '30 Servings', price: '?39', rating: 4.9, image: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?auto=format&fit=crop&w=500&q=80', description: 'High-stimulant pre-workout to crush your heavy lifting sessions.' },
-    { name: 'Leather Lifting Belt', time: 'Gear', price: '?75', rating: 5.0, image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=500&q=80', description: '10mm thick genuine leather belt for extreme core support.' },
+    { name: 'Whey Protein Isolate', time: '5 lbs', price: '₹59', rating: 4.8, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80', description: 'Premium grass-fed whey protein isolate for maximum muscle recovery.' },
+    { name: 'Pre-Workout Matrix', time: '30 Servings', price: '₹39', rating: 4.9, image: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?auto=format&fit=crop&w=500&q=80', description: 'High-stimulant pre-workout to crush your heavy lifting sessions.' },
+    { name: 'Leather Lifting Belt', time: 'Gear', price: '₹75', rating: 5.0, image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=500&q=80', description: '10mm thick genuine leather belt for extreme core support.' },
   ];
 
   const products = content.products_json?.length > 0
     ? content.products_json.map((p: any) => ({
         name: p.name || p.title || 'Product',
-        price: p.price || '?0',
+        price: p.price || '₹0',
         time: p.subtitle || '',
         description: p.description || 'Premium fitness gear.',
         rating: 5.0,

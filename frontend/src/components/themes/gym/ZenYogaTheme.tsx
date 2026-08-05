@@ -45,14 +45,14 @@ export default function ZenYogaTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultProducts = [
-    { name: 'Eco Yoga Mat', time: 'Gear', price: '?89', rating: 4.8, image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=500&q=80', description: 'Sustainable, non-slip cork yoga mat for your daily practice.' },
-    { name: 'Meditation Cushion', time: 'Accessories', price: '?45', rating: 4.9, image: 'https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=500&q=80', description: 'Organic cotton zafu cushion for comfortable seated meditation.' },
-    { name: 'Aromatherapy Set', time: 'Wellness', price: '?65', rating: 5.0, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80', description: 'Essential oils set to cleanse your space and clear your mind.' },
+    { name: 'Eco Yoga Mat', time: 'Gear', price: '₹89', rating: 4.8, image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=500&q=80', description: 'Sustainable, non-slip cork yoga mat for your daily practice.' },
+    { name: 'Meditation Cushion', time: 'Accessories', price: '₹45', rating: 4.9, image: 'https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=500&q=80', description: 'Organic cotton zafu cushion for comfortable seated meditation.' },
+    { name: 'Aromatherapy Set', time: 'Wellness', price: '₹65', rating: 5.0, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80', description: 'Essential oils set to cleanse your space and clear your mind.' },
   ];
 
   const products = content.products_json?.length > 0 ? content.products_json.map((p: any) => ({
     name: p.name || p.title || 'Wellness Product',
-    price: p.price || '?0',
+    price: p.price || '₹0',
     time: p.subtitle || '',
     description: p.description || 'Premium wellness item.',
     rating: 5.0,

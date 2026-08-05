@@ -25,12 +25,12 @@ export default function MinimalistTheme({ website, content }: any) {
   const address = content.contact_info?.address || '123 Minimalist Way, NY 10012';
 
   const defaultProducts = [
-    { name: 'Ceramic Vase', price: '?85', image: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80', description: 'Handcrafted unglazed ceramic vase.' },
-    { name: 'Linen Throw', price: '?120', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80', description: 'Pure organic linen throw blanket.' },
-    { name: 'Oak Stool', price: '?195', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80', description: 'Solid oak wood stool with matte finish.' },
-    { name: 'Table Lamp', price: '?150', image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80', description: 'Minimalist powder-coated steel lamp.' },
-    { name: 'Incense Burner', price: '?45', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80', description: 'Brass incense holder with ash tray.' },
-    { name: 'Glass Carafe', price: '?65', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=800&q=80', description: 'Hand-blown glass carafe and cup set.' }
+    { name: 'Ceramic Vase', price: '₹85', image: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80', description: 'Handcrafted unglazed ceramic vase.' },
+    { name: 'Linen Throw', price: '₹120', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80', description: 'Pure organic linen throw blanket.' },
+    { name: 'Oak Stool', price: '₹195', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80', description: 'Solid oak wood stool with matte finish.' },
+    { name: 'Table Lamp', price: '₹150', image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80', description: 'Minimalist powder-coated steel lamp.' },
+    { name: 'Incense Burner', price: '₹45', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80', description: 'Brass incense holder with ash tray.' },
+    { name: 'Glass Carafe', price: '₹65', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=800&q=80', description: 'Hand-blown glass carafe and cup set.' }
   ];
 
   const defaultServices = [

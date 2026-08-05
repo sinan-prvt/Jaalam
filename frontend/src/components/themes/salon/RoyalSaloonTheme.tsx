@@ -44,16 +44,16 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
 
   /* ─── Data ─── */
   const defaultStyles = [
-    { name: 'The Sovereign Cut', time: '60 mins', price: '?80', rating: 5.0, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Royal Hot Lather Shave', time: '45 mins', price: '?55', rating: 4.9, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Monarch Fade', time: '50 mins', price: '?70', rating: 4.9, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?auto=format&fit=crop&w=500&q=80' },
-    { name: 'Beard Sculpting', time: '30 mins', price: '?40', rating: 4.8, image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=500&q=80' },
+    { name: 'The Sovereign Cut', time: '60 mins', price: '₹80', rating: 5.0, image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Royal Hot Lather Shave', time: '45 mins', price: '₹55', rating: 4.9, image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Monarch Fade', time: '50 mins', price: '₹70', rating: 4.9, image: 'https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?auto=format&fit=crop&w=500&q=80' },
+    { name: 'Beard Sculpting', time: '30 mins', price: '₹40', rating: 4.8, image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=500&q=80' },
   ];
 
   const haircutStyles = content.products_json?.length > 0
     ? content.products_json.map((p: any) => ({
         name: p.name || p.title || 'Signature Service',
-        price: p.price || '?0',
+        price: p.price || '₹0',
         time: (p.description && (p.description.toLowerCase().includes('min') || p.description.length < 12)) ? p.description : '60 mins',
         description: p.description && !p.description.toLowerCase().includes('min') && p.description.length > 12 ? p.description : `A premium ${p.name || 'service'} delivered with utmost precision.`,
         rating: 5.0,
