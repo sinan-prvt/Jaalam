@@ -500,7 +500,17 @@ export default function CombatGymTheme({ website, content }: Props) {
                     </FadeIn>
                     
                     <FadeIn dir="right">
-                      <div className="w-full h-full min-h-[400px] border border-[#333] relative overflow-hidden shadow-2xl">
+                      <div className="bg-[#111] p-8 md:p-12 mb-8 border border-[#333]">
+                        <h4 className="cg-heading text-white text-4xl mb-6">TRANSMIT ORDERS</h4>
+                        <ContactForm 
+                          websiteId={website.id} 
+                          primaryColor="bg-[#D90429]"
+                          primaryColorHover="hover:bg-transparent hover:text-[#D90429] border-2 border-[#D90429]"
+                          inputStyles="w-full bg-[#050505] border border-[#333] text-white focus:border-[#D90429] focus:ring-1 focus:ring-[#D90429] rounded-none p-4 cg-body text-lg"
+                        />
+                      </div>
+                      
+                      <div className="w-full h-[400px] border border-[#333] relative overflow-hidden shadow-2xl">
                          <iframe 
                            src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
                            width="100%" 

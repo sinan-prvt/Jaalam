@@ -490,7 +490,17 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                     </FadeIn>
                     
                     <FadeIn dir="right">
-                      <div className="w-full h-full min-h-[400px] border border-gray-200 relative overflow-hidden shadow-2xl">
+                      <div className="bg-white p-8 md:p-12 mb-8 shadow-sm border border-gray-200">
+                        <h4 className="lc-subheading text-[#0A1128] mb-6">Send an Inquiry</h4>
+                        <ContactForm 
+                          websiteId={website.id} 
+                          primaryColor="bg-[#0A1128]"
+                          primaryColorHover="hover:bg-transparent hover:text-[#0A1128] border border-[#0A1128]"
+                          inputStyles="w-full bg-white border border-gray-200 text-[#0A1128] focus:border-[#D4C5B9] focus:ring-1 focus:ring-[#D4C5B9] rounded-none p-3 lc-body font-light text-sm"
+                        />
+                      </div>
+                      
+                      <div className="w-full h-[400px] border border-gray-200 relative overflow-hidden shadow-2xl">
                          <iframe 
                            src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
                            width="100%" 

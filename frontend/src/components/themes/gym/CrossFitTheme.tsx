@@ -483,7 +483,17 @@ export default function CrossFitTheme({ website, content }: Props) {
                     </FadeIn>
 
                     <FadeIn dir="right">
-                      <div className="w-full h-full min-h-[400px] border-4 border-[#444] relative overflow-hidden shadow-[12px_12px_0px_#E6FF00]">
+                      <div className="bg-[#222] border-4 border-white p-8 md:p-12 mb-8 shadow-[12px_12px_0px_#E6FF00]">
+                        <h4 className="cf-heading text-white text-3xl mb-6">SEND A MESSAGE</h4>
+                        <ContactForm 
+                          websiteId={website.id} 
+                          primaryColor="bg-[#E6FF00]"
+                          primaryColorHover="hover:bg-transparent hover:text-[#E6FF00] border-4 border-[#E6FF00] hover:border-[#E6FF00]"
+                          inputStyles="w-full bg-[#111] border-2 border-[#444] text-white focus:border-[#E6FF00] focus:ring-1 focus:ring-[#E6FF00] rounded-none p-4 cf-body font-bold"
+                        />
+                      </div>
+                      
+                      <div className="w-full h-[400px] border-4 border-[#444] relative overflow-hidden shadow-[12px_12px_0px_#E6FF00]">
                         <iframe
                           src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
                           width="100%"
