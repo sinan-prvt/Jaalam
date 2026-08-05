@@ -122,8 +122,21 @@ export default function StreetwearTheme({ website, content }: any) {
         </div>
       </header>
 
-      
-
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-[#0A0A0A] z-[60] flex flex-col p-8">
+          <button className="self-end text-[#ccff00] mb-12" onClick={() => setIsMenuOpen(false)}>
+            <X size={32} />
+          </button>
+          <nav className="flex flex-col gap-8 st-font text-4xl font-black italic text-center text-[#F3F4F6]">
+            <a href="#drop" onClick={() => setIsMenuOpen(false)} className="hover:text-[#ccff00] transition-colors">Shop</a>
+            <a href="#vibe" onClick={() => setIsMenuOpen(false)} className="hover:text-[#ccff00] transition-colors">About</a>
+            {services.length > 0 && <a href="#services" onClick={() => setIsMenuOpen(false)} className="hover:text-[#ccff00] transition-colors">Services</a>}
+            {!hiddenSections.includes('gallery') && <a href="#gallery" onClick={() => setIsMenuOpen(false)} className="hover:text-[#ccff00] transition-colors">Lookbook</a>}
+            {!hiddenSections.includes('contact') && <a href="#contact" onClick={() => setIsMenuOpen(false)} className="hover:text-[#ccff00] transition-colors">Hit Us Up</a>}
+          </nav>
+        </div>
+      )}
       {/* Content Sections mapped by section_order */}
       {sectionOrder.map(sectionId => {
         if (hiddenSections.includes(sectionId)) return null;

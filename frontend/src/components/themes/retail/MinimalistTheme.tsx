@@ -89,8 +89,21 @@ export default function MinimalistTheme({ website, content }: any) {
         </div>
       </header>
 
-      
-
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-white z-[60] flex flex-col p-8 animate-in fade-in">
+          <button className="self-end text-black mb-12 hover:text-gray-500 transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <X size={32} />
+          </button>
+          <nav className="flex flex-col gap-8 min-sans text-3xl font-light text-center text-black">
+            <a href="#shop" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-500 transition-colors">Shop</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-500 transition-colors">About</a>
+            {services.length > 0 && <a href="#services" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-500 transition-colors">Services</a>}
+            {!hiddenSections.includes('gallery') && <a href="#gallery" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-500 transition-colors">Gallery</a>}
+            {!hiddenSections.includes('contact') && <a href="#contact" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-500 transition-colors">Contact</a>}
+          </nav>
+        </div>
+      )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
         <section id="hero" className="pt-24 md:pt-32 pb-12 px-6 md:px-12">

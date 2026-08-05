@@ -103,8 +103,19 @@ export default function BoutiqueTheme({ website, content }: any) {
       </header>
 
       {/* Mobile Menu */}
-      
-
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-[#FAF8F5] z-[60] flex flex-col p-8 bt-fade-in">
+          <button className="self-end text-[#2C2C2C] mb-12 hover:text-[#D4AF37] transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <X size={32} />
+          </button>
+          <nav className="flex flex-col gap-8 bt-serif text-3xl text-center text-[#2C2C2C]">
+            <a href="#collections" onClick={() => setIsMenuOpen(false)} className="hover:text-[#D4AF37] transition-colors">Collections</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="hover:text-[#D4AF37] transition-colors">Our Story</a>
+            {services.length > 0 && <a href="#services" onClick={() => setIsMenuOpen(false)} className="hover:text-[#D4AF37] transition-colors">Services</a>}
+            <a href="#gallery" onClick={() => setIsMenuOpen(false)} className="hover:text-[#D4AF37] transition-colors">Lookbook</a>
+          </nav>
+        </div>
+      )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
         <section id="hero" className="relative h-screen flex items-center justify-center pt-20">
