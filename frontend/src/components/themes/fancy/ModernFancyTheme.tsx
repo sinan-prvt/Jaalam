@@ -55,9 +55,15 @@ export default function ModernFancyTheme({ website, content }: any) {
       
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
+        .theme-root main { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root main > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root main > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root main > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root main > section#menu { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root main > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root main > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root main > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -106,10 +112,9 @@ export default function ModernFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId: string) => {
-              if (hiddenSections.includes(sectionId)) return null;
-
-              if (sectionId === 'hero') return (
+          <>
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
                 <section key="hero" id="hero" className="relative z-10 pt-32 pb-20 px-6 text-center">
                   <div className="container mx-auto max-w-4xl">
                     <span className="inline-block py-1 px-4 rounded-full bg-white/80 border border-purple-100 text-purple-600 font-modern text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
@@ -126,9 +131,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </a>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'about') return (
+            {/* About */}
+            {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-5xl glass-panel rounded-3xl p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
                     <div className="flex-1">
@@ -142,9 +148,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'services') return (
+            {/* Services */}
+            {!hiddenSections.includes('services') && (
                 <section key="services" id="services" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-6xl">
                     <h2 className="font-modern text-4xl font-bold text-center text-slate-900 mb-16">Our Services</h2>
@@ -168,9 +175,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'menu' || sectionId === 'products') return (
+            {/* Menu */}
+            {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                 <section key="menu" id="menu" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-6xl">
                     <h2 className="font-modern text-4xl font-bold text-center text-slate-900 mb-16">Trending Accessories</h2>
@@ -208,9 +216,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                     )}
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'gallery') return (
+            {/* Gallery */}
+            {!hiddenSections.includes('gallery') && (
                 <section key="gallery" id="gallery" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-6xl">
                     <h2 className="font-modern text-4xl font-bold text-center text-slate-900 mb-16">Gallery</h2>
@@ -226,9 +235,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+            {/* Custom */}
+            {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
                 <section key="custom" id="custom" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-6xl">
                     {content.custom_blocks_json.map((block: any, idx: number) => (
@@ -246,19 +256,53 @@ export default function ModernFancyTheme({ website, content }: any) {
                     ))}
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'contact') return (
+            {/* Contact */}
+            {!hiddenSections.includes('contact') && (
                 <section key="contact" id="contact" className="relative z-10 py-20 px-6">
-                  <div className="container mx-auto max-w-4xl text-center glass-panel rounded-3xl p-12 md:p-16">
-                    <h2 className="font-modern text-4xl font-bold text-slate-900 mb-12">Contact Us</h2>
-                    <div className="space-y-6 text-slate-600 font-modern text-lg mb-12">
-                      <div className="flex justify-center items-center gap-3"><Phone className="text-purple-500" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
-                      <div className="flex justify-center items-center gap-3"><Mail className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
-                      <div className="flex justify-center items-center gap-3"><MapPin className="text-purple-500" /> {content.contact_info?.address || 'Fashion Street, High Street'}</div>
-                      <div className="flex justify-center items-center gap-3"><Clock className="text-pink-500" /> {content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</div>
+                  <div className="container mx-auto max-w-5xl glass-panel rounded-3xl p-12 md:p-16">
+                    <h2 className="font-modern text-4xl font-bold text-center text-slate-900 mb-12">Contact Us</h2>
+                    
+                    <div className="flex flex-col md:flex-row gap-12 items-center mb-12">
+                      <div className="flex-1 w-full text-center md:text-left">
+                        <div className="space-y-6 text-slate-600 font-modern text-lg mb-8">
+                          <div className="flex justify-center md:justify-start items-center gap-3"><Phone className="text-purple-500" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
+                          <div className="flex justify-center md:justify-start items-center gap-3"><Mail className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
+                          <div className="flex justify-center md:justify-start items-center gap-3"><MapPin className="text-purple-500" /> {content.contact_info?.address || 'Fashion Street, High Street'}</div>
+                          <div className="flex justify-center md:justify-start items-center gap-3"><Clock className="text-pink-500" /> {content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</div>
+                        </div>
+                        <div className="flex justify-center md:justify-start gap-6">
+                          {content.contact_info?.instagram && (
+                            <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                              <Instagram size={20} />
+                            </a>
+                          )}
+                          {content.contact_info?.facebook && (
+                            <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                              <Facebook size={20} />
+                            </a>
+                          )}
+                          {content.contact_info?.whatsapp && (
+                            <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                              <MessageCircle size={20} />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="flex-1 w-full">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                          primaryColorHover="hover:from-purple-600 hover:to-pink-600"
+                          inputStyles="bg-white/50 border-purple-100 text-slate-800 placeholder-slate-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded-xl"
+                          buttonShape="rounded-xl font-modern shadow-lg shadow-purple-500/30 font-bold"
+                        />
+                      </div>
                     </div>
-                    <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-12 shadow-sm">
+                    
+                    <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-sm">
                       <iframe
                         title="Google Maps"
                         width="100%"
@@ -269,31 +313,10 @@ export default function ModernFancyTheme({ website, content }: any) {
                         allowFullScreen
                       ></iframe>
                     </div>
-                    <div className="flex justify-center gap-6">
-                      {content.contact_info?.instagram && (
-                        <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                          <Instagram size={20} />
-                        </a>
-                      )}
-                      {content.contact_info?.facebook && (
-                        <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                          <Facebook size={20} />
-                        </a>
-                      )}
-                      {content.contact_info?.whatsapp && (
-                        <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                          <MessageCircle size={20} />
-                        </a>
-                      )}
                     </div>
                   </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
-
-              return null;
-            })}
+                </section>
+            )}
           </>
         ) : (
           <section className="relative z-10 py-32 px-6 min-h-screen">
@@ -344,20 +367,6 @@ export default function ModernFancyTheme({ website, content }: any) {
       </main>
 
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       {/* Footer */}
       <footer className="relative z-10 bg-white/50 backdrop-blur-md border-t border-white py-16 mt-20">
