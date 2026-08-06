@@ -2,6 +2,7 @@ import React from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Feather, MapPin, Mail, Phone, Menu, X } from 'lucide-react';
+import ContactForm from '../shared/ContactForm';
 
 export default function ClassicStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -29,8 +30,13 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#collection { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#visit { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -84,13 +90,12 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         )}
       </header>
 
+      {/* Hero */}
       {!showAllProducts ? (
         <>
-          {sectionOrder.map((sectionId) => {
-            if (hiddenSections.includes(sectionId)) return null;
-
-            if (sectionId === 'hero') return (
-              <section key="hero" className="py-24 px-6">
+          {/* Hero */}
+          {!hiddenSections.includes('hero') && (
+              <section key="hero" id="hero" className="py-24 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
                   <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#2C241E] leading-tight">
                     {content.hero_title || 'The Art of Fine Writing'}
@@ -101,9 +106,10 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80'} alt="Classic Stationery" className="w-full h-96 object-cover shadow-2xl border-4 border-white" />
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'about') return (
+          {/* About */}
+          {!hiddenSections.includes('about') && (
               <section key="about" id="about" className="py-20 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
                   <h2 className="text-3xl md:text-5xl font-bold mb-6 font-classic">{content.settings_json?.about_title || 'Our Heritage'}</h2>
@@ -112,9 +118,10 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   </p>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'services') return (
+          {/* Services */}
+          {!hiddenSections.includes('services') && (
               <section key="services" id="services" className="py-20 px-6 border-t border-current border-opacity-10">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 font-classic">Our Services</h2>
@@ -142,9 +149,10 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'menu' || sectionId === 'products') return (
+          {/* Products / Menu */}
+          {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
               <section key="collection" id="collection" className="py-24 bg-[#F5EFE6]">
                 <div className="container mx-auto px-6 max-w-5xl">
                   <h2 className="font-classic text-3xl font-bold text-center mb-16 text-[#2C241E]">Curated Collection</h2>
@@ -180,9 +188,10 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   )}
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'gallery') return (
+          {/* Gallery */}
+          {!hiddenSections.includes('gallery') && (
               <section key="gallery" id="gallery" className="py-20 px-6 border-t border-current border-opacity-10">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 font-classic">Gallery</h2>
@@ -207,9 +216,10 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'contact') return (
+          {/* Contact */}
+          {!hiddenSections.includes('contact') && (
               <section key="contact" id="visit" className="py-20 px-6 border-t border-current border-opacity-10 bg-[#F5EFE6]">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 font-classic">Visit & Contact</h2>
@@ -248,20 +258,31 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="h-80 md:h-full min-h-[450px] border-8 border-white shadow-xl relative">
-                      <iframe 
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
-                        className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
-                        allowFullScreen={false} 
-                        loading="lazy"
-                      ></iframe>
+                    <div className="bg-white p-10 shadow-lg border border-[#E6DFD3] w-full">
+                      <ContactForm 
+                        websiteId={website.id}
+                        primaryColor="bg-[#2C241E]"
+                        primaryColorHover="hover:bg-[#4A3B32]"
+                        inputStyles="bg-[#FDFBF7] border border-[#E6DFD3] text-[#2C241E] placeholder-[#8C6D53] focus:border-[#2C241E] focus:ring-0 rounded-none font-body"
+                        buttonShape="rounded-none uppercase tracking-widest font-classic shadow-md"
+                      />
                     </div>
+                  </div>
+
+                  <div className="mt-16 h-80 md:h-[450px] w-full border-8 border-white shadow-xl relative">
+                    <iframe 
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
+                      className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
+                      allowFullScreen={false} 
+                      loading="lazy"
+                    ></iframe>
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'custom') return (
+          {/* Custom */}
+          {!hiddenSections.includes('custom') && (
               <React.Fragment key="custom">
                 {content.custom_blocks_json?.length > 0 ? (
                   <section id="custom" className="py-24 px-6 border-t border-[#E6DFD3] text-center bg-[#FDFBF7]">
@@ -298,10 +319,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   </section>
                 )}
               </React.Fragment>
-            );
-
-            return null;
-          })}
+          )}
         </>
       ) : (
         <section className="py-24 bg-[#F5EFE6] min-h-screen">
@@ -349,21 +367,6 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         </section>
       )}
 
-      
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       {/* Footer */}
       <footer className="bg-[#2C241E] text-[#D8CBB6] py-16 mt-auto">
