@@ -110,7 +110,6 @@ export default function ClassicFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-          <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
             <section key="hero" id="hero" className="relative py-24 px-6 overflow-hidden">
