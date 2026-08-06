@@ -275,7 +275,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     <div className="w-full">
                       <ContactForm 
                         websiteId={website.id}
-                        primaryColor="bg-white text-black"
+                        primaryColor="bg-white !text-black"
                         primaryColorHover="hover:bg-gray-200"
                         inputStyles="bg-black border border-gray-800 text-white placeholder-gray-600 focus:border-white focus:ring-0 rounded-none font-minimal"
                         buttonShape="rounded-none uppercase tracking-widest font-minimal text-sm"
