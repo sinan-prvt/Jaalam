@@ -246,61 +246,72 @@ export default function BoutiqueTheme({ website, content }: any) {
       {/* Contact Section */}
       {!hiddenSections.includes('contact') && (
         <section id="contact" className="py-24 lg:py-32 px-6 bg-[#1A1A1A] text-white">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="flex flex-col w-full">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-8 h-px bg-[#D4AF37]"></div>
-                <span className="uppercase tracking-[0.2em] text-sm font-bold text-[#D4AF37]">Get In Touch</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-8 break-words hyphens-auto bt-serif leading-snug">Contact & Store Info</h2>
-              <p className="text-gray-400 leading-relaxed font-light mb-10 text-lg bt-sans">
-                We would love to hear from you. Whether you have a question about our collections, want to book a personal styling appointment, or simply wish to visit our flagship store.
-              </p>
-              <div className="space-y-6 bt-sans">
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
-                    <MapPin className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Location</h4>
-                    <p className="text-gray-400 font-light break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
-                  </div>
+          <div className="max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+              <div className="flex flex-col w-full">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-8 h-px bg-[#D4AF37]"></div>
+                  <span className="uppercase tracking-[0.2em] text-sm font-bold text-[#D4AF37]">Get In Touch</span>
                 </div>
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
-                    <Phone className="text-white" size={20} />
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white mb-8 break-words hyphens-auto bt-serif leading-snug">Contact & Store Info</h2>
+                <p className="text-gray-400 leading-relaxed font-light mb-10 text-lg bt-sans">
+                  We would love to hear from you. Whether you have a question about our collections, want to book a personal styling appointment, or simply wish to visit our flagship store.
+                </p>
+                <div className="space-y-6 bt-sans">
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
+                      <MapPin className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-1">Location</h4>
+                      <p className="text-gray-400 font-light break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Phone</h4>
-                    <p className="text-gray-400 font-light">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
+                      <Phone className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-1">Phone</h4>
+                      <p className="text-gray-400 font-light">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
-                    <Clock className="text-white" size={20} />
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
+                      <Clock className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-1">Hours</h4>
+                      <p className="text-gray-400 font-light whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 8:00 PM\nSun: 11:00 AM - 6:00 PM'}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Hours</h4>
-                    <p className="text-gray-400 font-light whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 8:00 PM\nSun: 11:00 AM - 6:00 PM'}</p>
-                  </div>
-                </div>
 
-                {/* Social Links */}
-                <div className="pt-8 flex gap-6">
-                  <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                  </a>
-                  <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                    <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
-                  </a>
-                  <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                    <Instagram size={20} className="group-hover:scale-110 transition-transform" />
-                  </a>
+                  {/* Social Links */}
+                  <div className="pt-8 flex gap-6">
+                    <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                      <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
+                    </a>
+                    <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                      <Instagram size={20} className="group-hover:scale-110 transition-transform" />
+                    </a>
+                  </div>
                 </div>
+              </div>
+
+              <div className="w-full z-20 relative flex flex-col justify-center">
+                <ContactForm 
+                  websiteId={website.id} 
+                  primaryColor="bg-[#D4AF37]" 
+                  primaryColorHover="hover:bg-[#B8982D]"
+                  inputStyles="bg-transparent border-gray-700 text-white placeholder-gray-500 focus:border-[#D4AF37]"
+                />
               </div>
             </div>
             
-            <div className="w-full h-[500px] grayscale hover:grayscale-0 transition-all duration-700 bg-black/20">
+            <div className="w-full h-[400px] grayscale hover:grayscale-0 transition-all duration-700 bg-black/20">
               <iframe 
                 src={content.contact_info?.map_embed_url || (content.contact_info?.address ? `https://www.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed` : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.2528000654!2d-74.14448744489344!3d40.69766374865766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1715000000000!5m2!1sen!2s")} 
                 width="100%" 
@@ -312,9 +323,7 @@ export default function BoutiqueTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Custom Section */}
@@ -403,7 +412,6 @@ export default function BoutiqueTheme({ website, content }: any) {
             ) : (
               <>
                 <Instagram size={16} className="text-gray-400 hover:text-white cursor-pointer" />
-                <span className="text-gray-400 hover:text-white cursor-pointer bt-sans text-xs tracking-widest uppercase">Pinterest</span>
               </>
             )}
           </div>
