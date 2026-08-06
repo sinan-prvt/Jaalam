@@ -94,8 +94,13 @@ export default function TechGadgetTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#specs { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#hardware { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -150,11 +155,8 @@ export default function TechGadgetTheme({ website, content }: any) {
         </div>
       )}
 
-      {/* Content Sections mapped by section_order */}
-      {sectionOrder.map(sectionId => {
-        if (hiddenSections.includes(sectionId)) return null;
-
-        if (sectionId === 'hero') return (
+      {/* Hero */}
+      {!hiddenSections.includes('hero') && (
           <section key="hero" className="relative z-10 pt-20 pb-32 px-6 flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 tg-mono text-xs border border-[#4285F4]/30 rounded-full px-4 py-1 mb-8 bg-[#4285F4]/10 text-[#4285F4]">
               <span className="w-2 h-2 rounded-full bg-[#4285F4] animate-pulse"></span>
@@ -175,9 +177,10 @@ export default function TechGadgetTheme({ website, content }: any) {
               </a>
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'about') return (
+      {/* About */}
+      {!hiddenSections.includes('about') && (
           <section key="about" id="specs" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="tg-glass rounded-xl p-8 md:p-12 border border-[#4285F4]/30 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -209,9 +212,10 @@ export default function TechGadgetTheme({ website, content }: any) {
               </div>
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'menu') return (
+      {/* Menu / Drop */}
+      {!hiddenSections.includes('menu') && (
           <section key="menu" id="hardware" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="flex items-end justify-between mb-12 border-b border-[#4285F4]/20 pb-4">
               <div>
@@ -249,9 +253,10 @@ export default function TechGadgetTheme({ website, content }: any) {
               </div>
             )}
           </section>
-        );
+      )}
 
-        if (sectionId === 'services') return (
+      {/* Services */}
+      {!hiddenSections.includes('services') && services.length > 0 && (
           <section key="services" id="services" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="flex items-end justify-between mb-12 border-b border-[#4285F4]/20 pb-4">
               <div>
@@ -275,9 +280,10 @@ export default function TechGadgetTheme({ website, content }: any) {
               ))}
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'gallery') return (
+      {/* Gallery */}
+      {!hiddenSections.includes('gallery') && (
           <section key="gallery" id="gallery" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="flex items-end justify-between mb-12 border-b border-[#4285F4]/20 pb-4">
               <div>
@@ -296,9 +302,10 @@ export default function TechGadgetTheme({ website, content }: any) {
               ))}
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'contact') return (
+      {/* Contact */}
+      {!hiddenSections.includes('contact') && (
           <section key="contact" id="contact" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="flex items-end justify-between mb-12 border-b border-[#4285F4]/20 pb-4">
               <div>
@@ -350,9 +357,10 @@ export default function TechGadgetTheme({ website, content }: any) {
           
             <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'custom') return (
+      {/* Custom */}
+      {!hiddenSections.includes('custom') && (
           <section key="custom" id="custom" className="relative z-10 py-20 px-6 max-w-7xl mx-auto w-full">
             <div className="tg-glass rounded-xl p-8 md:p-16 border border-[#4285F4]/30 text-center">
               {content.custom_blocks_json && content.custom_blocks_json.length > 0 ? (
@@ -381,38 +389,6 @@ export default function TechGadgetTheme({ website, content }: any) {
               )}
             </div>
           </section>
-        );
-
-        return null;
-      })}
-
-      
-      
-      {/* Injected About Section */}
-      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
-      )}
-
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
       )}
 
       {/* Footer */}
