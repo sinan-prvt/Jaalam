@@ -80,8 +80,13 @@ export default function StreetwearTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#drop { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -137,92 +142,92 @@ export default function StreetwearTheme({ website, content }: any) {
           </nav>
         </div>
       )}
-      {/* Content Sections mapped by section_order */}
-      {sectionOrder.map(sectionId => {
-        if (hiddenSections.includes(sectionId)) return null;
+      {/* Hero */}
+      {!hiddenSections.includes('hero') && (
+        <section id="hero" className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 border-b-2 border-[#333] overflow-hidden">
+          <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-[url('https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
+          <div className="relative z-10 text-center w-full max-w-4xl">
+            <div className="inline-block bg-[#ccff00] text-black font-bold px-4 py-1 mb-6 rotate-[-2deg]">SEASON 1</div>
+            <h1 className="st-font text-6xl md:text-8xl font-black italic uppercase leading-none mb-8 break-words whitespace-pre-wrap tracking-tighter drop-shadow-[4px_4px_0_rgba(204,255,0,0.3)]">
+              {content.hero_title || 'STREET UNIFORM'}
+            </h1>
+            <a href="#drop" className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest mt-4 inline-block">
+              Shop Now
+            </a>
+          </div>
+        </section>
+      )}
 
-        if (sectionId === 'hero') return (
-          <section key="hero" className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 border-b-2 border-[#333] overflow-hidden">
-            <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-[url('https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
-            <div className="relative z-10 text-center w-full max-w-4xl">
-              <div className="inline-block bg-[#ccff00] text-black font-bold px-4 py-1 mb-6 rotate-[-2deg]">SEASON 1</div>
-              <h1 className="st-font text-6xl md:text-8xl font-black italic uppercase leading-none mb-8 break-words whitespace-pre-wrap tracking-tighter drop-shadow-[4px_4px_0_rgba(204,255,0,0.3)]">
-                {content.hero_title || 'STREET UNIFORM'}
-              </h1>
-              <a href="#drop" className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest mt-4 inline-block">
-                Shop Now
-              </a>
+      {/* About */}
+      {!hiddenSections.includes('about') && (
+        <section id="about" className="p-6 md:p-12 border-b-2 border-[#333] bg-[url('https://images.unsplash.com/photo-1542840410-3092f99611a3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-fixed bg-center relative">
+          <div className="absolute inset-0 bg-black/80"></div>
+          <div className="relative z-10 max-w-4xl text-[#ccff00]">
+            <h2 className="st-font text-5xl md:text-7xl font-black italic mb-8 break-words whitespace-pre-wrap">
+              {content.settings_json?.about_title || 'BORN IN THE STREETS'}
+            </h2>
+            <p className="text-xl md:text-2xl font-bold leading-relaxed text-white max-w-2xl break-words whitespace-pre-wrap">
+              {content.settings_json?.about_description || 'We rebel against fast fashion. Every piece is cut and sewn with intent. Small batches, heavy fabrics, zero compromises.'}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Services */}
+      {!hiddenSections.includes('services') && services.length > 0 && (
+        <section id="services" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#0A0A0A]">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <Zap size={32} className="text-[#ccff00] mb-2" />
+              <h2 className="st-font text-4xl md:text-6xl font-black italic">SERVICES</h2>
             </div>
-          </section>
-        );
-
-        if (sectionId === 'about') return (
-          <section key="about" id="vibe" className="p-6 md:p-12 border-b-2 border-[#333] bg-[url('https://images.unsplash.com/photo-1542840410-3092f99611a3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-fixed bg-center relative">
-            <div className="absolute inset-0 bg-black/80"></div>
-            <div className="relative z-10 max-w-4xl text-[#ccff00]">
-              <h2 className="st-font text-5xl md:text-7xl font-black italic mb-8 break-words whitespace-pre-wrap">
-                {content.settings_json?.about_title || 'BORN IN THE STREETS'}
-              </h2>
-              <p className="text-xl md:text-2xl font-bold leading-relaxed text-white max-w-2xl break-words whitespace-pre-wrap">
-                {content.settings_json?.about_description || 'We rebel against fast fashion. Every piece is cut and sewn with intent. Small batches, heavy fabrics, zero compromises.'}
-              </p>
-            </div>
-          </section>
-        );
-
-        if (sectionId === 'services') return (
-          <section key="services" id="services" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#0A0A0A]">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <Zap size={32} className="text-[#ccff00] mb-2" />
-                <h2 className="st-font text-4xl md:text-6xl font-black italic">SERVICES</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {services.map((s: any, i: number) => (
+              <div key={i} className="st-brutal-card flex flex-col group hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(204,255,0,1)] transition-all overflow-hidden">
+                {s.image && (
+                  <div className="w-full aspect-video border-b-2 border-[#333] overflow-hidden">
+                    <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                  </div>
+                )}
+                <div className="p-6 md:p-8">
+                  <h3 className="st-font font-black text-2xl uppercase text-[#ccff00] mb-4 break-words">{s.title}</h3>
+                  <p className="text-gray-400 font-bold leading-relaxed break-words">{s.description}</p>
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Menu / Drop */}
+      {!hiddenSections.includes('menu') && (
+        <section id="drop" className="p-6 md:p-12 border-b-2 border-[#333]">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <Zap size={32} className="text-[#ccff00] mb-2" />
+              <h2 className="st-font text-4xl md:text-6xl font-black italic">LATEST DROP</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {services.map((s: any, i: number) => (
-                <div key={i} className="st-brutal-card flex flex-col group hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(204,255,0,1)] transition-all overflow-hidden">
-                  {s.image && (
-                    <div className="w-full aspect-video border-b-2 border-[#333] overflow-hidden">
-                      <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
-                    </div>
-                  )}
-                  <div className="p-6 md:p-8">
-                    <h3 className="st-font font-black text-2xl uppercase text-[#ccff00] mb-4 break-words">{s.title}</h3>
-                    <p className="text-gray-400 font-bold leading-relaxed break-words">{s.description}</p>
+            <a href="#" className="hidden md:flex font-bold text-[#ccff00] hover:underline items-center gap-2">VIEW ALL <ArrowRight size={20} /></a>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((p: any, i: number) => (
+              <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
+                <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
+                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                  <div className="absolute top-4 left-4 bg-white text-black font-bold px-2 py-1 text-xs">NEW</div>
+                </div>
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-[#ccff00] font-black text-xl">{p.price}</span>
+                    <button className="bg-[#333] text-white w-10 h-10 flex items-center justify-center font-black group-hover:bg-[#ccff00] group-hover:text-black transition-colors">+</button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
-        );
-
-        if (sectionId === 'menu') return (
-          <section key="menu" id="drop" className="p-6 md:p-12 border-b-2 border-[#333]">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <Zap size={32} className="text-[#ccff00] mb-2" />
-                <h2 className="st-font text-4xl md:text-6xl font-black italic">LATEST DROP</h2>
               </div>
-              <a href="#" className="hidden md:flex font-bold text-[#ccff00] hover:underline items-center gap-2">VIEW ALL <ArrowRight size={20} /></a>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((p: any, i: number) => (
-                <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
-                  <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
-                    <div className="absolute top-4 left-4 bg-white text-black font-bold px-2 py-1 text-xs">NEW</div>
-                  </div>
-                  <div className="p-4 flex flex-col flex-1">
-                    <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>
-                    <div className="flex justify-between items-center mt-4">
-                      <span className="text-[#ccff00] font-black text-xl">{p.price}</span>
-                      <button className="bg-[#333] text-white w-10 h-10 flex items-center justify-center font-black group-hover:bg-[#ccff00] group-hover:text-black transition-colors">+</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ))}
+          </div>
           <div className="mt-10 mb-4 text-center w-full flex justify-center col-span-full">
             <button 
               onClick={() => setShowAllProducts(true)} 
@@ -232,155 +237,137 @@ export default function StreetwearTheme({ website, content }: any) {
             </button>
           </div>
 
+          <div className="mt-12 flex justify-center">
+            <button onClick={() => setViewProductsPage(true)} className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest">
+              View All
+            </button>
+          </div>
+        </section>
+      )}
 
-            <div className="mt-12 flex justify-center">
-              <button onClick={() => setViewProductsPage(true)} className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest">
-                View All
+      {/* Gallery */}
+      {!hiddenSections.includes('gallery') && (
+        <section id="gallery" className="p-6 md:p-12 border-b-2 border-[#333]">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <Zap size={32} className="text-[#ccff00] mb-2" />
+              <h2 className="st-font text-4xl md:text-6xl font-black italic uppercase">Lookbook</h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {galleryImages.slice(0, 6).map((img: string, i: number) => (
+              <div key={i} className="aspect-[3/4] bg-[#111] overflow-hidden border-2 border-[#333] hover:border-[#ccff00] transition-colors relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
+                <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Contact */}
+      {!hiddenSections.includes('contact') && (
+        <section id="contact" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#111]">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <Zap size={32} className="text-[#ccff00] mb-2" />
+              <h2 className="st-font text-4xl md:text-6xl font-black italic uppercase">Hit Us Up</h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="st-brutal-card p-8 flex flex-col justify-center space-y-8">
+              <div className="flex items-start gap-4">
+                <MapPin className="text-[#ccff00] mt-1 shrink-0" size={24} />
+                <div>
+                  <h4 className="font-bold uppercase mb-1">HQ</h4>
+                  <p className="text-gray-400 font-bold">{content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO'}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Mail className="text-[#ccff00] mt-1 shrink-0" size={24} />
+                <div>
+                  <h4 className="font-bold uppercase mb-1">Inquiries</h4>
+                  <p className="text-gray-400 font-bold">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Phone className="text-[#ccff00] mt-1 shrink-0" size={24} />
+                <div>
+                  <h4 className="font-bold uppercase mb-1">Phone</h4>
+                  <p className="text-gray-400 font-bold">{content.contact_info?.phone || '+1 800 555 0199'}</p>
+                </div>
+              </div>
+              
+              <div className="pt-8 border-t-2 border-[#333] flex gap-4">
+                <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
+                  <Instagram size={20} />
+                </a>
+                <a href={content.contact_info?.facebook || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
+                  <Facebook size={20} />
+                </a>
+                <a href={content.contact_info?.twitter || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
+                  <Twitter size={20} />
+                </a>
+              </div>
+            </div>
+            
+            <div className="flex flex-col w-full">
+              <ContactForm 
+                websiteId={website.id} 
+                primaryColor="bg-[#ccff00]"
+                primaryColorHover="hover:bg-[#aacc00]"
+                inputStyles="bg-[#0A0A0A] border-2 border-[#333] text-white placeholder-gray-500 focus:border-[#ccff00] focus:ring-0"
+              />
+            </div>
+          </div>
+        
+          <div className="mt-12 w-full h-80 md:h-auto min-h-[400px] border-2 border-[#333] grayscale overflow-hidden hover:grayscale-0 transition-all duration-500">
+            <iframe 
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy">
+            </iframe>
+          </div>
+        </section>
+      )}
+
+      {/* Custom */}
+      {!hiddenSections.includes('custom') && (
+        <section id="custom" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#0A0A0A] text-center flex flex-col items-center py-24">
+          {content.custom_blocks_json && content.custom_blocks_json.length > 0 ? (
+            <div className="max-w-4xl mx-auto space-y-12 w-full flex flex-col items-center">
+              {content.custom_blocks_json.map((block: any) => {
+                if (block.type === 'heading') {
+                  return <h2 key={block.id} className="st-font text-4xl md:text-6xl font-black italic text-[#ccff00] uppercase break-words w-full">{block.content}</h2>;
+                }
+                if (block.type === 'paragraph') {
+                  return <p key={block.id} className="text-xl font-bold text-gray-400 break-words whitespace-pre-wrap w-full">{block.content}</p>;
+                }
+                if (block.type === 'image') {
+                  return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
+                }
+                if (block.type === 'divider') {
+                  return <div key={block.id} className="w-24 h-2 bg-[#ccff00] mx-auto my-8"></div>;
+                }
+                return null;
+              })}
+            </div>
+          ) : (
+            <>
+              <h2 className="st-font text-5xl md:text-7xl font-black italic mb-6 break-words max-w-4xl">{content.settings_json?.custom_title || 'ONLY THE REALEST'}</h2>
+              <p className="text-xl md:text-2xl font-bold text-gray-400 max-w-2xl mb-8 break-words">{content.settings_json?.custom_description || 'Join the underground. Never conform. Wear what matters.'}</p>
+              <button className="st-brutal-btn px-12 py-4 font-black text-xl uppercase tracking-widest">
+                {content.settings_json?.custom_button || 'STAY CONNECTED'}
               </button>
-            </div>
-          </section>
-        );
-
-        if (sectionId === 'gallery') return (
-          <section key="gallery" id="gallery" className="p-6 md:p-12 border-b-2 border-[#333]">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <Zap size={32} className="text-[#ccff00] mb-2" />
-                <h2 className="st-font text-4xl md:text-6xl font-black italic uppercase">Lookbook</h2>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-              {galleryImages.slice(0, 6).map((img: string, i: number) => (
-                <div key={i} className="aspect-[3/4] bg-[#111] overflow-hidden border-2 border-[#333] hover:border-[#ccff00] transition-colors relative group cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img loading="lazy" src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-
-        if (sectionId === 'contact') return (
-          <section key="contact" id="contact" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#111]">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <Zap size={32} className="text-[#ccff00] mb-2" />
-                <h2 className="st-font text-4xl md:text-6xl font-black italic uppercase">Hit Us Up</h2>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="st-brutal-card p-8 flex flex-col justify-center space-y-8">
-                <div className="flex items-start gap-4">
-                  <MapPin className="text-[#ccff00] mt-1 shrink-0" size={24} />
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">HQ</h4>
-                    <p className="text-gray-400 font-bold">{content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO'}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Mail className="text-[#ccff00] mt-1 shrink-0" size={24} />
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">Inquiries</h4>
-                    <p className="text-gray-400 font-bold">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Phone className="text-[#ccff00] mt-1 shrink-0" size={24} />
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">Phone</h4>
-                    <p className="text-gray-400 font-bold">{content.contact_info?.phone || '+1 800 555 0199'}</p>
-                  </div>
-                </div>
-                
-                <div className="pt-8 border-t-2 border-[#333] flex gap-4">
-                  <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
-                    <Instagram size={20} />
-                  </a>
-                  <a href={content.contact_info?.facebook || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
-                    <Facebook size={20} />
-                  </a>
-                  <a href={content.contact_info?.twitter || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
-                    <Twitter size={20} />
-                  </a>
-                </div>
-              </div>
-              <div className="w-full h-80 md:h-auto border-2 border-[#333] grayscale overflow-hidden hover:grayscale-0 transition-all duration-500">
-                <iframe 
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen={false} 
-                  loading="lazy">
-                </iframe>
-              </div>
-            </div>
-          
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
-
-        if (sectionId === 'custom') return (
-          <section key="custom" id="custom" className="p-6 md:p-12 border-b-2 border-[#333] bg-[#0A0A0A] text-center flex flex-col items-center py-24">
-            {content.custom_blocks_json && content.custom_blocks_json.length > 0 ? (
-              <div className="max-w-4xl mx-auto space-y-12 w-full flex flex-col items-center">
-                {content.custom_blocks_json.map((block: any) => {
-                  if (block.type === 'heading') {
-                    return <h2 key={block.id} className="st-font text-4xl md:text-6xl font-black italic text-[#ccff00] uppercase break-words w-full">{block.content}</h2>;
-                  }
-                  if (block.type === 'paragraph') {
-                    return <p key={block.id} className="text-xl font-bold text-gray-400 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-                  }
-                  if (block.type === 'image') {
-                    return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
-                  }
-                  if (block.type === 'divider') {
-                    return <div key={block.id} className="w-24 h-2 bg-[#ccff00] mx-auto my-8"></div>;
-                  }
-                  return null;
-                })}
-              </div>
-            ) : (
-              <>
-                <h2 className="st-font text-5xl md:text-7xl font-black italic mb-6 break-words max-w-4xl">{content.settings_json?.custom_title || 'ONLY THE REALEST'}</h2>
-                <p className="text-xl md:text-2xl font-bold text-gray-400 max-w-2xl mb-8 break-words">{content.settings_json?.custom_description || 'Join the underground. Never conform. Wear what matters.'}</p>
-                <button className="st-brutal-btn px-12 py-4 font-black text-xl uppercase tracking-widest">
-                  {content.settings_json?.custom_button || 'STAY CONNECTED'}
-                </button>
-              </>
-            )}
-          </section>
-        );
-
-        return null;
-      })}
-      
-      
-      {/* Injected About Section */}
-      {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
+            </>
+          )}
         </section>
       )}
+      
+      
 
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       {/* Footer */}
       <footer className="p-6 md:p-12 bg-[#0A0A0A]">
