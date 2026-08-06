@@ -112,7 +112,6 @@ export default function ModernFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-          <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
                 <section key="hero" id="hero" className="relative z-10 pt-32 pb-20 px-6 text-center">
@@ -312,7 +311,6 @@ export default function ModernFancyTheme({ website, content }: any) {
                         src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Fashion Street, High Street')}&output=embed`}
                         allowFullScreen
                       ></iframe>
-                    </div>
                     </div>
                   </div>
                 </section>
