@@ -55,9 +55,15 @@ export default function ClassicFancyTheme({ website, content }: any) {
       
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
+        .theme-root main { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root main > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root main > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root main > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root main > section#menu { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root main > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root main > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root main > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -104,10 +110,9 @@ export default function ClassicFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId: string) => {
-          if (hiddenSections.includes(sectionId)) return null;
-
-          if (sectionId === 'hero') return (
+          <>
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
             <section key="hero" id="hero" className="relative py-24 px-6 overflow-hidden">
               <div className="container mx-auto max-w-4xl text-center relative z-10">
                 <p className="font-sans text-[#8C3A3A] tracking-[0.3em] uppercase text-xs mb-6 font-bold">Bridal & Imitation Jewelry</p>
@@ -121,9 +126,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 <img loading="lazy" src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'about') return (
+          {/* About */}
+          {!hiddenSections.includes('about') && (
             <section key="about" id="about" className="py-24 px-6 bg-white border-y border-[#D9C5B2]/50">
               <div className="container mx-auto max-w-5xl">
                 <div className="flex flex-col md:flex-row gap-16 items-center">
@@ -142,9 +148,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'services') return (
+          {/* Services */}
+          {!hiddenSections.includes('services') && (
             <section key="services" id="services" className="py-24 px-6">
               <div className="container mx-auto max-w-6xl text-center">
                 <h2 className="font-classic text-4xl text-[#2B1B12] mb-6">Our Services</h2>
@@ -171,9 +178,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'menu' || sectionId === 'products') return (
+          {/* Menu */}
+          {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
             <section key="menu" id="menu" className="py-24 bg-white border-y border-[#D9C5B2]/50">
               <div className="container mx-auto px-6 max-w-6xl">
                 <h2 className="font-classic text-4xl text-center mb-6 text-[#2B1B12]">Our Collection</h2>
@@ -208,9 +216,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 )}
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'gallery') return (
+          {/* Gallery */}
+          {!hiddenSections.includes('gallery') && (
             <section key="gallery" id="gallery" className="py-24 px-6">
               <div className="container mx-auto max-w-6xl">
                 <h2 className="font-classic text-4xl text-center text-[#2B1B12] mb-6">Gallery</h2>
@@ -227,9 +236,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+          {/* Custom */}
+          {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
             <section key="custom" id="custom" className="py-24 px-6 bg-white border-y border-[#D9C5B2]/50">
               <div className="container mx-auto max-w-6xl">
                 {content.custom_blocks_json.map((block: any, idx: number) => (
@@ -248,44 +258,59 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 ))}
               </div>
             </section>
-          );
+          )}
 
-          if (sectionId === 'contact') return (
-            <section key="contact" id="contact" className="py-24 px-6">
-              <div className="container mx-auto max-w-4xl bg-white p-12 md:p-20 border border-[#D9C5B2] shadow-xl relative text-center">
-                <Diamond className="text-[#8C3A3A] absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#FDF8F5] p-2 rounded-full" size={48} />
-                <h2 className="font-classic text-4xl font-bold text-[#2B1B12] mb-12">Visit Us</h2>
-                <div className="flex flex-col gap-8 font-sans text-lg text-[#6B5A4E] items-center mb-12">
-                  <div className="flex items-center gap-4"><Phone className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-                  <div className="flex items-center gap-4"><Mail className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
-                  <div className="flex items-center gap-4"><MapPin className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
-                  {content.contact_info?.hours && (
-                    <div className="flex items-center gap-4"><Clock className="text-[#8C3A3A]" /> {content.contact_info.hours}</div>
-                  )}
-                </div>
+          {/* Contact */}
+          {!hiddenSections.includes('contact') && (
+            <section key="contact" id="contact" className="py-24 px-6 bg-white border-y border-[#D9C5B2]/50">
+              <div className="container mx-auto max-w-5xl text-center">
+                <Diamond className="text-[#8C3A3A] mx-auto mb-6 bg-[#FDF8F5] p-2 rounded-full border border-[#D9C5B2]" size={48} />
+                <h2 className="font-classic text-4xl font-bold text-[#2B1B12] mb-16">Visit Us</h2>
                 
-                {/* Social Links */}
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
-                  <div className="flex justify-center gap-6 mb-12">
-                    {content.contact_info.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="text-[#8C3A3A] hover:text-[#2B1B12] transition-colors">
-                        <Facebook size={24} />
-                      </a>
-                    )}
-                    {content.contact_info.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="text-[#8C3A3A] hover:text-[#2B1B12] transition-colors">
-                        <Instagram size={24} />
-                      </a>
-                    )}
-                    {content.contact_info.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="text-[#8C3A3A] hover:text-[#2B1B12] transition-colors">
-                        <Twitter size={24} />
-                      </a>
-                    )}
+                <div className="flex flex-col md:flex-row gap-12 mb-16 text-left">
+                  <div className="flex-1 w-full bg-[#FDF8F5] p-10 border border-[#E8DFD8]">
+                    <div className="flex flex-col gap-8 font-sans text-lg text-[#6B5A4E] mb-12">
+                      <div className="flex items-center gap-4"><Phone className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                      <div className="flex items-center gap-4"><Mail className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
+                      <div className="flex items-center gap-4"><MapPin className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
+                      {content.contact_info?.hours && (
+                        <div className="flex items-center gap-4"><Clock className="text-[#8C3A3A]" /> {content.contact_info.hours}</div>
+                      )}
+                    </div>
+                    
+                    {/* Social Links */}
+                    <div className="flex gap-6">
+                      {content.contact_info?.facebook && (
+                        <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                          <Facebook size={24} />
+                        </a>
+                      )}
+                      {content.contact_info?.instagram && (
+                        <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                          <Instagram size={24} />
+                        </a>
+                      )}
+                      {content.contact_info?.twitter && (
+                        <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                          <Twitter size={24} />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                )}
+                  
+                  <div className="flex-1 w-full text-left bg-white p-10 border border-[#E8DFD8]">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-[#8C3A3A] text-white"
+                      primaryColorHover="hover:bg-[#6e2c2c]"
+                      inputStyles="bg-[#FDF8F5] border-[#D9C5B2] text-[#2B1B12] focus:border-[#8C3A3A] focus:ring-1 focus:ring-[#8C3A3A] font-sans"
+                      buttonShape="font-sans tracking-widest font-bold uppercase rounded-sm"
+                    />
+                  </div>
+                </div>
+
                 {content.contact_info?.address && (
-                  <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm mb-12">
+                  <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm">
                     <iframe
                       title="Google Maps"
                       width="100%"
@@ -298,13 +323,8 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   </div>
                 )}
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
-
-          return null;
-        })}
+            </section>
+          )}
           </>
         ) : (
           <section className="py-32 px-6 min-h-screen bg-[#FDF8F5]">
@@ -350,20 +370,6 @@ export default function ClassicFancyTheme({ website, content }: any) {
       </main>
 
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       {/* Footer */}
       <footer id="visit" className="bg-[#2B1B12] text-[#E8DFD8] py-20">
