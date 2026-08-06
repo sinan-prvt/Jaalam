@@ -47,9 +47,15 @@ export default function MinimalFancyTheme({ website, content }: any) {
       
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
+        .theme-root main { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root main > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root main > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root main > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root main > section#menu { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root main > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root main > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root main > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -100,10 +106,8 @@ export default function MinimalFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId: string) => {
-              if (hiddenSections.includes(sectionId)) return null;
-
-              if (sectionId === 'hero') return (
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
                 <section key="hero" id="hero" className="pt-40 pb-20 px-8">
                   <h1 className="font-minimal text-5xl md:text-8xl font-bold tracking-tighter max-w-4xl leading-none mb-12">
                     {content.hero_title || 'Elevating the everyday.'}
@@ -115,9 +119,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     Explore the curation <ArrowRight size={18} />
                   </a>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'about') return (
+              {/* About */}
+              {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="py-20 px-8 border-t border-black">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <div>
@@ -131,9 +136,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'services') return (
+              {/* Services */}
+              {!hiddenSections.includes('services') && (
                 <section key="services" id="services" className="py-20 px-8 border-t border-black">
                   <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-16">Services</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -151,9 +157,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     })}
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'menu' || sectionId === 'products') return (
+              {/* Menu */}
+              {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                 <section key="menu" id="menu" className="py-20 px-8 border-t border-black">
                   <div className="flex justify-between items-end mb-16">
                     <h2 className="font-minimal text-4xl font-bold tracking-tighter">Shop</h2>
@@ -188,9 +195,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     </div>
                   )}
                 </section>
-              );
+              )}
 
-              if (sectionId === 'gallery') return (
+              {/* Gallery */}
+              {!hiddenSections.includes('gallery') && (
                 <section key="gallery" id="gallery" className="py-20 px-8 border-t border-black">
                   <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-16">Gallery</h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -204,9 +212,10 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     })}
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+              {/* Custom */}
+              {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
                 <section key="custom" id="custom" className="py-20 px-8 border-t border-black">
                   {content.custom_blocks_json.map((block: any, idx: number) => (
                     <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24 last:mb-0">
@@ -222,16 +231,17 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     </div>
                   ))}
                 </section>
-              );
+              )}
 
-              if (sectionId === 'contact') return (
+              {/* Contact */}
+              {!hiddenSections.includes('contact') && (
                 <section key="contact" id="contact" className="py-20 px-8 border-t border-black">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
                     <div>
                       <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">Get in Touch</h2>
                       <div className="space-y-4 text-lg">
-                        {content.contact_info?.email && <p><span className="font-bold mr-4">E.</span> {content.contact_info.email}</p>}
-                        {content.contact_info?.phone && <p><span className="font-bold mr-4">P.</span> {content.contact_info.phone}</p>}
+                        <p><span className="font-bold mr-4">E.</span> {content.contact_info?.email || 'hello@minimal.co'}</p>
+                        <p><span className="font-bold mr-4">P.</span> {content.contact_info?.phone || '+1 234 567 8900'}</p>
                         {content.contact_info?.hours && <p><span className="font-bold mr-4">H.</span> {content.contact_info.hours}</p>}
                       </div>
                       <div className="mt-8 flex gap-6">
@@ -241,29 +251,31 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       </div>
                     </div>
                     <div>
-                      <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">Location</h2>
-                      <p className="text-gray-500 max-w-sm whitespace-pre-line text-lg mb-8">{content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala'}</p>
-                      {content.contact_info?.address && (
-                        <div className="w-full h-64 bg-gray-100 grayscale hover:grayscale-0 transition-all duration-500 overflow-hidden">
-                          <iframe 
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                            width="100%" 
-                            height="100%" 
-                            style={{ border: 0 }} 
-                            allowFullScreen={false} 
-                            loading="lazy"
-                          ></iframe>
-                        </div>
-                      )}
+                      <ContactForm 
+                        websiteId={website.id}
+                        primaryColor="bg-black text-white"
+                        primaryColorHover="hover:bg-gray-800"
+                        inputStyles="bg-white border border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-1 focus:ring-black font-minimal rounded-none"
+                        buttonShape="font-minimal tracking-widest font-bold uppercase rounded-none"
+                      />
                     </div>
                   </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
-
-              return null;
-            })}
+                  <div>
+                    <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">Location</h2>
+                    <p className="text-gray-500 max-w-sm whitespace-pre-line text-lg mb-8">{content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala'}</p>
+                    <div className="w-full h-64 bg-gray-100 grayscale hover:grayscale-0 transition-all duration-500 overflow-hidden">
+                      <iframe 
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                        width="100%" 
+                        height="100%" 
+                        style={{ border: 0 }} 
+                        allowFullScreen={false} 
+                        loading="lazy"
+                      ></iframe>
+                    </div>
+                  </div>
+                </section>
+              )}
           </>
         ) : (
           <section className="pt-40 pb-20 px-8 min-h-screen">
@@ -310,20 +322,6 @@ export default function MinimalFancyTheme({ website, content }: any) {
 
       {/* Static Footer */}
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className="p-8 pb-12 font-minimal border-t border-black pt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
