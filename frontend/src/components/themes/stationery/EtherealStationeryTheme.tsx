@@ -57,8 +57,13 @@ export default function EtherealStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#collection { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -121,11 +126,9 @@ export default function EtherealStationeryTheme({ website, content }: any) {
         <main className="pt-32">
           {!showAllProducts ? (
             <>
-              {sectionOrder.map((sectionId: string) => {
-                if (hiddenSections.includes(sectionId)) return null;
-
-                if (sectionId === 'hero') return (
-                  <section key="hero" className="min-h-[80vh] flex flex-col justify-center px-6 py-12 max-w-5xl mx-auto text-center relative">
+              {/* Hero */}
+              {!hiddenSections.includes('hero') && (
+                  <section key="hero" id="hero" className="min-h-[80vh] flex flex-col justify-center px-6 py-12 max-w-5xl mx-auto text-center relative">
                     <div className="inline-flex items-center justify-center gap-2 glass-panel px-4 py-2 rounded-full font-ethereal text-xs font-bold uppercase tracking-widest text-[#8A73A6] mx-auto mb-8">
                       <Droplet size={14} /> New Collection Dropped
                     </div>
@@ -136,9 +139,10 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       {content.hero_text || content.about_text || 'Enhance your desk space with soft colors, gentle textures, and inspiring tools that make every day feel like a daydream.'}
                     </p>
                   </section>
-                );
+              )}
 
-                if (sectionId === 'about') return (
+              {/* About */}
+              {!hiddenSections.includes('about') && (
                   <section key="about" id="about" className="py-24 px-6 max-w-6xl mx-auto">
                     <div className="glass-panel rounded-3xl p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
                       <div className="flex-1">
@@ -152,9 +156,10 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       </div>
                     </div>
                   </section>
-                );
+              )}
 
-                if (sectionId === 'collection' || sectionId === 'products' || sectionId === 'menu') return (
+              {/* Collection */}
+              {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                   <section key="collection" id="collection" className="py-24 px-6 max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                       <h2 className="font-ethereal text-4xl md:text-6xl font-bold mb-4">Little Treasures</h2>
@@ -189,9 +194,10 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       </button>
                     </div>
                   </section>
-                );
+              )}
 
-                if (sectionId === 'services') return (
+              {/* Services */}
+              {!hiddenSections.includes('services') && (
                   <section key="services" id="services" className="py-24 px-6 max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-6">
                       {(content.services_json?.length > 0 ? content.services_json : [
@@ -217,44 +223,61 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       })}
                     </div>
                   </section>
-                );
+              )}
 
-                if (sectionId === 'contact') return (
-                  <section key="contact" id="contact" className="py-24 px-6 max-w-4xl mx-auto text-center">
-                    <div className="glass-panel rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
+              {/* Contact */}
+              {!hiddenSections.includes('contact') && (
+                  <section key="contact" id="contact" className="py-24 px-6 max-w-5xl mx-auto">
+                    <div className="glass-panel rounded-[3rem] p-12 md:p-16 relative overflow-hidden text-center md:text-left">
                       <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF9CEE]/20 rounded-full blur-3xl"></div>
                       <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C6D2FF]/20 rounded-full blur-3xl"></div>
                       
-                      <h2 className="font-ethereal text-4xl md:text-6xl font-bold mb-8 relative z-10">Say Hello</h2>
-                      <div className="space-y-4 font-ethereal text-lg relative z-10 mb-8">
-                        <div className="flex items-center justify-center gap-3"><Phone className="text-[#8A73A6]" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
-                        <div className="flex items-center justify-center gap-3"><Mail className="text-[#8A73A6]" /> {content.contact_info?.email || 'hello@ethereal.com'}</div>
-                        <div className="flex items-center justify-center gap-3"><MapPin className="text-[#8A73A6]" /> {content.contact_info?.address || 'Cloud Nine, Dream City'}</div>
-                        <div className="flex items-center justify-center gap-3"><Clock className="text-[#8A73A6]" /> <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 10AM - 6PM'}</span></div>
+                      <div className="flex flex-col md:flex-row gap-12 items-center">
+                        <div className="flex-1 w-full">
+                          <h2 className="font-ethereal text-4xl md:text-6xl font-bold mb-8 relative z-10 text-center md:text-left">Say Hello</h2>
+                          <div className="space-y-4 font-ethereal text-lg relative z-10 mb-8">
+                            <div className="flex items-center justify-center md:justify-start gap-3"><Phone className="text-[#8A73A6]" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
+                            <div className="flex items-center justify-center md:justify-start gap-3"><Mail className="text-[#8A73A6]" /> {content.contact_info?.email || 'hello@ethereal.com'}</div>
+                            <div className="flex items-center justify-center md:justify-start gap-3"><MapPin className="text-[#8A73A6]" /> {content.contact_info?.address || 'Cloud Nine, Dream City'}</div>
+                            <div className="flex items-center justify-center md:justify-start gap-3"><Clock className="text-[#8A73A6]" /> <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 10AM - 6PM'}</span></div>
+                          </div>
+                          
+                          <div className="flex justify-center md:justify-start gap-6 relative z-10">
+                            {content.contact_info?.instagram && (
+                              <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                <Instagram size={20} />
+                              </a>
+                            )}
+                            {content.contact_info?.facebook && (
+                              <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                <Facebook size={20} />
+                              </a>
+                            )}
+                            {content.contact_info?.whatsapp && (
+                              <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                <MessageCircle size={20} />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex-1 w-full relative z-20">
+                          <div className="glass-panel rounded-3xl p-6">
+                            <ContactForm 
+                              websiteId={website.id}
+                              primaryColor="bg-gradient-to-r from-[#B49FCC] to-[#FF9CEE]"
+                              primaryColorHover="hover:opacity-80"
+                              inputStyles="bg-white/50 border-white/80 text-[#4A3B69] placeholder-[#4A3B69]/50 focus:border-[#B49FCC] focus:ring-1 focus:ring-[#B49FCC] rounded-xl font-ethereal shadow-sm"
+                              buttonShape="rounded-full font-ethereal shadow-md"
+                            />
+                          </div>
+                        </div>
                       </div>
                       
-                      <div className="flex justify-center gap-6 relative z-10">
-                        {content.contact_info?.instagram && (
-                          <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                            <Instagram size={20} />
-                          </a>
-                        )}
-                        {content.contact_info?.facebook && (
-                          <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                            <Facebook size={20} />
-                          </a>
-                        )}
-                        {content.contact_info?.whatsapp && (
-                          <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                            <MessageCircle size={20} />
-                          </a>
-                        )}
-                      </div>
-                      
-                      <div className="relative z-10 mt-12 rounded-3xl overflow-hidden glass-panel p-2 shadow-inner border border-white/50">
+                      <div className="relative z-10 mt-12 rounded-3xl overflow-hidden glass-panel p-2 shadow-inner border border-white/50 w-full h-80">
                         <iframe
                           width="100%"
-                          height="300"
+                          height="100%"
                           style={{ border: 0, borderRadius: '1.5rem' }}
                           loading="lazy"
                           allowFullScreen
@@ -263,12 +286,11 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                         ></iframe>
                       </div>
                     </div>
-                  
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
+                  </section>
+              )}
 
-                if (sectionId === 'gallery') return (
+              {/* Gallery */}
+              {!hiddenSections.includes('gallery') && (
                   <section key="gallery" id="gallery" className="py-24 px-6 max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                       <h2 className="font-ethereal text-4xl md:text-6xl font-bold mb-4">Gallery</h2>
@@ -295,9 +317,10 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                        })}
                     </div>
                   </section>
-                );
+              )}
 
-                if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+              {/* Custom */}
+              {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
                   <section key="custom" id="custom" className="py-24 px-6 max-w-6xl mx-auto">
                     {content.custom_blocks_json.map((block: any, idx: number) => (
                       <div key={idx} className="glass-panel rounded-[3rem] p-8 md:p-16 mb-12 last:mb-0 flex flex-col md:flex-row gap-12 items-center">
@@ -313,10 +336,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       </div>
                     ))}
                   </section>
-                );
-
-                return null;
-              })}
+              )}
             </>
           ) : (
             <section className="py-24 px-6 max-w-7xl mx-auto min-h-screen">
@@ -360,20 +380,6 @@ export default function EtherealStationeryTheme({ website, content }: any) {
         </main>
 
         
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className="mt-12 py-8 text-center font-ethereal text-sm opacity-60">
           <p>&copy; {new Date().getFullYear()} {siteName}. Floating in the clouds.</p>
