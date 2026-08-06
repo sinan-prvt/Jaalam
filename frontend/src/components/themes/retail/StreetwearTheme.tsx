@@ -87,18 +87,18 @@ export default function StreetwearTheme({ website, content }: any) {
       `}</style>
 
       {/* Ticker */}
-      <div className="bg-[#ccff00] text-black py-2 overflow-hidden flex items-center font-bold text-sm tracking-widest uppercase">
-        <div className="st-marquee flex gap-8">
+      <div className="bg-[#ccff00] text-black py-2 overflow-hidden flex items-center font-bold text-sm tracking-widest uppercase whitespace-nowrap">
+        <div className="st-marquee flex gap-8 min-w-max items-center">
           <span>FREE SHIPPING OVER ₹1500</span>
-          <Flame size={16} />
+          <Flame size={16} className="shrink-0" />
           <span>NEW DROP LIVE</span>
-          <Flame size={16} />
+          <Flame size={16} className="shrink-0" />
           <span>LIMITED STOCK</span>
-          <Flame size={16} />
+          <Flame size={16} className="shrink-0" />
           <span>FREE SHIPPING OVER ₹100</span>
-          <Flame size={16} />
+          <Flame size={16} className="shrink-0" />
           <span>NEW DROP LIVE</span>
-          <Flame size={16} />
+          <Flame size={16} className="shrink-0" />
           <span>LIMITED STOCK</span>
         </div>
       </div>
