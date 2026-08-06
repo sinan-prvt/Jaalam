@@ -41,8 +41,13 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#collection { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -103,11 +108,9 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId: string) => {
-              if (hiddenSections.includes(sectionId)) return null;
-
-              if (sectionId === 'hero') return (
-                <section key="hero" className="relative z-10 py-20 px-6 text-center">
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
+                <section key="hero" id="hero" className="relative z-10 py-20 px-6 text-center">
                   <div className="container mx-auto max-w-4xl">
                     <div className="inline-block bg-[#4ECDC4] text-white font-playful px-6 py-2 rounded-full mb-8 transform rotate-3 shadow-md">
                       New Collection is here! 🎉
@@ -123,9 +126,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </button>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'about') return (
+            {/* About */}
+            {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="py-20 px-6 relative z-10">
                   <div className="container mx-auto max-w-4xl text-center bg-white rounded-3xl p-12 shadow-xl border-4 border-[#FF6B6B]">
                     <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
@@ -134,9 +138,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </p>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'services') return (
+            {/* Services */}
+            {!hiddenSections.includes('services') && (
                 <section key="services" id="services" className="py-20 px-6 relative z-10">
                   <div className="container mx-auto max-w-6xl">
                     <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] text-center mb-16 relative inline-block left-1/2 -translate-x-1/2">
@@ -170,9 +175,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'collection' || sectionId === 'products' || sectionId === 'menu') return (
+            {/* Collection */}
+            {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                 <section key="collection" id="collection" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-6xl">
                     <div className="text-center mb-16 relative">
@@ -211,9 +217,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'gallery') return (
+            {/* Gallery */}
+            {!hiddenSections.includes('gallery') && (
                 <section key="gallery" id="gallery" className="py-20 px-6 relative z-10">
                   <div className="container mx-auto max-w-6xl">
                     <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] text-center mb-16 relative inline-block left-1/2 -translate-x-1/2">
@@ -243,9 +250,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+            {/* Custom */}
+            {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
                 <section key="custom" id="custom" className="py-24 px-6 relative z-10">
                   <div className="container mx-auto max-w-5xl">
                     {content.custom_blocks_json.map((block: any, idx: number) => (
@@ -263,9 +271,10 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     ))}
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'contact') return (
+            {/* Contact */}
+            {!hiddenSections.includes('contact') && (
                 <section key="contact" id="contact" className="py-20 px-6 relative z-10">
                   <div className="container mx-auto max-w-6xl bg-white rounded-[3rem] p-12 shadow-xl border-4 border-[#FF6B6B]">
                     <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] text-center mb-16">Contact & Location</h2>
@@ -306,23 +315,28 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                           )}
                         </div>
                       </div>
-                      <div className="h-80 md:h-full min-h-[300px] border-4 border-[#4ECDC4] rounded-3xl overflow-hidden relative">
-                        <iframe 
-                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
-                          className="absolute inset-0 w-full h-full border-0" 
-                          allowFullScreen={false} 
-                          loading="lazy"
-                        ></iframe>
+                      <div className="bg-white border-4 border-[#FF6B6B] rounded-3xl overflow-hidden p-6 relative">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-[#FF6B6B]"
+                          primaryColorHover="hover:bg-[#ff5252]"
+                          inputStyles="bg-[#FFF0F5] border-2 border-dashed border-[#FF6B6B] text-[#4A4A4A] placeholder-gray-400 focus:border-[#4ECDC4] focus:ring-0 rounded-2xl font-body"
+                          buttonShape="rounded-full font-playful tracking-wide shadow-[0_4px_0_#c0392b] active:translate-y-1 active:shadow-none"
+                        />
                       </div>
                     </div>
-                  </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
 
-              return null;
-            })}
+                    <div className="mt-12 h-80 md:h-full min-h-[300px] border-4 border-[#4ECDC4] rounded-3xl overflow-hidden relative">
+                      <iframe 
+                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
+                        className="absolute inset-0 w-full h-full border-0" 
+                        allowFullScreen={false} 
+                        loading="lazy"
+                      ></iframe>
+                    </div>
+                  </div>
+                </section>
+            )}
           </>
         ) : (
           <section className="py-20 px-6 relative z-10">
@@ -360,20 +374,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
       </main>
 
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
+
 
       {/* Footer */}
       <footer className="relative z-10 bg-[#2D3142] text-white py-16 mt-20 rounded-t-[3rem]">
