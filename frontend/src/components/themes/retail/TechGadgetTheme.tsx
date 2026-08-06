@@ -342,20 +342,28 @@ export default function TechGadgetTheme({ website, content }: any) {
                   </div>
                 </div>
               </div>
-              <div className="h-80 lg:h-auto tg-glass rounded-xl border border-[#4285F4]/30 p-2 overflow-hidden relative group">
-                <iframe 
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0, filter: 'grayscale(1) invert(1) contrast(1.2)' }} 
-                  allowFullScreen={false} 
-                  loading="lazy"
-                  className="rounded-lg opacity-80 group-hover:opacity-100 transition-opacity"
-                ></iframe>
+              <div className="flex flex-col w-full tg-glass rounded-xl p-8 md:p-12 border border-[#4285F4]/30">
+                <ContactForm 
+                  websiteId={website.id} 
+                  primaryColor="bg-[#4285F4]"
+                  primaryColorHover="hover:bg-[#3367D6]"
+                  inputStyles="bg-[#050B14] border border-[#4285F4]/30 text-white placeholder-[#8ab4f8]/50 focus:border-[#4285F4] focus:ring-1 focus:ring-[#4285F4]/50 tg-mono"
+                  buttonShape="rounded"
+                />
               </div>
             </div>
           
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="mt-12 w-full h-80 md:h-auto min-h-[400px] tg-glass rounded-xl border border-[#4285F4]/30 p-2 overflow-hidden relative group">
+              <iframe 
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, filter: 'grayscale(1) invert(1) contrast(1.2)' }} 
+                allowFullScreen={false} 
+                loading="lazy"
+                className="rounded-lg opacity-80 group-hover:opacity-100 transition-opacity"
+              ></iframe>
+            </div>
           </section>
       )}
 
