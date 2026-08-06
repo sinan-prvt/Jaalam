@@ -88,8 +88,13 @@ export default function OrganicStoreTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#shop { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -153,10 +158,8 @@ export default function OrganicStoreTheme({ website, content }: any) {
         </div>
       )}
 
-      {sectionOrder.map((sectionId) => {
-        if (hiddenSections.includes(sectionId)) return null;
-
-        if (sectionId === 'hero') return (
+      {/* Hero */}
+      {!hiddenSections.includes('hero') && (
           <section key="hero" id="hero" className="relative z-10 py-12 md:py-24 px-6 md:px-12 flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto w-full">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
               <h1 className="os-heading text-5xl md:text-7xl font-semibold mb-6 text-[#4A5D23] leading-tight break-words whitespace-pre-wrap">
@@ -179,9 +182,10 @@ export default function OrganicStoreTheme({ website, content }: any) {
               <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-[#E8EDDF] rounded-full mix-blend-multiply opacity-70 blur-xl"></div>
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'about') return (
+      {/* About */}
+      {!hiddenSections.includes('about') && (
           <section key="about" id="about" className="relative z-10 py-24 px-6 md:px-12 bg-[#4A5D23] text-[#FDFBF7]">
             <div className="max-w-4xl mx-auto text-center">
               <Leaf className="mx-auto mb-8 opacity-80" size={40} />
@@ -193,9 +197,10 @@ export default function OrganicStoreTheme({ website, content }: any) {
               </p>
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'services') return (
+      {/* Services */}
+      {!hiddenSections.includes('services') && services.length > 0 && (
           <section key="services" id="services" className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
             <div className="text-center mb-16">
               <h2 className="os-heading text-4xl text-[#4A5D23] mb-4">Our Commitment</h2>
@@ -213,9 +218,10 @@ export default function OrganicStoreTheme({ website, content }: any) {
               ))}
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'menu') return (
+      {/* Menu / Drop */}
+      {!hiddenSections.includes('menu') && (
           <section key="menu" id="shop" className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
             <div className="text-center mb-16">
               <h2 className="os-heading text-4xl text-[#4A5D23] mb-4">Daily Essentials</h2>
@@ -243,9 +249,10 @@ export default function OrganicStoreTheme({ website, content }: any) {
               </div>
             )}
           </section>
-        );
+      )}
 
-        if (sectionId === 'gallery') return (
+      {/* Gallery */}
+      {!hiddenSections.includes('gallery') && (
           <section key="gallery" id="gallery" className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto w-full bg-[#E8EDDF]/50 rounded-[3rem] my-12">
             <div className="text-center mb-12">
               <h2 className="os-heading text-4xl text-[#4A5D23] mb-4">Our Gallery</h2>
@@ -261,9 +268,10 @@ export default function OrganicStoreTheme({ website, content }: any) {
               ))}
             </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'contact') return (
+      {/* Contact */}
+      {!hiddenSections.includes('contact') && (
           <section key="contact" id="contact" className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
             <div className="bg-[#4A5D23] rounded-[3rem] p-8 md:p-16 text-[#FDFBF7] flex flex-col md:flex-row gap-12 items-center">
               <div className="w-full md:w-1/2 space-y-8">
@@ -280,22 +288,31 @@ export default function OrganicStoreTheme({ website, content }: any) {
                   <a href={content.contact_info?.whatsapp || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><WhatsApp size={24} /></a>
                 </div>
               </div>
-              <div className="w-full md:w-1/2 h-64 md:h-96 bg-[#3A4A1C] rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
-                <iframe
-                  title="Store Location"
-                  className="w-full h-full border-0"
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Green Valley, California')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                  allowFullScreen
-                  loading="lazy"
-                ></iframe>
+              <div className="w-full md:w-1/2 bg-white rounded-2xl p-6 md:p-8">
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-[#4A5D23]"
+                  primaryColorHover="hover:bg-[#3A4A1C]"
+                  inputStyles="bg-[#FDFBF7] border border-[#E8EDDF] text-[#4A5D23] placeholder-[#6B705C] focus:border-[#4A5D23] focus:ring-0 rounded-xl os-body"
+                  buttonShape="rounded-full"
+                />
               </div>
             </div>
           
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="mt-12 w-full h-64 md:h-96 bg-[#E8EDDF] rounded-3xl overflow-hidden shadow-inner flex items-center justify-center">
+              <iframe
+                title="Store Location"
+                className="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Green Valley, California')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </div>
           </section>
-        );
+      )}
 
-        if (sectionId === 'custom') return (
+      {/* Custom */}
+      {!hiddenSections.includes('custom') && (
           <section key="custom" id="custom" className="relative z-10 py-16 px-6 md:px-12 max-w-4xl mx-auto w-full">
             {content.custom_blocks_json?.map((block: any, idx: number) => (
               <div key={idx} className="mb-12 last:mb-0">
@@ -306,25 +323,6 @@ export default function OrganicStoreTheme({ website, content }: any) {
               </div>
             ))}
           </section>
-        );
-
-        return null;
-      })}
-
-      
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
       )}
 
       {/* Footer */}
