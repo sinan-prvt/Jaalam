@@ -70,9 +70,16 @@ export default function NoirFancyTheme({ website, content }: any) {
       
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
+        .theme-root main { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > div.fixed { order: 0; }
+        .theme-root main > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root main > section#ethos { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root main > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root main > section#collection { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root main > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root main > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root main > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -116,10 +123,8 @@ export default function NoirFancyTheme({ website, content }: any) {
       <main>
         {!showAllProducts ? (
           <>
-            {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom']).map((sectionId: string) => {
-              if (hiddenSections.includes(sectionId)) return null;
-
-              if (sectionId === 'hero') return (
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
                 <section id="hero" key="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
                   {content.settings_json?.about_image && (
                     <>
@@ -139,9 +144,10 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'about') return (
+              {/* About */}
+              {!hiddenSections.includes('about') && (
                 <section id="ethos" key="about" className="py-40 px-6 lg:px-20">
                   <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-20">
                     <div className="md:w-1/3">
@@ -155,9 +161,10 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'services') return (
+              {/* Services */}
+              {!hiddenSections.includes('services') && (
                 <section id="services" key="services" className="py-20 px-6 lg:px-20 border-t border-zinc-900">
                   <div className="max-w-[1400px] mx-auto">
                     <span className="font-noir-body text-xs tracking-[0.4em] uppercase text-zinc-500 block mb-12 text-center">Services</span>
@@ -172,9 +179,10 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'menu') return (
+              {/* Menu */}
+              {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                 <section id="collection" key="menu" className="py-40 border-y border-zinc-900">
                   <div className="px-6 lg:px-20 mb-20 flex justify-between items-end gap-4">
                     <h2 className="font-noir-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white uppercase tracking-widest">Archive</h2>
@@ -200,9 +208,10 @@ export default function NoirFancyTheme({ website, content }: any) {
                     ))}
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'gallery') return (
+              {/* Gallery */}
+              {!hiddenSections.includes('gallery') && (
                 <section id="gallery" key="gallery" className="py-40 px-6 lg:px-20">
                   <span className="font-noir-body text-xs tracking-[0.4em] uppercase text-zinc-500 block mb-20 text-center">Visual Study</span>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
@@ -220,9 +229,25 @@ export default function NoirFancyTheme({ website, content }: any) {
                     })}
                   </div>
                 </section>
-              );
+              )}
 
-              if (sectionId === 'contact') return (
+              {/* Custom */}
+              {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
+                <section id="custom" key="custom" className="py-20 px-6 lg:px-20 border-t border-zinc-900 bg-black">
+                  <div className="max-w-[1000px] mx-auto space-y-12">
+                    {content.custom_blocks_json.map((block: any, idx: number) => {
+                      if (block.type === 'heading') return <h2 key={idx} className="font-noir-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-widest text-center">{block.content}</h2>;
+                      if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-noir-body text-lg md:text-2xl text-zinc-400 leading-relaxed text-center font-light whitespace-pre-wrap">{block.content}</p>;
+                      if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img loading="lazy" src={block.url} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
+                      if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-zinc-900 my-16"></div>;
+                      return null;
+                    })}
+                  </div>
+                </section>
+              )}
+
+              {/* Contact */}
+              {!hiddenSections.includes('contact') && (
                 <section id="contact" key="contact" className="py-40 px-6 lg:px-20 border-t border-zinc-900 bg-zinc-950">
                   <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-between gap-20">
                     <div className="lg:w-1/2">
@@ -265,41 +290,28 @@ export default function NoirFancyTheme({ website, content }: any) {
                         )}
                       </ul>
                     </div>
-                    {content.contact_info?.address && (
-                      <div className="lg:w-5/12 aspect-square border border-zinc-900 relative group overflow-hidden">
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-1000 z-10 pointer-events-none"></div>
-                        <iframe
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                          className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
+                    <div className="lg:w-1/2">
+                      <div className="flex flex-col gap-8">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-white text-black"
+                          primaryColorHover="hover:bg-zinc-300"
+                          inputStyles="bg-zinc-950 border border-zinc-900 text-white placeholder-zinc-700 focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 font-noir-body rounded-none"
+                          buttonShape="font-noir-display tracking-widest font-bold uppercase rounded-none w-full border border-white"
                         />
+                        <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm mt-12">
+                          <iframe
+                            title="Google Maps"
+                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                            className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
+                          />
+                        </div>
                       </div>
-                    )}
-                  </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
-
-              if (sectionId === 'custom') {
-                if (!content.custom_blocks_json || content.custom_blocks_json.length === 0) return null;
-                return (
-                  <section id="custom" key="custom" className="py-20 px-6 lg:px-20 border-t border-zinc-900 bg-black">
-                    <div className="max-w-[1000px] mx-auto space-y-12">
-                      {content.custom_blocks_json.map((block: any, idx: number) => {
-                        if (block.type === 'heading') return <h2 key={idx} className="font-noir-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-widest text-center">{block.content}</h2>;
-                        if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-noir-body text-lg md:text-2xl text-zinc-400 leading-relaxed text-center font-light whitespace-pre-wrap">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img loading="lazy" src={block.url} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
-                        if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-zinc-900 my-16"></div>;
-                        return null;
-                      })}
                     </div>
-                  </section>
-                );
-              }
-
-              return null;
-            })}
+                  </div>
+                </section>
+              )}
           </>
         ) : (
           /* ALL PRODUCTS LISTING (Minimalist text list) */
@@ -333,21 +345,6 @@ export default function NoirFancyTheme({ website, content }: any) {
         )}
       </main>
 
-      
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className="bg-black py-20 border-t border-zinc-900 text-center">
         <h2 className="font-noir-display text-2xl text-white tracking-[1em] uppercase mb-12 ml-[1em]">{siteName}</h2>

@@ -298,26 +298,26 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   </div>
                   
                   <div className="flex-1 w-full text-left bg-white p-10 border border-[#E8DFD8]">
-                    <ContactForm 
-                      websiteId={website.id}
-                      primaryColor="bg-[#8C3A3A] text-white"
-                      primaryColorHover="hover:bg-[#6e2c2c]"
-                      inputStyles="bg-[#FDF8F5] border-[#D9C5B2] text-[#2B1B12] focus:border-[#8C3A3A] focus:ring-1 focus:ring-[#8C3A3A] font-sans"
-                      buttonShape="font-sans tracking-widest font-bold uppercase rounded-sm"
-                    />
+                    <div className="flex flex-col gap-8 w-full">
+                      <div className="bg-white p-10 shadow-lg border border-[#E6DFD3]">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-white text-black"
+                          primaryColorHover="hover:bg-zinc-300"
+                          inputStyles="bg-zinc-950 border border-zinc-900 text-white placeholder-zinc-700 focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 font-noir-body rounded-none"
+                          buttonShape="font-noir-display tracking-widest font-bold uppercase rounded-none w-full border border-white"
+                        />
+                      </div>
+                      <div className="w-full h-80 md:h-[450px] border-8 border-white shadow-xl relative">
+                        <iframe 
+                          title="Google Maps"
+                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                          width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                          className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-
-                <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm mt-12">
-                  <iframe
-                    title="Google Maps"
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    style={{ border: 0 }}
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Main Bazaar, Kerala')}&output=embed`}
-                    allowFullScreen
-                  ></iframe>
                 </div>
               </div>
             </section>

@@ -223,8 +223,8 @@ export default function ClassicStationeryTheme({ website, content }: any) {
               <section key="contact" id="visit" className="py-20 px-6 border-t border-current border-opacity-10 bg-[#F5EFE6]">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 font-classic">Visit & Contact</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-8 bg-white p-10 shadow-lg border border-[#E6DFD3]">
+                  <div className="flex flex-col gap-12">
+                    <div className="space-y-8 bg-white p-10 shadow-lg border border-[#E6DFD3] w-full">
                       <h3 className="text-2xl font-bold mb-4 font-classic">Get in Touch</h3>
                       <div className="flex items-center gap-4 text-lg font-body">
                         <span className="opacity-50"><Phone size={20} /></span> 
@@ -258,24 +258,25 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-white p-10 shadow-lg border border-[#E6DFD3] w-full">
-                      <ContactForm 
-                        websiteId={website.id}
-                        primaryColor="bg-[#2C241E]"
-                        primaryColorHover="hover:bg-[#4A3B32]"
-                        inputStyles="bg-[#FDFBF7] border border-[#E6DFD3] text-[#2C241E] placeholder-[#8C6D53] focus:border-[#2C241E] focus:ring-0 rounded-none font-body"
-                        buttonShape="rounded-none uppercase tracking-widest font-classic shadow-md"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-16 h-80 md:h-[450px] w-full border-8 border-white shadow-xl relative">
-                    <iframe 
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
-                      className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
-                      allowFullScreen={false} 
-                      loading="lazy"
-                    ></iframe>
+        <div className="flex flex-col gap-8 w-full">
+          <div className="bg-white p-10 shadow-lg border border-[#E6DFD3]">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-[#2C241E]"
+              primaryColorHover="hover:bg-[#4A3B32]"
+              inputStyles="bg-[#FDFBF7] border border-[#E6DFD3] text-[#2C241E] placeholder-[#8C6D53] focus:border-[#2C241E] focus:ring-0 rounded-none font-body"
+              buttonShape="rounded-none uppercase tracking-widest font-classic shadow-md"
+            />
+          </div>
+          <div className="h-80 md:h-[450px] w-full border-8 border-white shadow-xl relative">
+            <iframe 
+              src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
+              className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
+              allowFullScreen={false} 
+              loading="lazy"
+            />
+          </div>
+        </div>
                   </div>
                 </div>
               </section>
