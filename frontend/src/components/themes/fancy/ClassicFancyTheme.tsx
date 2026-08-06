@@ -308,19 +308,17 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   </div>
                 </div>
 
-                {content.contact_info?.address && (
-                  <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm">
-                    <iframe
-                      title="Google Maps"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                )}
+                <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm mt-12">
+                  <iframe
+                    title="Google Maps"
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    style={{ border: 0 }}
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Main Bazaar, Kerala')}&output=embed`}
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
             </section>
           )}
