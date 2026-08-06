@@ -40,8 +40,13 @@ export default function MinimalStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#collection { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -93,11 +98,9 @@ export default function MinimalStationeryTheme({ website, content }: any) {
       <main className="pt-20">
         {!showAllProducts ? (
           <>
-            {sectionOrder.map((sectionId: string) => {
-              if (hiddenSections.includes(sectionId)) return null;
-
-              if (sectionId === 'hero') return (
-                <section key="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
+            {/* Hero */}
+            {!hiddenSections.includes('hero') && (
+                <section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
                   <h1 className="font-minimal text-6xl md:text-9xl font-extrabold tracking-tighter leading-[0.9] mb-8">
                     {content.hero_title || 'ESSENTIAL\nTOOLS\nFOR\nTHOUGHT.'}
                   </h1>
@@ -110,9 +113,10 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </a>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'about') return (
+            {/* About */}
+            {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="py-32 px-6 bg-black text-white">
                   <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
                     <h2 className="font-minimal text-4xl md:text-6xl font-extrabold tracking-tighter leading-tight">
@@ -123,9 +127,10 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </p>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'services') return (
+            {/* Services */}
+            {!hiddenSections.includes('services') && (
                 <section key="services" id="services" className="py-32 px-6">
                   <div className="max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-y-16 gap-x-8 border-t border-black pt-16">
@@ -152,9 +157,10 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'collection' || sectionId === 'products' || sectionId === 'menu') return (
+            {/* Collection */}
+            {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
                 <section key="collection" id="collection" className="py-32 px-6 bg-gray-50">
                   <div className="max-w-7xl mx-auto">
                     <div className="flex justify-between items-end mb-16 border-b border-black pb-8">
@@ -186,9 +192,10 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'gallery') return (
+            {/* Gallery */}
+            {!hiddenSections.includes('gallery') && (
                 <section key="gallery" id="gallery" className="py-32 px-6">
                   <div className="max-w-7xl mx-auto">
                     <h2 className="font-minimal text-4xl md:text-6xl font-extrabold tracking-tighter mb-16 border-b border-black pb-8">EXHIBIT</h2>
@@ -215,9 +222,10 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
-              );
+            )}
 
-              if (sectionId === 'contact') return (
+            {/* Contact */}
+            {!hiddenSections.includes('contact') && (
                 <section key="contact" id="contact" className="py-32 px-6 bg-black text-white">
                   <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
                     <div>
@@ -264,21 +272,30 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                         )}
                       </div>
                     </div>
-                    <div className="aspect-[4/3] bg-gray-900 overflow-hidden relative">
-                      <iframe 
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
-                        className="w-full h-full border-0 filter grayscale opacity-80" 
-                        allowFullScreen={false} 
-                        loading="lazy"
-                      ></iframe>
+                    <div className="w-full">
+                      <ContactForm 
+                        websiteId={website.id}
+                        primaryColor="bg-white text-black"
+                        primaryColorHover="hover:bg-gray-200"
+                        inputStyles="bg-black border border-gray-800 text-white placeholder-gray-600 focus:border-white focus:ring-0 rounded-none font-minimal"
+                        buttonShape="rounded-none uppercase tracking-widest font-minimal text-sm"
+                      />
                     </div>
                   </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
-        );
+                  
+                  <div className="max-w-7xl mx-auto mt-16 aspect-[21/9] bg-gray-900 overflow-hidden relative">
+                    <iframe 
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
+                      className="w-full h-full border-0 filter grayscale opacity-80" 
+                      allowFullScreen={false} 
+                      loading="lazy"
+                    ></iframe>
+                  </div>
+                </section>
+            )}
 
-              if (sectionId === 'custom' && content.custom_blocks_json?.length > 0) return (
+            {/* Custom */}
+            {(!hiddenSections.includes('custom') && content.custom_blocks_json?.length > 0) && (
                 <section key="custom" id="custom" className="py-32 px-6 bg-white border-t border-black">
                   <div className="max-w-7xl mx-auto">
                     {content.custom_blocks_json.map((block: any, idx: number) => (
@@ -296,10 +313,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     ))}
                   </div>
                 </section>
-              );
-
-              return null;
-            })}
+            )}
           </>
         ) : (
           <section className="py-32 px-6 max-w-7xl mx-auto min-h-screen">
@@ -342,20 +356,6 @@ export default function MinimalStationeryTheme({ website, content }: any) {
       </main>
 
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-200">
