@@ -30,8 +30,13 @@ export default function ModernStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        .theme-root > section#hero { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'}; }
+        .theme-root > section#about { order: ${sectionOrder.indexOf('about') + 1}; display: ${hiddenSections.includes('about') ? 'none' : 'block'}; }
+        .theme-root > section#services { order: ${sectionOrder.indexOf('services') + 1}; display: ${hiddenSections.includes('services') ? 'none' : 'block'}; }
+        .theme-root > section#products { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'}; }
+        .theme-root > section#gallery { order: ${sectionOrder.indexOf('gallery') + 1}; display: ${hiddenSections.includes('gallery') ? 'none' : 'block'}; }
+        .theme-root > section#contact-info { order: ${sectionOrder.indexOf('contact') + 1}; display: ${hiddenSections.includes('contact') ? 'none' : 'block'}; }
+        .theme-root > section#custom { order: ${sectionOrder.indexOf('custom') + 1}; display: ${hiddenSections.includes('custom') ? 'none' : 'block'}; }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -90,11 +95,9 @@ export default function ModernStationeryTheme({ website, content }: any) {
       {/* Hero */}
       {!showAllProducts ? (
         <>
-          {sectionOrder.map((sectionId) => {
-            if (hiddenSections.includes(sectionId)) return null;
-
-            if (sectionId === 'hero') return (
-              <section key="hero" className="py-24 px-6 bg-white">
+          {/* Hero */}
+          {!hiddenSections.includes('hero') && (
+              <section key="hero" id="hero" className="py-24 px-6 bg-white">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
                   <div>
                     <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
@@ -114,9 +117,10 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'about') return (
+          {/* About */}
+          {!hiddenSections.includes('about') && (
               <section key="about" id="about" className="py-20 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
                   <h2 className="text-3xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
@@ -125,9 +129,10 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </p>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'services') return (
+          {/* Services */}
+          {!hiddenSections.includes('services') && (
               <section key="services" id="services" className="py-20 px-6 border-t border-current border-opacity-10">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">Our Services</h2>
@@ -155,9 +160,10 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'menu' || sectionId === 'products') return (
+          {/* Products / Menu */}
+          {(!hiddenSections.includes('menu') && !hiddenSections.includes('products')) && (
               <section key="products" id="products" className="py-24 bg-slate-50 border-t border-slate-200">
                 <div className="container mx-auto px-6 max-w-6xl">
                   <div className="flex justify-between items-end mb-12">
@@ -198,9 +204,10 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   )}
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'gallery') return (
+          {/* Gallery */}
+          {!hiddenSections.includes('gallery') && (
               <section key="gallery" id="gallery" className="py-20 px-6 border-t border-current border-opacity-10">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">Gallery</h2>
@@ -227,9 +234,10 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'contact') return (
+          {/* Contact */}
+          {!hiddenSections.includes('contact') && (
               <section key="contact" id="contact-info" className="py-20 px-6 border-t border-current border-opacity-10">
                 <div className="container mx-auto max-w-6xl">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">Contact & Location</h2>
@@ -268,20 +276,31 @@ export default function ModernStationeryTheme({ website, content }: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="h-80 md:h-full min-h-[400px] border-4 border-current border-opacity-20 p-2 relative">
-                      <iframe 
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
-                        className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] border-0 filter grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
-                        allowFullScreen={false} 
-                        loading="lazy"
-                      ></iframe>
+                    <div className="bg-white p-8 border border-slate-200 rounded-2xl shadow-sm w-full">
+                      <ContactForm 
+                        websiteId={website.id}
+                        primaryColor="bg-blue-600"
+                        primaryColorHover="hover:bg-blue-700"
+                        inputStyles="bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg font-modern"
+                        buttonShape="rounded-lg"
+                      />
                     </div>
+                  </div>
+                  
+                  <div className="mt-16 h-80 md:h-96 w-full border-4 border-current border-opacity-20 p-2 relative rounded-2xl overflow-hidden">
+                    <iframe 
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
+                      className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] border-0 filter grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 rounded-xl" 
+                      allowFullScreen={false} 
+                      loading="lazy"
+                    ></iframe>
                   </div>
                 </div>
               </section>
-            );
+          )}
 
-            if (sectionId === 'custom') return (
+          {/* Custom */}
+          {!hiddenSections.includes('custom') && (
               <React.Fragment key="custom">
                 {content.custom_blocks_json?.length > 0 ? (
                   <section id="custom" className="py-24 px-6 border-t border-current border-opacity-10 text-center">
@@ -318,10 +337,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </section>
                 )}
               </React.Fragment>
-            );
-
-            return null;
-          })}
+          )}
         </>
       ) : (
         <section className="py-24 bg-slate-50 min-h-screen">
@@ -361,21 +377,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
         </section>
       )}
 
-      
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
+
 
       {/* Footer */}
       <footer id="contact" className="bg-slate-900 text-slate-300 py-16">
@@ -405,9 +407,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
             </div>
           </div>
         </div>
-      
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </footer>
+      </footer>
       
       {/* Product Modal */}
 
