@@ -275,10 +275,10 @@ export default function CreativeAgencyTheme({ website, content }: any) {
             <div className="mt-16 max-w-3xl mx-auto w-full z-20 relative">
               <ContactForm 
                 websiteId={website.id}
-                primaryColor="bg-white text-[#7000FF]"
+                primaryColor="bg-white !text-[#7000FF] font-creative-title font-bold border-2 border-white mt-4"
                 primaryColorHover="hover:bg-gray-100"
-                inputStyles="bg-white/10 border border-white/30 text-white placeholder-white/70 focus:border-white focus:ring-1 focus:ring-white font-creative-title rounded-lg"
-                buttonShape="font-creative-title font-bold uppercase rounded-full w-full transition-colors py-4 border-2 border-white mt-4"
+                inputStyles="bg-white/10 border-white/30 text-white placeholder-white/70 focus:border-white focus:ring-1 focus:ring-white font-creative-title rounded-lg"
+                buttonShape="rounded-lg"
               />
             </div>
 
