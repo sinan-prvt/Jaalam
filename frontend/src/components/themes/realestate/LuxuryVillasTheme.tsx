@@ -266,34 +266,42 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                 </div>
               </div>
               
-              <div className="bg-[#222] p-8 md:p-12 border border-[#333]">
-                <h3 className="font-luxury text-2xl mb-8 tracking-widest text-[#D4AF37] uppercase">Connect</h3>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
-                  <div className="flex gap-6">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                        <Facebook size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                        <Instagram size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                        <Twitter size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                        <Youtube size={32} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-gray-400">Social media links will appear here once added in the editor.</p>
-                )}
+              <div className="bg-[#222] p-8 md:p-12 border border-[#333] flex flex-col justify-center">
+                <div className="mb-10">
+                  <h3 className="font-luxury text-xl mb-6 tracking-widest text-[#D4AF37] uppercase">Connect</h3>
+                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
+                    <div className="flex gap-6">
+                      {content.contact_info?.facebook && (
+                        <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                          <Facebook size={24} />
+                        </a>
+                      )}
+                      {content.contact_info?.instagram && (
+                        <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                          <Instagram size={24} />
+                        </a>
+                      )}
+                      {content.contact_info?.twitter && (
+                        <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                          <Twitter size={24} />
+                        </a>
+                      )}
+                      {content.contact_info?.youtube && (
+                        <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                          <Youtube size={24} />
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-[#D4AF37] text-[#1A1A1A]"
+                  primaryColorHover="hover:bg-white hover:text-black"
+                  inputStyles="bg-[#1A1A1A] border border-[#333] text-white placeholder-gray-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] font-body rounded-none"
+                  buttonShape="font-body text-xs tracking-[0.2em] uppercase rounded-none w-full transition-colors py-4"
+                />
               </div>
             </div>
 
@@ -310,9 +318,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
