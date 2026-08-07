@@ -241,25 +241,34 @@ export default function OrganicGroceryTheme({ website, content }: any) {
                   </ul>
                 </div>
 
-                {/* Embedded Map */}
-                <div className="bg-black/5 p-2 rounded-xl flex-1 min-h-[250px]">
-                  <iframe
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, borderRadius: '0.5rem' }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    title="Store Location"
-                    className="min-h-[250px] filter sepia-[0.3]"
-                  ></iframe>
+                <div className="bg-white p-6 md:p-8 rounded-xl border border-[#E8E4D9]">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-[#6B8E23] text-white"
+                    primaryColorHover="hover:bg-[#55711C]"
+                    inputStyles="bg-[#FDFBF7] border border-[#E8E4D9] text-[#2C362B] placeholder-[#8B9A8B] focus:border-[#6B8E23] focus:ring-1 focus:ring-[#6B8E23] rounded-lg font-body"
+                    buttonShape="font-body font-semibold rounded-full w-full transition-colors"
+                  />
                 </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-4xl mt-12">
+            <div className="w-full h-80 rounded-2xl overflow-hidden border border-[#E8E4D9] shadow-sm relative bg-[#FDFBF7] p-2">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '1rem' }}
+                allowFullScreen={false}
+                loading="lazy"
+                title="Store Location"
+                className="absolute inset-0 w-full h-full filter sepia-[0.3]"
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
