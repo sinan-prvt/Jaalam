@@ -241,24 +241,31 @@ export default function NoirOtherTheme({ website, content }: any) {
                    </div>
                 </div>
                 
-                {/* Google Maps iframe */}
-                <div className="h-64 border border-[#222] grayscale opacity-50 hover:opacity-80 transition-opacity">
-                   <iframe
-                      title="Google Maps"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                      allowFullScreen
-                    ></iframe>
-                </div>
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-white text-[#0a0a0a]"
+                  primaryColorHover="hover:bg-[#ccc]"
+                  inputStyles="bg-[#0a0a0a] border border-[#222] text-[#e5e5e5] placeholder-[#666] focus:border-white focus:ring-1 focus:ring-white rounded-none font-noir-body"
+                  buttonShape="font-noir-body text-xs font-semibold uppercase tracking-[0.2em] rounded-none w-full transition-colors py-4"
+                />
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-5xl mt-20">
+            <div className="w-full h-80 border border-[#222] grayscale opacity-50 hover:opacity-80 transition-opacity bg-[#0a0a0a]">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
