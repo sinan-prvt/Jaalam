@@ -257,25 +257,35 @@ export default function ModernOtherTheme({ website, content }: any) {
                     )}
                   </div>
                   
-                  {/* Google Maps iframe if address exists */}
-                  <div className="mt-8 rounded-2xl overflow-hidden h-48 bg-white/10 relative">
-                     <iframe
-                        title="Google Maps"
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        style={{ border: 0 }}
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                        allowFullScreen
-                      ></iframe>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-2xl mt-16 relative z-20">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-gradient-to-r from-blue-600 to-indigo-600 !text-white font-modern font-semibold"
+              primaryColorHover="hover:shadow-lg hover:shadow-blue-600/30"
+              inputStyles="bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-modern rounded-xl"
+              buttonShape="rounded-full"
+            />
+          </div>
+
+          <div className="container mx-auto max-w-6xl mt-16">
+            <div className="rounded-3xl overflow-hidden h-[400px] bg-white/5 relative border border-white/10">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
