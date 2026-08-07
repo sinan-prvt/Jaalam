@@ -302,10 +302,10 @@ export default function ClassicFancyTheme({ website, content }: any) {
                       <div className="bg-white p-10 shadow-lg border border-[#E6DFD3]">
                         <ContactForm 
                           websiteId={website.id}
-                          primaryColor="bg-white text-black"
-                          primaryColorHover="hover:bg-zinc-300"
-                          inputStyles="bg-zinc-950 border border-zinc-900 text-white placeholder-zinc-700 focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 font-noir-body rounded-none"
-                          buttonShape="font-noir-display tracking-widest font-bold uppercase rounded-none w-full border border-white"
+                          primaryColor="bg-[#8C3A3A] text-white"
+                          primaryColorHover="hover:bg-[#6B5A4E]"
+                          inputStyles="bg-gray-50 border border-gray-300 text-black placeholder-gray-500 focus:border-[#8C3A3A] focus:ring-1 focus:ring-[#8C3A3A] rounded-none"
+                          buttonShape="tracking-widest font-bold uppercase rounded-none w-full"
                         />
                       </div>
                       <div className="w-full h-80 md:h-[450px] border-8 border-white shadow-xl relative">

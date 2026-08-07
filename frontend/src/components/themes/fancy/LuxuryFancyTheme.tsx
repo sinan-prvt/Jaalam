@@ -168,7 +168,14 @@ export default function LuxuryFancyTheme({ website, content }: any) {
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="mt-12 w-full z-20 relative">
+              <ContactForm 
+                websiteId={website.id} 
+                primaryColor="bg-black"
+                primaryColorHover="hover:bg-yellow-500 hover:text-black"
+                inputStyles="bg-gray-100 border-gray-300 text-black placeholder-gray-500 focus:border-yellow-500"
+              />
+            </div>
           </section>
       )}
 
