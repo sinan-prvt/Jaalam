@@ -81,6 +81,7 @@ import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
+import Chatbot from '../../components/shared/Chatbot';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
@@ -503,6 +504,8 @@ export default function PublicWebsite() {
     <>
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
+
+      <Chatbot content={content} />
 
       {upiId && (
         <>

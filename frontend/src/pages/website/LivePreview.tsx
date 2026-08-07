@@ -76,6 +76,7 @@ import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import Chatbot from '../../components/shared/Chatbot';
 
 import CustomCursor from '../../components/ui/CustomCursor';
 
@@ -113,8 +114,9 @@ function LivePreviewContent() {
     );
   }
 
-  // If this is a dynamic AI-generated site, use the new DynamicRenderer
-  if (data.content?.settings_json?.blocks) {
+  const renderTheme = () => {
+    // If this is a dynamic AI-generated site, use the new DynamicRenderer
+    if (data.content?.settings_json?.blocks) {
     return <DynamicRenderer website={data.website} content={data.content} />;
   }
 
@@ -273,6 +275,14 @@ function LivePreviewContent() {
         {JSON.stringify(data, null, 2)}
       </pre>
     </div>
+  );
+  };
+
+  return (
+    <>
+      {renderTheme()}
+      <Chatbot content={data.content} />
+    </>
   );
 }
 
