@@ -253,21 +253,29 @@ export default function NoirGroceryTheme({ website, content }: any) {
                 </div>
               )}
             </div>
-            {content.contact_info?.address && (
-              <div className="h-full min-h-[400px] border border-zinc-900">
-                <iframe
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" height="100%" style={{ border: 0, minHeight: '400px' }}
-                  allowFullScreen={false} loading="lazy"
-                  className="filter grayscale invert contrast-125 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
-                  title="Store Location"
-                />
-              </div>
-            )}
+            <div className="flex flex-col justify-center">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-white text-black"
+                primaryColorHover="hover:bg-zinc-200"
+                inputStyles="bg-[#0a0a0a] border border-zinc-800 text-zinc-300 placeholder-zinc-600 focus:border-white focus:ring-1 focus:ring-white font-body rounded-none"
+                buttonShape="font-body text-xs tracking-[0.3em] uppercase rounded-none w-full transition-colors py-4 border border-white"
+              />
+            </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          {content.contact_info?.address && (
+            <div className="max-w-6xl mx-auto mt-20 w-full h-80 border border-zinc-900 overflow-hidden">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%" height="100%" style={{ border: 0 }}
+                allowFullScreen={false} loading="lazy"
+                className="filter grayscale invert contrast-125 hover:grayscale-0 hover:invert-0 transition-all duration-1000 w-full h-full"
+                title="Store Location"
+              />
+            </div>
+          )}
+        </section>
       )}
 
       {/* Custom Blocks */}
