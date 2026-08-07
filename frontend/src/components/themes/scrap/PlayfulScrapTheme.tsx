@@ -232,18 +232,26 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                     </div>
                   </div>
 
-                  <div className="flex-grow rounded-2xl border-4 border-[#2B3A67] overflow-hidden min-h-[250px] relative transform -rotate-2">
-                    <iframe 
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353155041!3d-37.81720974202167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sin!4v1620800845348!5m2!1sen!2sin" 
-                      className="absolute inset-0 w-full h-full border-0"
-                      allowFullScreen
-                      loading="lazy"
-                    ></iframe>
+                  <div className="flex-grow bg-white rounded-3xl p-6 border-4 border-[#2B3A67] shadow-[6px_6px_0_#2B3A67] transform -rotate-2">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-[#4ECDC4] text-[#2B3A67]"
+                      primaryColorHover="hover:bg-[#45b7b0]"
+                      inputStyles="bg-[#FFF4E6] border-4 border-[#2B3A67] text-[#2B3A67] placeholder-[#2B3A67]/50 focus:border-[#FF9F1C] focus:ring-0 rounded-2xl font-body font-bold text-lg"
+                      buttonShape="font-fun text-2xl tracking-widest rounded-2xl w-full border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] hover:translate-y-1 hover:shadow-none transition-all"
+                    />
                   </div>
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="container mx-auto max-w-5xl mt-12 w-full h-80 rounded-[3rem] border-8 border-[#FF9F1C] overflow-hidden relative shadow-[12px_12px_0_#2B3A67] transform rotate-1">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
+                    className="absolute inset-0 w-full h-full border-0" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              )}
           </section>
         );
 

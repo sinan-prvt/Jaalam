@@ -270,20 +270,28 @@ export default function ModernScrapTheme({ website, content }: any) {
                          </div>
                       </div>
 
-                      <div className="flex-grow rounded-xl overflow-hidden min-h-[250px] relative">
-                        <iframe 
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353155041!3d-37.81720974202167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sin!4v1620800845348!5m2!1sen!2sin" 
-                          className="absolute inset-0 w-full h-full border-0"
-                          allowFullScreen
-                          loading="lazy"
-                        ></iframe>
+                      <div className="flex-grow bg-slate-50 rounded-xl p-6 border border-slate-100">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-emerald-600 text-white"
+                          primaryColorHover="hover:bg-emerald-700"
+                          inputStyles="bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl font-modern"
+                          buttonShape="font-modern font-bold rounded-xl w-full transition-colors shadow-lg shadow-emerald-600/20"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="mt-12 container mx-auto max-w-6xl w-full h-80 rounded-3xl overflow-hidden relative shadow-2xl">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
+                    className="absolute inset-0 w-full h-full border-0 filter grayscale" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              )}
           </section>
         );
 

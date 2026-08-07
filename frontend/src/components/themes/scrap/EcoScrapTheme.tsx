@@ -277,20 +277,28 @@ export default function EcoScrapTheme({ website, content }: any) {
                          </div>
                       </div>
 
-                      <div className="flex-grow rounded-xl overflow-hidden min-h-[250px] relative">
-                        <iframe 
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353155041!3d-37.81720974202167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sin!4v1620800845348!5m2!1sen!2sin" 
-                          className="absolute inset-0 w-full h-full border-0"
-                          allowFullScreen
-                          loading="lazy"
-                        ></iframe>
+                      <div className="flex-grow bg-[#F0F4F1] rounded-xl p-6 border border-[#D1E2D6]">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-[#4CAF50] text-white"
+                          primaryColorHover="hover:bg-[#388E3C]"
+                          inputStyles="bg-white border border-[#D1E2D6] text-[#1A2E24] placeholder-[#5D806B] focus:border-[#4CAF50] focus:ring-1 focus:ring-[#4CAF50] rounded-xl font-eco"
+                          buttonShape="font-eco font-bold rounded-xl w-full transition-colors shadow-sm"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="mt-12 container mx-auto max-w-5xl w-full h-80 rounded-[3rem] overflow-hidden relative shadow-lg">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
+                    className="absolute inset-0 w-full h-full border-0" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              )}
           </section>
         );
 

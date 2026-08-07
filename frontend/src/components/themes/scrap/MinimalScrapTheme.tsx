@@ -201,18 +201,26 @@ export default function MinimalScrapTheme({ website, content }: any) {
                      </div>
                   </div>
 
-                  <div className="flex-grow border-4 border-black overflow-hidden min-h-[250px] relative">
-                    <iframe 
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353155041!3d-37.81720974202167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sin!4v1620800845348!5m2!1sen!2sin" 
-                      className="absolute inset-0 w-full h-full border-0 grayscale"
-                      allowFullScreen
-                      loading="lazy"
-                    ></iframe>
+                  <div className="flex-grow bg-[#E5E5E5] p-6 border-4 border-black">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-black text-white"
+                      primaryColorHover="hover:bg-gray-800"
+                      inputStyles="bg-white border-2 border-black text-black placeholder-gray-400 focus:border-black focus:ring-0 rounded-none font-minimal text-xs uppercase"
+                      buttonShape="font-minimal text-sm font-bold uppercase tracking-widest border-4 border-black rounded-none w-full hover:bg-white hover:text-black transition-colors"
+                    />
                   </div>
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="mt-12 w-full h-80 border-4 border-black overflow-hidden relative">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
+                    className="absolute inset-0 w-full h-full border-0 filter grayscale" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              )}
           </section>
         );
 
