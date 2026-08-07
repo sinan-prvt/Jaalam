@@ -128,9 +128,9 @@ export default function Chatbot({ content }: ChatbotProps) {
         </div>
       )}
 
-      {/* Chat Window - Full screen on mobile, absolute floating on desktop */}
+      {/* Chat Window - Bottom sheet on mobile, absolute floating on desktop */}
       {isOpen && (
-        <div className="fixed inset-0 sm:inset-auto sm:bottom-8 sm:left-8 z-[99995] font-sans flex flex-col sm:w-96 sm:h-[600px] sm:max-h-[80vh] bg-white sm:rounded-3xl sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] sm:border sm:border-slate-200 overflow-hidden transition-all animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed bottom-0 left-0 right-0 sm:inset-auto sm:bottom-8 sm:left-8 z-[99995] font-sans flex flex-col sm:w-96 h-[85vh] sm:h-[600px] sm:max-h-[80vh] bg-white rounded-t-3xl sm:rounded-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.15)] sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] sm:border sm:border-slate-200 overflow-hidden transition-all animate-in fade-in slide-in-from-bottom-8 duration-300">
           
           {/* Header */}
           <div className="bg-slate-900 text-white p-4 sm:p-5 flex justify-between items-center shadow-sm z-10 shrink-0">
