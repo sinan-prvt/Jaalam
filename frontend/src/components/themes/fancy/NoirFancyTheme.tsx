@@ -294,7 +294,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                       <div className="flex flex-col gap-8">
                         <ContactForm 
                           websiteId={website.id}
-                          primaryColor="bg-white text-black"
+                          primaryColor="bg-white !text-black"
                           primaryColorHover="hover:bg-zinc-300"
                           inputStyles="bg-zinc-950 border border-zinc-900 text-white placeholder-zinc-700 focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 font-noir-body rounded-none"
                           buttonShape="font-noir-display tracking-widest font-bold uppercase rounded-none w-full border border-white"
