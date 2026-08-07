@@ -95,7 +95,7 @@ export default function NoirOtherTheme({ website, content }: any) {
                 </p>
               </div>
               <div className="w-full md:w-1/2 p-8 md:p-12 bg-[#111] border border-[#222]">
-                <img loading="lazy" src="https://images.unsplash.com/photo-1584984260275-01e4a3c10aeb?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto grayscale opacity-80" />
+                <img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto grayscale opacity-80" />
               </div>
             </div>
           </div>
@@ -243,9 +243,9 @@ export default function NoirOtherTheme({ website, content }: any) {
                 
                 <ContactForm 
                   websiteId={website.id}
-                  primaryColor="bg-white text-[#0a0a0a]"
-                  primaryColorHover="hover:bg-[#ccc]"
-                  inputStyles="bg-[#0a0a0a] border border-[#222] text-[#e5e5e5] placeholder-[#666] focus:border-white focus:ring-1 focus:ring-white rounded-none font-noir-body"
+                  primaryColor="bg-white !text-black mt-4 border border-white"
+                  primaryColorHover="hover:bg-[#ccc] hover:!text-black"
+                  inputStyles="bg-[#111] border border-[#333] text-white placeholder-[#666] focus:border-white focus:ring-1 focus:ring-white rounded-none font-noir-body"
                   buttonShape="font-noir-body text-xs font-semibold uppercase tracking-[0.2em] rounded-none w-full transition-colors py-4"
                 />
               </div>
