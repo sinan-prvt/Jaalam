@@ -271,26 +271,35 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                   </div>
                 </div>
                 
-                {/* Embedded Map */}
-                <div className="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-sm border border-gray-200 relative flex-1 min-h-[250px]">
-                  <iframe 
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                    width="100%" 
-                    height="100%" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={false} 
-                    loading="lazy" 
-                    title="Store Location"
-                    className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-                  ></iframe>
+                <div className="bg-gray-50 p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-[#0033A0] text-white"
+                    primaryColorHover="hover:bg-[#002277]"
+                    inputStyles="bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-[#0033A0] focus:ring-1 focus:ring-[#0033A0] rounded-md font-classic"
+                    buttonShape="font-classic font-bold rounded-md w-full transition-colors"
+                  />
                 </div>
               </div>
             </div>
             
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-4xl mt-12">
+            <div className="w-full h-80 rounded-2xl overflow-hidden shadow-sm border border-gray-200 relative">
+              <iframe 
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={false} 
+                loading="lazy" 
+                title="Store Location"
+                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
