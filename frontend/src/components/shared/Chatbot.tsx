@@ -64,7 +64,7 @@ export default function Chatbot({ content }: ChatbotProps) {
       if (content.about_text) return content.about_text;
       return "We are passionate professionals dedicated to delivering the best experience for our customers. Every detail is crafted with care!";
     }
-    if (lowerQuery.includes('social') || lowerQuery.includes('instagram') || lowerQuery.includes('facebook') || lowerQuery.includes('twitter')) {
+    if (lowerQuery.includes('social') || lowerQuery.includes('insta') || lowerQuery.includes('facebook') || lowerQuery.includes('fb') || lowerQuery.includes('twitter') || lowerQuery.includes('tweet')) {
       return "You can follow us on Instagram, Facebook, and Twitter to stay updated with our latest news and offerings! Links are in the footer.";
     }
     if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food') || lowerQuery.includes('dish')) {
