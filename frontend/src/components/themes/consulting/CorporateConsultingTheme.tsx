@@ -292,6 +292,16 @@ export default function CorporateConsultingTheme({ website, content }: any) {
                 )}
               </div>
             </div>
+            <div className="mt-16 w-full max-w-2xl mx-auto">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#C49A3C] text-[#0B1D3A]"
+                primaryColorHover="hover:bg-white"
+                inputStyles="bg-transparent border border-[#1E3A5F] text-white placeholder-gray-500 focus:border-[#C49A3C] focus:ring-1 focus:ring-[#C49A3C] font-sans-body rounded-none"
+                buttonShape="font-sans-body font-bold uppercase rounded-none w-full transition-colors py-4"
+              />
+            </div>
+
             <div className="mt-16 w-full h-[400px] bg-white p-2">
               <iframe
                 title="Office Location Map"
@@ -305,9 +315,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
