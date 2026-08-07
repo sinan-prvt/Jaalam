@@ -11,7 +11,7 @@ export default function LegalFirmTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   
-  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'services', 'about', 'menu', 'gallery', 'contact', 'custom'];
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Legal Firm';
 
@@ -265,7 +265,17 @@ export default function LegalFirmTheme({ website, content }: any) {
               </div>
             </div>
             
-            <div className="mt-16 w-full h-[400px] border-4 border-[#C4A962] p-1 bg-[#1B3D2E]">
+            <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#C4A962] !text-[#1B3D2E] mt-4 font-legal-body font-bold uppercase tracking-widest"
+                primaryColorHover="hover:bg-[#F5F0E8]"
+                inputStyles="bg-transparent border border-[#C4A962]/30 text-[#F5F0E8] placeholder-[#F5F0E8]/50 focus:border-[#C4A962] focus:ring-1 focus:ring-[#C4A962] font-legal-body rounded-none"
+                buttonShape="rounded-none"
+              />
+            </div>
+
+            <div className="mt-16 w-full h-[400px] border-4 border-[#C4A962] p-1 bg-[#1B3D2E] relative z-20">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Justice Avenue, Suite 500, Washington DC')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -278,9 +288,7 @@ export default function LegalFirmTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
