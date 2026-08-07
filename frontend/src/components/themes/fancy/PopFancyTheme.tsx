@@ -300,15 +300,6 @@ export default function PopFancyTheme({ website, content }: any) {
                           buttonShape="font-pop-display tracking-widest font-bold uppercase rounded-xl w-full"
                         />
                       </div>
-                      {content.contact_info?.address && (
-                        <div className="w-full aspect-video md:aspect-square rounded-3xl overflow-hidden relative shadow-inner border border-white/10">
-                          <iframe
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                            className="filter contrast-125"
-                          />
-                        </div>
-                      )}
                     </div>
                   </div>
           </section>
