@@ -11,7 +11,7 @@ export default function TechStartupTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   
-  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'services', 'about', 'menu', 'gallery', 'contact', 'custom'];
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Tech Startup';
 
@@ -304,6 +304,16 @@ export default function TechStartupTheme({ website, content }: any) {
               </div>
             </div>
             
+            <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#00D4FF] !text-[#0A0A0F] font-tech-title font-bold"
+                primaryColorHover="hover:bg-white hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]"
+                inputStyles="bg-[#0A0A0F] border border-white/10 text-white placeholder-gray-600 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] font-tech-body rounded-sm"
+                buttonShape="rounded-sm"
+              />
+            </div>
+
             <div className="mt-16 w-full h-[400px] border border-white/10 rounded-md p-1 bg-[#0A0A0F]">
               <iframe
                 title="Office Location Map"
@@ -317,9 +327,7 @@ export default function TechStartupTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
