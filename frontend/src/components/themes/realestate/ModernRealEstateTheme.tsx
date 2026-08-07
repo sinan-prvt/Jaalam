@@ -225,32 +225,42 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                 </div>
               </div>
               
-              <div className="bg-slate-800 p-8 rounded-3xl">
-                <div className="flex items-start gap-4 mb-10">
-                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
-                    <Clock size={24} />
+              <div className="bg-slate-800 p-8 rounded-3xl flex flex-col justify-center">
+                <div className="mb-10">
+                  <div className="flex items-start gap-4 mb-10">
+                    <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center shrink-0 text-emerald-500">
+                      <Clock size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm text-slate-400 font-semibold mb-1">Working Hours</h4>
+                      <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm text-slate-400 font-semibold mb-1">Working Hours</h4>
-                    <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
-                  </div>
+                  
+                  <h4 className="text-sm text-slate-400 font-semibold mb-4">Connect With Us</h4>
+                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
+                    <div className="flex gap-4">
+                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Facebook size={20} /></a>}
+                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Instagram size={20} /></a>}
+                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Twitter size={20} /></a>}
+                      {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Youtube size={20} /></a>}
+                    </div>
+                  ) : (
+                    <p className="text-slate-400 text-sm">Social media links will appear here once added in the editor.</p>
+                  )}
                 </div>
                 
-                <h4 className="text-sm text-slate-400 font-semibold mb-4">Connect With Us</h4>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
-                  <div className="flex gap-4">
-                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Facebook size={20} /></a>}
-                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Instagram size={20} /></a>}
-                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Twitter size={20} /></a>}
-                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-colors text-slate-300"><Youtube size={20} /></a>}
-                  </div>
-                ) : (
-                  <p className="text-slate-400 text-sm">Social media links will appear here once added in the editor.</p>
-                )}
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-emerald-500 text-white"
+                  primaryColorHover="hover:bg-emerald-600"
+                  inputStyles="bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-modern rounded-xl"
+                  buttonShape="font-modern font-semibold rounded-xl w-full transition-colors py-3 shadow-sm hover:shadow"
+                />
               </div>
             </div>
             
-            <div className="mt-12 w-full h-[400px] rounded-3xl overflow-hidden bg-slate-800">
+            <div className="mt-16 w-full h-[400px] rounded-3xl overflow-hidden bg-slate-800 shadow-xl">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Tech Hub, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -263,9 +273,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
