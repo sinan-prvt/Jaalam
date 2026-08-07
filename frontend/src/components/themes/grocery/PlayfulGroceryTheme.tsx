@@ -245,25 +245,34 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                   </ul>
                 </div>
 
-                {/* Embedded Map */}
-                <div className="bg-white p-2 rounded-3xl border-4 border-[#FF4081] shadow-[4px_4px_0_#FFB300] flex-1 min-h-[250px]">
-                  <iframe
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, borderRadius: '1rem' }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    title="Store Location"
-                    className="min-h-[250px]"
-                  ></iframe>
+                <div className="bg-white p-6 md:p-8 rounded-3xl border-4 border-[#FF4081] shadow-[4px_4px_0_#FFB300]">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-[#FF4081] text-white"
+                    primaryColorHover="hover:bg-[#F50057]"
+                    inputStyles="bg-[#E0F7FA] border-2 border-[#00ACC1] text-[#006064] placeholder-[#00ACC1]/60 focus:border-[#FFB300] focus:ring-4 focus:ring-[#FFB300]/30 rounded-2xl font-body font-bold"
+                    buttonShape="font-fun text-xl rounded-full w-full transition-all border-4 border-[#00ACC1] shadow-[4px_4px_0_#00ACC1] active:translate-y-2 active:shadow-none py-3"
+                  />
                 </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-4xl mt-12">
+            <div className="w-full h-80 rounded-3xl overflow-hidden border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1] bg-white p-2 relative">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '1rem' }}
+                allowFullScreen={false}
+                loading="lazy"
+                title="Store Location"
+                className="absolute inset-0 w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
