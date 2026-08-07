@@ -58,7 +58,7 @@ export default function Chatbot({ content }: ChatbotProps) {
     if (lowerQuery.includes('about') || lowerQuery.includes('who are you') || lowerQuery.includes('story')) {
       if (content.about_text) return content.about_text;
     }
-    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu')) {
+    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food')) {
       if (content.products_json && content.products_json.length > 0) {
         const itemNames = content.products_json.map((p: any) => p.name || p.title).filter(Boolean).join(', ');
         return `We have various offerings including: ${itemNames}.`;
@@ -96,37 +96,37 @@ export default function Chatbot({ content }: ChatbotProps) {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-[99990] flex flex-col items-start font-sans">
+    <div className="fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-[99990] font-sans flex flex-col items-start pointer-events-none">
       {/* Chat Window */}
       {isOpen && (
-        <div className="bg-white w-80 sm:w-96 rounded-2xl shadow-2xl border border-gray-200 mb-4 overflow-hidden flex flex-col h-[500px] max-h-[80vh] transition-all animate-in fade-in slide-in-from-bottom-4">
+        <div className="pointer-events-auto fixed sm:absolute bottom-0 sm:bottom-20 left-0 sm:left-0 w-full sm:w-96 h-[80vh] sm:h-[550px] max-h-[80vh] bg-white/90 backdrop-blur-xl sm:rounded-3xl rounded-t-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-white/40 overflow-hidden flex flex-col transition-all animate-in fade-in slide-in-from-bottom-4">
           {/* Header */}
-          <div className="bg-slate-900 text-white p-4 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <div className="bg-white/20 p-2 rounded-full">
-                <Bot size={20} />
+          <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 flex justify-between items-center shadow-md z-10">
+            <div className="flex items-center gap-3">
+              <div className="bg-white/20 p-2.5 rounded-2xl shadow-inner backdrop-blur-sm">
+                <Bot size={22} className="drop-shadow-sm" />
               </div>
               <div>
-                <h3 className="font-bold text-sm leading-tight">AI Assistant</h3>
-                <p className="text-xs text-slate-300">Typically replies instantly</p>
+                <h3 className="font-bold text-base leading-tight tracking-wide">AI Assistant</h3>
+                <p className="text-xs text-slate-300 font-medium">Typically replies instantly</p>
               </div>
             </div>
             <button 
               onClick={() => setIsOpen(false)}
-              className="text-slate-300 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors"
+              className="text-slate-300 hover:text-white hover:bg-white/10 p-2.5 rounded-full transition-colors"
             >
-              <X size={20} />
+              <X size={22} />
             </button>
           </div>
 
           {/* Message History */}
-          <div className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-4">
+          <div className="flex-1 overflow-y-auto p-5 bg-slate-50/50 space-y-5">
             {messages.map(msg => (
               <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === 'user' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-200 text-slate-700'}`}>
-                  {msg.sender === 'user' ? <User size={16} /> : <Bot size={16} />}
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.sender === 'user' ? 'bg-indigo-100 text-indigo-700' : 'bg-white border border-slate-200 text-slate-700'}`}>
+                  {msg.sender === 'user' ? <User size={18} /> : <Bot size={18} />}
                 </div>
-                <div className={`p-3 rounded-2xl max-w-[75%] text-sm ${msg.sender === 'user' ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-gray-100 text-slate-800 rounded-tl-none shadow-sm'}`}>
+                <div className={`p-3.5 rounded-2xl max-w-[78%] text-[15px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-slate-100 text-slate-800 rounded-tl-none'}`}>
                   {msg.text}
                 </div>
               </div>
@@ -134,35 +134,35 @@ export default function Chatbot({ content }: ChatbotProps) {
             
             {isTyping && (
               <div className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
-                  <Bot size={16} />
+                <div className="w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-700 flex items-center justify-center shrink-0 shadow-sm">
+                  <Bot size={18} />
                 </div>
-                <div className="p-4 rounded-2xl bg-white border border-gray-100 rounded-tl-none shadow-sm flex gap-1 items-center">
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-100 rounded-tl-none shadow-sm flex gap-1.5 items-center">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                 </div>
               </div>
             )}
-            <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} className="h-2" />
           </div>
 
           {/* Input Area */}
-          <div className="p-4 bg-white border-t border-gray-100">
+          <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 z-10">
             <form onSubmit={handleSendMessage} className="flex gap-2">
               <input 
                 type="text" 
                 placeholder="Ask me anything..." 
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1 bg-slate-100 text-sm text-slate-900 px-4 py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 border border-transparent transition-all"
+                className="flex-1 bg-slate-100/80 hover:bg-slate-100 text-[15px] text-slate-900 px-5 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/50 border border-transparent transition-all"
               />
               <button 
                 type="submit" 
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white p-2.5 rounded-full transition-colors shrink-0 flex items-center justify-center"
+                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white p-3.5 rounded-full transition-colors shrink-0 flex items-center justify-center shadow-md shadow-indigo-600/20"
               >
-                <Send size={18} className="ml-1" />
+                <Send size={20} className="ml-0.5" />
               </button>
             </form>
           </div>
@@ -173,10 +173,10 @@ export default function Chatbot({ content }: ChatbotProps) {
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
-          className="bg-slate-900 hover:bg-slate-800 text-white p-4 rounded-full shadow-2xl shadow-slate-900/30 transition-transform hover:scale-110 active:scale-95 flex items-center justify-center"
+          className="pointer-events-auto bg-slate-900 hover:bg-slate-800 text-white p-4 sm:p-5 rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] transition-transform hover:scale-110 active:scale-95 flex items-center justify-center group"
           aria-label="Open Chat"
         >
-          <MessageCircle size={28} />
+          <MessageCircle size={28} className="group-hover:rotate-12 transition-transform duration-300" />
         </button>
       )}
     </div>
