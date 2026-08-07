@@ -256,7 +256,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
             <div className="flex flex-col justify-center">
               <ContactForm 
                 websiteId={website.id}
-                primaryColor="bg-white text-black"
+                primaryColor="bg-white !text-black"
                 primaryColorHover="hover:bg-zinc-200"
                 inputStyles="bg-[#0a0a0a] border border-zinc-800 text-zinc-300 placeholder-zinc-600 focus:border-white focus:ring-1 focus:ring-white font-body rounded-none"
                 buttonShape="font-body text-xs tracking-[0.3em] uppercase rounded-none w-full transition-colors py-4 border border-white"
