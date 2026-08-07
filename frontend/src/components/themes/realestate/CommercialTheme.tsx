@@ -239,6 +239,16 @@ export default function CommercialTheme({ website, content }: any) {
               </div>
             )}
             
+            <div className="mt-12 w-full bg-white border-t-4 border-[#004B87] shadow-lg p-8 md:p-12">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#004B87] text-white"
+                primaryColorHover="hover:bg-[#003366]"
+                inputStyles="bg-[#F8F9FA] border border-[#DEE2E6] text-[#212529] placeholder-[#6C757D] focus:border-[#004B87] focus:ring-1 focus:ring-[#004B87] font-body rounded-none"
+                buttonShape="font-corp font-bold uppercase rounded-none w-full transition-colors py-4"
+              />
+            </div>
+
             <div className="mt-12 w-full h-[400px] border-t-4 border-[#004B87] shadow-lg bg-white overflow-hidden">
               <iframe
                 title="Corporate Office Map"
@@ -252,9 +262,7 @@ export default function CommercialTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
