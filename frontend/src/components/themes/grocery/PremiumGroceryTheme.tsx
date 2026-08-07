@@ -260,26 +260,35 @@ export default function PremiumGroceryTheme({ website, content }: any) {
                   </ul>
                 </div>
 
-                {/* Embedded Map */}
-                <div className="w-full rounded-none overflow-hidden border border-[#C9A66B]/20 relative flex-1 min-h-[250px]">
-                  <iframe
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    title="Store Location"
-                    className="absolute inset-0 grayscale contrast-125 opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-                  ></iframe>
+                <div className="bg-[#0A0A0A] p-6 md:p-8 border border-[#C9A66B]/20 rounded-none">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-[#C9A66B] text-[#111111]"
+                    primaryColorHover="hover:bg-white hover:text-[#111111]"
+                    inputStyles="bg-[#111111] border border-[#C9A66B]/30 text-white placeholder-gray-500 focus:border-[#C9A66B] focus:ring-1 focus:ring-[#C9A66B] rounded-none font-body text-sm uppercase tracking-wider"
+                    buttonShape="font-body font-bold rounded-none w-full transition-colors uppercase tracking-widest text-xs py-4"
+                  />
                 </div>
               </div>
             </div>
 
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-4xl mt-12">
+            <div className="w-full h-80 rounded-none overflow-hidden border border-[#C9A66B]/20 relative">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                title="Store Location"
+                className="absolute inset-0 grayscale contrast-125 opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
