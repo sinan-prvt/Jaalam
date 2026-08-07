@@ -257,15 +257,23 @@ export default function ModernMeatTheme({ website, content }: any) {
                   </div>
                 </div>
                 
-                <div className="md:w-1/2 bg-slate-200 min-h-[300px] relative">
-                  <iframe 
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, NY')}&output=embed`}
-                    className="absolute inset-0 w-full h-full border-0" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                <div className="md:w-1/2 bg-white p-8 border border-slate-100 shadow-sm rounded-2xl">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-red-600 text-white"
+                    primaryColorHover="hover:bg-red-700"
+                    inputStyles="bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl font-modern"
+                    buttonShape="font-modern font-bold rounded-xl w-full"
+                  />
                 </div>
               </div>
             
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="mt-12 w-full h-[400px] bg-slate-200 rounded-3xl overflow-hidden relative shadow-inner">
+              <iframe 
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, NY')}&output=embed`}
+                className="absolute inset-0 w-full h-full border-0 filter grayscale" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
           </section>
         );
 

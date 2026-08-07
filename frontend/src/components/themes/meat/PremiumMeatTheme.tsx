@@ -265,9 +265,18 @@ export default function PremiumMeatTheme({ website, content }: any) {
                       )}
                     </div>
                   </div>
+                  <div className="border border-[#1A1A1A] p-8 bg-[#0D0D0D]">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-[#D4AF37] text-black"
+                      primaryColorHover="hover:bg-[#FFF3B0]"
+                      inputStyles="bg-[#111] border border-[#1A1A1A] text-white placeholder-gray-600 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] rounded-none font-body"
+                      buttonShape="font-body tracking-[0.2em] font-bold uppercase rounded-none w-full"
+                    />
+                  </div>
                   {content.contact_info?.address && (
-                    <div className="border border-[#1A1A1A] p-4 bg-[#0D0D0D]">
-                      <div className="w-full aspect-square border border-[#1A1A1A]">
+                    <div className="border border-[#1A1A1A] p-4 bg-[#0D0D0D] mt-12 w-full">
+                      <div className="w-full aspect-video border border-[#1A1A1A]">
                         <iframe 
                           src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
                           width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
@@ -278,8 +287,6 @@ export default function PremiumMeatTheme({ website, content }: any) {
                   )}
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
           </section>
         );
 
