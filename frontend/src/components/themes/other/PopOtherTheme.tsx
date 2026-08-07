@@ -246,22 +246,34 @@ export default function PopOtherTheme({ website, content }: any) {
                 </div>
               </div>
               
-              <div className="h-full min-h-[300px] border-l-4 border-[#2D3748]">
-                 <iframe
-                    title="Google Maps"
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    style={{ border: 0 }}
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                    allowFullScreen
-                  ></iframe>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-2xl mt-16 relative z-20">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-[#FFD700] text-[#2D3748] mt-4 font-pop-title font-bold text-xl rounded-full border-4 border-[#2D3748] shadow-[8px_8px_0px_0px_rgba(45,55,72,1)]"
+              primaryColorHover="hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(45,55,72,1)]"
+              inputStyles="bg-white border-4 border-[#2D3748] shadow-[6px_6px_0px_0px_rgba(45,55,72,1)] text-[#2D3748] placeholder-gray-400 focus:border-[#FF4D4D] focus:ring-0 font-pop-body rounded-2xl"
+              buttonShape="rounded-full w-full transition-all py-4"
+            />
+          </div>
+
+          <div className="container mx-auto max-w-5xl mt-16">
+            <div className="h-[400px] rounded-3xl overflow-hidden border-8 border-white shadow-[12px_12px_0px_0px_rgba(45,55,72,1)] bg-white relative z-20">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}

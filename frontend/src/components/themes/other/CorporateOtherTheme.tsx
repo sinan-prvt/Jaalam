@@ -267,23 +267,35 @@ export default function CorporateOtherTheme({ website, content }: any) {
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                      </a>
                  </div>
-                 <div className="h-48 w-full relative">
-                   <iframe
-                      title="Google Maps"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                      allowFullScreen
-                    ></iframe>
                  </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-2xl mt-16 relative z-20">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-[#0056b3] text-white mt-4 font-corp-body font-bold rounded"
+              primaryColorHover="hover:bg-[#004494]"
+              inputStyles="bg-white border border-gray-300 text-[#333333] placeholder-gray-400 focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3] font-corp-body rounded"
+              buttonShape="rounded w-full transition-colors py-3"
+            />
+          </div>
+
+          <div className="container mx-auto max-w-5xl mt-16">
+            <div className="h-[400px] w-full rounded-lg overflow-hidden shadow-xl border border-gray-200 relative z-20">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
