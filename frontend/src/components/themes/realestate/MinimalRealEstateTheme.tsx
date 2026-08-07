@@ -231,7 +231,17 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
               </div>
             )}
             
-            <div className="mt-16 w-full h-[400px] border border-black overflow-hidden filter grayscale hover:grayscale-0 transition-all duration-1000">
+            <div className="mt-16 max-w-2xl mx-auto">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-black text-white"
+                primaryColorHover="hover:bg-gray-800"
+                inputStyles="bg-transparent border-b border-black/20 text-black placeholder-gray-400 focus:border-black font-min rounded-none px-0"
+                buttonShape="font-min font-medium tracking-widest uppercase rounded-none w-full transition-colors py-4 border border-black"
+              />
+            </div>
+
+            <div className="mt-24 w-full h-[400px] border border-black overflow-hidden filter grayscale hover:grayscale-0 transition-all duration-1000">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Design Park, Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -244,9 +254,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
