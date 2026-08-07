@@ -263,6 +263,16 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
               </div>
             </div>
             
+            <div className="mt-12 w-full bg-[#FDFBF7] border border-[#EAE3D2] p-8 md:p-12 shadow-sm">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#1A252C] text-white"
+                primaryColorHover="hover:bg-[#2C3E50]"
+                inputStyles="bg-white border border-[#EAE3D2] text-[#1A252C] placeholder-[#8B9DAE] focus:border-[#1A252C] focus:ring-1 focus:ring-[#1A252C] font-body rounded-none"
+                buttonShape="font-body font-bold uppercase rounded-none w-full transition-colors py-4 shadow-sm"
+              />
+            </div>
+
             <div className="mt-16 w-full h-[400px] border border-[#EAE3D2] p-2 bg-white shadow-sm">
               <iframe
                 title="Office Location Map"
@@ -276,9 +286,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
