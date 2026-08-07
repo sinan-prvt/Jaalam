@@ -215,24 +215,34 @@ export default function MinimalGroceryTheme({ website, content }: any) {
                 </div>
               </div>
 
-              <div className="bg-black/5 p-3 rounded-xl h-full min-h-[350px]">
-                <iframe 
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0, borderRadius: '0.5rem' }} 
-                  allowFullScreen={false} 
-                  loading="lazy" 
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Store Location"
-                  className="min-h-[350px]"
-                ></iframe>
+              <div className="bg-black/5 p-6 md:p-8 rounded-xl h-full">
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-black text-white"
+                  primaryColorHover="hover:bg-gray-800 hover:text-white"
+                  inputStyles="bg-white border border-gray-200 text-black placeholder-gray-400 focus:border-black focus:ring-1 focus:ring-black rounded-lg font-min"
+                  buttonShape="font-min font-bold rounded-lg w-full transition-colors"
+                />
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-5xl mt-12">
+            <div className="w-full h-80 rounded-2xl overflow-hidden border border-gray-200 shadow-sm relative">
+              <iframe 
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={false} 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Store Location"
+                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Dynamic Custom Section */}
