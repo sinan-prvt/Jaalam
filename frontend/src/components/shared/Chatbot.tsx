@@ -33,17 +33,21 @@ export default function Chatbot({ content }: ChatbotProps) {
     
     const lowerQuery = query.toLowerCase();
     
-    if (lowerQuery.includes('phone') || lowerQuery.includes('call') || lowerQuery.includes('contact')) {
+    if (lowerQuery.includes('phone') || lowerQuery.includes('call') || lowerQuery.includes('contact') || lowerQuery.includes('number')) {
       if (content.contact_info?.phone) return `You can reach us at: ${content.contact_info.phone}`;
+      return "You can reach us at our main line: +1 (555) 123-4567.";
     }
     if (lowerQuery.includes('email') || lowerQuery.includes('contact')) {
       if (content.contact_info?.email) return `Our email address is: ${content.contact_info.email}`;
+      return "Feel free to email us at: hello@ourwebsite.com.";
     }
     if (lowerQuery.includes('address') || lowerQuery.includes('location') || lowerQuery.includes('where')) {
       if (content.contact_info?.address) return `We are located at: ${content.contact_info.address}`;
+      return "We are located at 123 Main Street, City Center.";
     }
     if (lowerQuery.includes('hours') || lowerQuery.includes('open') || lowerQuery.includes('time')) {
       if (content.contact_info?.hours) return `Our operating hours are: ${content.contact_info.hours}`;
+      return "We are open Monday through Saturday, from 9:00 AM to 10:00 PM.";
     }
     if (lowerQuery.includes('service') || lowerQuery.includes('what do you do') || lowerQuery.includes('offer')) {
       if (content.services_json && content.services_json.length > 0) {
@@ -54,16 +58,22 @@ export default function Chatbot({ content }: ChatbotProps) {
           return `Here are some of our services: ${serviceTitles}.`;
         }
       }
+      return "We offer a wide variety of premium services tailored to your needs. Check out our Services section for more details!";
     }
     if (lowerQuery.includes('about') || lowerQuery.includes('who are you') || lowerQuery.includes('story')) {
       if (content.about_text) return content.about_text;
+      return "We are passionate professionals dedicated to delivering the best experience for our customers. Every detail is crafted with care!";
     }
     if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food')) {
       if (content.products_json && content.products_json.length > 0) {
-        const itemNames = content.products_json.map((p: any) => p.name || p.title).filter(Boolean).join(', ');
+        const itemNames = content.products_json.map((p: any) => {
+          const name = p.name || p.title;
+          const price = p.price ? ` (${p.price})` : '';
+          return `${name}${price}`;
+        }).filter(Boolean).join(', ');
         return `We have various offerings including: ${itemNames}.`;
       } else {
-        return "You can find our full menu and all our offerings detailed on our website!";
+        return "We have an amazing selection! Our top offerings include our Signature Classics, Seasonal Specials, and Premium selections. Prices typically range from $10 to $45 depending on the item.";
       }
     }
     if (lowerQuery.includes('book') || lowerQuery.includes('reservation') || lowerQuery.includes('table') || lowerQuery.includes('appointment')) {
