@@ -245,11 +245,8 @@ export default function PopOtherTheme({ website, content }: any) {
                    </div>
                 </div>
               </div>
-              
-              </div>
             </div>
           </div>
-        
           <div className="container mx-auto max-w-2xl mt-16 relative z-20">
             <ContactForm 
               websiteId={website.id}
