@@ -309,25 +309,35 @@ export default function ModernGroceryTheme({ website, content }: any) {
               </div>
             </div>
 
-            <div className="flex-1 min-h-[300px]">
-              <div className="w-full h-full rounded-2xl overflow-hidden border-4 border-white shadow-md relative">
-                <iframe 
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen={false} 
-                  loading="lazy" 
-                  title="Store Location"
-                  className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-                ></iframe>
+            <div className="flex-1">
+              <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-emerald-100">
+                <ContactForm 
+                  websiteId={website.id}
+                  primaryColor="bg-emerald-600 text-white"
+                  primaryColorHover="hover:bg-emerald-700"
+                  inputStyles="bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-lg font-modern"
+                  buttonShape="font-modern font-bold rounded-lg w-full transition-colors"
+                />
               </div>
             </div>
           </div>
         </div>
-      
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+
+        <div className="container mx-auto max-w-4xl mt-12">
+          <div className="w-full h-80 rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative">
+            <iframe 
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              title="Store Location"
+              className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+            ></iframe>
+          </div>
+        </div>
+      </section>
 
       {/* Custom Blocks Section */}
       {content.custom_blocks_json && content.custom_blocks_json.length > 0 && (
