@@ -181,7 +181,24 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="mt-12 bg-white rounded-3xl p-8 border-4 border-purple-200 shadow-xl max-w-2xl mx-auto mb-12 relative z-20">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-pink-500 text-white"
+                primaryColorHover="hover:bg-pink-400"
+                inputStyles="bg-purple-50 border-2 border-purple-100 text-purple-900 placeholder-purple-300 focus:border-pink-400 focus:ring-0 rounded-xl"
+                buttonShape="font-playful font-bold text-xl rounded-full w-full shadow-[0_4px_0_#d81b60] active:translate-y-1 active:shadow-none transition-all"
+              />
+            </div>
+
+            {content.contact_info?.address && (
+              <div className="w-full max-w-4xl mx-auto h-64 md:h-80 rounded-3xl overflow-hidden border-4 border-pink-200 shadow-lg relative z-20">
+                <iframe
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                />
+              </div>
+            )}
           </section>
       )}
 

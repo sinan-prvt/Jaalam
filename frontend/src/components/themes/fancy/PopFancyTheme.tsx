@@ -290,18 +290,27 @@ export default function PopFancyTheme({ website, content }: any) {
                       )}
                     </div>
 
-                    {content.contact_info?.address && (
-                      <div className="w-full lg:w-5/12 aspect-square rounded-3xl overflow-hidden relative shadow-inner z-10 border border-white/10">
-                        <iframe
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                          className="filter contrast-125"
+                    <div className="w-full lg:w-5/12 flex flex-col gap-10 relative z-10">
+                      <div className="bg-slate-800/50 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/5 shadow-xl">
+                        <ContactForm 
+                          websiteId={website.id}
+                          primaryColor="bg-fuchsia-500 text-white"
+                          primaryColorHover="hover:bg-fuchsia-600"
+                          inputStyles="bg-slate-900/50 border border-slate-700 text-white placeholder-slate-400 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-xl font-pop-body"
+                          buttonShape="font-pop-display tracking-widest font-bold uppercase rounded-xl w-full"
                         />
                       </div>
-                    )}
+                      {content.contact_info?.address && (
+                        <div className="w-full aspect-video md:aspect-square rounded-3xl overflow-hidden relative shadow-inner border border-white/10">
+                          <iframe
+                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                            className="filter contrast-125"
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
           </section>
         );
 

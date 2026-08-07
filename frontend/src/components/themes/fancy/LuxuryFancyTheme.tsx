@@ -176,6 +176,16 @@ export default function LuxuryFancyTheme({ website, content }: any) {
                 inputStyles="bg-gray-100 border-gray-300 text-black placeholder-gray-500 focus:border-yellow-500"
               />
             </div>
+
+            {content.contact_info?.address && (
+              <div className="mt-12 w-full max-w-4xl mx-auto h-80 rounded-2xl overflow-hidden relative shadow-sm border border-black/5 z-20">
+                <iframe
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                  className="filter grayscale"
+                />
+              </div>
+            )}
           </section>
       )}
 

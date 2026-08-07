@@ -199,9 +199,29 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
              </div>
           </div>
         </div>
-      
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </footer>
+
+        <div className="container mx-auto max-w-4xl mt-20">
+            <div className="bg-[#FAF7F2] p-10 border border-[#E8E1D5] shadow-sm mb-12">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#8C2323] text-white"
+                primaryColorHover="hover:bg-[#6b1a1a]"
+                inputStyles="bg-white border border-[#E8E1D5] text-[#2C1E16] placeholder-[#8c7b70] focus:border-[#8C2323] focus:ring-1 focus:ring-[#8C2323] rounded-none font-body"
+                buttonShape="font-body text-xs tracking-widest font-bold uppercase rounded-none w-full"
+              />
+            </div>
+
+            {content.contact_info?.address && (
+              <div className="w-full h-80 border border-[#E8E1D5] relative">
+                <iframe
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                  className="filter grayscale contrast-125"
+                />
+              </div>
+            )}
+         </div>
+      </footer>
     
       
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
