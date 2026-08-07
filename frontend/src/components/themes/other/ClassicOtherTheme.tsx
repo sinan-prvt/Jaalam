@@ -245,24 +245,34 @@ export default function ClassicOtherTheme({ website, content }: any) {
                   {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><WhatsApp size={18} /></a>}
                 </div>
                 
-                {/* Google Maps iframe */}
-                <div className="h-64 bg-[#1A1A1A] border border-[#555]">
-                   <iframe
-                      title="Google Maps"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                      allowFullScreen
-                    ></iframe>
-                </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-2xl mt-16 relative z-20">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-[#8C1C13] !text-[#F9F7F1] mt-4 font-classic-body font-bold uppercase tracking-widest border border-[#8C1C13]"
+              primaryColorHover="hover:bg-transparent hover:!text-[#8C1C13]"
+              inputStyles="bg-transparent border border-[#E8E1D5]/30 text-[#F9F7F1] placeholder-[#F9F7F1]/50 focus:border-[#F9F7F1] focus:ring-1 focus:ring-[#F9F7F1] font-classic-body rounded-none"
+              buttonShape="rounded-none"
+            />
+          </div>
+
+          <div className="container mx-auto max-w-5xl mt-16">
+            <div className="h-[400px] bg-[#1A1A1A] border border-[#555] relative z-20">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
