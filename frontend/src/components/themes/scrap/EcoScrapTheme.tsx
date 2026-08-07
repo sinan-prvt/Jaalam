@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock, Shield, RefreshCw } from 'lucide-react';
+import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock, Shield, RefreshCw, Menu } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
@@ -10,6 +10,7 @@ export default function EcoScrapTheme({ website, content }: any) {
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'EcoCycle Solutions';
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
@@ -48,21 +49,37 @@ export default function EcoScrapTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-[#D1E2D6]">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2 text-[#4CAF50]">
-            {content.settings_json?.logo_image || website.logo_url ? (
-              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
-            ) : (
-              <Leaf size={28} />
-            )}
-            <span className="font-eco text-2xl font-extrabold tracking-tight text-[#2C4A3B]">{siteName}</span>
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2 text-[#4CAF50]">
+              {content.settings_json?.logo_image || website.logo_url ? (
+                <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
+              ) : (
+                <Leaf size={28} />
+              )}
+              <span className="font-eco text-2xl font-extrabold tracking-tight text-[#2C4A3B]">{siteName}</span>
+            </div>
+            
+            <button className="md:hidden text-[#4CAF50]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            <nav className="hidden md:flex gap-8 font-eco font-semibold text-sm text-[#5D806B]">
+              <a href="#about" className="hover:text-[#4CAF50] transition-colors">About</a>
+              <a href="#services" className="hover:text-[#4CAF50] transition-colors">Services</a>
+              <a href="#products" className="hover:text-[#4CAF50] transition-colors">Materials</a>
+              <a href="#contact" className="hover:text-[#4CAF50] transition-colors">Contact</a>
+            </nav>
           </div>
-          <nav className="hidden md:flex gap-8 font-eco font-semibold text-sm text-[#5D806B]">
-            <a href="#about" className="hover:text-[#4CAF50] transition-colors">About</a>
-            <a href="#services" className="hover:text-[#4CAF50] transition-colors">Services</a>
-            <a href="#products" className="hover:text-[#4CAF50] transition-colors">Materials</a>
-            <a href="#contact" className="hover:text-[#4CAF50] transition-colors">Contact</a>
-          </nav>
+          
+          {isMobileMenuOpen && (
+            <nav className="md:hidden flex flex-col gap-4 font-eco font-semibold text-sm text-[#5D806B] mt-4 pt-4 border-t border-[#D1E2D6]">
+              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4CAF50] transition-colors block py-2">About</a>
+              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4CAF50] transition-colors block py-2">Services</a>
+              <a href="#products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4CAF50] transition-colors block py-2">Materials</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4CAF50] transition-colors block py-2">Contact</a>
+            </nav>
+          )}
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Recycle, ArrowRight, MapPin, Mail, Phone, Scale, DollarSign, Truck, X, Clock } from 'lucide-react';
+import { Recycle, ArrowRight, MapPin, Mail, Phone, Scale, DollarSign, Truck, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
@@ -10,6 +10,7 @@ export default function ModernScrapTheme({ website, content }: any) {
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'GreenTech Recycling';
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.' },
@@ -48,25 +49,43 @@ export default function ModernScrapTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            {content.settings_json?.logo_image || website.logo_url ? (
-              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 w-10 object-contain" />
-            ) : (
-              <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
-                <Recycle size={24} />
-              </div>
-            )}
-            <span className="font-modern text-2xl font-extrabold text-slate-900 tracking-tight">{siteName}</span>
-          </div>
-          <div className="hidden md:flex items-center gap-8 font-modern font-semibold text-sm text-slate-600">
-            <a href="#services" className="hover:text-emerald-600 transition-colors">Services</a>
-            <a href="#products" className="hover:text-emerald-600 transition-colors">Materials</a>
-            <a href="#contact" className="hover:text-emerald-600 transition-colors">Contact</a>
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-full transition-colors shadow-lg shadow-emerald-600/20">
-              Request Pickup
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              {content.settings_json?.logo_image || website.logo_url ? (
+                <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 w-10 object-contain" />
+              ) : (
+                <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+                  <Recycle size={24} />
+                </div>
+              )}
+              <span className="font-modern text-2xl font-extrabold text-slate-900 tracking-tight">{siteName}</span>
+            </div>
+            
+            <button className="md:hidden text-slate-500 hover:text-emerald-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
+
+            <div className="hidden md:flex items-center gap-8 font-modern font-semibold text-sm text-slate-600">
+              <a href="#services" className="hover:text-emerald-600 transition-colors">Services</a>
+              <a href="#products" className="hover:text-emerald-600 transition-colors">Materials</a>
+              <a href="#contact" className="hover:text-emerald-600 transition-colors">Contact</a>
+              <a href="#contact" className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-full transition-colors shadow-lg shadow-emerald-600/20 inline-block text-center">
+                Request Pickup
+              </a>
+            </div>
           </div>
+          
+          {isMobileMenuOpen && (
+            <div className="md:hidden flex flex-col gap-4 font-modern font-semibold text-sm text-slate-600 mt-4 pt-4 border-t border-slate-100">
+              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-600 transition-colors block py-2">Services</a>
+              <a href="#products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-600 transition-colors block py-2">Materials</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-emerald-600 transition-colors block py-2">Contact</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-full transition-colors shadow-lg shadow-emerald-600/20 inline-block text-center mt-2">
+                Request Pickup
+              </a>
+            </div>
+          )}
         </div>
       </header>
 

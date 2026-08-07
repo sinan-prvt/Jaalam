@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { X, Clock } from 'lucide-react';
+import { X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
@@ -10,6 +10,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'SCRAP.';
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'COPPER SCRAP', price: '₹500 – ₹800/KG', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
@@ -48,18 +49,32 @@ export default function MinimalScrapTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="p-6 md:p-12 border-b-4 border-black flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white">
-        <div className="flex items-end gap-4">
-          {content.settings_json?.logo_image || website.logo_url ? (
-            <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
-          ) : null}
-          <span className="font-bold text-4xl">{siteName}</span>
+        <div className="flex w-full md:w-auto justify-between items-end gap-4">
+          <div className="flex items-end gap-4">
+            {content.settings_json?.logo_image || website.logo_url ? (
+              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
+            ) : null}
+            <span className="font-bold text-4xl">{siteName}</span>
+          </div>
+          <button className="md:hidden border-2 border-black p-1 hover:bg-black hover:text-white transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-        <nav className="flex gap-6 text-sm font-bold flex-wrap">
+        <nav className="hidden md:flex gap-6 text-sm font-bold">
           <a href="#about" className="hover:underline decoration-4 underline-offset-4">ABOUT</a>
           <a href="#services" className="hover:underline decoration-4 underline-offset-4">SERVICES</a>
           <a href="#products" className="hover:underline decoration-4 underline-offset-4">RATES</a>
           <a href="#contact" className="hover:underline decoration-4 underline-offset-4">CONTACT</a>
         </nav>
+        
+        {isMobileMenuOpen && (
+          <nav className="flex md:hidden flex-col gap-4 text-sm font-bold w-full pt-4 border-t-4 border-black">
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:underline decoration-4 underline-offset-4 block py-2">ABOUT</a>
+            <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:underline decoration-4 underline-offset-4 block py-2">SERVICES</a>
+            <a href="#products" onClick={() => setIsMobileMenuOpen(false)} className="hover:underline decoration-4 underline-offset-4 block py-2">RATES</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:underline decoration-4 underline-offset-4 block py-2">CONTACT</a>
+          </nav>
+        )}
       </header>
 
       <main>

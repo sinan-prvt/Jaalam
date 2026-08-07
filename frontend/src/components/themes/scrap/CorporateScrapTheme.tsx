@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Truck, Scale, MapPin, Mail, Phone, ChevronRight, BarChart, ShieldCheck, X, Clock } from 'lucide-react';
+import { Truck, Scale, MapPin, Mail, Phone, ChevronRight, BarChart, ShieldCheck, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
@@ -10,6 +10,7 @@ export default function CorporateScrapTheme({ website, content }: any) {
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Apex Metal Recycling';
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
@@ -60,23 +61,39 @@ export default function CorporateScrapTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            {content.settings_json?.logo_image || website.logo_url ? (
-              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
-            ) : (
-              <div className="bg-[#2563EB] text-white p-2 rounded">
-                <Scale size={24} />
-              </div>
-            )}
-            <span className="font-corp text-2xl font-bold tracking-tight text-[#0F172A]">{siteName}</span>
+        <div className="container mx-auto px-6 py-5">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              {content.settings_json?.logo_image || website.logo_url ? (
+                <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-10 object-contain" />
+              ) : (
+                <div className="bg-[#2563EB] text-white p-2 rounded">
+                  <Scale size={24} />
+                </div>
+              )}
+              <span className="font-corp text-2xl font-bold tracking-tight text-[#0F172A]">{siteName}</span>
+            </div>
+            
+            <button className="md:hidden text-slate-500 hover:text-[#2563EB]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            <nav className="hidden md:flex gap-8 font-corp font-medium text-sm text-[#475569]">
+              <a href="#about" className="hover:text-[#2563EB] transition-colors">Company</a>
+              <a href="#services" className="hover:text-[#2563EB] transition-colors">Capabilities</a>
+              <a href="#products" className="hover:text-[#2563EB] transition-colors">Materials</a>
+              <a href="#contact" className="hover:text-[#2563EB] transition-colors">Contact</a>
+            </nav>
           </div>
-          <nav className="hidden md:flex gap-8 font-corp font-medium text-sm text-[#475569]">
-            <a href="#about" className="hover:text-[#2563EB] transition-colors">Company</a>
-            <a href="#services" className="hover:text-[#2563EB] transition-colors">Capabilities</a>
-            <a href="#products" className="hover:text-[#2563EB] transition-colors">Materials</a>
-            <a href="#contact" className="hover:text-[#2563EB] transition-colors">Contact</a>
-          </nav>
+          
+          {isMobileMenuOpen && (
+            <nav className="md:hidden flex flex-col gap-4 font-corp font-medium text-sm text-[#475569] mt-4 pt-4 border-t border-slate-100">
+              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#2563EB] transition-colors block py-2">Company</a>
+              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#2563EB] transition-colors block py-2">Capabilities</a>
+              <a href="#products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#2563EB] transition-colors block py-2">Materials</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#2563EB] transition-colors block py-2">Contact</a>
+            </nav>
+          )}
         </div>
       </header>
 

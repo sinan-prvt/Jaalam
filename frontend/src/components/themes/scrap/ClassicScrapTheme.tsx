@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { Truck, Scale, MapPin, Mail, Phone, AlertTriangle, Hammer, Factory, X, Clock } from 'lucide-react';
+import { Truck, Scale, MapPin, Mail, Phone, AlertTriangle, Hammer, Factory, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
@@ -10,6 +10,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Heavy Metal Scrap';
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
@@ -52,23 +53,39 @@ export default function ClassicScrapTheme({ website, content }: any) {
 
       {/* Header */}
       <header className="bg-[#1A1A1A] text-white py-6">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            {content.settings_json?.logo_image || website.logo_url ? (
-              <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
-            ) : (
-              <div className="w-12 h-12 bg-[#FFC107] flex items-center justify-center text-[#1A1A1A] rounded-sm transform -skew-x-12">
-                 <AlertTriangle size={28} className="transform skew-x-12" />
-              </div>
-            )}
-            <span className="font-industrial text-4xl uppercase tracking-wider">{siteName}</span>
+        <div className="container mx-auto px-6">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              {content.settings_json?.logo_image || website.logo_url ? (
+                <img loading="lazy" src={content.settings_json?.logo_image || website.logo_url} alt="Logo" className="h-12 object-contain" />
+              ) : (
+                <div className="w-12 h-12 bg-[#FFC107] flex items-center justify-center text-[#1A1A1A] rounded-sm transform -skew-x-12">
+                   <AlertTriangle size={28} className="transform skew-x-12" />
+                </div>
+              )}
+              <span className="font-industrial text-3xl md:text-4xl uppercase tracking-wider">{siteName}</span>
+            </div>
+            
+            <button className="md:hidden text-[#FFC107] hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+
+            <div className="hidden md:flex gap-4 md:gap-6 font-industrial text-lg md:text-xl">
+              <a href="#about" className="text-[#FFC107] hover:text-white transition-colors uppercase">About</a>
+              <a href="#services" className="text-[#FFC107] hover:text-white transition-colors uppercase">Services</a>
+              <a href="#products" className="text-[#FFC107] hover:text-white transition-colors uppercase">Rates</a>
+              <a href="#contact" className="text-[#FFC107] hover:text-white transition-colors uppercase">Contact</a>
+            </div>
           </div>
-          <div className="flex gap-4 md:gap-6 font-industrial text-lg md:text-xl flex-wrap justify-center">
-            <a href="#about" className="text-[#FFC107] hover:text-white transition-colors uppercase">About</a>
-            <a href="#services" className="text-[#FFC107] hover:text-white transition-colors uppercase">Services</a>
-            <a href="#products" className="text-[#FFC107] hover:text-white transition-colors uppercase">Rates</a>
-            <a href="#contact" className="text-[#FFC107] hover:text-white transition-colors uppercase">Contact</a>
-          </div>
+          
+          {isMobileMenuOpen && (
+            <div className="md:hidden flex flex-col gap-4 font-industrial text-xl mt-6 pt-6 border-t border-[#333]">
+              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFC107] hover:text-white transition-colors uppercase block">About</a>
+              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFC107] hover:text-white transition-colors uppercase block">Services</a>
+              <a href="#products" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFC107] hover:text-white transition-colors uppercase block">Rates</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFC107] hover:text-white transition-colors uppercase block">Contact</a>
+            </div>
+          )}
         </div>
       </header>
 
