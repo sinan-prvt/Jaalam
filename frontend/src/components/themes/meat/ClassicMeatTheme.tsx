@@ -221,16 +221,24 @@ export default function ClassicMeatTheme({ website, content }: any) {
                       </a>
                     </div>
                   </div>
-                  <div className="w-full h-64 border-2 border-[#3E2723] relative">
-                    <iframe 
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street, City, State')}&output=embed`}
-                      className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
+                  <div className="w-full bg-[#EFEBE9] p-6 border-2 border-[#3E2723]">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-[#B71C1C] text-[#FDFBF7]"
+                      primaryColorHover="hover:bg-[#8e1515]"
+                      inputStyles="bg-[#FDFBF7] border-2 border-[#D7CCC8] text-[#3E2723] placeholder-[#8D6E63] focus:border-[#B71C1C] focus:ring-0 rounded-none font-body"
+                      buttonShape="font-butcher text-lg uppercase tracking-widest border-2 border-[#3E2723] shadow-[4px_4px_0_#3E2723] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all rounded-none w-full"
+                    />
                   </div>
                 </div>
+                
+                <div className="mt-12 w-full h-80 border-4 border-[#3E2723] shadow-[8px_8px_0_#B71C1C] relative bg-[#FDFBF7] p-2">
+                  <iframe 
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street, City, State')}&output=embed`}
+                    className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125 saturate-150" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
           </section>
         );
 

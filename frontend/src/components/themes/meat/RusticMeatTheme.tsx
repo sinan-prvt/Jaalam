@@ -244,19 +244,28 @@ export default function RusticMeatTheme({ website, content }: any) {
                       )}
                     </div>
                   </div>
-                  {content.contact_info?.address && (
-                    <div className="md:w-1/2 min-h-[400px]">
-                      <iframe 
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                        width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                        className="filter sepia brightness-90"
-                      ></iframe>
-                    </div>
-                  )}
+                  <div className="bg-[#FAF8F5] p-6 md:p-8 rounded-xl shadow-inner border-2 border-[#8B4513]/20">
+                    <ContactForm 
+                      websiteId={website.id}
+                      primaryColor="bg-[#8B4513] text-[#FAF8F5]"
+                      primaryColorHover="hover:bg-[#5C2E0B]"
+                      inputStyles="bg-white border-2 border-[#8B4513]/20 text-[#3E2723] placeholder-[#A0522D]/50 focus:border-[#8B4513] focus:ring-0 rounded-lg font-body"
+                      buttonShape="font-rustic text-xl tracking-widest rounded-lg w-full shadow-md hover:shadow-lg transition-shadow"
+                    />
+                  </div>
                 </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="container mx-auto max-w-5xl mt-12 px-6 relative z-10">
+                  <div className="w-full h-80 rounded-2xl border-4 border-[#8B4513] shadow-xl overflow-hidden bg-[#FAF8F5]">
+                    <iframe 
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed`}
+                      className="w-full h-full border-0 filter sepia-[0.3]" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                  </div>
+                </div>
+              )}
           </section>
         );
 

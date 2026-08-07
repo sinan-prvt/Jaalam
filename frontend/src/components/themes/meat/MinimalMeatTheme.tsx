@@ -198,18 +198,26 @@ export default function MinimalMeatTheme({ website, content }: any) {
                     )}
                   </div>
                 </div>
-                {content.contact_info?.address && (
-                  <div className="w-full aspect-square border border-gray-200 bg-gray-50 p-4">
-                    <iframe 
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                      width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                      className="filter grayscale"
-                    ></iframe>
-                  </div>
-                )}
+                <div className="w-full border border-gray-200 bg-gray-50 p-6 md:p-8">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-black text-white"
+                    primaryColorHover="hover:bg-red-600"
+                    inputStyles="bg-white border border-gray-200 text-black placeholder-gray-400 focus:border-black focus:ring-0 rounded-none font-minimal text-xs uppercase tracking-widest"
+                    buttonShape="font-minimal font-bold text-xs uppercase tracking-widest rounded-none w-full border border-black hover:border-red-600"
+                  />
+                </div>
               </div>
-            
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+              
+              {content.contact_info?.address && (
+                <div className="mt-12 w-full aspect-video border border-gray-200 bg-gray-50 p-4 relative">
+                  <iframe 
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                    width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                    className="filter grayscale"
+                  ></iframe>
+                </div>
+              )}
           </section>
         );
 
