@@ -11,7 +11,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedGalleryImage, setSelectedGalleryImage] = React.useState<string | null>(null);
   
-  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'services', 'about', 'menu', 'gallery', 'contact', 'custom'];
+  const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Management Consulting';
 
@@ -258,7 +258,17 @@ export default function ManagementConsultingTheme({ website, content }: any) {
               </div>
             </div>
             
-            <div className="mt-20 w-full h-[450px] bg-white border border-[#2D2D2D]/10 p-2 shadow-sm">
+            <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-[#F7F3ED] !text-[#2D2D2D] mt-4 font-management-title font-bold uppercase tracking-widest border border-[#F7F3ED]"
+                primaryColorHover="hover:bg-transparent hover:!text-[#F7F3ED]"
+                inputStyles="bg-transparent border border-white/20 text-[#F7F3ED] placeholder-white/50 focus:border-white focus:ring-1 focus:ring-white font-management-body rounded-none"
+                buttonShape="rounded-none"
+              />
+            </div>
+
+            <div className="mt-20 w-full h-[450px] bg-white border border-[#2D2D2D]/10 p-2 shadow-sm relative z-20">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Executive Plaza, Suite 800, Boston, MA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -271,9 +281,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
