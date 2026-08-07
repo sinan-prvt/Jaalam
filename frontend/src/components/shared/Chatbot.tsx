@@ -64,7 +64,10 @@ export default function Chatbot({ content }: ChatbotProps) {
       if (content.about_text) return content.about_text;
       return "We are passionate professionals dedicated to delivering the best experience for our customers. Every detail is crafted with care!";
     }
-    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food')) {
+    if (lowerQuery.includes('social') || lowerQuery.includes('instagram') || lowerQuery.includes('facebook') || lowerQuery.includes('twitter')) {
+      return "You can follow us on Instagram, Facebook, and Twitter to stay updated with our latest news and offerings! Links are in the footer.";
+    }
+    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food') || lowerQuery.includes('dish')) {
       if (content.products_json && content.products_json.length > 0) {
         const itemNames = content.products_json.map((p: any) => {
           const name = p.name || p.title;
@@ -73,7 +76,7 @@ export default function Chatbot({ content }: ChatbotProps) {
         }).filter(Boolean).join(', ');
         return `We have various offerings including: ${itemNames}.`;
       } else {
-        return "We have an amazing selection! Our top offerings include our Signature Classics, Seasonal Specials, and Premium selections. Prices typically range from $10 to $45 depending on the item.";
+        return "Our top offerings include Truffle Risotto (₹28), Pan-Seared Scallops (₹32), Wagyu Ribeye (₹65), and Lobster Ravioli (₹34). You can view the full menu on our website!";
       }
     }
     if (lowerQuery.includes('book') || lowerQuery.includes('reservation') || lowerQuery.includes('table') || lowerQuery.includes('appointment')) {
