@@ -211,39 +211,51 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                   </div>
                 )}
               </div>
-              <div className="w-full md:w-2/3 grid sm:grid-cols-2 gap-8">
-                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                    <Phone size={24} />
+              <div className="w-full md:w-2/3 flex flex-col gap-8">
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                      <Phone size={24} />
+                    </div>
+                    <h4 className="font-urban font-bold text-slate-900 mb-2">Phone</h4>
+                    <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
                   </div>
-                  <h4 className="font-urban font-bold text-slate-900 mb-2">Phone</h4>
-                  <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
+                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                      <Mail size={24} />
+                    </div>
+                    <h4 className="font-urban font-bold text-slate-900 mb-2">Email</h4>
+                    <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
+                  </div>
+                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                      <MapPin size={24} />
+                    </div>
+                    <h4 className="font-urban font-bold text-slate-900 mb-2">Office</h4>
+                    <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
+                  </div>
+                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
+                      <Clock size={24} />
+                    </div>
+                    <h4 className="font-urban font-bold text-slate-900 mb-2">Working Hours</h4>
+                    <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                  </div>
                 </div>
+                
                 <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                    <Mail size={24} />
-                  </div>
-                  <h4 className="font-urban font-bold text-slate-900 mb-2">Email</h4>
-                  <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
-                </div>
-                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                    <MapPin size={24} />
-                  </div>
-                  <h4 className="font-urban font-bold text-slate-900 mb-2">Office</h4>
-                  <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
-                </div>
-                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                    <Clock size={24} />
-                  </div>
-                  <h4 className="font-urban font-bold text-slate-900 mb-2">Working Hours</h4>
-                  <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-blue-600 text-white"
+                    primaryColorHover="hover:bg-blue-700"
+                    inputStyles="bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-urban rounded-xl"
+                    buttonShape="font-urban font-bold text-sm rounded-xl w-full transition-colors py-3 shadow-sm hover:shadow"
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="mt-12 w-full h-[400px] rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+            <div className="mt-16 w-full h-[400px] rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Level 4, Business Tower, Urban District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -256,9 +268,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
