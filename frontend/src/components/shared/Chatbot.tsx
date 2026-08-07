@@ -62,7 +62,12 @@ export default function Chatbot({ content }: ChatbotProps) {
       if (content.products_json && content.products_json.length > 0) {
         const itemNames = content.products_json.map((p: any) => p.name || p.title).filter(Boolean).join(', ');
         return `We have various offerings including: ${itemNames}.`;
+      } else {
+        return "You can find our full menu and all our offerings detailed on our website!";
       }
+    }
+    if (lowerQuery.includes('book') || lowerQuery.includes('reservation') || lowerQuery.includes('table') || lowerQuery.includes('appointment')) {
+      return "You can easily book or contact us directly using the forms provided on our website.";
     }
 
     return "I'm still learning! If you need more specific details, please check our website content or contact us directly using the information provided on our site.";
@@ -96,14 +101,28 @@ export default function Chatbot({ content }: ChatbotProps) {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-[99990] font-sans flex flex-col items-start pointer-events-none">
-      {/* Chat Window */}
+    <>
+      {/* Toggle Button - always positioned at bottom right/left relative to viewport */}
+      {!isOpen && (
+        <div className="fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-[99990]">
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="bg-slate-900 hover:bg-slate-800 text-white p-4 sm:p-5 rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] transition-transform hover:scale-110 active:scale-95 flex items-center justify-center group"
+            aria-label="Open Chat"
+          >
+            <MessageCircle size={28} className="group-hover:rotate-12 transition-transform duration-300" />
+          </button>
+        </div>
+      )}
+
+      {/* Chat Window - Full screen on mobile, absolute floating on desktop */}
       {isOpen && (
-        <div className="pointer-events-auto fixed sm:absolute bottom-0 sm:bottom-20 left-0 sm:left-0 w-full sm:w-96 h-[80vh] sm:h-[550px] max-h-[80vh] bg-white/90 backdrop-blur-xl sm:rounded-3xl rounded-t-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-white/40 overflow-hidden flex flex-col transition-all animate-in fade-in slide-in-from-bottom-4">
+        <div className="fixed inset-0 sm:inset-auto sm:bottom-8 sm:left-8 z-[99995] font-sans flex flex-col sm:w-96 sm:h-[600px] sm:max-h-[80vh] bg-white sm:rounded-3xl sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] sm:border sm:border-slate-200 overflow-hidden transition-all animate-in fade-in zoom-in-95 duration-200">
+          
           {/* Header */}
-          <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 flex justify-between items-center shadow-md z-10">
+          <div className="bg-slate-900 text-white p-4 sm:p-5 flex justify-between items-center shadow-sm z-10 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="bg-white/20 p-2.5 rounded-2xl shadow-inner backdrop-blur-sm">
+              <div className="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
                 <Bot size={22} className="drop-shadow-sm" />
               </div>
               <div>
@@ -113,20 +132,20 @@ export default function Chatbot({ content }: ChatbotProps) {
             </div>
             <button 
               onClick={() => setIsOpen(false)}
-              className="text-slate-300 hover:text-white hover:bg-white/10 p-2.5 rounded-full transition-colors"
+              className="text-slate-300 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors"
             >
-              <X size={22} />
+              <X size={24} />
             </button>
           </div>
 
           {/* Message History */}
-          <div className="flex-1 overflow-y-auto p-5 bg-slate-50/50 space-y-5">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 bg-slate-50 space-y-5">
             {messages.map(msg => (
               <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.sender === 'user' ? 'bg-indigo-100 text-indigo-700' : 'bg-white border border-slate-200 text-slate-700'}`}>
-                  {msg.sender === 'user' ? <User size={18} /> : <Bot size={18} />}
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.sender === 'user' ? 'bg-slate-800 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>
+                  {msg.sender === 'user' ? <User size={16} /> : <Bot size={16} />}
                 </div>
-                <div className={`p-3.5 rounded-2xl max-w-[78%] text-[15px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-slate-100 text-slate-800 rounded-tl-none'}`}>
+                <div className={`p-3.5 rounded-2xl max-w-[82%] sm:max-w-[78%] text-[15px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-slate-800 text-white rounded-tr-none' : 'bg-white border border-slate-100 text-slate-800 rounded-tl-none'}`}>
                   {msg.text}
                 </div>
               </div>
@@ -134,8 +153,8 @@ export default function Chatbot({ content }: ChatbotProps) {
             
             {isTyping && (
               <div className="flex gap-3">
-                <div className="w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-700 flex items-center justify-center shrink-0 shadow-sm">
-                  <Bot size={18} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-slate-200 text-slate-700 flex items-center justify-center shrink-0 shadow-sm">
+                  <Bot size={16} />
                 </div>
                 <div className="p-4 rounded-2xl bg-white border border-slate-100 rounded-tl-none shadow-sm flex gap-1.5 items-center">
                   <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
@@ -148,19 +167,19 @@ export default function Chatbot({ content }: ChatbotProps) {
           </div>
 
           {/* Input Area */}
-          <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 z-10">
+          <div className="p-4 bg-white border-t border-slate-100 z-10 shrink-0">
             <form onSubmit={handleSendMessage} className="flex gap-2">
               <input 
                 type="text" 
                 placeholder="Ask me anything..." 
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1 bg-slate-100/80 hover:bg-slate-100 text-[15px] text-slate-900 px-5 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/50 border border-transparent transition-all"
+                className="flex-1 bg-slate-100/80 hover:bg-slate-100 text-[15px] text-slate-900 px-5 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 border border-transparent transition-all"
               />
               <button 
                 type="submit" 
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white p-3.5 rounded-full transition-colors shrink-0 flex items-center justify-center shadow-md shadow-indigo-600/20"
+                className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white p-3.5 rounded-full transition-colors shrink-0 flex items-center justify-center shadow-md"
               >
                 <Send size={20} className="ml-0.5" />
               </button>
@@ -168,17 +187,6 @@ export default function Chatbot({ content }: ChatbotProps) {
           </div>
         </div>
       )}
-
-      {/* Toggle Button */}
-      {!isOpen && (
-        <button 
-          onClick={() => setIsOpen(true)}
-          className="pointer-events-auto bg-slate-900 hover:bg-slate-800 text-white p-4 sm:p-5 rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] transition-transform hover:scale-110 active:scale-95 flex items-center justify-center group"
-          aria-label="Open Chat"
-        >
-          <MessageCircle size={28} className="group-hover:rotate-12 transition-transform duration-300" />
-        </button>
-      )}
-    </div>
+    </>
   );
 }
