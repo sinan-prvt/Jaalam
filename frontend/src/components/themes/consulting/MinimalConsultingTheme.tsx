@@ -255,7 +255,17 @@ export default function MinimalConsultingTheme({ website, content }: any) {
               </div>
             </div>
             
-            <div className="mt-20 w-full h-[400px] border border-black/10">
+            <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
+              <ContactForm 
+                websiteId={website.id}
+                primaryColor="bg-black text-white mt-4 font-minimal font-bold uppercase tracking-[0.2em] text-xs"
+                primaryColorHover="hover:bg-black/80"
+                inputStyles="bg-white border-b border-black/20 text-black placeholder-gray-400 focus:border-black focus:ring-0 font-minimal"
+                buttonShape="rounded-none"
+              />
+            </div>
+
+            <div className="mt-20 w-full h-[400px] border border-black/10 relative z-20">
               <iframe
                 title="Office Location Map"
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Minimalist Way, City')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
@@ -268,9 +278,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
               ></iframe>
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Footer */}
