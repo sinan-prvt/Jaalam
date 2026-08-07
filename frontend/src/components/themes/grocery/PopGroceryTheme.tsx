@@ -315,21 +315,29 @@ export default function PopGroceryTheme({ website, content }: any) {
                     </div>
                   )}
                 </div>
-                {content.contact_info?.address && (
-                  <div className="rounded-2xl overflow-hidden min-h-[350px] relative">
-                    <iframe
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                      width="100%" height="100%" style={{ border: 0, minHeight: '350px' }}
-                      allowFullScreen={false} loading="lazy" title="Store Location"
-                    />
-                  </div>
-                )}
+                <div className="flex flex-col justify-center">
+                  <ContactForm 
+                    websiteId={website.id}
+                    primaryColor="bg-emerald-500 text-white"
+                    primaryColorHover="hover:bg-emerald-600"
+                    inputStyles="bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-body rounded-2xl"
+                    buttonShape="font-pop font-bold text-base uppercase tracking-wider rounded-2xl w-full transition-all hover:-translate-y-0.5 shadow-md hover:shadow-lg py-4"
+                  />
+                </div>
               </div>
+
+              {content.contact_info?.address && (
+                <div className="relative z-10 mt-16 rounded-3xl overflow-hidden h-80 border-4 border-white/10 shadow-2xl">
+                  <iframe
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                    width="100%" height="100%" style={{ border: 0 }}
+                    allowFullScreen={false} loading="lazy" title="Store Location"
+                  />
+                </div>
+              )}
             </div>
           </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        </section>
       )}
 
       {/* Custom blocks */}
