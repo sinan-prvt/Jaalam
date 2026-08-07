@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 export default function MinimalOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -34,11 +36,11 @@ export default function MinimalOtherTheme({ website, content }: any) {
       `}</style>
 
       {/* Header */}
-      <header className="bg-white sticky top-0 z-50 mix-blend-difference text-white">
-        <div className="container mx-auto px-8 py-8 flex justify-between items-center">
+      <header className="bg-white text-black sticky top-0 z-50 border-b border-gray-100">
+        <div className="container mx-auto px-8 py-6 flex justify-between items-center">
           <div className="flex items-center gap-4">
             {content?.settings_json?.logo_image ? (
-              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 w-auto object-contain invert" />
+              <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 w-auto object-contain" />
             ) : (
               <div className="font-minimal font-bold text-lg tracking-tight uppercase">
                 {siteName}
@@ -50,7 +52,19 @@ export default function MinimalOtherTheme({ website, content }: any) {
             <a href="#services" className="hover:opacity-50 transition-opacity">Services</a>
             <a href="#contact" className="hover:opacity-50 transition-opacity">Contact</a>
           </nav>
+          <button className="md:hidden text-black" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-xl py-6 px-8 flex flex-col gap-6 font-minimal text-sm uppercase tracking-widest font-medium">
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:opacity-50 transition-opacity">About</a>
+            <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:opacity-50 transition-opacity">Services</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:opacity-50 transition-opacity">Contact</a>
+          </div>
+        )}
       </header>
 
       {/* Hero */}
@@ -208,24 +222,34 @@ export default function MinimalOtherTheme({ website, content }: any) {
                    </div>
                 </div>
                 
-                {/* Google Maps iframe */}
-                <div className="h-48 mt-12 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                   <iframe
-                      title="Google Maps"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                      allowFullScreen
-                    ></iframe>
-                </div>
               </div>
             </div>
           </div>
         
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+          <div className="container mx-auto max-w-2xl mt-16 relative z-20">
+            <ContactForm 
+              websiteId={website.id}
+              primaryColor="bg-black text-white mt-4 font-minimal font-bold uppercase tracking-widest text-sm border border-black"
+              primaryColorHover="hover:bg-white hover:!text-black"
+              inputStyles="bg-transparent border border-gray-300 text-black placeholder-gray-400 focus:border-black focus:ring-1 focus:ring-black font-minimal rounded-none"
+              buttonShape="rounded-none"
+            />
+          </div>
+
+          <div className="container mx-auto max-w-5xl mt-16">
+            <div className="h-[400px] border border-gray-200 relative z-20 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+              <iframe
+                title="Google Maps"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Footer */}
