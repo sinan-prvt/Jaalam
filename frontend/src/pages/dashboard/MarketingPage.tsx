@@ -39,6 +39,8 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const [posterPrompt, setPosterPrompt] = useState('');
+  const [posterHeadline, setPosterHeadline] = useState('');
+  const [posterOffer, setPosterOffer] = useState('');
   const [isGeneratingPoster, setIsGeneratingPoster] = useState(false);
   const [posterImage, setPosterImage] = useState<string | null>(null);
 
@@ -312,7 +314,33 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
-                  Image Prompt
+                  Headline Text
+                </label>
+                <input
+                  type="text"
+                  value={posterHeadline}
+                  onChange={(e) => setPosterHeadline(e.target.value)}
+                  placeholder="e.g. NEW COLLECTION"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Offer or Subheading
+                </label>
+                <input
+                  type="text"
+                  value={posterOffer}
+                  onChange={(e) => setPosterOffer(e.target.value)}
+                  placeholder="e.g. UP TO 30% OFF"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Background Image Prompt
                 </label>
                 <textarea
                   value={posterPrompt}
@@ -343,15 +371,40 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
         <div className="lg:col-span-8">
           {posterImage ? (
             <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col items-center">
-              <img src={posterImage} alt="Generated Poster" className="w-full max-w-2xl rounded-2xl shadow-md border border-slate-200 mb-6 object-contain" />
+              
+              <div className="relative w-full max-w-2xl mb-6 overflow-hidden rounded-2xl shadow-md border border-slate-200 group bg-slate-100 flex items-center justify-center min-h-[400px]">
+                <img src={posterImage} alt="Generated Poster" className="w-full h-auto object-contain" />
+                
+                {/* CSS Text Overlays */}
+                <div className="absolute inset-0 flex flex-col items-center justify-between p-8 text-center drop-shadow-2xl pointer-events-none z-10">
+                  {posterHeadline && (
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-widest mt-4 break-words w-full" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -2px -2px 4px rgba(0,0,0,0.8), 2px -2px 4px rgba(0,0,0,0.8), -2px 2px 4px rgba(0,0,0,0.8)' }}>
+                      {posterHeadline}
+                    </h2>
+                  )}
+                  
+                  {posterOffer && (
+                    <div className="bg-white/95 backdrop-blur-sm text-slate-900 px-8 py-4 rounded-xl border border-white/50 shadow-2xl mb-8 transform -rotate-2 inline-block">
+                      <p className="text-2xl sm:text-3xl font-black tracking-tight uppercase break-words">
+                        {posterOffer}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <a
                 href={posterImage}
-                download="generated-poster.jpg"
+                download="generated-poster-background.jpg"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-black shadow-md hover:bg-slate-800 transition-colors"
               >
                 <Download size={18} />
-                Download Poster
+                Download Background Image
               </a>
+              <p className="text-xs text-slate-500 mt-4 font-medium text-center">
+                Note: AI models generate art, not text. We added your text as a CSS overlay on top of the image! <br/>
+                To save the final poster with text, take a screenshot of the image above.
+              </p>
             </div>
           ) : (
             <div className="h-full min-h-[400px] border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-slate-400 bg-white/20">
