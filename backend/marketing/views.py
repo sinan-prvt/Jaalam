@@ -106,4 +106,4 @@ class GeneratePosterView(APIView):
             return Response({'image': f'data:image/jpeg;base64,{base64_img}'})
         except Exception as e:
             print("HF Poster Generation Error:", e)
-            return Response({'error': 'An unexpected error occurred.'}, status=500)
+            return Response({'error': f'Failed to connect to Hugging Face: {str(e)}'}, status=500)
