@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import html2canvas from 'html2canvas';
 import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download, Star, Upload } from 'lucide-react';
 
 interface Website {
@@ -49,6 +50,25 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
   const [posterColor, setPosterColor] = useState('bg-[#6b2158] text-white');
   const [isGeneratingPoster, setIsGeneratingPoster] = useState(false);
   const [posterImage, setPosterImage] = useState<string | null>(null);
+  const posterRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadFullPoster = async () => {
+    if (!posterRef.current) return;
+    
+    const loadingToast = toast.loading('Generating full image for download...');
+    try {
+      const canvas = await html2canvas(posterRef.current, { useCORS: true, scale: 2 });
+      const image = canvas.toDataURL('image/png', 1.0);
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = 'custom-ai-poster.png';
+      link.click();
+      toast.success('Downloaded!', { id: loadingToast });
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to download the complete poster', { id: loadingToast });
+    }
+  };
 
   const handleGeneratePoster = async () => {
     if (!posterPrompt) {
@@ -497,7 +517,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
           {posterImage ? (
             <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col items-center">
               
-              <div className="relative w-full max-w-2xl mb-6 overflow-hidden rounded-2xl shadow-md border border-slate-200 group bg-slate-100 flex items-center justify-center min-h-[400px]">
+              <div ref={posterRef} className="relative w-full max-w-2xl mb-6 overflow-hidden rounded-2xl shadow-md border border-slate-200 group bg-slate-100 flex items-center justify-center min-h-[400px]">
                 <img src={posterImage} alt="Generated Poster" className="w-full h-auto object-contain" />
                 
                 {/* CSS Text Overlays based on Layout */}
@@ -619,18 +639,13 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                 )}
               </div>
 
-              <a
-                href={posterImage}
-                download="generated-poster-background.jpg"
+              <button
+                onClick={handleDownloadFullPoster}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-black shadow-md hover:bg-slate-800 transition-colors"
               >
                 <Download size={18} />
-                Download Background Image
-              </a>
-              <p className="text-xs text-slate-500 mt-4 font-medium text-center">
-                Note: AI models generate art, not text. We added your text as a CSS overlay on top of the image! <br/>
-                To save the final poster with text, take a screenshot of the image above.
-              </p>
+                Download Complete Poster
+              </button>
             </div>
           ) : (
             <div className="h-full min-h-[400px] border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-slate-400 bg-white/20">
