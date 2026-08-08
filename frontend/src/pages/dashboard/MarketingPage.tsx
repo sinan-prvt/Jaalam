@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download, Star, Upload } from 'lucide-react';
 
 interface Website {
@@ -57,10 +57,9 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
     
     const loadingToast = toast.loading('Generating full image for download...');
     try {
-      const canvas = await html2canvas(posterRef.current, { useCORS: true, scale: 2 });
-      const image = canvas.toDataURL('image/png', 1.0);
+      const dataUrl = await htmlToImage.toPng(posterRef.current, { cacheBust: true, pixelRatio: 2 });
       const link = document.createElement('a');
-      link.href = image;
+      link.href = dataUrl;
       link.download = 'custom-ai-poster.png';
       link.click();
       toast.success('Downloaded!', { id: loadingToast });
