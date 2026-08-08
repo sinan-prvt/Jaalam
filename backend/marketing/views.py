@@ -68,3 +68,42 @@ class GenerateMarketingCopyView(APIView):
         except Exception as e:
             print("AI Generation Error:", e)
             return Response({'error': 'Failed to generate content. Please try again.'}, status=500)
+
+import requests
+import base64
+
+class GeneratePosterView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        if request.user.membership not in ['BUSINESS', 'PREMIUM'] and not request.user.is_superuser and not request.user.is_test_user:
+            return Response({'error': 'Upgrade to Business or Premium to use the AI Poster Generator.'}, status=403)
+
+        prompt = request.data.get('prompt', '')
+        if not prompt:
+            return Response({'error': 'Prompt is required.'}, status=400)
+            
+        try:
+            from decouple import config
+            API_TOKEN = config("HF_API_TOKEN", default=os.environ.get("HF_API_TOKEN"))
+        except ImportError:
+            API_TOKEN = os.environ.get("HF_API_TOKEN")
+
+        if not API_TOKEN:
+            return Response({'error': 'HF_API_TOKEN is not configured on the server.'}, status=500)
+            
+        API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+        headers = {"Authorization": f"Bearer {API_TOKEN}"}
+        
+        try:
+            response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
+            if response.status_code != 200:
+                print("HF API Error:", response.text)
+                return Response({'error': 'Failed to generate poster. Model may be loading.'}, status=500)
+                
+            image_bytes = response.content
+            base64_img = base64.b64encode(image_bytes).decode('utf-8')
+            return Response({'image': f'data:image/jpeg;base64,{base64_img}'})
+        except Exception as e:
+            print("HF Poster Generation Error:", e)
+            return Response({'error': 'An unexpected error occurred.'}, status=500)

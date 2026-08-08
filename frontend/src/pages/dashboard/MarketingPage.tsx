@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video } from 'lucide-react';
+import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download } from 'lucide-react';
 
 interface Website {
   id: number;
@@ -37,6 +37,34 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [marketingData, setMarketingData] = useState<MarketingData | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const [posterPrompt, setPosterPrompt] = useState('');
+  const [isGeneratingPoster, setIsGeneratingPoster] = useState(false);
+  const [posterImage, setPosterImage] = useState<string | null>(null);
+
+  const handleGeneratePoster = async () => {
+    if (!posterPrompt) {
+      toast.error('Please enter a description for the poster');
+      return;
+    }
+
+    setIsGeneratingPoster(true);
+    const loadingToast = toast.loading('AI is designing your poster...');
+
+    try {
+      const res = await axios.post('/api/marketing/poster/', {
+        prompt: posterPrompt
+      }, { withCredentials: true });
+
+      setPosterImage(res.data.image);
+      toast.success('Poster generated successfully!', { id: loadingToast });
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response?.data?.error || 'Failed to generate poster', { id: loadingToast });
+    } finally {
+      setIsGeneratingPoster(false);
+    }
+  };
 
   const handleGenerate = async () => {
     if (!selectedSite) {
@@ -255,6 +283,81 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
               <Sparkles size={48} className="mb-4 opacity-20" />
               <p className="font-bold text-lg">Your generated campaign will appear here</p>
               <p className="text-sm font-medium mt-1">Fill out the details on the left and click generate.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Poster Generator Section */}
+      <div className="mt-12 mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 text-emerald-700 text-xs font-black uppercase tracking-wider mb-4">
+          <Palette size={14} className="text-emerald-500" />
+          AI Poster Designer
+        </div>
+        <h2 className="text-3xl font-black text-slate-900 tracking-tight">Poster Generator</h2>
+        <p className="text-slate-500 mt-2 font-medium text-sm max-w-2xl">
+          Create stunning promotional graphics and posters in seconds. Powered by Hugging Face.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Input Column */}
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-6 border border-white shadow-sm">
+            <h3 className="font-black text-lg text-slate-800 mb-4 flex items-center gap-2">
+              <ImageIcon className="text-emerald-500" size={20} />
+              Poster Details
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Image Prompt
+                </label>
+                <textarea
+                  value={posterPrompt}
+                  onChange={(e) => setPosterPrompt(e.target.value)}
+                  placeholder="e.g. A vibrant retro 80s style poster for a summer coffee sale, high quality, digital art"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none resize-none h-32"
+                />
+              </div>
+
+              <button
+                onClick={handleGeneratePoster}
+                disabled={isGeneratingPoster || !posterPrompt}
+                className={`w-full relative overflow-hidden group flex items-center justify-center gap-2 py-4 rounded-xl font-black text-white shadow-md transition-all ${
+                  isGeneratingPoster || !posterPrompt
+                    ? 'bg-slate-300 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/25 hover:-translate-y-0.5'
+                }`}
+              >
+                {!isGeneratingPoster && <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>}
+                <Palette size={18} className={isGeneratingPoster ? "animate-pulse" : ""} />
+                <span className="relative z-10">{isGeneratingPoster ? 'Designing Poster...' : 'Generate Poster'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Output Column */}
+        <div className="lg:col-span-8">
+          {posterImage ? (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col items-center">
+              <img src={posterImage} alt="Generated Poster" className="w-full max-w-2xl rounded-2xl shadow-md border border-slate-200 mb-6 object-contain" />
+              <a
+                href={posterImage}
+                download="generated-poster.jpg"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-black shadow-md hover:bg-slate-800 transition-colors"
+              >
+                <Download size={18} />
+                Download Poster
+              </a>
+            </div>
+          ) : (
+            <div className="h-full min-h-[400px] border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-slate-400 bg-white/20">
+              <ImageIcon size={48} className="mb-4 opacity-20" />
+              <p className="font-bold text-lg">Your generated poster will appear here</p>
+              <p className="text-sm font-medium mt-1">Describe what you want to see and click generate.</p>
             </div>
           )}
         </div>
