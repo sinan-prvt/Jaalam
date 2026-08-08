@@ -82,6 +82,18 @@ export default function Chatbot({ content }: ChatbotProps) {
     if (lowerQuery.includes('book') || lowerQuery.includes('reservation') || lowerQuery.includes('table') || lowerQuery.includes('appointment')) {
       return "You can easily book or contact us directly using the forms provided on our website.";
     }
+    if (lowerQuery.includes('refund') || lowerQuery.includes('return')) {
+      return "We offer a 30-day return policy for most items. For full details on refunds and returns, please visit our policy page.";
+    }
+    if (lowerQuery.includes('shipping') || lowerQuery.includes('delivery')) {
+      return "We offer standard and expedited shipping options. Delivery times may vary depending on your location.";
+    }
+    if (lowerQuery.includes('payment') || lowerQuery.includes('card') || lowerQuery.includes('cash')) {
+      return "We accept all major credit cards, debit cards, and popular digital wallets.";
+    }
+    if (lowerQuery.includes('discount') || lowerQuery.includes('offer') || lowerQuery.includes('promo')) {
+      return "We often run seasonal promotions! Keep an eye on our website or follow us on social media for the latest discounts.";
+    }
 
     return "I'm still learning! If you need more specific details, please check our website content or contact us directly using the information provided on our site.";
   };
