@@ -72,6 +72,8 @@ class GenerateMarketingCopyView(APIView):
 import requests
 import base64
 
+import urllib.parse
+
 class GeneratePosterView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -84,26 +86,18 @@ class GeneratePosterView(APIView):
             return Response({'error': 'Prompt is required.'}, status=400)
             
         try:
-            from decouple import config
-            API_TOKEN = config("HF_API_TOKEN", default=os.environ.get("HF_API_TOKEN"))
-        except ImportError:
-            API_TOKEN = os.environ.get("HF_API_TOKEN")
-
-        if not API_TOKEN:
-            return Response({'error': 'HF_API_TOKEN is not configured on the server.'}, status=500)
+            # Using Pollinations.ai instead of Hugging Face to bypass local DNS resolution blocks
+            encoded_prompt = urllib.parse.quote(prompt)
+            API_URL = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
             
-        API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
-        headers = {"Authorization": f"Bearer {API_TOKEN}"}
-        
-        try:
-            response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
+            response = requests.get(API_URL)
             if response.status_code != 200:
-                print("HF API Error:", response.text)
-                return Response({'error': 'Failed to generate poster. Model may be loading.'}, status=500)
+                print("Image API Error:", response.text)
+                return Response({'error': 'Failed to generate poster. Service may be busy.'}, status=500)
                 
             image_bytes = response.content
             base64_img = base64.b64encode(image_bytes).decode('utf-8')
             return Response({'image': f'data:image/jpeg;base64,{base64_img}'})
         except Exception as e:
-            print("HF Poster Generation Error:", e)
-            return Response({'error': f'Failed to connect to Hugging Face: {str(e)}'}, status=500)
+            print("Poster Generation Error:", e)
+            return Response({'error': f'Failed to connect to image generator: {str(e)}'}, status=500)
