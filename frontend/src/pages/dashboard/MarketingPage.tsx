@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download, Star } from 'lucide-react';
+import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download, Star, Upload } from 'lucide-react';
 
 interface Website {
   id: number;
@@ -314,10 +314,10 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
               <p className="text-sm font-medium mt-1">Fill out the details on the left and click generate.</p>
             </div>
           )}
+        </div>
       </div>
-        </>
-      )}
-
+    </>
+  )}
       {/* Poster Generator Section */}
       {activeTab === 'poster' && (
         <>
@@ -447,19 +447,47 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                 />
               </div>
 
-              <button
-                onClick={handleGeneratePoster}
-                disabled={isGeneratingPoster || !posterPrompt}
-                className={`w-full relative overflow-hidden group flex items-center justify-center gap-2 py-4 rounded-xl font-black text-white shadow-md transition-all ${
-                  isGeneratingPoster || !posterPrompt
-                    ? 'bg-slate-300 cursor-not-allowed' 
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/25 hover:-translate-y-0.5'
-                }`}
-              >
-                {!isGeneratingPoster && <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>}
-                <Palette size={18} className={isGeneratingPoster ? "animate-pulse" : ""} />
-                <span className="relative z-10">{isGeneratingPoster ? 'Designing Poster...' : 'Generate Poster'}</span>
-              </button>
+              <div className="flex flex-col gap-4">
+                <button
+                  onClick={handleGeneratePoster}
+                  disabled={isGeneratingPoster || !posterPrompt}
+                  className={`w-full relative overflow-hidden group flex items-center justify-center gap-2 py-4 rounded-xl font-black text-white shadow-md transition-all ${
+                    isGeneratingPoster || !posterPrompt
+                      ? 'bg-slate-300 cursor-not-allowed' 
+                      : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/25 hover:-translate-y-0.5'
+                  }`}
+                >
+                  {!isGeneratingPoster && <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>}
+                  <Palette size={18} className={isGeneratingPoster ? "animate-pulse" : ""} />
+                  <span className="relative z-10">{isGeneratingPoster ? 'Designing Poster...' : 'Generate AI Image'}</span>
+                </button>
+
+                <div className="relative w-full">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-slate-200"></div>
+                  </div>
+                  <div className="relative flex justify-center text-xs">
+                    <span className="bg-white/60 px-2 text-slate-500 font-bold uppercase tracking-widest backdrop-blur-xl">OR</span>
+                  </div>
+                </div>
+
+                <label className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-black text-emerald-600 bg-emerald-50 border-2 border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300 transition-all cursor-pointer shadow-sm">
+                  <Upload size={18} />
+                  <span>Upload Your Own Image</span>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    className="hidden" 
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const url = URL.createObjectURL(file);
+                        setPosterImage(url);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </div>
