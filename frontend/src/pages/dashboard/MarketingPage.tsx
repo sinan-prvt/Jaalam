@@ -39,8 +39,11 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const [posterPrompt, setPosterPrompt] = useState('');
+  const [posterBrandName, setPosterBrandName] = useState('');
   const [posterHeadline, setPosterHeadline] = useState('');
   const [posterOffer, setPosterOffer] = useState('');
+  const [posterCTA, setPosterCTA] = useState('');
+  const [posterWebsite, setPosterWebsite] = useState('');
   const [isGeneratingPoster, setIsGeneratingPoster] = useState(false);
   const [posterImage, setPosterImage] = useState<string | null>(null);
 
@@ -314,6 +317,19 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Brand or Boutique Name
+                </label>
+                <input
+                  type="text"
+                  value={posterBrandName}
+                  onChange={(e) => setPosterBrandName(e.target.value)}
+                  placeholder="e.g. LUMINAIRE"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
                   Headline Text
                 </label>
                 <input
@@ -334,6 +350,32 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                   value={posterOffer}
                   onChange={(e) => setPosterOffer(e.target.value)}
                   placeholder="e.g. UP TO 30% OFF"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Call to Action (Button)
+                </label>
+                <input
+                  type="text"
+                  value={posterCTA}
+                  onChange={(e) => setPosterCTA(e.target.value)}
+                  placeholder="e.g. SHOP NOW"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">
+                  Website / Contact
+                </label>
+                <input
+                  type="text"
+                  value={posterWebsite}
+                  onChange={(e) => setPosterWebsite(e.target.value)}
+                  placeholder="e.g. www.yourboutique.com"
                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
                 />
               </div>
@@ -377,19 +419,45 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                 
                 {/* CSS Text Overlays */}
                 <div className="absolute inset-0 flex flex-col items-center justify-between p-8 text-center drop-shadow-2xl pointer-events-none z-10">
-                  {posterHeadline && (
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-widest mt-4 break-words w-full" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -2px -2px 4px rgba(0,0,0,0.8), 2px -2px 4px rgba(0,0,0,0.8), -2px 2px 4px rgba(0,0,0,0.8)' }}>
-                      {posterHeadline}
-                    </h2>
-                  )}
                   
+                  {/* Top Section */}
+                  <div className="w-full flex flex-col items-center gap-4">
+                    {posterBrandName && (
+                      <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-[0.3em] opacity-90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] mt-2">
+                        {posterBrandName}
+                      </div>
+                    )}
+                    
+                    {posterHeadline && (
+                      <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-widest mt-2 break-words w-full" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -2px -2px 4px rgba(0,0,0,0.8), 2px -2px 4px rgba(0,0,0,0.8), -2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {posterHeadline}
+                      </h2>
+                    )}
+                  </div>
+                  
+                  {/* Middle Section */}
                   {posterOffer && (
-                    <div className="bg-white/95 backdrop-blur-sm text-slate-900 px-8 py-4 rounded-xl border border-white/50 shadow-2xl mb-8 transform -rotate-2 inline-block">
+                    <div className="bg-white/95 backdrop-blur-sm text-slate-900 px-8 py-4 rounded-xl border border-white/50 shadow-2xl transform -rotate-2 inline-block">
                       <p className="text-2xl sm:text-3xl font-black tracking-tight uppercase break-words">
                         {posterOffer}
                       </p>
                     </div>
                   )}
+
+                  {/* Bottom Section */}
+                  <div className="w-full flex flex-col items-center gap-6 mb-4">
+                    {posterCTA && (
+                      <div className="bg-emerald-500 text-white px-8 py-3 rounded-full text-lg font-black tracking-widest shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] uppercase">
+                        {posterCTA}
+                      </div>
+                    )}
+                    
+                    {posterWebsite && (
+                      <div className="text-sm sm:text-base font-bold text-white tracking-widest drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] bg-black/40 px-6 py-2 rounded-full backdrop-blur-sm border border-white/10">
+                        {posterWebsite}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
