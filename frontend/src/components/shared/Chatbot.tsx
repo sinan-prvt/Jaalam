@@ -151,7 +151,7 @@ export default function Chatbot({ content }: ChatbotProps) {
                 <Bot size={22} className="drop-shadow-sm" />
               </div>
               <div>
-                <h3 className="font-bold text-base leading-tight tracking-wide">AI Assistant</h3>
+                <h3 className="font-bold text-base leading-tight tracking-wide">Support Assistant</h3>
                 <p className="text-xs text-slate-300 font-medium">Typically replies instantly</p>
               </div>
             </div>
