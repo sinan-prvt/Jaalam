@@ -14,7 +14,6 @@ import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
-import AIGeneratorModal from '../../components/modals/AIGeneratorModal';
 import toast from 'react-hot-toast';
 
 interface User {
@@ -56,7 +55,6 @@ export default function Dashboard() {
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
-  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   const location = useLocation();
   // Navigation State
@@ -155,7 +153,6 @@ export default function Dashboard() {
         setActiveTab('Billing');
       }
       setIsCreating(false);
-      setIsAIModalOpen(false);
     }
   }, [user, activeTab]);
 
@@ -705,13 +702,6 @@ export default function Dashboard() {
                   {user && (user as any).role !== 'CLIENT' && (
                     <>
                       <button
-                        onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
-                        className="hidden sm:flex w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
-                      >
-                        <Sparkles size={16} />
-                        AI Design
-                      </button>
-                      <button
                         onClick={() => checkCreationLimit() && setIsCreating(true)}
                         className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                       >
@@ -740,13 +730,6 @@ export default function Dashboard() {
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
                       {user && (user as any).role !== 'CLIENT' && (
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-                          <button
-                            onClick={() => checkCreationLimit(true) && setIsAIModalOpen(true)}
-                            className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-indigo-100 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
-                          >
-                            <Sparkles size={18} />
-                            AI Design
-                          </button>
                           <button
                             onClick={() => checkCreationLimit() && setIsCreating(true)}
                             className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
@@ -1358,75 +1341,6 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-
-      <AIGeneratorModal
-        isOpen={isAIModalOpen}
-        onClose={() => setIsAIModalOpen(false)}
-        category={newType || 'Other'}
-        onSuccess={async (data: any) => {
-          try {
-            // Ensure unique slug
-            const generatedSlug = websiteName
-              ? websiteName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
-              : (data.name || data._input?.name || `site-${Date.now()}`).toLowerCase().replace(/[^a-z0-9-]/g, '-');
-
-            // Create new site
-            const siteRes = await axios.post('/api/websites/', {
-              slug: generatedSlug,
-              business_type: data._input?.category || data.business_category || 'Other',
-              theme: data._input?.theme || data.theme_name || data.theme || 'Custom',
-            });
-
-            let products = [];
-            if (data.menus && data.menus.length > 0) {
-              products = data.menus.flatMap((m: any) => m.items.map((item: any) => ({
-                name: item.name,
-                description: item.desc,
-                price: item.price,
-                image: `https://source.unsplash.com/400x300/?${encodeURIComponent(item.name)}`
-              })));
-            }
-
-            let gallery = [];
-            if (data.gallery && data.gallery.length > 0) {
-              gallery = data.gallery.map((term: string) => `https://source.unsplash.com/800x600/?${encodeURIComponent(term)}`);
-            }
-
-            await axios.put(`/api/websites/${siteRes.data.slug}/content/`, {
-              hero_title: data.hero?.slogan || data.slogan || `Welcome to ${data.name || data._input?.name || 'our site'}`,
-              hero_description: data.hero?.description || data.desc || data._input?.description,
-              settings_json: {
-                about_title: data.about?.title || data.tagline || 'About Us',
-                about_description: data.about?.content || data.desc || data._input?.description,
-                website_name: data.name || data._input?.name,
-                theme: data.theme || 'light',
-                primary_color: data.primary_color || 'indigo-600',
-                font: data.font || 'sans',
-                blocks: data.blocks
-              },
-              services_json: data.services?.map((s: any) => ({
-                title: s.name,
-                description: s.desc,
-                image: `https://source.unsplash.com/400x300/?${encodeURIComponent(s.name)}`
-              })) || [],
-              products_json: products,
-              gallery_json: gallery,
-              contact_info: {
-                address: data.contact?.address || data.address,
-                phone: data.contact?.phone,
-                email: data.contact?.email,
-                hours: data.contact?.hours || data.hours
-              }
-            });
-
-            toast.success('AI Website created successfully!');
-            navigate(`/editor/${siteRes.data.slug}`);
-          } catch (err) {
-            console.error(err);
-            toast.error("Failed to save generated site");
-          }
-        }}
-      />
     </div>
   );
 }
