@@ -59,7 +59,7 @@ export default function Dashboard() {
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Billing';
+    if (user && false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Billing';
     return location.state?.tab || 'Dashboard';
   });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
@@ -148,7 +148,7 @@ export default function Dashboard() {
   }, [newSlug]);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
+    if (user && false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
       if (activeTab !== 'Billing' && activeTab !== 'Settings') {
         setActiveTab('Billing');
       }
@@ -206,7 +206,7 @@ export default function Dashboard() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) return;
+    if (user && false && !user.is_superuser && !(user as User).is_test_user) return;
     if (!checkCreationLimit()) return;
     const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {

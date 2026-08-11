@@ -9,7 +9,7 @@ import { useRazorpay } from 'react-razorpay';
 
 export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: () => void }) {
   const { user } = useSelector((state: RootState) => state.auth);
-  const isUserLocked = user && (user as any).has_completed_onboarding === false;
+  const isUserLocked = false;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { Razorpay } = useRazorpay();
