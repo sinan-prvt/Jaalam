@@ -49,7 +49,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               const userRole = user?.role || 'AGENT';
               return item.roles.includes(userRole) || user?.is_superuser;
             }).map(item => {
-              const isLocked = Boolean(user && false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user && user.role !== 'CLIENT');
+              const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user && user.role !== 'CLIENT');
               return (
                 <button 
                   key={item.tab}
@@ -128,38 +128,38 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
         <div className="flex justify-around items-center p-2 relative">
           <button 
             onClick={() => (!user || user.has_completed_onboarding !== false || user.is_test_user || user.is_superuser || user.role === 'CLIENT') && setActiveTab('Dashboard')} 
-            className={`flex flex-col items-center p-2 rounded-xl transition-all ${false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Dashboard' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
+            className={`flex flex-col items-center p-2 rounded-xl transition-all ${user?.has_completed_onboarding === false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Dashboard' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
           >
             <Grid size={20} />
           </button>
           <button 
             onClick={() => (!user || user.has_completed_onboarding !== false || user.is_test_user || user.is_superuser || user.role === 'CLIENT') && setActiveTab('Projects')} 
-            className={`flex flex-col items-center p-2 rounded-xl transition-all ${false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Projects' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
+            className={`flex flex-col items-center p-2 rounded-xl transition-all ${user?.has_completed_onboarding === false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Projects' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
           >
             <Globe size={20} />
           </button>
           
-          <div className={`relative -top-6 px-1 ${false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40 pointer-events-none' : ''}`}>
+          <div className={`relative -top-6 px-1 ${user?.has_completed_onboarding === false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40 pointer-events-none' : ''}`}>
              <button onClick={() => setIsCreating(true)} className="bg-gradient-to-br from-indigo-500 to-violet-500 text-white p-3 rounded-xl shadow-lg transform hover:scale-105 transition-all border-4 border-[#F4F6F9]">
                 <Plus size={22} strokeWidth={3} />
              </button>
           </div>
 
           {user?.is_superuser ? (
-            <Link to="/admin" className={`flex flex-col items-center p-2 rounded-xl transition-all text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm ${false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40 pointer-events-none' : ''}`}>
+            <Link to="/admin" className={`flex flex-col items-center p-2 rounded-xl transition-all text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm ${user?.has_completed_onboarding === false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40 pointer-events-none' : ''}`}>
               <ShieldCheck size={20} />
             </Link>
           ) : (
             <button 
               onClick={() => (!user || user.has_completed_onboarding !== false || user.is_test_user || user.role === 'CLIENT') && setActiveTab('Notifications')} 
-              className={`flex flex-col items-center p-2 rounded-xl transition-all ${false && !user?.is_test_user && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Notifications' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
+              className={`flex flex-col items-center p-2 rounded-xl transition-all ${user?.has_completed_onboarding === false && !user?.is_test_user && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Notifications' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
             >
               <Bell size={20} />
             </button>
           )}
           <button 
             onClick={() => (!user || user.has_completed_onboarding !== false || user.is_test_user || user.is_superuser || user.role === 'CLIENT') && setActiveTab('Analytics')} 
-            className={`flex flex-col items-center p-2 rounded-xl transition-all ${false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Analytics' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
+            className={`flex flex-col items-center p-2 rounded-xl transition-all ${user?.has_completed_onboarding === false && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' ? 'opacity-40' : activeTab === 'Analytics' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}
           >
             <BarChart3 size={20} />
           </button>
