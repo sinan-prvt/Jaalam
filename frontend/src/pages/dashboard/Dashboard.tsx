@@ -219,7 +219,7 @@ export default function Dashboard() {
       });
 
       await axios.put(`/api/websites/${res.data.slug}/content/`, {
-        hero_title: heroTitle || `Welcome to ${websiteName || res.data.slug}`,
+        hero_title: heroTitle || (newType === 'Wedding Invitation' ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
