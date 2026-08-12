@@ -22,6 +22,12 @@ export const categoryThemes: Record<string, string[]> = {
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
 
+export const weddingCategories = [
+  'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+  'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+  'Christian Invitation', 'Engagement Invitation'
+];
+
 export const getThemeThumbnail = (theme: string, businessType?: string) => {
   // Generic mapping by business type to provide fallback defaults
   const defaults: Record<string, string> = {
@@ -131,12 +137,6 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Legal Firm') return 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80';
   }
-
-  const weddingCategories = [
-    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-    'Christian Invitation', 'Engagement Invitation'
-  ];
 
   if (businessType && weddingCategories.includes(businessType)) {
     if (theme === 'Classic') return defaults[businessType] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';

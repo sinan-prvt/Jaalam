@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
+import { categoryThemes, getThemeThumbnail, weddingCategories } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -55,6 +55,7 @@ export default function Dashboard() {
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [creationMode, setCreationMode] = useState<'wedding' | 'website'>('website');
 
   const location = useLocation();
   // Navigation State
@@ -203,12 +204,6 @@ export default function Dashboard() {
 
     return true;
   };
-
-  const weddingCategories = [
-    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-    'Christian Invitation', 'Engagement Invitation'
-  ];
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -716,6 +711,7 @@ export default function Dashboard() {
                           if (checkCreationLimit()) {
                             setNewType('Wedding Invitation');
                             setNewTheme('Classic');
+                            setCreationMode('wedding');
                             setIsCreating(true);
                           }
                         }}
@@ -727,10 +723,11 @@ export default function Dashboard() {
                       <button
                         onClick={() => {
                           if (checkCreationLimit()) {
-                            if (newType === 'Wedding Invitation') {
+                            if (weddingCategories.includes(newType)) {
                               setNewType('Restaurant');
                               setNewTheme('Fine Dining');
                             }
+                            setCreationMode('website');
                             setIsCreating(true);
                           }
                         }}
@@ -1257,7 +1254,9 @@ export default function Dashboard() {
                         }}
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
                       >
-                        {Object.keys(categoryThemes).map(cat => (
+                        {Object.keys(categoryThemes).filter(cat => 
+                          creationMode === 'wedding' ? weddingCategories.includes(cat) : !weddingCategories.includes(cat)
+                        ).map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
                         ))}
                       </select>
