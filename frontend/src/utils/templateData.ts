@@ -11,6 +11,7 @@ export const categoryThemes: Record<string, string[]> = {
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
+    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
 
@@ -30,6 +31,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     'Supermarket / Grocery': 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80',
     'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
     'Consulting': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+    'Wedding Invitation': 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
     'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
   };
 
@@ -114,6 +116,13 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Management') return 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Legal Firm') return 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80';
+  }
+
+  if (businessType === 'Wedding Invitation') {
+    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Floral') return 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Other') {

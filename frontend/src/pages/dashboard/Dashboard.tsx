@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, MessageCircle } from 'lucide-react';
+import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, MessageCircle, Heart } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
@@ -702,7 +702,28 @@ export default function Dashboard() {
                   {user && (user as any).role !== 'CLIENT' && (
                     <>
                       <button
-                        onClick={() => checkCreationLimit() && setIsCreating(true)}
+                        onClick={() => {
+                          if (checkCreationLimit()) {
+                            setNewType('Wedding Invitation');
+                            setNewTheme('Classic');
+                            setIsCreating(true);
+                          }
+                        }}
+                        className="hidden sm:flex w-full sm:w-auto bg-pink-50 hover:bg-pink-100 text-pink-600 border border-pink-200 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
+                      >
+                        <Heart size={16} className="text-pink-500 fill-pink-500" />
+                        Wedding Invite
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (checkCreationLimit()) {
+                            if (newType === 'Wedding Invitation') {
+                              setNewType('Restaurant');
+                              setNewTheme('Fine Dining');
+                            }
+                            setIsCreating(true);
+                          }
+                        }}
                         className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                       >
                         <Plus size={16} className="text-indigo-400" />
@@ -731,11 +752,32 @@ export default function Dashboard() {
                       {user && (user as any).role !== 'CLIENT' && (
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
                           <button
-                            onClick={() => checkCreationLimit() && setIsCreating(true)}
-                            className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                            onClick={() => {
+                              if (checkCreationLimit()) {
+                                setNewType('Wedding Invitation');
+                                setNewTheme('Classic');
+                                setIsCreating(true);
+                              }
+                            }}
+                            className="bg-pink-50 text-pink-600 border border-pink-200 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-pink-100 flex items-center justify-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
+                          >
+                            <Heart size={18} className="text-pink-500 fill-pink-500" />
+                            Create Wedding Invite
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (checkCreationLimit()) {
+                                if (newType === 'Wedding Invitation') {
+                                  setNewType('Restaurant');
+                                  setNewTheme('Fine Dining');
+                                }
+                                setIsCreating(true);
+                              }
+                            }}
+                            className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                           >
                             <Plus size={18} className="text-indigo-400" />
-                            Create Manually
+                            Create Standard Site
                           </button>
                         </div>
                       )}

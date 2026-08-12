@@ -19,6 +19,7 @@ const categoryThemes: Record<string, string[]> = {
   'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
   'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
   'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
+  'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal'],
   'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
   'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],

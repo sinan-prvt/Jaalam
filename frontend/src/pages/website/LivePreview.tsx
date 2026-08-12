@@ -74,6 +74,7 @@ import MinimalOtherTheme from '../../components/themes/other/MinimalOtherTheme';
 import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
+import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
@@ -265,6 +266,10 @@ function LivePreviewContent() {
     if (data.website.theme === 'Pop') return <PopOtherTheme website={data.website} content={data.content} />;
     if (data.website.theme === 'Corporate') return <CorporateOtherTheme website={data.website} content={data.content} />;
     return <ModernOtherTheme website={data.website} content={data.content} />;
+  }
+
+  if (data.website.business_type === 'Wedding Invitation') {
+    return <ClassicWeddingTheme content={data.content} />;
   }
 
   // Fallback for others
