@@ -42,7 +42,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               { tab: 'Marketing', icon: <Megaphone size={20} />, label: 'Marketing', roles: ['ADMIN', 'AGENT'] },
               { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
               { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
-              { tab: 'Billing', icon: <Receipt size={20} />, label: 'Invoices', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+              { tab: 'Billing', icon: <Receipt size={20} />, label: 'Invoices', roles: ['CLIENT'] },
               { tab: 'Settings', icon: <Settings size={20} />, label: 'Settings', roles: ['ADMIN', 'AGENT', 'CLIENT'] }
             ].filter(item => {
               if (user?.is_test_user && item.tab === 'Billing') return false;
