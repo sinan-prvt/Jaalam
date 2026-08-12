@@ -65,11 +65,9 @@ export default function WeddingEditor() {
   useEffect(() => {
     if (iframeReady && iframeRef.current && content) {
       iframeRef.current.contentWindow?.postMessage({
-        type: 'UPDATE_CONTENT',
-        payload: {
-          website,
-          content
-        }
+        type: 'UPDATE_PREVIEW',
+        website,
+        content
       }, '*');
     }
   }, [content, iframeReady, website]);
