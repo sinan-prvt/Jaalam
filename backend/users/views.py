@@ -164,6 +164,39 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(client_user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=True, methods=['put', 'delete'], permission_classes=[permissions.IsAuthenticated])
+    def manage_client(self, request, pk=None):
+        if request.user.role != 'AGENT' and not request.user.is_superuser:
+            return Response({"error": "Only agents can manage clients"}, status=status.HTTP_403_FORBIDDEN)
+            
+        try:
+            client = User.objects.get(pk=pk, agent=request.user, role='CLIENT')
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+            
+        if request.method == 'DELETE':
+            client.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+            
+        if request.method == 'PUT':
+            username = request.data.get('username')
+            email = request.data.get('email')
+            password = request.data.get('password')
+            
+            if username and User.objects.filter(username=username).exclude(pk=pk).exists():
+                return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
+                
+            if username:
+                client.username = username
+            if email is not None:
+                client.email = email
+            if password:
+                client.set_password(password)
+            client.save()
+            
+            serializer = self.get_serializer(client)
+            return Response(serializer.data)
+
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
