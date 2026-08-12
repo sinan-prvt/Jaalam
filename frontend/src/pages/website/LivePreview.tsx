@@ -269,7 +269,7 @@ function LivePreviewContent() {
   }
 
   if (data.website.business_type === 'Wedding Invitation') {
-    return <ClassicWeddingTheme content={data.content} />;
+    return <ClassicWeddingTheme website={data.website} content={data.content} />;
   }
 
   // Fallback for others

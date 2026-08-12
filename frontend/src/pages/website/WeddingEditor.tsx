@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { 
   Save, ArrowLeft, Heart, BookOpen, Clock, 
-  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor
+  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCode from 'react-qr-code';
@@ -124,6 +124,7 @@ export default function WeddingEditor() {
   };
 
   const tabs = [
+    { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
     { id: 'couple', icon: <Heart size={16} />, label: 'Couple' },
     { id: 'story', icon: <BookOpen size={16} />, label: 'Our Story' },
     { id: 'schedule', icon: <Clock size={16} />, label: 'Schedule' },
@@ -181,6 +182,35 @@ export default function WeddingEditor() {
 
         {/* Forms */}
         <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
+          {activeTab === 'theme' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Select Theme</label>
+                <select
+                  value={website.theme || 'Classic'}
+                  onChange={e => {
+                    const newWebsite = { ...website, theme: e.target.value };
+                    setWebsite(newWebsite);
+                    if (iframeRef.current && iframeRef.current.contentWindow) {
+                      iframeRef.current.contentWindow.postMessage({ 
+                        type: 'UPDATE_PREVIEW', 
+                        website: newWebsite, 
+                        content 
+                      }, '*');
+                    }
+                  }}
+                  className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm border-none shadow-sm cursor-pointer"
+                >
+                  <option value="Classic">Classic Wedding</option>
+                  <option value="Modern">Modern Black & White</option>
+                  <option value="Floral">Romantic Floral</option>
+                  <option value="Minimal">Minimalist Mono</option>
+                </select>
+                <p className="mt-3 text-xs text-slate-500 font-medium">Changing the theme will instantly update the preview on the right.</p>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'couple' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
