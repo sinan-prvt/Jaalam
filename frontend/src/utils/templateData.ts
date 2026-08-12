@@ -11,7 +11,14 @@ export const categoryThemes: Record<string, string[]> = {
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Islamic', 'South Indian', 'Kerala Traditional', 'Punjabi', 'Bengali', 'Christian', 'Engagement'],
+    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Islamic Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'South Indian Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Kerala Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Punjabi Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Bengali Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Christian Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
 
@@ -32,6 +39,13 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     'Textiles / Garments': 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
     'Consulting': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
     'Wedding Invitation': 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    'Islamic Invitation': 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80',
+    'South Indian Wedding': 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80',
+    'Kerala Traditional': 'https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=800&q=80',
+    'Punjabi Traditional': 'https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=800&q=80',
+    'Bengali Wedding': 'https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=800&q=80',
+    'Christian Invitation': 'https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=800&q=80',
+    'Engagement Invitation': 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
     'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
   };
 
@@ -118,18 +132,18 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Legal Firm') return 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80';
   }
 
-  if (businessType === 'Wedding Invitation') {
-    if (theme === 'Classic') return 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern') return 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Floral') return 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Islamic') return 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'South Indian') return 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Kerala Traditional') return 'https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Punjabi') return 'https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Bengali') return 'https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Christian') return 'https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Engagement') return 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80';
+  const weddingCategories = [
+    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+    'Christian Invitation', 'Engagement Invitation'
+  ];
+
+  if (businessType && weddingCategories.includes(businessType)) {
+    if (theme === 'Classic') return defaults[businessType] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Modern') return defaults[businessType] + '&sat=-50' || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Floral') return defaults[businessType] + '&sat=150' || 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Minimal') return defaults[businessType] + '&con=-20' || 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Elegant') return defaults[businessType] + '&bri=-20' || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Other') {

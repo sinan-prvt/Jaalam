@@ -44,137 +44,104 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   };
 
   const theme = website?.theme || 'Classic';
+  const category = website?.business_type || 'Wedding Invitation';
 
-  let fontClass = "font-serif";
+  // 1. Set base colors and background based on Category (business_type)
   let bgClass = "bg-[#fdfbf7]";
   let sectionBg = "bg-[#f9f7f1]";
   let accentText = "text-[#d4af37]";
   let accentBg = "bg-[#d4af37]";
   let accentHover = "hover:bg-[#b5952f]";
   let borderClass = "border-[#d4af37]";
-  let italicClass = "italic";
-  let titleFont = "font-serif";
   let heroOpacity = "opacity-40";
   let heroBg = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80";
 
-  if (theme === 'Modern') {
-    fontClass = "font-sans tracking-tight";
-    bgClass = "bg-white";
-    sectionBg = "bg-zinc-50";
-    accentText = "text-zinc-900";
-    accentBg = "bg-zinc-900";
-    accentHover = "hover:bg-zinc-800";
-    borderClass = "border-zinc-200";
-    italicClass = "";
-    titleFont = "font-sans font-black uppercase tracking-tighter";
-    heroOpacity = "opacity-30 grayscale";
-  } else if (theme === 'Floral') {
-    fontClass = "font-serif font-light";
-    bgClass = "bg-rose-50/30";
-    sectionBg = "bg-rose-50/60";
-    accentText = "text-rose-500";
-    accentBg = "bg-rose-400";
-    accentHover = "hover:bg-rose-500";
-    borderClass = "border-rose-200";
-    italicClass = "italic";
-    titleFont = "font-serif";
-    heroOpacity = "opacity-60";
-  } else if (theme === 'Minimal') {
-    fontClass = "font-mono uppercase tracking-widest text-xs";
-    bgClass = "bg-[#F3F4F6]";
-    sectionBg = "bg-white";
-    accentText = "text-slate-800";
-    accentBg = "bg-slate-800";
-    accentHover = "hover:bg-slate-900";
-    borderClass = "border-slate-300";
-    italicClass = "";
-    titleFont = "font-mono font-medium tracking-[-0.05em]";
-    heroOpacity = "opacity-20 sepia";
-    heroBg = "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Islamic') {
-    fontClass = "font-serif";
+  if (category === 'Islamic Invitation') {
     bgClass = "bg-emerald-50/30";
     sectionBg = "bg-white";
     accentText = "text-emerald-700";
     accentBg = "bg-emerald-700";
     accentHover = "hover:bg-emerald-800";
     borderClass = "border-emerald-200";
-    italicClass = "italic";
-    titleFont = "font-serif text-emerald-900";
     heroOpacity = "opacity-30";
     heroBg = "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'South Indian') {
-    fontClass = "font-serif";
+  } else if (category === 'South Indian Wedding') {
     bgClass = "bg-amber-50/40";
     sectionBg = "bg-white";
     accentText = "text-red-700";
     accentBg = "bg-red-700";
     accentHover = "hover:bg-red-800";
     borderClass = "border-amber-200";
-    italicClass = "";
-    titleFont = "font-serif font-bold text-red-900";
     heroOpacity = "opacity-30";
     heroBg = "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Kerala Traditional') {
-    fontClass = "font-serif";
+  } else if (category === 'Kerala Traditional') {
     bgClass = "bg-[#Fdfaf4]";
     sectionBg = "bg-white";
     accentText = "text-[#8C1C13]";
     accentBg = "bg-[#8C1C13]";
     accentHover = "hover:bg-[#73150F]";
     borderClass = "border-[#d4af37]";
-    italicClass = "";
-    titleFont = "font-serif font-bold text-[#8C1C13]";
     heroOpacity = "opacity-20";
     heroBg = "https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Punjabi') {
-    fontClass = "font-sans";
+  } else if (category === 'Punjabi Traditional') {
     bgClass = "bg-fuchsia-50/50";
     sectionBg = "bg-white";
     accentText = "text-fuchsia-600";
     accentBg = "bg-fuchsia-600";
     accentHover = "hover:bg-fuchsia-700";
     borderClass = "border-fuchsia-200";
-    italicClass = "";
-    titleFont = "font-serif font-black uppercase text-fuchsia-900";
     heroOpacity = "opacity-40";
     heroBg = "https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Bengali') {
-    fontClass = "font-serif";
+  } else if (category === 'Bengali Wedding') {
     bgClass = "bg-rose-50/40";
     sectionBg = "bg-white";
     accentText = "text-rose-700";
     accentBg = "bg-rose-700";
     accentHover = "hover:bg-rose-800";
     borderClass = "border-red-200";
-    italicClass = "italic";
-    titleFont = "font-serif font-bold text-red-800";
     heroOpacity = "opacity-30";
     heroBg = "https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Christian') {
-    fontClass = "font-serif";
+  } else if (category === 'Christian Invitation') {
     bgClass = "bg-white";
     sectionBg = "bg-slate-50";
     accentText = "text-slate-500";
     accentBg = "bg-slate-800";
     accentHover = "hover:bg-slate-900";
     borderClass = "border-slate-200";
-    italicClass = "italic";
-    titleFont = "font-serif font-light tracking-widest text-slate-900";
     heroOpacity = "opacity-50 grayscale";
     heroBg = "https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=1920&q=80";
-  } else if (theme === 'Engagement') {
-    fontClass = "font-sans";
+  } else if (category === 'Engagement Invitation') {
     bgClass = "bg-indigo-50/40";
     sectionBg = "bg-white";
     accentText = "text-indigo-500";
     accentBg = "bg-indigo-500";
     accentHover = "hover:bg-indigo-600";
     borderClass = "border-indigo-100";
-    italicClass = "";
-    titleFont = "font-sans font-bold text-indigo-900 tracking-tight";
     heroOpacity = "opacity-40";
     heroBg = "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80";
+  }
+
+  // 2. Set typography and layout based on Theme (theme)
+  let fontClass = "font-serif";
+  let italicClass = "italic";
+  let titleFont = `font-serif ${accentText}`;
+
+  if (theme === 'Modern') {
+    fontClass = "font-sans tracking-tight";
+    italicClass = "";
+    titleFont = `font-sans font-black uppercase tracking-tighter ${accentText}`;
+  } else if (theme === 'Floral') {
+    fontClass = "font-serif font-light";
+    italicClass = "italic";
+    titleFont = `font-serif font-light ${accentText}`;
+  } else if (theme === 'Minimal') {
+    fontClass = "font-mono uppercase tracking-widest text-xs";
+    italicClass = "";
+    titleFont = `font-mono font-medium tracking-[-0.05em] ${accentText}`;
+  } else if (theme === 'Elegant') {
+    fontClass = "font-serif";
+    italicClass = "italic";
+    titleFont = `font-serif font-light tracking-widest ${accentText}`;
   }
 
   return (

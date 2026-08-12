@@ -204,6 +204,12 @@ export default function Dashboard() {
     return true;
   };
 
+  const weddingCategories = [
+    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+    'Christian Invitation', 'Engagement Invitation'
+  ];
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user) return;
@@ -219,7 +225,7 @@ export default function Dashboard() {
       });
 
       await axios.put(`/api/websites/${res.data.slug}/content/`, {
-        hero_title: heroTitle || (newType === 'Wedding Invitation' ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
+        hero_title: heroTitle || (weddingCategories.includes(newType) ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
@@ -236,7 +242,7 @@ export default function Dashboard() {
       setContactEmail('');
       setContactPhone('');
       setNewTheme('Modern');
-      if (newType === 'Wedding Invitation') {
+      if (weddingCategories.includes(newType)) {
         navigate(`/wedding-editor/${res.data.slug}`);
       } else {
         navigate(`/editor/${res.data.slug}`);

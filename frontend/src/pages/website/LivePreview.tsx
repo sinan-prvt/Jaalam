@@ -268,7 +268,13 @@ function LivePreviewContent() {
     return <ModernOtherTheme website={data.website} content={data.content} />;
   }
 
-  if (data.website.business_type === 'Wedding Invitation') {
+  const weddingCategories = [
+    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+    'Christian Invitation', 'Engagement Invitation'
+  ];
+
+  if (weddingCategories.includes(data.website.business_type)) {
     return <ClassicWeddingTheme website={data.website} content={data.content} />;
   }
 
