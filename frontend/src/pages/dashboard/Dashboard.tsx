@@ -1187,7 +1187,9 @@ export default function Dashboard() {
                 <form onSubmit={handleCreate} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Website Name</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+                        {newType === 'Wedding Invitation' ? "Couple's Names" : "Website Name"}
+                      </label>
                       <input
                         type="text"
                         required
@@ -1199,12 +1201,14 @@ export default function Dashboard() {
                           }
                         }}
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
-                        placeholder="My Awesome Business"
+                        placeholder={newType === 'Wedding Invitation' ? "Alex & Jordan" : "My Awesome Business"}
                       />
                     </div>
 
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Project Slug</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+                        {newType === 'Wedding Invitation' ? "Invitation Link" : "Project Slug"}
+                      </label>
                       <div className={`flex bg-white border ${slugAvailable === false ? 'border-red-400' : 'border-slate-100'} rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm`}>
                         <span className="px-4 py-2.5 text-indigo-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
                         <input
@@ -1213,7 +1217,7 @@ export default function Dashboard() {
                           value={newSlug}
                           onChange={(e) => setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
                           className="flex-1 bg-transparent px-4 py-2.5 outline-none text-slate-900 placeholder-slate-300 font-black text-sm w-full min-w-0"
-                          placeholder="my-business"
+                          placeholder={newType === 'Wedding Invitation' ? "alex-and-jordan" : "my-business"}
                         />
                         {newSlug && (
                           <div className="flex items-center pr-3">
