@@ -49,7 +49,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               const userRole = user?.role || 'AGENT';
               return item.roles.includes(userRole) || user?.is_superuser;
             }).map(item => {
-              const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Billing' && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user && user.role !== 'CLIENT');
+              const isLocked = Boolean(user && user.has_completed_onboarding === false && item.tab !== 'Settings' && !user.is_superuser && !user.is_test_user && user.role !== 'CLIENT');
               return (
                 <button 
                   key={item.tab}
@@ -93,7 +93,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
         <div className="p-4 lg:p-5 border-t border-white/30 bg-white/30">
           {user?.membership !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && user?.role !== 'CLIENT' && (
             <button 
-              onClick={() => setActiveTab('Billing')}
+              onClick={() => setActiveTab('Pricing')}
               className="relative overflow-hidden group hidden lg:flex w-full mb-4 items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl font-black text-xs tracking-wide uppercase shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5"
             >
               <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>

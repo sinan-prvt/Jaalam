@@ -59,7 +59,7 @@ export default function Dashboard() {
   const location = useLocation();
   // Navigation State
   const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Billing';
+    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Pricing';
     return location.state?.tab || 'Dashboard';
   });
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
@@ -149,8 +149,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
-      if (activeTab !== 'Billing' && activeTab !== 'Settings') {
-        setActiveTab('Billing');
+      if (activeTab !== 'Pricing' && activeTab !== 'Settings') {
+        setActiveTab('Pricing');
       }
       setIsCreating(false);
     }
@@ -525,7 +525,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-4">
               {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
-                  onClick={() => setActiveTab('Billing')}
+                  onClick={() => setActiveTab('Pricing')}
                   className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl shadow-sm shadow-indigo-200 font-black text-sm uppercase tracking-wider"
                 >
                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
@@ -556,7 +556,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-3">
               {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
-                  onClick={() => setActiveTab('Billing')}
+                  onClick={() => setActiveTab('Pricing')}
                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
                 >
                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
@@ -1042,11 +1042,13 @@ export default function Dashboard() {
 
           {activeTab === 'Billing' && (
             <div className="h-full pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
-              {user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT' ? (
-                <Pricing />
-              ) : (
-                <BillingPage />
-              )}
+              <BillingPage />
+            </div>
+          )}
+
+          {activeTab === 'Pricing' && (
+            <div className="h-full pt-0 animate-in fade-in zoom-in-[0.98] duration-500">
+              <Pricing />
             </div>
           )}
 
