@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCode from 'react-qr-code';
-import ImageUpload from '../dashboard/components/ImageUpload';
 
 export default function WeddingEditor() {
   const { websiteId } = useParams();
