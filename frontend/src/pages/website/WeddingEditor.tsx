@@ -205,6 +205,13 @@ export default function WeddingEditor() {
                   <option value="Modern">Modern Black & White</option>
                   <option value="Floral">Romantic Floral</option>
                   <option value="Minimal">Minimalist Mono</option>
+                  <option value="Islamic">Islamic Traditional</option>
+                  <option value="South Indian">South Indian</option>
+                  <option value="Kerala Traditional">Kerala Traditional</option>
+                  <option value="Punjabi">Punjabi Traditional</option>
+                  <option value="Bengali">Bengali</option>
+                  <option value="Christian">Christian</option>
+                  <option value="Engagement">Engagement</option>
                 </select>
                 <p className="mt-3 text-xs text-slate-500 font-medium">Changing the theme will instantly update the preview on the right.</p>
               </div>

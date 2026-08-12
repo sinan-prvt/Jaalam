@@ -11,7 +11,7 @@ export const categoryThemes: Record<string, string[]> = {
     'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal'],
+    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Islamic', 'South Indian', 'Kerala Traditional', 'Punjabi', 'Bengali', 'Christian', 'Engagement'],
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
 
@@ -123,6 +123,13 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Modern') return 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Floral') return 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Islamic') return 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'South Indian') return 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Kerala Traditional') return 'https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Punjabi') return 'https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Bengali') return 'https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Christian') return 'https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Engagement') return 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Other') {

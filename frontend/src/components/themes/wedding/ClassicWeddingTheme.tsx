@@ -55,6 +55,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let italicClass = "italic";
   let titleFont = "font-serif";
   let heroOpacity = "opacity-40";
+  let heroBg = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80";
 
   if (theme === 'Modern') {
     fontClass = "font-sans tracking-tight";
@@ -89,6 +90,91 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     italicClass = "";
     titleFont = "font-mono font-medium tracking-[-0.05em]";
     heroOpacity = "opacity-20 sepia";
+    heroBg = "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Islamic') {
+    fontClass = "font-serif";
+    bgClass = "bg-emerald-50/30";
+    sectionBg = "bg-white";
+    accentText = "text-emerald-700";
+    accentBg = "bg-emerald-700";
+    accentHover = "hover:bg-emerald-800";
+    borderClass = "border-emerald-200";
+    italicClass = "italic";
+    titleFont = "font-serif text-emerald-900";
+    heroOpacity = "opacity-30";
+    heroBg = "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'South Indian') {
+    fontClass = "font-serif";
+    bgClass = "bg-amber-50/40";
+    sectionBg = "bg-white";
+    accentText = "text-red-700";
+    accentBg = "bg-red-700";
+    accentHover = "hover:bg-red-800";
+    borderClass = "border-amber-200";
+    italicClass = "";
+    titleFont = "font-serif font-bold text-red-900";
+    heroOpacity = "opacity-30";
+    heroBg = "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Kerala Traditional') {
+    fontClass = "font-serif";
+    bgClass = "bg-[#Fdfaf4]";
+    sectionBg = "bg-white";
+    accentText = "text-[#8C1C13]";
+    accentBg = "bg-[#8C1C13]";
+    accentHover = "hover:bg-[#73150F]";
+    borderClass = "border-[#d4af37]";
+    italicClass = "";
+    titleFont = "font-serif font-bold text-[#8C1C13]";
+    heroOpacity = "opacity-20";
+    heroBg = "https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Punjabi') {
+    fontClass = "font-sans";
+    bgClass = "bg-fuchsia-50/50";
+    sectionBg = "bg-white";
+    accentText = "text-fuchsia-600";
+    accentBg = "bg-fuchsia-600";
+    accentHover = "hover:bg-fuchsia-700";
+    borderClass = "border-fuchsia-200";
+    italicClass = "";
+    titleFont = "font-serif font-black uppercase text-fuchsia-900";
+    heroOpacity = "opacity-40";
+    heroBg = "https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Bengali') {
+    fontClass = "font-serif";
+    bgClass = "bg-rose-50/40";
+    sectionBg = "bg-white";
+    accentText = "text-rose-700";
+    accentBg = "bg-rose-700";
+    accentHover = "hover:bg-rose-800";
+    borderClass = "border-red-200";
+    italicClass = "italic";
+    titleFont = "font-serif font-bold text-red-800";
+    heroOpacity = "opacity-30";
+    heroBg = "https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Christian') {
+    fontClass = "font-serif";
+    bgClass = "bg-white";
+    sectionBg = "bg-slate-50";
+    accentText = "text-slate-500";
+    accentBg = "bg-slate-800";
+    accentHover = "hover:bg-slate-900";
+    borderClass = "border-slate-200";
+    italicClass = "italic";
+    titleFont = "font-serif font-light tracking-widest text-slate-900";
+    heroOpacity = "opacity-50 grayscale";
+    heroBg = "https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=1920&q=80";
+  } else if (theme === 'Engagement') {
+    fontClass = "font-sans";
+    bgClass = "bg-indigo-50/40";
+    sectionBg = "bg-white";
+    accentText = "text-indigo-500";
+    accentBg = "bg-indigo-500";
+    accentHover = "hover:bg-indigo-600";
+    borderClass = "border-indigo-100";
+    italicClass = "";
+    titleFont = "font-sans font-bold text-indigo-900 tracking-tight";
+    heroOpacity = "opacity-40";
+    heroBg = "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80";
   }
 
   return (
@@ -97,9 +183,9 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80" 
+            src={heroBg} 
             alt="Wedding Cover" 
-            className="w-full h-full object-cover opacity-40 mix-blend-multiply"
+            className={`w-full h-full object-cover mix-blend-multiply ${heroOpacity} transition-all duration-1000`}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30"></div>
         </div>
