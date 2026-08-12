@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { 
   Save, ArrowLeft, Heart, BookOpen, Clock, 
-  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette
+  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCode from 'react-qr-code';
@@ -126,11 +126,24 @@ export default function WeddingEditor() {
 
   const tabs = [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
+    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'couple', icon: <Heart size={16} />, label: 'Couple' },
+    { id: 'family', icon: <Users size={16} />, label: 'Family' },
     { id: 'story', icon: <BookOpen size={16} />, label: 'Our Story' },
     { id: 'schedule', icon: <Clock size={16} />, label: 'Schedule' },
+    { id: 'venue', icon: <MapPin size={16} />, label: 'Venue' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
+
+  const defaultSections = [
+    { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
+    { id: 'story', label: 'Our Story', visible: true },
+    { id: 'schedule', label: 'Schedule', visible: true },
+    { id: 'venue', label: 'Venue & Map', visible: true },
+    { id: 'rsvp', label: 'RSVP', visible: true }
+  ];
+  
+  const currentSections = weddingData.sections || defaultSections;
 
   const publicUrl = `https://${website.slug}.jaalam.app`;
 
@@ -222,6 +235,62 @@ export default function WeddingEditor() {
             </div>
           )}
 
+          {activeTab === 'layout' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <p className="text-xs text-slate-500 mb-4">Use arrows to reorder sections. Use the eye icon to hide sections you don't need.</p>
+                
+                <div className="space-y-3">
+                  {currentSections.map((section: any, idx: number) => (
+                    <div key={section.id} className={`flex items-center justify-between p-4 rounded-xl border ${section.visible ? 'bg-white border-pink-100 shadow-sm' : 'bg-slate-50 border-slate-200 opacity-60'}`}>
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => {
+                            if (section.locked) return;
+                            const newSections = [...currentSections];
+                            newSections[idx].visible = !newSections[idx].visible;
+                            setWeddingData({ sections: newSections });
+                          }}
+                          className={`p-1.5 rounded-lg transition-colors ${section.locked ? 'text-slate-300 cursor-not-allowed' : section.visible ? 'text-pink-500 hover:bg-pink-50' : 'text-slate-400 hover:bg-slate-200'}`}
+                        >
+                          {section.locked ? <Lock size={16} /> : (section.visible ? <Eye size={16} /> : <EyeOff size={16} />)}
+                        </button>
+                        <span className={`font-bold text-sm ${section.visible ? 'text-slate-700' : 'text-slate-400'}`}>{section.label}</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-1">
+                        <button 
+                          onClick={() => {
+                            if (idx === 0 || currentSections[idx-1]?.locked || section.locked) return;
+                            const newSections = [...currentSections];
+                            [newSections[idx-1], newSections[idx]] = [newSections[idx], newSections[idx-1]];
+                            setWeddingData({ sections: newSections });
+                          }}
+                          disabled={idx === 0 || currentSections[idx-1]?.locked || section.locked}
+                          className="p-1.5 text-slate-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          <ArrowUp size={16} />
+                        </button>
+                        <button 
+                          onClick={() => {
+                            if (idx === currentSections.length - 1 || section.locked) return;
+                            const newSections = [...currentSections];
+                            [newSections[idx], newSections[idx+1]] = [newSections[idx+1], newSections[idx]];
+                            setWeddingData({ sections: newSections });
+                          }}
+                          disabled={idx === currentSections.length - 1 || section.locked}
+                          className="p-1.5 text-slate-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          <ArrowDown size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'couple' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
@@ -245,13 +314,30 @@ export default function WeddingEditor() {
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'family' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Location</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Groom's Parents & Family</label>
                   <input
                     type="text"
-                    value={content.contact_info?.address || ''}
-                    onChange={(e) => setContent({...content, contact_info: {...(content.contact_info || {}), address: e.target.value}})}
-                    placeholder="The Grand Estate, New York"
+                    value={weddingData.groomParents || ''}
+                    onChange={(e) => setWeddingData({ groomParents: e.target.value })}
+                    placeholder="Mr. & Mrs. Smith (Smith Family)"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bride's Parents & Family</label>
+                  <input
+                    type="text"
+                    value={weddingData.brideParents || ''}
+                    onChange={(e) => setWeddingData({ brideParents: e.target.value })}
+                    placeholder="Mr. & Mrs. Doe (Doe Family)"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
                 </div>
@@ -270,6 +356,44 @@ export default function WeddingEditor() {
                     onChange={(e) => setContent({...content, about_text: e.target.value})}
                     placeholder="We met at a coffee shop..."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'venue' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full Address & Landmarks</label>
+                  <textarea
+                    rows={3}
+                    value={content.contact_info?.address || ''}
+                    onChange={(e) => setContent({...content, contact_info: {...(content.contact_info || {}), address: e.target.value}})}
+                    placeholder="Grand Convention Center, Near Main Junction..."
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Google Maps Embed URL</label>
+                  <input
+                    type="text"
+                    value={weddingData.mapUrl || ''}
+                    onChange={(e) => setWeddingData({ mapUrl: e.target.value })}
+                    placeholder="https://www.google.com/maps/embed?pb=..."
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
+                  />
+                  <p className="mt-2 text-xs text-slate-400">Go to Google Maps, click Share &gt; Embed a map, and copy the 'src' link.</p>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">RSVP / Contact Numbers</label>
+                  <input
+                    type="text"
+                    value={weddingData.contactNumbers || ''}
+                    onChange={(e) => setWeddingData({ contactNumbers: e.target.value })}
+                    placeholder="+91 9876543210, +91 9876543211"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
                 </div>
               </div>

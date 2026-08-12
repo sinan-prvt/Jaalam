@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ClassicLayout from './layouts/ClassicLayout';
 import ModernLayout from './layouts/ModernLayout';
 import FloralLayout from './layouts/FloralLayout';
@@ -13,25 +14,6 @@ interface ClassicWeddingThemeProps {
 }
 
 export default function ClassicWeddingTheme({ content, website, updateContent, isEditor }: ClassicWeddingThemeProps) {
-  const defaultContent = {
-    date: "September 15, 2026",
-    location: "The Grand Estate, New York",
-    schedule: [
-      { time: "4:00 PM", event: "Ceremony" },
-      { time: "5:30 PM", event: "Cocktail Hour" },
-      { time: "7:00 PM", event: "Dinner & Dancing" }
-    ],
-    primaryColor: "#fdfbf7",
-    accentColor: "#d4af37",
-    textColor: "#333333"
-  };
-
-  const coupleNames = content?.hero_title || "Alex & Jordan";
-  const story = content?.about_text || "We met in a little coffee shop on a rainy Tuesday, and the rest is history. We are so excited to celebrate this next chapter of our lives with you.";
-  const date = content?.settings_json?.wedding?.date || defaultContent.date;
-  const location = content?.contact_info?.address || defaultContent.location;
-  const schedule = content?.settings_json?.wedding?.schedule || defaultContent.schedule;
-
   const theme = website?.theme || 'Classic';
   const category = website?.business_type || 'Wedding Invitation';
 
@@ -110,18 +92,30 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     heroBg = "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80";
   }
 
-  // Select the appropriate layout based on the theme
+  const colors = {
+    bgClass,
+    sectionBg,
+    accentText,
+    accentBg,
+    accentHover,
+    borderClass,
+    heroOpacity,
+    heroBg
+  };
+
+  const layoutProps = { content, website, updateContent, isEditor, colors };
+
   switch (theme) {
     case 'Modern':
-      return <ModernLayout colors={{ bgClass, sectionBg, accentText, accentBg, accentHover, borderClass, heroOpacity, heroBg }} coupleNames={coupleNames} date={date} location={location} story={story} schedule={schedule} />;
+      return <ModernLayout {...layoutProps} />;
     case 'Floral':
-      return <FloralLayout colors={{ bgClass, sectionBg, accentText, accentBg, accentHover, borderClass, heroOpacity, heroBg }} coupleNames={coupleNames} date={date} location={location} story={story} schedule={schedule} />;
+      return <FloralLayout {...layoutProps} />;
     case 'Minimal':
-      return <MinimalLayout colors={{ bgClass, sectionBg, accentText, accentBg, accentHover, borderClass, heroOpacity, heroBg }} coupleNames={coupleNames} date={date} location={location} story={story} schedule={schedule} />;
+      return <MinimalLayout {...layoutProps} />;
     case 'Elegant':
-      return <ElegantLayout colors={{ bgClass, sectionBg, accentText, accentBg, accentHover, borderClass, heroOpacity, heroBg }} coupleNames={coupleNames} date={date} location={location} story={story} schedule={schedule} />;
+      return <ElegantLayout {...layoutProps} />;
     case 'Classic':
     default:
-      return <ClassicLayout colors={{ bgClass, sectionBg, accentText, accentBg, accentHover, borderClass, heroOpacity, heroBg }} coupleNames={coupleNames} date={date} location={location} story={story} schedule={schedule} />;
+      return <ClassicLayout {...layoutProps} />;
   }
 }
