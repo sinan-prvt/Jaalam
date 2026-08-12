@@ -186,7 +186,17 @@ export default function WeddingEditor() {
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Select Theme</label>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Category (Read-Only)</label>
+                  <input
+                    type="text"
+                    value={website.business_type || 'Wedding Invitation'}
+                    readOnly
+                    className="w-full px-4 py-3 bg-slate-100/50 text-slate-500 rounded-xl outline-none font-bold text-sm border-none shadow-inner cursor-not-allowed select-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Select Theme</label>
                 <select
                   value={website.theme || 'Classic'}
                   onChange={e => {
@@ -207,6 +217,7 @@ export default function WeddingEditor() {
                   ))}
                 </select>
                 <p className="mt-3 text-xs text-slate-500 font-medium">Changing the theme will instantly update the preview on the right.</p>
+                </div>
               </div>
             </div>
           )}
