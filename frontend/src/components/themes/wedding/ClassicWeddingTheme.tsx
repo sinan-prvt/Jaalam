@@ -109,7 +109,9 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
   
-  if (t.includes('modern')) {
+  if (category === 'South Indian Wedding') {
+    baseTheme = 'SouthIndian';
+  } else if (t.includes('modern')) {
     baseTheme = 'Modern';
   } else if (t.includes('floral') || t.includes('emerald') || t.includes('lotus') || t.includes('rose') || t.includes('backwater')) {
     baseTheme = 'Floral';
@@ -117,8 +119,6 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'Minimal';
   } else if (t.includes('elegant') || t.includes('royal')) {
     baseTheme = 'Elegant';
-  } else if (t.includes('south indian') || category === 'South Indian Wedding') {
-    baseTheme = 'SouthIndian';
   }
 
   switch (baseTheme) {

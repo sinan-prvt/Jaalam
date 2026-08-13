@@ -1,344 +1,156 @@
-import React, { useState, useEffect } from 'react';
-import { Heart, Calendar, MapPin, Clock, Music, Gift } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
-import { eventHierarchy } from '../../../../utils/templateData';
+import React from 'react';
+import { Heart, Calendar, MapPin, Music, Coffee, Camera, PartyPopper } from 'lucide-react';
+import { WeddingLayoutProps } from './types';
 
-export default function SouthIndianLayout({ content, website, colors }: WeddingLayoutProps) {
-  const coupleNames = content?.hero_title || "Alex & Jordan";
-  const story = content?.about_text || "With the blessings of our elders, we are embarking on a beautiful journey together.";
-  const date = content?.settings_json?.wedding?.date || "September 15, 2026";
-  const location = content?.contact_info?.address || "The Grand Estate, New York";
-  const schedule = content?.settings_json?.wedding?.schedule || [
-    { time: "9:00 AM", event: "Muhurtham" },
-    { time: "12:30 PM", event: "Sadhya / Feast" },
-    { time: "7:00 PM", event: "Reception" }
-  ];
-  const groomParents = content?.settings_json?.wedding?.groomParents || "";
-  const brideParents = content?.settings_json?.wedding?.brideParents || "";
-  const mapUrl = content?.settings_json?.wedding?.mapUrl || "";
-  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
-  const gallery = content?.settings_json?.wedding?.gallery || [];
-  const registryUrl = content?.settings_json?.wedding?.registryUrl || "";
-  const registryMessage = content?.settings_json?.wedding?.registryMessage || "";
-  const countdownDate = content?.settings_json?.wedding?.countdownDate || "";
-  const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
+// Icons for South Indian Wedding
+const GaneshaIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 20C40 20 30 25 30 35C30 45 40 50 50 50C60 50 70 45 70 35C70 25 60 20 50 20Z" fill="#d4af37" />
+    <path d="M50 50C35 50 25 60 25 75C25 85 35 90 50 90C65 90 75 85 75 75C75 60 65 50 50 50Z" fill="#d4af37" />
+    <circle cx="45" cy="40" r="2" fill="white" />
+    <circle cx="55" cy="40" r="2" fill="white" />
+  </svg>
+);
 
-  const [timeLeft, setTimeLeft] = useState<{d: number, h: number, m: number, s: number} | null>(null);
+const BananaLeaf = ({ className }: { className?: string }) => (
+  <svg width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M60 0C60 0 10 50 10 100C10 150 60 200 60 200C60 200 110 150 110 100C110 50 60 0 60 0Z" fill="#2e7d32" opacity="0.8" />
+    <path d="M60 0V200" stroke="#1b5e20" strokeWidth="2" />
+    <path d="M60 50L30 30M60 80L20 60M60 110L25 90M60 140L35 125M60 60L90 40M60 90L100 70M60 120L95 100M60 150L85 135" stroke="#1b5e20" strokeWidth="1" />
+  </svg>
+);
 
-  useEffect(() => {
-    if (!countdownDate) return;
-    const target = new Date(countdownDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = target - now;
-      if (distance < 0) {
-        setTimeLeft(null);
-        clearInterval(interval);
-        return;
-      }
-      setTimeLeft({
-        d: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        s: Math.floor((distance % (1000 * 60)) / 1000)
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [countdownDate]);
+const LotusIcon = ({ className }: { className?: string }) => (
+  <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M30 40C30 40 10 30 10 15C10 0 30 10 30 10C30 10 50 0 50 15C50 30 30 40 30 40Z" fill="#e91e63" />
+    <path d="M30 40C30 40 20 35 20 20C20 5 30 15 30 15C30 15 40 5 40 20C40 35 30 40 30 40Z" fill="#f06292" />
+    <path d="M30 40C30 40 25 35 25 25C25 15 30 20 30 20C30 20 35 15 35 25C35 35 30 40 30 40Z" fill="#f8bbd0" />
+  </svg>
+);
 
-  const names = coupleNames.split(/\s*&\s*|\s+and\s+/i);
-  const person1Name = names[0] || "Alex";
-  const person2Name = names[1] || "";
+export default function SouthIndianLayout({ content, website, updateContent, isEditor, colors }: WeddingLayoutProps) {
+  const t = (text: string) => text;
 
-  let mainCategory = 'Wedding';
-  for (const [main, subCats] of Object.entries(eventHierarchy)) {
-    if (website?.business_type && Object.keys(subCats).includes(website.business_type)) {
-      mainCategory = main;
-      break;
-    }
-  }
-
-  const defaultSections = [
-    { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
-    { id: 'story', label: 'Our Story', visible: true },
-    { id: 'schedule', label: 'Schedule', visible: true },
-    { id: 'venue', label: 'Venue & Map', visible: true },
-    { id: 'gallery', label: 'Gallery', visible: true },
-    { id: 'registry', label: 'Registry', visible: true },
-    { id: 'rsvp', label: 'RSVP', visible: true }
-  ];
-  const sections = content?.settings_json?.wedding?.sections || defaultSections;
-
-  // South Indian specific styles overriding colors if necessary, though we will rely on ClassicWeddingTheme to pass good ones.
-  // Ideally, accentText = red-700 (maroon), accentBg = red-700, borderClass = amber-400, bgClass = amber-50
-  
-  // Custom floral/mandala SVG pattern for background
-  const mandalaPattern = `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b45309' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
-
-  const sectionMap: Record<string, React.ReactNode> = {
-    hero: (
-      <section key="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-amber-50" style={{ backgroundImage: mandalaPattern }}>
-        {/* Decorative Top Border (Marigold Garland feel) */}
-        <div className="absolute top-0 left-0 w-full h-8 bg-orange-500/80 flex space-x-4 overflow-hidden shadow-sm">
-            {[...Array(20)].map((_, i) => (
-                <div key={i} className="w-6 h-6 rounded-full bg-yellow-400 -mt-1 shadow-sm shrink-0"></div>
-            ))}
-        </div>
-
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 py-20 flex flex-col items-center">
-            
-            {/* Traditional Arch Container */}
-            <div className="w-full bg-white/80 backdrop-blur-sm border-[12px] border-double border-amber-600/70 rounded-t-[140px] md:rounded-t-[200px] shadow-2xl p-8 md:p-16 flex flex-col items-center text-center relative mt-8">
-                
-                {/* Image / Caricature Placeholder inside the arch */}
-                <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-amber-500 overflow-hidden mb-8 shadow-inner z-20 relative bg-amber-100 flex items-center justify-center -mt-24 md:-mt-32">
-                    {gallery && gallery.length > 0 ? (
-                        <img src={gallery[0]} alt="Couple" className="w-full h-full object-cover" />
-                    ) : (
-                        <div className="text-amber-800 text-center p-4">
-                            <span className="block text-sm font-bold uppercase tracking-widest mb-2">Upload Photo</span>
-                            <span className="text-xs opacity-70">to replace this placeholder</span>
-                        </div>
-                    )}
-                </div>
-
-                <div className="mb-4 text-orange-600 font-serif tracking-widest uppercase text-sm font-semibold">
-                    We invite you to celebrate
-                </div>
-
-                <div className="flex flex-col items-center justify-center w-full">
-                    <h1 className="text-5xl md:text-7xl font-serif text-red-800 tracking-wide font-bold mb-2">
-                        {person1Name}
-                    </h1>
-                    {groomParents && (
-                        <div className="flex flex-col items-center text-slate-700 mb-4">
-                            <span className="text-[10px] uppercase tracking-[0.2em] font-sans text-orange-600 mb-1">Son of</span>
-                            <p className="text-[14px] md:text-base font-serif opacity-90">
-                                {groomParents}
-                            </p>
-                        </div>
-                    )}
-                    
-                    {person2Name && (
-                        <span className="text-3xl md:text-5xl font-serif text-amber-500 my-4 md:my-6">
-                            &
-                        </span>
-                    )}
-                    
-                    {person2Name && (
-                        <>
-                            <h1 className="text-5xl md:text-7xl font-serif text-red-800 tracking-wide font-bold mb-2">
-                                {person2Name}
-                            </h1>
-                            {brideParents && (
-                                <div className="flex flex-col items-center text-slate-700 mb-8">
-                                    <span className="text-[10px] uppercase tracking-[0.2em] font-sans text-orange-600 mb-1">Daughter of</span>
-                                    <p className="text-[14px] md:text-base font-serif opacity-90">
-                                        {brideParents}
-                                    </p>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-
-                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent my-8"></div>
-
-                <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 text-slate-800 font-semibold tracking-wider text-sm md:text-base mb-8">
-                    <div className="flex flex-col items-center gap-2">
-                        <Calendar size={24} className="text-red-700" />
-                        <span>{date}</span>
-                    </div>
-                    <div className="hidden md:block w-px h-12 bg-amber-300"></div>
-                    <div className="flex flex-col items-center gap-2">
-                        <MapPin size={24} className="text-red-700" />
-                        <span className="text-center max-w-[200px]">{location}</span>
-                    </div>
-                </div>
-
-                {timeLeft && (
-                    <div className="mt-6 flex gap-4 md:gap-6 justify-center">
-                        {[
-                            { label: 'Days', value: timeLeft.d },
-                            { label: 'Hours', value: timeLeft.h },
-                            { label: 'Mins', value: timeLeft.m },
-                            { label: 'Secs', value: timeLeft.s }
-                        ].map((item, idx) => (
-                            <div key={idx} className="flex flex-col items-center">
-                                <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-amber-100 border border-amber-300 flex items-center justify-center mb-1 shadow-sm">
-                                    <span className="text-xl md:text-2xl font-bold text-red-800 font-serif">{item.value}</span>
-                                </div>
-                                <span className="text-[9px] md:text-[11px] tracking-widest uppercase font-bold text-amber-700">{item.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        </div>
-      </section>
-    ),
-    story: (
-      <section key="story" className="py-20 px-4 bg-[#fdfaf6] relative">
-        <div className="max-w-3xl mx-auto text-center border-x-4 border-amber-500/30 px-6 md:px-12 py-10 relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -mt-4 text-amber-500">
-                <Heart size={32} className="fill-current" />
-            </div>
-          <h2 className="text-3xl md:text-4xl font-serif text-red-800 mb-8 font-bold">Our Story</h2>
-          <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-serif italic text-amber-900/80">
-            "{story}"
-          </p>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex space-x-2">
-              <div className="w-2 h-2 rounded-full bg-amber-400"></div>
-              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-          </div>
-        </div>
-      </section>
-    ),
-    schedule: (
-      <section key="schedule" className="py-24 px-4 bg-amber-50" style={{ backgroundImage: mandalaPattern }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif text-red-800 font-bold mb-4">Auspicious Timings</h2>
-            <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {schedule.map((item: any, index: number) => (
-              <div key={index} className="flex flex-col items-center text-center p-8 bg-white border border-amber-200 shadow-[0_8px_30px_rgb(0,0,0,0.05)] rounded-tl-3xl rounded-br-3xl hover:border-red-400 transition-all duration-300">
-                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mb-6 text-red-700">
-                    <Clock size={28} />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2 uppercase tracking-wide font-serif">
-                  {item.event}
-                </h3>
-                <p className="text-amber-600 font-bold text-lg">
-                  {item.time}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    ),
-    venue: mapUrl ? (
-      <section key="venue" className="py-24 px-4 bg-white relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif text-red-800 font-bold mb-4">Venue</h2>
-          <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full mb-12"></div>
-          <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden border-8 border-amber-100 shadow-xl relative">
-            <iframe 
-              src={mapUrl}
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-        </div>
-      </section>
-    ) : null,
-    gallery: gallery.length > 1 ? (
-      <section key="gallery" className="py-24 px-4 bg-amber-900 text-amber-50">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">Moments</h2>
-          <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full mb-16"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
-            {gallery.slice(1).map((url: string, index: number) => (
-              <div key={index} className="aspect-square overflow-hidden shadow-xl border-4 border-amber-700/50 rounded-lg group">
-                <img src={url} alt={`Gallery Image ${index + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    ) : null,
-    registry: registryUrl ? (
-      <section key="registry" className="py-24 px-4 bg-amber-50 border-t border-amber-200">
-        <div className="max-w-2xl mx-auto text-center bg-white p-12 rounded-3xl shadow-sm border border-amber-100">
-          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Gift size={36} className="text-red-700" />
-          </div>
-          <h2 className="text-3xl font-serif text-red-800 font-bold mb-6">Blessings & Gifts</h2>
-          {registryMessage && <p className="text-slate-600 mb-8">{registryMessage}</p>}
-          <a href={registryUrl} target="_blank" rel="noreferrer" className="inline-block px-10 py-4 bg-red-700 hover:bg-red-800 text-white font-bold tracking-wider uppercase rounded-full shadow-lg transition-colors">
-            Our Registry
-          </a>
-        </div>
-      </section>
-    ) : null,
-    rsvp: (
-      <section key="rsvp" className="py-24 px-4 bg-white relative">
-        <div className="max-w-2xl mx-auto text-center border-[8px] border-double border-amber-200 p-8 md:p-14 relative bg-[#fdfaf6]">
-          <h2 className="text-3xl md:text-4xl font-serif text-red-800 font-bold mb-4">RSVP</h2>
-          <p className="text-amber-700 mb-10 tracking-widest uppercase text-sm font-semibold">We would be delighted by your presence</p>
-          
-          <form className="space-y-6 text-left" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-bold tracking-widest uppercase text-amber-800 mb-2">First Name</label>
-                <input type="text" className="w-full border-b-2 border-amber-300 py-2 outline-none focus:border-red-700 transition-colors bg-transparent" placeholder="First Name" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold tracking-widest uppercase text-amber-800 mb-2">Last Name</label>
-                <input type="text" className="w-full border-b-2 border-amber-300 py-2 outline-none focus:border-red-700 transition-colors bg-transparent" placeholder="Last Name" />
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-xs font-bold tracking-widest uppercase text-amber-800 mb-2">Will you be attending?</label>
-              <div className="flex flex-col sm:flex-row gap-4 mt-3">
-                <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 bg-white hover:border-red-500 rounded-lg flex-1 justify-center transition-colors">
-                  <input type="radio" name="attending" className="w-4 h-4 accent-red-700" />
-                  <span className="text-slate-800 font-serif font-semibold">
-                    Joyfully Accepts
-                  </span>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 bg-white hover:border-red-500 rounded-lg flex-1 justify-center transition-colors">
-                  <input type="radio" name="attending" className="w-4 h-4 accent-red-700" />
-                  <span className="text-slate-800 font-serif font-semibold">
-                    Regretfully Declines
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            <div className="pt-8 text-center">
-              <button type="button" className="px-12 py-4 bg-red-700 hover:bg-red-800 text-white font-bold tracking-[0.2em] uppercase rounded-full shadow-lg transition-colors">
-                Send RSVP
-              </button>
-              {contactNumbers && (
-                <p className="mt-8 text-sm text-slate-700 font-bold tracking-wide">
-                  Contact: <span className="text-red-700">{contactNumbers}</span>
-                </p>
-              )}
-            </div>
-          </form>
-        </div>
-      </section>
-    )
-  };
+  // We use placeholder caricature if not provided
+  const caricatureUrl = "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80";
 
   return (
-    <div className="min-h-screen bg-amber-50 text-slate-800 font-sans selection:bg-amber-200 selection:text-red-900 pb-0 transition-all duration-700">
-      {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
+    <div className={`min-h-screen font-serif bg-amber-50 relative overflow-hidden text-amber-900`}>
+      {/* Background Decor Elements */}
+      <div className="absolute top-0 left-0 w-full h-12 bg-amber-600 flex justify-around items-end overflow-hidden z-0">
+        {[...Array(20)].map((_, i) => (
+          <div key={i} className="w-8 h-8 bg-yellow-400 rounded-full translate-y-4 mx-1 flex items-center justify-center">
+            <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
+          </div>
+        ))}
+      </div>
       
-      {/* Footer */}
-      <footer className="py-12 bg-amber-950 text-center text-amber-500/60 text-xs tracking-widest uppercase">
-        <Heart size={16} className="inline-block mx-2 text-red-500/80" />
-        <p className="mt-4 font-serif text-sm text-amber-400/80">
-          We can't wait to see you
-        </p>
-      </footer>
+      <div className="absolute top-12 left-0 z-0">
+        <BananaLeaf className="transform -rotate-12 origin-top-left -ml-10" />
+      </div>
+      <div className="absolute top-12 right-0 z-0">
+        <BananaLeaf className="transform rotate-12 origin-top-right -mr-10 scale-x-[-1]" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-20 pb-32">
+        {/* Header section */}
+        <div className="text-center mb-16 relative">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-amber-200">
+               <GaneshaIcon />
+            </div>
+          </div>
+          <p className="text-sm tracking-[0.2em] uppercase mb-4 text-amber-700 font-semibold">
+            {t('We solicit your gracious presence')}
+          </p>
+          <div className="flex flex-col items-center justify-center gap-4 my-8">
+            <h1 className="text-5xl md:text-7xl font-bold text-red-800" style={{ fontFamily: "'Playfair Display', serif" }}>
+              {content?.bride?.name || 'Bhoomika'}
+            </h1>
+            <span className="text-3xl text-amber-600 font-light italic">&amp;</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-red-800" style={{ fontFamily: "'Playfair Display', serif" }}>
+              {content?.groom?.name || 'Prashant'}
+            </h1>
+          </div>
+        </div>
+
+        {/* Couple Illustration / Photo Area */}
+        <div className="relative mb-20 max-w-2xl mx-auto">
+          <div className="absolute inset-0 bg-red-800 rounded-t-full transform scale-105 opacity-10"></div>
+          <div className="absolute -inset-4 border-2 border-dashed border-amber-600 rounded-t-full opacity-30"></div>
+          <div className="aspect-[3/4] md:aspect-[4/3] rounded-t-full overflow-hidden border-8 border-white shadow-2xl relative">
+             {/* If there's an actual couple photo provided, use it, else default */}
+            <img 
+              src={content?.hero?.image || caricatureUrl} 
+              alt="Couple"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 w-full flex justify-around p-4 opacity-80">
+                <LotusIcon />
+                <LotusIcon />
+                <LotusIcon />
+            </div>
+          </div>
+        </div>
+
+        {/* Events / Muhurtham Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16 relative">
+            <div className="bg-white/80 backdrop-blur border border-amber-200 rounded-2xl p-8 text-center shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-3xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>Muhurtham</h3>
+                <div className="flex items-center justify-center gap-3 mb-4 text-amber-800">
+                    <Calendar className="w-5 h-5 text-red-700" />
+                    <span className="font-semibold text-lg">{content?.date || 'Friday, 29th August 2025'}</span>
+                </div>
+                <div className="flex flex-col gap-2 text-amber-700">
+                    <p className="text-xl font-medium">9:00 AM Onwards</p>
+                </div>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur border border-amber-200 rounded-2xl p-8 text-center shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-3xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>Reception</h3>
+                <div className="flex items-center justify-center gap-3 mb-4 text-amber-800">
+                    <Calendar className="w-5 h-5 text-red-700" />
+                    <span className="font-semibold text-lg">{content?.date || 'Friday, 29th August 2025'}</span>
+                </div>
+                <div className="flex flex-col gap-2 text-amber-700">
+                    <p className="text-xl font-medium">7:00 PM Onwards</p>
+                </div>
+            </div>
+        </div>
+
+        {/* Venue Section */}
+        <div className="bg-gradient-to-br from-amber-100 to-red-50 rounded-2xl p-10 text-center shadow-xl border-2 border-amber-200 relative overflow-hidden">
+             <div className="absolute top-0 right-0 opacity-20">
+                <BananaLeaf className="transform rotate-90" />
+             </div>
+             <div className="relative z-10">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md text-red-700">
+                    <MapPin className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
+                <p className="text-2xl font-medium text-amber-900 mb-2">{content?.venue?.name || 'Sundex Multi Hall'}</p>
+                <p className="text-lg text-amber-700 max-w-md mx-auto mb-6">{content?.venue?.address || 'Goparasanallur, Chennai 600 077'}</p>
+                
+                {content?.venue?.mapUrl && (
+                    <a 
+                      href={content?.venue?.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-medium hover:bg-red-800 transition-colors shadow-lg"
+                    >
+                      Get Directions
+                    </a>
+                )}
+             </div>
+        </div>
+      </div>
       
-      {/* Background Music */}
-      {musicUrl && (
-        <audio autoPlay loop className="hidden">
-          <source src={musicUrl} type="audio/mpeg" />
-        </audio>
-      )}
+      {/* Bottom Lotus Border */}
+      <div className="absolute bottom-0 w-full h-16 bg-teal-800 flex items-end justify-around pb-2">
+         {[...Array(8)].map((_, i) => (
+             <LotusIcon key={i} className="transform scale-75 opacity-90" />
+         ))}
+      </div>
     </div>
   );
 }
