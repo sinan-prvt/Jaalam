@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { 
   Save, ArrowLeft, Heart, BookOpen, Clock, 
-  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock
+  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
+  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCode from 'react-qr-code';
-import { categoryThemes } from '../../utils/templateData';
+import { categoryThemes, eventHierarchy } from '../../utils/templateData';
 
 export default function WeddingEditor() {
   const { websiteId } = useParams();
@@ -18,9 +19,21 @@ export default function WeddingEditor() {
   
   const [website, setWebsite] = useState<any>(null);
   const [content, setContent] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState('couple');
+  const [activeTab, setActiveTab] = useState('theme');
+  const [mainEventCategory, setMainEventCategory] = useState('Wedding');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (website?.business_type) {
+      for (const [main, subCats] of Object.entries(eventHierarchy)) {
+        if (Object.keys(subCats).includes(website.business_type)) {
+          setMainEventCategory(main);
+          break;
+        }
+      }
+    }
+  }, [website?.business_type]);
   
   const [mobileView, setMobileView] = useState<'editor'|'preview'>('editor');
   const [previewDevice, setPreviewDevice] = useState<'mobile'|'desktop'>('mobile');
@@ -127,11 +140,15 @@ export default function WeddingEditor() {
   const tabs = [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
     { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
-    { id: 'couple', icon: <Heart size={16} />, label: 'Couple' },
+    { id: 'couple', icon: <Heart size={16} />, label: 'Key People' },
     { id: 'family', icon: <Users size={16} />, label: 'Family' },
-    { id: 'story', icon: <BookOpen size={16} />, label: 'Our Story' },
+    { id: 'story', icon: <BookOpen size={16} />, label: 'Story' },
     { id: 'schedule', icon: <Clock size={16} />, label: 'Schedule' },
     { id: 'venue', icon: <MapPin size={16} />, label: 'Venue' },
+    { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
+    { id: 'registry', icon: <Gift size={16} />, label: 'Registry' },
+    { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
+    { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
 
@@ -199,14 +216,36 @@ export default function WeddingEditor() {
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Category (Read-Only)</label>
-                  <input
-                    type="text"
-                    value={website.business_type || 'Wedding Invitation'}
-                    readOnly
-                    className="w-full px-4 py-3 bg-slate-100/50 text-slate-500 rounded-xl outline-none font-bold text-sm border-none shadow-inner cursor-not-allowed select-none"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Main Event Type (Read-Only)</label>
+                    <input
+                      type="text"
+                      value={mainEventCategory}
+                      readOnly
+                      className="w-full px-4 py-3 bg-slate-100/50 text-slate-500 rounded-xl outline-none font-bold text-sm border-none shadow-inner cursor-not-allowed select-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Sub-Category</label>
+                    <select
+                      value={website.business_type || 'Wedding Invitation'}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const newTheme = eventHierarchy[mainEventCategory][val][0];
+                        const newWebsite = { ...website, business_type: val, theme: newTheme };
+                        setWebsite(newWebsite);
+                        if (iframeRef.current?.contentWindow) {
+                          iframeRef.current.contentWindow.postMessage({ type: 'UPDATE_PREVIEW', website: newWebsite, content }, '*');
+                        }
+                      }}
+                      className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm border-none shadow-sm cursor-pointer"
+                    >
+                      {Object.keys(eventHierarchy[mainEventCategory] || {}).map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Select Theme</label>
@@ -225,7 +264,7 @@ export default function WeddingEditor() {
                   }}
                   className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm border-none shadow-sm cursor-pointer"
                 >
-                  {(categoryThemes[website.business_type] || categoryThemes['Wedding Invitation']).map(t => (
+                  {(eventHierarchy[mainEventCategory]?.[website.business_type] || []).map(t => (
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
@@ -395,6 +434,111 @@ export default function WeddingEditor() {
                     placeholder="+91 9876543210, +91 9876543211"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'gallery' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-bold text-slate-800">Photo Gallery</h3>
+                  <button 
+                    onClick={() => {
+                      const currentGallery = weddingData.gallery || [];
+                      setWeddingData({ gallery: [...currentGallery, ""] });
+                    }}
+                    className="text-pink-600 text-xs font-bold bg-pink-50 px-3 py-1.5 rounded-lg"
+                  >
+                    + Add Image URL
+                  </button>
+                </div>
+                {(weddingData.gallery || []).map((url: string, index: number) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={url}
+                      onChange={e => {
+                        const newGallery = [...(weddingData.gallery || [])];
+                        newGallery[index] = e.target.value;
+                        setWeddingData({ gallery: newGallery });
+                      }}
+                      className="flex-1 px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    <button 
+                      onClick={() => {
+                        const newGallery = (weddingData.gallery || []).filter((_: any, i: number) => i !== index);
+                        setWeddingData({ gallery: newGallery });
+                      }}
+                      className="p-3 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors shrink-0"
+                    >
+                      <EyeOff size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'registry' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Registry Link</label>
+                  <input
+                    type="text"
+                    value={weddingData.registryUrl || ''}
+                    onChange={e => setWeddingData({ registryUrl: e.target.value })}
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                    placeholder="https://amazon.com/wedding/registry/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Message to Guests</label>
+                  <textarea
+                    rows={3}
+                    value={weddingData.registryMessage || ''}
+                    onChange={e => setWeddingData({ registryMessage: e.target.value })}
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm resize-none"
+                    placeholder="Your presence is our biggest gift, but if you wish to gift us..."
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'music' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Background Music (MP3 URL)</label>
+                  <input
+                    type="text"
+                    value={weddingData.musicUrl || ''}
+                    onChange={e => setWeddingData({ musicUrl: e.target.value })}
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                    placeholder="https://example.com/audio.mp3"
+                  />
+                  <p className="text-[10px] text-slate-400 mt-2">Provide a direct link to an MP3 file to enable background music on your site.</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'countdown' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Target Date & Time</label>
+                  <input
+                    type="datetime-local"
+                    value={weddingData.countdownDate || ''}
+                    onChange={e => setWeddingData({ countdownDate: e.target.value })}
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                  />
+                  <p className="text-[10px] text-slate-400 mt-2">A live countdown will appear on the hero section.</p>
                 </div>
               </div>
             </div>

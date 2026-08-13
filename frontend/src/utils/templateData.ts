@@ -1,3 +1,53 @@
+export const eventHierarchy: Record<string, Record<string, string[]>> = {
+  'Wedding': {
+    'South Indian Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Islamic Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Kerala Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Punjabi Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Bengali Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Christian Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant']
+  },
+  'Birthday': {
+    'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
+    '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
+    'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
+    'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
+    'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal']
+  },
+  'Housewarming': {
+    'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
+    'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral']
+  },
+  'Baby Shower': {
+    'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
+    'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant']
+  },
+  'Engagement': {
+    'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
+    'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant']
+  },
+  'Farewell': {
+    'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
+    'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal']
+  },
+  'College Fest': {
+    'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
+    'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
+    'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate']
+  },
+  'Corporate Event': {
+    'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
+    'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
+    'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful']
+  },
+  'Religious Events': {
+    'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
+    'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
+    'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant']
+  }
+};
+
 export const categoryThemes: Record<string, string[]> = {
     'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
     'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'App Style', 'Boutique'],
@@ -19,13 +69,60 @@ export const categoryThemes: Record<string, string[]> = {
     'Bengali Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Christian Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    
+    // Birthday Events
+    'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
+    '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
+    'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
+    'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
+    'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal'],
+    
+    // Housewarming
+    'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
+    'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral'],
+    
+    // Baby Shower
+    'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
+    'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
+    
+    // Engagement
+    'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
+    'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
+    
+    // Farewell
+    'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
+    'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal'],
+    
+    // College Fest
+    'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
+    'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
+    'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate'],
+    
+    // Corporate Event
+    'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
+    'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
+    'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful'],
+    
+    // Religious Events
+    'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
+    'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
+    'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
+
     'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
   };
 
 export const weddingCategories = [
   'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
   'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-  'Christian Invitation', 'Engagement Invitation'
+  'Christian Invitation', 'Engagement Invitation',
+  'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party',
+  'Traditional Housewarming', 'Modern Housewarming',
+  'Classic Baby Shower', 'Modern Baby Shower',
+  'Classic Engagement', 'Modern Engagement',
+  'Corporate Farewell', 'School Farewell',
+  'Tech Fest', 'Cultural Fest', 'Sports Meet',
+  'Conference', 'Seminar', 'Annual Meet',
+  'Mosque Event', 'Church Event', 'Temple Event'
 ];
 
 export const getThemeThumbnail = (theme: string, businessType?: string) => {

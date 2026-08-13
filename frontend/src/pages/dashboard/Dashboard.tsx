@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail, weddingCategories } from '../../utils/templateData';
+import { categoryThemes, getThemeThumbnail, weddingCategories, eventHierarchy } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -71,6 +71,7 @@ export default function Dashboard() {
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
   const [newType, setNewType] = useState('Restaurant');
+  const [mainEventCategory, setMainEventCategory] = useState('Wedding');
 
   // Settings State
   const [editUsername, setEditUsername] = useState(user?.username || '');
@@ -709,6 +710,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => {
                           if (checkCreationLimit()) {
+                            setMainEventCategory('Wedding');
                             setNewType('Wedding Invitation');
                             setNewTheme('Classic');
                             setCreationMode('wedding');
@@ -761,6 +763,7 @@ export default function Dashboard() {
                           <button
                             onClick={() => {
                               if (checkCreationLimit()) {
+                                setMainEventCategory('Wedding');
                                 setNewType('Wedding Invitation');
                                 setNewTheme('Classic');
                                 setIsCreating(true);
@@ -1195,7 +1198,9 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
-                        {newType === 'Wedding Invitation' ? "Couple's Names" : "Website Name"}
+                        {creationMode === 'wedding' 
+                          ? (mainEventCategory === 'Wedding' || mainEventCategory === 'Engagement' ? "Couple's Names" : mainEventCategory === 'Housewarming' ? "Family Name" : mainEventCategory === 'Birthday' || mainEventCategory === 'Farewell' || mainEventCategory === 'Baby Shower' ? "Person's Name" : "Event Name") 
+                          : "Website Name"}
                       </label>
                       <input
                         type="text"
@@ -1208,7 +1213,9 @@ export default function Dashboard() {
                           }
                         }}
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
-                        placeholder={newType === 'Wedding Invitation' ? "Alex & Jordan" : "My Awesome Business"}
+                        placeholder={creationMode === 'wedding' 
+                          ? (mainEventCategory === 'Wedding' || mainEventCategory === 'Engagement' ? "Alex & Jordan" : mainEventCategory === 'Housewarming' ? "The Smiths" : "Alex") 
+                          : "My Awesome Business"}
                       />
                     </div>
 
@@ -1243,37 +1250,90 @@ export default function Dashboard() {
                       )}
                     </div>
 
-                    <div className="bg-white/50 p-4 rounded-2xl border border-white">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category</label>
-                      <select
-                        value={newType}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setNewType(val);
-                          setNewTheme(categoryThemes[val][0]);
-                        }}
-                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
-                      >
-                        {Object.keys(categoryThemes).filter(cat => 
-                          creationMode === 'wedding' ? weddingCategories.includes(cat) : !weddingCategories.includes(cat)
-                        ).map(cat => (
-                          <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                      </select>
-                    </div>
+                    {creationMode === 'wedding' ? (
+                      <>
+                        <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                          <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Main Event Type</label>
+                          <select
+                            value={mainEventCategory}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setMainEventCategory(val);
+                              const subCats = Object.keys(eventHierarchy[val]);
+                              setNewType(subCats[0]);
+                              setNewTheme(eventHierarchy[val][subCats[0]][0]);
+                            }}
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                          >
+                            {Object.keys(eventHierarchy).map(cat => (
+                              <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                          </select>
+                        </div>
 
-                    <div className="bg-white/50 p-4 rounded-2xl border border-white">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Theme</label>
-                      <select
-                        value={newTheme}
-                        onChange={(e) => setNewTheme(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
-                      >
-                        {categoryThemes[newType]?.map(theme => (
-                          <option key={theme} value={theme}>{theme}</option>
-                        ))}
-                      </select>
-                    </div>
+                        <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                          <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Sub-Category</label>
+                          <select
+                            value={newType}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setNewType(val);
+                              setNewTheme(eventHierarchy[mainEventCategory][val][0]);
+                            }}
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                          >
+                            {Object.keys(eventHierarchy[mainEventCategory] || {}).map(cat => (
+                              <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
+                          <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Theme</label>
+                          <select
+                            value={newTheme}
+                            onChange={(e) => setNewTheme(e.target.value)}
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                          >
+                            {(eventHierarchy[mainEventCategory]?.[newType] || []).map(theme => (
+                              <option key={theme} value={theme}>{theme}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                          <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category</label>
+                          <select
+                            value={newType}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setNewType(val);
+                              setNewTheme(categoryThemes[val][0]);
+                            }}
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                          >
+                            {Object.keys(categoryThemes).filter(cat => !weddingCategories.includes(cat)).map(cat => (
+                              <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="bg-white/50 p-4 rounded-2xl border border-white">
+                          <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Theme</label>
+                          <select
+                            value={newTheme}
+                            onChange={(e) => setNewTheme(e.target.value)}
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                          >
+                            {categoryThemes[newType]?.map(theme => (
+                              <option key={theme} value={theme}>{theme}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </>
+                    )}
 
                   </div>
 
