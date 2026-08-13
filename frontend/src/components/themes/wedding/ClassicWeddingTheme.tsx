@@ -6,6 +6,8 @@ import FloralLayout from './layouts/FloralLayout';
 import MinimalLayout from './layouts/MinimalLayout';
 import ElegantLayout from './layouts/ElegantLayout';
 import SouthIndianLayout from './layouts/SouthIndianLayout';
+import TempleMinimalLayout from './layouts/TempleMinimalLayout';
+import SouthIndianRoyalLayout from './layouts/SouthIndianRoyalLayout';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -109,7 +111,11 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
   
-  if (category === 'South Indian Wedding') {
+  if (t.includes('temple minimal')) {
+    baseTheme = 'TempleMinimal';
+  } else if (t.includes('south indian royal')) {
+    baseTheme = 'SouthIndianRoyal';
+  } else if (category === 'South Indian Wedding') {
     baseTheme = 'SouthIndian';
   } else if (t.includes('modern')) {
     baseTheme = 'Modern';
@@ -130,6 +136,10 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <MinimalLayout {...layoutProps} />;
     case 'Elegant':
       return <ElegantLayout {...layoutProps} />;
+    case 'TempleMinimal':
+      return <TempleMinimalLayout {...layoutProps} />;
+    case 'SouthIndianRoyal':
+      return <SouthIndianRoyalLayout {...layoutProps} />;
     case 'SouthIndian':
       return <SouthIndianLayout {...layoutProps} />;
     case 'Classic':

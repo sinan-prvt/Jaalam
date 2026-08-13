@@ -1,6 +1,6 @@
 import React from 'react';
 import { Heart, Calendar, MapPin, Music, Coffee, Camera, PartyPopper } from 'lucide-react';
-import { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from './types';
 
 // Icons for South Indian Wedding
 const GaneshaIcon = () => (

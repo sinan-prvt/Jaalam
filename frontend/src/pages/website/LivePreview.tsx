@@ -292,7 +292,9 @@ function LivePreviewContent() {
   return (
     <>
       {renderTheme()}
-      <Chatbot content={data.content} />
+      {(!data?.website?.business_type || !['Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 'Christian Invitation', 'Engagement Invitation'].includes(data.website.business_type)) && (
+        <Chatbot content={data.content} />
+      )}
     </>
   );
 }

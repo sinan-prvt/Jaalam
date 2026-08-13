@@ -510,7 +510,9 @@ export default function PublicWebsite() {
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
 
-      <Chatbot content={content} />
+      {(!website?.business_type || !['Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 'Christian Invitation', 'Engagement Invitation'].includes(website.business_type)) && (
+        <Chatbot content={content} />
+      )}
 
       {upiId && (
         <>
