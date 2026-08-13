@@ -216,7 +216,7 @@ export default function WeddingEditor() {
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col space-y-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Main Event Type (Read-Only)</label>
                     <input

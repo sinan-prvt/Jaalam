@@ -1,12 +1,12 @@
 export const eventHierarchy: Record<string, Record<string, string[]>> = {
   'Wedding': {
-    'South Indian Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'South Indian Wedding': ['South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Temple Minimal', 'Vibrant Elegant'],
     'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Islamic Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Kerala Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Punjabi Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Bengali Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Christian Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant']
+    'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
+    'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
+    'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
+    'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
+    'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace']
   },
   'Birthday': {
     'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
@@ -62,12 +62,12 @@ export const categoryThemes: Record<string, string[]> = {
     'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
     'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Islamic Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'South Indian Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Kerala Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Punjabi Traditional': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Bengali Wedding': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Christian Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+    'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
+    'South Indian Wedding': ['South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Temple Minimal', 'Vibrant Elegant'],
+    'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
+    'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
+    'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
+    'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace'],
     'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     
     // Birthday Events

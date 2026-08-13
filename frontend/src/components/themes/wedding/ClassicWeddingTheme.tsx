@@ -5,6 +5,7 @@ import ModernLayout from './layouts/ModernLayout';
 import FloralLayout from './layouts/FloralLayout';
 import MinimalLayout from './layouts/MinimalLayout';
 import ElegantLayout from './layouts/ElegantLayout';
+import SouthIndianLayout from './layouts/SouthIndianLayout';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -105,7 +106,22 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
 
   const layoutProps = { content, website, updateContent, isEditor, colors };
 
-  switch (theme) {
+  let baseTheme = 'Classic';
+  const t = (theme || 'Classic').toLowerCase();
+  
+  if (t.includes('modern')) {
+    baseTheme = 'Modern';
+  } else if (t.includes('floral') || t.includes('emerald') || t.includes('lotus') || t.includes('rose') || t.includes('backwater')) {
+    baseTheme = 'Floral';
+  } else if (t.includes('minimal')) {
+    baseTheme = 'Minimal';
+  } else if (t.includes('elegant') || t.includes('royal')) {
+    baseTheme = 'Elegant';
+  } else if (t.includes('south indian') || category === 'South Indian Wedding') {
+    baseTheme = 'SouthIndian';
+  }
+
+  switch (baseTheme) {
     case 'Modern':
       return <ModernLayout {...layoutProps} />;
     case 'Floral':
@@ -114,6 +130,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <MinimalLayout {...layoutProps} />;
     case 'Elegant':
       return <ElegantLayout {...layoutProps} />;
+    case 'SouthIndian':
+      return <SouthIndianLayout {...layoutProps} />;
     case 'Classic':
     default:
       return <ClassicLayout {...layoutProps} />;
