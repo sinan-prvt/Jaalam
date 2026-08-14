@@ -7,12 +7,12 @@ const Toran = () => (
     {/* Inner Page Toran - Desktop */}
     <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-10">
       {[...Array(8)].map((_, i) => (
-        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0 drop-shadow-sm" />
+        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0 mix-blend-multiply" />
       ))}
     </div>
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden opacity-95">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto max-h-[15vh] object-contain object-top drop-shadow-md" />
+    <div className="absolute top-0 left-0 w-full h-[10vh] flex justify-center overflow-hidden pointer-events-none z-10 md:hidden opacity-95">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-cover object-top mix-blend-multiply" />
     </div>
   </>
 );
