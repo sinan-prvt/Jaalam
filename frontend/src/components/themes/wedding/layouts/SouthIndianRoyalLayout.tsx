@@ -123,19 +123,6 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           {story}
         </p>
 
-        <p className="text-md text-amber-700 font-semibold tracking-wide uppercase mb-6">
-          Together with the blessings of their families
-        </p>
-
-        <div className="flex flex-col items-center mb-8">
-          <h2 className="text-6xl font-bold text-rose-800 font-script">{person1Name}</h2>
-          <span className="text-3xl text-amber-500 my-2 font-script">&amp;</span>
-          <h2 className="text-6xl font-bold text-rose-800 font-script">{person2Name}</h2>
-        </div>
-
-        <p className="text-md md:text-lg text-slate-700 italic mb-6">
-          cordially invite you to celebrate their wedding
-        </p>
 
         <div className="bg-white/80 backdrop-blur-md rounded-2xl py-6 px-10 shadow-lg border border-amber-200/50">
           <p className="text-2xl font-bold text-rose-800 mb-2 font-serif">{date}</p>
