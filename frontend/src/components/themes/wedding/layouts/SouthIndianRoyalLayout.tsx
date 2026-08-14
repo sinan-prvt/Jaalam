@@ -11,8 +11,8 @@ const Toran = () => (
       ))}
     </div>
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full h-[10vh] flex justify-center overflow-hidden pointer-events-none z-10 md:hidden opacity-95">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-cover object-top mix-blend-multiply" />
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden opacity-95">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top mix-blend-multiply drop-shadow-md" />
     </div>
   </>
 );
