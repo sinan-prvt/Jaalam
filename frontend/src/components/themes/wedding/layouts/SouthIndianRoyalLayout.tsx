@@ -5,8 +5,8 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full h-[20vh] lg:h-[28vh] hidden md:flex pointer-events-none z-10 overflow-hidden mix-blend-multiply">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-[200%] md:h-auto object-cover object-top contrast-125 brightness-105" />
+    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[22vh] hidden md:flex pointer-events-none z-10 overflow-hidden mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-fill contrast-125 brightness-105" />
     </div>
     
     {/* Inner Page Toran - Mobile */}
