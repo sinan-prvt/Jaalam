@@ -21,10 +21,21 @@ const BananaLeaf = ({ className }: { className?: string }) => (
 );
 
 export default function SouthIndianLayout({ content, website }: WeddingLayoutProps) {
-  const brideName = content?.bride?.name || 'Namrata';
-  const groomName = content?.groom?.name || 'Mahesh';
-  const date = content?.date || '25/11/24';
-  const venue = content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
+  const coupleNamesStr = content?.hero_title || 'Mahesh & Namrata';
+  const nameParts = coupleNamesStr.split(/&| and /i);
+  const groomName = nameParts[0]?.trim() || 'Mahesh';
+  const brideName = nameParts[1]?.trim() || 'Namrata';
+
+  const date = content?.settings_json?.wedding?.date || content?.date || '25/11/24';
+  const venue = content?.contact_info?.address || content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
+  
+  const groomParents = content?.settings_json?.wedding?.groomParents || 'Sahil Sharma';
+  const brideParents = content?.settings_json?.wedding?.brideParents || 'Divya Anand';
+  const parentsText = (content?.settings_json?.wedding?.groomParents || content?.settings_json?.wedding?.brideParents) 
+    ? `${groomParents} & ${brideParents}`
+    : 'Sahil Sharma & Divya Anand';
+
+  const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
 
   return (
     <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center">
@@ -50,7 +61,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </p>
 
         <p className="text-red-700 font-medium text-sm mb-2 uppercase tracking-wide">
-          {content?.parents?.names || 'Sahil Sharma & Divya Anand'}
+          {parentsText}
         </p>
         
         <p className="text-red-700 text-xs font-semibold leading-relaxed mb-6 px-4 uppercase">
@@ -86,7 +97,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       {/* Couple Illustration at the bottom of hero */}
       <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-20">
         <img 
-          src="/media/south_indian_couple.png" 
+          src={coupleImage} 
           alt="Couple Illustration" 
           className="w-full max-w-lg h-auto object-contain object-bottom"
           onError={(e) => {
