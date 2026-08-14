@@ -52,41 +52,41 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
 
       {/* Main Content Content */}
-      <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-10">
+      <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-[280px] md:mt-[340px]">
         
-        <p className="text-red-700 font-bold mb-8 tracking-widest text-sm">
+        <p className="text-rose-900 font-bold mb-8 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
           || ॐ गणपतये नमः ||
         </p>
 
-        <p className="text-red-700 font-medium text-sm mb-2 uppercase tracking-wide">
+        <p className="text-rose-900 font-medium text-xs md:text-sm mb-3 uppercase tracking-[0.2em]" style={{ fontFamily: "'Playfair Display', serif" }}>
           {parentsText}
         </p>
         
-        <p className="text-red-700 text-xs font-semibold leading-relaxed mb-6 px-4 uppercase">
+        <p className="text-rose-900 text-xs font-semibold leading-relaxed mb-8 px-4 uppercase tracking-widest opacity-80" style={{ fontFamily: "'Playfair Display', serif" }}>
           Request your gracious presence and<br/>
           blessing on the auspicious<br/>
           occasion of the wedding
         </p>
 
-        <p className="text-red-700 text-xs font-medium uppercase mb-6">
+        <p className="text-rose-900 text-xs font-medium uppercase mb-8 tracking-widest" style={{ fontFamily: "'Playfair Display', serif" }}>
           Of Their Son
         </p>
 
-        <div className="flex flex-col md:flex-row items-center justify-center md:gap-2 mb-8">
-          <h1 className="text-4xl md:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-4 mb-10">
+          <h1 className="text-5xl md:text-7xl font-script text-orange-600 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {groomName}
           </h1>
-          <span className="text-red-700 font-medium text-sm italic mx-2 my-2 md:mt-4 block md:inline">with</span>
-          <h1 className="text-4xl md:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <span className="text-rose-900 font-medium text-sm italic mx-2 my-2 md:mt-4 block md:inline" style={{ fontFamily: "'Playfair Display', serif" }}>with</span>
+          <h1 className="text-5xl md:text-7xl font-script text-orange-600 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {brideName}
           </h1>
         </div>
 
-        <p className="text-red-700 text-xl font-bold mb-4">
+        <p className="text-rose-900 text-2xl font-bold mb-4 tracking-wider" style={{ fontFamily: "'Playfair Display', serif" }}>
           {date}
         </p>
 
-        <p className="text-red-700 text-sm font-medium italic">
+        <p className="text-rose-900 text-sm font-medium italic mb-10 opacity-80" style={{ fontFamily: "'Playfair Display', serif" }}>
           {venue}
         </p>
         
@@ -213,22 +213,22 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
-          <p className="text-red-700 font-bold mb-8 tracking-widest text-sm md:text-base animate-pulse">
+        <div className="relative z-10 text-center px-6 py-10 mt-[260px] md:mt-[320px] flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+          <p className="text-rose-900 font-bold mb-8 tracking-[0.2em] text-sm md:text-base animate-pulse" style={{ fontFamily: "'Playfair Display', serif" }}>
             || ॐ गणपतये नमः ||
           </p>
 
-          <p className="text-red-700 text-xs md:text-sm font-semibold uppercase mb-4 tracking-widest text-opacity-80">
+          <p className="text-rose-900 text-xs md:text-sm font-semibold uppercase mb-6 tracking-widest text-opacity-80" style={{ fontFamily: "'Playfair Display', serif" }}>
             You are invited to the wedding of
           </p>
 
-          <h1 className="text-6xl md:text-8xl font-script text-orange-500 font-bold mb-12 drop-shadow-sm whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <h1 className="text-6xl md:text-8xl font-script text-orange-600 font-bold mb-12 drop-shadow-sm whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {coupleNamesStr}
           </h1>
 
           <button
             onClick={() => setIsOpened(true)}
-            className="group relative overflow-hidden bg-red-800 hover:bg-red-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 border border-red-950/50 flex-shrink-0"
+            className="group relative overflow-hidden bg-rose-900 hover:bg-rose-950 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 border border-rose-950/50 flex-shrink-0"
           >
             <span className="relative z-10 flex items-center gap-2">
               Open Invitation
