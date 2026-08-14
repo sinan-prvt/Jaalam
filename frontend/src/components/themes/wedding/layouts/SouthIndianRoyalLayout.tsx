@@ -6,9 +6,9 @@ const Toran = () => (
   <div className="absolute top-0 left-0 right-0 max-w-5xl mx-auto w-full flex justify-between px-2 md:px-6 overflow-hidden pointer-events-none z-10" style={{ height: '80px' }}>
     {[...Array(20)].map((_, i) => (
       <div key={i} className="flex flex-col items-center -mt-2">
-         <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-700 rounded-br-none rotate-45 transform scale-y-150 shadow-md"></div>
-         <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-orange-500 mt-1 shadow-sm"></div>
-         <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-400 mt-1 shadow-sm"></div>
+        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-700 rounded-br-none rotate-45 transform scale-y-150 shadow-md"></div>
+        <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-orange-500 mt-1 shadow-sm"></div>
+        <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-400 mt-1 shadow-sm"></div>
       </div>
     ))}
   </div>
@@ -17,18 +17,18 @@ const Toran = () => (
 export default function SouthIndianRoyalLayout({ content, website }: WeddingLayoutProps) {
   const caricatureUrl = "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80";
   const displayImage = content?.hero?.image || caricatureUrl;
-  
+
   const coupleNames = content?.hero_title || "Rahul & Harinya";
   const story = content?.about_text || "“Two hearts united, one beautiful journey begins. Wishing you a lifetime of togetherness.”";
   const date = content?.settings_json?.wedding?.date || "27 November 2025";
   const location = content?.contact_info?.address || "Financial District, Hyderabad, Telangana, India";
-  
+
   const schedule = content?.settings_json?.wedding?.schedule || [
     { time: "10:30 AM", event: "Muhurtham", date: "Saturday, 12 January", venue: "Venue Name, City", mapLink: "https://maps.google.com" },
     { time: "12:30 PM", event: "Haldi", date: "Tuesday, 3 March", venue: "Hyderabad, Telangana", mapLink: "https://maps.google.com" },
     { time: "9:00 PM Onwards", event: "Mehendi", date: "Wednesday, 4 March", venue: "Kukatpally, Hyderabad", mapLink: "https://maps.google.com" }
   ];
-  
+
   const groomParents = content?.settings_json?.wedding?.groomParents || "Shankar & Laxmi";
   const brideParents = content?.settings_json?.wedding?.brideParents || "Ramesh & Lakshmi";
   const mapUrl = content?.settings_json?.wedding?.mapUrl || "";
@@ -37,7 +37,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const countdownDate = content?.settings_json?.wedding?.countdownDate || "";
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
-  const [timeLeft, setTimeLeft] = useState<{d: number, h: number, m: number, s: number} | null>(null);
+  const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
 
   const [isOpened, setIsOpened] = useState(false);
 
@@ -82,13 +82,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
     hero: (
       <section key="hero" className="relative min-h-screen pt-20 pb-16 flex flex-col items-center text-center px-4 md:px-8">
         <div className="mb-4 flex justify-center">
-           <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
+          <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
-        
+
         <h3 className="text-2xl md:text-3xl font-script text-rose-800 mb-6">
           || Sri Ganeshaya Namah ||
         </h3>
-        
+
         <p className="text-base md:text-lg text-slate-700 italic mb-6 font-serif">
           You are invited to the wedding of
         </p>
@@ -99,13 +99,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
         <div className="relative mb-10 mt-4 max-w-[280px] md:max-w-[320px] w-full mx-auto">
           <div className="aspect-[4/5] overflow-hidden rounded-[100px] border-[8px] border-amber-200 shadow-2xl relative bg-transparent p-2">
-             <div className="w-full h-full rounded-[90px] overflow-hidden">
-               <img 
-                src={displayImage} 
+            <div className="w-full h-full rounded-[90px] overflow-hidden">
+              <img
+                src={displayImage}
                 alt="Couple"
                 className="w-full h-full object-cover"
-               />
-             </div>
+              />
+            </div>
           </div>
         </div>
 
@@ -137,14 +137,14 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       <section key="about" className="py-16 px-6 relative z-10 bg-gradient-to-b from-transparent to-amber-50/50">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mb-10 font-script">About the Couple</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-10">
             <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
               <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person1Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Son of</p>
               <p className="text-lg font-medium text-slate-800">{groomParents}</p>
             </div>
-            
+
             <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
               <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person2Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Daughter of</p>
@@ -161,7 +161,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
             <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
             <div className="w-20 h-1 bg-amber-400 mx-auto rounded-full"></div>
           </div>
-          
+
           <div className="space-y-8">
             {schedule.map((item: any, index: number) => (
               <div key={index} className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border-l-4 border-amber-500 relative flex flex-col md:flex-row items-center md:items-start justify-between text-center md:text-left hover:-translate-y-1 transition-transform">
@@ -175,9 +175,9 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
                   </p>
                 </div>
                 <div>
-                  <a 
-                    href={item.mapLink || mapUrl || "https://maps.google.com"} 
-                    target="_blank" 
+                  <a
+                    href={item.mapLink || mapUrl || "https://maps.google.com"}
+                    target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold tracking-wide uppercase text-xs px-6 py-3 rounded-full transition-colors"
                   >
@@ -197,7 +197,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-2 font-serif text-amber-300">Counting Down To</h2>
           <p className="text-xl italic mb-12 text-rose-200">Our Special Day</p>
-          
+
           <div className="flex gap-4 md:gap-8 justify-center">
             {[
               { label: 'Days', value: timeLeft.d },
@@ -236,33 +236,33 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         <div className="max-w-4xl mx-auto text-center bg-white/70 backdrop-blur-md rounded-[3rem] p-8 md:p-12 shadow-xl border border-amber-100">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>When & Where</h2>
           <div className="w-16 h-1 bg-amber-400 mx-auto mb-8 rounded-full"></div>
-          
+
           <div className="mb-10">
             <h3 className="text-xl font-bold text-slate-800 mb-2">{location}</h3>
           </div>
 
           <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-slate-200">
-            <iframe 
+            <iframe
               src={mapUrl}
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-          
+
           <div className="mt-8">
-             <a 
-                href={mapUrl} 
-                target="_blank" 
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-rose-800 hover:bg-rose-900 text-white font-bold tracking-wide uppercase text-sm px-8 py-4 rounded-full transition-colors shadow-lg shadow-rose-900/30"
-              >
-                <Navigation size={18} />
-                Get Full Directions
-              </a>
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-rose-800 hover:bg-rose-900 text-white font-bold tracking-wide uppercase text-sm px-8 py-4 rounded-full transition-colors shadow-lg shadow-rose-900/30"
+            >
+              <Navigation size={18} />
+              Get Full Directions
+            </a>
           </div>
         </div>
       </section>
@@ -272,7 +272,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Will You Join Us?</h2>
           <p className="text-slate-500 mb-10 tracking-widest uppercase text-sm">Please let us know if you can make it</p>
-          
+
           <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl border border-amber-100 text-left">
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -285,7 +285,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
                   <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif" placeholder="Your Last Name" />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-3">Will you be attending?</label>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -314,7 +314,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
   return (
     <div className={`min-h-screen font-sans bg-[#FDFBF7] relative overflow-hidden text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
-      
+
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -330,50 +330,50 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg text-slate-800 transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
-        
+
         {/* Top Toran */}
-        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full max-w-3xl lg:max-w-4xl h-auto max-h-[20vh] md:max-h-[25vh] object-contain object-top drop-shadow-md" />
+        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0 overflow-hidden">
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full sm:w-auto h-auto max-h-32 md:max-h-48 lg:max-h-56 object-contain object-top drop-shadow-md" />
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
-           <div className="mb-2">
-             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
-           </div>
-           
-           <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
-             || Sri Ganeshaya Namah ||
-           </h3>
-           
-           <div className="flex items-center justify-center gap-2 mb-6 opacity-40">
-             <div className="w-12 h-[1px] bg-amber-700"></div>
-             <div className="w-1.5 h-1.5 rounded-full border border-amber-700"></div>
-             <div className="w-12 h-[1px] bg-amber-700"></div>
-           </div>
-           
-           <p className="mb-2 tracking-widest uppercase text-[9px] md:text-xs font-bold text-slate-500">
-             You are invited to the wedding of
-           </p>
-           
-           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[#7f1d1d] font-script drop-shadow-sm">
-             {coupleNames}
-           </h1>
-           
-           <button 
+        <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-full overflow-y-auto pt-24 pb-32 scrollbar-hide">
+          <div className="mb-2">
+            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
+          </div>
+
+          <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
+            || Sri Ganeshaya Namah ||
+          </h3>
+
+          <div className="flex items-center justify-center gap-2 mb-6 opacity-40">
+            <div className="w-12 h-[1px] bg-amber-700"></div>
+            <div className="w-1.5 h-1.5 rounded-full border border-amber-700"></div>
+            <div className="w-12 h-[1px] bg-amber-700"></div>
+          </div>
+
+          <p className="mb-2 tracking-widest uppercase text-[9px] md:text-xs font-bold text-slate-500">
+            You are invited to the wedding of
+          </p>
+
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[#7f1d1d] font-script drop-shadow-sm px-4">
+            {coupleNames}
+          </h1>
+
+          <button
             onClick={() => setIsOpened(true)}
-            className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50"
+            className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50 flex-shrink-0"
           >
             <span className="relative z-10 flex items-center gap-2">
-               Open Invitation
+              Open Invitation
             </span>
             <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
           </button>
         </div>
-        
+
         {/* Bottom Temple */}
-        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full max-w-3xl lg:max-w-4xl h-auto max-h-[30vh] md:max-h-[35vh] object-contain object-bottom opacity-90" />
+        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 overflow-hidden">
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full sm:w-auto h-auto max-h-48 md:max-h-72 lg:max-h-96 object-contain object-bottom opacity-90" />
         </div>
       </div>
 
@@ -382,7 +382,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       <div className="pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
         {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
-      
+
       {/* Footer */}
       <footer className="py-12 relative z-10 text-center bg-slate-900 text-white rounded-t-[3rem] mx-4 md:mx-12">
         <h2 className="text-2xl font-script mb-2">{coupleNames}</h2>
