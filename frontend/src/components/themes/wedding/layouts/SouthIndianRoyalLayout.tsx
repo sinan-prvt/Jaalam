@@ -331,13 +331,19 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
-        {/* DESKTOP GRAPHICS: Full width banners (cropped for perfect proportions) */}
-        <div className="absolute top-0 left-0 w-full h-[20vh] lg:h-[25vh] hidden md:block pointer-events-none z-0 overflow-hidden">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-cover object-top drop-shadow-md" />
+        {/* DESKTOP GRAPHICS: Advanced Seamless Integration */}
+        
+        {/* Top Toran - Tiled horizontally while cropping the bottom legs to create a perfect banner */}
+        <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-0">
+          {[...Array(6)].map((_, i) => (
+            <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[20vw] h-full object-cover object-top flex-shrink-0 drop-shadow-sm" />
+          ))}
         </div>
         
-        <div className="absolute bottom-0 left-0 w-full h-[35vh] lg:h-[45vh] hidden md:block pointer-events-none z-0 opacity-90 overflow-hidden">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-full object-cover object-bottom" />
+        {/* Bottom Temple - Symmetrical mirrored layout to create a wide landscape without cropping towers */}
+        <div className="absolute bottom-0 left-0 w-full h-[40vh] lg:h-[45vh] hidden md:flex justify-center items-end pointer-events-none z-0 overflow-hidden">
+          <img src="/media/temple_royal.png" alt="Temple Left" className="w-1/2 h-full object-contain object-right-bottom opacity-90 scale-x-[-1] translate-x-[1%]" />
+          <img src="/media/temple_royal.png" alt="Temple Right" className="w-1/2 h-full object-contain object-left-bottom opacity-90 -translate-x-[1%]" />
         </div>
 
         {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
