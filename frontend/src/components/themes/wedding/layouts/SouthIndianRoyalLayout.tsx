@@ -5,13 +5,13 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full flex justify-between pointer-events-none z-10 hidden md:flex">
-      <img src="/media/toran_royal.png" alt="Toran Left" className="w-[45%] lg:w-[35%] h-auto object-contain object-left-top mix-blend-multiply contrast-125" />
-      <img src="/media/toran_royal.png" alt="Toran Right" className="w-[45%] lg:w-[35%] h-auto object-contain object-right-top transform scale-x-[-1] mix-blend-multiply contrast-125" />
+    <div className="absolute top-0 left-0 w-full flex justify-between pointer-events-none z-10 hidden md:flex mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran Left" className="w-[45%] lg:w-[35%] h-auto object-contain object-left-top contrast-125 brightness-105" />
+      <img src="/media/toran_royal.png" alt="Toran Right" className="w-[45%] lg:w-[35%] h-auto object-contain object-right-top transform scale-x-[-1] contrast-125 brightness-105" />
     </div>
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top mix-blend-multiply contrast-125" />
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
     </div>
   </>
 );
@@ -347,8 +347,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
 
         {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
-        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top mix-blend-multiply contrast-125" />
+        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
         </div>
 
         <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
