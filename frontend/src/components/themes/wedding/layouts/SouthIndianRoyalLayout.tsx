@@ -357,20 +357,14 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       </style>
 
       {/* Welcome Screen / Envelope Overlay */}
-      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#F8F4E6] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
-        {/* DESKTOP BACKGROUND: Custom generated wide landscape image */}
-        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none opacity-80">
-          <img src="/media/laptop_royal_bg.png" alt="Desktop Royal Background" className="w-full h-full object-cover object-center" />
-        </div>
+        {/* Toran at the top */}
+        <Toran />
 
-        {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
-        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken -mt-12">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
-        </div>
-
-        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[60vh] object-contain object-bottom opacity-90" />
+        {/* Temple at the bottom */}
+        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[30vh] md:max-h-[60vh] object-contain object-bottom opacity-90 mix-blend-darken" />
         </div>
 
         {/* Center Content */}
