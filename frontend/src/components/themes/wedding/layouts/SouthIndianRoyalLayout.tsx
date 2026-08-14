@@ -331,23 +331,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
-        {/* DESKTOP GRAPHICS: Repeating seamlessly across the width */}
-        <div className="absolute top-0 left-0 w-full h-[18vh] lg:h-[25vh] hidden md:block pointer-events-none z-0"
-             style={{
-               backgroundImage: 'url(/media/toran_royal.png)',
-               backgroundSize: '40vw auto',
-               backgroundPosition: 'top left',
-               backgroundRepeat: 'repeat-x'
-             }}>
+        {/* DESKTOP GRAPHICS: Full width banners (cropped for perfect proportions) */}
+        <div className="absolute top-0 left-0 w-full h-[20vh] lg:h-[25vh] hidden md:block pointer-events-none z-0 overflow-hidden">
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-cover object-top drop-shadow-md" />
         </div>
         
-        <div className="absolute bottom-0 left-0 w-full h-[35vh] lg:h-[45vh] hidden md:block pointer-events-none z-0 opacity-90"
-             style={{
-               backgroundImage: 'url(/media/temple_royal.png)',
-               backgroundSize: '50vw auto',
-               backgroundPosition: 'bottom center',
-               backgroundRepeat: 'repeat-x'
-             }}>
+        <div className="absolute bottom-0 left-0 w-full h-[35vh] lg:h-[45vh] hidden md:block pointer-events-none z-0 opacity-90 overflow-hidden">
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-full object-cover object-bottom" />
         </div>
 
         {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
