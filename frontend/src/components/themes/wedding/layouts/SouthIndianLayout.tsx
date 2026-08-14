@@ -36,12 +36,32 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
     : 'Sahil Sharma & Divya Anand';
 
   const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
+  
+  const schedule = content?.settings_json?.wedding?.schedule || [
+    { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: venue },
+    { time: "7:00 PM Onwards", event: "Reception", date: date, venue: venue }
+  ];
+  
+  const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
+  const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
+  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl;
+  const gallery = content?.settings_json?.wedding?.gallery || [];
+  const story = content?.about_text || "";
+  const location = content?.contact_info?.address || venue;
 
-  return (
-    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center">
-      
-      {/* Hero Cover Section */}
-      <section className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
+  const defaultSections = [
+    { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
+    { id: 'about', label: 'About the Couple', visible: true },
+    { id: 'schedule', label: 'Wedding Events', visible: true },
+    { id: 'gallery', label: 'Captured Moments', visible: true },
+    { id: 'story', label: 'Our Story', visible: true },
+    { id: 'venue', label: 'When & Where', visible: true }
+  ];
+  const sections = content?.settings_json?.wedding?.sections || defaultSections;
+
+  const sectionMap: Record<string, React.ReactNode> = {
+    hero: (
+      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
         {/* Arch / Decor Borders */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
           <div className="w-full h-full border-4 border-amber-900/10 rounded-t-[5rem]"></div>
@@ -107,47 +127,68 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         />
       </div>
       </section>
-
-      {/* Sections Below */}
-      <div className="relative z-30 max-w-4xl mx-auto px-4 py-16 space-y-24">
-        
-        {/* Events Section */}
-        <section className="text-center">
-          <h2 className="text-3xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 text-center shadow-md">
-                <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Muhurtham</h3>
-                <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
-                    <Calendar className="w-5 h-5 text-red-700" />
-                    <span className="font-semibold">{date}</span>
+    ),
+    about: (
+      <section key="about" className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>About the Couple</h2>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="bg-white/80 p-8 rounded-2xl shadow-md border-2 border-amber-100 flex flex-col items-center">
+              {groomPhoto && (
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-amber-200 mb-4">
+                  <img src={groomPhoto} alt={groomName} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-amber-700 font-medium">9:00 AM Onwards</p>
+              )}
+              <h3 className="text-3xl font-bold text-orange-600 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{groomName}</h3>
+              <p className="text-sm text-amber-700 uppercase tracking-widest mb-1">Son of</p>
+              <p className="text-md font-medium text-amber-900">{groomParents}</p>
             </div>
-
-            <div className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 text-center shadow-md">
-                <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Reception</h3>
-                <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
-                    <Calendar className="w-5 h-5 text-red-700" />
-                    <span className="font-semibold">{date}</span>
+            <div className="bg-white/80 p-8 rounded-2xl shadow-md border-2 border-amber-100 flex flex-col items-center">
+              {bridePhoto && (
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-amber-200 mb-4">
+                  <img src={bridePhoto} alt={brideName} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-amber-700 font-medium">7:00 PM Onwards</p>
+              )}
+              <h3 className="text-3xl font-bold text-orange-600 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{brideName}</h3>
+              <p className="text-sm text-amber-700 uppercase tracking-widest mb-1">Daughter of</p>
+              <p className="text-md font-medium text-amber-900">{brideParents}</p>
             </div>
           </div>
-        </section>
-
-        {/* Venue Section */}
-        <section className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
+        </div>
+      </section>
+    ),
+    schedule: (
+      <section key="schedule" className="py-20 px-6 relative z-10 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {schedule.map((item: any, idx: number) => (
+            <div key={idx} className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 shadow-md">
+              <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{item.event}</h3>
+              <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
+                  <Calendar className="w-5 h-5 text-red-700" />
+                  <span className="font-semibold">{item.date}</span>
+              </div>
+              <p className="text-amber-700 font-medium">{item.time}</p>
+              <p className="text-amber-600 text-sm mt-2">{item.venue}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    ),
+    venue: mapUrl || location ? (
+      <section key="venue" className="py-20 px-6 relative z-10">
+        <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
              <div className="relative z-10">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
                     <MapPin className="w-8 h-8" />
                 </div>
                 <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
-                <p className="text-xl font-medium text-amber-900 mb-2">{venue}</p>
+                <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
                 <p className="text-md text-amber-700 max-w-md mx-auto mb-8">Join us to celebrate our joyous occasion.</p>
                 
-                {content?.venue?.mapUrl && (
+                {mapUrl && (
                     <a 
-                      href={content?.venue?.mapUrl}
+                      href={mapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm"
@@ -156,8 +197,40 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
                     </a>
                 )}
              </div>
-        </section>
+        </div>
+      </section>
+    ) : null,
+    gallery: gallery.length > 0 ? (
+      <section key="gallery" className="py-20 px-6 relative z-10 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Captured Moments</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {gallery.map((url: string, index: number) => (
+            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-md">
+              <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+          ))}
+        </div>
+      </section>
+    ) : null,
+    story: story ? (
+      <section key="story" className="py-20 px-6 relative z-10 text-center">
+        <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur rounded-3xl p-10 shadow-md border-2 border-amber-100">
+          <h2 className="text-3xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>Our Story</h2>
+          <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
+            "{story}"
+          </p>
+        </div>
+      </section>
+    ) : null
+  };
 
+  return (
+    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center">
+      {sectionMap['hero']}
+
+      {/* Sections Below */}
+      <div className="relative z-30 max-w-4xl mx-auto px-4 py-16 space-y-24">
+        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
       
     </div>
