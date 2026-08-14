@@ -410,9 +410,9 @@ export default function WeddingEditor() {
 
           {activeTab === 'family' && (
             <div className="space-y-6 animate-in fade-in">
-              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Groom's Parents & Family</label>
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-6">
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Groom's Parents & Family</label>
                   <input
                     type="text"
                     value={weddingData.groomParents || ''}
@@ -420,9 +420,23 @@ export default function WeddingEditor() {
                     placeholder="Mr. & Mrs. Smith (Smith Family)"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
+                  <div className="pt-2">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Groom's Photo</label>
+                    {weddingData.groomPhoto && (
+                      <div className="mb-2 w-20 h-20 rounded-full overflow-hidden border-2 border-pink-100">
+                        <img src={weddingData.groomPhoto} alt="Groom" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <FileUpload 
+                      accept="image/*" 
+                      label={weddingData.groomPhoto ? "Change Photo" : "Upload Groom's Photo"}
+                      onChange={(url) => setWeddingData({ groomPhoto: url })} 
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bride's Parents & Family</label>
+
+                <div className="border-t border-slate-100 pt-6 space-y-3">
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Bride's Parents & Family</label>
                   <input
                     type="text"
                     value={weddingData.brideParents || ''}
@@ -430,6 +444,19 @@ export default function WeddingEditor() {
                     placeholder="Mr. & Mrs. Doe (Doe Family)"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
+                  <div className="pt-2">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bride's Photo</label>
+                    {weddingData.bridePhoto && (
+                      <div className="mb-2 w-20 h-20 rounded-full overflow-hidden border-2 border-pink-100">
+                        <img src={weddingData.bridePhoto} alt="Bride" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <FileUpload 
+                      accept="image/*" 
+                      label={weddingData.bridePhoto ? "Change Photo" : "Upload Bride's Photo"}
+                      onChange={(url) => setWeddingData({ bridePhoto: url })} 
+                    />
+                  </div>
                 </div>
               </div>
             </div>

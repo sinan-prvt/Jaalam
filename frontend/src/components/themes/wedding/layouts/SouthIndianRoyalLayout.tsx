@@ -41,6 +41,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
   const groomParents = content?.settings_json?.wedding?.groomParents || "Shankar & Laxmi";
   const brideParents = content?.settings_json?.wedding?.brideParents || "Ramesh & Lakshmi";
+  const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
+  const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
   const mapUrl = content?.settings_json?.wedding?.mapUrl || "";
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
   const gallery = content?.settings_json?.wedding?.gallery || [];
@@ -131,18 +133,28 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       </section>
     ),
     about: (
-      <section key="about" className="py-16 px-6 relative z-10 bg-gradient-to-b from-transparent to-amber-50/50">
-        <div className="max-w-3xl mx-auto text-center">
+      <section key="about" className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mb-10 font-script">About the Couple</h2>
 
-          <div className="grid md:grid-cols-2 gap-10">
-            <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100 flex flex-col items-center">
+              {groomPhoto && (
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-6 mx-auto">
+                  <img src={groomPhoto} alt={person1Name} className="w-full h-full object-cover" />
+                </div>
+              )}
               <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person1Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Son of</p>
               <p className="text-lg font-medium text-slate-800">{groomParents}</p>
             </div>
 
-            <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
+            <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100 flex flex-col items-center">
+              {bridePhoto && (
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-amber-200 shadow-lg mb-6 mx-auto">
+                  <img src={bridePhoto} alt={person2Name} className="w-full h-full object-cover" />
+                </div>
+              )}
               <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person2Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Daughter of</p>
               <p className="text-lg font-medium text-slate-800">{brideParents}</p>
