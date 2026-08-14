@@ -365,7 +365,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
         {/* Center Content */}
         <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0 md:-translate-y-[12vh]">
-          <div className="mb-2">
+          <div className="mb-2 animate-float-slow">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
           </div>
 
@@ -389,7 +389,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
           <button
             onClick={() => setIsOpened(true)}
-            className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50 flex-shrink-0"
+            className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50 flex-shrink-0 animate-pulse"
           >
             <span className="relative z-10 flex items-center gap-2">
               Open Invitation
@@ -402,7 +402,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Main Content */}
       <Toran />
 
-      <div className="relative z-10 pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
+      <div className="theme-root relative z-10 pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
         {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
