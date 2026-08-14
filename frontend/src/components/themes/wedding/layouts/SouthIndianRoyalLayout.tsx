@@ -313,8 +313,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   };
 
   return (
-    <div className={`min-h-screen font-sans bg-[#FDFBF7] relative overflow-hidden text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
-
+    <div className={`min-h-screen font-sans bg-stone-900 relative text-slate-800 flex justify-center ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+      
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -329,65 +329,70 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       </style>
 
       {/* Welcome Screen / Envelope Overlay */}
-      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg text-slate-800 transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
-
-        {/* Top Toran */}
-        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0 overflow-hidden">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full sm:w-auto h-auto max-h-32 md:max-h-48 lg:max-h-56 object-contain object-top drop-shadow-md" />
-        </div>
-
-        {/* Center Content */}
-        <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-full overflow-y-auto pt-24 pb-32 scrollbar-hide">
-          <div className="mb-2">
-            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
+      <div className={`fixed inset-0 z-[100] flex justify-center bg-stone-900/95 transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
+        <div className="w-full sm:max-w-[450px] h-full bg-[#FDFBF7] mandala-bg relative flex flex-col items-center justify-center shadow-2xl overflow-hidden">
+          
+          {/* Top Toran */}
+          <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0">
+            <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top drop-shadow-md" />
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
-            || Sri Ganeshaya Namah ||
-          </h3>
-
-          <div className="flex items-center justify-center gap-2 mb-6 opacity-40">
-            <div className="w-12 h-[1px] bg-amber-700"></div>
-            <div className="w-1.5 h-1.5 rounded-full border border-amber-700"></div>
-            <div className="w-12 h-[1px] bg-amber-700"></div>
+          {/* Center Content */}
+          <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center w-full h-full overflow-y-auto pt-24 pb-32 scrollbar-hide">
+             <div className="mb-2">
+               <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
+             </div>
+             
+             <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
+               || Sri Ganeshaya Namah ||
+             </h3>
+             
+             <div className="flex items-center justify-center gap-2 mb-6 opacity-40">
+               <div className="w-12 h-[1px] bg-amber-700"></div>
+               <div className="w-1.5 h-1.5 rounded-full border border-amber-700"></div>
+               <div className="w-12 h-[1px] bg-amber-700"></div>
+             </div>
+             
+             <p className="mb-2 tracking-widest uppercase text-[9px] md:text-xs font-bold text-slate-500">
+               You are invited to the wedding of
+             </p>
+             
+             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[#7f1d1d] font-script drop-shadow-sm px-4">
+               {coupleNames}
+             </h1>
+             
+             <button 
+              onClick={() => setIsOpened(true)}
+              className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50 flex-shrink-0"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                 Open Invitation
+              </span>
+              <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
+            </button>
           </div>
-
-          <p className="mb-2 tracking-widest uppercase text-[9px] md:text-xs font-bold text-slate-500">
-            You are invited to the wedding of
-          </p>
-
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[#7f1d1d] font-script drop-shadow-sm px-4">
-            {coupleNames}
-          </h1>
-
-          <button
-            onClick={() => setIsOpened(true)}
-            className="group relative overflow-hidden bg-[#7f1d1d] hover:bg-rose-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 mt-4 border border-rose-950/50 flex-shrink-0"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              Open Invitation
-            </span>
-            <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
-          </button>
-        </div>
-
-        {/* Bottom Temple */}
-        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 overflow-hidden">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full sm:w-auto h-auto max-h-48 md:max-h-72 lg:max-h-96 object-contain object-bottom opacity-90" />
+          
+          {/* Bottom Temple */}
+          <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
+            <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto object-contain object-bottom opacity-90" />
+          </div>
         </div>
       </div>
 
-      <Toran />
+      {/* Main Content */}
+      <div className="w-full sm:max-w-[450px] min-h-screen bg-[#FDFBF7] relative shadow-2xl">
+        <Toran />
 
-      <div className="pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
-        {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
+        <div className="pb-16 pt-8 w-full mx-auto mandala-bg min-h-screen">
+          {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
+        </div>
+        
+        {/* Footer */}
+        <footer className="py-12 relative z-10 text-center bg-slate-900 text-white rounded-t-[3rem] mx-4 md:mx-6">
+          <h2 className="text-2xl font-script mb-2">{coupleNames}</h2>
+          <p className="text-slate-400 text-xs tracking-widest uppercase mb-6">Made with love by Jaalam</p>
+        </footer>
       </div>
-
-      {/* Footer */}
-      <footer className="py-12 relative z-10 text-center bg-slate-900 text-white rounded-t-[3rem] mx-4 md:mx-12">
-        <h2 className="text-2xl font-script mb-2">{coupleNames}</h2>
-        <p className="text-slate-400 text-xs tracking-widest uppercase mb-6">Made with love by Jaalam</p>
-      </footer>
 
       {/* Background Music */}
       {musicUrl && isOpened && (
