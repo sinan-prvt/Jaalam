@@ -3,9 +3,17 @@ import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users } from '
 import type { WeddingLayoutProps } from './types';
 
 const Toran = () => (
-  <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 mix-blend-multiply">
-    <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
-  </div>
+  <>
+    {/* Inner Page Toran - Desktop */}
+    <div className="absolute top-0 left-0 w-full h-[20vh] lg:h-[28vh] hidden md:flex pointer-events-none z-10 overflow-hidden mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-[200%] md:h-auto object-cover object-top contrast-125 brightness-105" />
+    </div>
+    
+    {/* Inner Page Toran - Mobile */}
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
+    </div>
+  </>
 );
 
 export default function SouthIndianRoyalLayout({ content, website }: WeddingLayoutProps) {
