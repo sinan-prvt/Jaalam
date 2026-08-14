@@ -1,4 +1,4 @@
-import React from 'react';
+import { Calendar, MapPin } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
 const MarigoldGarland = () => (
@@ -27,12 +27,14 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const venue = content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
 
   return (
-    <div className="min-h-screen bg-[#FDF9EE] relative overflow-hidden font-sans flex flex-col items-center pt-24 pb-96">
+    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center">
       
-      {/* Arch / Decor Borders */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
-        <div className="w-full h-full border-4 border-amber-900/10 rounded-t-[5rem]"></div>
-      </div>
+      {/* Hero Cover Section */}
+      <section className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
+        {/* Arch / Decor Borders */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
+          <div className="w-full h-full border-4 border-amber-900/10 rounded-t-[5rem]"></div>
+        </div>
 
       <MarigoldGarland />
       
@@ -61,12 +63,12 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           Of Their Son
         </p>
 
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <h1 className="text-5xl font-script text-orange-500 font-bold" style={{ fontFamily: "'Great Vibes', cursive" }}>
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-2 mb-8">
+          <h1 className="text-4xl md:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {groomName}
           </h1>
-          <span className="text-red-700 font-medium text-sm italic mx-2 mt-4">with</span>
-          <h1 className="text-5xl font-script text-orange-500 font-bold" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <span className="text-red-700 font-medium text-sm italic mx-2 my-2 md:mt-4 block md:inline">with</span>
+          <h1 className="text-4xl md:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {brideName}
           </h1>
         </div>
@@ -81,7 +83,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         
       </div>
 
-      {/* Couple Illustration at the bottom */}
+      {/* Couple Illustration at the bottom of hero */}
       <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-20">
         <img 
           src="/media/south_indian_couple.png" 
@@ -92,6 +94,59 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
             (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
           }}
         />
+      </div>
+      </section>
+
+      {/* Sections Below */}
+      <div className="relative z-30 max-w-4xl mx-auto px-4 py-16 space-y-24">
+        
+        {/* Events Section */}
+        <section className="text-center">
+          <h2 className="text-3xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 text-center shadow-md">
+                <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Muhurtham</h3>
+                <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
+                    <Calendar className="w-5 h-5 text-red-700" />
+                    <span className="font-semibold">{date}</span>
+                </div>
+                <p className="text-amber-700 font-medium">9:00 AM Onwards</p>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 text-center shadow-md">
+                <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Reception</h3>
+                <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
+                    <Calendar className="w-5 h-5 text-red-700" />
+                    <span className="font-semibold">{date}</span>
+                </div>
+                <p className="text-amber-700 font-medium">7:00 PM Onwards</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Venue Section */}
+        <section className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
+             <div className="relative z-10">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
+                    <MapPin className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
+                <p className="text-xl font-medium text-amber-900 mb-2">{venue}</p>
+                <p className="text-md text-amber-700 max-w-md mx-auto mb-8">Join us to celebrate our joyous occasion.</p>
+                
+                {content?.venue?.mapUrl && (
+                    <a 
+                      href={content?.venue?.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm"
+                    >
+                      Get Directions
+                    </a>
+                )}
+             </div>
+        </section>
+
       </div>
       
     </div>
