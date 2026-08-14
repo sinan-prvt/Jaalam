@@ -343,6 +343,14 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
             background-image: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
                               radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
           }
+          @keyframes type-reveal {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
+          }
+          .typing-text {
+            animation: type-reveal 2.5s steps(40, end) forwards;
+            display: inline-block;
+          }
         `}
       </style>
 
@@ -365,11 +373,11 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
         {/* Center Content */}
         <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0 md:-translate-y-[12vh]">
-          <div className="mb-2 animate-float-slow">
+          <div className="mb-2">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
+          <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3 typing-text">
             || Sri Ganeshaya Namah ||
           </h3>
 
