@@ -5,14 +5,14 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-10">
+    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-10 mix-blend-multiply">
       {[...Array(8)].map((_, i) => (
-        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0 mix-blend-multiply" />
+        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0" />
       ))}
     </div>
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden opacity-95">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top mix-blend-multiply drop-shadow-md" />
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
     </div>
   </>
 );
