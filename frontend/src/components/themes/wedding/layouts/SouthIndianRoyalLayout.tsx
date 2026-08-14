@@ -5,7 +5,7 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-darken -mt-8 lg:-mt-12">
+    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-darken -mt-2 lg:-mt-2">
       <div
         className="w-full h-[15vh] lg:h-[42vh]"
         style={{
@@ -18,7 +18,7 @@ const Toran = () => (
     </div>
 
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken -mt-6">
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken -mt-12">
       <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
     </div>
   </>
@@ -297,7 +297,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Name</label>
                   <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif" placeholder="Your Name" />
                 </div>
-                
+
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Message</label>
                   <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif resize-none" placeholder="Your wishes for the couple..."></textarea>
