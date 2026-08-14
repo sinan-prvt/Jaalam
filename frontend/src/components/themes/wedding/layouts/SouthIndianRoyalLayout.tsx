@@ -3,15 +3,18 @@ import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users } from '
 import type { WeddingLayoutProps } from './types';
 
 const Toran = () => (
-  <div className="absolute top-0 left-0 right-0 max-w-5xl mx-auto w-full flex justify-between px-2 md:px-6 overflow-hidden pointer-events-none z-10" style={{ height: '80px' }}>
-    {[...Array(20)].map((_, i) => (
-      <div key={i} className="flex flex-col items-center -mt-2">
-        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-700 rounded-br-none rotate-45 transform scale-y-150 shadow-md"></div>
-        <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-orange-500 mt-1 shadow-sm"></div>
-        <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-400 mt-1 shadow-sm"></div>
-      </div>
-    ))}
-  </div>
+  <>
+    {/* Inner Page Toran - Desktop */}
+    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-10">
+      {[...Array(8)].map((_, i) => (
+        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0 drop-shadow-sm" />
+      ))}
+    </div>
+    {/* Inner Page Toran - Mobile */}
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden opacity-95">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto max-h-[15vh] object-contain object-top drop-shadow-md" />
+    </div>
+  </>
 );
 
 export default function SouthIndianRoyalLayout({ content, website }: WeddingLayoutProps) {
