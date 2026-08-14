@@ -2,25 +2,6 @@ import React, { useState } from 'react';
 import { Calendar, MapPin } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
-const MarigoldGarland = () => (
-  <div className="flex justify-center w-full overflow-hidden absolute top-0 pt-4 z-10 pointer-events-none opacity-90">
-    {[...Array(15)].map((_, i) => (
-      <div key={i} className="flex flex-col items-center mx-1">
-        <div className="w-6 h-6 rounded-full bg-orange-500 shadow-sm border border-orange-600 mb-1"></div>
-        <div className="w-6 h-6 rounded-full bg-yellow-400 shadow-sm border border-yellow-500"></div>
-      </div>
-    ))}
-  </div>
-);
-
-const BananaLeaf = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M50 0C50 0 10 50 10 100C10 150 50 200 50 200C50 200 90 150 90 100C90 50 50 0 50 0Z" fill="#4ade80" opacity="0.8" />
-    <path d="M50 0V200" stroke="#166534" strokeWidth="2" />
-    <path d="M50 40L20 20M50 80L15 60M50 120L20 100M50 160L30 140M50 40L80 20M50 80L85 60M50 120L80 100M50 160L70 140" stroke="#166534" strokeWidth="1" />
-  </svg>
-);
-
 export default function SouthIndianLayout({ content, website }: WeddingLayoutProps) {
   const [isOpened, setIsOpened] = useState(false);
 
@@ -65,17 +46,10 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
-
-        {/* Arch / Decor Borders */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
-          <div className="w-full h-full border-4 border-amber-900/10 rounded-t-[5rem]"></div>
+        {/* Arch / Decor Background */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
-
-      <MarigoldGarland />
-      
-      {/* Banana Leaves */}
-      <BananaLeaf className="absolute top-20 -left-8 w-32 h-64 transform rotate-12 opacity-80" />
-      <BananaLeaf className="absolute top-20 -right-8 w-32 h-64 transform -rotate-12 scale-x-[-1] opacity-80" />
 
       {/* Main Content Content */}
       <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-10">
@@ -234,12 +208,10 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDF9EE] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
         
-        {/* Arch / Decor Borders */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
-          <div className="w-full h-full border-4 border-amber-900/10 rounded-[3rem]"></div>
+        {/* Arch / Decor Background */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
-
-        <MarigoldGarland />
 
         <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
           <p className="text-red-700 font-bold mb-8 tracking-widest text-sm md:text-base animate-pulse">
