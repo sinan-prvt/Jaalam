@@ -5,7 +5,7 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-darken">
+    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-darken -mt-8 lg:-mt-12">
       <div
         className="w-full h-[15vh] lg:h-[42vh]"
         style={{
@@ -18,7 +18,7 @@ const Toran = () => (
     </div>
 
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken">
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken -mt-6">
       <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
     </div>
   </>
