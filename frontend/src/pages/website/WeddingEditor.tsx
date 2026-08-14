@@ -182,8 +182,8 @@ export default function WeddingEditor() {
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
-    { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
     { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
+    { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
 
   const defaultSections = [
