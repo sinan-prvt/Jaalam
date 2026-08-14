@@ -209,7 +209,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           <h2 className="text-2xl md:text-4xl font-bold mb-2 font-serif text-amber-300">Counting Down To</h2>
           <p className="text-xl italic mb-12 text-rose-200">Our Special Day</p>
 
-          <div className="flex gap-4 md:gap-8 justify-center">
+          <div className="flex gap-2 sm:gap-4 md:gap-8 justify-center">
             {[
               { label: 'Days', value: timeLeft.d },
               { label: 'Hours', value: timeLeft.h },
@@ -217,8 +217,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
               { label: 'Secs', value: timeLeft.s }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
-                <div className={`w-16 h-16 md:w-24 md:h-24 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-3 shadow-inner border border-white/20`}>
-                  <span className="text-2xl md:text-4xl font-bold text-white font-serif">{item.value}</span>
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-3 shadow-inner border border-white/20`}>
+                  <span className="text-xl sm:text-2xl md:text-4xl font-bold text-white font-serif">{item.value}</span>
                 </div>
                 <span className="text-[10px] md:text-xs tracking-widest uppercase font-bold text-amber-200">{item.label}</span>
               </div>
