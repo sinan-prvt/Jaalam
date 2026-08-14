@@ -6,11 +6,42 @@ import type { RootState } from '../../store';
 import { 
   Save, ArrowLeft, Heart, BookOpen, Clock, 
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass
+  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import QRCode from 'react-qr-code';
+import QRCodeLib from 'react-qr-code';
+const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import { categoryThemes, eventHierarchy } from '../../utils/templateData';
+
+const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
+  const [uploading, setUploading] = useState(false);
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await axios.post('/api/websites/upload/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      onChange(res.data.url);
+      toast.success('File uploaded successfully!');
+    } catch (err) {
+      toast.error('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <label className={`w-full mt-2 flex items-center justify-center py-2 px-4 rounded-xl font-bold text-xs cursor-pointer transition-all ${uploading ? 'bg-slate-200 text-slate-400' : 'bg-pink-50 text-pink-600 hover:bg-pink-100 shadow-sm border border-pink-100'}`}>
+      <Upload size={14} className="mr-2" />
+      {uploading ? 'Uploading...' : label}
+      <input type="file" accept={accept} className="hidden" onChange={handleUpload} disabled={uploading} />
+    </label>
+  );
+};
 
 export default function WeddingEditor() {
   const { websiteId } = useParams();
@@ -91,6 +122,10 @@ export default function WeddingEditor() {
     setSaving(true);
     const loadingToast = toast.loading('Saving changes...');
     try {
+      await axios.patch(`/api/websites/${websiteId}/`, {
+        theme: website.theme,
+        business_type: website.business_type
+      });
       await axios.put(`/api/websites/${websiteId}/content/`, content);
       toast.success('Changes saved!', { id: loadingToast });
     } catch (err) {
@@ -162,7 +197,8 @@ export default function WeddingEditor() {
   
   const currentSections = weddingData.sections || defaultSections;
 
-  const publicUrl = `https://${website.slug}.jaalam.app`;
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
 
   return (
     <div className="flex h-screen bg-pink-50/20 font-sans overflow-hidden relative">
@@ -521,7 +557,12 @@ export default function WeddingEditor() {
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
                     placeholder="https://example.com/audio.mp3"
                   />
-                  <p className="text-[10px] text-slate-400 mt-2">Provide a direct link to an MP3 file to enable background music on your site.</p>
+                  <FileUpload 
+                    accept="audio/*" 
+                    label="Upload MP3 File" 
+                    onChange={(url) => setWeddingData({ musicUrl: url })} 
+                  />
+                  <p className="text-[10px] text-slate-400 mt-3">Provide a direct link or upload an MP3 file to enable background music on your site.</p>
                 </div>
               </div>
             </div>

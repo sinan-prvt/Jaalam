@@ -13,7 +13,7 @@
 
 @layer base {
   body {
-    @apply bg-[#09090b] text-zinc-100 font-sans antialiased selection:bg-zinc-800 selection:text-white break-words;
+    @apply bg-[#f5ebda] text-zinc-900 font-sans antialiased selection:bg-orange-200 selection:text-zinc-900 break-words;
   }
 
   h1, h2, h3, h4, h5, h6, p, span, a, li, blockquote, div {

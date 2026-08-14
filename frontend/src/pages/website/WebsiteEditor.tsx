@@ -332,7 +332,8 @@ export default function WebsiteEditor() {
     </div>
   );
 
-  const publicUrl = `http://localhost:5173/${website.slug}`;
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
 
   const tabs = isDynamicAI ? [
     { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
