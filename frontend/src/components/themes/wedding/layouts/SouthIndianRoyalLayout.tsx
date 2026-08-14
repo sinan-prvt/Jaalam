@@ -5,10 +5,9 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-0">
-      {[...Array(8)].map((_, i) => (
-        <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0" />
-      ))}
+    <div className="absolute top-0 left-0 w-full flex justify-between pointer-events-none z-0 hidden md:flex">
+      <img src="/media/toran_royal.png" alt="Toran Left" className="w-[45%] lg:w-[35%] h-auto object-contain object-left-top" />
+      <img src="/media/toran_royal.png" alt="Toran Right" className="w-[45%] lg:w-[35%] h-auto object-contain object-right-top transform scale-x-[-1]" />
     </div>
     {/* Inner Page Toran - Mobile */}
     <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
@@ -253,6 +252,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
               allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              className="pointer-events-none md:pointer-events-auto"
             ></iframe>
           </div>
 
