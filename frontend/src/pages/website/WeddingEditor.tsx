@@ -20,7 +20,7 @@ const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => vo
     if (!file) return;
     setUploading(true);
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('image', file);
     try {
       const res = await axios.post('/api/websites/upload/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
