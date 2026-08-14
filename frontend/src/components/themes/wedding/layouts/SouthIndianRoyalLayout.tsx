@@ -355,8 +355,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
 
         {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
-        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
+        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken -mt-12">
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
         </div>
 
         <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
