@@ -47,12 +47,12 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
         {/* Arch / Decor Background */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <div className="absolute top-0 left-0 w-full h-36 sm:h-48 md:h-56 overflow-hidden pointer-events-none z-0">
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
       {/* Main Content Content */}
-      <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-[280px] md:mt-[340px]">
+      <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-28 sm:mt-36 md:mt-44">
         
         <p className="text-rose-900 font-bold mb-8 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
           || ॐ गणपतये नमः ||
@@ -209,11 +209,11 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDF9EE] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
         
         {/* Arch / Decor Background */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <div className="absolute top-0 left-0 w-full h-36 sm:h-48 md:h-56 overflow-hidden pointer-events-none z-0">
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        <div className="relative z-10 text-center px-6 py-10 mt-[260px] md:mt-[320px] flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+        <div className="relative z-10 text-center px-6 py-10 mt-28 sm:mt-36 md:mt-44 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
           <p className="text-rose-900 font-bold mb-8 tracking-[0.2em] text-sm md:text-base animate-pulse" style={{ fontFamily: "'Playfair Display', serif" }}>
             || ॐ गणपतये नमः ||
           </p>
