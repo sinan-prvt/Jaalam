@@ -3,7 +3,7 @@ import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users } from '
 import type { WeddingLayoutProps } from './types';
 
 const Toran = () => (
-  <div className="absolute top-0 w-full flex justify-between px-1 overflow-hidden pointer-events-none z-10" style={{ height: '60px' }}>
+  <div className="absolute top-0 left-0 right-0 max-w-5xl mx-auto w-full flex justify-between px-2 md:px-6 overflow-hidden pointer-events-none z-10" style={{ height: '80px' }}>
     {[...Array(20)].map((_, i) => (
       <div key={i} className="flex flex-col items-center -mt-2">
          <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-700 rounded-br-none rotate-45 transform scale-y-150 shadow-md"></div>
@@ -85,7 +85,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
         
-        <h3 className="text-sm md:text-base font-semibold text-rose-800 tracking-widest uppercase mb-6">
+        <h3 className="text-2xl md:text-3xl font-script text-rose-800 mb-6">
           || Sri Ganeshaya Namah ||
         </h3>
         
@@ -93,7 +93,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           You are invited to the wedding of
         </p>
 
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-rose-800 mb-6 drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-rose-800 mb-6 drop-shadow-sm font-script">
           {coupleNames}
         </h1>
 
@@ -118,9 +118,9 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </p>
 
         <div className="flex flex-col items-center mb-8">
-          <h2 className="text-4xl font-bold text-rose-800" style={{ fontFamily: "'Playfair Display', serif" }}>{person1Name}</h2>
-          <span className="text-2xl text-amber-500 my-2 italic">&amp;</span>
-          <h2 className="text-4xl font-bold text-rose-800" style={{ fontFamily: "'Playfair Display', serif" }}>{person2Name}</h2>
+          <h2 className="text-6xl font-bold text-rose-800 font-script">{person1Name}</h2>
+          <span className="text-3xl text-amber-500 my-2 font-script">&amp;</span>
+          <h2 className="text-6xl font-bold text-rose-800 font-script">{person2Name}</h2>
         </div>
 
         <p className="text-md md:text-lg text-slate-700 italic mb-6">
@@ -136,17 +136,17 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
     about: (
       <section key="about" className="py-16 px-6 relative z-10 bg-gradient-to-b from-transparent to-amber-50/50">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>About the Couple</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mb-10 font-script">About the Couple</h2>
           
           <div className="grid md:grid-cols-2 gap-10">
             <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
-              <h3 className="text-2xl font-bold text-rose-700 mb-3 font-serif">{person1Name}</h3>
+              <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person1Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Son of</p>
               <p className="text-lg font-medium text-slate-800">{groomParents}</p>
             </div>
             
             <div className="bg-white/60 p-8 rounded-3xl shadow-sm border border-amber-100">
-              <h3 className="text-2xl font-bold text-rose-700 mb-3 font-serif">{person2Name}</h3>
+              <h3 className="text-4xl font-bold text-rose-700 mb-3 font-script">{person2Name}</h3>
               <p className="text-sm text-slate-500 uppercase tracking-widest mb-1">Daughter of</p>
               <p className="text-lg font-medium text-slate-800">{brideParents}</p>
             </div>
@@ -315,35 +315,48 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   return (
     <div className={`min-h-screen font-sans bg-[#FDFBF7] relative overflow-hidden text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
       
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+          .font-script {
+            font-family: 'Great Vibes', cursive;
+          }
+          .mandala-bg {
+            background-image: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
+          }
+        `}
+      </style>
+
       {/* Welcome Screen / Envelope Overlay */}
-      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-between bg-[#FDFBF7] text-slate-800 transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg text-slate-800 transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
         
         {/* Top Toran */}
-        <div className="w-full h-24 md:h-36 lg:h-48 flex-shrink-0 relative">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-full object-cover object-top drop-shadow-md" />
+        <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0">
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full max-w-3xl lg:max-w-4xl h-auto object-top drop-shadow-md" />
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 flex flex-col items-center flex-1 justify-center mt-[-2rem]">
-           <div className="mb-4">
-             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
+        <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
+           <div className="mb-2">
+             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
            </div>
            
-           <h3 className="text-[10px] md:text-xs font-semibold text-amber-500 tracking-widest uppercase mb-4">
+           <h3 className="text-2xl md:text-3xl font-script text-amber-600 mb-3">
              || Sri Ganeshaya Namah ||
            </h3>
            
-           <div className="flex items-center justify-center gap-2 mb-8 opacity-40">
+           <div className="flex items-center justify-center gap-2 mb-6 opacity-40">
              <div className="w-12 h-[1px] bg-amber-700"></div>
              <div className="w-1.5 h-1.5 rounded-full border border-amber-700"></div>
              <div className="w-12 h-[1px] bg-amber-700"></div>
            </div>
            
-           <p className="mb-2 tracking-widest uppercase text-[10px] md:text-xs font-bold text-slate-500">
+           <p className="mb-2 tracking-widest uppercase text-[9px] md:text-xs font-bold text-slate-500">
              You are invited to the wedding of
            </p>
            
-           <h1 className="text-5xl md:text-7xl font-bold mb-8 text-rose-800 drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-[#7f1d1d] font-script drop-shadow-sm">
              {coupleNames}
            </h1>
            
@@ -359,20 +372,20 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
         
         {/* Bottom Temple */}
-        <div className="w-full h-40 md:h-64 lg:h-80 flex-shrink-0 relative -mt-20 z-0">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-full object-cover object-bottom" />
+        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full max-w-3xl lg:max-w-4xl h-auto object-bottom opacity-90" />
         </div>
       </div>
 
       <Toran />
 
-      <div className="pb-16 pt-8 max-w-7xl mx-auto">
+      <div className="pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
         {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
       
       {/* Footer */}
       <footer className="py-12 relative z-10 text-center bg-slate-900 text-white rounded-t-[3rem] mx-4 md:mx-12">
-        <h2 className="text-2xl font-serif mb-2">{coupleNames}</h2>
+        <h2 className="text-2xl font-script mb-2">{coupleNames}</h2>
         <p className="text-slate-400 text-xs tracking-widest uppercase mb-6">Made with love by Jaalam</p>
       </footer>
 

@@ -354,8 +354,14 @@ export default function PublicWebsite() {
       return <ModernOtherTheme website={website} content={content} />;
     }
   
-    if (website.business_type === 'Wedding Invitation') {
-      return <ClassicWeddingTheme content={content} />;
+    const weddingCategories = [
+      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+      'Christian Invitation', 'Engagement Invitation'
+    ];
+
+    if (weddingCategories.includes(website.business_type)) {
+      return <ClassicWeddingTheme website={website} content={content} />;
     }
   
     const contact = content?.contact_info || {};
