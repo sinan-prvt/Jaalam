@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
 const Toran = () => (
@@ -52,6 +52,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
 
   const [isOpened, setIsOpened] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     if (!countdownDate) return;
@@ -420,9 +422,19 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         <p className="text-slate-400 text-xs tracking-widest uppercase mb-6">Made with love by Jaalam</p>
       </footer>
 
+      {/* Floating Audio Toggle */}
+      {musicUrl && isOpened && (
+        <button 
+          onClick={() => setIsMuted(!isMuted)}
+          className="fixed bottom-6 right-6 z-[200] w-12 h-12 bg-white/90 backdrop-blur-md rounded-full shadow-lg border-2 border-amber-200 flex items-center justify-center text-rose-800 transition-transform hover:scale-110"
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      )}
+
       {/* Background Music */}
       {musicUrl && isOpened && (
-        <audio autoPlay loop className="hidden">
+        <audio ref={audioRef} autoPlay loop muted={isMuted} className="hidden">
           <source src={musicUrl} type="audio/mpeg" />
         </audio>
       )}
