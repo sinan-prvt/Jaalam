@@ -370,6 +370,21 @@ export default function WeddingEditor() {
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
                 <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Couple Image</label>
+                  <input
+                    type="text"
+                    value={content.hero?.image || ''}
+                    onChange={(e) => setContent({...content, hero: {...(content.hero || {}), image: e.target.value}})}
+                    placeholder="https://example.com/couple.jpg"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                  />
+                  <FileUpload 
+                    accept="image/*" 
+                    label="Upload Image" 
+                    onChange={(url) => setContent({...content, hero: {...(content.hero || {}), image: url}})} 
+                  />
+                </div>
+                <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Couple Names</label>
                   <input
                     type="text"

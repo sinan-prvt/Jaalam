@@ -18,7 +18,7 @@ const Toran = () => (
 );
 
 export default function SouthIndianRoyalLayout({ content, website }: WeddingLayoutProps) {
-  const caricatureUrl = "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80";
+  const caricatureUrl = "/media/south_indian_couple.png";
   const displayImage = content?.hero?.image || caricatureUrl;
 
   const coupleNames = content?.hero_title || "Rahul & Harinya";
