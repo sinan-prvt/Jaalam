@@ -331,18 +331,36 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
-        {/* DESKTOP BACKGROUND: Custom generated wide landscape image */}
-        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none">
-           <img src="/media/laptop_royal_bg.png" alt="Desktop Royal Background" className="w-full h-full object-cover object-center" />
+        {/* DESKTOP GRAPHICS: Repeating seamlessly across the width */}
+        <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:block pointer-events-none z-0"
+             style={{
+               backgroundImage: 'url(/media/toran_royal.png)',
+               backgroundSize: 'contain',
+               backgroundPosition: 'top left',
+               backgroundRepeat: 'repeat-x'
+             }}>
+        </div>
+        
+        <div className="absolute bottom-0 left-0 w-full h-[25vh] lg:h-[35vh] hidden md:block pointer-events-none z-0 opacity-90"
+             style={{
+               backgroundImage: 'url(/media/temple_royal.png)',
+               backgroundSize: 'contain',
+               backgroundPosition: 'bottom center',
+               backgroundRepeat: 'repeat-x'
+             }}>
         </div>
 
-        {/* MOBILE GRAPHICS: Top Toran & Bottom Temple */}
+        {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
         <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
           <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top drop-shadow-md" />
         </div>
 
+        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[60vh] object-contain object-bottom opacity-90" />
+        </div>
+
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 py-10 md:px-12 md:py-16 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto md:bg-[#FDFBF7]/60 md:backdrop-blur-xl md:rounded-[2.5rem] md:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] md:border md:border-amber-900/10 mt-8 md:mt-0">
+        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0">
           <div className="mb-2">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
           </div>
@@ -374,11 +392,6 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
             </span>
             <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
           </button>
-        </div>
-
-        {/* Bottom Temple */}
-        <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[70vh] object-contain object-bottom opacity-90" />
         </div>
       </div>
 
