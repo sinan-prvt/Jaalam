@@ -246,7 +246,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
           <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-slate-200">
             <iframe
-              src={mapUrl}
+              src={mapUrl && !mapUrl.includes('embed') ? `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=13&ie=UTF8&iwloc=&output=embed` : mapUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -267,6 +267,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
               Get Full Directions
             </a>
           </div>
+
+          {contactNumbers && (
+            <div className="mt-10 border-t border-slate-200/50 pt-8">
+              <p className="text-[10px] tracking-widest uppercase font-bold text-slate-400 mb-2">RSVP / Contact</p>
+              <p className="text-lg font-medium text-slate-800">{contactNumbers}</p>
+            </div>
+          )}
         </div>
       </section>
     ) : null,
