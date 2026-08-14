@@ -174,7 +174,6 @@ export default function WeddingEditor() {
 
   const tabs = [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
-    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'couple', icon: <Heart size={16} />, label: 'Key People' },
     { id: 'family', icon: <Users size={16} />, label: 'Family' },
     { id: 'story', icon: <BookOpen size={16} />, label: 'Story' },
@@ -185,6 +184,7 @@ export default function WeddingEditor() {
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
+    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
   ];
 
   const defaultSections = [
