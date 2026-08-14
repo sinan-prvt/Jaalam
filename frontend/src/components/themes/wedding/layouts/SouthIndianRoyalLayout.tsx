@@ -332,19 +332,19 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
         {/* DESKTOP GRAPHICS: Repeating seamlessly across the width */}
-        <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:block pointer-events-none z-0"
+        <div className="absolute top-0 left-0 w-full h-[18vh] lg:h-[25vh] hidden md:block pointer-events-none z-0"
              style={{
                backgroundImage: 'url(/media/toran_royal.png)',
-               backgroundSize: 'contain',
+               backgroundSize: '40vw auto',
                backgroundPosition: 'top left',
                backgroundRepeat: 'repeat-x'
              }}>
         </div>
         
-        <div className="absolute bottom-0 left-0 w-full h-[25vh] lg:h-[35vh] hidden md:block pointer-events-none z-0 opacity-90"
+        <div className="absolute bottom-0 left-0 w-full h-[35vh] lg:h-[45vh] hidden md:block pointer-events-none z-0 opacity-90"
              style={{
                backgroundImage: 'url(/media/temple_royal.png)',
-               backgroundSize: 'contain',
+               backgroundSize: '50vw auto',
                backgroundPosition: 'bottom center',
                backgroundRepeat: 'repeat-x'
              }}>
