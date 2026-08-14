@@ -5,10 +5,15 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full flex justify-between pointer-events-none z-10 hidden md:flex mix-blend-multiply">
-      <img src="/media/toran_royal.png" alt="Toran Left" className="w-[45%] lg:w-[35%] h-auto object-contain object-left-top contrast-125 brightness-105" />
-      <img src="/media/toran_royal.png" alt="Toran Right" className="w-[45%] lg:w-[35%] h-auto object-contain object-right-top transform scale-x-[-1] contrast-125 brightness-105" />
-    </div>
+    <div 
+      className="absolute top-0 left-0 w-full h-[12vh] lg:h-[18vh] hidden md:block pointer-events-none z-10 mix-blend-multiply contrast-125 brightness-105"
+      style={{
+        backgroundImage: "url('/media/toran_royal.png')",
+        backgroundRepeat: "repeat-x",
+        backgroundSize: "contain",
+        backgroundPosition: "top left"
+      }}
+    />
     {/* Inner Page Toran - Mobile */}
     <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
       <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
