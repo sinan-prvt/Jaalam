@@ -5,13 +5,13 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-10 mix-blend-multiply">
+    <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-0">
       {[...Array(8)].map((_, i) => (
         <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0" />
       ))}
     </div>
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0 md:hidden">
       <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
     </div>
   </>
@@ -387,7 +387,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Main Content */}
       <Toran />
 
-      <div className="pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
+      <div className="relative z-10 pb-16 pt-8 max-w-7xl mx-auto mandala-bg min-h-screen">
         {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
