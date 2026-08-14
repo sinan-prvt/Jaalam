@@ -331,13 +331,19 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
         
-        {/* Top Toran */}
+        {/* Blurred Immersive Background for Desktop to fill "white space" */}
+        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none opacity-40">
+           <img src="/media/temple_royal.png" alt="bg-blur" className="w-full h-full object-cover blur-[50px] scale-110" />
+           <div className="absolute inset-0 bg-[#FDFBF7]/40 mix-blend-overlay"></div>
+        </div>
+
+        {/* Top Toran - Full frame on mobile, cropped banner on desktop */}
         <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top drop-shadow-md" />
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto max-h-[35vh] md:max-h-none md:h-72 object-contain md:object-cover object-top drop-shadow-md" />
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 py-10 md:px-12 md:py-16 flex flex-col items-center justify-center w-full max-w-3xl mx-auto h-auto md:bg-[#FDFBF7]/85 md:backdrop-blur-sm md:rounded-3xl md:shadow-[0_0_40px_rgba(0,0,0,0.1)] md:border md:border-amber-900/10 mt-8">
+        <div className="relative z-10 text-center px-6 py-10 md:px-12 md:py-16 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto md:bg-[#FDFBF7]/60 md:backdrop-blur-xl md:rounded-[2.5rem] md:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] md:border md:border-amber-900/10 mt-8 md:mt-0">
            <div className="mb-2">
              <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
            </div>
@@ -373,7 +379,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         
         {/* Bottom Temple */}
         <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[70vh] object-contain object-bottom opacity-90" />
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full h-auto max-h-[60vh] md:max-h-[45vh] object-contain object-bottom opacity-90" />
         </div>
       </div>
 
