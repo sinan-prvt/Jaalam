@@ -97,7 +97,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
 
-        <h3 className="text-2xl md:text-3xl font-script text-rose-800 mb-6 typing-text">
+        <h3 className="text-2xl md:text-3xl font-script text-rose-800 mb-6">
           || Sri Ganeshaya Namah ||
         </h3>
 
@@ -109,7 +109,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           {coupleNames}
         </h1>
 
-        <div className="relative mb-10 mt-4 max-w-[280px] md:max-w-[320px] w-full mx-auto animate-float-slow">
+        <div className="relative mb-10 mt-4 max-w-[280px] md:max-w-[320px] w-full mx-auto">
           <div className="aspect-[4/5] overflow-hidden rounded-[100px] border-[8px] border-amber-200 shadow-2xl relative bg-transparent p-2">
             <div className="w-full h-full rounded-[90px] overflow-hidden">
               <img
