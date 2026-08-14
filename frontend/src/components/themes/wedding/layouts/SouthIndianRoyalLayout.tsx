@@ -292,28 +292,15 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
           <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl border border-amber-100 text-left">
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">First Name</label>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Name</label>
                   <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif" placeholder="Your Name" />
                 </div>
+                
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Last Name</label>
-                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif" placeholder="Your Last Name" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-3">Will you be attending?</label>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <label className="flex items-center gap-3 cursor-pointer p-4 border-2 border-slate-100 hover:border-rose-200 bg-slate-50 rounded-xl flex-1 transition-colors">
-                    <input type="radio" name="attending" className="w-4 h-4 accent-rose-800" />
-                    <span className="text-slate-800 font-bold uppercase tracking-widest text-xs">Joyfully Accepts</span>
-                  </label>
-                  <label className="flex items-center gap-3 cursor-pointer p-4 border-2 border-slate-100 hover:border-rose-200 bg-slate-50 rounded-xl flex-1 transition-colors">
-                    <input type="radio" name="attending" className="w-4 h-4 accent-rose-800" />
-                    <span className="text-slate-800 font-bold uppercase tracking-widest text-xs">Declines</span>
-                  </label>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Message</label>
+                  <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all font-serif resize-none" placeholder="Your wishes for the couple..."></textarea>
                 </div>
               </div>
 
