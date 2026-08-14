@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Calendar, MapPin } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
@@ -21,6 +22,8 @@ const BananaLeaf = ({ className }: { className?: string }) => (
 );
 
 export default function SouthIndianLayout({ content, website }: WeddingLayoutProps) {
+  const [isOpened, setIsOpened] = useState(false);
+
   const coupleNamesStr = content?.hero_title || 'Mahesh & Namrata';
   const nameParts = coupleNamesStr.split(/&| and /i);
   const groomName = nameParts[0]?.trim() || 'Mahesh';
@@ -62,6 +65,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
+
         {/* Arch / Decor Borders */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
           <div className="w-full h-full border-4 border-amber-900/10 rounded-t-[5rem]"></div>
@@ -225,7 +229,43 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   };
 
   return (
-    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center">
+    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center overflow-hidden">
+      
+      {/* Welcome Screen / Envelope Overlay */}
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDF9EE] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
+        
+        {/* Arch / Decor Borders */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 border-[20px] border-[#FDF9EE] border-opacity-50 box-border">
+          <div className="w-full h-full border-4 border-amber-900/10 rounded-[3rem]"></div>
+        </div>
+
+        <MarigoldGarland />
+
+        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+          <p className="text-red-700 font-bold mb-8 tracking-widest text-sm md:text-base animate-pulse">
+            || ॐ गणपतये नमः ||
+          </p>
+
+          <p className="text-red-700 text-xs md:text-sm font-semibold uppercase mb-4 tracking-widest text-opacity-80">
+            You are invited to the wedding of
+          </p>
+
+          <h1 className="text-6xl md:text-8xl font-script text-orange-500 font-bold mb-12 drop-shadow-sm whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
+            {coupleNamesStr}
+          </h1>
+
+          <button
+            onClick={() => setIsOpened(true)}
+            className="group relative overflow-hidden bg-red-800 hover:bg-red-900 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 border border-red-950/50 flex-shrink-0"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              Open Invitation
+            </span>
+            <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
+          </button>
+        </div>
+      </div>
+
       {sectionMap['hero']}
 
       {/* Sections Below */}
