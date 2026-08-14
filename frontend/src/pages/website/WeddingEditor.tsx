@@ -180,7 +180,6 @@ export default function WeddingEditor() {
     { id: 'schedule', icon: <Clock size={16} />, label: 'Schedule' },
     { id: 'venue', icon: <MapPin size={16} />, label: 'Venue' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
-    { id: 'registry', icon: <Gift size={16} />, label: 'Registry' },
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
@@ -556,33 +555,6 @@ export default function WeddingEditor() {
                     </button>
                   </div>
                 ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'registry' && (
-            <div className="space-y-6 animate-in fade-in">
-              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Registry Link</label>
-                  <input
-                    type="text"
-                    value={weddingData.registryUrl || ''}
-                    onChange={e => setWeddingData({ registryUrl: e.target.value })}
-                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
-                    placeholder="https://amazon.com/wedding/registry/..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Message to Guests</label>
-                  <textarea
-                    rows={3}
-                    value={weddingData.registryMessage || ''}
-                    onChange={e => setWeddingData({ registryMessage: e.target.value })}
-                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm resize-none"
-                    placeholder="Your presence is our biggest gift, but if you wish to gift us..."
-                  />
-                </div>
               </div>
             </div>
           )}
