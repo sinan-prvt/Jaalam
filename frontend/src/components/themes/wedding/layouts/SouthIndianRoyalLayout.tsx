@@ -333,7 +333,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         
         {/* Top Toran */}
         <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/toran_royal.png" alt="Toran" className="w-full max-w-3xl lg:max-w-4xl h-auto object-top drop-shadow-md" />
+          <img src="/media/toran_royal.png" alt="Toran" className="w-full max-w-3xl lg:max-w-4xl h-auto max-h-[20vh] md:max-h-[25vh] object-contain object-top drop-shadow-md" />
         </div>
 
         {/* Center Content */}
@@ -373,7 +373,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         
         {/* Bottom Temple */}
         <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-0">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-full max-w-3xl lg:max-w-4xl h-auto object-bottom opacity-90" />
+          <img src="/media/temple_royal.png" alt="Temple" className="w-full max-w-3xl lg:max-w-4xl h-auto max-h-[30vh] md:max-h-[35vh] object-contain object-bottom opacity-90" />
         </div>
       </div>
 
