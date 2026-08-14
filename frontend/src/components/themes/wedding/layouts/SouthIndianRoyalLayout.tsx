@@ -5,9 +5,9 @@ import type { WeddingLayoutProps } from './types';
 const Toran = () => (
   <>
     {/* Inner Page Toran - Desktop */}
-    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-multiply">
-      <div 
-        className="w-full h-[15vh] lg:h-[22vh] contrast-125 brightness-105"
+    <div className="absolute top-0 left-0 w-full hidden md:block pointer-events-none z-10 mix-blend-darken">
+      <div
+        className="w-full h-[15vh] lg:h-[42vh]"
         style={{
           backgroundImage: "url('/media/toran_royal.png')",
           backgroundRepeat: "repeat-x",
@@ -16,10 +16,10 @@ const Toran = () => (
         }}
       />
     </div>
-    
+
     {/* Inner Page Toran - Mobile */}
-    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-multiply">
-      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top contrast-125 brightness-105" />
+    <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none z-10 md:hidden mix-blend-darken">
+      <img src="/media/toran_royal.png" alt="Toran" className="w-full h-auto object-contain object-top" />
     </div>
   </>
 );
@@ -331,7 +331,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   };
 
   return (
-    <div className={`min-h-screen font-sans bg-[#FDFBF7] relative text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen font-sans bg-[#F8F4E6] relative text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       <style>
         {`
