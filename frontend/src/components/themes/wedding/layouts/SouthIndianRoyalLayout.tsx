@@ -206,7 +206,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       <section key="countdown" className="py-20 px-6 relative z-10 bg-rose-800 text-white rounded-[3rem] mx-4 md:mx-12 shadow-2xl overflow-hidden my-10">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-200 to-transparent"></div>
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2 font-serif text-amber-300">Counting Down To</h2>
+          <h2 className="text-2xl md:text-4xl font-bold mb-2 font-serif text-amber-300">Counting Down To</h2>
           <p className="text-xl italic mb-12 text-rose-200">Our Special Day</p>
 
           <div className="flex gap-4 md:gap-8 justify-center">
