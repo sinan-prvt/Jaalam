@@ -331,19 +331,9 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] mandala-bg transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
-        {/* DESKTOP GRAPHICS: Flawless Seamless Integration */}
-        
-        {/* Top Toran - Cropped array to create a perfect seamless horizontal banner */}
-        <div className="absolute top-0 left-0 w-full h-[15vh] lg:h-[20vh] hidden md:flex overflow-hidden pointer-events-none z-0">
-          {[...Array(8)].map((_, i) => (
-            <img key={i} src="/media/toran_royal.png" alt="Toran" className="w-[12.5vw] h-full object-cover object-top flex-shrink-0 drop-shadow-md" />
-          ))}
-        </div>
-        
-        {/* Bottom Temple - Mirrored layout to create a sprawling full-width palace without cropping towers */}
-        <div className="absolute bottom-0 left-0 w-full h-[35vh] lg:h-[45vh] hidden md:flex overflow-hidden pointer-events-none z-0">
-          <img src="/media/temple_royal.png" alt="Temple" className="w-1/2 h-full opacity-90" style={{ objectFit: 'fill', transform: 'scaleX(-1)' }} />
-          <img src="/media/temple_royal.png" alt="Temple" className="w-1/2 h-full opacity-90" style={{ objectFit: 'fill' }} />
+        {/* DESKTOP BACKGROUND: Custom generated wide landscape image */}
+        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none opacity-80">
+          <img src="/media/laptop_royal_bg.png" alt="Desktop Royal Background" className="w-full h-full object-cover object-center" />
         </div>
 
         {/* MOBILE GRAPHICS: Fixed aspect ratio images */}
@@ -356,7 +346,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0">
+        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0 md:-translate-y-[12vh]">
           <div className="mb-2">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
           </div>
