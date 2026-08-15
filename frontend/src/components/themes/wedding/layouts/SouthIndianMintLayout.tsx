@@ -486,4 +486,3 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
     </div>
   );
 }
-}
