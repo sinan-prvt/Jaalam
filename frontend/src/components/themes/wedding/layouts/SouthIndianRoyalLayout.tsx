@@ -366,7 +366,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
       {/* Audio Element */}
       {musicUrl && (
-        <audio ref={audioRef} src={musicUrl} loop preLoad="auto" />
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
       )}
 
       {/* Floating Audio Control */}
