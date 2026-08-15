@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Calendar, MapPin, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
 export default function SouthIndianLayout({ content, website }: WeddingLayoutProps) {
   const [isOpened, setIsOpened] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
   const coupleNamesStr = content?.hero_title || 'Mahesh & Namrata';
   const nameParts = coupleNamesStr.split(/&| and /i);
@@ -117,15 +121,18 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
 
         {/* Couple Illustration at bottom */}
-        <div className="relative w-full flex justify-center pointer-events-none z-10 mt-auto pt-4">
-          <img
-            src={coupleImage}
-            alt="Couple Illustration"
-            className="w-full max-w-[260px] sm:max-w-xs md:max-w-sm h-auto object-contain object-bottom mix-blend-multiply"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
-            }}
-          />
+        <div className="relative w-full flex justify-center pointer-events-none z-10 mt-auto pt-4 pb-6">
+          <div className="relative max-w-[260px] sm:max-w-xs md:max-w-sm w-full mx-auto flex justify-center">
+            <img
+              src={coupleImage}
+              alt="Couple Illustration"
+              className="w-full h-auto max-h-[350px] object-contain object-bottom rounded-2xl"
+              style={{ mixBlendMode: 'multiply' }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/media/south_indian_couple.png';
+              }}
+            />
+          </div>
         </div>
       </section>
     ),
@@ -213,14 +220,16 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
               ></iframe>
             </div>
 
-            <a
-              href={mapUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm mb-6"
-            >
-              Get Directions
-            </a>
+            {mapUrl && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm mb-6"
+              >
+                Get Directions
+              </a>
+            )}
 
             {contactNumbers && contactNumbers.trim() !== "" && (
               <div className="border-t border-amber-200/80 pt-6 mt-2">
@@ -317,6 +326,30 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   return (
     <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center overflow-hidden w-full">
 
+      {/* Audio Element */}
+      {musicUrl && (
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
+      )}
+
+      {/* Floating Audio Control */}
+      {musicUrl && isOpened && (
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              if (isMuted) {
+                audioRef.current.play();
+              } else {
+                audioRef.current.pause();
+              }
+              setIsMuted(!isMuted);
+            }
+          }}
+          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-rose-800 text-amber-200 shadow-2xl border border-amber-300/40 hover:scale-110 active:scale-95 transition-all"
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      )}
+
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDF9EE] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
 
@@ -339,7 +372,12 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           </h1>
 
           <button
-            onClick={() => setIsOpened(true)}
+            onClick={() => {
+              setIsOpened(true);
+              if (audioRef.current && musicUrl) {
+                audioRef.current.play().catch(console.error);
+              }
+            }}
             className="group relative overflow-hidden bg-rose-900 hover:bg-rose-950 text-white font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3 md:px-12 md:py-4 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 z-20 border border-rose-950/50 flex-shrink-0"
           >
             <span className="relative z-10 flex items-center gap-2">
