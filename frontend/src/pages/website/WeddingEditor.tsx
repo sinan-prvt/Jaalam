@@ -569,9 +569,23 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full Address & Landmarks</label>
                   <textarea
                     rows={3}
-                    value={content.contact_info?.address || 'Kottakkal'}
-                    onChange={(e) => setContent({ ...content, contact_info: { ...(content.contact_info || {}), address: e.target.value } })}
-                    placeholder="Grand Convention Center, Near Main Junction..."
+                    value={content.contact_info?.address || content.venue?.name || weddingData.venue || 'Kottakkal'}
+                    onChange={(e) => {
+                      const newAddress = e.target.value;
+                      setContent({
+                        ...content,
+                        contact_info: { ...(content.contact_info || {}), address: newAddress },
+                        venue: { ...(content.venue || {}), name: newAddress, address: newAddress },
+                        settings_json: {
+                          ...(content.settings_json || {}),
+                          wedding: {
+                            ...(content.settings_json?.wedding || {}),
+                            venue: newAddress
+                          }
+                        }
+                      });
+                    }}
+                    placeholder="Kottakkal"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium resize-none"
                   />
                 </div>

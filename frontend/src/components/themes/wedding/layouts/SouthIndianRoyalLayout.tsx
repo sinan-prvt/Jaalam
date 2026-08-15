@@ -33,7 +33,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Story";
   const quote = content?.settings_json?.wedding?.quote || content?.quote || "Two hearts united in love, starting a beautiful journey together.";
   const date = content?.settings_json?.wedding?.date || content?.date || "27 November 2025";
-  const location = content?.contact_info?.address || content?.venue?.name || "Financial District, Hyderabad, Telangana, India";
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Kottakkal";
 
   const rawSchedule = content?.settings_json?.wedding?.schedule;
   const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)

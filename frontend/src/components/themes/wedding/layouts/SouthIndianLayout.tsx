@@ -11,8 +11,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const brideName = nameParts[1]?.trim() || 'Namrata';
 
   const date = content?.settings_json?.wedding?.date || content?.date || '25/11/24';
-  const venue = content?.contact_info?.address || content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
-  const location = content?.contact_info?.address || venue;
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Kottakkal";
+  const venue = location;
 
   const groomParents = content?.settings_json?.wedding?.groomParents || 'c & d (xyz)';
   const brideParents = content?.settings_json?.wedding?.brideParents || 'e & f (abc)';
