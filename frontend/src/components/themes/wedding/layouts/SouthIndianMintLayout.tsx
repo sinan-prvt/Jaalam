@@ -180,9 +180,9 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Reduced Size) */}
-        <div className="absolute top-0 -right-4 sm:top-2 sm:-right-2 pointer-events-none z-20">
-          <GoldenUmbrella className="w-40 h-52 sm:w-52 sm:h-68 md:w-60 md:h-76 transform -rotate-[30deg]" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Tip Disappearing Past Right Border) */}
+        <div className="absolute top-0 -right-12 sm:top-2 sm:-right-10 pointer-events-none z-20">
+          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform -rotate-[32deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella */}
@@ -470,9 +470,9 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Reduced Size) */}
-        <div className="absolute top-0 -right-4 sm:top-2 sm:-right-2 pointer-events-none z-20">
-          <GoldenUmbrella className="w-40 h-52 sm:w-52 sm:h-68 md:w-60 md:h-76 transform -rotate-[30deg]" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Tip Disappearing Past Right Border) */}
+        <div className="absolute top-0 -right-12 sm:top-2 sm:-right-10 pointer-events-none z-20">
+          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform -rotate-[32deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella */}
