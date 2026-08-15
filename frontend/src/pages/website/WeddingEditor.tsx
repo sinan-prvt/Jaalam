@@ -683,61 +683,81 @@ export default function WeddingEditor() {
             </div>
           )}
 
-          {activeTab === 'schedule' && (
-            <div className="space-y-6 animate-in fade-in">
-              <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div className="flex justify-between items-center">
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Events</label>
-                  <button
-                    onClick={() => {
-                      const currentSched = weddingData.schedule || [];
-                      setWeddingData({ schedule: [...currentSched, { time: "12:00 PM", event: "New Event" }] });
-                    }}
-                    className="text-xs text-pink-600 font-bold"
-                  >
-                    + Add Event
-                  </button>
-                </div>
-                {(weddingData.schedule || []).map((item: any, idx: number) => (
-                  <div key={idx} className="flex gap-3 items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <div className="flex-1 space-y-2">
-                      <input
-                        type="text"
-                        value={item.time}
-                        onChange={(e) => {
-                          const newSched = [...(weddingData.schedule || [])];
-                          newSched[idx] = { ...newSched[idx], time: e.target.value };
-                          setWeddingData({ schedule: newSched });
-                        }}
-                        placeholder="Time"
-                        className="w-full bg-white px-3 py-1.5 rounded-lg text-sm border-none shadow-sm focus:ring-1 focus:ring-pink-500"
-                      />
-                      <input
-                        type="text"
-                        value={item.event}
-                        onChange={(e) => {
-                          const newSched = [...(weddingData.schedule || [])];
-                          newSched[idx] = { ...newSched[idx], event: e.target.value };
-                          setWeddingData({ schedule: newSched });
-                        }}
-                        placeholder="Event Name"
-                        className="w-full bg-white px-3 py-1.5 rounded-lg text-sm border-none shadow-sm focus:ring-1 focus:ring-pink-500"
-                      />
-                    </div>
+          {activeTab === 'schedule' && (() => {
+            const defaultSchedule = [
+              { event: "Muhurtham", date: content.date || "15 March 2026", time: "9:00 AM Onwards", venue: content.contact_info?.address || "Kottakkal" },
+              { event: "Reception", date: content.date || "15 March 2026", time: "7:00 PM Onwards", venue: content.contact_info?.address || "Kottakkal" }
+            ];
+            const scheduleList = (weddingData.schedule && weddingData.schedule.length > 0) ? weddingData.schedule : defaultSchedule;
+
+            return (
+              <div className="space-y-6 animate-in fade-in">
+                <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Events</label>
                     <button
                       onClick={() => {
-                        const newSched = (weddingData.schedule || []).filter((_: any, i: number) => i !== idx);
-                        setWeddingData({ schedule: newSched });
+                        setWeddingData({ schedule: [...scheduleList, { time: "12:00 PM", event: "New Event", date: content.date || "15 March 2026", venue: content.contact_info?.address || "Kottakkal" }] });
                       }}
-                      className="p-2 text-slate-400 hover:text-red-500"
+                      className="text-xs text-pink-600 font-bold bg-pink-50 px-3 py-1.5 rounded-lg"
                     >
-                      Delete
+                      + Add Event
                     </button>
                   </div>
-                ))}
+                  {scheduleList.map((item: any, idx: number) => (
+                    <div key={idx} className="flex gap-3 items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
+                      <div className="flex-1 space-y-2">
+                        <input
+                          type="text"
+                          value={item.event || ''}
+                          onChange={(e) => {
+                            const newSched = [...scheduleList];
+                            newSched[idx] = { ...newSched[idx], event: e.target.value };
+                            setWeddingData({ schedule: newSched });
+                          }}
+                          placeholder="Event Name"
+                          className="w-full bg-white px-3 py-2 rounded-lg text-sm border border-slate-200 shadow-sm focus:ring-1 focus:ring-pink-500 font-medium"
+                        />
+                        <div className="grid grid-cols-2 gap-2">
+                          <input
+                            type="text"
+                            value={item.time || ''}
+                            onChange={(e) => {
+                              const newSched = [...scheduleList];
+                              newSched[idx] = { ...newSched[idx], time: e.target.value };
+                              setWeddingData({ schedule: newSched });
+                            }}
+                            placeholder="Time (e.g. 9:00 AM)"
+                            className="w-full bg-white px-3 py-1.5 rounded-lg text-xs border border-slate-200 shadow-sm focus:ring-1 focus:ring-pink-500"
+                          />
+                          <input
+                            type="text"
+                            value={item.venue || ''}
+                            onChange={(e) => {
+                              const newSched = [...scheduleList];
+                              newSched[idx] = { ...newSched[idx], venue: e.target.value };
+                              setWeddingData({ schedule: newSched });
+                            }}
+                            placeholder="Venue Name"
+                            className="w-full bg-white px-3 py-1.5 rounded-lg text-xs border border-slate-200 shadow-sm focus:ring-1 focus:ring-pink-500"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const newSched = scheduleList.filter((_: any, i: number) => i !== idx);
+                          setWeddingData({ schedule: newSched });
+                        }}
+                        className="p-2 text-slate-400 hover:text-red-500 text-xs font-semibold"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {activeTab === 'share' && (
             <div className="space-y-6 animate-in fade-in">
