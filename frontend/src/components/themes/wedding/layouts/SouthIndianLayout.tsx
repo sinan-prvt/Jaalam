@@ -27,6 +27,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl;
+  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
   const gallery = content?.settings_json?.wedding?.gallery || [];
   const story = content?.about_text || "";
   const location = content?.contact_info?.address || venue;
@@ -142,26 +143,47 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ),
-    venue: mapUrl || location ? (
+    venue: mapUrl || location || venue ? (
       <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto">
-        <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-8 sm:p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
           <div className="relative z-10">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
               <MapPin className="w-8 h-8" />
             </div>
             <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
             <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
-            <p className="text-md text-amber-700 max-w-md mx-auto mb-8">Join us to celebrate our joyous occasion.</p>
+            <p className="text-md text-amber-700 max-w-md mx-auto mb-6">Join us to celebrate our joyous occasion.</p>
+
+            {/* Google Maps Embed Iframe */}
+            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-amber-200/80 mb-6 bg-white">
+              <iframe
+                src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location || venue || 'Kottakkal')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="pointer-events-none md:pointer-events-auto"
+              ></iframe>
+            </div>
 
             {mapUrl && (
               <a
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm"
+                className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm mb-6"
               >
                 Get Directions
               </a>
+            )}
+
+            {contactNumbers && (
+              <div className="border-t border-amber-200/80 pt-6 mt-2">
+                <p className="text-[10px] tracking-widest uppercase font-bold text-amber-800 mb-1">RSVP / Contact Numbers</p>
+                <p className="text-base sm:text-lg font-bold text-amber-950">{contactNumbers}</p>
+              </div>
             )}
           </div>
         </div>
