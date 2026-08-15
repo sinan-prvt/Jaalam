@@ -84,7 +84,52 @@ export default function WeddingEditor() {
       try {
         const res = await axios.get(`/api/websites/${websiteId}/`);
         setWebsite(res.data);
-        setContent(res.data.content);
+
+        const rawContent = res.data.content || {};
+        const rawWedding = rawContent.settings_json?.wedding || {};
+
+        const defaultWedding = {
+          quote: rawWedding.quote || rawContent.quote || 'Two hearts united in love, starting a beautiful journey together.',
+          groomParents: rawWedding.groomParents || 'c & d (xyz)',
+          brideParents: rawWedding.brideParents || 'e & f (abc)',
+          story_title: rawWedding.story_title || rawContent.about_title || 'Our Story',
+          mapUrl: rawWedding.mapUrl || 'https://maps.app.goo.gl/Vg34LGmsU',
+          contactNumbers: rawWedding.contactNumbers || '9400850505, 403490349',
+          countdownDate: rawWedding.countdownDate || '2026-03-15T09:00',
+          schedule: rawWedding.schedule || [
+            { event: "Muhurtham", date: rawContent.date || "15 March 2026", time: "9:00 AM Onwards", venue: rawContent.contact_info?.address || "Kottakkal" },
+            { event: "Reception", date: rawContent.date || "15 March 2026", time: "7:00 PM Onwards", venue: rawContent.contact_info?.address || "Kottakkal" }
+          ],
+          sections: rawWedding.sections || [
+            { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
+            { id: 'about', label: 'Family Details', visible: true },
+            { id: 'story', label: 'Our Story', visible: true },
+            { id: 'schedule', label: 'Schedule & Events', visible: true },
+            { id: 'venue', label: 'Venue & Map', visible: true },
+            { id: 'gallery', label: 'Gallery', visible: true },
+            { id: 'countdown', label: 'Countdown', visible: true },
+            { id: 'rsvp', label: 'RSVP', visible: true }
+          ],
+          ...rawWedding
+        };
+
+        const mergedContent = {
+          ...rawContent,
+          hero_title: rawContent.hero_title || 'A & B',
+          date: rawContent.date || '15 March 2026',
+          about_title: rawContent.about_title || defaultWedding.story_title,
+          about_text: rawContent.about_text || 'We met at a coffee shop and found a love that lasts forever. Join us as we celebrate our journey together.',
+          contact_info: {
+            address: 'Kottakkal',
+            ...(rawContent.contact_info || {})
+          },
+          settings_json: {
+            ...(rawContent.settings_json || {}),
+            wedding: defaultWedding
+          }
+        };
+
+        setContent(mergedContent);
       } catch (err) {
         console.error(err);
         toast.error('Failed to load wedding invitation');
