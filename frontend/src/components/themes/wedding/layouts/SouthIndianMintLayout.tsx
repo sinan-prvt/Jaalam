@@ -4,7 +4,7 @@ import type { WeddingLayoutProps } from './types';
 
 // Golden Temple Parasol / Umbrella (Kudamattom SVG)
 const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className={className} viewBox="0 0 200 270" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M100 20 C50 20 15 65 10 90 H190 C185 65 150 20 100 20 Z" fill="#F4B41A" stroke="#B87D0E" strokeWidth="3" />
     <path d="M10 90 Q100 120 190 90 L185 105 Q100 135 15 105 Z" fill="#6B3A0A" stroke="#4A2604" strokeWidth="2" />
     <path d="M100 20 C65 20 40 65 35 90" stroke="#D97706" strokeWidth="3" />
@@ -20,7 +20,7 @@ const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => 
     ))}
     <line x1="100" y1="5" x2="100" y2="20" stroke="#D4AF37" strokeWidth="4" />
     <circle cx="100" cy="5" r="4.5" fill="#D4AF37" />
-    <line x1="100" y1="90" x2="100" y2="210" stroke="#5C3407" strokeWidth="6" />
+    <line x1="100" y1="90" x2="100" y2="260" stroke="#5C3407" strokeWidth="6" />
   </svg>
 );
 
@@ -180,9 +180,9 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Stick Extending Down-Right) */}
-        <div className="absolute top-2 -right-4 sm:top-6 sm:-right-2 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-52 sm:w-64 sm:h-64 md:w-76 md:h-76 transform -rotate-[35deg]" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Tip Touching Right Border) */}
+        <div className="absolute -top-2 -right-8 sm:top-0 sm:-right-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-56 h-72 sm:w-72 sm:h-88 transform -rotate-[30deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella */}
@@ -470,9 +470,9 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Stick Extending Down-Right) */}
-        <div className="absolute top-2 -right-4 sm:top-6 sm:-right-2 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-52 sm:w-64 sm:h-64 md:w-76 md:h-76 transform -rotate-[35deg]" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Tip Touching Right Border) */}
+        <div className="absolute -top-2 -right-8 sm:top-0 sm:-right-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-56 h-72 sm:w-72 sm:h-88 transform -rotate-[30deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella */}
