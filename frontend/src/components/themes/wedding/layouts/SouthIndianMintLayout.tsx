@@ -452,7 +452,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
   };
 
   return (
-    <div className="min-h-screen bg-[#9EDCD6] relative font-sans flex flex-col items-center overflow-hidden w-full">
+    <div className={`min-h-screen font-sans bg-[#9EDCD6] relative text-slate-800 ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       {/* Audio Element */}
       {musicUrl && (
@@ -460,7 +460,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       )}
 
       {/* Floating Audio Control */}
-      {musicUrl && (
+      {musicUrl && isOpened && (
         <button
           onClick={() => {
             if (audioRef.current) {
@@ -478,8 +478,99 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </button>
       )}
 
+      {/* Welcome Screen / Envelope Overlay */}
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-between bg-[#9EDCD6] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden`}>
+
+        {/* Background Mandala Rings */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+          <MandalaRingsSVG />
+        </div>
+
+        {/* Banana Leaves - Corners */}
+        <div className="absolute top-8 left-0 pointer-events-none z-10">
+          <BananaLeafGroupLeft />
+        </div>
+        <div className="absolute top-48 right-0 pointer-events-none z-10">
+          <BananaLeafGroupRight />
+        </div>
+        <div className="absolute bottom-12 left-0 pointer-events-none z-10">
+          <BananaLeafGroupLeft />
+        </div>
+        <div className="absolute bottom-4 right-0 pointer-events-none z-10">
+          <BananaLeafGroupRight />
+        </div>
+
+        {/* Top Right Golden Parasol / Umbrella */}
+        <div className="absolute -top-4 -right-4 sm:top-2 sm:right-2 pointer-events-none z-20">
+          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform -rotate-12" />
+        </div>
+
+        {/* Bottom Left Golden Parasol / Umbrella */}
+        <div className="absolute bottom-16 -left-8 sm:bottom-24 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-36 h-36 sm:w-52 sm:h-52 md:w-60 md:h-60 transform rotate-[35deg]" />
+        </div>
+
+        {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
+        <div className="absolute bottom-3 left-4 sm:left-10 pointer-events-none z-30">
+          <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
+        </div>
+        <div className="absolute bottom-3 right-4 sm:right-10 pointer-events-none z-30">
+          <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
+        </div>
+
+        {/* Center Main Invitation Content */}
+        <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center h-full my-auto py-8">
+
+          {/* Golden Ganesha Line Icon */}
+          <div className="mb-3">
+            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-12 h-12 sm:w-16 sm:h-16 object-contain mx-auto filter drop-shadow-sm" />
+          </div>
+
+          <p className="text-[#344E57] text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-3 opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
+            WE INVITE YOU TO CELEBRATE OUR WEDDING
+          </p>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#2A4450] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
+            {coupleNamesStr}
+          </h1>
+
+          {/* Teal Line Flourish with 3 Dots */}
+          <div className="flex items-center justify-center gap-2 my-2">
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
+            <div className="w-2 h-2 rounded-full bg-[#68B6AD]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+          </div>
+
+          <p className="text-[#2A4450] text-base sm:text-xl font-bold tracking-wider mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+          {/* Golden Bride Saree Drapery Flourish */}
+          <BrideSareeFlourish />
+
+          {/* OPEN INVITATION BUTTON */}
+          <button
+            onClick={() => {
+              setIsOpened(true);
+              if (audioRef.current && musicUrl) {
+                audioRef.current.play().catch(console.error);
+              }
+            }}
+            className="group relative overflow-hidden bg-[#2A4450] hover:bg-[#1E333C] text-amber-300 font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3.5 md:px-12 md:py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 z-40 border border-amber-300/40 flex-shrink-0 mt-4"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              Open Invitation
+            </span>
+            <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
+          </button>
+
+        </div>
+      </div>
+
       {/* Main Content Sections */}
-      <div className="relative z-30 w-full">
+      <div className="relative z-30 w-full pt-12">
         {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
 
