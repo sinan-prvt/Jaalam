@@ -15,9 +15,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   
   const groomParents = content?.settings_json?.wedding?.groomParents || 'Sahil Sharma';
   const brideParents = content?.settings_json?.wedding?.brideParents || 'Divya Anand';
-  const parentsText = (content?.settings_json?.wedding?.groomParents || content?.settings_json?.wedding?.brideParents) 
-    ? `${groomParents} & ${brideParents}`
-    : 'Sahil Sharma & Divya Anand';
+  const quote = content?.settings_json?.wedding?.quote || content?.quote || 'Two hearts united in love, starting a beautiful journey together.';
 
   const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
   
@@ -54,23 +52,15 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       {/* Main Content Content */}
       <div className="relative z-10 max-w-md mx-auto text-center px-8 sm:px-12 mt-24 sm:mt-32">
         
-        <p className="text-rose-900 font-bold mb-6 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <p className="text-rose-900 font-bold mb-4 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
           || ॐ गणपतये नमः ||
         </p>
 
-        <p className="text-rose-900 font-semibold text-xs sm:text-sm mb-2 uppercase tracking-[0.15em]" style={{ fontFamily: "'Playfair Display', serif" }}>
-          {parentsText}
-        </p>
-        
-        <p className="text-rose-800 text-[10px] sm:text-xs font-semibold leading-relaxed mb-6 px-2 uppercase tracking-widest opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
-          Request your gracious presence and<br/>
-          blessing on the auspicious<br/>
-          occasion of the wedding
-        </p>
-
-        <p className="text-rose-800 text-[10px] sm:text-xs font-medium uppercase mb-6 tracking-widest" style={{ fontFamily: "'Playfair Display', serif" }}>
-          Of Their Son
-        </p>
+        {quote && (
+          <p className="text-rose-900 text-xs sm:text-sm italic font-serif leading-relaxed mb-6 px-4 opacity-90 max-w-xs mx-auto">
+            "{quote}"
+          </p>
+        )}
 
         <div className="flex flex-col md:flex-row items-center justify-center md:gap-3 mb-6">
           <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
@@ -238,10 +228,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </div>
 
-      {sectionMap['hero']}
-
-      {/* Sections Below */}
-      <div className="relative z-30 max-w-4xl mx-auto px-4 py-16 space-y-24">
+      {/* Main Content Sections */}
+      <div className="relative z-30 max-w-4xl mx-auto px-4 space-y-24 w-full">
         {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
       

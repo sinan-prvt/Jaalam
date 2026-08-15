@@ -884,7 +884,7 @@ export default function Dashboard() {
                           </button>
                           <div className="flex gap-2">
                             {user && (user as any).role !== 'CLIENT' && (
-                              <Link to={site.business_type === 'Wedding Invitation' ? `/wedding-editor/${site.slug}` : `/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                              <Link to={weddingCategories.includes(site.business_type) ? `/wedding-editor/${site.slug}` : `/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                                 <Settings size={14} /> Edit
                               </Link>
                             )}

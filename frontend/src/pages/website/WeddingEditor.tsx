@@ -394,13 +394,16 @@ export default function WeddingEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Wedding Date</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Invitation Quote / Tagline</label>
                   <input
                     type="text"
-                    value={weddingData.date || ''}
-                    onChange={(e) => setWeddingData({ date: e.target.value })}
-                    placeholder="September 15, 2026"
-                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
+                    value={weddingData.quote || content.quote || ''}
+                    onChange={(e) => {
+                      setWeddingData({ quote: e.target.value });
+                      setContent({ ...content, quote: e.target.value });
+                    }}
+                    placeholder="Two hearts united in love, starting a beautiful journey together."
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
                   />
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard, FileJson } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
+import { weddingCategories } from '../../utils/templateData';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -82,6 +83,7 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
 
 export default function WebsiteEditor() {
   const { websiteId } = useParams();
+  const navigate = useNavigate();
   const { Razorpay } = useRazorpay();
   const [website, setWebsite] = useState<any>(null);
   const [content, setContent] = useState<any>(null);
@@ -160,6 +162,10 @@ export default function WebsiteEditor() {
   const fetchWebsiteData = async () => {
     try {
       const res = await axios.get(`/api/websites/${websiteId}/`);
+      if (res.data?.business_type && weddingCategories.includes(res.data.business_type)) {
+        navigate(`/wedding-editor/${websiteId}`, { replace: true });
+        return;
+      }
       setWebsite(res.data);
       const fetchedContent = res.data.content || {};
       if (fetchedContent.contact_info?.address && typeof fetchedContent.contact_info.address === 'object') {
