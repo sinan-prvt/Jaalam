@@ -489,7 +489,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </div>
 
         {/* Center Main Invitation Content (Strictly Enclosed Inside Inner Circle) */}
-        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100">
+        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100 translate-y-6 sm:translate-y-8">
 
           {/* Golden Ganesha Line Icon */}
           <div className="mb-2">
