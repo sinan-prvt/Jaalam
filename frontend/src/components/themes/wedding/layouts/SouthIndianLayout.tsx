@@ -43,51 +43,51 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-between pb-12 overflow-hidden bg-[#FDF9EE] -mx-4 w-[calc(100%+2rem)]">
-        {/* Arch / Decor Background - Edge-to-Edge full width */}
-        <div className="absolute top-0 left-0 right-0 w-full pointer-events-none z-0">
-          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-auto object-cover object-top opacity-90 mix-blend-multiply" />
+      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden bg-[#FDF9EE] text-center pt-20 sm:pt-24 pb-12">
+        {/* Full Edge-to-Edge Temple Arch Graphic */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        {/* Main Content - Moved down so it sits perfectly below the arch */}
-        <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-36 sm:mt-48">
+        {/* Text Content - Perfectly framed inside the arch */}
+        <div className="relative z-10 max-w-xs sm:max-w-sm md:max-w-md mx-auto text-center px-4 mt-4 sm:mt-8">
 
-          <p className="text-rose-900 font-bold mb-4 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-rose-900 font-bold mb-3 tracking-widest text-xs sm:text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
             || ॐ गणपतये नमः ||
           </p>
 
           {quote && (
-            <p className="text-rose-900 text-xs sm:text-sm italic font-serif leading-relaxed mb-6 px-4 opacity-90 max-w-xs mx-auto">
+            <p className="text-rose-900 text-[11px] sm:text-xs md:text-sm italic font-serif leading-relaxed mb-4 px-2 opacity-90">
               "{quote}"
             </p>
           )}
 
-          <div className="flex flex-col md:flex-row items-center justify-center md:gap-3 mb-6">
-            <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:gap-2 mb-3">
+            <h1 className="text-4xl sm:text-5xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
               {groomName}
             </h1>
-            <span className="text-rose-900 font-medium text-xs italic mx-2 my-1 md:mt-3 block md:inline" style={{ fontFamily: "'Playfair Display', serif" }}>with</span>
-            <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
+            <span className="text-rose-900 font-medium text-xs italic my-0.5 sm:mt-2 block sm:inline" style={{ fontFamily: "'Playfair Display', serif" }}>with</span>
+            <h1 className="text-4xl sm:text-5xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
               {brideName}
             </h1>
           </div>
 
-          <p className="text-rose-900 text-xl sm:text-2xl font-bold mb-3 tracking-wider" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-rose-900 text-base sm:text-xl font-bold mb-1 tracking-wider" style={{ fontFamily: "'Playfair Display', serif" }}>
             {date}
           </p>
 
-          <p className="text-rose-800 text-xs sm:text-sm font-medium italic mb-6 opacity-90 max-w-sm mx-auto" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-rose-800 text-[11px] sm:text-xs font-medium italic opacity-90 max-w-xs mx-auto" style={{ fontFamily: "'Playfair Display', serif" }}>
             {venue}
           </p>
 
         </div>
 
-        {/* Couple Illustration at the bottom of hero */}
-        <div className="relative w-full flex justify-center pointer-events-none z-10 mt-auto pt-8">
+        {/* Couple Illustration at bottom */}
+        <div className="relative w-full flex justify-center pointer-events-none z-10 mt-auto pt-4">
           <img
             src={coupleImage}
             alt="Couple Illustration"
-            className="w-full max-w-md h-auto object-contain object-bottom mix-blend-multiply"
+            className="w-full max-w-[260px] sm:max-w-xs md:max-w-sm h-auto object-contain object-bottom mix-blend-multiply"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
             }}
@@ -96,8 +96,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </section>
     ),
     about: (
-      <section key="about" className="py-20 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+      <section key="about" className="py-20 px-6 relative z-10 max-w-4xl mx-auto">
+        <div className="text-center">
           <h2 className="text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>About the Couple</h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="bg-white/80 p-8 rounded-2xl shadow-md border-2 border-amber-100 flex flex-col items-center">
@@ -125,7 +125,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-20 px-6 relative z-10 text-center">
+      <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {schedule.map((item: any, idx: number) => (
@@ -143,7 +143,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </section>
     ),
     venue: mapUrl || location ? (
-      <section key="venue" className="py-20 px-6 relative z-10">
+      <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto">
         <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
           <div className="relative z-10">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
@@ -168,7 +168,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </section>
     ) : null,
     gallery: gallery.length > 0 ? (
-      <section key="gallery" className="py-20 px-6 relative z-10 text-center">
+      <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Captured Moments</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {gallery.map((url: string, index: number) => (
@@ -180,7 +180,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </section>
     ) : null,
     story: story ? (
-      <section key="story" className="py-20 px-6 relative z-10 text-center">
+      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur rounded-3xl p-10 shadow-md border-2 border-amber-100">
           <h2 className="text-3xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>Our Story</h2>
           <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
@@ -228,7 +228,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       </div>
 
       {/* Main Content Sections */}
-      <div className="relative z-30 max-w-4xl mx-auto px-4 space-y-24 w-full">
+      <div className="relative z-30 w-full">
         {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
 
