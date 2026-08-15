@@ -49,8 +49,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        {/* Text Content - Perfectly positioned below the marigold garlands for clear readability */}
-        <div className="relative z-10 max-w-xs sm:max-w-sm md:max-w-md mx-auto text-center px-4 mt-20 sm:mt-24 md:mt-28">
+        {/* Text Content - Perfectly positioned below the marigold garlands on both mobile and desktop screens */}
+        <div className="relative z-10 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto text-center px-4 mt-32 sm:mt-44 md:mt-56 lg:mt-72 xl:mt-80">
 
           <p className="text-rose-900 font-bold mb-3 tracking-widest text-xs sm:text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
             || ॐ गणपतये नमः ||
