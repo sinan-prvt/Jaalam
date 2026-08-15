@@ -63,7 +63,7 @@ const BananaLeafBottomRight = () => (
 // Concentric Mandala Rings SVG with Continuous Slow Rotation Animation
 const MandalaRingsSVG = () => (
   <svg className="w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] md:w-[640px] md:h-[640px] animate-[spin_60s_linear_infinite]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="250" cy="250" r="175" fill="#FFFFFF" opacity="0.88"/>
+    <circle cx="250" cy="250" r="175" fill="#D4F4F0" opacity="0.75"/>
     <circle cx="250" cy="250" r="240" stroke="#5AA89F" strokeWidth="2.5" opacity="0.6"/>
     <circle cx="250" cy="250" r="230" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5"/>
     {[...Array(24)].map((_, i) => {
