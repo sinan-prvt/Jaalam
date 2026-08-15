@@ -35,11 +35,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const date = content?.settings_json?.wedding?.date || content?.date || "27 November 2025";
   const location = content?.contact_info?.address || content?.venue?.name || "Financial District, Hyderabad, Telangana, India";
 
-  const schedule = content?.settings_json?.wedding?.schedule || [
-    { time: "10:30 AM", event: "Muhurtham", date: "Saturday, 12 January", venue: location, mapLink: "https://maps.google.com" },
-    { time: "12:30 PM", event: "Haldi", date: "Tuesday, 3 March", venue: location, mapLink: "https://maps.google.com" },
-    { time: "9:00 PM Onwards", event: "Mehendi", date: "Wednesday, 4 March", venue: location, mapLink: "https://maps.google.com" }
-  ];
+  const rawSchedule = content?.settings_json?.wedding?.schedule;
+  const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
+    ? rawSchedule
+    : [
+        { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: location },
+        { time: "7:00 PM Onwards", event: "Reception", date: date, venue: location }
+      ];
 
   const groomParents = content?.settings_json?.wedding?.groomParents || "c & d (xyz)";
   const brideParents = content?.settings_json?.wedding?.brideParents || "e & f (abc)";
@@ -47,7 +49,16 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "https://maps.app.goo.gl/Vg34LGmsU";
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "9400850505, 403490349";
-  const gallery = content?.settings_json?.wedding?.gallery || [];
+
+  const rawGallery = content?.settings_json?.wedding?.gallery;
+  const gallery = (Array.isArray(rawGallery) && rawGallery.length > 0)
+    ? rawGallery
+    : [
+        "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80"
+      ];
+
   const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-03-15T09:00";
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
@@ -168,18 +179,16 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
       </section>
     ),
-    story: (story || storyTitle) ? (
+    story: (
       <section key="story" className="py-20 px-6 relative z-10 text-center">
         <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md rounded-[2.5rem] p-10 shadow-xl border border-amber-100">
           <h2 className="text-3xl md:text-5xl font-bold text-rose-800 mb-6 font-script">{storyTitle}</h2>
-          {story && (
-            <p className="text-md md:text-lg text-slate-700 italic leading-relaxed">
-              "{story}"
-            </p>
-          )}
+          <p className="text-md md:text-lg text-slate-700 italic leading-relaxed">
+            "{story}"
+          </p>
         </div>
       </section>
-    ) : null,
+    ),
     schedule: (
       <section key="schedule" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
@@ -193,7 +202,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
               <div key={index} className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border-l-4 border-amber-500 relative flex flex-col md:flex-row items-center md:items-start justify-between text-center md:text-left hover:-translate-y-1 transition-transform">
                 <div className="flex-1 mb-6 md:mb-0">
                   <h3 className="text-2xl font-bold text-rose-800 mb-2 font-serif">{item.event}</h3>
-                  <p className="text-lg font-semibold text-slate-700 mb-1">{item.date}</p>
+                  <p className="text-lg font-semibold text-slate-700 mb-1">{item.date || date}</p>
                   <p className="text-md text-amber-600 font-medium mb-3">{item.time}</p>
                   <p className="text-sm text-slate-500 flex items-center justify-center md:justify-start gap-2">
                     <MapPin size={16} className="text-rose-600" />
@@ -217,7 +226,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
       </section>
     ),
-    countdown: timeLeft ? (
+    countdown: (
       <section key="countdown" className="py-20 px-6 relative z-10 bg-rose-800 text-white rounded-[3rem] mx-4 md:mx-12 shadow-2xl overflow-hidden my-10">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-200 to-transparent"></div>
         <div className="max-w-3xl mx-auto text-center relative z-10">
@@ -226,10 +235,10 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
           <div className="flex gap-2 sm:gap-4 md:gap-8 justify-center">
             {[
-              { label: 'Days', value: timeLeft.d },
-              { label: 'Hours', value: timeLeft.h },
-              { label: 'Mins', value: timeLeft.m },
-              { label: 'Secs', value: timeLeft.s }
+              { label: 'Days', value: timeLeft?.d ?? 30 },
+              { label: 'Hours', value: timeLeft?.h ?? 12 },
+              { label: 'Mins', value: timeLeft?.m ?? 45 },
+              { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
                 <div className={`w-14 h-14 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-3 shadow-inner border border-white/20`}>
@@ -241,8 +250,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           </div>
         </div>
       </section>
-    ) : null,
-    gallery: gallery.length > 0 ? (
+    ),
+    gallery: (
       <section key="gallery" className="py-20 px-6 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>Gallery</h2>
@@ -256,8 +265,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           </div>
         </div>
       </section>
-    ) : null,
-    venue: mapUrl || location ? (
+    ),
+    venue: (
       <section key="venue" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center bg-white/70 backdrop-blur-md rounded-[3rem] p-8 md:p-12 shadow-xl border border-amber-100">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue & Map</h2>
@@ -269,7 +278,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
           <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-slate-200">
             <iframe
-              src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location || 'Kottakkal')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+              src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -292,15 +301,13 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
             </a>
           </div>
 
-          {contactNumbers && (
-            <div className="mt-10 border-t border-slate-200/50 pt-8">
-              <p className="text-[10px] tracking-widest uppercase font-bold text-slate-400 mb-2">RSVP / Contact Numbers</p>
-              <p className="text-lg font-medium text-slate-800">{contactNumbers}</p>
-            </div>
-          )}
+          <div className="mt-10 border-t border-slate-200/50 pt-8">
+            <p className="text-[10px] tracking-widest uppercase font-bold text-slate-400 mb-2">RSVP / Contact Numbers</p>
+            <p className="text-lg font-medium text-slate-800">{contactNumbers}</p>
+          </div>
         </div>
       </section>
-    ) : null,
+    ),
     rsvp: (
       <section key="rsvp" className="py-20 px-6 relative z-10">
         <div className="max-w-2xl mx-auto text-center">

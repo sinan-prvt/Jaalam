@@ -12,28 +12,40 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
   const date = content?.settings_json?.wedding?.date || content?.date || '25/11/24';
   const venue = content?.contact_info?.address || content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
+  const location = content?.contact_info?.address || venue;
 
-  const groomParents = content?.settings_json?.wedding?.groomParents || 'Sahil Sharma';
-  const brideParents = content?.settings_json?.wedding?.brideParents || 'Divya Anand';
+  const groomParents = content?.settings_json?.wedding?.groomParents || 'c & d (xyz)';
+  const brideParents = content?.settings_json?.wedding?.brideParents || 'e & f (abc)';
   const quote = content?.settings_json?.wedding?.quote || content?.quote || 'Two hearts united in love, starting a beautiful journey together.';
 
   const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
 
-  const schedule = content?.settings_json?.wedding?.schedule || [
-    { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: venue },
-    { time: "7:00 PM Onwards", event: "Reception", date: date, venue: venue }
-  ];
+  const rawSchedule = content?.settings_json?.wedding?.schedule;
+  const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
+    ? rawSchedule
+    : [
+        { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: location },
+        { time: "7:00 PM Onwards", event: "Reception", date: date, venue: location }
+      ];
 
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
-  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl;
-  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
-  const gallery = content?.settings_json?.wedding?.gallery || [];
-  const story = content?.about_text || "";
-  const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Story";
-  const location = content?.contact_info?.address || venue;
+  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "https://maps.app.goo.gl/Vg34LGmsU";
+  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "9400850505, 403490349";
 
-  const countdownDate = content?.settings_json?.wedding?.countdownDate || "";
+  const rawGallery = content?.settings_json?.wedding?.gallery;
+  const gallery = (Array.isArray(rawGallery) && rawGallery.length > 0)
+    ? rawGallery
+    : [
+        "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80"
+      ];
+
+  const story = content?.about_text || "We met at a coffee shop and found a love that lasts forever. Join us as we celebrate our journey together.";
+  const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Story";
+
+  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-03-15T09:00";
   const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
 
   useEffect(() => {
@@ -152,20 +164,18 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ),
-    story: (story || storyTitle) ? (
+    story: (
       <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur rounded-3xl p-10 shadow-md border-2 border-amber-100">
           <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
             {storyTitle}
           </h2>
-          {story && (
-            <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
-              "{story}"
-            </p>
-          )}
+          <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
+            "{story}"
+          </p>
         </div>
       </section>
-    ) : null,
+    ),
     schedule: (
       <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Schedule & Events</h2>
@@ -184,7 +194,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ),
-    venue: mapUrl || location || venue ? (
+    venue: (
       <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto">
         <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-8 sm:p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
           <div className="relative z-10">
@@ -192,13 +202,13 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
               <MapPin className="w-8 h-8" />
             </div>
             <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue & Map</h3>
-            <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
+            <p className="text-xl font-medium text-amber-900 mb-2">{location}</p>
             <p className="text-md text-amber-700 max-w-md mx-auto mb-6">Join us to celebrate our joyous occasion.</p>
 
             {/* Google Maps Embed Iframe */}
             <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-amber-200/80 mb-6 bg-white">
               <iframe
-                src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location || venue || 'Kottakkal')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -209,28 +219,24 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
               ></iframe>
             </div>
 
-            {mapUrl && (
-              <a
-                href={mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm mb-6"
-              >
-                Get Directions
-              </a>
-            )}
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm mb-6"
+            >
+              Get Directions
+            </a>
 
-            {contactNumbers && (
-              <div className="border-t border-amber-200/80 pt-6 mt-2">
-                <p className="text-[10px] tracking-widest uppercase font-bold text-amber-800 mb-1">RSVP / Contact Numbers</p>
-                <p className="text-base sm:text-lg font-bold text-amber-950">{contactNumbers}</p>
-              </div>
-            )}
+            <div className="border-t border-amber-200/80 pt-6 mt-2">
+              <p className="text-[10px] tracking-widest uppercase font-bold text-amber-800 mb-1">RSVP / Contact Numbers</p>
+              <p className="text-base sm:text-lg font-bold text-amber-950">{contactNumbers}</p>
+            </div>
           </div>
         </div>
       </section>
-    ) : null,
-    gallery: gallery.length > 0 ? (
+    ),
+    gallery: (
       <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -241,8 +247,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           ))}
         </div>
       </section>
-    ) : null,
-    countdown: timeLeft ? (
+    ),
+    countdown: (
       <section key="countdown" className="py-16 px-6 relative z-10 bg-red-900 text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-6 text-center">
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-2xl md:text-3xl font-bold mb-2 text-amber-300" style={{ fontFamily: "'Playfair Display', serif" }}>Counting Down To</h2>
@@ -250,10 +256,10 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
           <div className="flex gap-3 sm:gap-6 justify-center">
             {[
-              { label: 'Days', value: timeLeft.d },
-              { label: 'Hours', value: timeLeft.h },
-              { label: 'Mins', value: timeLeft.m },
-              { label: 'Secs', value: timeLeft.s }
+              { label: 'Days', value: timeLeft?.d ?? 30 },
+              { label: 'Hours', value: timeLeft?.h ?? 12 },
+              { label: 'Mins', value: timeLeft?.m ?? 45 },
+              { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
                 <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20">
@@ -265,7 +271,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           </div>
         </div>
       </section>
-    ) : null,
+    ),
     rsvp: (
       <section key="rsvp" className="py-16 px-6 relative z-10 max-w-2xl mx-auto">
         <div className="text-center">
