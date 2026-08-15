@@ -569,7 +569,7 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full Address & Landmarks</label>
                   <textarea
                     rows={3}
-                    value={content.contact_info?.address || content.venue?.name || weddingData.venue || 'Kottakkal'}
+                    value={content.contact_info?.address ?? content.venue?.name ?? weddingData.venue ?? ''}
                     onChange={(e) => {
                       const newAddress = e.target.value;
                       setContent({
@@ -585,7 +585,7 @@ export default function WeddingEditor() {
                         }
                       });
                     }}
-                    placeholder="Kottakkal"
+                    placeholder="Grand Convention Center, Main Road, City"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium resize-none"
                   />
                 </div>
@@ -593,9 +593,9 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Google Maps Embed URL</label>
                   <input
                     type="text"
-                    value={weddingData.mapUrl || 'https://maps.app.goo.gl/Vg34LGmsU'}
+                    value={weddingData.mapUrl ?? ''}
                     onChange={(e) => setWeddingData({ mapUrl: e.target.value })}
-                    placeholder="https://maps.app.goo.gl/Vg34LGmsU"
+                    placeholder="https://maps.google.com/..."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
                   />
                   <p className="mt-2 text-xs text-slate-400">Go to Google Maps, click Share &gt; Embed a map, or copy the link.</p>
@@ -604,9 +604,9 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">RSVP / Contact Numbers</label>
                   <input
                     type="text"
-                    value={weddingData.contactNumbers || '9400850505, 403490349'}
+                    value={weddingData.contactNumbers ?? ''}
                     onChange={(e) => setWeddingData({ contactNumbers: e.target.value })}
-                    placeholder="9400850505, 403490349"
+                    placeholder="+91 9876543210, +91 9876543211"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
                   />
                 </div>

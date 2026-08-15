@@ -11,11 +11,11 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const brideName = nameParts[1]?.trim() || 'Namrata';
 
   const date = content?.settings_json?.wedding?.date || content?.date || '25/11/24';
-  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Kottakkal";
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Grand Venue, City";
   const venue = location;
 
-  const groomParents = content?.settings_json?.wedding?.groomParents || 'c & d (xyz)';
-  const brideParents = content?.settings_json?.wedding?.brideParents || 'e & f (abc)';
+  const groomParents = content?.settings_json?.wedding?.groomParents || 'Father & Mother';
+  const brideParents = content?.settings_json?.wedding?.brideParents || 'Father & Mother';
   const quote = content?.settings_json?.wedding?.quote || content?.quote || 'Two hearts united in love, starting a beautiful journey together.';
 
   const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
@@ -30,8 +30,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
-  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "https://maps.app.goo.gl/Vg34LGmsU";
-  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "9400850505, 403490349";
+  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "";
+  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
 
   const gallery = content?.settings_json?.wedding?.gallery || [];
   const validGallery = Array.isArray(gallery) ? gallery.filter((url: string) => url && url.trim() !== "") : [];
@@ -222,10 +222,12 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
               Get Directions
             </a>
 
-            <div className="border-t border-amber-200/80 pt-6 mt-2">
-              <p className="text-[10px] tracking-widest uppercase font-bold text-amber-800 mb-1">RSVP / Contact Numbers</p>
-              <p className="text-base sm:text-lg font-bold text-amber-950">{contactNumbers}</p>
-            </div>
+            {contactNumbers && contactNumbers.trim() !== "" && (
+              <div className="border-t border-amber-200/80 pt-6 mt-2">
+                <p className="text-[10px] tracking-widest uppercase font-bold text-amber-800 mb-1">RSVP / Contact Numbers</p>
+                <p className="text-base sm:text-lg font-bold text-amber-950">{contactNumbers}</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
