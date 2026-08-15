@@ -374,7 +374,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
 
         {/* Center Content */}
-        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-12 md:mt-0 md:-translate-y-[12vh]">
+        <div className="relative z-10 text-center px-6 py-10 flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-auto mt-28 md:mt-36">
           <div className="mb-2">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-16 h-16 md:w-20 md:h-20 object-contain mx-auto" />
           </div>

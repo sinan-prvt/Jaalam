@@ -202,7 +202,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        <div className="relative z-10 text-center px-8 sm:px-12 py-10 mt-24 sm:mt-32 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+        <div className="relative z-10 text-center px-8 sm:px-12 py-10 mt-40 sm:mt-52 md:mt-64 flex flex-col items-center justify-center w-full max-w-lg mx-auto">
           <p className="text-rose-900 font-bold mb-6 tracking-[0.2em] text-sm md:text-base animate-pulse" style={{ fontFamily: "'Playfair Display', serif" }}>
             || ॐ गणपतये नमः ||
           </p>
