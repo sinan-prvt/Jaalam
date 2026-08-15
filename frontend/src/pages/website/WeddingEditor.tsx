@@ -445,10 +445,20 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Invitation Quote / Tagline</label>
                   <input
                     type="text"
-                    value={weddingData.quote || content.quote || ''}
+                    value={content.quote || weddingData.quote || ''}
                     onChange={(e) => {
-                      setWeddingData({ quote: e.target.value });
-                      setContent({ ...content, quote: e.target.value });
+                      const newQuote = e.target.value;
+                      setContent({
+                        ...content,
+                        quote: newQuote,
+                        settings_json: {
+                          ...(content.settings_json || {}),
+                          wedding: {
+                            ...(content.settings_json?.wedding || {}),
+                            quote: newQuote
+                          }
+                        }
+                      });
                     }}
                     placeholder="Two hearts united in love, starting a beautiful journey together."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
@@ -521,8 +531,18 @@ export default function WeddingEditor() {
                     type="text"
                     value={content.about_title || weddingData.story_title || ''}
                     onChange={(e) => {
-                      setContent({ ...content, about_title: e.target.value });
-                      setWeddingData({ story_title: e.target.value });
+                      const newTitle = e.target.value;
+                      setContent({
+                        ...content,
+                        about_title: newTitle,
+                        settings_json: {
+                          ...(content.settings_json || {}),
+                          wedding: {
+                            ...(content.settings_json?.wedding || {}),
+                            story_title: newTitle
+                          }
+                        }
+                      });
                     }}
                     placeholder="Our Story"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
