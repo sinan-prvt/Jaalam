@@ -50,14 +50,8 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "https://maps.app.goo.gl/Vg34LGmsU";
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "9400850505, 403490349";
 
-  const rawGallery = content?.settings_json?.wedding?.gallery;
-  const gallery = (Array.isArray(rawGallery) && rawGallery.length > 0)
-    ? rawGallery
-    : [
-        "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80"
-      ];
+  const gallery = content?.settings_json?.wedding?.gallery || [];
+  const validGallery = Array.isArray(gallery) ? gallery.filter((url: string) => url && url.trim() !== "") : [];
 
   const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-03-15T09:00";
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
@@ -251,12 +245,12 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
         </div>
       </section>
     ),
-    gallery: (
+    gallery: validGallery.length > 0 ? (
       <section key="gallery" className="py-20 px-6 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-800 mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>Gallery</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {gallery.map((url: string, index: number) => (
+            {validGallery.map((url: string, index: number) => (
               <div key={index} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-lg group relative">
                 <div className="absolute inset-0 bg-rose-900/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
                 <img src={url} alt={`Moment ${index + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -265,7 +259,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           </div>
         </div>
       </section>
-    ),
+    ) : null,
     venue: (
       <section key="venue" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center bg-white/70 backdrop-blur-md rounded-[3rem] p-8 md:p-12 shadow-xl border border-amber-100">

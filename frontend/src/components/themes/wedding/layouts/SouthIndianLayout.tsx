@@ -33,14 +33,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "https://maps.app.goo.gl/Vg34LGmsU";
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "9400850505, 403490349";
 
-  const rawGallery = content?.settings_json?.wedding?.gallery;
-  const gallery = (Array.isArray(rawGallery) && rawGallery.length > 0)
-    ? rawGallery
-    : [
-        "https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80"
-      ];
+  const gallery = content?.settings_json?.wedding?.gallery || [];
+  const validGallery = Array.isArray(gallery) ? gallery.filter((url: string) => url && url.trim() !== "") : [];
 
   const story = content?.about_text || "We met at a coffee shop and found a love that lasts forever. Join us as we celebrate our journey together.";
   const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Story";
@@ -236,18 +230,18 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ),
-    gallery: (
+    gallery: validGallery.length > 0 ? (
       <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {gallery.map((url: string, index: number) => (
+          {validGallery.map((url: string, index: number) => (
             <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-md">
               <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
           ))}
         </div>
       </section>
-    ),
+    ) : null,
     countdown: (
       <section key="countdown" className="py-16 px-6 relative z-10 bg-red-900 text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-6 text-center">
         <div className="max-w-3xl mx-auto relative z-10">
