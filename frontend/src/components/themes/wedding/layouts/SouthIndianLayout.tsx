@@ -12,18 +12,18 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
   const date = content?.settings_json?.wedding?.date || content?.date || '25/11/24';
   const venue = content?.contact_info?.address || content?.venue?.name || 'Shalimar Garden, Tagore Hall, near Rani Ghat';
-  
+
   const groomParents = content?.settings_json?.wedding?.groomParents || 'Sahil Sharma';
   const brideParents = content?.settings_json?.wedding?.brideParents || 'Divya Anand';
   const quote = content?.settings_json?.wedding?.quote || content?.quote || 'Two hearts united in love, starting a beautiful journey together.';
 
   const coupleImage = content?.hero?.image || "/media/south_indian_couple.png";
-  
+
   const schedule = content?.settings_json?.wedding?.schedule || [
     { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: venue },
     { time: "7:00 PM Onwards", event: "Reception", date: date, venue: venue }
   ];
-  
+
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl;
@@ -43,57 +43,56 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center pt-24 pb-96 overflow-hidden">
-        {/* Arch / Decor Background */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
+      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-between pb-12 overflow-hidden bg-[#FDF9EE] -mx-4 w-[calc(100%+2rem)]">
+        {/* Arch / Decor Background - Edge-to-Edge full width */}
+        <div className="absolute top-0 left-0 right-0 w-full pointer-events-none z-0">
+          <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-auto object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-      {/* Main Content Content */}
-      <div className="relative z-10 max-w-md mx-auto text-center px-8 sm:px-12 mt-24 sm:mt-32">
-        
-        <p className="text-rose-900 font-bold mb-4 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
-          || ॐ गणपतये नमः ||
-        </p>
+        {/* Main Content - Moved down so it sits perfectly below the arch */}
+        <div className="relative z-10 max-w-md mx-auto text-center px-6 mt-36 sm:mt-48">
 
-        {quote && (
-          <p className="text-rose-900 text-xs sm:text-sm italic font-serif leading-relaxed mb-6 px-4 opacity-90 max-w-xs mx-auto">
-            "{quote}"
+          <p className="text-rose-900 font-bold mb-4 tracking-widest text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+            || ॐ गणपतये नमः ||
           </p>
-        )}
 
-        <div className="flex flex-col md:flex-row items-center justify-center md:gap-3 mb-6">
-          <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
-            {groomName}
-          </h1>
-          <span className="text-rose-900 font-medium text-xs italic mx-2 my-1 md:mt-3 block md:inline" style={{ fontFamily: "'Playfair Display', serif" }}>with</span>
-          <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap" style={{ fontFamily: "'Great Vibes', cursive" }}>
-            {brideName}
-          </h1>
+          {quote && (
+            <p className="text-rose-900 text-xs sm:text-sm italic font-serif leading-relaxed mb-6 px-4 opacity-90 max-w-xs mx-auto">
+              "{quote}"
+            </p>
+          )}
+
+          <div className="flex flex-col md:flex-row items-center justify-center md:gap-3 mb-6">
+            <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
+              {groomName}
+            </h1>
+            <span className="text-rose-900 font-medium text-xs italic mx-2 my-1 md:mt-3 block md:inline" style={{ fontFamily: "'Playfair Display', serif" }}>with</span>
+            <h1 className="text-4xl sm:text-6xl font-script text-orange-500 font-bold whitespace-nowrap drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive" }}>
+              {brideName}
+            </h1>
+          </div>
+
+          <p className="text-rose-900 text-xl sm:text-2xl font-bold mb-3 tracking-wider" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+          <p className="text-rose-800 text-xs sm:text-sm font-medium italic mb-6 opacity-90 max-w-sm mx-auto" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {venue}
+          </p>
+
         </div>
 
-        <p className="text-rose-900 text-lg sm:text-2xl font-bold mb-3 tracking-wider" style={{ fontFamily: "'Playfair Display', serif" }}>
-          {date}
-        </p>
-
-        <p className="text-rose-800 text-xs sm:text-sm font-medium italic mb-8 opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
-          {venue}
-        </p>
-        
-      </div>
-
-      {/* Couple Illustration at the bottom of hero */}
-      <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none z-20">
-        <img 
-          src={coupleImage} 
-          alt="Couple Illustration" 
-          className="w-full max-w-lg h-auto object-contain object-bottom"
-          onError={(e) => {
-            // Fallback if image doesn't exist
-            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
-          }}
-        />
-      </div>
+        {/* Couple Illustration at the bottom of hero */}
+        <div className="relative w-full flex justify-center pointer-events-none z-10 mt-auto pt-8">
+          <img
+            src={coupleImage}
+            alt="Couple Illustration"
+            className="w-full max-w-md h-auto object-contain object-bottom mix-blend-multiply"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80';
+            }}
+          />
+        </div>
       </section>
     ),
     about: (
@@ -133,8 +132,8 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
             <div key={idx} className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 shadow-md">
               <h3 className="text-2xl font-bold text-orange-600 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{item.event}</h3>
               <div className="flex items-center justify-center gap-2 mb-2 text-amber-800">
-                  <Calendar className="w-5 h-5 text-red-700" />
-                  <span className="font-semibold">{item.date}</span>
+                <Calendar className="w-5 h-5 text-red-700" />
+                <span className="font-semibold">{item.date}</span>
               </div>
               <p className="text-amber-700 font-medium">{item.time}</p>
               <p className="text-amber-600 text-sm mt-2">{item.venue}</p>
@@ -146,25 +145,25 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
     venue: mapUrl || location ? (
       <section key="venue" className="py-20 px-6 relative z-10">
         <div className="bg-gradient-to-br from-amber-100/50 to-orange-50 rounded-3xl p-10 text-center shadow-lg border border-amber-200 relative overflow-hidden">
-             <div className="relative z-10">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
-                    <MapPin className="w-8 h-8" />
-                </div>
-                <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
-                <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
-                <p className="text-md text-amber-700 max-w-md mx-auto mb-8">Join us to celebrate our joyous occasion.</p>
-                
-                {mapUrl && (
-                    <a 
-                      href={mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm"
-                    >
-                      Get Directions
-                    </a>
-                )}
-             </div>
+          <div className="relative z-10">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
+              <MapPin className="w-8 h-8" />
+            </div>
+            <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
+            <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
+            <p className="text-md text-amber-700 max-w-md mx-auto mb-8">Join us to celebrate our joyous occasion.</p>
+
+            {mapUrl && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-red-700 text-white px-8 py-3 rounded-full font-bold tracking-wide hover:bg-red-800 transition-colors shadow-md text-sm"
+              >
+                Get Directions
+              </a>
+            )}
+          </div>
         </div>
       </section>
     ) : null,
@@ -193,11 +192,11 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   };
 
   return (
-    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center overflow-hidden">
-      
+    <div className="min-h-screen bg-[#FDF9EE] relative font-sans flex flex-col items-center overflow-hidden w-full">
+
       {/* Welcome Screen / Envelope Overlay */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDF9EE] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'}`}>
-        
+
         {/* Arch / Decor Background */}
         <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
@@ -208,7 +207,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
             || ॐ गणपतये नमः ||
           </p>
 
-          <p className="text-rose-900 text-xs md:text-sm font-semibold uppercase mb-6 tracking-widest text-opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-rose-900 text-xs md:text-sm font-semibold uppercase mb-6 tracking-widest opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
             You are invited to the wedding of
           </p>
 
@@ -232,7 +231,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       <div className="relative z-30 max-w-4xl mx-auto px-4 space-y-24 w-full">
         {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
-      
+
     </div>
   );
 }
