@@ -39,50 +39,55 @@ const Nilavilakku = ({ className = "w-16 h-28" }: { className?: string }) => (
   </svg>
 );
 
-// Banana Leaf Group Left
-const BananaLeafGroupLeft = () => (
-  <svg className="w-32 h-44 sm:w-44 sm:h-60" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+// Banana Leaf Group Left Top
+const BananaLeafTopLeft = () => (
+  <svg className="w-28 h-40 sm:w-40 sm:h-56" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C"/>
     <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762"/>
     <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579"/>
   </svg>
 );
 
-// Banana Leaf Group Right
-const BananaLeafGroupRight = () => (
-  <svg className="w-32 h-44 sm:w-44 sm:h-60 scale-x-[-1]" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+// Banana Leaf Group Right Bottom
+const BananaLeafBottomRight = () => (
+  <svg className="w-28 h-40 sm:w-40 sm:h-56 scale-x-[-1]" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C"/>
     <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762"/>
     <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579"/>
   </svg>
 );
 
-// Concentric Mandala Rings SVG
+// Concentric Mandala Rings SVG (Large & Centered)
 const MandalaRingsSVG = () => (
-  <svg className="w-[320px] h-[320px] sm:w-[460px] sm:h-[460px] md:w-[580px] md:h-[580px]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="250" cy="250" r="240" stroke="#65B5AC" strokeWidth="2.5" opacity="0.6"/>
-    <circle cx="250" cy="250" r="230" stroke="#65B5AC" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5"/>
+  <svg className="w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] md:w-[640px] md:h-[640px]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Inner White-Mint Tint Circle for Crisp Text Visibility */}
+    <circle cx="250" cy="250" r="175" fill="#D6F4F1" opacity="0.65"/>
+    {/* Outer Circles */}
+    <circle cx="250" cy="250" r="240" stroke="#5AA89F" strokeWidth="2.5" opacity="0.6"/>
+    <circle cx="250" cy="250" r="230" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5"/>
+    {/* Lotus Petal Ring */}
     {[...Array(24)].map((_, i) => {
       const angle = (i * 360) / 24;
       return (
         <g key={i} transform={`rotate(${angle} 250 250)`}>
-          <path d="M250 20 C242 40 240 55 250 65 C260 55 258 40 250 20 Z" fill="none" stroke="#5AA89F" strokeWidth="1.5" opacity="0.6"/>
-          <circle cx="250" cy="43" r="3" fill="#5AA89F" opacity="0.6"/>
+          <path d="M250 20 C242 40 240 55 250 65 C260 55 258 40 250 20 Z" fill="none" stroke="#4F9B92" strokeWidth="1.5" opacity="0.6"/>
+          <circle cx="250" cy="43" r="3" fill="#4F9B92" opacity="0.6"/>
         </g>
       );
     })}
-    <circle cx="250" cy="250" r="185" stroke="#65B5AC" strokeWidth="3" opacity="0.7"/>
-    <circle cx="250" cy="250" r="176" stroke="#65B5AC" strokeWidth="1.5" opacity="0.6"/>
-    <circle cx="250" cy="250" r="165" stroke="#65B5AC" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5"/>
+    {/* Middle Circles */}
+    <circle cx="250" cy="250" r="185" stroke="#5AA89F" strokeWidth="3" opacity="0.7"/>
+    <circle cx="250" cy="250" r="176" stroke="#5AA89F" strokeWidth="1.5" opacity="0.6"/>
+    <circle cx="250" cy="250" r="165" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5"/>
   </svg>
 );
 
 // Bride Saree / Drapery Line Ornament SVG
 const BrideSareeFlourish = () => (
-  <svg className="w-24 h-14 mx-auto my-2" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M60 5 C45 20 30 40 18 55 C35 50 50 60 60 65 C70 60 85 50 102 55 C90 40 75 20 60 5 Z" stroke="#D4AF37" strokeWidth="1.8" fill="none"/>
-    <path d="M60 5 Q48 30 28 45 M60 5 Q72 30 92 45" stroke="#D4AF37" strokeWidth="1.2" strokeDasharray="2 2"/>
-    <path d="M38 50 Q60 62 82 50" stroke="#D4AF37" strokeWidth="1.5"/>
+  <svg className="w-28 h-18 mx-auto my-3" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 5 C45 20 30 40 18 55 C35 50 50 60 60 65 C70 60 85 50 102 55 C90 40 75 20 60 5 Z" stroke="#E0B84C" strokeWidth="2" fill="none"/>
+    <path d="M60 5 Q48 30 28 45 M60 5 Q72 30 92 45" stroke="#E0B84C" strokeWidth="1.2" strokeDasharray="2 2"/>
+    <path d="M38 50 Q60 62 82 50" stroke="#E0B84C" strokeWidth="1.5"/>
   </svg>
 );
 
@@ -160,35 +165,34 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#96D4CE] text-center py-16 px-4">
+      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#A3DFD8] text-center py-16 px-4">
         
-        {/* Background Mandala Rings */}
+        {/* Generated Image Background Frame */}
+        <div className="absolute inset-0 z-0 opacity-25 pointer-events-none">
+          <img src="/media/south_indian_mint_bg.png" alt="Card Background Artwork" className="w-full h-full object-cover" />
+        </div>
+
+        {/* Concentric Mandala Rings SVG */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
           <MandalaRingsSVG />
         </div>
 
-        {/* Banana Leaves - Corners */}
-        <div className="absolute top-6 left-0 pointer-events-none z-10">
-          <BananaLeafGroupLeft />
+        {/* Banana Leaves strictly in Top-Left and Bottom-Right Corners (NO Text Overlap) */}
+        <div className="absolute top-0 left-0 pointer-events-none z-10">
+          <BananaLeafTopLeft />
         </div>
-        <div className="absolute top-44 right-0 pointer-events-none z-10">
-          <BananaLeafGroupRight />
-        </div>
-        <div className="absolute bottom-12 left-0 pointer-events-none z-10">
-          <BananaLeafGroupLeft />
-        </div>
-        <div className="absolute bottom-4 right-0 pointer-events-none z-10">
-          <BananaLeafGroupRight />
+        <div className="absolute bottom-0 right-0 pointer-events-none z-10">
+          <BananaLeafBottomRight />
         </div>
 
         {/* Top Right Golden Parasol / Umbrella */}
-        <div className="absolute -top-4 -right-4 sm:top-2 sm:right-2 pointer-events-none z-20">
-          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform -rotate-12" />
+        <div className="absolute -top-2 -right-4 sm:top-0 sm:right-0 pointer-events-none z-20">
+          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 transform -rotate-12" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella */}
-        <div className="absolute bottom-16 -left-8 sm:bottom-24 sm:-left-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-36 h-36 sm:w-52 sm:h-52 md:w-60 md:h-60 transform rotate-[35deg]" />
+        <div className="absolute bottom-12 -left-8 sm:bottom-16 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
@@ -199,35 +203,35 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
         </div>
 
-        {/* Center Main Invitation Content */}
-        <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center min-h-[500px]">
+        {/* Center Main Invitation Content (Strictly Unobstructed) */}
+        <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center min-h-[480px]">
 
           {/* Golden Ganesha Line Icon */}
-          <div className="mb-4">
-            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-12 h-12 sm:w-16 sm:h-16 object-contain mx-auto filter drop-shadow-sm" />
+          <div className="mb-3">
+            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-10 h-10 sm:w-14 sm:h-14 object-contain mx-auto filter drop-shadow-sm" />
           </div>
 
-          <p className="text-[#333E5A] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-4 opacity-90 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#354359] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-3 opacity-90 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
           </p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#333E5A] mb-4 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#354359] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
             {coupleNamesStr}
           </h1>
 
           {/* Teal Line Flourish with Center Dot above Date */}
-          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+          <div className="flex items-center justify-center gap-2 my-2 opacity-85">
             <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#5AA89F]"></div>
             <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
           </div>
 
-          <p className="text-[#333E5A] text-base sm:text-xl font-bold tracking-wider my-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#354359] text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             {date}
           </p>
 
           {/* Teal Line Flourish with Center Dot below Date */}
-          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+          <div className="flex items-center justify-center gap-2 my-2 opacity-85">
             <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#5AA89F]"></div>
             <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
@@ -240,7 +244,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     about: (
-      <section key="about" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#84C9C4] text-[#2A4450]">
+      <section key="about" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#88D3CB] text-[#2A4450]">
         <div className="text-center">
           <h2 className="text-4xl font-bold mb-10 font-script text-[#2A4450]" style={{ fontFamily: "'Great Vibes', cursive" }}>Family Details</h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -270,7 +274,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     story: (
-      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#96D4CE]">
+      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#A3DFD8]">
         <div className="max-w-2xl mx-auto bg-white/85 backdrop-blur-md rounded-3xl p-10 shadow-xl border border-amber-200">
           <h2 className="text-3xl md:text-4xl font-bold text-[#2A4450] mb-6 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {storyTitle}
@@ -282,7 +286,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#84C9C4]">
+      <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#88D3CB]">
         <h2 className="text-3xl md:text-5xl font-bold text-[#2A4450] mb-10 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Schedule & Events</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {schedule.map((item: any, idx: number) => (
@@ -300,7 +304,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     venue: (
-      <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#96D4CE]">
+      <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#A3DFD8]">
         <div className="bg-white/90 backdrop-blur-md rounded-[3rem] p-8 sm:p-10 text-center shadow-xl border border-amber-200 relative overflow-hidden">
           <div className="relative z-10">
             <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-teal-800">
@@ -347,7 +351,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#84C9C4]">
+      <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#88D3CB]">
         <h2 className="text-3xl md:text-4xl font-bold text-[#2A4450] mb-10 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {validGallery.map((url: string, index: number) => (
@@ -383,7 +387,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-16 px-6 relative z-10 max-w-2xl mx-auto bg-[#96D4CE]">
+      <section key="rsvp" className="py-16 px-6 relative z-10 max-w-2xl mx-auto bg-[#A3DFD8]">
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-[#2A4450] mb-3 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Will You Join Us?</h2>
           <p className="text-teal-900 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can make it</p>
@@ -429,7 +433,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
   };
 
   return (
-    <div className="min-h-screen bg-[#96D4CE] relative font-sans flex flex-col items-center overflow-hidden w-full">
+    <div className="min-h-screen bg-[#A3DFD8] relative font-sans flex flex-col items-center overflow-hidden w-full">
 
       {/* Audio Element */}
       {musicUrl && (
