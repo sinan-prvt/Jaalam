@@ -172,22 +172,25 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <MandalaRingsSVG />
         </div>
 
-        {/* Banana Leaves - Corners */}
-        <div className="absolute top-6 left-0 pointer-events-none z-10">
+        {/* Banana Leaves - Framing Margins */}
+        <div className="absolute top-4 left-0 pointer-events-none z-10">
           <BananaLeafTopLeft />
         </div>
-        <div className="absolute bottom-0 right-0 pointer-events-none z-10">
+        <div className="absolute top-28 right-0 pointer-events-none z-10">
+          <BananaLeafBottomRight />
+        </div>
+        <div className="absolute bottom-24 right-0 pointer-events-none z-10">
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella */}
-        <div className="absolute -top-2 -right-4 sm:top-0 sm:right-0 pointer-events-none z-20">
-          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 transform -rotate-12" />
+        {/* Top Right Golden Parasol / Umbrella (Overlapping Top-Right Mandala Edge) */}
+        <div className="absolute top-10 -right-6 sm:top-14 sm:-right-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 transform -rotate-12" />
         </div>
 
-        {/* Bottom Left Golden Parasol / Umbrella */}
-        <div className="absolute bottom-12 -left-8 sm:bottom-16 sm:-left-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform rotate-[35deg]" />
+        {/* Bottom Left Golden Parasol / Umbrella (Overlapping Bottom-Left Mandala Edge) */}
+        <div className="absolute bottom-28 -left-6 sm:bottom-36 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-68 md:h-68 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
@@ -199,7 +202,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </div>
 
         {/* Center Main Invitation Content */}
-        <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center min-h-[480px]">
+        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100 translate-y-14 sm:translate-y-16">
 
           {/* Golden Ganesha Line Icon */}
           <div className="mb-3">
@@ -462,22 +465,25 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <MandalaRingsSVG />
         </div>
 
-        {/* Banana Leaves - Corners */}
-        <div className="absolute top-6 left-0 pointer-events-none z-10">
+        {/* Banana Leaves - Framing Margins */}
+        <div className="absolute top-4 left-0 pointer-events-none z-10">
           <BananaLeafTopLeft />
         </div>
-        <div className="absolute bottom-0 right-0 pointer-events-none z-10">
+        <div className="absolute top-28 right-0 pointer-events-none z-10">
+          <BananaLeafBottomRight />
+        </div>
+        <div className="absolute bottom-24 right-0 pointer-events-none z-10">
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella */}
-        <div className="absolute -top-2 -right-4 sm:top-0 sm:right-0 pointer-events-none z-20">
-          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 transform -rotate-12" />
+        {/* Top Right Golden Parasol / Umbrella (Overlapping Top-Right Mandala Edge) */}
+        <div className="absolute top-10 -right-6 sm:top-14 sm:-right-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 transform -rotate-12" />
         </div>
 
-        {/* Bottom Left Golden Parasol / Umbrella */}
-        <div className="absolute bottom-12 -left-8 sm:bottom-16 sm:-left-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform rotate-[35deg]" />
+        {/* Bottom Left Golden Parasol / Umbrella (Overlapping Bottom-Left Mandala Edge) */}
+        <div className="absolute bottom-28 -left-6 sm:bottom-36 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-68 md:h-68 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
@@ -489,7 +495,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </div>
 
         {/* Center Main Invitation Content (Strictly Enclosed Inside Inner Circle) */}
-        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100 translate-y-6 sm:translate-y-8">
+        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100 translate-y-14 sm:translate-y-16">
 
           {/* Golden Ganesha Line Icon */}
           <div className="mb-2">
