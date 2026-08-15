@@ -488,44 +488,47 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
         </div>
 
-        {/* Center Main Invitation Content */}
-        <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center h-full my-auto py-8">
+        {/* Center Main Invitation Content (Strictly Enclosed Inside Inner Circle) */}
+        <div className="relative z-30 w-full max-w-[320px] sm:max-w-[400px] aspect-square flex flex-col items-center justify-center text-center mx-auto my-auto p-4 sm:p-6 scale-95 sm:scale-100">
 
           {/* Golden Ganesha Line Icon */}
-          <div className="mb-3">
-            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-10 h-10 sm:w-14 sm:h-14 object-contain mx-auto filter drop-shadow-sm" />
+          <div className="mb-2">
+            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-8 h-8 sm:w-11 sm:h-11 object-contain mx-auto filter drop-shadow-sm" />
           </div>
 
-          <p className="text-[#354359] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-3 opacity-90 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#354359] text-[9px] sm:text-xs font-semibold tracking-[0.2em] uppercase mb-2 opacity-90 leading-tight font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
           </p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#354359] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+          <h1 className="text-3xl sm:text-5xl font-bold text-[#354359] mb-2 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
             {coupleNamesStr}
           </h1>
 
           {/* Teal Line Flourish with Center Dot above Date */}
-          <div className="flex items-center justify-center gap-2 my-2 opacity-85">
-            <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
+          <div className="flex items-center justify-center gap-2 my-1.5 opacity-85">
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#5AA89F]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#5AA89F]"></div>
-            <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#5AA89F]"></div>
           </div>
 
-          <p className="text-[#354359] text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#354359] text-xs sm:text-base font-bold tracking-wider my-0.5 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             {date}
           </p>
 
           {/* Teal Line Flourish with Center Dot below Date */}
-          <div className="flex items-center justify-center gap-2 my-2 opacity-85">
-            <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
+          <div className="flex items-center justify-center gap-2 my-1.5 opacity-85">
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#5AA89F]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#5AA89F]"></div>
-            <div className="w-12 sm:w-16 h-[1.5px] bg-[#5AA89F]"></div>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#5AA89F]"></div>
           </div>
 
           {/* Golden Bride Saree Drapery Flourish */}
           <BrideSareeFlourish />
 
-          {/* OPEN INVITATION BUTTON */}
+        </div>
+
+        {/* OPEN INVITATION BUTTON (Positioned below the circle) */}
+        <div className="relative z-40 mb-6 sm:mb-10 flex-shrink-0">
           <button
             onClick={() => {
               setIsOpened(true);
@@ -533,15 +536,15 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
                 audioRef.current.play().catch(console.error);
               }
             }}
-            className="group relative overflow-hidden bg-[#354359] hover:bg-[#2A3547] text-amber-300 font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3.5 md:px-12 md:py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 z-40 border border-amber-300/40 flex-shrink-0 mt-5 cursor-pointer"
+            className="group relative overflow-hidden bg-[#354359] hover:bg-[#2A3547] text-amber-300 font-bold tracking-widest uppercase text-xs md:text-sm px-10 py-3.5 md:px-12 md:py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 border border-amber-300/40 cursor-pointer"
           >
             <span className="relative z-10 flex items-center gap-2">
               Open Invitation
             </span>
             <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
           </button>
-
         </div>
+
       </div>
 
       {/* Main Content Sections */}
