@@ -5,22 +5,22 @@ import type { WeddingLayoutProps } from './types';
 // Golden Temple Parasol / Umbrella (Kudamattom SVG)
 const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M100 20 C50 20 15 65 10 90 H190 C185 65 150 20 100 20 Z" fill="#F4B41A" stroke="#B87D0E" strokeWidth="3"/>
-    <path d="M10 90 Q100 120 190 90 L185 105 Q100 135 15 105 Z" fill="#6B3A0A" stroke="#4A2604" strokeWidth="2"/>
-    <path d="M100 20 C65 20 40 65 35 90" stroke="#D97706" strokeWidth="3"/>
-    <path d="M100 20 C135 20 160 65 165 90" stroke="#D97706" strokeWidth="3"/>
-    <path d="M100 20 C82 20 68 65 65 90" stroke="#FBBF24" strokeWidth="2.5"/>
-    <path d="M100 20 C118 20 132 65 135 90" stroke="#FBBF24" strokeWidth="2.5"/>
-    <path d="M10 90 Q20 102 30 90 Q40 102 50 90 Q60 102 70 90 Q80 102 90 90 Q100 102 110 90 Q120 102 130 90 Q140 102 150 90 Q160 102 170 90 Q180 102 190 90" fill="#E67E22" stroke="#96520B" strokeWidth="2"/>
+    <path d="M100 20 C50 20 15 65 10 90 H190 C185 65 150 20 100 20 Z" fill="#F4B41A" stroke="#B87D0E" strokeWidth="3" />
+    <path d="M10 90 Q100 120 190 90 L185 105 Q100 135 15 105 Z" fill="#6B3A0A" stroke="#4A2604" strokeWidth="2" />
+    <path d="M100 20 C65 20 40 65 35 90" stroke="#D97706" strokeWidth="3" />
+    <path d="M100 20 C135 20 160 65 165 90" stroke="#D97706" strokeWidth="3" />
+    <path d="M100 20 C82 20 68 65 65 90" stroke="#FBBF24" strokeWidth="2.5" />
+    <path d="M100 20 C118 20 132 65 135 90" stroke="#FBBF24" strokeWidth="2.5" />
+    <path d="M10 90 Q20 102 30 90 Q40 102 50 90 Q60 102 70 90 Q80 102 90 90 Q100 102 110 90 Q120 102 130 90 Q140 102 150 90 Q160 102 170 90 Q180 102 190 90" fill="#E67E22" stroke="#96520B" strokeWidth="2" />
     {[20, 40, 60, 80, 100, 120, 140, 160, 180].map((x, i) => (
       <g key={i}>
         <line x1={x} y1="95" x2={x} y2="120" stroke="#FBBF24" strokeWidth="2.5" />
         <circle cx={x} cy="122" r="3.5" fill="#D97706" />
       </g>
     ))}
-    <line x1="100" y1="5" x2="100" y2="20" stroke="#D4AF37" strokeWidth="4"/>
-    <circle cx="100" cy="5" r="4.5" fill="#D4AF37"/>
-    <line x1="100" y1="90" x2="100" y2="210" stroke="#5C3407" strokeWidth="6"/>
+    <line x1="100" y1="5" x2="100" y2="20" stroke="#D4AF37" strokeWidth="4" />
+    <circle cx="100" cy="5" r="4.5" fill="#D4AF37" />
+    <line x1="100" y1="90" x2="100" y2="210" stroke="#5C3407" strokeWidth="6" />
   </svg>
 );
 
@@ -29,64 +29,64 @@ const Nilavilakku = ({ className = "w-16 h-28" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
     {/* Glowing Flame with Flicker Animation */}
     <g className="animate-pulse">
-      <path d="M50 5 C43 20 38 30 50 42 C62 30 57 20 50 5 Z" fill="#FF7700"/>
-      <path d="M50 14 C46 23 43 28 50 36 C57 28 54 23 50 14 Z" fill="#FFDD00"/>
+      <path d="M50 5 C43 20 38 30 50 42 C62 30 57 20 50 5 Z" fill="#FF7700" />
+      <path d="M50 14 C46 23 43 28 50 36 C57 28 54 23 50 14 Z" fill="#FFDD00" />
     </g>
-    <ellipse cx="50" cy="46" rx="22" ry="7" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
-    <path d="M45 53 H55 V72 H45 Z" fill="#B89220"/>
-    <circle cx="50" cy="78" r="9" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
-    <path d="M46 87 H54 V118 H46 Z" fill="#B89220"/>
-    <circle cx="50" cy="124" r="11" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
-    <path d="M43 135 H57 V152 H43 Z" fill="#B89220"/>
-    <path d="M20 178 C20 156 32 150 50 150 C68 150 75 156 80 178 Z" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
+    <ellipse cx="50" cy="46" rx="22" ry="7" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2" />
+    <path d="M45 53 H55 V72 H45 Z" fill="#B89220" />
+    <circle cx="50" cy="78" r="9" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2" />
+    <path d="M46 87 H54 V118 H46 Z" fill="#B89220" />
+    <circle cx="50" cy="124" r="11" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2" />
+    <path d="M43 135 H57 V152 H43 Z" fill="#B89220" />
+    <path d="M20 178 C20 156 32 150 50 150 C68 150 75 156 80 178 Z" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2" />
   </svg>
 );
 
 // Banana Leaf Group Left Top
 const BananaLeafTopLeft = () => (
   <svg className="w-28 h-40 sm:w-40 sm:h-56" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C"/>
-    <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762"/>
-    <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579"/>
+    <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C" />
+    <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762" />
+    <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579" />
   </svg>
 );
 
 // Banana Leaf Group Right Bottom
 const BananaLeafBottomRight = () => (
   <svg className="w-28 h-40 sm:w-40 sm:h-56 scale-x-[-1]" viewBox="0 0 180 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C"/>
-    <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762"/>
-    <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579"/>
+    <path d="M-30 240 C20 180 50 90 160 10 C120 60 40 130 -30 240 Z" fill="#24694C" />
+    <path d="M-30 240 C0 150 40 60 130 0 C80 50 10 130 -30 240 Z" fill="#318762" />
+    <path d="M-30 240 C-10 190 20 120 100 30 C60 80 0 150 -30 240 Z" fill="#44A579" />
   </svg>
 );
 
 // Concentric Mandala Rings SVG with Continuous Slow Rotation Animation
 const MandalaRingsSVG = () => (
   <svg className="w-[380px] h-[380px] sm:w-[540px] sm:h-[540px] md:w-[660px] md:h-[660px] animate-[spin_60s_linear_infinite]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="250" cy="250" r="212" fill="#D4F4F0" opacity="0.8"/>
-    <circle cx="250" cy="250" r="240" stroke="#5AA89F" strokeWidth="2.5" opacity="0.6"/>
-    <circle cx="250" cy="250" r="230" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5"/>
+    <circle cx="250" cy="250" r="212" fill="#D4F4F0" opacity="0.8" />
+    <circle cx="250" cy="250" r="240" stroke="#5AA89F" strokeWidth="2.5" opacity="0.6" />
+    <circle cx="250" cy="250" r="230" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5" />
     {[...Array(24)].map((_, i) => {
       const angle = (i * 360) / 24;
       return (
         <g key={i} transform={`rotate(${angle} 250 250)`}>
-          <path d="M250 20 C242 40 240 55 250 65 C260 55 258 40 250 20 Z" fill="none" stroke="#4F9B92" strokeWidth="1.5" opacity="0.6"/>
-          <circle cx="250" cy="43" r="3" fill="#4F9B92" opacity="0.6"/>
+          <path d="M250 20 C242 40 240 55 250 65 C260 55 258 40 250 20 Z" fill="none" stroke="#4F9B92" strokeWidth="1.5" opacity="0.6" />
+          <circle cx="250" cy="43" r="3" fill="#4F9B92" opacity="0.6" />
         </g>
       );
     })}
-    <circle cx="250" cy="250" r="212" stroke="#5AA89F" strokeWidth="2" opacity="0.8"/>
-    <circle cx="250" cy="250" r="185" stroke="#5AA89F" strokeWidth="1.5" opacity="0.6"/>
-    <circle cx="250" cy="250" r="165" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5"/>
+    <circle cx="250" cy="250" r="212" stroke="#5AA89F" strokeWidth="2" opacity="0.8" />
+    <circle cx="250" cy="250" r="185" stroke="#5AA89F" strokeWidth="1.5" opacity="0.6" />
+    <circle cx="250" cy="250" r="165" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5" />
   </svg>
 );
 
 // Bride Saree / Drapery Line Ornament SVG
 const BrideSareeFlourish = () => (
   <svg className="w-28 h-18 mx-auto my-2" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M60 5 C45 20 30 40 18 55 C35 50 50 60 60 65 C70 60 85 50 102 55 C90 40 75 20 60 5 Z" stroke="#E0B84C" strokeWidth="2" fill="none"/>
-    <path d="M60 5 Q48 30 28 45 M60 5 Q72 30 92 45" stroke="#E0B84C" strokeWidth="1.2" strokeDasharray="2 2"/>
-    <path d="M38 50 Q60 62 82 50" stroke="#E0B84C" strokeWidth="1.5"/>
+    <path d="M60 5 C45 20 30 40 18 55 C35 50 50 60 60 65 C70 60 85 50 102 55 C90 40 75 20 60 5 Z" stroke="#E0B84C" strokeWidth="2" fill="none" />
+    <path d="M60 5 Q48 30 28 45 M60 5 Q72 30 92 45" stroke="#E0B84C" strokeWidth="1.2" strokeDasharray="2 2" />
+    <path d="M38 50 Q60 62 82 50" stroke="#E0B84C" strokeWidth="1.5" />
   </svg>
 );
 
@@ -112,9 +112,9 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
   const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
     ? rawSchedule
     : [
-        { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: location },
-        { time: "7:00 PM Onwards", event: "Reception", date: date, venue: location }
-      ];
+      { time: "9:00 AM Onwards", event: "Muhurtham", date: date, venue: location },
+      { time: "7:00 PM Onwards", event: "Reception", date: date, venue: location }
+    ];
 
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
@@ -166,31 +166,28 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#A3DFD8] text-center py-16 px-4">
-        
+
         {/* Background Mandala Rings */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
           <MandalaRingsSVG />
         </div>
 
-        {/* Banana Leaves - Framing Margins */}
-        <div className="absolute top-4 left-0 pointer-events-none z-10">
+        {/* Banana Leaves - Corners */}
+        <div className="absolute top-6 left-0 pointer-events-none z-10">
           <BananaLeafTopLeft />
         </div>
-        <div className="absolute top-28 right-0 pointer-events-none z-10">
-          <BananaLeafBottomRight />
-        </div>
-        <div className="absolute bottom-24 right-0 pointer-events-none z-10">
+        <div className="absolute bottom-0 right-0 pointer-events-none z-10">
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Overlapping Top-Right Mandala Edge) */}
-        <div className="absolute top-10 -right-6 sm:top-14 sm:-right-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 transform -rotate-12" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Extending Down-Right) */}
+        <div className="absolute top-2 -right-4 sm:top-6 sm:-right-2 pointer-events-none z-20">
+          <GoldenUmbrella className="w-52 h-52 sm:w-64 sm:h-64 md:w-76 md:h-76 transform -rotate-[35deg]" />
         </div>
 
-        {/* Bottom Left Golden Parasol / Umbrella (Overlapping Bottom-Left Mandala Edge) */}
-        <div className="absolute bottom-28 -left-6 sm:bottom-36 sm:-left-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-68 md:h-68 transform rotate-[35deg]" />
+        {/* Bottom Left Golden Parasol / Umbrella */}
+        <div className="absolute bottom-12 -left-8 sm:bottom-16 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
@@ -459,31 +456,28 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
 
       {/* Welcome Screen Overlay Envelope */}
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#A3DFD8] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden`}>
-        
+
         {/* Background Mandala Rings */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
           <MandalaRingsSVG />
         </div>
 
-        {/* Banana Leaves - Framing Margins */}
-        <div className="absolute top-4 left-0 pointer-events-none z-10">
+        {/* Banana Leaves - Corners */}
+        <div className="absolute top-6 left-0 pointer-events-none z-10">
           <BananaLeafTopLeft />
         </div>
-        <div className="absolute top-28 right-0 pointer-events-none z-10">
-          <BananaLeafBottomRight />
-        </div>
-        <div className="absolute bottom-24 right-0 pointer-events-none z-10">
+        <div className="absolute bottom-0 right-0 pointer-events-none z-10">
           <BananaLeafBottomRight />
         </div>
 
-        {/* Top Right Golden Parasol / Umbrella (Overlapping Top-Right Mandala Edge) */}
-        <div className="absolute top-10 -right-6 sm:top-14 sm:-right-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 transform -rotate-12" />
+        {/* Top Right Golden Parasol / Umbrella (Stick Extending Down-Right) */}
+        <div className="absolute top-2 -right-4 sm:top-6 sm:-right-2 pointer-events-none z-20">
+          <GoldenUmbrella className="w-52 h-52 sm:w-64 sm:h-64 md:w-76 md:h-76 transform -rotate-[35deg]" />
         </div>
 
-        {/* Bottom Left Golden Parasol / Umbrella (Overlapping Bottom-Left Mandala Edge) */}
-        <div className="absolute bottom-28 -left-6 sm:bottom-36 sm:-left-4 pointer-events-none z-20">
-          <GoldenUmbrella className="w-44 h-44 sm:w-60 sm:h-60 md:w-68 md:h-68 transform rotate-[35deg]" />
+        {/* Bottom Left Golden Parasol / Umbrella */}
+        <div className="absolute bottom-12 -left-8 sm:bottom-16 sm:-left-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
