@@ -217,30 +217,35 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         <div className="relative z-30 max-w-lg mx-auto text-center px-4 flex flex-col items-center justify-center min-h-[500px]">
 
           {/* Golden Ganesha Line Icon */}
-          <div className="mb-4">
+          <div className="mb-3">
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-12 h-12 sm:w-16 sm:h-16 object-contain mx-auto filter drop-shadow-sm" />
           </div>
 
-          <p className="text-[#344E57] text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-4 opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
-            WE INVITE YOU TO CELEBRATE OUR WEDDING
+          <p className="text-[#333E5A] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-3 opacity-90 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif" }}>
+            WE INVITE YOU<br/>TO CELEBRATE OUR WEDDING
           </p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#2A4450] mb-4 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#333E5A] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {coupleNamesStr}
           </h1>
 
-          {/* Teal Line Flourish with 3 Dots */}
-          <div className="flex items-center justify-center gap-2 my-3">
-            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+          {/* Teal Line Flourish with Center Dot above Date */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-2 h-2 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
           </div>
 
-          <p className="text-[#2A4450] text-base sm:text-xl font-bold tracking-wider mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#333E5A] text-base sm:text-xl font-bold tracking-wider my-1" style={{ fontFamily: "'Playfair Display', serif" }}>
             {date}
           </p>
+
+          {/* Teal Line Flourish with Center Dot below Date */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
+          </div>
 
           {/* Golden Bride Saree Drapery Flourish */}
           <BrideSareeFlourish />
@@ -526,26 +531,31 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
             <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-12 h-12 sm:w-16 sm:h-16 object-contain mx-auto filter drop-shadow-sm" />
           </div>
 
-          <p className="text-[#344E57] text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-3 opacity-90" style={{ fontFamily: "'Playfair Display', serif" }}>
-            WE INVITE YOU TO CELEBRATE OUR WEDDING
+          <p className="text-[#333E5A] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-3 opacity-90 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif" }}>
+            WE INVITE YOU<br/>TO CELEBRATE OUR WEDDING
           </p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#2A4450] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#333E5A] mb-3 font-script whitespace-nowrap drop-shadow-sm px-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
             {coupleNamesStr}
           </h1>
 
-          {/* Teal Line Flourish with 3 Dots */}
-          <div className="flex items-center justify-center gap-2 my-2">
-            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+          {/* Teal Line Flourish with Center Dot above Date */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-2 h-2 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
-            <div className="w-10 sm:w-14 h-[1.5px] bg-[#68B6AD]"></div>
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
           </div>
 
-          <p className="text-[#2A4450] text-base sm:text-xl font-bold tracking-wider mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[#333E5A] text-base sm:text-xl font-bold tracking-wider my-1" style={{ fontFamily: "'Playfair Display', serif" }}>
             {date}
           </p>
+
+          {/* Teal Line Flourish with Center Dot below Date */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-80">
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#68B6AD]"></div>
+            <div className="w-12 sm:w-16 h-[1.5px] bg-[#68B6AD]"></div>
+          </div>
 
           {/* Golden Bride Saree Drapery Flourish */}
           <BrideSareeFlourish />
