@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
@@ -30,15 +30,42 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
   const gallery = content?.settings_json?.wedding?.gallery || [];
   const story = content?.about_text || "";
+  const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Story";
   const location = content?.contact_info?.address || venue;
+
+  const countdownDate = content?.settings_json?.wedding?.countdownDate || "";
+  const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
+
+  useEffect(() => {
+    if (!countdownDate) return;
+    const target = new Date(countdownDate).getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = target - now;
+      if (distance < 0) {
+        setTimeLeft(null);
+        clearInterval(interval);
+        return;
+      }
+      setTimeLeft({
+        d: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        s: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [countdownDate]);
 
   const defaultSections = [
     { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
-    { id: 'about', label: 'About the Couple', visible: true },
-    { id: 'schedule', label: 'Wedding Events', visible: true },
-    { id: 'gallery', label: 'Captured Moments', visible: true },
+    { id: 'about', label: 'Family Details', visible: true },
     { id: 'story', label: 'Our Story', visible: true },
-    { id: 'venue', label: 'When & Where', visible: true }
+    { id: 'schedule', label: 'Schedule & Events', visible: true },
+    { id: 'venue', label: 'Venue & Map', visible: true },
+    { id: 'gallery', label: 'Gallery', visible: true },
+    { id: 'countdown', label: 'Countdown', visible: true },
+    { id: 'rsvp', label: 'RSVP', visible: true }
   ];
   const sections = content?.settings_json?.wedding?.sections || defaultSections;
 
@@ -50,7 +77,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
           <img src="/media/south_indian_arch.png" alt="Arch Decoration" className="w-full h-full object-cover object-top opacity-90 mix-blend-multiply" />
         </div>
 
-        {/* Text Content - Perfectly positioned below the marigold garlands on both mobile and desktop screens */}
+        {/* Text Content - Positioned below marigold garlands */}
         <div className="relative z-10 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto text-center px-4 mt-32 sm:mt-44 md:mt-56 lg:mt-72 xl:mt-80">
 
           <p className="text-rose-900 font-bold mb-3 tracking-widest text-xs sm:text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -99,7 +126,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
     about: (
       <section key="about" className="py-20 px-6 relative z-10 max-w-4xl mx-auto">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>About the Couple</h2>
+          <h2 className="text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Family Details</h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="bg-white/80 p-8 rounded-2xl shadow-md border-2 border-amber-100 flex flex-col items-center">
               {groomPhoto && (
@@ -125,9 +152,23 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ),
+    story: (story || storyTitle) ? (
+      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
+        <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur rounded-3xl p-10 shadow-md border-2 border-amber-100">
+          <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {storyTitle}
+          </h2>
+          {story && (
+            <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
+              "{story}"
+            </p>
+          )}
+        </div>
+      </section>
+    ) : null,
     schedule: (
       <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Wedding Events</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Schedule & Events</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {schedule.map((item: any, idx: number) => (
             <div key={idx} className="bg-white/80 backdrop-blur border-2 border-amber-100 rounded-2xl p-8 shadow-md">
@@ -150,7 +191,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-red-700">
               <MapPin className="w-8 h-8" />
             </div>
-            <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue</h3>
+            <h3 className="text-3xl font-bold text-red-800 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Venue & Map</h3>
             <p className="text-xl font-medium text-amber-900 mb-2">{location || venue}</p>
             <p className="text-md text-amber-700 max-w-md mx-auto mb-6">Join us to celebrate our joyous occasion.</p>
 
@@ -191,7 +232,7 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
     ) : null,
     gallery: gallery.length > 0 ? (
       <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Captured Moments</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {gallery.map((url: string, index: number) => (
             <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-md">
@@ -201,16 +242,74 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
         </div>
       </section>
     ) : null,
-    story: story ? (
-      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto">
-        <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur rounded-3xl p-10 shadow-md border-2 border-amber-100">
-          <h2 className="text-3xl font-bold text-red-800 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>Our Story</h2>
-          <p className="text-lg text-amber-900 font-medium italic leading-relaxed">
-            "{story}"
-          </p>
+    countdown: timeLeft ? (
+      <section key="countdown" className="py-16 px-6 relative z-10 bg-red-900 text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-6 text-center">
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-amber-300" style={{ fontFamily: "'Playfair Display', serif" }}>Counting Down To</h2>
+          <p className="text-lg italic mb-8 text-rose-200" style={{ fontFamily: "'Playfair Display', serif" }}>Our Special Day</p>
+
+          <div className="flex gap-3 sm:gap-6 justify-center">
+            {[
+              { label: 'Days', value: timeLeft.d },
+              { label: 'Hours', value: timeLeft.h },
+              { label: 'Mins', value: timeLeft.m },
+              { label: 'Secs', value: timeLeft.s }
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20">
+                  <span className="text-xl sm:text-3xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{item.value}</span>
+                </div>
+                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-amber-200">{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-    ) : null
+    ) : null,
+    rsvp: (
+      <section key="rsvp" className="py-16 px-6 relative z-10 max-w-2xl mx-auto">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-red-800 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>Will You Join Us?</h2>
+          <p className="text-amber-800 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can make it</p>
+
+          <div className="bg-white/90 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border-2 border-amber-100 text-left">
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-900 mb-2">Name</label>
+                  <input type="text" className="w-full bg-amber-50/50 border border-amber-200 rounded-xl px-4 py-3 outline-none focus:border-red-700 transition-all font-serif" placeholder="Your Name" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-900 mb-2">Message / Warm Wishes</label>
+                  <textarea rows={4} className="w-full bg-amber-50/50 border border-amber-200 rounded-xl px-4 py-3 outline-none focus:border-red-700 transition-all font-serif resize-none" placeholder="Your wishes for the couple..."></textarea>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-900 mb-3">Will you be attending?</label>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 hover:border-red-700 bg-amber-50/30 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-red-700" />
+                      <span className="text-amber-950 font-bold uppercase tracking-widest text-xs">Joyfully Accepts</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 hover:border-red-700 bg-amber-50/30 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-red-700" />
+                      <span className="text-amber-950 font-bold uppercase tracking-widest text-xs">Declines</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 text-center">
+                <button type="button" className="w-full sm:w-auto bg-red-700 hover:bg-red-800 text-white font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-colors">
+                  Submit RSVP
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    )
   };
 
   return (
@@ -253,6 +352,12 @@ export default function SouthIndianLayout({ content, website }: WeddingLayoutPro
       <div className="relative z-30 w-full">
         {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
       </div>
+
+      {/* Footer */}
+      <footer className="py-12 relative z-10 text-center bg-red-950 text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-16">
+        <h2 className="text-2xl font-script mb-2 text-amber-300" style={{ fontFamily: "'Great Vibes', cursive" }}>{coupleNamesStr}</h2>
+        <p className="text-amber-200/70 text-xs tracking-widest uppercase mb-2">Made with love by Jaalam</p>
+      </footer>
 
     </div>
   );

@@ -188,9 +188,12 @@ export default function WeddingEditor() {
 
   const defaultSections = [
     { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
+    { id: 'about', label: 'Family Details', visible: true },
     { id: 'story', label: 'Our Story', visible: true },
-    { id: 'schedule', label: 'Schedule', visible: true },
+    { id: 'schedule', label: 'Schedule & Events', visible: true },
     { id: 'venue', label: 'Venue & Map', visible: true },
+    { id: 'gallery', label: 'Gallery', visible: true },
+    { id: 'countdown', label: 'Countdown', visible: true },
     { id: 'rsvp', label: 'RSVP', visible: true }
   ];
 
@@ -468,7 +471,20 @@ export default function WeddingEditor() {
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Our Story</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Story Title</label>
+                  <input
+                    type="text"
+                    value={content.about_title || weddingData.story_title || ''}
+                    onChange={(e) => {
+                      setContent({ ...content, about_title: e.target.value });
+                      setWeddingData({ story_title: e.target.value });
+                    }}
+                    placeholder="Our Story"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Our Story Text</label>
                   <textarea
                     rows={6}
                     value={content.about_text || ''}
