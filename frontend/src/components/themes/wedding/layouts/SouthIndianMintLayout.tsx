@@ -27,15 +27,18 @@ const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => 
 // Golden Nilavilakku (Brass Oil Lamp SVG)
 const Nilavilakku = ({ className = "w-16 h-28" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 5 C43 20 38 30 50 42 C62 30 57 20 50 5 Z" fill="#FF7700"/>
-    <path d="M50 14 C46 23 43 28 50 36 C57 28 54 23 50 14 Z" fill="#FFDD00"/>
+    {/* Glowing Flame with Flicker Animation */}
+    <g className="animate-pulse">
+      <path d="M50 5 C43 20 38 30 50 42 C62 30 57 20 50 5 Z" fill="#FF7700"/>
+      <path d="M50 14 C46 23 43 28 50 36 C57 28 54 23 50 14 Z" fill="#FFDD00"/>
+    </g>
     <ellipse cx="50" cy="46" rx="22" ry="7" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
     <path d="M45 53 H55 V72 H45 Z" fill="#B89220"/>
     <circle cx="50" cy="78" r="9" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
     <path d="M46 87 H54 V118 H46 Z" fill="#B89220"/>
     <circle cx="50" cy="124" r="11" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
     <path d="M43 135 H57 V152 H43 Z" fill="#B89220"/>
-    <path d="M20 178 C20 156 32 150 50 150 C68 150 80 156 80 178 Z" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
+    <path d="M20 178 C20 156 32 150 50 150 C68 150 75 156 80 178 Z" fill="#D4AF37" stroke="#8C6D10" strokeWidth="2"/>
   </svg>
 );
 
@@ -57,9 +60,9 @@ const BananaLeafBottomRight = () => (
   </svg>
 );
 
-// Concentric Mandala Rings SVG
+// Concentric Mandala Rings SVG with Continuous Slow Rotation Animation
 const MandalaRingsSVG = () => (
-  <svg className="w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] md:w-[640px] md:h-[640px]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className="w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] md:w-[640px] md:h-[640px] animate-[spin_60s_linear_infinite]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="250" cy="250" r="175" fill="#D6F4F1" opacity="0.65"/>
     <circle cx="250" cy="250" r="240" stroke="#5AA89F" strokeWidth="2.5" opacity="0.6"/>
     <circle cx="250" cy="250" r="230" stroke="#5AA89F" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5"/>
