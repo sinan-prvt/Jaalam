@@ -189,7 +189,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         <div className="absolute bottom-16 -left-12 sm:bottom-20 sm:-left-10 pointer-events-none z-20">
           <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform rotate-[35deg]" />
         </div>
-
+        yiuyuyiuyiuyiuhiuhiuhhhhhhhhhhku
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
         <div className="absolute bottom-3 left-4 sm:left-10 pointer-events-none z-30">
           <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
