@@ -116,44 +116,49 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     about: (
-      <section key="about" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-4 sm:p-8 my-4" style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
-        
-        {/* Family Details Transparent Text Area */}
-        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto px-4 text-white">
-          
-          <p className="text-amber-200 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
+      <section key="about" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#0F2231] text-white">
+        <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-300/30">
+          <p className="text-amber-300 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             {groomParents || brideParents ? `${groomParents}` : 'PARENTS & FAMILY'}
           </p>
-
-          <p className="text-amber-100 text-[11px] sm:text-xs italic leading-relaxed max-w-xs mx-auto mb-3 font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
+          <p className="text-amber-100/90 text-[11px] sm:text-xs italic leading-relaxed max-w-xs sm:max-w-sm mx-auto mb-8 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             solicit your blessings & request the honour of your presence to grace the auspicious occasion of the wedding celebrations of their son
           </p>
 
-          <h3 className="text-4xl sm:text-6xl font-bold text-white my-1 font-script" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
-            {groomName}
-          </h3>
-          <p className="text-xs text-amber-200 font-semibold tracking-wider mb-2 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>Son of {groomParents}</p>
+          <div className="grid md:grid-cols-2 gap-6 my-4">
+            {/* Groom Card */}
+            <div className="bg-white/10 p-6 rounded-2xl border border-amber-300/20 flex flex-col items-center">
+              {groomPhoto ? (
+                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-amber-300 mb-3 shadow-md">
+                  <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-amber-400/20 border border-amber-300/40 flex items-center justify-center mb-3 text-amber-300">
+                  <Heart className="w-7 h-7 fill-amber-300/40" />
+                </div>
+              )}
+              <h3 className="text-3xl font-bold text-amber-300 mb-1 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>{groomName}</h3>
+              <p className="text-xs text-amber-200 font-bold uppercase tracking-widest mb-1 font-serif">Groom</p>
+              <p className="text-xs text-slate-300">Son of {groomParents}</p>
+            </div>
 
-          <p className="text-xs text-amber-300 font-bold tracking-widest uppercase my-1 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>with</p>
-
-          <h3 className="text-4xl sm:text-6xl font-bold text-white my-1 font-script" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
-            {brideName}
-          </h3>
-          <p className="text-xs text-amber-200 font-semibold tracking-wider mb-3 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>Daughter of {brideParents}</p>
-
-          {/* Date Flourish */}
-          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300"></div>
-            <span className="text-xs italic font-script text-amber-300" style={{ fontFamily: "'Great Vibes', cursive" }}>on</span>
-            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300"></div>
+            {/* Bride Card */}
+            <div className="bg-white/10 p-6 rounded-2xl border border-amber-300/20 flex flex-col items-center">
+              {bridePhoto ? (
+                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-amber-300 mb-3 shadow-md">
+                  <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-amber-400/20 border border-amber-300/40 flex items-center justify-center mb-3 text-amber-300">
+                  <Heart className="w-7 h-7 fill-amber-300/40" />
+                </div>
+              )}
+              <h3 className="text-3xl font-bold text-amber-300 mb-1 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>{brideName}</h3>
+              <p className="text-xs text-amber-200 font-bold uppercase tracking-widest mb-1 font-serif">Bride</p>
+              <p className="text-xs text-slate-300">Daughter of {brideParents}</p>
+            </div>
           </div>
-
-          <p className="text-white text-base sm:text-xl font-bold tracking-widest font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
-            {date}
-          </p>
-
         </div>
-
       </section>
     ),
     story: (
