@@ -110,49 +110,44 @@ export default function SilkTraditionalLayout({ content, website }: WeddingLayou
       </section>
     ),
     about: (
-      <section key="about" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#EBF9FD] text-[#132B36]">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-10 font-script text-[#132B36]" style={{ fontFamily: "'Great Vibes', cursive" }}>Family Details</h2>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            
-            {/* Groom Card */}
-            <div className="bg-white/90 p-8 rounded-3xl shadow-xl border-2 border-amber-300/70 flex flex-col items-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-400 via-amber-200 to-amber-400"></div>
-              {groomPhoto ? (
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-amber-400 mb-4 shadow-md">
-                  <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
-                </div>
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-amber-50 border-2 border-amber-300 flex items-center justify-center mb-4 text-amber-700">
-                  <Heart className="w-8 h-8 fill-amber-300" />
-                </div>
-              )}
-              <h3 className="text-3xl font-bold text-[#132B36] mb-1 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>{groomName}</h3>
-              <p className="text-xs text-emerald-800 uppercase tracking-widest mb-2 font-bold font-serif">Groom</p>
-              <p className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Son of</p>
-              <p className="text-md font-semibold text-slate-800 font-serif">{groomParents}</p>
-            </div>
+      <section key="about" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-6 sm:p-10 my-4" style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}>
+        
+        {/* Family Blessing & Invitation Details matching Image 2 */}
+        <div className="relative z-20 pt-8 sm:pt-14 max-w-lg mx-auto">
+          
+          <p className="text-[#1D4B57] text-xs sm:text-sm font-bold tracking-[0.18em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {groomParents || brideParents ? `${groomParents}` : 'PARENTS & FAMILY'}
+          </p>
 
-            {/* Bride Card */}
-            <div className="bg-white/90 p-8 rounded-3xl shadow-xl border-2 border-amber-300/70 flex flex-col items-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-400 via-amber-200 to-amber-400"></div>
-              {bridePhoto ? (
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-amber-400 mb-4 shadow-md">
-                  <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
-                </div>
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-amber-50 border-2 border-amber-300 flex items-center justify-center mb-4 text-amber-700">
-                  <Heart className="w-8 h-8 fill-amber-300" />
-                </div>
-              )}
-              <h3 className="text-3xl font-bold text-[#132B36] mb-1 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>{brideName}</h3>
-              <p className="text-xs text-emerald-800 uppercase tracking-widest mb-2 font-bold font-serif">Bride</p>
-              <p className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Daughter of</p>
-              <p className="text-md font-semibold text-slate-800 font-serif">{brideParents}</p>
-            </div>
+          <p className="text-[#2C6270] text-[11px] sm:text-xs italic leading-relaxed max-w-xs sm:max-w-sm mx-auto mb-4 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            solicit your blessings & request the honour of your presence to grace the auspicious occasion of the wedding celebrations of their son
+          </p>
 
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#132B36] my-1 font-script drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {groomName}
+          </h3>
+          <p className="text-xs text-[#1D4B57] font-semibold tracking-wider mb-3 font-serif">Son of {groomParents}</p>
+
+          <p className="text-xs text-[#1D4B57] font-bold tracking-widest uppercase my-1 font-serif">with</p>
+
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#132B36] my-1 font-script drop-shadow-sm" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {brideName}
+          </h3>
+          <p className="text-xs text-[#1D4B57] font-semibold tracking-wider mb-4 font-serif">Daughter of {brideParents}</p>
+
+          {/* Date Breakdown Flourish */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#1D4B57]"></div>
+            <span className="text-sm italic font-script text-[#C59B27]" style={{ fontFamily: "'Great Vibes', cursive" }}>on</span>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-[#1D4B57]"></div>
           </div>
+
+          <p className="text-[#132B36] text-base sm:text-xl font-bold tracking-widest font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
         </div>
+
       </section>
     ),
     story: (
