@@ -1,75 +1,401 @@
-import React from 'react';
-import { Calendar, MapPin } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send, Moon, Stars } from 'lucide-react';
 import type { WeddingLayoutProps } from './types';
 
-// Temple graphic line art
-const TempleGraphic = () => (
-  <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M60 10L100 50V140H20V50L60 10Z" stroke="#8C1C13" strokeWidth="2"/>
-    <path d="M40 140V90H80V140" stroke="#8C1C13" strokeWidth="2"/>
-    <path d="M60 10L60 0" stroke="#d4af37" strokeWidth="3"/>
-    <path d="M30 40H90" stroke="#8C1C13" strokeWidth="2"/>
-    <path d="M20 70H100" stroke="#8C1C13" strokeWidth="2"/>
-    <path d="M20 100H100" stroke="#8C1C13" strokeWidth="2"/>
-  </svg>
-);
+export default function TempleMinimalLayout({ content, website }: WeddingLayoutProps) {
+  const [isOpened, setIsOpened] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-export default function TempleMinimalLayout({ content, colors }: WeddingLayoutProps) {
-  const caricatureUrl = "https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=800&q=80";
+  const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
+
+  const coupleNamesStr = content?.hero_title || 'Anjali & Rahul';
+  const nameParts = coupleNamesStr.split(/&| and /i);
+  const groomName = nameParts[0]?.trim() || 'Rahul';
+  const brideName = nameParts[1]?.trim() || 'Anjali';
+
+  const date = content?.settings_json?.wedding?.date || content?.date || 'Thursday, July 13, 2026';
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Grand Palace Venue";
+
+  const groomParents = content?.settings_json?.wedding?.groomParents || 'Father & Mother';
+  const brideParents = content?.settings_json?.wedding?.brideParents || 'Father & Mother';
+
+  const rawSchedule = content?.settings_json?.wedding?.schedule;
+  const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
+    ? rawSchedule
+    : [
+      { time: "7:00 PM Onwards", event: "Sangeeth & Cocktail Night", date: date, venue: location },
+      { time: "11:00 AM Onwards", event: "Grand Wedding Ceremony", date: date, venue: location }
+    ];
+
+  const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
+  const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
+  const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "";
+  const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "";
+
+  const gallery = content?.settings_json?.wedding?.gallery || [];
+  const validGallery = Array.isArray(gallery) ? gallery.filter((url: string) => url && url.trim() !== "") : [];
+
+  const story = content?.about_text || "Under a canopy of twinkling stars, two hearts found their forever beat. Join us as we celebrate love, laughter, and a marvelous new chapter.";
+  const storyTitle = content?.about_title || content?.settings_json?.wedding?.story_title || "Our Starlight Story";
+
+  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-07-13T19:00";
+  const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
+
+  useEffect(() => {
+    if (!countdownDate) return;
+    const target = new Date(countdownDate).getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = target - now;
+      if (distance < 0) {
+        setTimeLeft(null);
+        clearInterval(interval);
+        return;
+      }
+      setTimeLeft({
+        d: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        s: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [countdownDate]);
+
+  const defaultSections = [
+    { id: 'hero', label: 'Cover / Hero', visible: true, locked: true },
+    { id: 'about', label: 'Family Details', visible: true },
+    { id: 'story', label: 'Our Story', visible: true },
+    { id: 'schedule', label: 'Schedule & Events', visible: true },
+    { id: 'venue', label: 'Venue & Map', visible: true },
+    { id: 'gallery', label: 'Gallery', visible: true },
+    { id: 'countdown', label: 'Countdown', visible: true },
+    { id: 'rsvp', label: 'RSVP', visible: true }
+  ];
+  const sections = content?.settings_json?.wedding?.sections || defaultSections;
+
+  const sectionMap: Record<string, React.ReactNode> = {
+    hero: (
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-6 sm:p-10" style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
+        
+        {/* Top Header Information in Starlight Sky Area */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto drop-shadow-md">
+          
+          <p className="text-amber-200 text-xs sm:text-sm font-medium italic mb-2 tracking-wide font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Join us in celebrating love, laughter<br />& a marvelous new chapter of
+          </p>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white my-3 font-script whitespace-nowrap drop-shadow-lg px-2" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {coupleNamesStr}
+          </h1>
+
+          <div className="my-2">
+            <span className="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold tracking-widest text-amber-300 uppercase border border-amber-300/40">
+              #KuchKuchHotaHai
+            </span>
+          </div>
+
+          <p className="text-amber-100 text-sm sm:text-lg font-bold tracking-wider my-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+          <p className="text-amber-200/90 text-xs sm:text-sm font-medium tracking-wide font-serif">
+            Venue: {location}, 7:00 PM onwards
+          </p>
+
+        </div>
+
+      </section>
+    ),
+    about: (
+      <section key="about" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-6 sm:p-10 my-4" style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
+        
+        {/* Family Details Card matching Starlight theme */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto drop-shadow-md">
+          
+          <p className="text-amber-200 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {groomParents || brideParents ? `${groomParents}` : 'PARENTS & FAMILY'}
+          </p>
+
+          <p className="text-amber-100 text-[11px] sm:text-xs italic leading-relaxed max-w-xs sm:max-w-sm mx-auto mb-4 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            solicit your blessings & request the honour of your presence to grace the auspicious occasion of the wedding celebrations of their son
+          </p>
+
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white my-1 font-script drop-shadow-lg" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {groomName}
+          </h3>
+          <p className="text-xs text-amber-200 font-medium tracking-wider mb-3 font-serif">Son of {groomParents}</p>
+
+          <p className="text-xs text-amber-300 font-bold tracking-widest uppercase my-1 font-serif">with</p>
+
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white my-1 font-script drop-shadow-lg" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {brideName}
+          </h3>
+          <p className="text-xs text-amber-200 font-medium tracking-wider mb-4 font-serif">Daughter of {brideParents}</p>
+
+          {/* Date Flourish */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300/60"></div>
+            <span className="text-sm italic font-script text-amber-300" style={{ fontFamily: "'Great Vibes', cursive" }}>on</span>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300/60"></div>
+          </div>
+
+          <p className="text-white text-base sm:text-xl font-bold tracking-widest font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+        </div>
+
+      </section>
+    ),
+    story: (
+      <section key="story" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#0F2231]">
+        <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-300/30 text-white">
+          <Sparkles className="w-8 h-8 text-amber-300 mx-auto mb-3" />
+          <h2 className="text-3xl md:text-5xl font-bold text-amber-300 mb-6 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>
+            {storyTitle}
+          </h2>
+          <p className="text-base sm:text-lg text-amber-100 italic leading-relaxed font-serif">
+            "{story}"
+          </p>
+        </div>
+      </section>
+    ),
+    schedule: (
+      <section key="schedule" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#132B3D]">
+        <h2 className="text-3xl md:text-5xl font-bold text-amber-300 mb-10 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Schedule & Events</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {schedule.map((item: any, idx: number) => (
+            <div key={idx} className="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-xl border-l-4 border-amber-400 text-center hover:bg-white/15 transition-all text-white">
+              <h3 className="text-2xl font-bold text-amber-300 mb-3 font-serif">{item.event}</h3>
+              <div className="flex items-center justify-center gap-2 mb-2 text-amber-100">
+                <Calendar className="w-5 h-5 text-amber-400" />
+                <span className="font-semibold">{item.date || date}</span>
+              </div>
+              <p className="text-amber-300 font-bold text-lg mb-2">{item.time}</p>
+              <p className="text-slate-300 text-sm">{item.venue || location}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    ),
+    venue: (
+      <section key="venue" className="py-20 px-6 relative z-10 max-w-4xl mx-auto bg-[#0F2231]">
+        <div className="bg-white/10 backdrop-blur-md rounded-[3rem] p-8 sm:p-10 text-center shadow-2xl border border-amber-300/30 text-white relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="w-16 h-16 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner text-amber-300 border border-amber-300/40">
+              <MapPin className="w-8 h-8 text-amber-300" />
+            </div>
+            <h3 className="text-3xl font-bold text-amber-300 mb-3 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Venue & Map</h3>
+            <p className="text-xl font-semibold text-white mb-2 font-serif">{location}</p>
+            <p className="text-md text-amber-100 max-w-md mx-auto mb-6 font-sans">Join us under the starlight to celebrate our wedding.</p>
+
+            {/* Google Maps Embed Iframe */}
+            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-white/20 mb-6 bg-slate-900">
+              <iframe
+                src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="pointer-events-none md:pointer-events-auto filter grayscale invert opacity-80"
+              ></iframe>
+            </div>
+
+            {mapUrl && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 px-8 py-3.5 rounded-full font-bold tracking-wide transition-all shadow-lg text-sm mb-6"
+              >
+                <Navigation size={16} />
+                Get Directions
+              </a>
+            )}
+
+            {contactNumbers && contactNumbers.trim() !== "" && (
+              <div className="border-t border-white/20 pt-6 mt-2">
+                <p className="text-[10px] tracking-widest uppercase font-bold text-amber-200/70 mb-1">RSVP / Contact Numbers</p>
+                <p className="text-base sm:text-lg font-bold text-amber-300 font-serif">{contactNumbers}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    ),
+    gallery: validGallery.length > 0 ? (
+      <section key="gallery" className="py-20 px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#132B3D]">
+        <h2 className="text-3xl md:text-5xl font-bold text-amber-300 mb-10 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Gallery</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {validGallery.map((url: string, index: number) => (
+            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-lg border-2 border-amber-300/40 hover:scale-105 transition-transform duration-500">
+              <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
+    ) : null,
+    countdown: (
+      <section key="countdown" className="py-16 px-6 relative z-10 bg-[#0A1621] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-8 text-center border-2 border-amber-400/40">
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold mb-2 text-amber-300 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Counting Down To</h2>
+          <p className="text-base sm:text-lg italic mb-8 text-amber-100 font-serif">Our Starlight Celebration</p>
+
+          <div className="flex gap-3 sm:gap-6 justify-center">
+            {[
+              { label: 'Days', value: timeLeft?.d ?? 30 },
+              { label: 'Hours', value: timeLeft?.h ?? 12 },
+              { label: 'Mins', value: timeLeft?.m ?? 45 },
+              { label: 'Secs', value: timeLeft?.s ?? 0 }
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20">
+                  <span className="text-xl sm:text-3xl font-bold text-amber-300 font-serif">{item.value}</span>
+                </div>
+                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-amber-200">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ),
+    rsvp: (
+      <section key="rsvp" className="py-16 px-6 relative z-10 max-w-2xl mx-auto bg-[#0F2231]">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-amber-300 mb-3 font-script" style={{ fontFamily: "'Great Vibes', cursive" }}>Will You Join Us?</h2>
+          <p className="text-amber-200/80 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can attend</p>
+
+          <div className="bg-white/10 backdrop-blur-md rounded-[2rem] p-8 md:p-10 shadow-2xl border border-amber-300/30 text-left text-white">
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-200/80 mb-2">Name</label>
+                  <input type="text" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:border-amber-300 transition-all font-serif text-white placeholder-slate-400" placeholder="Your Full Name" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-200/80 mb-2">Message / Warm Wishes</label>
+                  <textarea rows={4} className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:border-amber-300 transition-all font-serif resize-none text-white placeholder-slate-400" placeholder="Share your warm wishes for the couple..."></textarea>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-amber-200/80 mb-3">Will you be attending?</label>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-white/20 hover:border-amber-300 bg-white/5 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-amber-300" />
+                      <span className="text-amber-100 font-bold uppercase tracking-widest text-xs">Joyfully Accepts</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-white/20 hover:border-amber-300 bg-white/5 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-amber-300" />
+                      <span className="text-amber-100 font-bold uppercase tracking-widest text-xs">Regretfully Declines</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 text-center">
+                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer">
+                  <Send size={14} />
+                  Submit RSVP
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    )
+  };
 
   return (
-    <div className={`min-h-screen font-serif bg-[#Fdfaf4] relative overflow-hidden text-[#8C1C13] border-[12px] border-[#8C1C13]`}>
-      <div className="absolute inset-0 border-[4px] border-[#d4af37] m-2 pointer-events-none"></div>
+    <div className={`min-h-screen bg-[#0F2231] relative font-sans flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 pb-32">
-        <div className="text-center mb-12 relative flex flex-col items-center">
-          <TempleGraphic />
-          <p className="text-sm tracking-[0.3em] uppercase mt-8 text-[#d4af37] font-semibold">
-            Wedding Invitation
+      {/* Background Audio */}
+      {musicUrl && (
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
+      )}
+
+      {/* Floating Audio Control Button */}
+      {musicUrl && isOpened && (
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              if (isMuted) {
+                audioRef.current.play();
+              } else {
+                audioRef.current.pause();
+              }
+              setIsMuted(!isMuted);
+            }
+          }}
+          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#132B3D] text-amber-300 shadow-2xl border border-amber-400/40 hover:scale-110 active:scale-95 transition-all"
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      )}
+
+      {/* Welcome Screen Overlay Envelope */}
+      <div className={`fixed inset-0 z-[100] flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden p-6 sm:p-10`} style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
+        
+        {/* Top Invitation Text in Starlight Sky Area */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto drop-shadow-md">
+          <p className="text-amber-200 text-xs sm:text-sm font-medium italic mb-2 tracking-wide font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Join us in celebrating love, laughter<br />& a marvelous new chapter of
           </p>
-          <div className="flex flex-col items-center justify-center gap-2 my-8">
-            <h1 className="text-4xl md:text-6xl font-light text-[#8C1C13]" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {content?.bride?.name || 'Laxam'}
-            </h1>
-            <span className="text-2xl text-[#d4af37] font-light italic">and</span>
-            <h1 className="text-4xl md:text-6xl font-light text-[#8C1C13]" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {content?.groom?.name || 'Sujata'}
-            </h1>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white my-3 font-script whitespace-nowrap drop-shadow-lg px-2" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {coupleNamesStr}
+          </h1>
+
+          <div className="my-2">
+            <span className="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold tracking-widest text-amber-300 uppercase border border-amber-300/40">
+              #KuchKuchHotaHai
+            </span>
           </div>
+
+          <p className="text-amber-100 text-sm sm:text-lg font-bold tracking-wider my-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+          <p className="text-amber-200/90 text-xs sm:text-sm font-medium tracking-wide font-serif">
+            Venue: {location}, 7:00 PM onwards
+          </p>
         </div>
 
-        <div className="relative mb-16 max-w-xl mx-auto">
-          <div className="aspect-square overflow-hidden border-2 border-[#d4af37] rounded-full p-2">
-            <div className="w-full h-full rounded-full overflow-hidden">
-                <img 
-                src={content?.hero?.image || caricatureUrl} 
-                alt="Couple"
-                className="w-full h-full object-cover"
-                />
-            </div>
-          </div>
+        {/* OPEN INVITATION BUTTON Floating near bottom */}
+        <div className="relative z-30 mb-6 sm:mb-10">
+          <button
+            onClick={() => {
+              setIsOpened(true);
+              if (audioRef.current && musicUrl) {
+                audioRef.current.play().catch(console.error);
+              }
+            }}
+            className="group relative overflow-hidden bg-[#132B3D] hover:bg-[#0A1621] text-amber-300 font-bold tracking-widest uppercase text-xs sm:text-sm px-10 py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 border-2 border-amber-300/60 cursor-pointer mx-auto"
+          >
+            <span className="relative z-10 flex items-center gap-2 font-serif">
+              Open Invitation
+            </span>
+            <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
+          </button>
         </div>
 
-        <div className="text-center space-y-12">
-            <div>
-                <h3 className="text-2xl font-light tracking-widest text-[#8C1C13] mb-4 uppercase">Muhurtham</h3>
-                <p className="text-lg text-gray-700">{content?.date || '16th March 2026'}</p>
-                <p className="text-md text-[#d4af37]">9:00 AM Onwards</p>
-            </div>
-            
-            <div className="relative inline-block">
-                 <div className="absolute top-1/2 left-[-40px] w-8 h-[1px] bg-[#d4af37]"></div>
-                 <MapPin className="w-6 h-6 text-[#8C1C13] mx-auto mb-2" />
-                 <div className="absolute top-1/2 right-[-40px] w-8 h-[1px] bg-[#d4af37]"></div>
-            </div>
-
-            <div>
-                <h3 className="text-2xl font-light tracking-widest text-[#8C1C13] mb-4 uppercase">Venue</h3>
-                <p className="text-lg font-medium text-[#8C1C13] mb-2">{content?.venue?.name || 'Grand Hotel Ballroom'}</p>
-                <p className="text-md text-gray-700 max-w-sm mx-auto">{content?.venue?.address || '123 Heritage Road, Bangalore, Karnataka'}</p>
-            </div>
-        </div>
       </div>
+
+      {/* Main Content Sections */}
+      <div className="relative z-30 w-full">
+        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
+      </div>
+
+      {/* Footer */}
+      <footer className="py-12 relative z-10 text-center bg-[#0A1621] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-16 border-t-2 border-amber-400/30">
+        <h2 className="text-3xl font-script mb-2 text-amber-300" style={{ fontFamily: "'Great Vibes', cursive" }}>{coupleNamesStr}</h2>
+        <p className="text-amber-200/70 text-xs tracking-widest uppercase mb-2 font-serif">Made with love by Jaalam</p>
+      </footer>
+
     </div>
   );
 }

@@ -117,7 +117,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SilkTraditional';
   } else if (t.includes('mint') || t.includes('umbrella')) {
     baseTheme = 'SouthIndianMint';
-  } else if (t.includes('temple minimal')) {
+  } else if (t.includes('temple minimal') || t.includes('starlight') || t.includes('romance')) {
     baseTheme = 'TempleMinimal';
   } else if (t.includes('south indian royal')) {
     baseTheme = 'SouthIndianRoyal';
