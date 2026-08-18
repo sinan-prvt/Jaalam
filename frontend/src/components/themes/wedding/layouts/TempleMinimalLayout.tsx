@@ -79,35 +79,35 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-4 sm:p-8" style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
         
-        {/* High-contrast Translucent Glassmorphic Text Card in Sky Area */}
-        <div className="relative z-20 mt-4 sm:mt-6 max-w-xs sm:max-w-md mx-auto bg-slate-950/65 backdrop-blur-md p-5 sm:p-7 rounded-3xl border border-amber-300/40 shadow-2xl">
+        {/* Transparent Text Area directly in Starlight Sky */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto px-4">
           
-          <p className="text-amber-200 text-xs sm:text-sm font-semibold italic mb-2 tracking-wide font-serif drop-shadow" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-white text-xs sm:text-sm font-semibold italic mb-1.5 tracking-wide font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
             Join us in celebrating love, laughter<br />& a marvelous new chapter of
           </p>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white my-2 font-script drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white my-2 sm:my-3 font-script whitespace-nowrap px-2" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
             {coupleNamesStr}
           </h1>
 
           <div className="my-2">
-            <span className="inline-block bg-amber-400/25 text-amber-300 border border-amber-300/50 text-[10px] sm:text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-sm">
+            <span className="inline-block bg-black/40 backdrop-blur-xs text-amber-300 border border-amber-300/70 text-[10px] sm:text-xs font-bold tracking-widest uppercase px-4 py-1 rounded-full shadow-md" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
               #KuchKuchHotaHai
             </span>
           </div>
 
           {/* Line Flourish */}
           <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-amber-300"></div>
-            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300"></div>
           </div>
 
-          <p className="text-white text-sm sm:text-base font-bold tracking-wider my-1 font-serif drop-shadow" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-white text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
             {date}
           </p>
 
-          <p className="text-amber-200/90 text-xs font-medium tracking-wide my-1 font-serif">
+          <p className="text-amber-200 font-semibold text-xs sm:text-sm tracking-wide my-1 font-serif" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
             Venue: {location}, 7:00 PM onwards
           </p>
 
@@ -118,37 +118,37 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
     about: (
       <section key="about" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-4 sm:p-8 my-4" style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
         
-        {/* Family Details Translucent Card */}
-        <div className="relative z-20 mt-4 sm:mt-6 max-w-xs sm:max-w-md mx-auto bg-slate-950/65 backdrop-blur-md p-5 sm:p-7 rounded-3xl border border-amber-300/40 shadow-2xl text-white">
+        {/* Family Details Transparent Text Area */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto px-4 text-white">
           
-          <p className="text-amber-200 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-amber-200 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2 leading-relaxed font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
             {groomParents || brideParents ? `${groomParents}` : 'PARENTS & FAMILY'}
           </p>
 
-          <p className="text-amber-100/90 text-[11px] sm:text-xs italic leading-relaxed max-w-xs mx-auto mb-3 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-amber-100 text-[11px] sm:text-xs italic leading-relaxed max-w-xs mx-auto mb-3 font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
             solicit your blessings & request the honour of your presence to grace the auspicious occasion of the wedding celebrations of their son
           </p>
 
-          <h3 className="text-3xl sm:text-5xl font-bold text-white my-1 font-script drop-shadow-md" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+          <h3 className="text-4xl sm:text-6xl font-bold text-white my-1 font-script" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
             {groomName}
           </h3>
-          <p className="text-xs text-amber-200 font-medium tracking-wider mb-2 font-serif">Son of {groomParents}</p>
+          <p className="text-xs text-amber-200 font-semibold tracking-wider mb-2 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>Son of {groomParents}</p>
 
-          <p className="text-xs text-amber-300 font-bold tracking-widest uppercase my-1 font-serif">with</p>
+          <p className="text-xs text-amber-300 font-bold tracking-widest uppercase my-1 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>with</p>
 
-          <h3 className="text-3xl sm:text-5xl font-bold text-white my-1 font-script drop-shadow-md" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+          <h3 className="text-4xl sm:text-6xl font-bold text-white my-1 font-script" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
             {brideName}
           </h3>
-          <p className="text-xs text-amber-200 font-medium tracking-wider mb-3 font-serif">Daughter of {brideParents}</p>
+          <p className="text-xs text-amber-200 font-semibold tracking-wider mb-3 font-serif" style={{ textShadow: "0 2px 6px rgba(0,0,0,0.9)" }}>Daughter of {brideParents}</p>
 
           {/* Date Flourish */}
           <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300"></div>
             <span className="text-xs italic font-script text-amber-300" style={{ fontFamily: "'Great Vibes', cursive" }}>on</span>
-            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-14 h-[1.5px] bg-amber-300"></div>
           </div>
 
-          <p className="text-white text-sm sm:text-lg font-bold tracking-widest font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-white text-base sm:text-xl font-bold tracking-widest font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
             {date}
           </p>
 
@@ -347,34 +347,34 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
       {/* Welcome Screen Overlay Envelope */}
       <div className={`fixed inset-0 z-[100] flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden p-4 sm:p-8`} style={{ backgroundImage: "url('/media/starlight_couple_bg.png')" }}>
         
-        {/* High-contrast Translucent Glassmorphic Text Card in Sky Area */}
-        <div className="relative z-20 mt-4 sm:mt-6 max-w-xs sm:max-w-md mx-auto bg-slate-950/65 backdrop-blur-md p-5 sm:p-7 rounded-3xl border border-amber-300/40 shadow-2xl">
+        {/* Transparent Text Area directly in Starlight Sky */}
+        <div className="relative z-20 pt-6 sm:pt-10 max-w-lg mx-auto px-4">
           
-          <p className="text-amber-200 text-xs sm:text-sm font-semibold italic mb-2 tracking-wide font-serif drop-shadow" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-white text-xs sm:text-sm font-semibold italic mb-1.5 tracking-wide font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
             Join us in celebrating love, laughter<br />& a marvelous new chapter of
           </p>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white my-2 font-script drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white my-2 sm:my-3 font-script whitespace-nowrap px-2" style={{ fontFamily: "'Great Vibes', cursive, serif", textShadow: "0 3px 12px rgba(0,0,0,0.95)" }}>
             {coupleNamesStr}
           </h1>
 
           <div className="my-2">
-            <span className="inline-block bg-amber-400/25 text-amber-300 border border-amber-300/50 text-[10px] sm:text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-sm">
+            <span className="inline-block bg-black/40 backdrop-blur-xs text-amber-300 border border-amber-300/70 text-[10px] sm:text-xs font-bold tracking-widest uppercase px-4 py-1 rounded-full shadow-md" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
               #KuchKuchHotaHai
             </span>
           </div>
 
           <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300"></div>
             <div className="w-1.5 h-1.5 rounded-full bg-amber-300"></div>
-            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300/60"></div>
+            <div className="w-10 sm:w-16 h-[1.5px] bg-amber-300"></div>
           </div>
 
-          <p className="text-white text-sm sm:text-base font-bold tracking-wider my-1 font-serif drop-shadow" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-white text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
             {date}
           </p>
 
-          <p className="text-amber-200/90 text-xs font-medium tracking-wide my-1 font-serif">
+          <p className="text-amber-200 font-semibold text-xs sm:text-sm tracking-wide my-1 font-serif" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}>
             Venue: {location}, 7:00 PM onwards
           </p>
 
