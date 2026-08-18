@@ -181,13 +181,13 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </div>
 
         {/* Top Right Golden Parasol / Umbrella (Stick Tip Disappearing Past Right Border) */}
-        <div className="absolute top-0 -right-12 sm:top-2 sm:-right-10 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-80 transform -rotate-[32deg]" />
+        <div className="absolute top-0 -right-8 sm:top-2 sm:-right-8 pointer-events-none z-20">
+          <GoldenUmbrella className="w-36 h-48 sm:w-44 sm:h-56 md:w-52 md:h-64 transform -rotate-[32deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella (Stick Tip Disappearing Past Left Border) */}
-        <div className="absolute bottom-16 -left-12 sm:bottom-20 sm:-left-10 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform rotate-[35deg]" />
+        <div className="absolute bottom-0 -left-10 sm:bottom-2 sm:-left-8 md:bottom-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-36 h-48 sm:w-44 sm:h-56 md:w-52 md:h-64 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
@@ -471,13 +471,13 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
         </div>
 
         {/* Top Right Golden Parasol / Umbrella (Stick Tip Disappearing Past Right Border) */}
-        <div className="absolute top-0 -right-12 sm:top-2 sm:-right-10 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform -rotate-[32deg]" />
+        <div className="absolute top-0 -right-8 sm:top-2 sm:-right-8 pointer-events-none z-20">
+          <GoldenUmbrella className="w-36 h-48 sm:w-44 sm:h-56 md:w-52 md:h-64 transform -rotate-[32deg]" />
         </div>
 
         {/* Bottom Left Golden Parasol / Umbrella (Stick Tip Disappearing Past Left Border) */}
-        <div className="absolute bottom-16 -left-12 sm:bottom-20 sm:-left-10 pointer-events-none z-20">
-          <GoldenUmbrella className="w-52 h-68 sm:w-64 sm:h-80 md:w-72 md:h-88 transform rotate-[35deg]" />
+        <div className="absolute bottom-0 -left-10 sm:bottom-2 sm:-left-8 md:bottom-4 pointer-events-none z-20">
+          <GoldenUmbrella className="w-36 h-48 sm:w-44 sm:h-56 md:w-52 md:h-64 transform rotate-[35deg]" />
         </div>
 
         {/* Bottom Corner Golden Nilavilakku Brass Oil Lamps */}
