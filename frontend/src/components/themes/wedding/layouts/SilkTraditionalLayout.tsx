@@ -77,39 +77,34 @@ export default function SilkTraditionalLayout({ content, website }: WeddingLayou
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#87D7F7] py-8 px-4">
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-6 sm:p-10" style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}>
         
-        {/* Full Card Hero Container matching reference image exactly */}
-        <div className="relative w-full max-w-[420px] aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl bg-cover bg-center flex flex-col justify-between p-6 sm:p-8 text-center border-4 border-white/60 my-auto" style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}>
-          
-          {/* Top Invitation Text placed in the Open Sky area */}
-          <div className="relative z-20 pt-6 sm:pt-10 px-2">
-            <p className="text-[#1D4B57] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-2 leading-tight font-serif drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
-              WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
-            </p>
+        {/* Top Invitation Text in Open Sky Area */}
+        <div className="relative z-20 pt-8 sm:pt-14 max-w-lg mx-auto">
+          <p className="text-[#1D4B57] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-2 leading-tight font-serif drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+            WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
+          </p>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#132B36] my-2 sm:my-3 font-script whitespace-nowrap drop-shadow-sm px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
-              {coupleNamesStr}
-            </h1>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#132B36] my-2 sm:my-4 font-script whitespace-nowrap drop-shadow-sm px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {coupleNamesStr}
+          </h1>
 
-            {/* Decorative Line Flourish */}
-            <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-            </div>
-
-            <p className="text-[#1D4B57] text-sm sm:text-base font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {date}
-            </p>
-
-            <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-            </div>
+          {/* Decorative Line Flourish */}
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
           </div>
 
+          <p className="text-[#1D4B57] text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
+
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+          </div>
         </div>
 
       </section>
@@ -349,56 +344,51 @@ export default function SilkTraditionalLayout({ content, website }: WeddingLayou
       )}
 
       {/* Welcome Screen Overlay Envelope */}
-      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#87D7F7] transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden p-4`}>
+      <div className={`fixed inset-0 z-[100] flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden p-6 sm:p-10`} style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}>
         
-        {/* Full Card Envelope Container matching reference image exactly */}
-        <div className="relative w-full max-w-[420px] aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl bg-cover bg-center flex flex-col justify-between p-6 sm:p-8 text-center border-4 border-white/60 my-auto" style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}>
-          
-          {/* Top Invitation Text in Open Sky Area */}
-          <div className="relative z-20 pt-6 sm:pt-10 px-2">
-            <p className="text-[#1D4B57] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-2 leading-tight font-serif drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
-              WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
-            </p>
+        {/* Top Invitation Text in Open Sky Area */}
+        <div className="relative z-20 pt-8 sm:pt-14 max-w-lg mx-auto">
+          <p className="text-[#1D4B57] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-2 leading-tight font-serif drop-shadow-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
+            WE INVITE YOU<br />TO CELEBRATE OUR WEDDING
+          </p>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#132B36] my-2 sm:my-3 font-script whitespace-nowrap drop-shadow-sm px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
-              {coupleNamesStr}
-            </h1>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-[#132B36] my-2 sm:my-4 font-script whitespace-nowrap drop-shadow-sm px-1" style={{ fontFamily: "'Great Vibes', cursive, serif" }}>
+            {coupleNamesStr}
+          </h1>
 
-            <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-            </div>
-
-            <p className="text-[#1D4B57] text-sm sm:text-base font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {date}
-            </p>
-
-            <div className="flex items-center justify-center gap-2 my-2 opacity-90">
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
-              <div className="w-12 sm:w-16 h-[1.5px] bg-[#1D4B57]"></div>
-            </div>
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
           </div>
 
-          {/* OPEN INVITATION BUTTON Floating near bottom */}
-          <div className="relative z-30 mb-2 sm:mb-4">
-            <button
-              onClick={() => {
-                setIsOpened(true);
-                if (audioRef.current && musicUrl) {
-                  audioRef.current.play().catch(console.error);
-                }
-              }}
-              className="group relative overflow-hidden bg-[#132B36] hover:bg-[#0C1D25] text-amber-300 font-bold tracking-widest uppercase text-xs sm:text-sm px-8 py-3.5 sm:px-10 sm:py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 border-2 border-amber-300/60 cursor-pointer mx-auto"
-            >
-              <span className="relative z-10 flex items-center gap-2 font-serif">
-                Open Invitation
-              </span>
-              <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
-            </button>
-          </div>
+          <p className="text-[#1D4B57] text-sm sm:text-lg font-bold tracking-wider my-1 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {date}
+          </p>
 
+          <div className="flex items-center justify-center gap-2 my-2 opacity-90">
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C59B27]"></div>
+            <div className="w-12 sm:w-20 h-[1.5px] bg-[#1D4B57]"></div>
+          </div>
+        </div>
+
+        {/* OPEN INVITATION BUTTON Floating near bottom */}
+        <div className="relative z-30 mb-6 sm:mb-10">
+          <button
+            onClick={() => {
+              setIsOpened(true);
+              if (audioRef.current && musicUrl) {
+                audioRef.current.play().catch(console.error);
+              }
+            }}
+            className="group relative overflow-hidden bg-[#132B36] hover:bg-[#0C1D25] text-amber-300 font-bold tracking-widest uppercase text-xs sm:text-sm px-10 py-4 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 border-2 border-amber-300/60 cursor-pointer mx-auto"
+          >
+            <span className="relative z-10 flex items-center gap-2 font-serif">
+              Open Invitation
+            </span>
+            <div className="absolute inset-0 h-full w-0 bg-white/20 transition-[width] group-hover:w-full ease-out duration-300"></div>
+          </button>
         </div>
 
       </div>
