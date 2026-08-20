@@ -239,6 +239,7 @@ export default function WeddingEditor() {
     { id: 'venue', label: 'Venue & Map', visible: true },
     { id: 'gallery', label: 'Gallery', visible: true },
     { id: 'countdown', label: 'Countdown', visible: true },
+    { id: 'wishes', label: 'Wishes & Blessings', visible: true },
     { id: 'rsvp', label: 'RSVP', visible: true }
   ];
 

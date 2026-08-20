@@ -8,6 +8,61 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Wishes & Blessings State
+  const [wishCount, setWishCount] = useState<number>(() => {
+    const saved = localStorage.getItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`);
+    return saved ? parseInt(saved, 10) : 48;
+  });
+  const [hasWished, setHasWished] = useState<boolean>(() => {
+    return localStorage.getItem(`wished_${website?.slug || content?.id || 'wedding'}`) === 'true';
+  });
+  const [wishesList, setWishesList] = useState<Array<{ name: string; message: string; time: string }>>(() => {
+    const saved = localStorage.getItem(`wishes_list_${website?.slug || content?.id || 'wedding'}`);
+    return saved ? JSON.parse(saved) : [
+      { name: "Uncle Farhan & Family", message: "May Allah bless your marriage with endless happiness and joy!", time: "2 hours ago" },
+      { name: "Aisha & Zayd", message: "Barakallahu lakuma wa baraka alaikuma! So happy for both of you ❤️", time: "5 hours ago" },
+      { name: "Tariq Mahmood", message: "Wishing you a lifetime of love and togetherness!", time: "1 day ago" }
+    ];
+  });
+  const [isWishModalOpen, setIsWishModalOpen] = useState(false);
+  const [newWishName, setNewWishName] = useState("");
+  const [newWishMessage, setNewWishMessage] = useState("");
+
+  const handleLikeWish = () => {
+    if (!hasWished) {
+      const newCount = wishCount + 1;
+      setWishCount(newCount);
+      setHasWished(true);
+      localStorage.setItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`, newCount.toString());
+      localStorage.setItem(`wished_${website?.slug || content?.id || 'wedding'}`, 'true');
+    } else {
+      const newCount = Math.max(0, wishCount - 1);
+      setWishCount(newCount);
+      setHasWished(false);
+      localStorage.setItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`, newCount.toString());
+      localStorage.removeItem(`wished_${website?.slug || content?.id || 'wedding'}`);
+    }
+  };
+
+  const handleAddWish = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newWishName.trim() || !newWishMessage.trim()) return;
+    const newEntry = {
+      name: newWishName.trim(),
+      message: newWishMessage.trim(),
+      time: "Just now"
+    };
+    const updated = [newEntry, ...wishesList];
+    setWishesList(updated);
+    localStorage.setItem(`wishes_list_${website?.slug || content?.id || 'wedding'}`, JSON.stringify(updated));
+    if (!hasWished) {
+      handleLikeWish();
+    }
+    setNewWishName("");
+    setNewWishMessage("");
+    setIsWishModalOpen(false);
+  };
+
   const handleOpen = () => {
     if (isOpening || isOpened) return;
     setIsOpening(true);
@@ -21,17 +76,17 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
 
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
-  const coupleNamesStr = content?.hero_title || 'Ali & Zainab';
-  const nameParts = coupleNamesStr.split(/&| and | with /i);
-  const groomName = nameParts[0]?.trim() || 'Ali';
-  const brideName = nameParts[1]?.trim() || 'Zainab';
+  const coupleNamesStr = content?.hero_title || 'Ameer & Bushra';
+  const nameParts = coupleNamesStr.split(/&| and /i);
+  const groomName = nameParts[0]?.trim() || 'Ameer';
+  const brideName = nameParts[1]?.trim() || 'Bushra';
 
-  const rawDateStr = content?.settings_json?.wedding?.date || content?.date || 'March 10, 2024';
-  const timeStr = content?.settings_json?.wedding?.time || '5 PM';
-  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Royal Nawab Hall";
+  const rawDateStr = content?.settings_json?.wedding?.date || content?.date || '10 MARCH 2024';
+  const timeStr = content?.settings_json?.wedding?.time || content?.time || '5:00 PM';
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Grand Palace Hall, City Center";
 
-  const groomParents = content?.settings_json?.wedding?.groomParents || "Groom's Family";
-  const brideParents = content?.settings_json?.wedding?.brideParents || "Bride's Family";
+  const groomParents = content?.settings_json?.wedding?.groomParents || "Mr. & Mrs. Rahman";
+  const brideParents = content?.settings_json?.wedding?.brideParents || "Mr. & Mrs. Khan";
 
   const rawSchedule = content?.settings_json?.wedding?.schedule;
   const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
@@ -94,6 +149,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
     { id: 'venue', label: 'Venue & Map', visible: true },
     { id: 'gallery', label: 'Gallery', visible: true },
     { id: 'countdown', label: 'Countdown', visible: true },
+    { id: 'wishes', label: 'Wishes & Blessings', visible: true },
     { id: 'rsvp', label: 'RSVP', visible: true }
   ];
   const sections = content?.settings_json?.wedding?.sections || defaultSections;
@@ -407,6 +463,135 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
             ))}
           </div>
         </div>
+      </section>
+    ),
+    wishes: (
+      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#FBF8F6] via-[#FAF3EE] to-[#FBF8F6]">
+        <div className="max-w-3xl mx-auto text-center relative z-20">
+          {/* Header */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-[1px] w-12 bg-[#C69B31]"></div>
+              <Heart className="w-6 h-6 text-[#C69B31] fill-[#C69B31]/20 animate-pulse" />
+              <div className="h-[1px] w-12 bg-[#C69B31]"></div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#2B2523] font-serif tracking-wide">Blessings & Best Wishes</h2>
+            <p className="text-[#6B5A53] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Share your prayers and heartfelt love for the couple</p>
+          </div>
+
+          {/* Interactive Wish / Like Stats & Action Buttons */}
+          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-6 sm:p-8 shadow-xl border-2 border-amber-200/80 mb-10 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4 text-left">
+              <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-[#C69B31] shrink-0 border border-amber-200 shadow-inner">
+                <Heart className={`w-8 h-8 fill-rose-500 text-rose-500 transition-transform duration-300 ${hasWished ? 'scale-125' : ''}`} />
+              </div>
+              <div>
+                <span className="text-2xl sm:text-3xl font-extrabold text-[#2B2523] font-serif block">{wishCount}</span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sans">Blessings Received</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={handleLikeWish}
+                className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md ${
+                  hasWished 
+                    ? 'bg-rose-600 hover:bg-rose-700 text-white scale-105' 
+                    : 'bg-[#2B2523] hover:bg-[#1A1615] text-[#C69B31] hover:scale-105'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${hasWished ? 'fill-white' : ''}`} />
+                {hasWished ? 'Blessed ❤️' : 'Send Blessing ❤️'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsWishModalOpen(true)}
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold text-xs uppercase tracking-wider bg-amber-50 hover:bg-amber-100 text-[#2B2523] border border-amber-300 transition-all shadow-sm hover:scale-105"
+              >
+                <Sparkles className="w-4 h-4 text-[#C69B31]" />
+                Write a Wish
+              </button>
+            </div>
+          </div>
+
+          {/* Wall of Wishes Grid */}
+          <div className="grid sm:grid-cols-2 gap-4 text-left">
+            {wishesList.map((wish, idx) => (
+              <div key={idx} className="bg-white/90 backdrop-blur rounded-2xl p-5 shadow-md border border-amber-100/80 hover:shadow-lg transition-all relative overflow-hidden group">
+                <div className="flex items-start justify-between mb-2">
+                  <span className="font-bold text-[#2B2523] text-sm font-serif">{wish.name}</span>
+                  <span className="text-[10px] text-slate-400 font-sans">{wish.time}</span>
+                </div>
+                <p className="text-slate-600 text-xs leading-relaxed font-serif italic">"{wish.message}"</p>
+                <div className="mt-3 flex items-center justify-end">
+                  <span className="text-[10px] text-rose-500 font-bold flex items-center gap-1 font-sans">
+                    <Heart className="w-3 h-3 fill-rose-500" /> Du'a Sent
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Modal for Writing a Custom Wish */}
+        {isWishModalOpen && (
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border-2 border-amber-200 relative animate-in fade-in zoom-in">
+              <button
+                type="button"
+                onClick={() => setIsWishModalOpen(false)}
+                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
+              >
+                ✕
+              </button>
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-[#C69B31]">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-800 font-serif">Send Your Du'a & Wish</h3>
+                  <p className="text-xs text-slate-500 font-sans">Your message will be displayed on the blessings board.</p>
+                </div>
+              </div>
+
+              <form onSubmit={handleAddWish} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1 font-sans">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={newWishName}
+                    onChange={(e) => setNewWishName(e.target.value)}
+                    placeholder="e.g. Uncle Farhan & Family"
+                    className="w-full px-4 py-3 bg-[#FAF6F3] border border-[#E8D9CF] rounded-xl outline-none focus:ring-2 focus:ring-amber-500/20 text-sm font-serif"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1 font-sans">Your Wish / Du'a</label>
+                  <textarea
+                    rows={3}
+                    required
+                    value={newWishMessage}
+                    onChange={(e) => setNewWishMessage(e.target.value)}
+                    placeholder="May Allah bless your union with love and happiness!"
+                    className="w-full px-4 py-3 bg-[#FAF6F3] border border-[#E8D9CF] rounded-xl outline-none focus:ring-2 focus:ring-amber-500/20 text-sm font-serif resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 bg-[#2B2523] hover:bg-[#1A1615] text-[#C69B31] font-bold uppercase tracking-wider text-xs rounded-xl shadow-lg transition-all hover:scale-[1.02]"
+                >
+                  Post Wish & Send Heart ❤️
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </section>
     ),
     rsvp: (
