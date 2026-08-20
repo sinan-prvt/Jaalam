@@ -243,7 +243,20 @@ export default function WeddingEditor() {
     { id: 'rsvp', label: 'RSVP', visible: true }
   ];
 
-  const currentSections = weddingData.sections || defaultSections;
+  let rawSections = weddingData.sections || defaultSections;
+  if (!rawSections.some((s: any) => s.id === 'wishes')) {
+    const rsvpIdx = rawSections.findIndex((s: any) => s.id === 'rsvp');
+    if (rsvpIdx !== -1) {
+      rawSections = [
+        ...rawSections.slice(0, rsvpIdx),
+        { id: 'wishes', label: 'Wishes & Blessings', visible: true },
+        ...rawSections.slice(rsvpIdx)
+      ];
+    } else {
+      rawSections = [...rawSections, { id: 'wishes', label: 'Wishes & Blessings', visible: true }];
+    }
+  }
+  const currentSections = rawSections;
 
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
