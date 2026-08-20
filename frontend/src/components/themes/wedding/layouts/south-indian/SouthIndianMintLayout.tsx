@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 // Golden Temple Parasol / Umbrella (Kudamattom SVG)
 const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => (

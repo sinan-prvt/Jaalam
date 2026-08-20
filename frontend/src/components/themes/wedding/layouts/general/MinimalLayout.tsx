@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Menu, X } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 export default function MinimalLayout({ content, colors }: WeddingLayoutProps) {
   const [menuOpen, setMenuOpen] = useState(false);

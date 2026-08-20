@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Calendar, MapPin, Clock, Music, Gift, Image as ImageIcon } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
-import { eventHierarchy } from '../../../../utils/templateData';
+import type { WeddingLayoutProps } from '../types';
+import { eventHierarchy } from '../../../../../utils/templateData';
 
 export default function ClassicLayout({ content, website, colors }: WeddingLayoutProps) {
   const coupleNames = content?.hero_title || "Alex & Jordan";

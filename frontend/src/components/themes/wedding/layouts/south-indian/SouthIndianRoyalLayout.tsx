@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Heart, Clock, Gift, Music, Navigation, Users, Volume2, VolumeX } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 const Toran = () => (
   <>

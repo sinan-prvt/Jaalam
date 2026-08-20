@@ -115,11 +115,20 @@ function LivePreviewContent() {
     );
   }
 
-  const renderTheme = () => {
-    // If this is a dynamic AI-generated site, use the new DynamicRenderer
-    if (data.content?.settings_json?.blocks) {
-    return <DynamicRenderer website={data.website} content={data.content} />;
-  }
+    const weddingCategories = [
+      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+      'Christian Invitation', 'Engagement Invitation'
+    ];
+
+    if (weddingCategories.includes(data.website.business_type)) {
+      return <ClassicWeddingTheme website={data.website} content={data.content} />;
+    }
+
+    // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
+    if (Array.isArray(data.content?.settings_json?.blocks) && data.content.settings_json.blocks.length > 0) {
+      return <DynamicRenderer website={data.website} content={data.content} />;
+    }
 
   if (data.website.business_type === 'Restaurant') {
     return <RestaurantTheme website={data.website} content={data.content} />;
@@ -266,27 +275,15 @@ function LivePreviewContent() {
     if (data.website.theme === 'Pop') return <PopOtherTheme website={data.website} content={data.content} />;
     if (data.website.theme === 'Corporate') return <CorporateOtherTheme website={data.website} content={data.content} />;
     return <ModernOtherTheme website={data.website} content={data.content} />;
-  }
-
-  const weddingCategories = [
-    'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-    'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-    'Christian Invitation', 'Engagement Invitation'
-  ];
-
-  if (weddingCategories.includes(data.website.business_type)) {
-    return <ClassicWeddingTheme website={data.website} content={data.content} />;
-  }
-
-  // Fallback for others
-  return (
-    <div className="p-8 font-sans">
-      <h1>{data.website.slug}</h1>
-      <pre className="mt-4 p-4 bg-slate-100 rounded text-xs overflow-auto">
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </div>
-  );
+    // Fallback for others
+    return (
+      <div className="p-8 font-sans">
+        <h1>{data.website.slug}</h1>
+        <pre className="mt-4 p-4 bg-slate-100 rounded text-xs overflow-auto">
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      </div>
+    );
   };
 
   return (

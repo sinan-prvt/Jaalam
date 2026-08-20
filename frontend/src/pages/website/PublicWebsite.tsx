@@ -200,9 +200,18 @@ export default function PublicWebsite() {
   const seoTitle = website?.content?.settings_json?.website_name || `${website?.business_type || 'Website'} - ${website?.slug || 'Live'}`;
   const seoDesc = website?.content?.about_text || `Welcome to our ${website?.business_type || 'business'}.`;
 
-  const renderTheme = () => {
-    // If this is a dynamic AI-generated site, use the new DynamicRenderer
-    if (website?.content?.settings_json?.blocks) {
+    const weddingCategories = [
+      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
+      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
+      'Christian Invitation', 'Engagement Invitation'
+    ];
+
+    if (weddingCategories.includes(website?.business_type)) {
+      return <ClassicWeddingTheme website={website} content={content} />;
+    }
+
+    // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
+    if (Array.isArray(website?.content?.settings_json?.blocks) && website.content.settings_json.blocks.length > 0) {
       return <DynamicRenderer website={website} content={website.content} />;
     }
   
@@ -352,16 +361,6 @@ export default function PublicWebsite() {
       if (website.theme === 'Pop') return <PopOtherTheme website={website} content={content} />;
       if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
       return <ModernOtherTheme website={website} content={content} />;
-    }
-  
-    const weddingCategories = [
-      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-      'Christian Invitation', 'Engagement Invitation'
-    ];
-
-    if (weddingCategories.includes(website.business_type)) {
-      return <ClassicWeddingTheme website={website} content={content} />;
     }
   
     const contact = content?.contact_info || {};

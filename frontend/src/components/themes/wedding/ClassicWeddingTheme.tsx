@@ -1,16 +1,8 @@
 import React from 'react';
 
-import ClassicLayout from './layouts/ClassicLayout';
-import ModernLayout from './layouts/ModernLayout';
-import FloralLayout from './layouts/FloralLayout';
-import MinimalLayout from './layouts/MinimalLayout';
-import ElegantLayout from './layouts/ElegantLayout';
-import SouthIndianLayout from './layouts/SouthIndianLayout';
-import TempleMinimalLayout from './layouts/TempleMinimalLayout';
-import SouthIndianRoyalLayout from './layouts/SouthIndianRoyalLayout';
-import SouthIndianMintLayout from './layouts/SouthIndianMintLayout';
-import SilkTraditionalLayout from './layouts/SilkTraditionalLayout';
-import VibrantElegantLayout from './layouts/VibrantElegantLayout';
+import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
+import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
+import { RoyalNikkahLayout, ModernIslamicLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -114,7 +106,11 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
   
-  if (t.includes('vibrant') || t.includes('peacock')) {
+  if (t.includes('modern islamic') || t.includes('modern_islamic')) {
+    baseTheme = 'ModernIslamic';
+  } else if (t.includes('nikkah') || t.includes('islamic') || category === 'Islamic Invitation') {
+    baseTheme = 'RoyalNikkah';
+  } else if (t.includes('vibrant') || t.includes('peacock')) {
     baseTheme = 'VibrantElegant';
   } else if (t.includes('silk') || t.includes('kerala traditional')) {
     baseTheme = 'SilkTraditional';
@@ -137,6 +133,10 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   }
 
   switch (baseTheme) {
+    case 'ModernIslamic':
+      return <ModernIslamicLayout {...layoutProps} />;
+    case 'RoyalNikkah':
+      return <RoyalNikkahLayout {...layoutProps} />;
     case 'VibrantElegant':
       return <VibrantElegantLayout {...layoutProps} />;
     case 'SilkTraditional':

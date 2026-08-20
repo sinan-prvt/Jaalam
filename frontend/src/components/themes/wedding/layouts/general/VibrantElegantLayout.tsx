@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 export default function VibrantElegantLayout({ content, website }: WeddingLayoutProps) {
   const [isOpened, setIsOpened] = useState(false);
@@ -80,7 +80,7 @@ export default function VibrantElegantLayout({ content, website }: WeddingLayout
       <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat p-4 sm:p-8" style={{ backgroundImage: "url('/media/peacock_arch_couple_bg.png')" }}>
         
         {/* Save the Date Invitation text inside center peacock arch */}
-        <div className="relative z-20 pt-16 sm:pt-20 max-w-xs sm:max-w-sm mx-auto">
+        <div className="relative z-20 pt-48 sm:pt-56 md:pt-60 max-w-xs sm:max-w-sm mx-auto">
           
           <p className="text-[#0D3B36] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             SAVE THE DATE
@@ -357,7 +357,7 @@ export default function VibrantElegantLayout({ content, website }: WeddingLayout
       <div className={`fixed inset-0 z-[100] flex flex-col justify-between text-center bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full' : 'translate-y-0'} overflow-hidden p-4 sm:p-8`} style={{ backgroundImage: "url('/media/peacock_arch_couple_bg.png')" }}>
         
         {/* Save the Date Invitation text inside center peacock arch */}
-        <div className="relative z-20 pt-16 sm:pt-20 max-w-xs sm:max-w-sm mx-auto">
+        <div className="relative z-20 pt-48 sm:pt-56 md:pt-60 max-w-xs sm:max-w-sm mx-auto">
           
           <p className="text-[#0D3B36] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
             SAVE THE DATE

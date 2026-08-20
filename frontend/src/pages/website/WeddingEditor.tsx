@@ -445,12 +445,15 @@ export default function WeddingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Invitation Quote / Tagline</label>
                   <input
                     type="text"
-                    value={content.quote || weddingData.quote || ''}
+                    value={content.quote || content.hero_subtitle || content.tagline || weddingData.quote || ''}
                     onChange={(e) => {
                       const newQuote = e.target.value;
+                      setWeddingData({ quote: newQuote });
                       setContent({
                         ...content,
                         quote: newQuote,
+                        hero_subtitle: newQuote,
+                        tagline: newQuote,
                         settings_json: {
                           ...(content.settings_json || {}),
                           wedding: {
@@ -463,6 +466,67 @@ export default function WeddingEditor() {
                     placeholder="Two hearts united in love, starting a beautiful journey together."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
                   />
+                </div>
+
+                {/* Event Date & Time Breakdown Fields */}
+                <div className="border-t border-slate-100 pt-4 space-y-4">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-slate-700">Event Date & Time Breakdown</label>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Month</label>
+                      <input
+                        type="text"
+                        value={weddingData.dateMonth || ''}
+                        onChange={(e) => setWeddingData({ dateMonth: e.target.value })}
+                        placeholder="NOVEMBER"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Date (Day Number)</label>
+                      <input
+                        type="text"
+                        value={weddingData.dateDay || ''}
+                        onChange={(e) => setWeddingData({ dateDay: e.target.value })}
+                        placeholder="22"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Day Name</label>
+                      <input
+                        type="text"
+                        value={weddingData.dateWeekday || ''}
+                        onChange={(e) => setWeddingData({ dateWeekday: e.target.value })}
+                        placeholder="MONDAY"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Year</label>
+                      <input
+                        type="text"
+                        value={weddingData.dateYear || ''}
+                        onChange={(e) => setWeddingData({ dateYear: e.target.value })}
+                        placeholder="2030"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Time</label>
+                      <input
+                        type="text"
+                        value={weddingData.time || ''}
+                        onChange={(e) => setWeddingData({ time: e.target.value })}
+                        placeholder="2:00 PM"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

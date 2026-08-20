@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 export default function TempleMinimalLayout({ content, website }: WeddingLayoutProps) {
   const [isOpened, setIsOpened] = useState(false);

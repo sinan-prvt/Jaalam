@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
-import type { WeddingLayoutProps } from './types';
+import type { WeddingLayoutProps } from '../types';
 
 export default function ModernLayout({ content, colors }: WeddingLayoutProps) {
   const coupleNames = content?.hero_title || "Alex & Jordan";
