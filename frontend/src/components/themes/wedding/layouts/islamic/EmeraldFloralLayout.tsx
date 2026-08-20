@@ -63,10 +63,10 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
-  const rawTitle = content?.hero_title;
-  const isDefaultTitle = !rawTitle || rawTitle === 'A & B' || rawTitle === 'Welcome to A & B' || rawTitle === 'A';
-  const groomName = isDefaultTitle ? 'Zayb Azad' : (rawTitle.split(/&| and /i)[0]?.trim() || 'Zayb Azad');
-  const brideName = isDefaultTitle ? 'Farha Hasan' : (rawTitle.split(/&| and /i)[1]?.trim() || 'Farha Hasan');
+  const rawTitle = content?.hero_title || 'Zayb Azad & Farha Hasan';
+  const nameParts = rawTitle.split(/&| and /i);
+  const groomName = nameParts[0]?.trim() || 'Zayb Azad';
+  const brideName = nameParts[1]?.trim() || (nameParts.length > 1 ? nameParts[1].trim() : 'Farha Hasan');
   const coupleNamesStr = `${groomName} & ${brideName}`;
 
   const rawDateStr = content?.settings_json?.wedding?.date || content?.date || 'OCTOBER 26, 2025';
@@ -163,66 +163,64 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
         {/* Full-Bleed Edge-to-Edge Image Container */}
         <div className="w-full h-full min-h-screen relative flex flex-col items-center justify-center">
           
-          {/* Full-Bleed Artwork Image (100% Edge-to-Edge Fit to Page!) */}
+          {/* Card Artwork Image (Bismillah Calligraphy & Watercolor Roses with text inpainted) */}
           <img
-            src={isDefaultTitle ? "/media/emerald_floral_card_master.png" : "/media/emerald_floral_exact_card_bg.png"}
+            src="/media/emerald_floral_exact_card_bg.png"
             alt="Emerald Floral Invitation"
             className="w-full h-full min-h-screen object-cover select-none"
           />
 
-          {/* Dynamic Text Overlay over the exact card zones when customized */}
-          {!isDefaultTitle && (
-            <div className="absolute inset-0 flex flex-col items-center text-center pt-[15%] sm:pt-[12%] px-6 pointer-events-none">
-              
-              {/* Header Subtitle */}
-              <p className="text-[#53685E] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[3%]">
-                Together with their families
-              </p>
+          {/* Dynamic User Input Text Overlay */}
+          <div className="absolute inset-0 flex flex-col items-center text-center pt-[15%] sm:pt-[12%] px-6 pointer-events-none">
+            
+            {/* Header Subtitle */}
+            <p className="text-[#53685E] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[3%]">
+              Together with their families
+            </p>
 
-              {/* Groom Name in Cursive Script Calligraphy */}
-              <h1 className="font-cursive text-3xl sm:text-4xl text-[#3A4A41] font-normal leading-tight tracking-wide">
-                {groomName}
-              </h1>
+            {/* Groom Name in Cursive Script Calligraphy */}
+            <h1 className="font-cursive text-3xl sm:text-4xl text-[#3A4A41] font-normal leading-tight tracking-wide">
+              {groomName}
+            </h1>
 
-              {/* AND */}
-              <p className="text-[10px] uppercase tracking-[0.25em] font-serif font-bold text-[#53685E] my-[1.5%]">
-                AND
-              </p>
+            {/* AND */}
+            <p className="text-[10px] uppercase tracking-[0.25em] font-serif font-bold text-[#53685E] my-[1.5%]">
+              AND
+            </p>
 
-              {/* Bride Name in Cursive Script Calligraphy */}
-              <h1 className="font-cursive text-3xl sm:text-4xl text-[#3A4A41] font-normal leading-tight tracking-wide mb-[3%]">
-                {brideName}
-              </h1>
+            {/* Bride Name in Cursive Script Calligraphy */}
+            <h1 className="font-cursive text-3xl sm:text-4xl text-[#3A4A41] font-normal leading-tight tracking-wide mb-[3%]">
+              {brideName}
+            </h1>
 
-              {/* Invitation Line */}
-              <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[2.5%] max-w-[240px] leading-relaxed">
-                Joyfully invite you to their wedding celebration on
-              </p>
+            {/* Invitation Line */}
+            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[2.5%] max-w-[240px] leading-relaxed">
+              Joyfully invite you to their wedding celebration on
+            </p>
 
-              {/* Month Header */}
-              <p className="text-[11px] sm:text-xs font-bold font-serif tracking-[0.2em] text-[#2D3B33] uppercase mb-[1%]">
-                {monthStr}
-              </p>
+            {/* Month Header */}
+            <p className="text-[11px] sm:text-xs font-bold font-serif tracking-[0.2em] text-[#2D3B33] uppercase mb-[1%]">
+              {monthStr}
+            </p>
 
-              {/* Date Row with Divider Lines */}
-              <div className="w-full max-w-[220px] flex items-center justify-center gap-3 py-[1%] my-[1%] border-y border-[#53685E]/40">
-                <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{dayName}</span>
-                <span className="text-xl sm:text-2xl font-serif font-extrabold text-[#2D3B33] px-1">{dayNum}</span>
-                <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{timeStr}</span>
-              </div>
-
-              {/* Year */}
-              <p className="text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] mt-[1%] mb-[2%]">
-                {yearStr}
-              </p>
-
-              {/* Address */}
-              <p className="text-[10px] sm:text-[11px] text-[#53685E] font-serif max-w-[220px] leading-relaxed">
-                {location}
-              </p>
-
+            {/* Date Row with Divider Lines */}
+            <div className="w-full max-w-[220px] flex items-center justify-center gap-3 py-[1%] my-[1%] border-y border-[#53685E]/40">
+              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{dayName}</span>
+              <span className="text-xl sm:text-2xl font-serif font-extrabold text-[#2D3B33] px-1">{dayNum}</span>
+              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{timeStr}</span>
             </div>
-          )}
+
+            {/* Year */}
+            <p className="text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] mt-[1%] mb-[2%]">
+              {yearStr}
+            </p>
+
+            {/* Address */}
+            <p className="text-[10px] sm:text-[11px] text-[#53685E] font-serif max-w-[220px] leading-relaxed">
+              {location}
+            </p>
+
+          </div>
 
         </div>
 
