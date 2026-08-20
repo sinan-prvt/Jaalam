@@ -118,6 +118,28 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer = WebsiteSerializer(website)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['get', 'post'], permission_classes=[permissions.AllowAny])
+    def wish(self, request, slug=None):
+        website = self.get_object()
+        if not hasattr(website, 'content'):
+            content = WebsiteContent.objects.create(website=website)
+        else:
+            content = website.content
+            
+        settings = content.settings_json or {}
+        wedding = settings.get('wedding', {})
+        current_count = wedding.get('wish_count', 48)
+
+        if request.method == 'POST':
+            increment = int(request.data.get('increment', 1))
+            current_count = max(0, current_count + increment)
+            wedding['wish_count'] = current_count
+            settings['wedding'] = wedding
+            content.settings_json = settings
+            content.save(update_fields=['settings_json'])
+
+        return Response({'wish_count': current_count})
+
     @action(detail=True, methods=['put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def content(self, request, slug=None):
         website = self.get_object()

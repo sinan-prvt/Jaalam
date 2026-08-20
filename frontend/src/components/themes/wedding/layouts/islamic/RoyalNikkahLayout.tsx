@@ -19,18 +19,37 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Multi-Click Heart Wish State with Party Confetti Popper
-  const [wishCount, setWishCount] = useState<number>(() => {
-    const saved = localStorage.getItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`);
-    return saved ? parseInt(saved, 10) : 48;
-  });
+  // Global Live Multi-Click Heart Wish State
+  const initialCountFromProp = content?.settings_json?.wedding?.wish_count || 48;
+  const [wishCount, setWishCount] = useState<number>(initialCountFromProp);
   const [isCounterPopping, setIsCounterPopping] = useState(false);
   const [pulseRing, setPulseRing] = useState(false);
 
-  const handleTapWish = (e?: React.MouseEvent) => {
+  // Poll global wish count every 4s for real-time live sync across all devices
+  useEffect(() => {
+    if (!website?.slug) return;
+    const fetchGlobalWishes = async () => {
+      try {
+        const res = await fetch(`/api/websites/${website.slug}/wish/`);
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.wish_count === 'number') {
+            setWishCount(data.wish_count);
+          }
+        }
+      } catch (err) {
+        // Silent fallback
+      }
+    };
+
+    fetchGlobalWishes();
+    const interval = setInterval(fetchGlobalWishes, 4000);
+    return () => clearInterval(interval);
+  }, [website?.slug]);
+
+  const handleTapWish = async (e?: React.MouseEvent) => {
     const newCount = wishCount + 1;
     setWishCount(newCount);
-    localStorage.setItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`, newCount.toString());
 
     setIsCounterPopping(true);
     setPulseRing(true);
@@ -38,6 +57,18 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
     setTimeout(() => setPulseRing(false), 600);
 
     triggerConfettiPopper(e);
+
+    if (website?.slug) {
+      try {
+        await fetch(`/api/websites/${website.slug}/wish/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ increment: 1 })
+        });
+      } catch (err) {
+        // Silent catch
+      }
+    }
   };
 
   const handleOpen = () => {
