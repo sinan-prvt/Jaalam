@@ -172,8 +172,8 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
             </span>
           </div>
 
-          <p className="text-[#385E48] text-xs sm:text-sm font-semibold tracking-wider max-w-xs mx-auto mb-6 leading-relaxed font-serif">
-            With the blessings of Allah we are delighted to invite you to the Nikkah ceremony of:
+          <p className="text-[#385E48] text-xs sm:text-sm font-semibold tracking-wider max-w-xs sm:max-w-md mx-auto mb-6 leading-relaxed font-serif">
+            {content?.quote || content?.hero_subtitle || content?.tagline || content?.settings_json?.wedding?.quote || "With the blessings of Allah we are delighted to invite you to the Nikkah ceremony of:"}
           </p>
 
           {/* Groom & Bride Names */}
