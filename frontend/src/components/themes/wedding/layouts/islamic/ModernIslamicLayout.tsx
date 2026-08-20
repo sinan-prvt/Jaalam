@@ -44,6 +44,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
   const groomPhoto = content?.settings_json?.wedding?.groomPhoto;
   const bridePhoto = content?.settings_json?.wedding?.bridePhoto;
   const mapUrl = content?.settings_json?.wedding?.mapUrl || content?.venue?.mapUrl || "";
+  const venuePhoto = content?.settings_json?.wedding?.venuePhoto || content?.venue?.image || "";
   const contactNumbers = content?.settings_json?.wedding?.contactNumbers || "RSVP TO GROOM'S DAD | 123-456-7890";
 
   const gallery = content?.settings_json?.wedding?.gallery || [];
@@ -321,6 +322,13 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
             <h3 className="text-3xl font-bold text-[#2B2523] mb-3 font-serif tracking-wide">Venue & Map</h3>
             <p className="text-xl font-semibold text-slate-800 mb-2 font-serif">{location}</p>
             <p className="text-md text-slate-500 max-w-md mx-auto mb-6 font-serif">We look forward to welcoming you to our sacred Nikkah celebration.</p>
+
+            {/* Venue Image */}
+            {venuePhoto && (
+              <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-md border-2 border-amber-200/50 mb-6 relative group">
+                <img src={venuePhoto} alt="Venue" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            )}
 
             <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-slate-200 mb-6 bg-white">
               <iframe

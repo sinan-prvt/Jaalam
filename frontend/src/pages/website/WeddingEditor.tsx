@@ -630,6 +630,27 @@ export default function WeddingEditor() {
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
                 <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Venue Photo / Image</label>
+                  {(weddingData.venuePhoto || content.venue?.image) && (
+                    <div className="mb-3 h-36 rounded-xl overflow-hidden border border-pink-100 shadow-sm relative group">
+                      <img src={weddingData.venuePhoto || content.venue?.image} alt="Venue" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <input
+                    type="text"
+                    value={weddingData.venuePhoto || content.venue?.image || ''}
+                    onChange={(e) => setWeddingData({ venuePhoto: e.target.value })}
+                    placeholder="https://example.com/venue.jpg"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm mb-2"
+                  />
+                  <FileUpload
+                    accept="image/*"
+                    label={weddingData.venuePhoto ? "Change Venue Photo" : "Upload Venue Photo"}
+                    onChange={(url) => setWeddingData({ venuePhoto: url })}
+                  />
+                </div>
+
+                <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full Address & Landmarks</label>
                   <textarea
                     rows={3}
@@ -681,42 +702,76 @@ export default function WeddingEditor() {
           {activeTab === 'gallery' && (
             <div className="space-y-6 animate-in fade-in">
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-pink-50 space-y-4">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-bold text-slate-800">Photo Gallery</h3>
+                <div className="flex justify-between items-center mb-2">
+                  <div>
+                    <h3 className="font-bold text-slate-800">Photo Gallery</h3>
+                    <p className="text-[10px] text-slate-400">Upload photos from library or add external image URLs.</p>
+                  </div>
                   <button
                     onClick={() => {
                       const currentGallery = weddingData.gallery || [];
                       setWeddingData({ gallery: [...currentGallery, ""] });
                     }}
-                    className="text-pink-600 text-xs font-bold bg-pink-50 px-3 py-1.5 rounded-lg"
+                    className="text-pink-600 text-xs font-bold bg-pink-50 hover:bg-pink-100 px-3 py-1.5 rounded-lg transition-colors"
                   >
-                    + Add Image URL
+                    + Add Link
                   </button>
                 </div>
-                {(weddingData.gallery || []).map((url: string, index: number) => (
-                  <div key={index} className="flex gap-2 items-center">
-                    <input
-                      type="text"
-                      value={url}
-                      onChange={e => {
-                        const newGallery = [...(weddingData.gallery || [])];
-                        newGallery[index] = e.target.value;
-                        setWeddingData({ gallery: newGallery });
-                      }}
-                      className="flex-1 px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
-                      placeholder="https://example.com/image.jpg"
-                    />
-                    <button
-                      onClick={() => {
-                        const newGallery = (weddingData.gallery || []).filter((_: any, i: number) => i !== index);
-                        setWeddingData({ gallery: newGallery });
-                      }}
-                      className="p-3 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors shrink-0"
-                    >
-                      <EyeOff size={16} />
-                    </button>
-                  </div>
-                ))}
+
+                <div className="space-y-2">
+                  <FileUpload
+                    accept="image/*"
+                    label="Upload Photo to Gallery"
+                    onChange={(url) => {
+                      const currentGallery = weddingData.gallery || [];
+                      setWeddingData({ gallery: [...currentGallery, url] });
+                    }}
+                  />
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  {(weddingData.gallery || []).map((url: string, index: number) => (
+                    <div key={index} className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                      <div className="flex gap-2 items-center">
+                        {url && (
+                          <div className="w-12 h-12 rounded-lg overflow-hidden border border-pink-100 shrink-0 bg-slate-200">
+                            <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <input
+                          type="text"
+                          value={url}
+                          onChange={e => {
+                            const newGallery = [...(weddingData.gallery || [])];
+                            newGallery[index] = e.target.value;
+                            setWeddingData({ gallery: newGallery });
+                          }}
+                          className="flex-1 px-3 py-2 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs"
+                          placeholder="https://example.com/image.jpg"
+                        />
+                        <button
+                          onClick={() => {
+                            const newGallery = (weddingData.gallery || []).filter((_: any, i: number) => i !== index);
+                            setWeddingData({ gallery: newGallery });
+                          }}
+                          className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors shrink-0"
+                          title="Delete Photo"
+                        >
+                          <EyeOff size={16} />
+                        </button>
+                      </div>
+                      <FileUpload
+                        accept="image/*"
+                        label="Upload / Replace Image File"
+                        onChange={(newUrl) => {
+                          const newGallery = [...(weddingData.gallery || [])];
+                          newGallery[index] = newUrl;
+                          setWeddingData({ gallery: newGallery });
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
