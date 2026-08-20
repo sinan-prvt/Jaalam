@@ -159,74 +159,62 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#566A5F]">
         
-        {/* Exact Replica Arch Card Container */}
-        <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl">
+        {/* Exact Reference Image Invitation Card Container */}
+        <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200/40">
           
-          {/* Scalloped Mosque Arch Background Card */}
-          <div className="w-full bg-white relative overflow-hidden flex flex-col items-center pt-8 pb-32 px-6 text-center border border-slate-200/90 shadow-2xl"
-               style={{
-                 clipPath: 'polygon(50% 0%, 75% 6%, 92% 16%, 100% 30%, 97% 42%, 100% 55%, 100% 100%, 0% 100%, 0% 55%, 3% 42%, 0% 30%, 8% 16%, 25% 6%)',
-                 borderRadius: '160px 160px 0 0'
-               }}>
-            
-            {/* Top Bismillah Calligraphy */}
-            <div className="mt-4 mb-3">
-              <p className="font-serif text-[#2D3B33] text-2xl sm:text-3xl font-bold tracking-wider select-none leading-relaxed">
-                بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-              </p>
-            </div>
+          {/* Reference Image Background */}
+          <img src="/media/emerald_floral_reference.png" alt="Emerald Floral Invitation" className="w-full h-auto object-contain select-none" />
 
+          {/* Dynamic Text Overlay over the exact card zones */}
+          <div className="absolute inset-0 flex flex-col items-center text-center pt-[19%] px-6">
+            
             {/* Header Text */}
-            <p className="text-[#566A5F] font-serif text-xs sm:text-sm tracking-wide mb-6 font-medium">
+            <p className="text-[#566A5F] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[4%]">
               Together with their families
             </p>
 
             {/* Groom Name */}
-            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#3A4A41] font-normal tracking-wide leading-tight">
               {groomName}
             </h1>
 
             {/* AND */}
-            <p className="text-[11px] uppercase tracking-[0.25em] font-serif font-bold text-[#566A5F] my-3">
+            <p className="text-[10px] uppercase tracking-[0.25em] font-serif font-bold text-[#566A5F] my-[1.5%]">
               AND
             </p>
 
             {/* Bride Name */}
-            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight mb-6">
+            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#3A4A41] font-normal tracking-wide leading-tight mb-[3.5%]">
               {brideName}
             </h1>
 
             {/* Invitation Line */}
-            <p className="text-xs text-[#566A5F] font-serif tracking-wide mb-5 max-w-[260px] leading-relaxed">
+            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[3%] max-w-[240px] leading-relaxed">
               Joyfully invite you to their wedding celebration on
             </p>
 
             {/* Month Header */}
-            <p className="text-xs sm:text-sm font-bold font-serif tracking-[0.2em] text-[#2D3B33] uppercase mb-1">
+            <p className="text-[11px] sm:text-xs font-bold font-serif tracking-[0.2em] text-[#2D3B33] uppercase mb-[1%]">
               {monthStr}
             </p>
 
             {/* Date Row with Divider Lines */}
-            <div className="w-full max-w-[260px] flex items-center justify-center gap-3 py-2 my-1 border-y border-[#566A5F]/40">
-              <span className="text-xs font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{dayName}</span>
-              <span className="text-2xl font-serif font-extrabold text-[#2D3B33] px-2">{dayNum}</span>
-              <span className="text-xs font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{timeStr}</span>
+            <div className="w-full max-w-[220px] flex items-center justify-center gap-3 py-[1%] my-[1%] border-y border-[#566A5F]/40">
+              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{dayName}</span>
+              <span className="text-xl sm:text-2xl font-serif font-extrabold text-[#2D3B33] px-1">{dayNum}</span>
+              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{timeStr}</span>
             </div>
 
             {/* Year */}
-            <p className="text-xs font-serif font-bold tracking-widest text-[#2D3B33] mt-2 mb-4">
+            <p className="text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] mt-[1%] mb-[2%]">
               {yearStr}
             </p>
 
             {/* Address */}
-            <p className="text-xs text-[#566A5F] font-serif max-w-[240px] leading-relaxed mb-6">
+            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif max-w-[220px] leading-relaxed">
               {location}
             </p>
-          </div>
 
-          {/* Bottom Watercolor Blush & Peach Roses Framing (Matching Image 2) */}
-          <div className="w-full absolute bottom-0 left-0 right-0 pointer-events-none z-20 overflow-hidden translate-y-4">
-            <img src="/media/emerald_blush_roses.png" alt="" className="w-full h-auto object-cover scale-110 drop-shadow-xl" />
           </div>
 
         </div>
