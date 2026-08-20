@@ -3,6 +3,93 @@ import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send }
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
+// High-Fidelity Vector Watercolor Blush Roses Bottom Border (Exact replica of Image 2)
+const WatercolorRosesBottomBorder = () => (
+  <div className="w-full relative overflow-hidden pointer-events-none -mt-12 sm:-mt-16 z-20">
+    <svg viewBox="0 0 500 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-xl scale-105">
+      <g>
+        {/* Background Leaf Clusters Left */}
+        <path d="M 5 210 C 25 140 75 110 115 160 C 85 190 45 220 5 210 Z" fill="#60766B" opacity="0.9" />
+        <path d="M 35 160 C 60 90 120 75 145 130 C 110 160 75 175 35 160 Z" fill="#4B6055" opacity="0.95" />
+        <path d="M 75 185 C 110 115 165 110 185 165 Z" fill="#758B80" opacity="0.85" />
+        <path d="M 120 150 C 140 100 180 90 200 130 Z" fill="#586E63" opacity="0.9" />
+
+        {/* Background Leaf Clusters Right */}
+        <path d="M 495 210 C 475 140 425 110 385 160 C 415 190 455 220 495 210 Z" fill="#60766B" opacity="0.9" />
+        <path d="M 465 160 C 440 90 380 75 355 130 C 390 160 425 175 465 160 Z" fill="#4B6055" opacity="0.95" />
+        <path d="M 425 185 C 390 115 335 110 315 165 Z" fill="#758B80" opacity="0.85" />
+        <path d="M 380 150 C 360 100 320 90 300 130 Z" fill="#586E63" opacity="0.9" />
+
+        {/* Berry Stems Left */}
+        <path d="M 90 140 Q 70 100 40 80" stroke="#3D4E45" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="38" cy="78" r="4" fill="#C86E5B" />
+        <circle cx="48" cy="85" r="3.5" fill="#D9806E" />
+        <circle cx="32" cy="88" r="3" fill="#E89584" />
+
+        {/* Berry Stems Right */}
+        <path d="M 410 140 Q 430 100 460 80" stroke="#3D4E45" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="462" cy="78" r="4" fill="#C86E5B" />
+        <circle cx="452" cy="85" r="3.5" fill="#D9806E" />
+        <circle cx="468" cy="88" r="3" fill="#E89584" />
+
+        {/* Rose 1 (Far Left Blush Rose) */}
+        <g transform="translate(15, 110)">
+          <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
+          <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
+          <circle cx="43" cy="43" r="22" fill="#E89280" />
+          <circle cx="41" cy="41" r="14" fill="#CF6B57" />
+          <circle cx="40" cy="40" r="7" fill="#A44836" />
+        </g>
+
+        {/* Rose 2 (Far Right Blush Rose) */}
+        <g transform="translate(395, 110)">
+          <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
+          <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
+          <circle cx="47" cy="43" r="22" fill="#E89280" />
+          <circle cx="49" cy="41" r="14" fill="#CF6B57" />
+          <circle cx="50" cy="40" r="7" fill="#A44836" />
+        </g>
+
+        {/* Rose 3 (Mid Left Peach Garden Rose) */}
+        <g transform="translate(70, 135)">
+          <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
+          <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
+          <circle cx="53" cy="53" r="26" fill="#E89582" />
+          <circle cx="51" cy="51" r="15" fill="#D26D59" />
+          <circle cx="50" cy="50" r="8" fill="#A84C38" />
+        </g>
+
+        {/* Rose 4 (Mid Right Peach Garden Rose) */}
+        <g transform="translate(320, 135)">
+          <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
+          <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
+          <circle cx="57" cy="53" r="26" fill="#E89582" />
+          <circle cx="59" cy="51" r="15" fill="#D26D59" />
+          <circle cx="60" cy="50" r="8" fill="#A84C38" />
+        </g>
+
+        {/* Rose 5 (Center Bottom Large Blossom Left) */}
+        <g transform="translate(145, 140)">
+          <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
+          <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
+          <circle cx="48" cy="48" r="24" fill="#E58B78" />
+          <circle cx="46" cy="46" r="14" fill="#C96350" />
+          <circle cx="45" cy="45" r="7" fill="#9C3E2D" />
+        </g>
+
+        {/* Rose 6 (Center Bottom Large Blossom Right) */}
+        <g transform="translate(255, 140)">
+          <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
+          <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
+          <circle cx="52" cy="48" r="24" fill="#E58B78" />
+          <circle cx="54" cy="46" r="14" fill="#C96350" />
+          <circle cx="55" cy="45" r="7" fill="#9C3E2D" />
+        </g>
+      </g>
+    </svg>
+  </div>
+);
+
 export default function EmeraldFloralLayout({ content, website }: WeddingLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
@@ -70,7 +157,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const rawDateStr = content?.settings_json?.wedding?.date || content?.date || 'OCTOBER 26, 2025';
   const timeStr = content?.settings_json?.wedding?.time || content?.time || 'AT 4PM';
-  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "At 123 Anywhere St., Any City, ST 12345";
+  const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "At 123 Anywhere St., Any City,\nST 12345";
 
   const groomParents = content?.settings_json?.wedding?.groomParents || "Groom's Family";
   const brideParents = content?.settings_json?.wedding?.brideParents || "Bride's Family";
@@ -157,65 +244,76 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#566A5F]">
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#53685E]">
         
-        {/* Clean Reference Image Invitation Card Container */}
-        <div className="w-full max-w-[400px] relative flex flex-col items-center my-auto drop-shadow-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200/40">
+        {/* Exact Replica Arch Card Container (Exact Replica of Image 2) */}
+        <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl">
           
-          {/* Clean Background Image (Zero Text Overlap!) */}
-          <img src="/media/emerald_floral_clean_bg.png" alt="Emerald Floral Invitation" className="w-full h-auto object-contain select-none" />
-
-          {/* Dynamic Text Overlay over the pristine white arch card */}
-          <div className="absolute inset-0 flex flex-col items-center text-center pt-[18%] px-6">
+          {/* Vector Scalloped Mosque Arch Silhouette Card */}
+          <div className="w-full bg-white relative flex flex-col items-center pt-8 pb-16 px-6 text-center shadow-2xl border border-slate-200/90"
+               style={{
+                 clipPath: 'polygon(50% 0%, 75% 6%, 92% 16%, 100% 30%, 96% 42%, 100% 55%, 100% 100%, 0% 100%, 0% 55%, 4% 42%, 0% 30%, 8% 16%, 25% 6%)',
+                 borderRadius: '160px 160px 0 0'
+               }}>
             
-            {/* Header Text */}
-            <p className="text-[#566A5F] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[3%]">
+            {/* Authentic Bismillah Calligraphy */}
+            <div className="mt-4 mb-3">
+              <p className="font-serif text-[#33423A] text-2xl sm:text-3xl font-bold tracking-wider select-none leading-relaxed">
+                بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+              </p>
+            </div>
+
+            {/* Subtitle */}
+            <p className="text-[#53685E] font-serif text-xs sm:text-sm tracking-wide mb-6 font-medium">
               Together with their families
             </p>
 
             {/* Groom Name */}
-            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#33423A] font-normal tracking-wide leading-tight">
               {groomName}
             </h1>
 
             {/* AND */}
-            <p className="text-[10px] uppercase tracking-[0.25em] font-serif font-bold text-[#566A5F] my-[1.5%]">
+            <p className="text-[11px] uppercase tracking-[0.25em] font-serif font-bold text-[#53685E] my-3">
               AND
             </p>
 
             {/* Bride Name */}
-            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight mb-[3%]">
+            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#33423A] font-normal tracking-wide leading-tight mb-6">
               {brideName}
             </h1>
 
-            {/* Invitation Line */}
-            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[2.5%] max-w-[240px] leading-relaxed">
+            {/* Invitation Text */}
+            <p className="text-xs text-[#53685E] font-serif tracking-wide mb-5 max-w-[260px] leading-relaxed">
               Joyfully invite you to their wedding celebration on
             </p>
 
-            {/* Month Header */}
-            <p className="text-[11px] sm:text-xs font-bold font-serif tracking-[0.2em] text-[#2D3B33] uppercase mb-[1%]">
+            {/* Month */}
+            <p className="text-xs sm:text-sm font-bold font-serif tracking-[0.2em] text-[#33423A] uppercase mb-1">
               {monthStr}
             </p>
 
             {/* Date Row with Divider Lines */}
-            <div className="w-full max-w-[220px] flex items-center justify-center gap-3 py-[1%] my-[1%] border-y border-[#566A5F]/40">
-              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{dayName}</span>
-              <span className="text-xl sm:text-2xl font-serif font-extrabold text-[#2D3B33] px-1">{dayNum}</span>
-              <span className="text-[10px] sm:text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] uppercase">{timeStr}</span>
+            <div className="w-full max-w-[260px] flex items-center justify-center gap-3 py-2 my-1 border-y border-[#53685E]/40">
+              <span className="text-xs font-serif font-bold tracking-widest text-[#33423A] uppercase">{dayName}</span>
+              <span className="text-2xl sm:text-3xl font-serif font-extrabold text-[#33423A] px-2">{dayNum}</span>
+              <span className="text-xs font-serif font-bold tracking-widest text-[#33423A] uppercase">{timeStr}</span>
             </div>
 
             {/* Year */}
-            <p className="text-[11px] font-serif font-bold tracking-widest text-[#2D3B33] mt-[1%] mb-[2%]">
+            <p className="text-xs font-serif font-bold tracking-widest text-[#33423A] mt-2 mb-4">
               {yearStr}
             </p>
 
             {/* Address */}
-            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif max-w-[220px] leading-relaxed">
+            <div className="text-xs text-[#53685E] font-serif max-w-[240px] leading-relaxed mb-4 whitespace-pre-line">
               {location}
-            </p>
+            </div>
 
           </div>
+
+          {/* Watercolor Blush & Peach Roses Bottom Border Artwork (Exact replica of Image 2) */}
+          <WatercolorRosesBottomBorder />
 
         </div>
 
@@ -232,9 +330,9 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           {/* Groom */}
           <div className="bg-white rounded-3xl p-8 text-center shadow-xl border border-slate-200">
             {groomPhoto ? (
-              <img src={groomPhoto} alt={groomName} className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-[#566A5F] mb-4 shadow-md" />
+              <img src={groomPhoto} alt={groomName} className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-[#53685E] mb-4 shadow-md" />
             ) : (
-              <div className="w-28 h-28 rounded-full bg-[#566A5F]/10 text-[#566A5F] flex items-center justify-center mx-auto mb-4 font-serif text-3xl font-bold border-2 border-[#566A5F]/30">
+              <div className="w-28 h-28 rounded-full bg-[#53685E]/10 text-[#53685E] flex items-center justify-center mx-auto mb-4 font-serif text-3xl font-bold border-2 border-[#53685E]/30">
                 {groomName[0]}
               </div>
             )}
@@ -247,9 +345,9 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           {/* Bride */}
           <div className="bg-white rounded-3xl p-8 text-center shadow-xl border border-slate-200">
             {bridePhoto ? (
-              <img src={bridePhoto} alt={brideName} className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-[#566A5F] mb-4 shadow-md" />
+              <img src={bridePhoto} alt={brideName} className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-[#53685E] mb-4 shadow-md" />
             ) : (
-              <div className="w-28 h-28 rounded-full bg-[#566A5F]/10 text-[#566A5F] flex items-center justify-center mx-auto mb-4 font-serif text-3xl font-bold border-2 border-[#566A5F]/30">
+              <div className="w-28 h-28 rounded-full bg-[#53685E]/10 text-[#53685E] flex items-center justify-center mx-auto mb-4 font-serif text-3xl font-bold border-2 border-[#53685E]/30">
                 {brideName[0]}
               </div>
             )}
@@ -264,9 +362,9 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
     story: (
       <section key="story" className="py-16 px-4 sm:px-6 relative z-10 max-w-3xl mx-auto text-center">
         <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-200 relative overflow-hidden">
-          <Sparkles className="w-8 h-8 text-[#566A5F] mx-auto mb-4 opacity-75" />
+          <Sparkles className="w-8 h-8 text-[#53685E] mx-auto mb-4 opacity-75" />
           <h2 className="text-3xl font-bold text-slate-800 font-serif mb-4">{storyTitle}</h2>
-          <div className="h-[2px] w-16 bg-[#566A5F]/30 mx-auto mb-6"></div>
+          <div className="h-[2px] w-16 bg-[#53685E]/30 mx-auto mb-6"></div>
           <p className="text-slate-600 font-serif leading-relaxed text-sm md:text-base italic max-w-xl mx-auto">
             "{story}"
           </p>
@@ -284,7 +382,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           {schedule.map((item: any, idx: number) => (
             <div key={idx} className="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#566A5F] uppercase tracking-widest block mb-2 font-serif">{item.time}</span>
+                <span className="text-xs font-bold text-[#53685E] uppercase tracking-widest block mb-2 font-serif">{item.time}</span>
                 <h3 className="text-xl font-bold text-slate-800 font-serif mb-2">{item.event}</h3>
                 <p className="text-xs text-slate-500 font-serif mb-1">{item.date}</p>
                 <p className="text-xs text-slate-600 font-serif font-medium">{item.venue}</p>
@@ -309,7 +407,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           <div className="space-y-2">
             <h3 className="text-2xl font-bold text-slate-800 font-serif">Wedding Reception & Nikkah Venue</h3>
             <p className="text-sm text-slate-600 font-serif max-w-md mx-auto">{location}</p>
-            <p className="text-xs font-semibold text-[#566A5F] font-serif pt-2">{contactNumbers}</p>
+            <p className="text-xs font-semibold text-[#53685E] font-serif pt-2">{contactNumbers}</p>
           </div>
 
           {mapUrl && (
@@ -318,7 +416,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#566A5F] hover:bg-[#44554C] text-white font-bold text-xs uppercase tracking-widest shadow-lg transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#53685E] hover:bg-[#43544B] text-white font-bold text-xs uppercase tracking-widest shadow-lg transition-all hover:scale-105"
               >
                 <Navigation size={14} />
                 Get Driving Directions
@@ -354,7 +452,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
       <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 max-w-3xl mx-auto text-center">
         <div className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-2xl border border-slate-200">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 font-serif mb-2">Counting Down To The Big Day</h2>
-          <p className="text-xs uppercase tracking-widest text-[#566A5F] font-bold font-serif mb-8">Sacred Nikkah Ceremony</p>
+          <p className="text-xs uppercase tracking-widest text-[#53685E] font-bold font-serif mb-8">Sacred Nikkah Ceremony</p>
 
           <div className="flex gap-3 sm:gap-6 justify-center">
             {[
@@ -364,8 +462,8 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-[#566A5F]/10 flex items-center justify-center mb-2 shadow-inner border border-[#566A5F]/20">
-                  <span className="text-xl sm:text-3xl font-bold text-[#566A5F] font-serif">{item.value}</span>
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-[#53685E]/10 flex items-center justify-center mb-2 shadow-inner border border-[#53685E]/20">
+                  <span className="text-xl sm:text-3xl font-bold text-[#53685E] font-serif">{item.value}</span>
                 </div>
                 <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-slate-600 font-serif">{item.label}</span>
               </div>
@@ -390,21 +488,21 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="w-48 h-48 rounded-full border-4 border-[#566A5F]/40 animate-ping"></div>
+                <div className="w-48 h-48 rounded-full border-4 border-[#53685E]/40 animate-ping"></div>
               </div>
             )}
 
             <button
               type="button"
               onClick={handleTapWish}
-              className={`w-24 h-24 rounded-full bg-[#566A5F] border-4 border-[#566A5F]/20 flex items-center justify-center shadow-xl transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-[#566A5F]/40' : 'hover:scale-105 active:scale-95'}`}
+              className={`w-24 h-24 rounded-full bg-[#53685E] border-4 border-[#53685E]/20 flex items-center justify-center shadow-xl transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-[#53685E]/40' : 'hover:scale-105 active:scale-95'}`}
               title="Tap to send a blessing!"
             >
               <Heart className={`w-12 h-12 fill-rose-500 text-rose-500 drop-shadow-md transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
             </button>
 
             <div className="flex flex-col items-center mb-6 relative z-20">
-              <span className={`text-4xl sm:text-5xl font-extrabold text-[#566A5F] font-serif block tracking-wider transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-rose-600' : 'scale-100'}`}>
+              <span className={`text-4xl sm:text-5xl font-extrabold text-[#53685E] font-serif block tracking-wider transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-rose-600' : 'scale-100'}`}>
                 {wishCount}
               </span>
               <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-serif mt-1">Sacred Blessings Received</span>
@@ -413,7 +511,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#566A5F] hover:bg-[#44554C] text-white shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-serif border border-white/30 relative z-20"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#53685E] hover:bg-[#43544B] text-white shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-serif border border-white/30 relative z-20"
             >
               <Sparkles className="w-4 h-4 text-white" />
               Tap to Send Wish & Blessing ❤️
@@ -435,23 +533,23 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-serif">Name</label>
-                  <input type="text" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-[#566A5F] transition-all font-serif" placeholder="Your Full Name" />
+                  <input type="text" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-[#53685E] transition-all font-serif" placeholder="Your Full Name" />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-serif">Du'as & Warm Wishes</label>
-                  <textarea rows={4} className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-[#566A5F] transition-all font-serif resize-none" placeholder="Share your warm du'as and wishes for the couple..."></textarea>
+                  <textarea rows={4} className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-[#53685E] transition-all font-serif resize-none" placeholder="Share your warm du'as and wishes for the couple..."></textarea>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-3 font-serif">Will you be attending?</label>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-300 hover:border-[#566A5F] bg-slate-50 rounded-xl flex-1 transition-colors">
-                      <input type="radio" name="attending" className="w-4 h-4 accent-[#566A5F]" />
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-300 hover:border-[#53685E] bg-slate-50 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-[#53685E]" />
                       <span className="text-slate-800 font-bold uppercase tracking-widest text-xs font-serif">Joyfully Accepts</span>
                     </label>
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-300 hover:border-[#566A5F] bg-slate-50 rounded-xl flex-1 transition-colors">
-                      <input type="radio" name="attending" className="w-4 h-4 accent-[#566A5F]" />
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-300 hover:border-[#53685E] bg-slate-50 rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-[#53685E]" />
                       <span className="text-slate-800 font-bold uppercase tracking-widest text-xs font-serif">Regretfully Declines</span>
                     </label>
                   </div>
@@ -459,7 +557,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
               </div>
 
               <div className="pt-4 text-center">
-                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#566A5F] hover:bg-[#44554C] text-white font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer font-serif">
+                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#53685E] hover:bg-[#43544B] text-white font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer font-serif">
                   <Send size={14} />
                   Submit RSVP
                 </button>
@@ -472,7 +570,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
   };
 
   return (
-    <div className="min-h-screen bg-[#566A5F] relative font-serif flex flex-col items-center overflow-hidden w-full text-slate-800">
+    <div className="min-h-screen bg-[#53685E] relative font-serif flex flex-col items-center overflow-hidden w-full text-slate-800">
       {/* Audio Player */}
       {musicUrl && (
         <audio ref={audioRef} src={musicUrl} loop />
@@ -492,7 +590,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
               }
             }
           }}
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#566A5F] text-white shadow-2xl border-2 border-white/40 hover:scale-110 transition-transform cursor-pointer"
+          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#53685E] text-white shadow-2xl border-2 border-white/40 hover:scale-110 transition-transform cursor-pointer"
           title={isMuted ? "Play Music" : "Mute Music"}
         >
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} className="animate-bounce" />}
@@ -508,7 +606,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-8 text-center text-white/70 text-xs font-serif border-t border-white/20 relative z-20 bg-[#44554C]">
+      <footer className="w-full py-8 text-center text-white/70 text-xs font-serif border-t border-white/20 relative z-20 bg-[#43544B]">
         <p className="font-bold tracking-widest text-white">{coupleNamesStr}</p>
         <p className="mt-1 opacity-75">MADE WITH LOVE BY JAALAM</p>
       </footer>
