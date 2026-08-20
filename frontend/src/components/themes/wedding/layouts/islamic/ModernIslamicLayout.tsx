@@ -8,25 +8,50 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Multi-Click Heart Wish State
+  // Multi-Click Heart Wish State with Rich Animation Particles
   const [wishCount, setWishCount] = useState<number>(() => {
     const saved = localStorage.getItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`);
     return saved ? parseInt(saved, 10) : 48;
   });
-  const [floatingHearts, setFloatingHearts] = useState<Array<{ id: number; left: number }>>([]);
+  const [floatingParticles, setFloatingParticles] = useState<Array<{
+    id: number;
+    left: number;
+    icon: string;
+    size: number;
+    rotation: number;
+  }>>([]);
+  const [isCounterPopping, setIsCounterPopping] = useState(false);
+  const [pulseRing, setPulseRing] = useState(false);
+
+  const emojiPool = ['❤️', '💖', '✨', '🌸', '💐', '🤲', '🌟', '🤍', '🕊️', '💕'];
 
   const handleTapWish = () => {
     const newCount = wishCount + 1;
     setWishCount(newCount);
     localStorage.setItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`, newCount.toString());
 
-    const id = Date.now() + Math.random();
-    const left = Math.floor(Math.random() * 60) + 20;
-    setFloatingHearts(prev => [...prev.slice(-12), { id, left }]);
+    setIsCounterPopping(true);
+    setPulseRing(true);
+    setTimeout(() => setIsCounterPopping(false), 300);
+    setTimeout(() => setPulseRing(false), 600);
+
+    const newParticles: Array<{ id: number; left: number; icon: string; size: number; rotation: number }> = [];
+    const particleCount = Math.floor(Math.random() * 2) + 2;
+
+    for (let i = 0; i < particleCount; i++) {
+      const id = Date.now() + Math.random() + i;
+      const left = Math.floor(Math.random() * 70) + 15;
+      const icon = emojiPool[Math.floor(Math.random() * emojiPool.length)];
+      const size = Math.floor(Math.random() * 14) + 20;
+      const rotation = Math.floor(Math.random() * 40) - 20;
+      newParticles.push({ id, left, icon, size, rotation });
+    }
+
+    setFloatingParticles(prev => [...prev.slice(-18), ...newParticles]);
 
     setTimeout(() => {
-      setFloatingHearts(prev => prev.filter(h => h.id !== id));
-    }, 1200);
+      setFloatingParticles(prev => prev.filter(p => !newParticles.some(np => np.id === p.id)));
+    }, 1400);
   };
 
   const handleOpen = () => {
@@ -462,16 +487,27 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
           {/* Interactive Wish Box */}
           <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 shadow-xl border-2 border-amber-200/80 relative overflow-hidden flex flex-col items-center justify-center">
             
-            {/* Floating Hearts Animation Container */}
+            {/* Pulsing Aura Ring */}
+            {pulseRing && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                <div className="w-48 h-48 rounded-full border-4 border-amber-400/50 animate-ping"></div>
+              </div>
+            )}
+
+            {/* Floating Multi-Emoji Particle Burst Container */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-              {floatingHearts.map(h => (
+              {floatingParticles.map(p => (
                 <div
-                  key={h.id}
-                  style={{ left: `${h.left}%` }}
-                  className="absolute bottom-6 text-rose-500 font-bold text-lg animate-bounce duration-1000 transition-all pointer-events-none flex items-center gap-1"
+                  key={p.id}
+                  style={{
+                    left: `${p.left}%`,
+                    fontSize: `${p.size}px`,
+                    transform: `rotate(${p.rotation}deg)`
+                  }}
+                  className="absolute bottom-10 animate-wish-burst pointer-events-none flex items-center gap-1 drop-shadow-md select-none"
                 >
-                  <Heart className="w-6 h-6 fill-rose-500 text-rose-500 drop-shadow-md" />
-                  <span className="text-xs font-black text-rose-600 bg-white/80 px-1.5 py-0.5 rounded-full shadow-sm">+1</span>
+                  <span>{p.icon}</span>
+                  <span className="text-[10px] font-extrabold text-amber-700 bg-white/90 px-1.5 py-0.5 rounded-full shadow border border-amber-200">+1</span>
                 </div>
               ))}
             </div>
@@ -480,22 +516,26 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-24 h-24 rounded-full bg-amber-50 border-4 border-amber-200 flex items-center justify-center text-rose-500 shadow-lg hover:shadow-amber-200/50 hover:scale-110 active:scale-95 transition-all duration-200 group cursor-pointer mb-4 relative"
+              className={`w-28 h-28 rounded-full bg-gradient-to-br from-amber-50 to-rose-50 border-4 border-amber-200 flex items-center justify-center text-rose-500 shadow-xl hover:shadow-amber-200/60 transition-all duration-300 group cursor-pointer mb-5 relative ${pulseRing ? 'scale-110 border-amber-400 ring-8 ring-amber-200/50' : 'hover:scale-105 active:scale-90'}`}
               title="Tap to send a blessing!"
             >
-              <Heart className="w-12 h-12 fill-rose-500 text-rose-500 group-hover:scale-110 group-active:scale-90 transition-transform" />
+              <Heart className={`w-14 h-14 fill-rose-500 text-rose-500 transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
             </button>
 
-            <span className="text-4xl sm:text-5xl font-extrabold text-[#2B2523] font-serif block mb-1">{wishCount}</span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-sans mb-6">Blessings Received</span>
+            <div className="flex flex-col items-center mb-6">
+              <span className={`text-4xl sm:text-5xl font-extrabold text-[#2B2523] font-serif block transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-amber-600' : 'scale-100'}`}>
+                {wishCount}
+              </span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-sans mt-1">Blessings & Hearts Received</span>
+            </div>
 
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#2B2523] hover:bg-[#1A1615] text-[#C69B31] shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans"
+              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#2B2523] hover:bg-[#1A1615] text-[#C69B31] shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans border border-amber-400/20"
             >
-              <Heart className="w-4 h-4 fill-[#C69B31]" />
-              Send Wish & Blessing ❤️
+              <Sparkles className="w-4 h-4 text-[#C69B31]" />
+              Tap to Send Wish & Blessing ❤️
             </button>
 
           </div>

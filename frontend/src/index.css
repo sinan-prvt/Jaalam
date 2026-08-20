@@ -108,3 +108,23 @@ body::-webkit-scrollbar {
 .animate-shine {
   animation: shine 2s infinite;
 }
+
+@keyframes wish-burst {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-90px) scale(1.25) rotate(12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-180px) scale(1.5) rotate(-12deg);
+  }
+}
+
+.animate-wish-burst {
+  animation: wish-burst 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
