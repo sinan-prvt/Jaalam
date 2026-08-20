@@ -444,7 +444,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
 
       {/* Main Content Sections */}
       <div className="relative z-30 max-w-4xl mx-auto space-y-16 w-full pt-12">
-        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
+        {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
       {/* Footer */}

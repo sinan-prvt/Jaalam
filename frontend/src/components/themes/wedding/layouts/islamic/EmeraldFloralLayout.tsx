@@ -3,55 +3,87 @@ import { Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-reac
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
-// Ornate Vector Maroon Mandala Corner Ornament (Top Right & Bottom Left - Exact Replica of Image 2)
+// Ornate Vector Maroon Mandala Corner Ornament (Top Right & Bottom Left - Exact Match to Reference Design)
 const MaroonMandalaCorner = ({ position }: { position: 'top-right' | 'bottom-left' }) => {
   const isTopRight = position === 'top-right';
   return (
-    <div className={`absolute ${isTopRight ? 'top-0 right-0' : 'bottom-0 left-0'} w-44 sm:w-60 h-44 sm:h-60 pointer-events-none z-10 opacity-95 overflow-hidden`}>
-      <svg
-        viewBox="0 0 200 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={`w-full h-full ${isTopRight ? '' : 'rotate-180'}`}
-      >
-        <g stroke="#7A0C16" strokeWidth="1.2">
-          {/* Outer Pattern Rings */}
-          <circle cx="200" cy="0" r="190" strokeDasharray="3 3" strokeWidth="1.5" />
-          <circle cx="200" cy="0" r="175" strokeWidth="2" />
-          <circle cx="200" cy="0" r="160" strokeDasharray="4 2" />
-          
-          {/* Radial Rays & Petal Accents */}
-          {[0, 15, 30, 45, 60, 75, 90].map((angle, i) => {
-            const rad = (angle * Math.PI) / 180;
-            const x1 = 200 - 160 * Math.cos(rad);
-            const y1 = 160 * Math.sin(rad);
-            const x2 = 200 - 190 * Math.cos(rad);
-            const y2 = 190 * Math.sin(rad);
-            return (
-              <g key={i}>
-                <line x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth="1.5" />
-                <circle cx={x1} cy={y1} r="3" fill="#7A0C16" />
-              </g>
-            );
-          })}
+    <img
+      src="/media/maroon_mandala_corner.png"
+      alt=""
+      className={`absolute ${isTopRight ? 'top-0 right-0' : 'bottom-0 left-0 -scale-100'} w-36 sm:w-52 h-36 sm:h-52 pointer-events-none z-10 mix-blend-multiply opacity-95 object-contain`}
+    />
+  );
+};
 
-          {/* Middle Decorative Arch Loops */}
-          <circle cx="200" cy="0" r="130" strokeWidth="2" />
-          <circle cx="200" cy="0" r="110" strokeDasharray="2 2" />
+// Royal Islamic Envelope Opening Overlay Component
+const RoyalEnvelopeOverlay = ({
+  groomName,
+  brideName,
+  isOpen,
+  isOpening,
+  onOpen
+}: {
+  groomName: string;
+  brideName: string;
+  isOpen: boolean;
+  isOpening: boolean;
+  onOpen: (e: React.MouseEvent) => void;
+}) => {
+  if (isOpen) return null;
 
-          {[5, 20, 35, 50, 65, 80].map((angle, i) => {
-            const rad = (angle * Math.PI) / 180;
-            const cx = 200 - 120 * Math.cos(rad);
-            const cy = 120 * Math.sin(rad);
-            return <circle key={i} cx={cx} cy={cy} r="5" fill="#7A0C16" opacity="0.85" />;
-          })}
+  return (
+    <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#2B0609]/90 backdrop-blur-md p-4 transition-opacity duration-700 ${isOpening ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
 
-          {/* Inner Medallion Hub */}
-          <circle cx="200" cy="0" r="80" strokeWidth="2.5" />
-          <circle cx="200" cy="0" r="55" strokeWidth="1.5" fill="#7A0C16" opacity="0.15" />
-          <circle cx="200" cy="0" r="30" fill="#7A0C16" />
-        </g>
-      </svg>
+      {/* Royal Envelope Card Container */}
+      <div className={`relative w-full max-w-sm sm:max-w-md bg-[#6B0D15] border-2 border-[#C69B31]/60 rounded-3xl shadow-2xl p-6 sm:p-8 text-center flex flex-col items-center justify-between min-h-[380px] sm:min-h-[440px] overflow-hidden transition-all duration-700 transform ${isOpening ? 'scale-110 -translate-y-12' : 'scale-100'}`}>
+
+        {/* Envelope Top Flap Decorative Ornament */}
+        <div className="absolute top-0 inset-x-0 h-28 bg-[#540910] border-b-2 border-[#C69B31]/50 clip-path-triangle flex items-center justify-center">
+          <img src="/media/maroon_mandala_corner.png" alt="" className="w-24 h-24 mix-blend-multiply opacity-40 rotate-45 pointer-events-none" />
+        </div>
+
+        {/* Bismillah Header */}
+        <div className="relative z-20 mt-8">
+          <p className="font-serif text-[#F3E5AB] text-2xl sm:text-3xl font-bold tracking-widest select-none drop-shadow" style={{ fontFamily: "'Amiri', 'Traditional Arabic', serif" }}>
+            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+          </p>
+        </div>
+
+        {/* Couple Names */}
+        <div className="relative z-20 my-4">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100 tracking-wide">
+            {groomName}
+          </h2>
+          <p className="font-serif italic text-sm text-[#C69B31] my-0.5 font-bold">&</p>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100 tracking-wide">
+            {brideName}
+          </h2>
+        </div>
+
+        {/* Interactive Gold Wax Seal Button */}
+        <div className="relative z-20 my-2 flex flex-col items-center">
+          <button
+            onClick={onOpen}
+            className="group relative flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#8B6508] via-[#D4AF37] to-[#F9E8A2] p-1 shadow-2xl border-4 border-[#540910] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          >
+            {/* Pulsing Outer Glow Ring */}
+            <span className="absolute -inset-2 rounded-full bg-[#D4AF37]/30 animate-ping pointer-events-none"></span>
+
+            <div className="w-full h-full rounded-full bg-[#7A0C16] border-2 border-[#D4AF37] flex flex-col items-center justify-center text-center shadow-inner">
+              <span className="font-serif text-amber-200 text-xs sm:text-sm font-bold tracking-widest">
+                OPEN
+              </span>
+              <Sparkles size={14} className="text-[#D4AF37] mt-0.5 animate-pulse" />
+            </div>
+          </button>
+
+          <p className="mt-4 font-serif italic text-xs text-amber-200/90 font-semibold tracking-widest animate-bounce">
+            Click to Open Invitation
+          </p>
+        </div>
+
+      </div>
+
     </div>
   );
 };
@@ -59,6 +91,23 @@ const MaroonMandalaCorner = ({ position }: { position: 'top-right' | 'bottom-lef
 export default function EmeraldFloralLayout({ content, website }: WeddingLayoutProps) {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Royal Envelope State
+  const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
+  const [isEnvelopeOpening, setIsEnvelopeOpening] = useState(false);
+
+  const handleOpenEnvelope = (e: React.MouseEvent) => {
+    setIsEnvelopeOpening(true);
+    triggerConfettiPopper(e);
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {});
+      setIsMuted(false);
+    }
+    setTimeout(() => {
+      setIsEnvelopeOpen(true);
+      setIsEnvelopeOpening(false);
+    }, 700);
+  };
 
   // Global Live Multi-Click Heart Wish State
   const initialCountFromProp = content?.settings_json?.wedding?.wish_count || 48;
@@ -115,14 +164,25 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
   const rawTitle = content?.hero_title;
-  const isDefaultTitle = !rawTitle || rawTitle === 'A & B' || rawTitle === 'Welcome to A & B' || rawTitle === 'A';
-  const groomName = isDefaultTitle ? 'Muntasir Safwat' : (rawTitle.split(/&| and /i)[0]?.trim() || 'Muntasir Safwat');
-  const brideName = isDefaultTitle ? 'Malika Sibal' : (rawTitle.split(/&| and /i)[1]?.trim() || 'Malika Sibal');
-  const coupleNamesStr = `${groomName} & ${brideName}`;
+  const titleParts = (rawTitle && rawTitle.trim() !== '') ? rawTitle.split(/&| and /i) : [];
+  const groomName = titleParts[0]?.trim() || 'Muntasir Safwat';
+  const brideName = titleParts[1]?.trim() ?? 'Malika Sibal';
+  const coupleNamesStr = brideName ? `${groomName} & ${brideName}` : groomName;
+
+  const quoteText = content?.quote || content?.hero_subtitle || content?.tagline || content?.settings_json?.wedding?.quote || "With the blessings of Allah we are delighted to invite you to the Nikkah ceremony of:";
 
   const parentsTitle = content?.settings_json?.wedding?.parentsTitle || "Mr. & Mrs. Safwat Abdul-Karim";
-  const rawDateStr = content?.settings_json?.wedding?.date || content?.date || 'Friday, 20th January 2023';
-  const timeStr = content?.settings_json?.wedding?.time || content?.time || '05:00 Pm';
+  const rawDateStr = content?.settings_json?.wedding?.date || content?.date || '';
+  const rawTimeVal = content?.settings_json?.wedding?.time || content?.time || '2: 00 AM';
+  const parsedDate = new Date(rawDateStr);
+  const isInvalidDate = isNaN(parsedDate.getTime());
+
+  const monthStr = (content?.settings_json?.wedding?.dateMonth || (isInvalidDate ? 'NOVEMBER' : parsedDate.toLocaleString('en-US', { month: 'long' }))).toUpperCase();
+  const dayNum = content?.settings_json?.wedding?.dateDay || (isInvalidDate ? '23' : parsedDate.getDate());
+  const dayName = (content?.settings_json?.wedding?.dateWeekday || (isInvalidDate ? 'MONDAY' : parsedDate.toLocaleString('en-US', { weekday: 'long' }))).toUpperCase();
+  const yearStr = content?.settings_json?.wedding?.dateYear || (isInvalidDate ? '2008' : parsedDate.getFullYear());
+  const formattedTimeStr = rawTimeVal.toUpperCase().startsWith('AT') ? rawTimeVal.toUpperCase() : `AT ${rawTimeVal.toUpperCase()}`;
+
   const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.wedding?.venue || "Add your Venue here";
 
   const groomParents = content?.settings_json?.wedding?.groomParents || "Groom's Family";
@@ -202,88 +262,53 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#F5EFE6] text-[#7A0C16]">
-        
-        {/* Parchment Wedding Invitation Card Container (100% Exact Replica of Image 2) */}
-        <div className="w-full max-w-[420px] relative bg-[#F7F2E8] border border-[#7A0C16]/20 rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center my-auto overflow-hidden">
-          
-          {/* Top-Right Maroon Arabesque Mandala Corner */}
-          <MaroonMandalaCorner position="top-right" />
-          
-          {/* Bottom-Left Maroon Arabesque Mandala Corner */}
-          <MaroonMandalaCorner position="bottom-left" />
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center text-center p-6 sm:p-10 overflow-hidden bg-[#F7F2E8] text-[#7A0C16]">
+
+        {/* Top-Right Maroon Arabesque Mandala Corner */}
+        <MaroonMandalaCorner position="top-right" />
+
+        {/* Bottom-Left Maroon Arabesque Mandala Corner */}
+        <MaroonMandalaCorner position="bottom-left" />
+
+        {/* Full-width Centered Invitation Content */}
+        <div className="relative z-20 w-full max-w-sm sm:max-w-md mx-auto flex flex-col items-center my-auto px-4 py-8">
 
           {/* Bismillah Calligraphy Header */}
-          <div className="relative z-20 mt-2 mb-2">
-            <p className="font-serif text-[#7A0C16] text-3xl sm:text-4xl font-bold tracking-widest select-none leading-relaxed">
+          <div className="relative z-20 mb-3 sm:mb-4">
+            <p className="font-serif text-[#7A0C16] text-3xl sm:text-4xl md:text-5xl font-bold tracking-widest select-none leading-relaxed" style={{ fontFamily: "'Amiri', 'Traditional Arabic', serif" }}>
               بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
             </p>
           </div>
 
-          {/* Quranic Subtitle Translation */}
-          <p className="relative z-20 font-serif italic text-xs sm:text-sm text-[#7A0C16] font-medium tracking-wide mb-3 max-w-[280px]">
-            In the name of ALLAH, the Most Merciful and the Most Beneficent
-          </p>
-
-          {/* Parents Line */}
-          <h2 className="relative z-20 font-serif text-xl sm:text-2xl font-extrabold text-[#7A0C16] tracking-tight mb-1">
-            {parentsTitle}
-          </h2>
-
-          {/* Invitation Line */}
-          <p className="relative z-20 font-serif italic text-xs sm:text-sm text-[#7A0C16] mb-5">
-            You're invited to the wedding of their beloved son/daughter
+          {/* Nikkah Invitation Subtitle */}
+          <p className="relative z-20 font-serif italic text-xs sm:text-sm md:text-base text-[#7A0C16] font-semibold tracking-wide my-2 sm:my-3 max-w-xs sm:max-w-md leading-relaxed text-center">
+            {quoteText}
           </p>
 
           {/* Groom Name */}
-          <h1 className="relative z-20 font-serif text-2xl sm:text-3xl font-bold text-[#7A0C16] tracking-wide">
+          <h1 className="relative z-20 font-serif text-3xl sm:text-5xl md:text-6xl font-bold text-[#7A0C16] tracking-wide my-1 sm:my-2 whitespace-nowrap drop-shadow-sm">
             {groomName}
           </h1>
 
-          {/* With Divider */}
-          <p className="relative z-20 font-serif italic text-xs text-[#7A0C16] my-1 font-semibold">
-            - With -
+          {/* & Divider */}
+          <p className="relative z-20 font-serif italic text-lg sm:text-2xl text-[#7A0C16] my-1 font-bold">
+            &
           </p>
 
           {/* Bride Name */}
-          <h1 className="relative z-20 font-serif text-2xl sm:text-3xl font-bold text-[#7A0C16] tracking-wide mb-5">
+          <h1 className="relative z-20 font-serif text-3xl sm:text-5xl md:text-6xl font-bold text-[#7A0C16] tracking-wide mb-6 sm:mb-8 whitespace-nowrap drop-shadow-sm">
             {brideName}
           </h1>
 
-          {/* Barat Programme Header */}
-          <div className="relative z-20 w-full max-w-[280px] text-center space-y-1 my-2">
-            <p className="font-serif italic text-sm font-bold text-[#7A0C16]">
-              Barat Programme (In sha Allah)
-            </p>
-            <p className="font-serif italic text-xs font-semibold text-[#7A0C16]">
-              On {rawDateStr}
-            </p>
-
-            {/* Dotted Schedule List */}
-            <div className="pt-2 space-y-1.5 text-xs font-serif italic text-[#7A0C16] max-w-[240px] mx-auto">
-              {schedule.map((item: any, idx: number) => (
-                <div key={idx} className="flex justify-between items-baseline border-b border-dotted border-[#7A0C16]/30 pb-0.5">
-                  <span>{item.event}</span>
-                  <span className="font-semibold">{item.time}</span>
-                </div>
-              ))}
+          {/* Date Breakdown Block */}
+          <div className="relative z-20 flex flex-col items-center my-2 sm:my-4 text-[#7A0C16] font-serif">
+            <span className="text-xs sm:text-sm md:text-base font-bold tracking-[0.25em] uppercase mb-2">{monthStr}</span>
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
+              <span className="text-xs sm:text-sm md:text-base font-bold tracking-widest uppercase">{dayName}</span>
+              <span className="text-2xl sm:text-4xl md:text-5xl font-bold px-3 sm:px-4 border-x-2 border-[#7A0C16]/30">{dayNum}</span>
+              <span className="text-xs sm:text-sm md:text-base font-bold tracking-widest uppercase">{formattedTimeStr}</span>
             </div>
-          </div>
-
-          {/* Venue Section */}
-          <div className="relative z-20 mt-4 space-y-0.5">
-            <p className="font-serif font-bold text-xs text-[#7A0C16]">Venue:</p>
-            <p className="font-serif italic text-xs text-[#7A0C16] max-w-[240px] mx-auto whitespace-pre-line">
-              {location}
-            </p>
-          </div>
-
-          {/* RSVP Section */}
-          <div className="relative z-20 mt-4 pt-1">
-            <p className="font-serif font-extrabold text-xs tracking-widest text-[#7A0C16] uppercase">R.S.V.P</p>
-            <p className="font-serif italic text-xs text-[#7A0C16] whitespace-pre-line mt-0.5">
-              {contactNumbers}
-            </p>
+            <span className="text-xs sm:text-sm md:text-base font-bold tracking-[0.25em] mt-2">{yearStr}</span>
           </div>
 
         </div>
@@ -420,23 +445,23 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     countdown: (
-      <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 max-w-3xl mx-auto text-center">
-        <div className="bg-[#F7F2E8] rounded-[2.5rem] p-8 sm:p-10 shadow-2xl border border-[#7A0C16]/20">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#7A0C16] font-serif mb-2">Counting Down To The Big Day</h2>
-          <p className="text-xs uppercase tracking-widest text-[#7A0C16] font-bold font-serif mb-8">Sacred Nikkah Ceremony</p>
+      <section key="countdown" className="py-12 sm:py-16 px-3 sm:px-6 relative z-10 w-full max-w-2xl mx-auto text-center">
+        <div className="bg-[#F7F2E8] rounded-3xl p-5 sm:p-8 shadow-xl border border-[#7A0C16]/20 mx-auto w-full">
+          <h2 className="text-xl sm:text-3xl font-bold text-[#7A0C16] font-serif mb-1">Counting Down To The Big Day</h2>
+          <p className="text-[10px] sm:text-xs uppercase tracking-widest text-[#7A0C16] font-bold font-serif mb-6">Sacred Nikkah Ceremony</p>
 
-          <div className="flex gap-3 sm:gap-6 justify-center">
+          <div className="grid grid-cols-4 gap-2 sm:gap-4 justify-items-center max-w-xs sm:max-w-md mx-auto">
             {[
               { label: 'Days', value: timeLeft?.d ?? 30 },
               { label: 'Hours', value: timeLeft?.h ?? 12 },
               { label: 'Mins', value: timeLeft?.m ?? 45 },
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-[#7A0C16]/10 flex items-center justify-center mb-2 shadow-inner border border-[#7A0C16]/20">
-                  <span className="text-xl sm:text-3xl font-bold text-[#7A0C16] font-serif">{item.value}</span>
+              <div key={idx} className="flex flex-col items-center w-full">
+                <div className="w-full aspect-square max-w-[60px] sm:max-w-[72px] rounded-xl sm:rounded-2xl bg-[#7A0C16]/10 flex items-center justify-center mb-1.5 shadow-inner border border-[#7A0C16]/20 mx-auto">
+                  <span className="text-base sm:text-2xl font-bold text-[#7A0C16] font-serif">{item.value}</span>
                 </div>
-                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#7A0C16]/80 font-serif">{item.label}</span>
+                <span className="text-[9px] sm:text-xs tracking-widest uppercase font-bold text-[#7A0C16]/80 font-serif">{item.label}</span>
               </div>
             ))}
           </div>
@@ -545,6 +570,25 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
       {/* Audio Player */}
       {musicUrl && (
         <audio ref={audioRef} src={musicUrl} loop />
+      )}
+
+      {/* Royal Envelope Opening Overlay */}
+      <RoyalEnvelopeOverlay
+        groomName={groomName}
+        brideName={brideName}
+        isOpen={isEnvelopeOpen}
+        isOpening={isEnvelopeOpening}
+        onOpen={handleOpenEnvelope}
+      />
+
+      {/* Re-open Envelope Button */}
+      {isEnvelopeOpen && (
+        <button
+          onClick={() => setIsEnvelopeOpen(false)}
+          className="fixed top-4 right-4 z-40 px-3.5 py-1.5 rounded-full bg-[#7A0C16] text-amber-100 text-xs font-serif shadow-2xl border border-amber-200/50 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <Sparkles size={13} className="text-[#D4AF37]" /> Envelope
+        </button>
       )}
 
       {/* Floating Audio Control Floating Button */}

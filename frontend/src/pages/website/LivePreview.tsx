@@ -121,6 +121,7 @@ function LivePreviewContent() {
       'Christian Invitation', 'Engagement Invitation'
     ];
 
+  const renderTheme = () => {
     if (weddingCategories.includes(data.website.business_type)) {
       return <ClassicWeddingTheme website={data.website} content={data.content} />;
     }
@@ -275,15 +276,16 @@ function LivePreviewContent() {
     if (data.website.theme === 'Pop') return <PopOtherTheme website={data.website} content={data.content} />;
     if (data.website.theme === 'Corporate') return <CorporateOtherTheme website={data.website} content={data.content} />;
     return <ModernOtherTheme website={data.website} content={data.content} />;
-    // Fallback for others
-    return (
-      <div className="p-8 font-sans">
-        <h1>{data.website.slug}</h1>
-        <pre className="mt-4 p-4 bg-slate-100 rounded text-xs overflow-auto">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      </div>
-    );
+  }
+
+  return (
+    <div className="p-8 font-sans">
+      <h1>{data.website.slug}</h1>
+      <pre className="mt-4 p-4 bg-slate-100 rounded text-xs overflow-auto">
+        {JSON.stringify(data, null, 2)}
+      </pre>
+    </div>
+  );
   };
 
   return (

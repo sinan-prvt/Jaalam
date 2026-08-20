@@ -206,6 +206,7 @@ export default function PublicWebsite() {
       'Christian Invitation', 'Engagement Invitation'
     ];
 
+  const renderTheme = () => {
     if (weddingCategories.includes(website?.business_type)) {
       return <ClassicWeddingTheme website={website} content={content} />;
     }

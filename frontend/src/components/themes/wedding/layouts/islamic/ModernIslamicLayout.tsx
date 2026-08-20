@@ -230,16 +230,8 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
             </span>
           </div>
 
-          <p className="text-[#5A504B] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase max-w-xs sm:max-w-md mx-auto mb-4 leading-relaxed font-sans">
-            {content?.quote || content?.hero_subtitle || content?.tagline || content?.settings_json?.wedding?.quote || "TOGETHER WITH OUR FAMILIES, WE REQUEST THE HONOUR OF YOUR PRESENCE AT THE"}
-          </p>
-
-          {/* Nikkah Uniting Calligraphy */}
-          <h1 className="text-5xl sm:text-7xl font-serif italic text-[#C69B31] my-1 tracking-wide drop-shadow-sm">
-            Nikkah
-          </h1>
-          <p className="text-[10px] sm:text-xs font-bold text-[#5A504B] uppercase tracking-[0.3em] mb-4 font-sans">
-            UNITING
+          <p className="text-[#5A504B] text-[10px] sm:text-xs font-bold tracking-[0.15em] uppercase max-w-xs sm:max-w-md mx-auto mb-4 leading-relaxed font-sans text-center">
+            With the blessings of Allah we are delighted to invite you to the Nikkah ceremony of:
           </p>
 
           {/* Groom & Bride Names in Signature Script */}
@@ -247,15 +239,11 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
             {groomName}
           </h2>
 
-          <p className="text-xl sm:text-2xl text-[#6B5A53] font-serif italic my-0.5 font-light">with</p>
+          <p className="text-xl sm:text-2xl text-[#6B5A53] font-serif italic my-0.5 font-light">&</p>
 
-          <h2 className="text-4xl sm:text-6xl font-serif italic text-[#2B2523] my-0.5 tracking-wide drop-shadow-sm">
+          <h2 className="text-4xl sm:text-6xl font-serif italic text-[#2B2523] my-0.5 tracking-wide drop-shadow-sm mb-6">
             {brideName}
           </h2>
-
-          <p className="text-[11px] sm:text-xs font-bold text-[#6B5A53] tracking-[0.25em] uppercase mt-3 mb-6 font-sans">
-            INSHA'ALLAH
-          </p>
 
           {/* Date Breakdown Block */}
           <div className="flex flex-col items-center my-3 text-[#2B2523]">
@@ -678,7 +666,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
 
       {/* Main Content Sections */}
       <div className="relative z-30 w-full">
-        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
+        {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
       {/* Footer */}

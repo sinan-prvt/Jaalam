@@ -394,7 +394,7 @@ export default function SilkTraditionalLayout({ content, website }: WeddingLayou
 
       {/* Main Content Sections */}
       <div className="relative z-30 w-full">
-        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
+        {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
       {/* Footer */}

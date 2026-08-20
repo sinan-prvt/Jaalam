@@ -230,7 +230,9 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
               </div>
             );
           })}
-        </div>        {/* Top Calligraphy & Nikkah Title Block */}
+        </div>
+
+        {/* Top Calligraphy & Nikkah Title Block */}
         <div className="relative z-20 pt-20 sm:pt-28 md:pt-32 max-w-sm sm:max-w-md mx-auto flex flex-col items-center px-4 pb-8">
 
           {/* Bismillah Arabic Calligraphy */}
@@ -255,7 +257,6 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
             {brideName}
           </h1>
 
-          {/* Date Breakdown */}
           {/* Date Breakdown Block */}
           <div className="flex flex-col items-center my-4 text-[#2C523C]">
             <span className="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase font-sans mb-2 opacity-90">{monthStr}</span>
@@ -680,7 +681,7 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
 
       {/* Main Content Sections */}
       <div className="relative z-30 w-full">
-        {sections.filter(s => s.visible).map(s => sectionMap[s.id])}
+        {sections.filter((s: any) => s.visible).map((s: any) => sectionMap[s.id])}
       </div>
 
       {/* Footer */}
