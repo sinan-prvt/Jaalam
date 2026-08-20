@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
 import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
-import { RoyalNikkahLayout, ModernIslamicLayout } from './layouts/islamic';
+import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -106,7 +106,9 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
   
-  if (t.includes('modern islamic') || t.includes('modern_islamic')) {
+  if (t.includes('emerald') || t.includes('emerald floral')) {
+    baseTheme = 'EmeraldFloral';
+  } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {
     baseTheme = 'ModernIslamic';
   } else if (t.includes('nikkah') || t.includes('islamic') || category === 'Islamic Invitation') {
     baseTheme = 'RoyalNikkah';
@@ -124,7 +126,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SouthIndian';
   } else if (t.includes('modern')) {
     baseTheme = 'Modern';
-  } else if (t.includes('floral') || t.includes('emerald') || t.includes('lotus') || t.includes('rose') || t.includes('backwater')) {
+  } else if (t.includes('floral') || t.includes('lotus') || t.includes('rose') || t.includes('backwater')) {
     baseTheme = 'Floral';
   } else if (t.includes('minimal')) {
     baseTheme = 'Minimal';
@@ -133,6 +135,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   }
 
   switch (baseTheme) {
+    case 'EmeraldFloral':
+      return <EmeraldFloralLayout {...layoutProps} />;
     case 'ModernIslamic':
       return <ModernIslamicLayout {...layoutProps} />;
     case 'RoyalNikkah':
