@@ -3,90 +3,116 @@ import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send }
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
-// Vector Watercolor Blush & Peach Roses Bottom Border (Matching Image 2 100%)
-const WatercolorRosesBottomBorder = () => (
-  <div className="w-full relative overflow-hidden pointer-events-none -mt-16 sm:-mt-24 z-20">
-    <svg viewBox="0 0 500 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-xl scale-105">
-      <g>
-        {/* Background Eucalyptus & Sage Leaves Left */}
-        <path d="M 5 210 C 25 140 75 110 115 160 C 85 190 45 220 5 210 Z" fill="#60766B" opacity="0.9" />
-        <path d="M 35 160 C 60 90 120 75 145 130 C 110 160 75 175 35 160 Z" fill="#4B6055" opacity="0.95" />
-        <path d="M 75 185 C 110 115 165 110 185 165 Z" fill="#758B80" opacity="0.85" />
-        <path d="M 120 150 C 140 100 180 90 200 130 Z" fill="#586E63" opacity="0.9" />
+// Rich Watercolor Blush Roses & Eucalyptus Frame climbing up left & right sides (Exact replica of Image 2)
+const WatercolorRosesSideFrame = () => (
+  <div className="absolute inset-x-0 bottom-0 pointer-events-none z-20 overflow-hidden h-[55%] flex justify-between items-end">
+    {/* Left Side Flower Cluster */}
+    <div className="w-[52%] h-full relative -ml-2">
+      <svg viewBox="0 0 240 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl">
+        <g>
+          {/* Eucalyptus Leaves Climbing Up Left */}
+          <path d="M 10 290 C 30 180 80 120 130 40 C 90 90 50 160 10 290 Z" fill="#586E63" opacity="0.95" />
+          <path d="M 40 240 Q 70 160 120 90 Q 75 160 40 240 Z" fill="#6B8576" opacity="0.9" />
+          <path d="M 0 220 C 20 150 55 100 95 50 C 65 110 30 170 0 220 Z" fill="#4B5E54" opacity="0.95" />
 
-        {/* Background Eucalyptus & Sage Leaves Right */}
-        <path d="M 495 210 C 475 140 425 110 385 160 C 415 190 455 220 495 210 Z" fill="#60766B" opacity="0.9" />
-        <path d="M 465 160 C 440 90 380 75 355 130 C 390 160 425 175 465 160 Z" fill="#4B6055" opacity="0.95" />
-        <path d="M 425 185 C 390 115 335 110 315 165 Z" fill="#758B80" opacity="0.85" />
-        <path d="M 380 150 C 360 100 320 90 300 130 Z" fill="#586E63" opacity="0.9" />
+          {/* Berry Stems Left */}
+          <path d="M 110 160 Q 80 110 45 85" stroke="#3D4E45" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="43" cy="83" r="5" fill="#C86E5B" />
+          <circle cx="55" cy="91" r="4" fill="#D9806E" />
+          <circle cx="36" cy="94" r="3.5" fill="#E89584" />
 
-        {/* Berry Stems Left */}
-        <path d="M 90 140 Q 70 100 40 80" stroke="#3D4E45" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="38" cy="78" r="4" fill="#C86E5B" />
-        <circle cx="48" cy="85" r="3.5" fill="#D9806E" />
-        <circle cx="32" cy="88" r="3" fill="#E89584" />
+          {/* Top Left Rose */}
+          <g transform="translate(10, 100)">
+            <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
+            <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
+            <circle cx="43" cy="43" r="22" fill="#E89280" />
+            <circle cx="41" cy="41" r="14" fill="#CF6B57" />
+            <circle cx="40" cy="40" r="7" fill="#A44836" />
+          </g>
 
-        {/* Berry Stems Right */}
-        <path d="M 410 140 Q 430 100 460 80" stroke="#3D4E45" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="462" cy="78" r="4" fill="#C86E5B" />
-        <circle cx="452" cy="85" r="3.5" fill="#D9806E" />
-        <circle cx="468" cy="88" r="3" fill="#E89584" />
+          {/* Mid Left Peach Garden Rose */}
+          <g transform="translate(60, 140)">
+            <circle cx="55" cy="55" r="52" fill="#FDE2D8" />
+            <circle cx="55" cy="55" r="40" fill="#F8C4B4" />
+            <circle cx="53" cy="53" r="28" fill="#E89582" />
+            <circle cx="51" cy="51" r="16" fill="#D26D59" />
+            <circle cx="50" cy="50" r="8" fill="#A84C38" />
+          </g>
 
-        {/* Rose 1 (Far Left Blush Rose) */}
-        <g transform="translate(10, 105)">
-          <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
-          <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
-          <circle cx="43" cy="43" r="22" fill="#E89280" />
-          <circle cx="41" cy="41" r="14" fill="#CF6B57" />
-          <circle cx="40" cy="40" r="7" fill="#A44836" />
+          {/* Bottom Left Blush Rose */}
+          <g transform="translate(5, 175)">
+            <circle cx="55" cy="55" r="54" fill="#FAD0C4" />
+            <circle cx="55" cy="55" r="42" fill="#F5B3A3" />
+            <circle cx="53" cy="53" r="28" fill="#E89280" />
+            <circle cx="51" cy="51" r="16" fill="#CF6B57" />
+            <circle cx="50" cy="50" r="8" fill="#A44836" />
+          </g>
+
+          {/* Center Bottom Large Blossom */}
+          <g transform="translate(115, 185)">
+            <circle cx="55" cy="55" r="54" fill="#FAD0C4" />
+            <circle cx="55" cy="55" r="40" fill="#F4B3A3" />
+            <circle cx="53" cy="53" r="26" fill="#E58B78" />
+            <circle cx="51" cy="51" r="15" fill="#C96350" />
+            <circle cx="50" cy="50" r="8" fill="#9C3E2D" />
+          </g>
         </g>
+      </svg>
+    </div>
 
-        {/* Rose 2 (Far Right Blush Rose) */}
-        <g transform="translate(400, 105)">
-          <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
-          <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
-          <circle cx="47" cy="43" r="22" fill="#E89280" />
-          <circle cx="49" cy="41" r="14" fill="#CF6B57" />
-          <circle cx="50" cy="40" r="7" fill="#A44836" />
-        </g>
+    {/* Right Side Flower Cluster */}
+    <div className="w-[52%] h-full relative -mr-2">
+      <svg viewBox="0 0 240 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl -scale-x-100">
+        <g>
+          {/* Eucalyptus Leaves Climbing Up Right */}
+          <path d="M 10 290 C 30 180 80 120 130 40 C 90 90 50 160 10 290 Z" fill="#586E63" opacity="0.95" />
+          <path d="M 40 240 Q 70 160 120 90 Q 75 160 40 240 Z" fill="#6B8576" opacity="0.9" />
+          <path d="M 0 220 C 20 150 55 100 95 50 C 65 110 30 170 0 220 Z" fill="#4B5E54" opacity="0.95" />
 
-        {/* Rose 3 (Mid Left Peach Garden Rose) */}
-        <g transform="translate(65, 130)">
-          <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
-          <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
-          <circle cx="53" cy="53" r="26" fill="#E89582" />
-          <circle cx="51" cy="51" r="15" fill="#D26D59" />
-          <circle cx="50" cy="50" r="8" fill="#A84C38" />
-        </g>
+          {/* Berry Stems Right */}
+          <path d="M 110 160 Q 80 110 45 85" stroke="#3D4E45" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="43" cy="83" r="5" fill="#C86E5B" />
+          <circle cx="55" cy="91" r="4" fill="#D9806E" />
+          <circle cx="36" cy="94" r="3.5" fill="#E89584" />
 
-        {/* Rose 4 (Mid Right Peach Garden Rose) */}
-        <g transform="translate(325, 130)">
-          <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
-          <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
-          <circle cx="57" cy="53" r="26" fill="#E89582" />
-          <circle cx="59" cy="51" r="15" fill="#D26D59" />
-          <circle cx="60" cy="50" r="8" fill="#A84C38" />
-        </g>
+          {/* Top Right Rose */}
+          <g transform="translate(10, 100)">
+            <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
+            <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
+            <circle cx="43" cy="43" r="22" fill="#E89280" />
+            <circle cx="41" cy="41" r="14" fill="#CF6B57" />
+            <circle cx="40" cy="40" r="7" fill="#A44836" />
+          </g>
 
-        {/* Rose 5 (Center Bottom Large Blossom Left) */}
-        <g transform="translate(140, 135)">
-          <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
-          <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
-          <circle cx="48" cy="48" r="24" fill="#E58B78" />
-          <circle cx="46" cy="46" r="14" fill="#C96350" />
-          <circle cx="45" cy="45" r="7" fill="#9C3E2D" />
-        </g>
+          {/* Mid Right Peach Garden Rose */}
+          <g transform="translate(60, 140)">
+            <circle cx="55" cy="55" r="52" fill="#FDE2D8" />
+            <circle cx="55" cy="55" r="40" fill="#F8C4B4" />
+            <circle cx="53" cy="53" r="28" fill="#E89582" />
+            <circle cx="51" cy="51" r="16" fill="#D26D59" />
+            <circle cx="50" cy="50" r="8" fill="#A84C38" />
+          </g>
 
-        {/* Rose 6 (Center Bottom Large Blossom Right) */}
-        <g transform="translate(260, 135)">
-          <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
-          <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
-          <circle cx="52" cy="48" r="24" fill="#E58B78" />
-          <circle cx="54" cy="46" r="14" fill="#C96350" />
-          <circle cx="55" cy="45" r="7" fill="#9C3E2D" />
+          {/* Bottom Right Blush Rose */}
+          <g transform="translate(5, 175)">
+            <circle cx="55" cy="55" r="54" fill="#FAD0C4" />
+            <circle cx="55" cy="55" r="42" fill="#F5B3A3" />
+            <circle cx="53" cy="53" r="28" fill="#E89280" />
+            <circle cx="51" cy="51" r="16" fill="#CF6B57" />
+            <circle cx="50" cy="50" r="8" fill="#A44836" />
+          </g>
+
+          {/* Center Bottom Large Blossom */}
+          <g transform="translate(115, 185)">
+            <circle cx="55" cy="55" r="54" fill="#FAD0C4" />
+            <circle cx="55" cy="55" r="40" fill="#F4B3A3" />
+            <circle cx="53" cy="53" r="26" fill="#E58B78" />
+            <circle cx="51" cy="51" r="15" fill="#C96350" />
+            <circle cx="50" cy="50" r="8" fill="#9C3E2D" />
+          </g>
         </g>
-      </g>
-    </svg>
+      </svg>
+    </div>
   </div>
 );
 
@@ -150,10 +176,11 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
-  const coupleNamesStr = content?.hero_title || 'Zayb Azad & Farha Hasan';
-  const nameParts = coupleNamesStr.split(/&| and /i);
-  const groomName = nameParts[0]?.trim() || 'Zayb Azad';
-  const brideName = nameParts[1]?.trim() || 'Farha Hasan';
+  const rawTitle = content?.hero_title;
+  const isDefaultTitle = !rawTitle || rawTitle === 'A & B' || rawTitle === 'Welcome to A & B' || rawTitle === 'A';
+  const groomName = isDefaultTitle ? 'Zayb Azad' : (rawTitle.split(/&| and /i)[0]?.trim() || 'Zayb Azad');
+  const brideName = isDefaultTitle ? 'Farha Hasan' : (rawTitle.split(/&| and /i)[1]?.trim() || 'Farha Hasan');
+  const coupleNamesStr = `${groomName} & ${brideName}`;
 
   const rawDateStr = content?.settings_json?.wedding?.date || content?.date || 'OCTOBER 26, 2025';
   const timeStr = content?.settings_json?.wedding?.time || content?.time || 'AT 4PM';
@@ -247,13 +274,13 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
       <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#53685E]">
         
         {/* Exact Replica Arch Card Container (Exact Replica of Image 2) */}
-        <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl">
+        <div className="w-full max-w-[400px] relative flex flex-col items-center my-auto drop-shadow-2xl">
           
           {/* Smooth Vector Scalloped Mosque Arch Silhouette Card */}
-          <div className="w-full bg-white relative flex flex-col items-center pt-8 pb-14 px-6 text-center shadow-2xl border border-slate-200/90"
+          <div className="w-full bg-white relative flex flex-col items-center pt-8 pb-32 px-6 text-center shadow-2xl border border-slate-200/90"
                style={{
-                 clipPath: 'polygon(50% 0%, 75% 6%, 92% 16%, 100% 30%, 96% 42%, 100% 55%, 100% 100%, 0% 100%, 0% 55%, 4% 42%, 0% 30%, 8% 16%, 25% 6%)',
-                 borderRadius: '160px 160px 0 0'
+                 clipPath: 'polygon(50% 0%, 75% 5%, 90% 14%, 98% 26%, 95% 38%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 5% 38%, 2% 26%, 10% 14%, 25% 5%)',
+                 borderRadius: '140px 140px 0 0'
                }}>
             
             {/* Authentic Bismillah Calligraphy Icon */}
@@ -262,7 +289,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
             </div>
 
             {/* Subtitle */}
-            <p className="text-[#53685E] font-serif text-xs sm:text-sm tracking-wide mb-5 font-medium">
+            <p className="text-[#53685E] font-serif text-xs sm:text-sm tracking-wide mb-4 font-medium">
               Together with their families
             </p>
 
@@ -277,7 +304,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
             </p>
 
             {/* Bride Name in Cursive Script Calligraphy */}
-            <h1 className="font-cursive text-4xl sm:text-5xl text-[#2C3B33] font-normal leading-tight tracking-wide mb-5">
+            <h1 className="font-cursive text-4xl sm:text-5xl text-[#2C3B33] font-normal leading-tight tracking-wide mb-4">
               {brideName}
             </h1>
 
@@ -299,19 +326,19 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
             </div>
 
             {/* Year */}
-            <p className="text-xs font-serif font-bold tracking-widest text-[#2C3B33] mt-2 mb-4">
+            <p className="text-xs font-serif font-bold tracking-widest text-[#2C3B33] mt-2 mb-3">
               {yearStr}
             </p>
 
             {/* Address */}
-            <div className="text-xs text-[#53685E] font-serif max-w-[240px] leading-relaxed mb-6 whitespace-pre-line">
+            <div className="text-xs text-[#53685E] font-serif max-w-[240px] leading-relaxed whitespace-pre-line">
               {location}
             </div>
 
           </div>
 
-          {/* Watercolor Blush & Peach Roses Bottom Border Artwork */}
-          <WatercolorRosesBottomBorder />
+          {/* Watercolor Blush & Peach Roses Side & Bottom Framing (Climbing Up Left & Right like Image 2!) */}
+          <WatercolorRosesSideFrame />
 
         </div>
 
