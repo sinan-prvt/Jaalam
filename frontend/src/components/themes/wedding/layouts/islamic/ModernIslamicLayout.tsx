@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
+import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
 export default function ModernIslamicLayout({ content, website }: WeddingLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -8,24 +9,15 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Multi-Click Heart Wish State with Rich Animation Particles
+  // Multi-Click Heart Wish State with Party Confetti Popper
   const [wishCount, setWishCount] = useState<number>(() => {
     const saved = localStorage.getItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`);
     return saved ? parseInt(saved, 10) : 48;
   });
-  const [floatingParticles, setFloatingParticles] = useState<Array<{
-    id: number;
-    left: number;
-    icon: string;
-    size: number;
-    rotation: number;
-  }>>([]);
   const [isCounterPopping, setIsCounterPopping] = useState(false);
   const [pulseRing, setPulseRing] = useState(false);
 
-  const emojiPool = ['❤️', '💖', '✨', '🌸', '💐', '🤲', '🌟', '🤍', '🕊️', '💕'];
-
-  const handleTapWish = () => {
+  const handleTapWish = (e?: React.MouseEvent) => {
     const newCount = wishCount + 1;
     setWishCount(newCount);
     localStorage.setItem(`wishes_count_${website?.slug || content?.id || 'wedding'}`, newCount.toString());
@@ -35,23 +27,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
     setTimeout(() => setIsCounterPopping(false), 300);
     setTimeout(() => setPulseRing(false), 600);
 
-    const newParticles: Array<{ id: number; left: number; icon: string; size: number; rotation: number }> = [];
-    const particleCount = Math.floor(Math.random() * 2) + 2;
-
-    for (let i = 0; i < particleCount; i++) {
-      const id = Date.now() + Math.random() + i;
-      const left = Math.floor(Math.random() * 70) + 15;
-      const icon = emojiPool[Math.floor(Math.random() * emojiPool.length)];
-      const size = Math.floor(Math.random() * 14) + 20;
-      const rotation = Math.floor(Math.random() * 40) - 20;
-      newParticles.push({ id, left, icon, size, rotation });
-    }
-
-    setFloatingParticles(prev => [...prev.slice(-18), ...newParticles]);
-
-    setTimeout(() => {
-      setFloatingParticles(prev => prev.filter(p => !newParticles.some(np => np.id === p.id)));
-    }, 1400);
+    triggerConfettiPopper(e);
   };
 
   const handleOpen = () => {
@@ -494,23 +470,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
               </div>
             )}
 
-            {/* Floating Multi-Emoji Particle Burst Container */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-              {floatingParticles.map(p => (
-                <div
-                  key={p.id}
-                  style={{
-                    left: `${p.left}%`,
-                    fontSize: `${p.size}px`,
-                    transform: `rotate(${p.rotation}deg)`
-                  }}
-                  className="absolute bottom-10 animate-wish-burst pointer-events-none flex items-center gap-1 drop-shadow-md select-none"
-                >
-                  <span>{p.icon}</span>
-                  <span className="text-[10px] font-extrabold text-amber-700 bg-white/90 px-1.5 py-0.5 rounded-full shadow border border-amber-200">+1</span>
-                </div>
-              ))}
-            </div>
+
 
             {/* Heart Icon Button */}
             <button
