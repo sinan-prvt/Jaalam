@@ -3,18 +3,18 @@ import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send }
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
-// High-Fidelity Vector Watercolor Blush Roses Bottom Border (Exact replica of Image 2)
+// Vector Watercolor Blush & Peach Roses Bottom Border (Matching Image 2 100%)
 const WatercolorRosesBottomBorder = () => (
-  <div className="w-full relative overflow-hidden pointer-events-none -mt-12 sm:-mt-16 z-20">
+  <div className="w-full relative overflow-hidden pointer-events-none -mt-16 sm:-mt-24 z-20">
     <svg viewBox="0 0 500 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-xl scale-105">
       <g>
-        {/* Background Leaf Clusters Left */}
+        {/* Background Eucalyptus & Sage Leaves Left */}
         <path d="M 5 210 C 25 140 75 110 115 160 C 85 190 45 220 5 210 Z" fill="#60766B" opacity="0.9" />
         <path d="M 35 160 C 60 90 120 75 145 130 C 110 160 75 175 35 160 Z" fill="#4B6055" opacity="0.95" />
         <path d="M 75 185 C 110 115 165 110 185 165 Z" fill="#758B80" opacity="0.85" />
         <path d="M 120 150 C 140 100 180 90 200 130 Z" fill="#586E63" opacity="0.9" />
 
-        {/* Background Leaf Clusters Right */}
+        {/* Background Eucalyptus & Sage Leaves Right */}
         <path d="M 495 210 C 475 140 425 110 385 160 C 415 190 455 220 495 210 Z" fill="#60766B" opacity="0.9" />
         <path d="M 465 160 C 440 90 380 75 355 130 C 390 160 425 175 465 160 Z" fill="#4B6055" opacity="0.95" />
         <path d="M 425 185 C 390 115 335 110 315 165 Z" fill="#758B80" opacity="0.85" />
@@ -33,7 +33,7 @@ const WatercolorRosesBottomBorder = () => (
         <circle cx="468" cy="88" r="3" fill="#E89584" />
 
         {/* Rose 1 (Far Left Blush Rose) */}
-        <g transform="translate(15, 110)">
+        <g transform="translate(10, 105)">
           <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
           <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
           <circle cx="43" cy="43" r="22" fill="#E89280" />
@@ -42,7 +42,7 @@ const WatercolorRosesBottomBorder = () => (
         </g>
 
         {/* Rose 2 (Far Right Blush Rose) */}
-        <g transform="translate(395, 110)">
+        <g transform="translate(400, 105)">
           <circle cx="45" cy="45" r="42" fill="#FAD0C4" />
           <circle cx="45" cy="45" r="32" fill="#F5B3A3" />
           <circle cx="47" cy="43" r="22" fill="#E89280" />
@@ -51,7 +51,7 @@ const WatercolorRosesBottomBorder = () => (
         </g>
 
         {/* Rose 3 (Mid Left Peach Garden Rose) */}
-        <g transform="translate(70, 135)">
+        <g transform="translate(65, 130)">
           <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
           <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
           <circle cx="53" cy="53" r="26" fill="#E89582" />
@@ -60,7 +60,7 @@ const WatercolorRosesBottomBorder = () => (
         </g>
 
         {/* Rose 4 (Mid Right Peach Garden Rose) */}
-        <g transform="translate(320, 135)">
+        <g transform="translate(325, 130)">
           <circle cx="55" cy="55" r="50" fill="#FDE2D8" />
           <circle cx="55" cy="55" r="38" fill="#F8C4B4" />
           <circle cx="57" cy="53" r="26" fill="#E89582" />
@@ -69,7 +69,7 @@ const WatercolorRosesBottomBorder = () => (
         </g>
 
         {/* Rose 5 (Center Bottom Large Blossom Left) */}
-        <g transform="translate(145, 140)">
+        <g transform="translate(140, 135)">
           <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
           <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
           <circle cx="48" cy="48" r="24" fill="#E58B78" />
@@ -78,7 +78,7 @@ const WatercolorRosesBottomBorder = () => (
         </g>
 
         {/* Rose 6 (Center Bottom Large Blossom Right) */}
-        <g transform="translate(255, 140)">
+        <g transform="translate(260, 135)">
           <circle cx="50" cy="50" r="48" fill="#FAD0C4" />
           <circle cx="50" cy="50" r="36" fill="#F4B3A3" />
           <circle cx="52" cy="48" r="24" fill="#E58B78" />
@@ -249,70 +249,68 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
         {/* Exact Replica Arch Card Container (Exact Replica of Image 2) */}
         <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl">
           
-          {/* Vector Scalloped Mosque Arch Silhouette Card */}
-          <div className="w-full bg-white relative flex flex-col items-center pt-8 pb-16 px-6 text-center shadow-2xl border border-slate-200/90"
+          {/* Smooth Vector Scalloped Mosque Arch Silhouette Card */}
+          <div className="w-full bg-white relative flex flex-col items-center pt-8 pb-14 px-6 text-center shadow-2xl border border-slate-200/90"
                style={{
                  clipPath: 'polygon(50% 0%, 75% 6%, 92% 16%, 100% 30%, 96% 42%, 100% 55%, 100% 100%, 0% 100%, 0% 55%, 4% 42%, 0% 30%, 8% 16%, 25% 6%)',
                  borderRadius: '160px 160px 0 0'
                }}>
             
-            {/* Authentic Bismillah Calligraphy */}
-            <div className="mt-4 mb-3">
-              <p className="font-serif text-[#33423A] text-2xl sm:text-3xl font-bold tracking-wider select-none leading-relaxed">
-                بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-              </p>
+            {/* Authentic Bismillah Calligraphy Icon */}
+            <div className="mt-2 mb-3">
+              <img src="/media/gold_quran_calligraphy.png" alt="Bismillah" className="w-20 h-auto filter brightness-0 opacity-85 mx-auto select-none" />
             </div>
 
             {/* Subtitle */}
-            <p className="text-[#53685E] font-serif text-xs sm:text-sm tracking-wide mb-6 font-medium">
+            <p className="text-[#53685E] font-serif text-xs sm:text-sm tracking-wide mb-5 font-medium">
               Together with their families
             </p>
 
-            {/* Groom Name */}
-            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#33423A] font-normal tracking-wide leading-tight">
+            {/* Groom Name in Cursive Script Calligraphy */}
+            <h1 className="font-cursive text-4xl sm:text-5xl text-[#2C3B33] font-normal leading-tight tracking-wide">
               {groomName}
             </h1>
 
             {/* AND */}
-            <p className="text-[11px] uppercase tracking-[0.25em] font-serif font-bold text-[#53685E] my-3">
+            <p className="text-[11px] uppercase tracking-[0.25em] font-serif font-bold text-[#53685E] my-2">
               AND
             </p>
 
-            {/* Bride Name */}
-            <h1 className="text-3xl sm:text-4xl font-serif italic text-[#33423A] font-normal tracking-wide leading-tight mb-6">
+            {/* Bride Name in Cursive Script Calligraphy */}
+            <h1 className="font-cursive text-4xl sm:text-5xl text-[#2C3B33] font-normal leading-tight tracking-wide mb-5">
               {brideName}
             </h1>
 
             {/* Invitation Text */}
-            <p className="text-xs text-[#53685E] font-serif tracking-wide mb-5 max-w-[260px] leading-relaxed">
+            <p className="text-xs text-[#53685E] font-serif tracking-wide mb-4 max-w-[260px] leading-relaxed">
               Joyfully invite you to their wedding celebration on
             </p>
 
             {/* Month */}
-            <p className="text-xs sm:text-sm font-bold font-serif tracking-[0.2em] text-[#33423A] uppercase mb-1">
+            <p className="text-xs sm:text-sm font-bold font-serif tracking-[0.2em] text-[#2C3B33] uppercase mb-1">
               {monthStr}
             </p>
 
             {/* Date Row with Divider Lines */}
             <div className="w-full max-w-[260px] flex items-center justify-center gap-3 py-2 my-1 border-y border-[#53685E]/40">
-              <span className="text-xs font-serif font-bold tracking-widest text-[#33423A] uppercase">{dayName}</span>
-              <span className="text-2xl sm:text-3xl font-serif font-extrabold text-[#33423A] px-2">{dayNum}</span>
-              <span className="text-xs font-serif font-bold tracking-widest text-[#33423A] uppercase">{timeStr}</span>
+              <span className="text-xs font-serif font-bold tracking-widest text-[#2C3B33] uppercase">{dayName}</span>
+              <span className="text-2xl sm:text-3xl font-serif font-extrabold text-[#2C3B33] px-2">{dayNum}</span>
+              <span className="text-xs font-serif font-bold tracking-widest text-[#2C3B33] uppercase">{timeStr}</span>
             </div>
 
             {/* Year */}
-            <p className="text-xs font-serif font-bold tracking-widest text-[#33423A] mt-2 mb-4">
+            <p className="text-xs font-serif font-bold tracking-widest text-[#2C3B33] mt-2 mb-4">
               {yearStr}
             </p>
 
             {/* Address */}
-            <div className="text-xs text-[#53685E] font-serif max-w-[240px] leading-relaxed mb-4 whitespace-pre-line">
+            <div className="text-xs text-[#53685E] font-serif max-w-[240px] leading-relaxed mb-6 whitespace-pre-line">
               {location}
             </div>
 
           </div>
 
-          {/* Watercolor Blush & Peach Roses Bottom Border Artwork (Exact replica of Image 2) */}
+          {/* Watercolor Blush & Peach Roses Bottom Border Artwork */}
           <WatercolorRosesBottomBorder />
 
         </div>

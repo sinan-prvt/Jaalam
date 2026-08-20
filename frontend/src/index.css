@@ -9,6 +9,11 @@
   
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-display: 'Outfit', system-ui, sans-serif;
+  --font-cursive: 'Great Vibes', 'Alex Brush', cursive;
+}
+
+.font-cursive {
+  font-family: 'Great Vibes', 'Alex Brush', cursive;
 }
 
 @layer base {
