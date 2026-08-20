@@ -158,21 +158,21 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-2 sm:p-6 overflow-hidden bg-[#53685E]">
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#53685E]">
         
-        {/* Exact Original Reference Image Card Container */}
-        <div className="w-full max-w-[380px] relative flex flex-col items-center my-auto drop-shadow-2xl rounded-2xl overflow-hidden shadow-2xl border border-slate-300/30">
+        {/* Full-Bleed Edge-to-Edge Image Container */}
+        <div className="w-full h-full min-h-screen relative flex flex-col items-center justify-center">
           
-          {/* Master Reference Image Artwork (100% Exact Match to User Reference Image!) */}
+          {/* Full-Bleed Artwork Image (100% Edge-to-Edge Fit to Page!) */}
           <img
             src={isDefaultTitle ? "/media/emerald_floral_card_master.png" : "/media/emerald_floral_exact_card_bg.png"}
             alt="Emerald Floral Invitation"
-            className="w-full h-auto object-contain select-none"
+            className="w-full h-full min-h-screen object-cover select-none"
           />
 
           {/* Dynamic Text Overlay over the exact card zones when customized */}
           {!isDefaultTitle && (
-            <div className="absolute inset-0 flex flex-col items-center text-center pt-[19%] px-6 pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center text-center pt-[15%] sm:pt-[12%] px-6 pointer-events-none">
               
               {/* Header Subtitle */}
               <p className="text-[#53685E] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[3%]">
