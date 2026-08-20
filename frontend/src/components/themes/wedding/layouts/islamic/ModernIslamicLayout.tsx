@@ -477,55 +477,59 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#FBF8F6] via-[#FAF3EE] to-[#FBF8F6]">
+      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto">
         <div className="max-w-md mx-auto text-center relative z-20">
           
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2">
               <div className="h-[1px] w-12 bg-[#C69B31]"></div>
-              <Heart className="w-6 h-6 text-[#C69B31] fill-[#C69B31]/20 animate-pulse" />
+              <Sparkles className="w-5 h-5 text-[#C69B31] animate-pulse" />
               <div className="h-[1px] w-12 bg-[#C69B31]"></div>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-[#2B2523] font-serif tracking-wide">Send Your Blessings</h2>
-            <p className="text-[#6B5A53] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send love & prayers to the couple</p>
+            <p className="text-[#6B5A53] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send du'as & love to the couple</p>
           </div>
 
-          {/* Interactive Wish Box */}
-          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 shadow-xl border-2 border-amber-200/80 relative overflow-hidden flex flex-col items-center justify-center">
+          {/* Sand & Gold Arch Card */}
+          <div className="bg-gradient-to-b from-[#2B2523] via-[#3A3230] to-[#201C1A] rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C69B31]/40 relative overflow-hidden flex flex-col items-center justify-center text-amber-100">
             
-            {/* Pulsing Aura Ring */}
+            {/* Corner Accents */}
+            <img src="/media/floral_corner_accent.png" alt="" className="absolute -top-6 -right-6 w-32 opacity-35 pointer-events-none -scale-x-100 filter brightness-125" />
+            <img src="/media/floral_corner_accent.png" alt="" className="absolute -bottom-6 -left-6 w-32 opacity-35 pointer-events-none -scale-y-100 filter brightness-125" />
+
+            {/* Pulsing Gold Ring */}
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="w-48 h-48 rounded-full border-4 border-amber-400/50 animate-ping"></div>
+                <div className="w-52 h-52 rounded-full border-4 border-[#C69B31]/60 animate-ping"></div>
               </div>
             )}
 
-
-
-            {/* Heart Icon Button */}
+            {/* Gold Medallion Heart Button */}
             <button
               type="button"
               onClick={handleTapWish}
-              className={`w-28 h-28 rounded-full bg-gradient-to-br from-amber-50 to-rose-50 border-4 border-amber-200 flex items-center justify-center text-rose-500 shadow-xl hover:shadow-amber-200/60 transition-all duration-300 group cursor-pointer mb-5 relative ${pulseRing ? 'scale-110 border-amber-400 ring-8 ring-amber-200/50' : 'hover:scale-105 active:scale-90'}`}
+              className={`w-28 h-28 rounded-full bg-gradient-to-tr from-[#D4AF37] via-[#F3E5AB] to-[#C69B31] border-4 border-amber-100/90 flex items-center justify-center text-[#2B2523] shadow-[0_0_25px_rgba(198,155,49,0.5)] transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-amber-400/40' : 'hover:scale-105 active:scale-90'}`}
               title="Tap to send a blessing!"
             >
-              <Heart className={`w-14 h-14 fill-rose-500 text-rose-500 transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
+              <Heart className={`w-14 h-14 fill-[#2B2523] text-[#2B2523] transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
             </button>
 
-            <div className="flex flex-col items-center mb-6">
-              <span className={`text-4xl sm:text-5xl font-extrabold text-[#2B2523] font-serif block transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-amber-600' : 'scale-100'}`}>
+            {/* Counter */}
+            <div className="flex flex-col items-center mb-6 relative z-20">
+              <span className={`text-4xl sm:text-5xl font-extrabold text-[#F3E5AB] font-serif block tracking-wider drop-shadow-md transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-amber-300' : 'scale-100'}`}>
                 {wishCount}
               </span>
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-sans mt-1">Blessings & Hearts Received</span>
+              <span className="text-xs font-bold text-amber-200/80 uppercase tracking-widest font-sans mt-1">Sacred Blessings Received</span>
             </div>
 
+            {/* Action Button */}
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#2B2523] hover:bg-[#1A1615] text-[#C69B31] shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans border border-amber-400/20"
+              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C69B31] text-[#2B2523] shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans border border-amber-100/50 relative z-20"
             >
-              <Sparkles className="w-4 h-4 text-[#C69B31]" />
+              <Sparkles className="w-4 h-4 text-[#2B2523]" />
               Tap to Send Wish & Blessing ❤️
             </button>
 

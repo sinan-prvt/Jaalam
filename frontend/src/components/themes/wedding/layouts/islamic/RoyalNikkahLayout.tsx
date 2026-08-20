@@ -488,55 +488,59 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#F4F9F6] via-[#E8F3EE] to-[#F4F9F6]">
+      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto">
         <div className="max-w-md mx-auto text-center relative z-20">
           
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2">
               <div className="h-[1px] w-12 bg-[#2C523C]"></div>
-              <Heart className="w-6 h-6 text-[#2C523C] fill-[#2C523C]/20 animate-pulse" />
+              <Sparkles className="w-5 h-5 text-[#2C523C] animate-pulse" />
               <div className="h-[1px] w-12 bg-[#2C523C]"></div>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-[#2C523C] font-serif tracking-wide">Send Your Blessings</h2>
-            <p className="text-[#385E48] tracking-widest uppercase text-xs font-semibold mt-1 font-serif">Tap the heart to send love & prayers to the couple</p>
+            <p className="text-[#385E48] tracking-widest uppercase text-xs font-semibold mt-1 font-serif">Tap the heart to send du'as & love to the couple</p>
           </div>
 
-          {/* Interactive Wish Box */}
-          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 shadow-xl border-2 border-emerald-200/80 relative overflow-hidden flex flex-col items-center justify-center">
+          {/* Royal Emerald & Gold Glassmorphism Card */}
+          <div className="bg-gradient-to-b from-[#1E3B2B] via-[#2C523C] to-[#152B1E] rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-amber-300/40 relative overflow-hidden flex flex-col items-center justify-center text-amber-100">
             
-            {/* Pulsing Aura Ring */}
+            {/* Corner Floral Ornaments */}
+            <img src="/media/floral_corner_accent.png" alt="" className="absolute -top-6 -right-6 w-32 opacity-40 pointer-events-none -scale-x-100 filter brightness-125" />
+            <img src="/media/floral_corner_accent.png" alt="" className="absolute -bottom-6 -left-6 w-32 opacity-40 pointer-events-none -scale-y-100 filter brightness-125" />
+
+            {/* Pulsing Golden Aura Ring */}
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="w-48 h-48 rounded-full border-4 border-rose-400/50 animate-ping"></div>
+                <div className="w-52 h-52 rounded-full border-4 border-amber-300/60 animate-ping"></div>
               </div>
             )}
 
-
-
-            {/* Heart Icon Button */}
+            {/* Glowing Golden Medallion Heart Button */}
             <button
               type="button"
               onClick={handleTapWish}
-              className={`w-28 h-28 rounded-full bg-gradient-to-br from-rose-50 to-pink-100 border-4 border-rose-200 flex items-center justify-center text-rose-500 shadow-xl hover:shadow-rose-300/60 transition-all duration-300 group cursor-pointer mb-5 relative ${pulseRing ? 'scale-110 border-rose-400 ring-8 ring-rose-200/50' : 'hover:scale-105 active:scale-90'}`}
+              className={`w-28 h-28 rounded-full bg-gradient-to-tr from-amber-400 via-amber-300 to-amber-500 border-4 border-amber-200/90 flex items-center justify-center text-[#1E3B2B] shadow-[0_0_25px_rgba(212,175,55,0.5)] transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-amber-300/40' : 'hover:scale-105 active:scale-90'}`}
               title="Tap to send a blessing!"
             >
-              <Heart className={`w-14 h-14 fill-rose-500 text-rose-500 transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
+              <Heart className={`w-14 h-14 fill-[#1E3B2B] text-[#1E3B2B] transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
             </button>
 
-            <div className="flex flex-col items-center mb-6">
-              <span className={`text-4xl sm:text-5xl font-extrabold text-[#2C523C] font-serif block transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-rose-600' : 'scale-100'}`}>
+            {/* Counter */}
+            <div className="flex flex-col items-center mb-6 relative z-20">
+              <span className={`text-4xl sm:text-5xl font-extrabold text-amber-200 font-serif block tracking-wider drop-shadow-md transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-amber-300' : 'scale-100'}`}>
                 {wishCount}
               </span>
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest font-serif mt-1">Blessings & Hearts Received</span>
+              <span className="text-xs font-bold text-amber-200/80 uppercase tracking-widest font-serif mt-1">Sacred Blessings Received</span>
             </div>
 
+            {/* Action Button */}
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#2C523C] hover:bg-[#1e3b2b] text-amber-200 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-serif border border-amber-300/30"
+              className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400 hover:from-amber-200 hover:to-amber-300 text-[#1E3B2B] shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer font-serif border border-amber-100/50 relative z-20"
             >
-              <Sparkles className="w-4 h-4 text-amber-200" />
+              <Sparkles className="w-4 h-4 text-[#1E3B2B]" />
               Tap to Send Wish & Blessing ❤️
             </button>
 
