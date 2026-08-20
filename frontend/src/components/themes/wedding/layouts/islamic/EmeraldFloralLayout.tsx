@@ -159,22 +159,22 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
     hero: (
       <section key="hero" className="relative w-full min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 overflow-hidden bg-[#566A5F]">
         
-        {/* Exact Reference Image Invitation Card Container */}
-        <div className="w-full max-w-[420px] relative flex flex-col items-center my-auto drop-shadow-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200/40">
+        {/* Clean Reference Image Invitation Card Container */}
+        <div className="w-full max-w-[400px] relative flex flex-col items-center my-auto drop-shadow-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200/40">
           
-          {/* Reference Image Background */}
-          <img src="/media/emerald_floral_reference.png" alt="Emerald Floral Invitation" className="w-full h-auto object-contain select-none" />
+          {/* Clean Background Image (Zero Text Overlap!) */}
+          <img src="/media/emerald_floral_clean_bg.png" alt="Emerald Floral Invitation" className="w-full h-auto object-contain select-none" />
 
-          {/* Dynamic Text Overlay over the exact card zones */}
-          <div className="absolute inset-0 flex flex-col items-center text-center pt-[19%] px-6">
+          {/* Dynamic Text Overlay over the pristine white arch card */}
+          <div className="absolute inset-0 flex flex-col items-center text-center pt-[18%] px-6">
             
             {/* Header Text */}
-            <p className="text-[#566A5F] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[4%]">
+            <p className="text-[#566A5F] font-serif text-[11px] sm:text-xs tracking-wide font-medium mb-[3%]">
               Together with their families
             </p>
 
             {/* Groom Name */}
-            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#3A4A41] font-normal tracking-wide leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight">
               {groomName}
             </h1>
 
@@ -184,12 +184,12 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
             </p>
 
             {/* Bride Name */}
-            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#3A4A41] font-normal tracking-wide leading-tight mb-[3.5%]">
+            <h1 className="text-2xl sm:text-3xl font-serif italic text-[#2D3B33] font-normal tracking-wide leading-tight mb-[3%]">
               {brideName}
             </h1>
 
             {/* Invitation Line */}
-            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[3%] max-w-[240px] leading-relaxed">
+            <p className="text-[10px] sm:text-[11px] text-[#566A5F] font-serif tracking-wide mb-[2.5%] max-w-[240px] leading-relaxed">
               Joyfully invite you to their wedding celebration on
             </p>
 
