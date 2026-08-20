@@ -1,6 +1,6 @@
 export const eventHierarchy: Record<string, Record<string, string[]>> = {
   'Wedding': {
-    'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Vibrant Elegant'],
+    'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
     'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
     'Kerala Traditional': ['Mint Umbrella Traditional', 'Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
@@ -63,7 +63,7 @@ export const categoryThemes: Record<string, string[]> = {
     'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
     'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
-    'South Indian Wedding': ['South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Vibrant Elegant'],
+    'South Indian Wedding': ['South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
     'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
     'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
     'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
