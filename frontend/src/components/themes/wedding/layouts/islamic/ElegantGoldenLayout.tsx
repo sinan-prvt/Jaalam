@@ -608,7 +608,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
                 <Heart size={12} className="fill-amber-300 text-amber-300" />
                 <Sparkles size={12} className="text-amber-300 animate-pulse" />
               </div>
-              <span className="text-amber-300 text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow leading-tight px-1">
+              <span className="text-amber-300 text-[10px] sm:text-xs font-extrabold font-serif tracking-wider uppercase drop-shadow leading-tight px-1 whitespace-nowrap">
                 {groomName.length > 2 && brideName.length > 2 ? `${groomName} & ${brideName}` : 'SACRED NIKKAH'}
               </span>
               <span className="text-[8px] sm:text-[9px] text-amber-200 tracking-[0.2em] uppercase font-serif mt-1 font-bold opacity-90">

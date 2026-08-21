@@ -205,7 +205,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
         </div>
 
         {/* Hero Central Card Block */}
-        <div className="relative z-20 pt-20 sm:pt-24 md:pt-28 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
+        <div className="relative z-20 pt-32 sm:pt-36 md:pt-40 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
 
           <div className="mb-2 text-[#7A5A32] font-serif">
             <Sparkles className="w-6 h-6 text-[#C69B31] animate-pulse mx-auto mb-1" />
@@ -662,7 +662,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
                 <Sparkles size={13} className="text-amber-300 animate-pulse" />
               </div>
 
-              <span className="text-amber-300 text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] leading-tight px-1">
+              <span className="text-amber-300 text-[10px] sm:text-xs font-extrabold font-serif tracking-wider uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] leading-tight px-1 whitespace-nowrap">
                 OPEN INVITATION
               </span>
 
