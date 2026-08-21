@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
 import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
-import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout } from './layouts/islamic';
+import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -110,12 +110,14 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'EmeraldFloral';
   } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {
     baseTheme = 'ModernIslamic';
+  } else if (t.includes('golden') || t.includes('elegant golden')) {
+    baseTheme = 'ElegantGolden';
   } else if (t.includes('arabesque') || t.includes('minimalist arabesque')) {
     baseTheme = 'MinimalistArabesque';
   } else if (t.includes('nikkah') || t.includes('royal nikkah')) {
     baseTheme = 'RoyalNikkah';
   } else if (category === 'Islamic Invitation') {
-    baseTheme = 'MinimalistArabesque';
+    baseTheme = 'RoyalNikkah';
   } else if (t.includes('vibrant') || t.includes('peacock')) {
     baseTheme = 'VibrantElegant';
   } else if (t.includes('silk') || t.includes('kerala traditional')) {
@@ -139,6 +141,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   }
 
   switch (baseTheme) {
+    case 'ElegantGolden':
+      return <ElegantGoldenLayout {...layoutProps} />;
     case 'MinimalistArabesque':
       return <MinimalistArabesqueLayout {...layoutProps} />;
     case 'EmeraldFloral':

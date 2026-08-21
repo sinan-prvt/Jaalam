@@ -650,9 +650,13 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
           <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
             <div className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-[#FFE89C] via-[#C69B31] to-[#8C6B1C] p-1.5 shadow-[0_12px_35px_rgba(0,0,0,0.5)] transition-all duration-700 ease-out flex items-center justify-center border-2 border-white/60 pointer-events-auto ${isOpening ? 'scale-150 rotate-45 opacity-0' : 'hover:scale-110 active:scale-95'}`}>
               <div className="w-full h-full rounded-full bg-gradient-to-b from-[#2B2523] to-[#1A1615] border-2 border-[#FFE89C]/80 flex flex-col items-center justify-center p-2 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] relative overflow-hidden">
-                <Sparkles className="w-4 h-4 text-[#C69B31] mb-0.5 animate-pulse" />
-                <span className="text-[#FFE89C] text-xl sm:text-2xl font-extrabold font-serif tracking-wider drop-shadow">
-                  {groomName[0]} & {brideName[0]}
+                <div className="flex items-center justify-center gap-1 text-[#C69B31] mb-0.5">
+                  <Sparkles size={12} className="text-[#C69B31] animate-pulse" />
+                  <Heart size={12} className="fill-[#C69B31] text-[#C69B31]" />
+                  <Sparkles size={12} className="text-[#C69B31] animate-pulse" />
+                </div>
+                <span className="text-[#FFE89C] text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow leading-tight px-1">
+                  {groomName.length > 2 && brideName.length > 2 ? `${groomName} & ${brideName}` : 'SACRED NIKKAH'}
                 </span>
                 <span className="text-[8px] sm:text-[9px] text-amber-200 tracking-widest uppercase font-sans mt-0.5 font-bold opacity-90">
                   {isOpening ? 'OPENING...' : 'TAP TO OPEN'}

@@ -300,9 +300,6 @@ function LivePreviewContent() {
 
 export default function LivePreview() {
   return (
-    <>
-      <CustomCursor />
-      <LivePreviewContent />
-    </>
+    <LivePreviewContent />
   );
 }

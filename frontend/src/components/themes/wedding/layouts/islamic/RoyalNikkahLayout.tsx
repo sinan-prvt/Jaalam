@@ -653,11 +653,16 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
           )}
 
           <div className={`w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-amber-100 via-amber-400 to-amber-700 p-2 shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-700 ease-out flex items-center justify-center border-2 border-amber-200/90 ${isOpening ? 'scale-125 rotate-12 opacity-80' : 'group-hover:scale-110 active:scale-95'}`}>
-            <div className="w-full h-full rounded-full bg-gradient-to-b from-[#0D2E26] to-[#051814] border-2 border-amber-300/80 flex flex-col items-center justify-center p-4 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] relative overflow-hidden">
-              <span className="text-amber-300 text-2xl sm:text-3xl font-extrabold font-serif tracking-wider drop-shadow">
-                {groomName[0]} & {brideName[0]}
+            <div className="w-full h-full rounded-full bg-gradient-to-b from-[#0D2E26] to-[#051814] border-2 border-amber-300/80 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] relative overflow-hidden">
+              <div className="flex items-center justify-center gap-1 text-amber-300 mb-0.5">
+                <Sparkles size={12} className="text-amber-300 animate-pulse" />
+                <Heart size={12} className="fill-amber-300 text-amber-300" />
+                <Sparkles size={12} className="text-amber-300 animate-pulse" />
+              </div>
+              <span className="text-amber-300 text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow leading-tight px-1">
+                {groomName.length > 2 && brideName.length > 2 ? `${groomName} & ${brideName}` : 'SACRED NIKKAH'}
               </span>
-              <span className="text-[9px] sm:text-[10px] text-amber-200 tracking-widest uppercase font-serif mt-1.5 font-bold opacity-90">
+              <span className="text-[8px] sm:text-[9px] text-amber-200 tracking-[0.2em] uppercase font-serif mt-1 font-bold opacity-90">
                 {isOpening ? 'UNSEALING...' : 'TAP TO UNSEAL'}
               </span>
 
