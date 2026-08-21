@@ -259,13 +259,14 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     about: (
-      <section key="about" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#FFFDF9] to-[#FAF6F0] text-[#4A3525]">
-        <div className="max-w-2xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-amber-200/80 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+      <section key="about" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0] text-[#4A3525]">
+        <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C69B31]/60 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
 
+          {/* Top Flourish Ornament */}
           <div className="flex flex-col items-center mb-6 relative z-20">
             <div className="flex items-center gap-3 mb-2 opacity-90">
               <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#C69B31] to-transparent"></div>
-              <Sparkles size={16} className="text-[#C69B31] animate-pulse" />
+              <Sparkles size={18} className="text-[#C69B31] animate-pulse" />
               <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#C69B31] to-transparent"></div>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#4A3525] tracking-wide font-serif">FAMILY BLESSINGS & INVITATION</h2>
@@ -276,7 +277,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
           <div className="grid md:grid-cols-2 gap-6 my-4 relative z-20">
             {/* Groom Card */}
-            <div className="bg-[#FFFDF9] p-6 rounded-2xl border border-amber-200 flex flex-col items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div className="bg-[#FDFBF7] p-6 rounded-2xl border-2 border-[#C69B31]/40 flex flex-col items-center hover:-translate-y-1 hover:border-[#C69B31] hover:shadow-lg transition-all duration-300 shadow-sm">
               {groomPhoto ? (
                 <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
                   <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
@@ -292,7 +293,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
             </div>
 
             {/* Bride Card */}
-            <div className="bg-[#FFFDF9] p-6 rounded-2xl border border-amber-200 flex flex-col items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div className="bg-[#FDFBF7] p-6 rounded-2xl border-2 border-[#C69B31]/40 flex flex-col items-center hover:-translate-y-1 hover:border-[#C69B31] hover:shadow-lg transition-all duration-300 shadow-sm">
               {bridePhoto ? (
                 <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
                   <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
@@ -311,8 +312,8 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     story: (
-      <section key="story" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#FFFDF9]">
-        <div className="max-w-2xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-amber-200/80 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+      <section key="story" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
+        <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C69B31]/60 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
           <div className="relative z-20">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-[1px] w-12 bg-[#C69B31]/40"></div>
@@ -322,7 +323,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
             <h2 className="text-3xl md:text-4xl font-bold text-[#4A3525] mb-6 font-serif tracking-wide">
               {storyTitle}
             </h2>
-            <p className="text-base sm:text-lg text-slate-700 italic leading-relaxed font-serif">
+            <p className="text-base sm:text-lg text-[#4A3525] italic leading-relaxed font-serif">
               "{story}"
             </p>
           </div>
@@ -330,7 +331,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#FFFDF9] to-[#FAF6F0]">
+      <section key="schedule" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0]">
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#C69B31] to-transparent"></div>
@@ -342,7 +343,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
         <div className="grid md:grid-cols-3 gap-6">
           {schedule.map((item: any, idx: number) => (
-            <div key={idx} className="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-xl border-l-4 border-[#C69B31] text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 border border-amber-100 relative overflow-hidden">
+            <div key={idx} className="bg-[#FFFDF9] rounded-3xl p-8 shadow-xl border-t-4 border-[#C69B31] border-x border-b border-[#C69B31]/40 text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
               <h3 className="text-xl font-bold text-[#4A3525] mb-3 font-serif relative z-20">{item.event}</h3>
               <div className="flex items-center justify-center gap-2 mb-2 text-[#6E543B] font-serif relative z-20">
                 <Clock className="w-4 h-4 text-[#C69B31]" />
@@ -355,23 +356,23 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     venue: (
-      <section key="venue" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#FFFDF9]">
-        <div className="bg-white/95 backdrop-blur-md rounded-[3rem] p-8 sm:p-10 text-center shadow-xl border-2 border-amber-200/80 relative overflow-hidden">
+      <section key="venue" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
+        <div className="bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-10 text-center shadow-2xl border-2 border-[#C69B31]/60 relative overflow-hidden">
           <div className="relative z-20">
-            <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-[#C69B31]">
+            <div className="w-16 h-16 bg-amber-100/80 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-[#C69B31]/40 text-[#C69B31]">
               <MapPin className="w-8 h-8 text-[#C69B31] animate-bounce" />
             </div>
             <h3 className="text-3xl font-bold text-[#4A3525] mb-3 font-serif tracking-wide">Venue & Location</h3>
-            <p className="text-xl font-semibold text-slate-800 mb-2 font-serif">{location}</p>
-            <p className="text-md text-slate-500 max-w-md mx-auto mb-6 font-serif">We look forward to celebrating our special day with you.</p>
+            <p className="text-xl font-semibold text-[#4A3525] mb-2 font-serif">{location}</p>
+            <p className="text-md text-[#6E543B] max-w-md mx-auto mb-6 font-serif">We look forward to celebrating our special day with you.</p>
 
             {venuePhoto && (
-              <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-md border-2 border-amber-200 mb-6 relative group">
+              <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-md border-2 border-[#C69B31]/50 mb-6 relative group">
                 <img src={venuePhoto} alt="Venue" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
             )}
 
-            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-slate-200 mb-6 bg-white">
+            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border-2 border-[#C69B31]/40 mb-6 bg-white">
               <iframe
                 src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
                 width="100%"
@@ -389,17 +390,17 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 px-8 py-3.5 rounded-full font-bold tracking-wide transition-all shadow-lg text-sm mb-6 hover:scale-105"
+                className="inline-flex items-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 px-8 py-3.5 rounded-full font-bold tracking-wide transition-all shadow-lg text-sm mb-6 hover:scale-105 cursor-pointer border border-[#C69B31]/40"
               >
                 <Navigation size={16} />
-                Get Directions
+                Get Driving Directions
               </a>
             )}
 
             {contactNumbers && (
-              <div className="border-t border-slate-200 pt-6 mt-2">
-                <p className="text-[10px] tracking-widest uppercase font-bold text-slate-400 mb-1 font-sans">RSVP / Contact Info</p>
-                <p className="text-base sm:text-lg font-bold text-slate-800 font-serif">{contactNumbers}</p>
+              <div className="border-t border-[#C69B31]/30 pt-6 mt-2">
+                <p className="text-[10px] tracking-widest uppercase font-bold text-[#8C6B4B] mb-1 font-sans">RSVP / Contact Info</p>
+                <p className="text-base sm:text-lg font-bold text-[#4A3525] font-serif">{contactNumbers}</p>
               </div>
             )}
           </div>
@@ -419,7 +420,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {validGallery.map((url: string, index: number) => (
-            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-lg border-4 border-white hover:scale-105 transition-transform duration-500 relative">
+            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-lg border-4 border-[#C69B31]/40 hover:scale-105 transition-transform duration-500 relative bg-white">
               <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
             </div>
           ))}
@@ -427,7 +428,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 bg-[#4A3525] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-8 text-center border-2 border-amber-300/40">
+      <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 bg-gradient-to-br from-[#3E291C] via-[#2D1B11] to-[#1F120A] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-8 text-center border-2 border-[#C69B31]/60">
         <div className="max-w-3xl mx-auto relative z-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-amber-300 font-serif">Counting Down To The Big Day</h2>
           <p className="text-base sm:text-lg italic mb-8 text-amber-100 font-serif">Our Classic Wedding Celebration</p>
@@ -440,7 +441,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20 hover:scale-105 transition-transform">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-amber-300/30 hover:scale-105 transition-transform">
                   <span className="text-xl sm:text-3xl font-bold text-amber-300 font-serif">{item.value}</span>
                 </div>
                 <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-amber-200 font-sans">{item.label}</span>
@@ -464,7 +465,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
             <p className="text-[#6E543B] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send warm wishes to the couple</p>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-xl border-2 border-amber-200/80 relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
+          <div className="bg-[#FFFDF9] backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C69B31]/60 relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
 
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -504,16 +505,16 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
     ),
     registry: (
       <section key="registry" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF6F0]">
-        <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-xl border-2 border-amber-200/80 text-center relative overflow-hidden">
+        <div className="bg-[#FFFDF9] backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C69B31]/60 text-center relative overflow-hidden">
           <Gift size={44} className="text-[#C69B31] mx-auto mb-4" />
           <h2 className="text-3xl font-bold text-[#4A3525] font-serif mb-3">Gift Registry</h2>
-          <p className="text-sm text-slate-600 leading-relaxed max-w-md mx-auto mb-6 font-serif">{registryMessage}</p>
+          <p className="text-sm text-[#6E543B] leading-relaxed max-w-md mx-auto mb-6 font-serif">{registryMessage}</p>
           {registryUrl && (
             <a
               href={registryUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 px-8 py-3.5 rounded-full font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:scale-105"
+              className="inline-flex items-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 px-8 py-3.5 rounded-full font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:scale-105 cursor-pointer border border-[#C69B31]/40"
             >
               View Gift Registry
             </a>
@@ -534,36 +535,36 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
             <p className="text-[#6E543B] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Please let us know if you can attend</p>
           </div>
 
-          <div className="bg-white/95 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border-2 border-amber-200/80 text-left relative overflow-hidden">
+          <div className="bg-[#FFFDF9] backdrop-blur rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C69B31]/60 text-left relative overflow-hidden">
             <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
               <div className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-sans">Name</label>
-                  <input type="text" className="w-full bg-[#FFFDF9] border border-amber-200 rounded-xl px-4 py-3 outline-none focus:border-[#4A3525] transition-all font-serif text-[#4A3525]" placeholder="Your Full Name" />
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C6B4B] mb-2 font-sans">Name</label>
+                  <input type="text" className="w-full bg-[#FDFBF7] border border-[#C69B31]/40 rounded-xl px-4 py-3 outline-none focus:border-[#4A3525] transition-all font-serif text-[#4A3525]" placeholder="Your Full Name" />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-sans">Warm Wishes & Message</label>
-                  <textarea rows={4} className="w-full bg-[#FFFDF9] border border-amber-200 rounded-xl px-4 py-3 outline-none focus:border-[#4A3525] transition-all font-serif text-[#4A3525] resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C6B4B] mb-2 font-sans">Warm Wishes & Message</label>
+                  <textarea rows={4} className="w-full bg-[#FDFBF7] border border-[#C69B31]/40 rounded-xl px-4 py-3 outline-none focus:border-[#4A3525] transition-all font-serif text-[#4A3525] resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-3 font-sans">Will you be attending?</label>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C6B4B] mb-3 font-sans">Will you be attending?</label>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 hover:border-[#4A3525] bg-[#FFFDF9] rounded-xl flex-1 transition-colors">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C69B31]/40 hover:border-[#4A3525] bg-[#FDFBF7] rounded-xl flex-1 transition-colors">
                       <input type="radio" name="attending" className="w-4 h-4 accent-[#4A3525]" />
-                      <span className="text-slate-800 font-bold uppercase tracking-widest text-xs font-sans">Joyfully Accepts</span>
+                      <span className="text-[#4A3525] font-bold uppercase tracking-widest text-xs font-sans">Joyfully Accepts</span>
                     </label>
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-amber-200 hover:border-[#4A3525] bg-[#FFFDF9] rounded-xl flex-1 transition-colors">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C69B31]/40 hover:border-[#4A3525] bg-[#FDFBF7] rounded-xl flex-1 transition-colors">
                       <input type="radio" name="attending" className="w-4 h-4 accent-[#4A3525]" />
-                      <span className="text-slate-800 font-bold uppercase tracking-widest text-xs font-sans">Regretfully Declines</span>
+                      <span className="text-[#4A3525] font-bold uppercase tracking-widest text-xs font-sans">Regretfully Declines</span>
                     </label>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 text-center">
-                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer">
+                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#4A3525] hover:bg-[#342418] text-amber-200 font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer border border-[#C69B31]/40">
                   <Send size={14} />
                   Submit RSVP
                 </button>
