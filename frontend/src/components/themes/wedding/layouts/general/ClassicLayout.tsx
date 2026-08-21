@@ -602,53 +602,90 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
         </button>
       )}
 
-      {/* Welcome Screen Interactive Pocket Envelope Overlay */}
+      {/* Welcome Screen Interactive Grand Royal Palace Double Door Opening Reveal */}
       <div
         onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex flex-col justify-between items-center text-center bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'} overflow-hidden p-6 sm:p-12 cursor-pointer bg-[#FAF6F0]`}
-        style={{ backgroundImage: "url('/media/islamic_cream_envelope_bg.png')" }}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#1A120B] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
       >
 
-        {/* Top Title Flourish */}
-        <div className={`relative z-20 pt-12 sm:pt-16 flex flex-col items-center transition-all duration-500 ${isOpening ? 'opacity-0 -translate-y-4' : 'opacity-100'}`}>
-          <span className="text-xs sm:text-sm text-[#4A3525] font-serif tracking-[0.25em] uppercase font-bold">
+        {/* Full Screen Background Image (Grand Palace Architecture) */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-100"
+          style={{ backgroundImage: "url('/media/royal_palace_doors.png')" }}
+        >
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+        </div>
+
+        {/* Left Grand Door Panel (Swings open to left) */}
+        <div
+          className={`absolute top-0 left-0 w-1/2 h-full bg-cover bg-left bg-no-repeat transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] z-20 border-r-2 border-amber-300/60 shadow-[10px_0_30px_rgba(0,0,0,0.8)] ${isOpening ? '-translate-x-full opacity-0 scale-95' : 'translate-x-0 opacity-100 scale-100'}`}
+          style={{ backgroundImage: "url('/media/royal_palace_doors.png')" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-amber-950/60" />
+        </div>
+
+        {/* Right Grand Door Panel (Swings open to right) */}
+        <div
+          className={`absolute top-0 right-0 w-1/2 h-full bg-cover bg-right bg-no-repeat transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] z-20 border-l-2 border-amber-300/60 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] ${isOpening ? 'translate-x-full opacity-0 scale-95' : 'translate-x-0 opacity-100 scale-100'}`}
+          style={{ backgroundImage: "url('/media/royal_palace_doors.png')" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-transparent to-amber-950/60" />
+        </div>
+
+        {/* Top Header Banner */}
+        <div className={`absolute top-12 sm:top-16 z-30 flex flex-col items-center text-center px-4 transition-all duration-700 ${isOpening ? 'opacity-0 -translate-y-8' : 'opacity-100 translate-y-0'}`}>
+          <div className="flex items-center gap-2 text-amber-300 mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            <span className="h-[1px] w-8 bg-amber-300"></span>
+            <Sparkles size={14} className="animate-pulse" />
+            <span className="h-[1px] w-8 bg-amber-300"></span>
+          </div>
+          <span className="text-xs sm:text-sm text-amber-100 font-serif tracking-[0.3em] uppercase font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
             YOU ARE CORDIALLY INVITED
           </span>
         </div>
 
-        {/* Center Gold Wax Seal Monogram Emblem */}
-        <div className="relative z-20 flex flex-col items-center justify-center my-auto translate-y-6 sm:translate-y-8 group">
-          {isOpening && (
-            <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-amber-400/40 animate-ping pointer-events-none" />
-          )}
+        {/* Center Royal Gold Medallion Latch Button */}
+        <div className={`relative z-40 flex flex-col items-center justify-center my-auto transition-all duration-700 ${isOpening ? 'scale-150 opacity-0 rotate-45' : 'scale-100 opacity-100 rotate-0'}`}>
+          {/* Pulsing Aura Rings */}
+          <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-amber-400/20 animate-ping pointer-events-none" />
 
-          <div className={`w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-amber-100 via-amber-400 to-amber-700 p-2 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-all duration-700 ease-out flex items-center justify-center border-2 border-amber-200/90 ${isOpening ? 'scale-125 rotate-12 opacity-80' : 'group-hover:scale-110 active:scale-95'}`}>
-            <div className="w-full h-full rounded-full bg-gradient-to-b from-[#4A3525] to-[#342418] border-2 border-amber-300/80 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] relative overflow-hidden">
-              <div className="flex items-center justify-center gap-1 text-amber-300 mb-0.5">
-                <Sparkles size={12} className="text-amber-300 animate-pulse" />
-                <Heart size={12} className="fill-amber-300 text-amber-300" />
-                <Sparkles size={12} className="text-amber-300 animate-pulse" />
+          {/* Golden Medallion Latch */}
+          <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-amber-100 via-amber-400 to-amber-700 p-2 shadow-[0_15px_35px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-110 active:scale-95 border-2 border-amber-200/90 group flex items-center justify-center">
+            <div className="w-full h-full rounded-full bg-gradient-to-b from-[#342418] via-[#24170E] to-[#140C07] border-2 border-amber-300/80 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_4px_12px_rgba(0,0,0,0.8)] relative overflow-hidden">
+
+              <div className="flex items-center justify-center gap-1 text-amber-300 mb-1">
+                <Sparkles size={13} className="text-amber-300 animate-pulse" />
+                <Heart size={13} className="fill-amber-300 text-amber-300" />
+                <Sparkles size={13} className="text-amber-300 animate-pulse" />
               </div>
-              <span className="text-amber-300 text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow leading-tight px-1">
-                {groomName.length > 2 && brideName.length > 2 ? `${groomName} & ${brideName}` : 'WEDDING INVITATION'}
-              </span>
-              <span className="text-[8px] sm:text-[9px] text-amber-200 tracking-[0.2em] uppercase font-serif mt-1 font-bold opacity-90">
-                {isOpening ? 'UNSEALING...' : 'TAP TO UNSEAL'}
+
+              <span className="text-amber-300 text-xs sm:text-sm font-extrabold font-serif tracking-widest uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] leading-tight px-1">
+                OPEN ROYAL DOORS
               </span>
 
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-300/0 via-amber-200/30 to-amber-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <span className="text-[8px] sm:text-[9px] text-amber-200 tracking-[0.25em] uppercase font-serif mt-1 font-bold opacity-90">
+                {isOpening ? 'UNLATCHING...' : 'TAP TO ENTER'}
+              </span>
+
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-300/0 via-amber-200/40 to-amber-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </div>
           </div>
 
-          <h1 className={`text-2xl sm:text-4xl font-bold text-[#4A3525] mt-6 font-serif tracking-wide drop-shadow-sm transition-opacity duration-300 ${isOpening ? 'opacity-0' : 'opacity-100'}`}>
+          {/* Couple Names under Medallion */}
+          <h1 className="text-2xl sm:text-4xl font-bold text-amber-100 mt-6 font-serif tracking-wide drop-shadow-[0_3px_10px_rgba(0,0,0,0.95)]">
             {groomName} & {brideName}
           </h1>
-          <p className={`text-[#8C6B4B] text-xs sm:text-sm tracking-widest font-serif uppercase mt-1 transition-opacity duration-300 ${isOpening ? 'opacity-0' : 'opacity-100'}`}>
+          <p className="text-amber-200/90 text-xs sm:text-sm tracking-[0.2em] font-serif uppercase mt-1 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
             {rawDateStr}
           </p>
         </div>
 
-        <div className="pb-8 sm:pb-12" />
+        {/* Bottom Re-open Hint */}
+        <div className={`absolute bottom-8 sm:bottom-12 z-30 transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <p className="text-[10px] sm:text-xs text-amber-200/80 font-serif tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow">
+            ✨ Tap anywhere to unlatch doors ✨
+          </p>
+        </div>
 
       </div>
 
