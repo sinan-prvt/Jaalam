@@ -251,6 +251,33 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
             ARE GETTING MARRIED
           </p>
 
+          {/* Date & Time Breakdown Block */}
+          <div className="relative z-20 flex flex-col items-center my-3 text-[#4A3525] font-serif">
+            <span className="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-1 text-[#8C6B4B]">
+              {monthStr}
+            </span>
+            <div className="flex items-center justify-center gap-3 sm:gap-4 my-0.5">
+              <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#8C6B4B]">
+                {dayName}
+              </span>
+              <span className="text-2xl sm:text-4xl font-bold px-3 sm:px-4 border-x-2 border-[#C69B31]/60 text-[#4A3525]">
+                {dayNum}
+              </span>
+              <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#8C6B4B]">
+                AT {timeStr.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-xs sm:text-sm font-bold tracking-[0.25em] text-[#8C6B4B] mt-1">
+              {yearStr}
+            </span>
+          </div>
+
+          {/* Venue Line */}
+          <div className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-[#4A3525] uppercase tracking-wider mt-1 max-w-xs text-center">
+            <MapPin size={14} className="text-[#C69B31] shrink-0" />
+            <span>{location}</span>
+          </div>
+
         </div>
 
         {/* Spacing for bottom floral artwork */}
