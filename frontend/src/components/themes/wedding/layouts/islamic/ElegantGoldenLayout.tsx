@@ -601,9 +601,9 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
             <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-rose-400/40 animate-ping pointer-events-none" />
           )}
 
-          <div className={`w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-amber-100 via-amber-400 to-amber-700 p-2 shadow-[0_10px_25px_rgba(0,0,0,0.2)] transition-all duration-700 ease-out flex items-center justify-center border-2 border-amber-200/90 ${isOpening ? 'scale-125 rotate-12 opacity-80' : 'group-hover:scale-110 active:scale-95'}`}>
-            <div className="w-full h-full rounded-full bg-gradient-to-b from-[#4A2E2B] to-[#34201E] border-2 border-amber-300/80 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] relative overflow-hidden">
-              <div className="flex items-center justify-center gap-1 text-amber-300 mb-0.5">
+          <div className={`w-36 h-44 sm:w-44 sm:h-52 rounded-t-full rounded-b-3xl bg-gradient-to-br from-amber-100 via-amber-400 to-amber-700 p-2 shadow-[0_12px_30px_rgba(0,0,0,0.4)] transition-all duration-700 ease-out flex items-center justify-center border-2 border-amber-200/90 ${isOpening ? 'scale-125 rotate-12 opacity-80' : 'group-hover:scale-110 active:scale-95'}`}>
+            <div className="w-full h-full rounded-t-full rounded-b-2xl bg-gradient-to-b from-[#4A2E2B] to-[#34201E] border-2 border-amber-300/80 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] relative overflow-hidden">
+              <div className="flex items-center justify-center gap-1 text-amber-300 mb-1">
                 <Sparkles size={12} className="text-amber-300 animate-pulse" />
                 <Heart size={12} className="fill-amber-300 text-amber-300" />
                 <Sparkles size={12} className="text-amber-300 animate-pulse" />
