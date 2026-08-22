@@ -732,16 +732,5 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </footer>
 
     </div>
-  );ds
-  ds
-  dsd
-  sd
-  sd
-  sds
-  ds
-  d
-  sd
-  sd
-  sds
-  d
+  );
 }
