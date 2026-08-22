@@ -194,7 +194,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between items-center text-center bg-cover bg-center bg-no-repeat p-0 overflow-hidden" style={{ backgroundImage: "url('/media/elegant_golden_nikkah_bg.png')" }}>
+      <section key="hero" className="relative w-full flex flex-col justify-center items-center text-center bg-cover bg-center bg-no-repeat p-0 overflow-hidden py-10 sm:py-14" style={{ backgroundImage: "url('/media/elegant_golden_nikkah_bg.png')" }}>
 
         {/* Soft Shimmer Sparkle Effect */}
         <style>{`
@@ -205,7 +205,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
         `}</style>
 
         {/* Hero Card Text Block */}
-        <div className="relative z-20 pt-20 sm:pt-24 md:pt-28 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
+        <div className="relative z-20 pt-10 sm:pt-14 md:pt-16 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
 
           {/* Bismillah Calligraphy */}
           <div className="mb-2 text-[#4A2E2B] font-serif">
@@ -240,13 +240,13 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
 
         </div>
 
-        {/* Spacing for bottom artwork (Bride & Groom + Taj Mahal) */}
-        <div className="pb-52 sm:pb-64 md:pb-72" />
+        {/* Bottom spacing */}
+        <div className="pb-6 sm:pb-8" />
 
       </section>
     ),
     about: (
-      <section key="about" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF0F2] via-[#FFF5F7] to-[#FAF0F2] text-[#4A2E2B]">
+      <section key="about" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF0F2] via-[#FFF5F7] to-[#FAF0F2] text-[#4A2E2B]">
         <div className="max-w-2xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-rose-200/80 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
 
           <div className="flex flex-col items-center mb-6 relative z-20">
@@ -298,7 +298,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     story: (
-      <section key="story" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FFF5F7] via-[#FAF0F2] to-[#FFF5F7]">
+      <section key="story" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FFF5F7] via-[#FAF0F2] to-[#FFF5F7]">
         <div className="max-w-2xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-rose-200/80 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
           <div className="relative z-20">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -317,7 +317,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF0F2] via-[#FFF5F7] to-[#FAF0F2]">
+      <section key="schedule" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF0F2] via-[#FFF5F7] to-[#FAF0F2]">
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#C69B31] to-transparent"></div>
@@ -343,7 +343,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     venue: (
-      <section key="venue" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#FFF5F7] via-[#FAF0F2] to-[#FFF5F7]">
+      <section key="venue" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#FFF5F7] via-[#FAF0F2] to-[#FFF5F7]">
         <div className="bg-white/95 backdrop-blur-md rounded-[3rem] p-8 sm:p-10 text-center shadow-xl border-2 border-rose-200/80 relative overflow-hidden">
           <div className="relative z-20">
             <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-[#C69B31]">
@@ -396,7 +396,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF0F2]">
+      <section key="gallery" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF0F2]">
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 bg-[#C69B31]"></div>
@@ -416,7 +416,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 bg-[#4A2E2B] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-8 text-center border-2 border-amber-300/40">
+      <section key="countdown" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 bg-[#4A2E2B] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-4 text-center border-2 border-amber-300/40">
         <div className="max-w-3xl mx-auto relative z-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-amber-300 font-serif">Counting Down To</h2>
           <p className="text-base sm:text-lg italic mb-8 text-rose-100 font-serif">Our Elegant Golden Nikkah</p>
@@ -440,7 +440,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
+      <section key="wishes" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
         <div className="text-center relative z-20">
           
           {/* Header */}
@@ -498,7 +498,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF0F2]">
+      <section key="rsvp" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF0F2]">
         <div className="text-center">
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2 opacity-90">
@@ -639,7 +639,7 @@ export default function ElegantGoldenLayout({ content, website }: WeddingLayoutP
       </div>
 
       {/* Footer */}
-      <footer className="py-12 relative z-10 text-center bg-[#4A2E2B] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-16 border-t-2 border-amber-400/30">
+      <footer className="py-8 relative z-10 text-center bg-[#4A2E2B] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-8 border-t-2 border-amber-400/30">
         <h2 className="text-2xl font-serif mb-2 text-amber-300">{coupleNamesStr}</h2>
         <p className="text-rose-200/70 text-xs tracking-widest uppercase mb-2 font-serif">Made with love by Jaalam</p>
       </footer>

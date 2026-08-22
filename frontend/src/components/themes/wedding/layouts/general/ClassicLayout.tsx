@@ -174,7 +174,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between items-center text-center bg-cover bg-center bg-no-repeat p-0 overflow-hidden" style={{ backgroundImage: "url('/media/classic_wedding_hero_bg.png')" }}>
+      <section key="hero" className="relative w-full flex flex-col justify-center items-center text-center bg-cover bg-center bg-no-repeat p-0 overflow-hidden py-10 sm:py-14" style={{ backgroundImage: "url('/media/classic_wedding_hero_bg.png')" }}>
 
         {/* Soft Golden Petal & Bokeh Animation */}
         <style>{`
@@ -205,7 +205,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
         </div>
 
         {/* Hero Central Card Block */}
-        <div className="relative z-20 pt-44 sm:pt-48 md:pt-52 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
+        <div className="relative z-20 pt-10 sm:pt-14 md:pt-16 max-w-xs sm:max-w-md mx-auto flex flex-col items-center px-4 pb-2">
 
           <div className="mb-2 text-[#7A5A32] font-serif">
             <Sparkles className="w-6 h-6 text-[#C69B31] animate-pulse mx-auto mb-1" />
@@ -280,13 +280,13 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
         </div>
 
-        {/* Spacing for bottom floral artwork */}
-        <div className="pb-52 sm:pb-64 md:pb-72" />
+        {/* Bottom spacing */}
+        <div className="pb-6 sm:pb-8" />
 
       </section>
     ),
     about: (
-      <section key="about" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0] text-[#4A3525]">
+      <section key="about" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0] text-[#4A3525]">
         <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C69B31]/60 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
 
           {/* Top Flourish Ornament */}
@@ -339,7 +339,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     story: (
-      <section key="story" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
+      <section key="story" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
         <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C69B31]/60 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
           <div className="relative z-20">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -358,7 +358,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0]">
+      <section key="schedule" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-gradient-to-b from-[#FAF6F0] via-[#F4EBE0] to-[#FAF6F0]">
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#C69B31] to-transparent"></div>
@@ -383,7 +383,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     venue: (
-      <section key="venue" className="py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
+      <section key="venue" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-gradient-to-b from-[#F4EBE0] via-[#FAF6F0] to-[#F4EBE0]">
         <div className="bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-10 text-center shadow-2xl border-2 border-[#C69B31]/60 relative overflow-hidden">
           <div className="relative z-20">
             <div className="w-16 h-16 bg-amber-100/80 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-[#C69B31]/40 text-[#C69B31]">
@@ -435,7 +435,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF6F0]">
+      <section key="gallery" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF6F0]">
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 bg-[#C69B31]"></div>
@@ -455,7 +455,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-16 px-4 sm:px-6 relative z-10 bg-gradient-to-br from-[#3E291C] via-[#2D1B11] to-[#1F120A] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-8 text-center border-2 border-[#C69B31]/60">
+      <section key="countdown" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 bg-gradient-to-br from-[#3E291C] via-[#2D1B11] to-[#1F120A] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-4 text-center border-2 border-[#C69B31]/60">
         <div className="max-w-3xl mx-auto relative z-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-amber-300 font-serif">Counting Down To The Big Day</h2>
           <p className="text-base sm:text-lg italic mb-8 text-amber-100 font-serif">Our Classic Wedding Celebration</p>
@@ -479,7 +479,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
+      <section key="wishes" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
         <div className="text-center relative z-20">
 
           <div className="flex flex-col items-center mb-6">
@@ -531,7 +531,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     registry: (
-      <section key="registry" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF6F0]">
+      <section key="registry" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF6F0]">
         <div className="bg-[#FFFDF9] backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C69B31]/60 text-center relative overflow-hidden">
           <Gift size={44} className="text-[#C69B31] mx-auto mb-4" />
           <h2 className="text-3xl font-bold text-[#4A3525] font-serif mb-3">Gift Registry</h2>
@@ -550,7 +550,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF6F0]">
+      <section key="rsvp" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF6F0]">
         <div className="text-center">
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2 opacity-90">
@@ -712,8 +712,8 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
         </div>
 
         {/* Bottom Re-open Hint */}
-        <div className={`absolute bottom-8 sm:bottom-12 z-30 transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-          <p className="text-[10px] sm:text-xs text-amber-200/80 font-serif tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow">
+        <div className={`absolute bottom-6 sm:bottom-10 inset-x-0 mx-auto px-4 z-30 flex flex-col items-center justify-center text-center transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <p className="text-[10px] sm:text-xs text-amber-200/80 font-serif tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow text-center max-w-[280px] sm:max-w-xs leading-relaxed">
             ✨ Tap anywhere to unlatch doors ✨
           </p>
         </div>
@@ -726,11 +726,22 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
       </div>
 
       {/* Footer */}
-      <footer className="py-12 relative z-10 text-center bg-[#4A3525] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-16 border-t-2 border-amber-400/30">
+      <footer className="py-8 relative z-10 text-center bg-[#4A3525] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-8 border-t-2 border-amber-400/30">
         <h2 className="text-2xl font-serif mb-2 text-amber-300">{coupleNames}</h2>
         <p className="text-amber-200/70 text-xs tracking-widest uppercase mb-2 font-serif">Made with love by Jaalam</p>
       </footer>
 
     </div>
-  );
+  );ds
+  ds
+  dsd
+  sd
+  sd
+  sds
+  ds
+  d
+  sd
+  sd
+  sds
+  d
 }
