@@ -734,9 +734,3 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
     </div>
   );
 }
-d
-sds
-d
-s
-ds
-sd
