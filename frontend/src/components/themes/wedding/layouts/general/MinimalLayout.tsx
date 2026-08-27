@@ -128,40 +128,33 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
 
   useEffect(() => {
     const updateCountdown = () => {
-      if (!countdownDate) {
-        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
-        return;
-      }
-
       let targetTime: number | null = null;
-      let d = new Date(countdownDate);
-      if (!isNaN(d.getTime())) {
-        targetTime = d.getTime();
-      } else {
-        d = new Date(String(countdownDate).replace(' ', 'T'));
+      if (countdownDate) {
+        let d = new Date(countdownDate);
         if (!isNaN(d.getTime())) {
           targetTime = d.getTime();
+        } else {
+          d = new Date(String(countdownDate).replace(' ', 'T'));
+          if (!isNaN(d.getTime())) {
+            targetTime = d.getTime();
+          }
         }
       }
 
-      if (!targetTime) {
-        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
-        return;
+      // If past date or empty, fallback to 30 days upcoming for demo preview
+      if (!targetTime || targetTime <= new Date().getTime()) {
+        const defaultFuture = new Date().getTime() + (30 * 24 * 60 * 60 * 1000) + (12 * 60 * 60 * 1000);
+        targetTime = defaultFuture;
       }
 
       const now = new Date().getTime();
       const distance = targetTime - now;
 
-      if (distance <= 0) {
-        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
-        return;
-      }
-
       setTimeLeft({
-        d: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        s: Math.floor((distance % (1000 * 60)) / 1000)
+        d: Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))),
+        h: Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))),
+        m: Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))),
+        s: Math.max(0, Math.floor((distance % (1000 * 60)) / 1000))
       });
     };
 
@@ -608,9 +601,10 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
               setIsMuted(!isMuted);
             }
           }}
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#2C4666] text-white shadow-2xl border border-blue-400/40 hover:scale-110 active:scale-95 transition-all"
+          className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full bg-[#2C4666]/90 backdrop-blur-md text-white shadow-xl border border-blue-300/40 hover:scale-110 active:scale-95 transition-all opacity-85 hover:opacity-100"
+          title={isMuted ? "Play Music" : "Mute Music"}
         >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
         </button>
       )}
 
