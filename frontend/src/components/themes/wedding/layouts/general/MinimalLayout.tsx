@@ -269,53 +269,53 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     about: (
-      <section key="about" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAFCFF] text-[#2C4666]">
-        <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C8D4E3] relative overflow-hidden">
+      <section key="about" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#F7F9FC] text-[#2C4666]">
+        <div className="max-w-3xl mx-auto bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-12 shadow-xl border-2 border-[#C8D4E3] relative overflow-hidden">
           
-          <div className="flex flex-col items-center mb-6 relative z-20">
+          <div className="flex flex-col items-center mb-8 relative z-20">
             <div className="flex items-center gap-3 mb-2 opacity-90">
               <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#3B5B82] to-transparent"></div>
               <Sparkles size={18} className="text-[#3B5B82] animate-pulse" />
               <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#3B5B82] to-transparent"></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] tracking-wide font-serif">FAMILY BLESSINGS & INVITATION</h2>
-            <p className="text-[#4B6B94] text-xs sm:text-sm italic leading-relaxed max-w-xs sm:max-w-sm mx-auto mt-2 font-serif">
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] tracking-wide">Family Blessings & Invitation</h2>
+            <p className="text-[#4B6B94] text-xs sm:text-sm italic font-serif max-w-xs sm:max-w-sm mx-auto mt-2">
               request the honour of your presence to celebrate their wedding union
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 my-4 relative z-20">
             {/* Groom Card */}
-            <div className="bg-[#F4F7FA] p-6 rounded-2xl border border-[#C8D4E3] flex flex-col items-center hover:-translate-y-1 hover:border-[#3B5B82] hover:shadow-lg transition-all duration-300 shadow-sm">
+            <div className="bg-[#F0F4F8] p-6 sm:p-8 rounded-2xl border border-[#C8D4E3] flex flex-col items-center hover:-translate-y-1 hover:border-[#3B5B82] hover:shadow-xl transition-all duration-300 shadow-sm">
               {groomPhoto ? (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#3B5B82] mb-3 shadow-md">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#3B5B82] mb-4 shadow-md">
                   <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#EAF0F8] to-[#D5E2F2] border-2 border-[#3B5B82] flex flex-col items-center justify-center mb-3 shadow-md text-[#2C4666]">
-                  <span className="text-2xl sm:text-3xl font-bold font-serif drop-shadow-sm">{groomFullName.charAt(0) || 'G'}</span>
-                  <Heart size={10} className="fill-[#3B5B82] text-[#3B5B82]" />
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#EAF0F8] to-[#D5E2F2] border-2 border-[#3B5B82] flex flex-col items-center justify-center mb-4 shadow-md text-[#2C4666]">
+                  <span className="text-3xl sm:text-4xl font-serif font-bold drop-shadow-sm">{groomFullName.charAt(0) || 'G'}</span>
+                  <Heart size={12} className="fill-[#3B5B82] text-[#3B5B82] mt-1" />
                 </div>
               )}
-              <h3 className="text-xl sm:text-2xl font-bold text-[#2C4666] mb-1 font-serif">{groomFullName}</h3>
-              <p className="text-xs text-[#3B5B82] font-bold uppercase tracking-widest mb-1 font-sans">Groom</p>
+              <h3 className="text-xl sm:text-2xl font-serif italic text-[#2C4666] mb-1 font-bold">{groomFullName}</h3>
+              <p className="text-[11px] text-[#3B5B82] font-bold uppercase tracking-widest mb-1 font-sans">Groom</p>
               {groomParents && <p className="text-xs text-slate-600 font-serif">Son of {groomParents}</p>}
             </div>
 
             {/* Bride Card */}
-            <div className="bg-[#F4F7FA] p-6 rounded-2xl border border-[#C8D4E3] flex flex-col items-center hover:-translate-y-1 hover:border-[#3B5B82] hover:shadow-lg transition-all duration-300 shadow-sm">
+            <div className="bg-[#F0F4F8] p-6 sm:p-8 rounded-2xl border border-[#C8D4E3] flex flex-col items-center hover:-translate-y-1 hover:border-[#3B5B82] hover:shadow-xl transition-all duration-300 shadow-sm">
               {bridePhoto ? (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#3B5B82] mb-3 shadow-md">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#3B5B82] mb-4 shadow-md">
                   <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#EAF0F8] to-[#D5E2F2] border-2 border-[#3B5B82] flex flex-col items-center justify-center mb-3 shadow-md text-[#2C4666]">
-                  <span className="text-2xl sm:text-3xl font-bold font-serif drop-shadow-sm">{brideFullName.charAt(0) || 'B'}</span>
-                  <Heart size={10} className="fill-[#3B5B82] text-[#3B5B82]" />
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#EAF0F8] to-[#D5E2F2] border-2 border-[#3B5B82] flex flex-col items-center justify-center mb-4 shadow-md text-[#2C4666]">
+                  <span className="text-3xl sm:text-4xl font-serif font-bold drop-shadow-sm">{brideFullName.charAt(0) || 'B'}</span>
+                  <Heart size={12} className="fill-[#3B5B82] text-[#3B5B82] mt-1" />
                 </div>
               )}
-              <h3 className="text-xl sm:text-2xl font-bold text-[#2C4666] mb-1 font-serif">{brideFullName}</h3>
-              <p className="text-xs text-[#3B5B82] font-bold uppercase tracking-widest mb-1 font-sans">Bride</p>
+              <h3 className="text-xl sm:text-2xl font-serif italic text-[#2C4666] mb-1 font-bold">{brideFullName}</h3>
+              <p className="text-[11px] text-[#3B5B82] font-bold uppercase tracking-widest mb-1 font-sans">Bride</p>
               {brideParents && <p className="text-xs text-slate-600 font-serif">Daughter of {brideParents}</p>}
             </div>
           </div>
@@ -323,18 +323,18 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     story: (
-      <section key="story" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAFCFF]">
-        <div className="max-w-2xl mx-auto bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border-2 border-[#C8D4E3] relative overflow-hidden">
+      <section key="story" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#F7F9FC]">
+        <div className="max-w-3xl mx-auto bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-12 shadow-xl border-2 border-[#C8D4E3] relative overflow-hidden">
           <div className="relative z-20">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-[1px] w-12 bg-[#3B5B82]/40"></div>
-              <Sparkles className="w-7 h-7 text-[#3B5B82] animate-bounce" />
+              <Sparkles className="w-6 h-6 text-[#3B5B82] animate-bounce" />
               <div className="h-[1px] w-12 bg-[#3B5B82]/40"></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] mb-6 font-serif tracking-wide uppercase">
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] mb-6">
               {storyTitle}
             </h2>
-            <p className="text-base sm:text-lg text-[#2C4666] italic leading-relaxed font-serif">
+            <p className="text-base sm:text-xl text-[#2C4666] italic leading-relaxed font-serif font-light max-w-2xl mx-auto">
               "{story}"
             </p>
           </div>
@@ -342,23 +342,23 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAFCFF]">
-        <div className="flex flex-col items-center mb-8">
+      <section key="schedule" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#F7F9FC]">
+        <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#3B5B82] to-transparent"></div>
             <Calendar className="w-6 h-6 text-[#3B5B82]" />
             <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#3B5B82] to-transparent"></div>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] font-serif tracking-wide uppercase">Schedule of Events</h2>
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] tracking-wide">Schedule of Events</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {schedule.map((item: any, idx: number) => (
-            <div key={idx} className="bg-[#FFFDF9] rounded-3xl p-6 shadow-xl border-t-4 border-[#3B5B82] border-x border-b border-[#C8D4E3] text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
-              <h3 className="text-lg font-bold text-[#2C4666] mb-3 font-serif relative z-20">{item.event}</h3>
+            <div key={idx} className="bg-[#FFFFFF] rounded-3xl p-6 sm:p-8 shadow-lg border-t-4 border-[#3B5B82] border-x border-b border-[#C8D4E3] text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+              <h3 className="text-lg font-serif italic text-[#2C4666] font-bold mb-3 relative z-20">{item.event}</h3>
               <div className="flex items-center justify-center gap-2 mb-2 text-[#4B6B94] font-serif relative z-20">
                 <Clock className="w-4 h-4 text-[#3B5B82]" />
-                <span className="font-semibold">{item.time}</span>
+                <span className="font-semibold text-sm">{item.time}</span>
               </div>
               <p className="text-slate-600 text-xs font-serif relative z-20">{item.venue || fullLocation}</p>
             </div>
@@ -367,14 +367,14 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     venue: (
-      <section key="venue" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#FAFCFF]">
-        <div className="bg-[#FFFDF9] rounded-[2.5rem] p-8 sm:p-10 text-center shadow-2xl border-2 border-[#C8D4E3] relative overflow-hidden">
+      <section key="venue" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#F7F9FC]">
+        <div className="bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-12 text-center shadow-xl border-2 border-[#C8D4E3] relative overflow-hidden">
           <div className="relative z-20">
             <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-[#3B5B82]/40 text-[#3B5B82]">
               <MapPin className="w-7 h-7 text-[#3B5B82] animate-bounce" />
             </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#2C4666] mb-3 font-serif tracking-wide uppercase">Venue & Location</h3>
-            <p className="text-lg font-semibold text-[#2C4666] mb-2 font-serif">{fullLocation}</p>
+            <h3 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] mb-3">Venue & Location</h3>
+            <p className="text-lg sm:text-xl font-serif italic text-[#2C4666] mb-2">{fullLocation}</p>
             <p className="text-sm text-[#4B6B94] max-w-md mx-auto mb-6 font-serif">We look forward to celebrating our special day with you.</p>
 
             {venuePhoto && (
@@ -419,14 +419,14 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAFCFF]">
-        <div className="flex flex-col items-center mb-8">
+      <section key="gallery" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#F7F9FC]">
+        <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-3 mb-2 opacity-90">
             <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
             <Sparkles className="w-5 h-5 text-[#3B5B82]" />
             <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] font-serif tracking-wide uppercase">Photo Gallery</h2>
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] tracking-wide">Photo Gallery</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -439,10 +439,10 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 bg-[#2C4666] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-4 text-center border-2 border-[#3B5B82]">
+      <section key="countdown" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 bg-gradient-to-br from-[#2C4666] via-[#1D324A] to-[#122234] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-6 text-center border-2 border-[#3B5B82]">
         <div className="max-w-3xl mx-auto relative z-20">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-[#EAF0F8] font-serif uppercase tracking-wide">Counting Down To The Big Day</h2>
-          <p className="text-sm sm:text-base italic mb-6 text-[#C8D4E3] font-serif">Dusty Blue Floral Wedding Celebration</p>
+          <h2 className="text-2xl sm:text-4xl font-serif italic mb-2 text-[#EAF0F8]">Counting Down To The Big Day</h2>
+          <p className="text-xs sm:text-sm italic mb-8 text-[#C8D4E3] font-serif">Dusty Blue Floral Wedding Celebration</p>
 
           <div className="flex gap-3 sm:gap-6 justify-center">
             {[
@@ -452,7 +452,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20 hover:scale-105 transition-transform">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20 hover:scale-105 transition-transform">
                   <span className="text-xl sm:text-3xl font-bold text-white font-serif">{item.value}</span>
                 </div>
                 <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#C8D4E3] font-sans">{item.label}</span>
@@ -463,7 +463,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
+      <section key="wishes" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
         <div className="text-center relative z-20">
 
           <div className="flex flex-col items-center mb-6">
@@ -472,11 +472,11 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
               <Sparkles className="w-5 h-5 text-[#3B5B82] animate-pulse" />
               <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] font-serif tracking-wide uppercase">Send Your Blessings & Wishes</h2>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666]">Send Your Blessings & Wishes</h2>
             <p className="text-[#4B6B94] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send warm wishes to the couple</p>
           </div>
 
-          <div className="bg-[#FFFDF9] backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C8D4E3] relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
+          <div className="bg-[#FFFFFF] backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#C8D4E3] relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
 
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -515,10 +515,10 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     registry: (
-      <section key="registry" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAFCFF]">
-        <div className="bg-[#FFFDF9] backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C8D4E3] text-center relative overflow-hidden">
-          <Gift size={40} className="text-[#3B5B82] mx-auto mb-4" />
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] font-serif mb-3 uppercase">Gift Registry</h2>
+      <section key="registry" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#F7F9FC]">
+        <div className="bg-[#FFFFFF] backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#C8D4E3] text-center relative overflow-hidden">
+          <Gift size={44} className="text-[#3B5B82] mx-auto mb-4" />
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] mb-3">Gift Registry</h2>
           <p className="text-sm text-[#4B6B94] leading-relaxed max-w-md mx-auto mb-6 font-serif">{registryMessage}</p>
           {registryUrl && (
             <a
@@ -534,7 +534,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-8 sm:py-12 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAFCFF]">
+      <section key="rsvp" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#F7F9FC]">
         <div className="text-center">
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2 opacity-90">
@@ -542,31 +542,31 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
               <Sparkles className="w-5 h-5 text-[#3B5B82]" />
               <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#2C4666] font-serif tracking-wide uppercase">Will You Join Us?</h2>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666]">Will You Join Us?</h2>
             <p className="text-[#4B6B94] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Please let us know if you can attend</p>
           </div>
 
-          <div className="bg-[#FFFDF9] backdrop-blur rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#C8D4E3] text-left relative overflow-hidden">
+          <div className="bg-[#FFFFFF] backdrop-blur rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#C8D4E3] text-left relative overflow-hidden">
             <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#4B6B94] mb-2 font-sans">Name</label>
-                  <input type="text" className="w-full bg-[#F4F7FA] border border-[#C8D4E3] rounded-xl px-4 py-3 outline-none focus:border-[#2C4666] transition-all font-serif text-[#2C4666]" placeholder="Your Full Name" />
+                  <input type="text" className="w-full bg-[#F0F4F8] border border-[#C8D4E3] rounded-xl px-4 py-3 outline-none focus:border-[#2C4666] transition-all font-serif text-[#2C4666]" placeholder="Your Full Name" />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#4B6B94] mb-2 font-sans">Warm Wishes & Message</label>
-                  <textarea rows={4} className="w-full bg-[#F4F7FA] border border-[#C8D4E3] rounded-xl px-4 py-3 outline-none focus:border-[#2C4666] transition-all font-serif text-[#2C4666] resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
+                  <textarea rows={4} className="w-full bg-[#F0F4F8] border border-[#C8D4E3] rounded-xl px-4 py-3 outline-none focus:border-[#2C4666] transition-all font-serif text-[#2C4666] resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#4B6B94] mb-3 font-sans">Will you be attending?</label>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C8D4E3] hover:border-[#2C4666] bg-[#F4F7FA] rounded-xl flex-1 transition-colors">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C8D4E3] hover:border-[#2C4666] bg-[#F0F4F8] rounded-xl flex-1 transition-colors">
                       <input type="radio" name="attending" className="w-4 h-4 accent-[#2C4666]" />
                       <span className="text-[#2C4666] font-bold uppercase tracking-widest text-xs font-sans">Joyfully Accepts</span>
                     </label>
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C8D4E3] hover:border-[#2C4666] bg-[#F4F7FA] rounded-xl flex-1 transition-colors">
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#C8D4E3] hover:border-[#2C4666] bg-[#F0F4F8] rounded-xl flex-1 transition-colors">
                       <input type="radio" name="attending" className="w-4 h-4 accent-[#2C4666]" />
                       <span className="text-[#2C4666] font-bold uppercase tracking-widest text-xs font-sans">Regretfully Declines</span>
                     </label>
@@ -588,7 +588,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
   };
 
   return (
-    <div className={`min-h-screen bg-[#FFFFFF] relative font-serif flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+    <div className="min-h-screen bg-[#F7F9FC] relative font-serif flex flex-col items-center w-full">
 
       {/* Background Audio */}
       {musicUrl && (
@@ -596,7 +596,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && isOpened && (
+      {musicUrl && (
         <button
           onClick={() => {
             if (audioRef.current) {
@@ -613,78 +613,6 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
       )}
-
-      {/* Welcome Screen Reveal Envelope */}
-      <div
-        onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#FFFFFF] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
-      >
-        <div
-          className={`absolute inset-0 bg-cover bg-left-top bg-no-repeat transition-all duration-1000 ${isOpening ? 'scale-125 blur-lg opacity-0' : 'scale-100 opacity-100'}`}
-          style={{ backgroundImage: "url('/media/blue_floral_bg.png')" }}
-        >
-        </div>
-
-        {/* Top Header Tag */}
-        <div className={`absolute top-12 sm:top-16 z-30 flex flex-col items-center text-center px-4 transition-all duration-700 ${isOpening ? 'opacity-0 -translate-y-8 scale-90' : 'opacity-100 translate-y-0 scale-100'}`}>
-          <div className="flex items-center gap-2 text-[#3B5B82] mb-1">
-            <span className="h-[1px] w-8 bg-[#3B5B82]"></span>
-            <Sparkles size={14} className="animate-pulse" />
-            <span className="h-[1px] w-8 bg-[#3B5B82]"></span>
-          </div>
-          <span className="text-xs sm:text-sm text-[#2C4666] font-serif tracking-[0.3em] uppercase font-bold drop-shadow-sm">
-            YOU ARE CORDIALLY INVITED
-          </span>
-        </div>
-
-        {/* Center Blue Floral Medallion Aperture */}
-        <div className={`relative z-40 flex flex-col items-center justify-center my-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpening ? 'scale-[3] rotate-[180deg] opacity-0' : 'scale-100 rotate-0 opacity-100'}`}>
-          
-          {/* Animated Outer Rings */}
-          <div className={`absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full border-2 border-blue-300/50 transition-all duration-1000 ${isOpening ? 'scale-[3.5] opacity-0' : 'animate-ping opacity-30'}`} />
-          
-          {/* Central Blue Crest Latch Disc */}
-          <div className="w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-gradient-to-b from-[#3B5B82] via-[#2C4666] to-[#1D324A] border-4 border-[#C8D4E3] shadow-2xl flex flex-col items-center justify-center p-4 text-center relative z-20 group hover:scale-105 transition-transform duration-300 cursor-pointer">
-            
-            {/* Shimmer Light */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-300/0 via-blue-200/30 to-blue-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-full overflow-hidden" />
-
-            <div className="flex items-center justify-center gap-1 text-blue-200 mb-1">
-              <Sparkles size={13} className="text-blue-200 animate-pulse" />
-              <Heart size={13} className="fill-blue-200 text-blue-200" />
-              <Sparkles size={13} className="text-blue-200 animate-pulse" />
-            </div>
-
-            <span className="text-white text-[10px] sm:text-xs font-extrabold font-serif tracking-wider uppercase leading-tight px-1 whitespace-nowrap drop-shadow">
-              BLUE FLORAL INVITATION
-            </span>
-
-            <span className="text-[8px] sm:text-[9px] text-blue-100 tracking-[0.2em] font-sans font-bold uppercase mt-2 bg-blue-400/20 px-3 py-1 rounded-full border border-blue-200/40">
-              {isOpening ? 'OPENING...' : 'TAP TO OPEN'}
-            </span>
-
-          </div>
-
-          {/* Couple Names & Date */}
-          <div className="mt-6 text-center flex flex-col items-center">
-            <h1 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666] tracking-wide drop-shadow-sm">
-              {groomFullName} & {brideFullName}
-            </h1>
-            <p className="text-[#4B6B94] text-xs sm:text-sm tracking-[0.2em] font-serif uppercase mt-1 font-bold">
-              {rawDateStr}
-            </p>
-          </div>
-
-        </div>
-
-        {/* Bottom Floating Hint */}
-        <div className={`absolute bottom-6 sm:bottom-10 inset-x-0 mx-auto px-4 z-30 flex flex-col items-center justify-center text-center transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-          <p className="text-[10px] sm:text-xs text-[#4B6B94] font-sans tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow text-center max-w-[280px] sm:max-w-xs leading-relaxed">
-            ✨ Tap medallion to open invitation ✨
-          </p>
-        </div>
-
-      </div>
 
       {/* Main Content Sections */}
       <div className="relative z-30 w-full">
