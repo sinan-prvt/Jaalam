@@ -202,57 +202,64 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
     hero: (
       <section
         key="hero"
-        className="relative w-full flex flex-col justify-center items-center text-center bg-[#FAFCFF] text-[#2C4666] p-0 overflow-hidden py-14 sm:py-20 min-h-screen bg-cover bg-center bg-no-repeat font-serif"
+        className="relative w-full flex flex-col justify-center items-end text-right bg-[#FFFFFF] text-[#2C4666] p-0 overflow-hidden py-12 sm:py-16 min-h-screen bg-cover bg-left-top bg-no-repeat font-serif"
         style={{ backgroundImage: "url('/media/blue_floral_bg.png')" }}
       >
-        {/* Subtle Ambient Radial Glow for Crystal-Clear Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAFCFF]/30 via-[#FAFCFF]/60 to-[#FAFCFF]/30 pointer-events-none z-10" />
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+          .font-script-alex {
+            font-family: 'Alex Brush', 'Great Vibes', cursive, serif;
+          }
+          .font-garamond {
+            font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+          }
+        `}</style>
 
-        {/* Hero Content Container - Perfect Center Alignment */}
-        <div className="relative z-30 py-8 max-w-xs sm:max-w-md mx-auto flex flex-col items-center text-center px-4">
+        {/* Hero Content Container - Styled EXACTLY to Image 2 (Aligned Right on Clear White Paper) */}
+        <div className="relative z-30 pt-16 sm:pt-20 max-w-[270px] sm:max-w-xs md:max-w-sm ml-auto mr-4 sm:mr-8 md:mr-12 flex flex-col items-end text-right px-3 pb-8 font-garamond">
           
           {/* Header Text matching Image 2 */}
-          <p className="text-[#3B5B82] text-[10px] sm:text-xs font-bold tracking-[0.35em] uppercase font-serif mb-0.5">
+          <p className="text-[#3B5B82] text-[11px] sm:text-xs font-semibold tracking-[0.3em] uppercase mb-0.5">
             TOGETHER WITH
           </p>
-          <p className="text-[#4B6B94] text-xs sm:text-sm italic font-serif mb-6 sm:mb-8">
+          <p className="text-[#4B6B94] text-xs sm:text-sm italic font-serif mb-4 sm:mb-6">
             their families
           </p>
 
           {/* Groom Name */}
-          <h1 className="text-3xl sm:text-5xl font-serif italic text-[#2C4666] tracking-wide my-0.5 drop-shadow-sm leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#2C4666] tracking-wide my-0.5 drop-shadow-sm leading-tight font-normal">
             {groomFullName}
           </h1>
 
           {/* AND flourish */}
-          <p className="text-xs sm:text-sm text-[#4B6B94] font-serif tracking-[0.3em] uppercase my-3">
+          <p className="text-[11px] sm:text-xs text-[#4B6B94] tracking-[0.3em] uppercase my-2 mr-1 font-semibold">
             AND
           </p>
 
           {/* Bride Name */}
-          <h1 className="text-3xl sm:text-5xl font-serif italic text-[#2C4666] tracking-wide my-0.5 drop-shadow-sm leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#2C4666] tracking-wide my-0.5 drop-shadow-sm leading-tight font-normal">
             {brideFullName}
           </h1>
 
           {/* Invitation Quote matching Image 2 */}
-          <p className="text-[#3B5B82] text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase font-serif mt-8 sm:mt-10 mb-2 leading-relaxed max-w-[280px] sm:max-w-sm">
+          <p className="text-[#3B5B82] text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase mt-6 sm:mt-8 mb-2 leading-relaxed">
             {quoteText}
           </p>
 
           {/* Date Details matching Image 2 */}
-          <p className="text-[#3B5B82] text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase font-serif my-1">
+          <p className="text-[#3B5B82] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase my-1">
             ON {monthStr} {dayNum}TH {yearStr}
           </p>
-          <p className="text-[#4B6B94] text-xs italic font-serif mb-8 sm:mb-10">
+          <p className="text-[#4B6B94] text-xs italic font-serif mb-6 sm:mb-8">
             at {timeStr.toLowerCase()} in the evening
           </p>
 
           {/* Venue & Location matching Image 2 */}
-          <h2 className="text-2xl sm:text-3xl font-serif italic text-[#2C4666] my-1">
+          <h2 className="text-3xl sm:text-5xl font-script-alex text-[#2C4666] my-1 font-normal">
             {venueTitle}
           </h2>
           {venueSubtitle && (
-            <p className="text-[#3B5B82] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase font-serif mt-1">
+            <p className="text-[#3B5B82] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mt-1">
               {venueSubtitle}
             </p>
           )}
@@ -581,7 +588,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
   };
 
   return (
-    <div className={`min-h-screen bg-[#FAFCFF] relative font-serif flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen bg-[#FFFFFF] relative font-serif flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       {/* Background Audio */}
       {musicUrl && (
@@ -610,13 +617,12 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       {/* Welcome Screen Reveal Envelope */}
       <div
         onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#FAFCFF] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#FFFFFF] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
       >
         <div
-          className={`absolute inset-0 bg-cover bg-left-top bg-no-repeat transition-all duration-1000 ${isOpening ? 'scale-125 blur-lg opacity-0' : 'scale-100 opacity-90'}`}
+          className={`absolute inset-0 bg-cover bg-left-top bg-no-repeat transition-all duration-1000 ${isOpening ? 'scale-125 blur-lg opacity-0' : 'scale-100 opacity-100'}`}
           style={{ backgroundImage: "url('/media/blue_floral_bg.png')" }}
         >
-          <div className="absolute inset-0 bg-[#FAFCFF]/60 backdrop-blur-[1px]" />
         </div>
 
         {/* Top Header Tag */}
