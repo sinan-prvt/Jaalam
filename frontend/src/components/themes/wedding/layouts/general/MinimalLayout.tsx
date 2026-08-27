@@ -202,8 +202,8 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
     hero: (
       <section
         key="hero"
-        className="relative w-full flex flex-col justify-center items-end text-right bg-[#FFFFFF] text-[#2C4666] p-0 overflow-hidden py-12 sm:py-16 min-h-screen bg-cover bg-left-top bg-no-repeat font-serif"
-        style={{ backgroundImage: "url('/media/blue_floral_bg.png')" }}
+        className="relative w-full flex flex-col justify-center items-end text-right bg-[#FFFFFF] text-[#2C4666] p-0 overflow-hidden min-h-screen font-serif"
+        style={{ backgroundImage: "url('/media/blue_floral_bg.png')", backgroundSize: '100% 100%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
       >
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
