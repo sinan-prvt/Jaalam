@@ -117,7 +117,7 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
   const registryUrl = content?.settings_json?.wedding?.registryUrl || "";
   const registryMessage = content?.settings_json?.wedding?.registryMessage || "Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, a cash contribution towards our honeymoon registry would be warmly appreciated.";
 
-  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-09-25T15:00";
+  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2027-03-25T09:00";
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
   const quoteText = content?.quote || content?.hero_subtitle || content?.tagline || content?.settings_json?.wedding?.quote || "invite you to celebrate their wedding";
@@ -125,23 +125,46 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
   const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
 
   useEffect(() => {
-    if (!countdownDate) return;
-    const target = new Date(countdownDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = target - now;
-      if (distance < 0) {
-        setTimeLeft(null);
-        clearInterval(interval);
+    const updateCountdown = () => {
+      if (!countdownDate) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
         return;
       }
+
+      let targetTime: number | null = null;
+      let d = new Date(countdownDate);
+      if (!isNaN(d.getTime())) {
+        targetTime = d.getTime();
+      } else {
+        d = new Date(String(countdownDate).replace(' ', 'T'));
+        if (!isNaN(d.getTime())) {
+          targetTime = d.getTime();
+        }
+      }
+
+      if (!targetTime) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+
+      const now = new Date().getTime();
+      const distance = targetTime - now;
+
+      if (distance <= 0) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+
       setTimeLeft({
         d: Math.floor(distance / (1000 * 60 * 60 * 24)),
         h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         s: Math.floor((distance % (1000 * 60)) / 1000)
       });
-    }, 1000);
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, [countdownDate]);
 
@@ -295,12 +318,15 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
             {/* Groom Card */}
             <div className="bg-[#FAF7F2] p-6 rounded-2xl border-2 border-[#D6C5B3] flex flex-col items-center hover:-translate-y-1 hover:border-[#C69B31] hover:shadow-lg transition-all duration-300 shadow-sm">
               {groomPhoto ? (
-                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
                   <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 rounded-full bg-amber-100/80 border border-amber-300 flex items-center justify-center mb-3 text-[#C69B31]">
-                  <Heart className="w-7 h-7 fill-amber-200 animate-pulse" />
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FAF6F0] via-amber-100 to-amber-200 border-2 border-[#C69B31] flex flex-col items-center justify-center mb-3 shadow-md text-[#4A382C] relative overflow-hidden">
+                  <span className="text-2xl sm:text-3xl font-bold font-serif drop-shadow-sm">{groomFullName.charAt(0) || 'G'}</span>
+                  <div className="flex items-center gap-0.5 text-[#C69B31]">
+                    <Heart size={10} className="fill-[#C69B31]" />
+                  </div>
                 </div>
               )}
               <h3 className="text-xl sm:text-2xl font-bold text-[#4A382C] mb-1 font-serif">{groomFullName}</h3>
@@ -311,12 +337,15 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
             {/* Bride Card */}
             <div className="bg-[#FAF7F2] p-6 rounded-2xl border-2 border-[#D6C5B3] flex flex-col items-center hover:-translate-y-1 hover:border-[#C69B31] hover:shadow-lg transition-all duration-300 shadow-sm">
               {bridePhoto ? (
-                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#C69B31] mb-3 shadow-md">
                   <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 rounded-full bg-amber-100/80 border border-amber-300 flex items-center justify-center mb-3 text-[#C69B31]">
-                  <Heart className="w-7 h-7 fill-amber-200 animate-pulse" />
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FAF6F0] via-amber-100 to-amber-200 border-2 border-[#C69B31] flex flex-col items-center justify-center mb-3 shadow-md text-[#4A382C] relative overflow-hidden">
+                  <span className="text-2xl sm:text-3xl font-bold font-serif drop-shadow-sm">{brideFullName.charAt(0) || 'B'}</span>
+                  <div className="flex items-center gap-0.5 text-[#C69B31]">
+                    <Heart size={10} className="fill-[#C69B31]" />
+                  </div>
                 </div>
               )}
               <h3 className="text-xl sm:text-2xl font-bold text-[#4A382C] mb-1 font-serif">{brideFullName}</h3>
@@ -451,9 +480,9 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
 
           <div className="flex gap-3 sm:gap-6 justify-center">
             {[
-              { label: 'Days', value: timeLeft?.d ?? 30 },
-              { label: 'Hours', value: timeLeft?.h ?? 12 },
-              { label: 'Mins', value: timeLeft?.m ?? 45 },
+              { label: 'Days', value: timeLeft?.d ?? 0 },
+              { label: 'Hours', value: timeLeft?.h ?? 0 },
+              { label: 'Mins', value: timeLeft?.m ?? 0 },
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">
@@ -649,30 +678,42 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
           {/* Animated Glowing Sunburst Outer Rings */}
           <div className={`absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full border-2 border-amber-400/50 transition-all duration-1000 ${isOpening ? 'scale-[3.5] opacity-0' : 'animate-ping opacity-30'}`} />
           
-          {/* Sunflower Petals Disc Ring (12 Blooming Petals) */}
-          <div className="relative w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center">
+          {/* Sunflower Medallion Container (Image + SVG Vector + Core Disc) */}
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
             
-            {/* 12 Radiant Golden Sunflower Petals */}
-            {[...Array(12)].map((_, i) => {
-              const rotationDegree = i * 30;
-              return (
-                <div
+            {/* High-Res Sunflower Medallion Image */}
+            <img
+              src="/media/sunflower_medallion.png"
+              alt="Sunflower Medallion"
+              className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.3)] pointer-events-none rounded-full"
+            />
+
+            {/* SVG Precision Golden Sunflower Petals Ring (Guaranteed Exact Center 100 100) */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md" viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="sunflowerPetalGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="#d97706" />
+                  <stop offset="50%" stopColor="#f59e0b" />
+                  <stop offset="100%" stopColor="#fef08a" />
+                </linearGradient>
+              </defs>
+              {[...Array(16)].map((_, i) => (
+                <path
                   key={i}
-                  className="absolute w-6 h-20 sm:w-8 sm:h-24 rounded-t-full bg-gradient-to-t from-amber-500 via-amber-300 to-amber-400 border border-amber-200/80 shadow-md origin-bottom transition-transform duration-700"
-                  style={{
-                    transform: `rotate(${rotationDegree}deg) translateY(-50%)`,
-                    top: '50%',
-                    left: 'calc(50% - 12px)',
-                  }}
+                  d="M 94 36 C 94 15, 106 15, 106 36 C 106 62, 94 62, 94 36 Z"
+                  fill="url(#sunflowerPetalGrad)"
+                  stroke="#fde047"
+                  strokeWidth="0.8"
+                  transform={`rotate(${i * 22.5} 100 100)`}
                 />
-              );
-            })}
+              ))}
+            </svg>
 
             {/* Inner Dark Bronze Sunflower Core Disc */}
-            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-[#4A382C] via-[#3A2A20] to-[#251A14] border-4 border-amber-300 shadow-2xl flex flex-col items-center justify-center p-3 text-center relative z-20 group hover:scale-105 transition-transform duration-300">
+            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-[#4A382C] via-[#3A2A20] to-[#251A14] border-4 border-amber-300 shadow-2xl flex flex-col items-center justify-center p-3 text-center relative z-20 group hover:scale-105 transition-transform duration-300 cursor-pointer">
               
               {/* Shimmer Light */}
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-300/0 via-amber-200/30 to-amber-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-300/0 via-amber-200/30 to-amber-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-full overflow-hidden" />
 
               <div className="flex items-center justify-center gap-1 text-amber-300 mb-1">
                 <Sparkles size={13} className="text-amber-300 animate-pulse" />
@@ -693,12 +734,14 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
           </div>
 
           {/* Couple Names & Date */}
-          <h1 className="text-2xl sm:text-4xl font-bold text-[#4A382C] mt-6 font-serif tracking-wide drop-shadow-sm">
-            {groomFullName} & {brideFullName}
-          </h1>
-          <p className="text-[#8B7160] text-xs sm:text-sm tracking-[0.2em] font-serif uppercase mt-1 font-bold">
-            {rawDateStr}
-          </p>
+          <div className="mt-6 text-center flex flex-col items-center">
+            <h1 className="text-2xl sm:text-4xl font-bold text-[#4A382C] font-serif tracking-wide drop-shadow-sm">
+              {groomFullName} & {brideFullName}
+            </h1>
+            <p className="text-[#8B7160] text-xs sm:text-sm tracking-[0.2em] font-serif uppercase mt-1 font-bold">
+              {rawDateStr}
+            </p>
+          </div>
 
         </div>
 

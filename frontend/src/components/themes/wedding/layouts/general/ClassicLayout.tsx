@@ -117,7 +117,7 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
   const registryUrl = content?.settings_json?.wedding?.registryUrl || "";
   const registryMessage = content?.settings_json?.wedding?.registryMessage || "Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, a cash contribution towards our honeymoon registry would be warmly appreciated.";
 
-  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2026-09-15T16:00";
+  const countdownDate = content?.settings_json?.wedding?.countdownDate || "2027-03-25T09:00";
   const musicUrl = content?.settings_json?.wedding?.musicUrl || "";
 
   const quoteText = content?.quote || content?.hero_subtitle || content?.tagline || content?.settings_json?.wedding?.quote || "Together with their families, invite you to celebrate their wedding";
@@ -125,23 +125,46 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
   const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number } | null>(null);
 
   useEffect(() => {
-    if (!countdownDate) return;
-    const target = new Date(countdownDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = target - now;
-      if (distance < 0) {
-        setTimeLeft(null);
-        clearInterval(interval);
+    const updateCountdown = () => {
+      if (!countdownDate) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
         return;
       }
+
+      let targetTime: number | null = null;
+      let d = new Date(countdownDate);
+      if (!isNaN(d.getTime())) {
+        targetTime = d.getTime();
+      } else {
+        d = new Date(String(countdownDate).replace(' ', 'T'));
+        if (!isNaN(d.getTime())) {
+          targetTime = d.getTime();
+        }
+      }
+
+      if (!targetTime) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+
+      const now = new Date().getTime();
+      const distance = targetTime - now;
+
+      if (distance <= 0) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+
       setTimeLeft({
         d: Math.floor(distance / (1000 * 60 * 60 * 24)),
         h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         s: Math.floor((distance % (1000 * 60)) / 1000)
       });
-    }, 1000);
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, [countdownDate]);
 
@@ -462,9 +485,9 @@ export default function ClassicLayout({ content, website, colors }: WeddingLayou
 
           <div className="flex gap-3 sm:gap-6 justify-center">
             {[
-              { label: 'Days', value: timeLeft?.d ?? 30 },
-              { label: 'Hours', value: timeLeft?.h ?? 12 },
-              { label: 'Mins', value: timeLeft?.m ?? 45 },
+              { label: 'Days', value: timeLeft?.d ?? 0 },
+              { label: 'Hours', value: timeLeft?.h ?? 0 },
+              { label: 'Mins', value: timeLeft?.m ?? 0 },
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center">

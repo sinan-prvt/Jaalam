@@ -559,15 +559,22 @@ export default function WeddingEditor() {
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
                   <div className="pt-2">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Groom's Photo</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Groom's Photo (URL or Upload)</label>
                     {weddingData.groomPhoto && (
                       <div className="mb-2 w-20 h-20 rounded-full overflow-hidden border-2 border-pink-100">
                         <img src={weddingData.groomPhoto} alt="Groom" className="w-full h-full object-cover" />
                       </div>
                     )}
+                    <input
+                      type="text"
+                      value={weddingData.groomPhoto || ''}
+                      onChange={(e) => setWeddingData({ groomPhoto: e.target.value })}
+                      placeholder="https://example.com/groom.jpg"
+                      className="w-full px-4 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs mb-2"
+                    />
                     <FileUpload
                       accept="image/*"
-                      label={weddingData.groomPhoto ? "Change Photo" : "Upload Groom's Photo"}
+                      label={weddingData.groomPhoto ? "Upload / Replace Groom Photo" : "Upload Groom's Photo"}
                       onChange={(url) => setWeddingData({ groomPhoto: url })}
                     />
                   </div>
@@ -583,15 +590,22 @@ export default function WeddingEditor() {
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium"
                   />
                   <div className="pt-2">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bride's Photo</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Bride's Photo (URL or Upload)</label>
                     {weddingData.bridePhoto && (
                       <div className="mb-2 w-20 h-20 rounded-full overflow-hidden border-2 border-pink-100">
                         <img src={weddingData.bridePhoto} alt="Bride" className="w-full h-full object-cover" />
                       </div>
                     )}
+                    <input
+                      type="text"
+                      value={weddingData.bridePhoto || ''}
+                      onChange={(e) => setWeddingData({ bridePhoto: e.target.value })}
+                      placeholder="https://example.com/bride.jpg"
+                      className="w-full px-4 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs mb-2"
+                    />
                     <FileUpload
                       accept="image/*"
-                      label={weddingData.bridePhoto ? "Change Photo" : "Upload Bride's Photo"}
+                      label={weddingData.bridePhoto ? "Upload / Replace Bride Photo" : "Upload Bride's Photo"}
                       onChange={(url) => setWeddingData({ bridePhoto: url })}
                     />
                   </div>
@@ -822,9 +836,69 @@ export default function WeddingEditor() {
                     type="datetime-local"
                     value={weddingData.countdownDate || ''}
                     onChange={e => setWeddingData({ countdownDate: e.target.value })}
-                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm mb-3"
                   />
-                  <p className="text-[10px] text-slate-400 mt-2">A live countdown will appear on the hero section.</p>
+
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Or Direct Text / ISO Date</label>
+                  <input
+                    type="text"
+                    value={weddingData.countdownDate || ''}
+                    onChange={e => setWeddingData({ countdownDate: e.target.value })}
+                    placeholder="YYYY-MM-DDTHH:mm (e.g. 2027-03-25T09:00)"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-xs mb-3 font-mono"
+                  />
+
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const futureDate = new Date();
+                        futureDate.setDate(futureDate.getDate() + 7);
+                        const isoStr = futureDate.toISOString().slice(0, 16);
+                        setWeddingData({ countdownDate: isoStr });
+                      }}
+                      className="py-2.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      + 1 Week
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const futureDate = new Date();
+                        futureDate.setMonth(futureDate.getMonth() + 1);
+                        const isoStr = futureDate.toISOString().slice(0, 16);
+                        setWeddingData({ countdownDate: isoStr });
+                      }}
+                      className="py-2.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      + 1 Month
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const futureDate = new Date();
+                        futureDate.setMonth(futureDate.getMonth() + 3);
+                        const isoStr = futureDate.toISOString().slice(0, 16);
+                        setWeddingData({ countdownDate: isoStr });
+                      }}
+                      className="py-2.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      + 3 Months
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const futureDate = new Date();
+                        futureDate.setMonth(futureDate.getMonth() + 6);
+                        const isoStr = futureDate.toISOString().slice(0, 16);
+                        setWeddingData({ countdownDate: isoStr });
+                      }}
+                      className="py-2.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      + 6 Months
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-3">The live countdown on your invitation automatically updates in real-time.</p>
                 </div>
               </div>
             </div>
