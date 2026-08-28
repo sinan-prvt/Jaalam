@@ -105,7 +105,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
 
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
-  
+
   if (t.includes('emerald') || t.includes('emerald floral')) {
     baseTheme = 'EmeraldFloral';
   } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {

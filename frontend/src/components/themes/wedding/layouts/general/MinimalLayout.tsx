@@ -432,23 +432,30 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 bg-gradient-to-br from-[#2C4666] via-[#1D324A] to-[#122234] text-white rounded-[2.5rem] mx-4 max-w-4xl md:mx-auto shadow-2xl overflow-hidden my-6 text-center border-2 border-[#3B5B82]">
-        <div className="max-w-3xl mx-auto relative z-20">
-          <h2 className="text-2xl sm:text-4xl font-serif italic mb-2 text-[#EAF0F8]">Counting Down To The Big Day</h2>
-          <p className="text-xs sm:text-sm italic mb-8 text-[#C8D4E3] font-serif">Dusty Blue Floral Wedding Celebration</p>
+      <section key="countdown" className="py-12 sm:py-16 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#F7F9FC]">
+        <div className="bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-12 text-center shadow-xl border-2 border-[#C8D4E3] relative overflow-hidden max-w-2xl mx-auto">
+          <div className="flex flex-col items-center mb-8 relative z-20">
+            <div className="flex items-center gap-3 mb-2 opacity-90">
+              <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
+              <Sparkles className="w-5 h-5 text-[#3B5B82] animate-pulse" />
+              <div className="h-[1px] w-12 bg-[#3B5B82]"></div>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#2C4666]">Counting Down To The Big Day</h2>
+            <p className="text-[#4B6B94] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Dusty Blue Floral Wedding Celebration</p>
+          </div>
 
-          <div className="flex gap-3 sm:gap-6 justify-center">
+          <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-xs sm:max-w-md mx-auto justify-items-center relative z-20">
             {[
               { label: 'Days', value: timeLeft?.d ?? 0 },
               { label: 'Hours', value: timeLeft?.h ?? 0 },
               { label: 'Mins', value: timeLeft?.m ?? 0 },
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20 hover:scale-105 transition-transform">
-                  <span className="text-xl sm:text-3xl font-bold text-white font-serif">{item.value}</span>
+              <div key={idx} className="flex flex-col items-center w-full">
+                <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br from-[#2C4666] to-[#1D324A] text-white flex items-center justify-center mb-2 shadow-md border border-[#3B5B82]/30 hover:scale-105 transition-transform">
+                  <span className="text-lg sm:text-2xl font-bold font-serif">{item.value}</span>
                 </div>
-                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#C8D4E3] font-sans">{item.label}</span>
+                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#3B5B82] font-sans text-center">{item.label}</span>
               </div>
             ))}
           </div>

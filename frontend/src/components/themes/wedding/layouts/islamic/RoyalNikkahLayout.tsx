@@ -491,7 +491,7 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
     wishes: (
       <section key="wishes" className="py-16 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto">
         <div className="text-center relative z-20">
-          
+
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2">
@@ -505,7 +505,7 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
 
           {/* Clean Emerald & Gold Glassmorphism Card */}
           <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 shadow-xl border-2 border-emerald-200/80 relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
-            
+
             {/* Pulsing Aura Ring */}
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
