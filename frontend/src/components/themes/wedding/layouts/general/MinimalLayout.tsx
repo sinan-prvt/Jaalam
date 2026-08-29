@@ -588,7 +588,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F9FC] relative font-serif flex flex-col items-center w-full">
+    <div className={`min-h-screen bg-[#F7F9FC] relative font-serif flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       {/* Background Audio */}
       {musicUrl && (
@@ -596,7 +596,7 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && (
+      {musicUrl && isOpened && (
         <button
           onClick={() => {
             if (audioRef.current) {
@@ -614,6 +614,114 @@ export default function MinimalLayout({ content, website }: WeddingLayoutProps) 
           {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
         </button>
       )}
+
+      {/* Welcome Screen Interactive Open Invitation Overlay */}
+      <div
+        onClick={handleOpen}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#F7F9FC] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
+      >
+        {/* Background Image (Dusty Blue Floral Background) */}
+        <div
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ${isOpening ? 'scale-110 blur-md opacity-0' : 'scale-100 blur-0 opacity-100'}`}
+          style={{ backgroundImage: "url('/media/blue_floral_bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+        >
+          <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+        </div>
+
+        {/* Floating Dusty Blue Bokeh / Sparkles */}
+        <style>{`
+          @keyframes blueFloralFloat {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+          }
+        `}</style>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
+          {[...Array(10)].map((_, i) => {
+            const leftPos = (i * 9 + 4) % 92;
+            const delay = (i * 0.7) % 5;
+            const duration = 8 + (i % 5);
+            return (
+              <div
+                key={i}
+                className="absolute top-[-5%] w-3 h-3 rounded-full bg-gradient-to-tr from-blue-300 to-sky-500 opacity-40 filter blur-[1px]"
+                style={{
+                  left: `${leftPos}%`,
+                  animation: `blueFloralFloat ${duration}s linear infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {/* Top Header Tag */}
+        <div className={`absolute top-10 sm:top-14 z-30 flex flex-col items-center text-center px-4 transition-all duration-700 ${isOpening ? 'opacity-0 -translate-y-8 scale-90' : 'opacity-100 translate-y-0 scale-100'}`}>
+          <div className="flex items-center gap-2 text-[#3B5B82] mb-1">
+            <span className="h-[1px] w-8 bg-[#3B5B82]"></span>
+            <Sparkles size={14} className="animate-pulse text-[#3B5B82]" />
+            <span className="h-[1px] w-8 bg-[#3B5B82]"></span>
+          </div>
+          <span className="text-xs sm:text-sm text-[#3B5B82] font-serif tracking-[0.3em] uppercase font-bold drop-shadow-sm">
+            YOU ARE CORDIALLY INVITED
+          </span>
+        </div>
+
+        {/* Central Card / Open Medallion Button */}
+        <div className={`relative z-40 flex flex-col items-center justify-center my-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpening ? 'scale-[2.2] opacity-0 blur-md rotate-6' : 'scale-100 opacity-100 rotate-0'}`}>
+          
+          {/* Outer Pulsing Aura Rings */}
+          <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full border border-blue-400/30 animate-ping pointer-events-none" />
+
+          {/* Dusty Blue Floral Medallion Button */}
+          <div className="w-48 h-48 sm:w-60 sm:h-60 rounded-full bg-gradient-to-br from-[#FFFFFF] via-[#F4F7FA] to-[#E2EAF4] p-3 shadow-[0_15px_45px_rgba(44,70,102,0.25)] border-2 border-[#C8D4E3] transition-transform duration-500 hover:scale-105 active:scale-95 group flex flex-col items-center justify-center text-center relative overflow-hidden">
+            
+            {/* Shimmer Light Ray */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-300/0 via-blue-200/30 to-blue-300/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
+            {/* Inner Ring with Script Monogram & Open Button */}
+            <div className="w-full h-full rounded-full border border-[#3B5B82]/30 flex flex-col items-center justify-center p-4 bg-white/80 backdrop-blur-md shadow-inner relative z-10">
+              
+              <div className="flex items-center gap-1.5 text-[#3B5B82] mb-1.5">
+                <Sparkles size={14} className="text-[#3B5B82] animate-pulse" />
+                <Heart size={15} className="fill-[#3B5B82] text-[#3B5B82] drop-shadow-sm" />
+                <Sparkles size={14} className="text-[#3B5B82] animate-pulse" />
+              </div>
+
+              <span className="text-2xl sm:text-3xl font-script-alex text-[#2C4666] font-normal leading-tight">
+                {groomFullName.split(' ')[0]} & {brideFullName.split(' ')[0]}
+              </span>
+
+              <span className="text-[10px] sm:text-xs font-bold font-sans tracking-[0.25em] uppercase text-[#3B5B82] my-1.5">
+                WEDDING INVITATION
+              </span>
+
+              <span className="text-[9px] sm:text-[10px] text-white tracking-[0.2em] font-sans font-extrabold uppercase mt-1 bg-gradient-to-r from-[#2C4666] to-[#3B5B82] px-4 py-1.5 rounded-full shadow-md border border-blue-200/30 group-hover:scale-105 transition-transform">
+                {isOpening ? 'OPENING...' : 'OPEN INVITATION'}
+              </span>
+
+            </div>
+          </div>
+
+          {/* Couple Names & Date subtitle */}
+          <h1 className="text-xl sm:text-2xl font-script-alex text-[#2C4666] mt-5 font-normal tracking-wide drop-shadow-sm text-center">
+            {groomFullName} & {brideFullName}
+          </h1>
+          <p className="text-[#3B5B82] text-xs sm:text-sm tracking-[0.22em] font-serif uppercase mt-1 font-semibold">
+            {monthStr} {dayNum}, {yearStr}
+          </p>
+
+        </div>
+
+        {/* Bottom Floating Hint */}
+        <div className={`absolute bottom-6 sm:bottom-10 inset-x-0 mx-auto px-4 z-30 flex flex-col items-center justify-center text-center transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <p className="text-[10px] sm:text-xs text-[#3B5B82] font-serif tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow-sm text-center max-w-[280px] sm:max-w-xs leading-relaxed">
+            ✨ Tap button to open invitation ✨
+          </p>
+        </div>
+
+      </div>
 
       {/* Main Content Sections */}
       <div className="relative z-30 w-full">
