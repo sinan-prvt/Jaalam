@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
-import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
+import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout, KeralaTraditionalLayout } from './layouts/south-indian';
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
@@ -120,7 +120,9 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'RoyalNikkah';
   } else if (t.includes('vibrant') || t.includes('peacock')) {
     baseTheme = 'VibrantElegant';
-  } else if (t.includes('silk') || t.includes('kerala traditional')) {
+  } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala') || t.includes('backwater') || t.includes('gods own')) {
+    baseTheme = 'KeralaTraditional';
+  } else if (t.includes('silk')) {
     baseTheme = 'SilkTraditional';
   } else if (t.includes('mint') || t.includes('umbrella')) {
     baseTheme = 'SouthIndianMint';
@@ -132,7 +134,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SouthIndian';
   } else if (t.includes('modern')) {
     baseTheme = 'Modern';
-  } else if (t.includes('floral') || t.includes('lotus') || t.includes('rose') || t.includes('backwater')) {
+  } else if (t.includes('floral') || t.includes('lotus') || t.includes('rose')) {
     baseTheme = 'Floral';
   } else if (t.includes('minimal')) {
     baseTheme = 'Minimal';
@@ -141,6 +143,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   }
 
   switch (baseTheme) {
+    case 'KeralaTraditional':
+      return <KeralaTraditionalLayout {...layoutProps} />;
     case 'ElegantGolden':
       return <ElegantGoldenLayout {...layoutProps} />;
     case 'MinimalistArabesque':
