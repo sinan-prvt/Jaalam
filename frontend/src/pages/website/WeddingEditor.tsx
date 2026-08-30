@@ -347,7 +347,11 @@ export default function WeddingEditor() {
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Select Theme</label>
                   <select
-                    value={website.theme || 'Classic'}
+                    value={
+                      (eventHierarchy[mainEventCategory]?.[website.business_type] || []).includes(website.theme)
+                        ? website.theme
+                        : (eventHierarchy[mainEventCategory]?.[website.business_type]?.[0] || 'Kasavu Classic')
+                    }
                     onChange={e => {
                       const newWebsite = { ...website, theme: e.target.value };
                       setWebsite(newWebsite);

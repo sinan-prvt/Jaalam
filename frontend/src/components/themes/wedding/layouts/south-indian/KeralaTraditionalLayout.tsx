@@ -69,6 +69,50 @@ const KasavuGoldZariBorder = () => (
   </div>
 );
 
+// Marigold & Jasmine Toran Garland Top SVG Component
+const KeralaToranGarland = () => (
+  <svg className="w-full h-10 sm:h-12" viewBox="0 0 600 40" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 5 Q75 35 150 5 Q225 35 300 5 Q375 35 450 5 Q525 35 600 5" stroke="#2D6A4F" strokeWidth="3" fill="none" />
+    {[50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550].map((x, i) => (
+      <g key={i} transform={`translate(${x}, 12)`}>
+        {/* Marigold Orange Blossom */}
+        <circle cx="0" cy="8" r="7" fill="#FF7700" stroke="#D97706" strokeWidth="1" />
+        <circle cx="0" cy="8" r="4" fill="#FFDD00" />
+        {/* Jasmine Flower Tag */}
+        <ellipse cx="0" cy="18" rx="2.5" ry="5" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+      </g>
+    ))}
+  </svg>
+);
+
+// Netipattam (Elephant Gold Caparison Medallion) Latch SVG
+const NetipattamMedallion = ({ className = "w-36 h-48" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 160 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Outer Crest Shape */}
+    <path d="M80 10 L150 50 V130 C150 170 80 210 80 210 C80 210 10 170 10 130 V50 Z" fill="url(#netiGold)" stroke="#8C6D10" strokeWidth="3" />
+    <path d="M80 22 L138 56 V124 C138 158 80 194 80 194 C80 194 22 158 22 124 V56 Z" fill="#8C1C13" stroke="#D4AF37" strokeWidth="2" />
+    {/* Gold Bubbles / Beads */}
+    {[
+      [80, 40], [55, 55], [105, 55], [40, 80], [80, 75], [120, 80],
+      [55, 105], [105, 105], [80, 110], [60, 140], [100, 140], [80, 160]
+    ].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r="7" fill="#FFD700" stroke="#B87D0E" strokeWidth="1.5" />
+    ))}
+    {/* Hanging Tassels at Bottom */}
+    <path d="M50 200 L45 220 M80 205 L80 225 M110 200 L115 220" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="45" cy="222" r="3.5" fill="#8C1C13" />
+    <circle cx="80" cy="227" r="4" fill="#8C1C13" />
+    <circle cx="115" cy="222" r="3.5" fill="#8C1C13" />
+    <defs>
+      <linearGradient id="netiGold" x1="0" y1="0" x2="160" y2="220" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#FFD700" />
+        <stop offset="0.5" stopColor="#D4AF37" />
+        <stop offset="1" stopColor="#AA7C11" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
 export default function KeralaTraditionalLayout({ content, website }: WeddingLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
@@ -135,7 +179,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
     }
     setTimeout(() => {
       setIsOpened(true);
-    }, 600);
+    }, 900);
   };
 
   // Names processing
@@ -258,7 +302,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
     hero: (
       <section
         key="hero"
-        className="relative w-full flex flex-col justify-center items-center text-center bg-[#FDFBF7] text-[#2C1810] p-0 overflow-hidden py-14 sm:py-20 min-h-screen font-serif"
+        className="relative w-full flex flex-col justify-center items-center text-center bg-[#120703] text-amber-100 p-0 overflow-hidden py-14 sm:py-20 min-h-screen font-serif"
       >
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
@@ -281,27 +325,32 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
           <KasavuGoldZariBorder />
         </div>
 
-        {/* Background Subtle Kasavu Cream Gradient */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FFFDF9] via-[#FAF5EA] to-[#F3EAD7] opacity-95" />
+        {/* Marigold Toran Garland hanging at top */}
+        <div className="w-full absolute top-4 left-0 z-30 pointer-events-none">
+          <KeralaToranGarland />
+        </div>
+
+        {/* Background Dark Wood Royal Radial Gradient */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#2A1508] via-[#1D0E05] to-[#120703] opacity-95" />
 
         {/* Banana Leaf Corners */}
-        <div className="absolute top-8 left-0 pointer-events-none z-10 opacity-90">
+        <div className="absolute top-10 left-0 pointer-events-none z-10 opacity-80">
           <BananaLeafTopLeft />
         </div>
-        <div className="absolute bottom-0 right-0 pointer-events-none z-10 opacity-90">
+        <div className="absolute bottom-0 right-0 pointer-events-none z-10 opacity-80">
           <BananaLeafBottomRight />
         </div>
 
         {/* Floating Golden Jasmine Petals */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-          {[...Array(12)].map((_, i) => {
+          {[...Array(14)].map((_, i) => {
             const leftPos = (i * 8 + 5) % 92;
             const delay = (i * 0.6) % 5;
             const duration = 8 + (i % 5);
             return (
               <div
                 key={i}
-                className="absolute top-[-5%] w-3 h-3 rounded-full bg-gradient-to-tr from-[#D4AF37] via-[#FFF2B2] to-amber-200 opacity-60 filter blur-[0.5px]"
+                className="absolute top-[-5%] w-3 h-3 rounded-full bg-gradient-to-tr from-[#FFD700] via-[#FFF2B2] to-amber-300 opacity-70 filter blur-[0.5px]"
                 style={{
                   left: `${leftPos}%`,
                   animation: `keralaJasmineFloat ${duration}s linear infinite`,
@@ -313,7 +362,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
         </div>
 
         {/* Top Golden Parasol / Kudamattom */}
-        <div className="absolute top-4 -right-6 sm:top-6 sm:-right-6 pointer-events-none z-20">
+        <div className="absolute top-8 -right-6 sm:top-10 sm:-right-6 pointer-events-none z-20">
           <GoldenUmbrella className="w-32 h-44 sm:w-44 sm:h-56 md:w-48 md:h-60 transform -rotate-[28deg]" />
         </div>
 
@@ -331,65 +380,66 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
         </div>
 
         {/* Hero Card Container */}
-        <div className="relative z-30 pt-10 sm:pt-14 max-w-xs sm:max-w-md md:max-w-lg mx-auto flex flex-col items-center px-4 pb-12 font-garamond">
+        <div className="relative z-30 pt-14 sm:pt-16 max-w-xs sm:max-w-md md:max-w-lg mx-auto flex flex-col items-center px-4 pb-12 font-garamond">
           
           {/* Ganesha Motif Icon */}
           <div className="mb-2">
-            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-10 h-10 sm:w-14 sm:h-14 object-contain mx-auto filter drop-shadow-sm" />
+            <img src="/media/ganesha_icon.png" alt="Ganesha" className="w-10 h-10 sm:w-14 sm:h-14 object-contain mx-auto filter drop-shadow-[0_2px_8px_rgba(255,215,0,0.5)]" />
           </div>
 
-          <p className="text-[#8C1C13] text-[11px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2">
+          <p className="text-[#FFD700] text-[11px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
             താലികെട്ട് കല്യാണം
           </p>
 
-          <p className="text-[#6E543B] text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase mb-4 max-w-xs sm:max-w-md leading-relaxed">
+          <p className="text-amber-200/90 text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase mb-4 max-w-xs sm:max-w-md leading-relaxed drop-shadow">
             {quoteText}
           </p>
 
-          {/* Groom & Bride Names in Deep Maroon Kasavu Style */}
-          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#8C1C13] my-1 tracking-wide leading-tight drop-shadow-sm font-normal">
+          {/* Groom & Bride Names in Deep Royal Gold Style */}
+          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#FFD700] my-1 tracking-wide leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] font-normal">
             {groomFullName}
           </h1>
 
-          <span className="text-xs sm:text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase my-2">
+          <span className="text-xs sm:text-sm text-[#FFD700] font-bold tracking-[0.3em] uppercase my-2 drop-shadow">
             AND
           </span>
 
-          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#8C1C13] my-1 tracking-wide leading-tight drop-shadow-sm font-normal">
+          <h1 className="text-4xl sm:text-6xl font-script-alex text-[#FFD700] my-1 tracking-wide leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] font-normal">
             {brideFullName}
           </h1>
 
           {/* Gold Kasavu Diamond Flourish Divider */}
-          <div className="flex items-center justify-center gap-3 my-4 text-[#D4AF37]">
-            <span className="h-[1.5px] w-12 bg-gradient-to-r from-transparent to-[#D4AF37]"></span>
-            <span className="rotate-45 w-2 h-2 border border-[#D4AF37] bg-[#D4AF37]"></span>
-            <span className="h-[1.5px] w-12 bg-gradient-to-l from-transparent to-[#D4AF37]"></span>
+          <div className="flex items-center justify-center gap-3 my-4 text-[#FFD700]">
+            <span className="h-[1.5px] w-12 bg-gradient-to-r from-transparent to-[#FFD700]"></span>
+            <span className="rotate-45 w-2 h-2 border border-[#FFD700] bg-[#FFD700]"></span>
+            <span className="h-[1.5px] w-12 bg-gradient-to-l from-transparent to-[#FFD700]"></span>
           </div>
 
           {/* Date Breakdown Card */}
-          <div className="bg-[#FFFFFF]/90 border-2 border-[#D4AF37]/60 rounded-2xl px-6 py-4 shadow-md flex flex-col items-center my-3 text-[#2C1810]">
-            <span className="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-[#8C1C13] mb-1 font-sans">
-              {monthStr}
+          <div className="w-full max-w-[290px] sm:max-w-sm bg-gradient-to-b from-[#2A1508] via-[#1D0E05] to-[#120703] border-2 border-[#FFD700] rounded-2xl p-4 shadow-[0_10px_30px_rgba(0,0,0,0.9)] flex flex-col items-center my-4 relative overflow-hidden">
+            {/* Top Zari Accent */}
+            <div className="w-full h-1 bg-[#FFD700] absolute top-0 inset-x-0" />
+
+            <span className="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-[#FFD700] mb-2 font-sans">
+              {monthStr} {yearStr}
             </span>
-            <div className="flex items-center justify-center gap-4 my-1">
-              <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-[#5C3D2E] font-sans">
+
+            <div className="w-full flex items-center justify-between gap-2 px-2 my-1 border-y border-[#FFD700]/40 py-2">
+              <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-amber-200 font-sans whitespace-nowrap flex-1 text-center">
                 {dayName}
               </span>
-              <span className="text-3xl sm:text-4xl font-bold px-4 border-x-2 border-[#D4AF37] text-[#8C1C13] font-serif">
+              <div className="px-3 py-0.5 bg-[#8C1C13] text-[#FFD700] font-serif font-bold text-2xl sm:text-3xl rounded-lg shadow-md border border-[#FFD700] shrink-0 whitespace-nowrap">
                 {dayNum}
-              </span>
-              <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-[#5C3D2E] font-sans">
-                AT {timeStr.toUpperCase()}
+              </div>
+              <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-amber-200 font-sans whitespace-nowrap flex-1 text-center">
+                {timeStr}
               </span>
             </div>
-            <span className="text-xs sm:text-sm font-bold tracking-[0.3em] text-[#8C1C13] mt-1 font-sans">
-              {yearStr}
-            </span>
           </div>
 
           {/* Venue Location */}
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-[#5C3D2E] uppercase tracking-wider mt-4 text-center">
-            <MapPin size={15} className="text-[#8C1C13] shrink-0" />
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-amber-200 uppercase tracking-wider mt-4 text-center">
+            <MapPin size={15} className="text-[#FFD700] shrink-0 animate-bounce" />
             <span>{fullLocation}</span>
           </div>
 
@@ -398,72 +448,72 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     about: (
-      <section key="about" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF5EA] text-[#2C1810] font-garamond">
-        <div className="max-w-3xl mx-auto bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-14 shadow-xl border-2 border-[#D4AF37]/60 relative overflow-hidden">
+      <section key="about" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#1D0E05] text-amber-100 font-garamond">
+        <div className="max-w-3xl mx-auto bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 sm:p-14 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 relative overflow-hidden">
           
           <div className="flex flex-col items-center mb-8 relative z-20">
             <div className="flex items-center gap-3 mb-2 opacity-90">
-              <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#8C1C13] to-transparent"></div>
-              <Sparkles size={18} className="text-[#8C1C13] animate-pulse" />
-              <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#8C1C13] to-transparent"></div>
+              <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
+              <Sparkles size={18} className="text-[#FFD700] animate-pulse" />
+              <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] tracking-wide">Family Blessings & Invitation</h2>
-            <p className="text-[#6E543B] text-xs sm:text-sm italic font-serif max-w-xs sm:max-w-sm mx-auto mt-2">
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] tracking-wide drop-shadow">Family Blessings & Invitation</h2>
+            <p className="text-amber-200/80 text-xs sm:text-sm italic font-serif max-w-xs sm:max-w-sm mx-auto mt-2">
               request the honour of your presence to celebrate their wedding union
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 my-4 relative z-20">
             {/* Groom Card */}
-            <div className="bg-[#FFFDF9] p-6 sm:p-8 rounded-3xl border-2 border-[#D4AF37]/50 flex flex-col items-center hover:-translate-y-1.5 hover:border-[#8C1C13] hover:shadow-xl transition-all duration-300 shadow-sm">
+            <div className="bg-[#1A0B05] p-6 sm:p-8 rounded-3xl border-2 border-[#D4AF37]/60 flex flex-col items-center hover:-translate-y-1.5 hover:border-[#FFD700] hover:shadow-[0_10px_25px_rgba(255,215,0,0.2)] transition-all duration-300 shadow-md">
               {groomPhoto ? (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#8C1C13] mb-4 shadow-md">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#FFD700] mb-4 shadow-md">
                   <img src={groomPhoto} alt="Groom" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#FFF5E5] to-[#F3EAD7] border-2 border-[#8C1C13] flex flex-col items-center justify-center mb-4 shadow-md text-[#8C1C13]">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#3A1F0D] to-[#1D0E05] border-2 border-[#FFD700] flex flex-col items-center justify-center mb-4 shadow-md text-[#FFD700]">
                   <span className="text-3xl sm:text-4xl font-serif font-bold">{groomFullName.charAt(0) || 'G'}</span>
-                  <Heart size={14} className="fill-[#8C1C13] text-[#8C1C13] mt-1" />
+                  <Heart size={14} className="fill-[#FFD700] text-[#FFD700] mt-1" />
                 </div>
               )}
-              <h3 className="text-xl sm:text-2xl font-serif italic text-[#8C1C13] mb-1 font-bold">{groomFullName}</h3>
-              <p className="text-[11px] text-[#D4AF37] font-bold uppercase tracking-widest mb-1 font-sans">Groom</p>
-              {groomParents && <p className="text-xs text-slate-700 font-serif">Son of {groomParents}</p>}
+              <h3 className="text-xl sm:text-2xl font-serif italic text-[#FFD700] mb-1 font-bold">{groomFullName}</h3>
+              <p className="text-[11px] text-amber-300 font-bold uppercase tracking-widest mb-1 font-sans">Groom</p>
+              {groomParents && <p className="text-xs text-amber-100/80 font-serif">Son of {groomParents}</p>}
             </div>
 
             {/* Bride Card */}
-            <div className="bg-[#FFFDF9] p-6 sm:p-8 rounded-3xl border-2 border-[#D4AF37]/50 flex flex-col items-center hover:-translate-y-1.5 hover:border-[#8C1C13] hover:shadow-xl transition-all duration-300 shadow-sm">
+            <div className="bg-[#1A0B05] p-6 sm:p-8 rounded-3xl border-2 border-[#D4AF37]/60 flex flex-col items-center hover:-translate-y-1.5 hover:border-[#FFD700] hover:shadow-[0_10px_25px_rgba(255,215,0,0.2)] transition-all duration-300 shadow-md">
               {bridePhoto ? (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#8C1C13] mb-4 shadow-md">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#FFD700] mb-4 shadow-md">
                   <img src={bridePhoto} alt="Bride" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#FFF5E5] to-[#F3EAD7] border-2 border-[#8C1C13] flex flex-col items-center justify-center mb-4 shadow-md text-[#8C1C13]">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#3A1F0D] to-[#1D0E05] border-2 border-[#FFD700] flex flex-col items-center justify-center mb-4 shadow-md text-[#FFD700]">
                   <span className="text-3xl sm:text-4xl font-serif font-bold">{brideFullName.charAt(0) || 'B'}</span>
-                  <Heart size={14} className="fill-[#8C1C13] text-[#8C1C13] mt-1" />
+                  <Heart size={14} className="fill-[#FFD700] text-[#FFD700] mt-1" />
                 </div>
               )}
-              <h3 className="text-xl sm:text-2xl font-serif italic text-[#8C1C13] mb-1 font-bold">{brideFullName}</h3>
-              <p className="text-[11px] text-[#D4AF37] font-bold uppercase tracking-widest mb-1 font-sans">Bride</p>
-              {brideParents && <p className="text-xs text-slate-700 font-serif">Daughter of {brideParents}</p>}
+              <h3 className="text-xl sm:text-2xl font-serif italic text-[#FFD700] mb-1 font-bold">{brideFullName}</h3>
+              <p className="text-[11px] text-amber-300 font-bold uppercase tracking-widest mb-1 font-sans">Bride</p>
+              {brideParents && <p className="text-xs text-amber-100/80 font-serif">Daughter of {brideParents}</p>}
             </div>
           </div>
         </div>
       </section>
     ),
     story: (
-      <section key="story" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF5EA] font-garamond">
-        <div className="max-w-3xl mx-auto bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-14 shadow-xl border-2 border-[#D4AF37]/60 relative overflow-hidden">
+      <section key="story" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#120703] font-garamond">
+        <div className="max-w-3xl mx-auto bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 sm:p-14 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 relative overflow-hidden">
           <div className="relative z-20">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-[1px] w-12 bg-[#8C1C13]/40"></div>
-              <Sparkles className="w-6 h-6 text-[#8C1C13] animate-bounce" />
-              <div className="h-[1px] w-12 bg-[#8C1C13]/40"></div>
+              <div className="h-[1px] w-12 bg-[#FFD700]/40"></div>
+              <Sparkles className="w-6 h-6 text-[#FFD700] animate-bounce" />
+              <div className="h-[1px] w-12 bg-[#FFD700]/40"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] mb-6">
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] mb-6 drop-shadow">
               {storyTitle}
             </h2>
-            <p className="text-base sm:text-xl text-[#2C1810] italic leading-relaxed font-serif max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl text-amber-100/90 italic leading-relaxed font-serif max-w-2xl mx-auto">
               "{story}"
             </p>
           </div>
@@ -471,48 +521,48 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF5EA] font-garamond">
+      <section key="schedule" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#1D0E05] font-garamond">
         <div className="flex flex-col items-center mb-12">
           <div className="flex items-center gap-3 mb-2 opacity-90">
-            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#8C1C13] to-transparent"></div>
-            <Calendar className="w-6 h-6 text-[#8C1C13]" />
-            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#8C1C13] to-transparent"></div>
+            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
+            <Calendar className="w-6 h-6 text-[#FFD700]" />
+            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] tracking-wide">Schedule of Events</h2>
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] tracking-wide drop-shadow">Schedule of Events</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {schedule.map((item: any, idx: number) => (
-            <div key={idx} className="bg-[#FFFFFF] rounded-3xl p-6 sm:p-8 shadow-xl border-t-4 border-[#8C1C13] border-x border-b border-[#D4AF37]/50 text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
-              <h3 className="text-lg font-serif italic text-[#8C1C13] font-bold mb-3 relative z-20">{item.event}</h3>
-              <div className="flex items-center justify-center gap-2 mb-2 text-[#5C3D2E] font-serif relative z-20">
-                <Clock className="w-4 h-4 text-[#8C1C13]" />
+            <div key={idx} className="bg-[#2A1508] rounded-3xl p-6 sm:p-8 shadow-xl border-t-4 border-[#FFD700] border-x border-b border-[#D4AF37]/50 text-center hover:-translate-y-2 hover:border-[#FFD700] hover:shadow-[0_10px_25px_rgba(255,215,0,0.2)] transition-all duration-300 relative overflow-hidden">
+              <h3 className="text-lg font-serif italic text-[#FFD700] font-bold mb-3 relative z-20">{item.event}</h3>
+              <div className="flex items-center justify-center gap-2 mb-2 text-amber-200 font-serif relative z-20">
+                <Clock className="w-4 h-4 text-[#FFD700]" />
                 <span className="font-semibold text-sm">{item.time}</span>
               </div>
-              <p className="text-slate-600 text-xs font-serif relative z-20">{item.venue || fullLocation}</p>
+              <p className="text-amber-100/70 text-xs font-serif relative z-20">{item.venue || fullLocation}</p>
             </div>
           ))}
         </div>
       </section>
     ),
     venue: (
-      <section key="venue" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#FAF5EA] font-garamond">
-        <div className="bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-14 text-center shadow-xl border-2 border-[#D4AF37]/60 relative overflow-hidden">
+      <section key="venue" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#120703] font-garamond">
+        <div className="bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 sm:p-14 text-center shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 relative overflow-hidden">
           <div className="relative z-20">
-            <div className="w-14 h-14 bg-[#FFF5E5] rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-[#8C1C13]/40 text-[#8C1C13]">
-              <MapPin className="w-7 h-7 text-[#8C1C13] animate-bounce" />
+            <div className="w-14 h-14 bg-[#1A0B05] rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-[#FFD700]/60 text-[#FFD700]">
+              <MapPin className="w-7 h-7 text-[#FFD700] animate-bounce" />
             </div>
-            <h3 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] mb-3">Venue & Location</h3>
-            <p className="text-lg sm:text-xl font-serif italic text-[#2C1810] mb-2">{fullLocation}</p>
-            <p className="text-sm text-[#6E543B] max-w-md mx-auto mb-6 font-serif">We look forward to celebrating our special day with you.</p>
+            <h3 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] mb-3 drop-shadow">Venue & Location</h3>
+            <p className="text-lg sm:text-xl font-serif italic text-amber-100 mb-2">{fullLocation}</p>
+            <p className="text-sm text-amber-200/80 max-w-md mx-auto mb-6 font-serif">We look forward to celebrating our special day with you.</p>
 
             {venuePhoto && (
-              <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/50 mb-6 relative group">
+              <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-md border-2 border-[#FFD700]/60 mb-6 relative group">
                 <img src={venuePhoto} alt="Venue" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
             )}
 
-            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border-2 border-[#D4AF37]/40 mb-6 bg-white">
+            <div className="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border-2 border-[#FFD700]/50 mb-6 bg-black">
               <iframe
                 src={mapUrl && mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(fullLocation)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
                 width="100%"
@@ -521,7 +571,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
                 allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="pointer-events-none md:pointer-events-auto"
+                className="pointer-events-none md:pointer-events-auto filter contrast-105"
               ></iframe>
             </div>
 
@@ -530,7 +580,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#8C1C13] hover:bg-[#6D140C] text-white px-8 py-3.5 rounded-full font-bold tracking-wide transition-all shadow-lg text-xs mb-6 hover:scale-105 cursor-pointer border border-[#D4AF37]/40 font-sans"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#8C1C13] via-[#A31D1D] to-[#8C1C13] hover:from-[#A31D1D] hover:to-[#6D140C] text-[#FFD700] px-8 py-3.5 rounded-full font-bold tracking-wide transition-all shadow-xl text-xs mb-6 hover:scale-105 cursor-pointer border border-[#FFD700] font-sans"
               >
                 <Navigation size={15} />
                 Get Driving Directions
@@ -538,9 +588,9 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
             )}
 
             {contactNumbers && (
-              <div className="border-t border-[#D4AF37]/40 pt-6 mt-2">
-                <p className="text-[10px] tracking-widest uppercase font-bold text-[#8C1C13] mb-1 font-sans">RSVP / Contact Info</p>
-                <p className="text-base sm:text-lg font-bold text-[#2C1810] font-serif">{contactNumbers}</p>
+              <div className="border-t border-[#FFD700]/30 pt-6 mt-2">
+                <p className="text-[10px] tracking-widest uppercase font-bold text-[#FFD700] mb-1 font-sans">RSVP / Contact Info</p>
+                <p className="text-base sm:text-lg font-bold text-amber-100 font-serif">{contactNumbers}</p>
               </div>
             )}
           </div>
@@ -548,19 +598,19 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#FAF5EA] font-garamond">
+      <section key="gallery" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 text-center max-w-4xl mx-auto bg-[#1D0E05] font-garamond">
         <div className="flex flex-col items-center mb-12">
           <div className="flex items-center gap-3 mb-2 opacity-90">
-            <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
-            <Sparkles className="w-5 h-5 text-[#8C1C13]" />
-            <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
+            <div className="h-[1px] w-12 bg-[#FFD700]"></div>
+            <Sparkles className="w-5 h-5 text-[#FFD700]" />
+            <div className="h-[1px] w-12 bg-[#FFD700]"></div>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] tracking-wide">Photo Gallery</h2>
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] tracking-wide drop-shadow">Photo Gallery</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {validGallery.map((url: string, index: number) => (
-            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-lg border-4 border-[#D4AF37]/50 hover:scale-105 transition-transform duration-500 relative bg-white">
+            <div key={index} className="aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-[#FFD700]/70 hover:scale-105 transition-transform duration-500 relative bg-[#1A0B05]">
               <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
             </div>
           ))}
@@ -568,16 +618,16 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ) : null,
     countdown: (
-      <section key="countdown" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#FAF5EA] font-garamond">
-        <div className="bg-[#FFFFFF] rounded-[2.5rem] p-8 sm:p-14 text-center shadow-xl border-2 border-[#D4AF37]/60 relative overflow-hidden max-w-2xl mx-auto">
+      <section key="countdown" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-4xl mx-auto bg-[#120703] font-garamond">
+        <div className="bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 sm:p-14 text-center shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 relative overflow-hidden max-w-2xl mx-auto">
           <div className="flex flex-col items-center mb-8 relative z-20">
             <div className="flex items-center gap-3 mb-2 opacity-90">
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
-              <Sparkles className="w-5 h-5 text-[#8C1C13] animate-pulse" />
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
+              <Sparkles className="w-5 h-5 text-[#FFD700] animate-pulse" />
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13]">Counting Down To The Big Day</h2>
-            <p className="text-[#D4AF37] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Kerala Traditional Wedding Celebration</p>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] drop-shadow">Counting Down To The Big Day</h2>
+            <p className="text-amber-200 tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Kerala Traditional Wedding Celebration</p>
           </div>
 
           <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-xs sm:max-w-md mx-auto justify-items-center relative z-20">
@@ -588,10 +638,10 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
               { label: 'Secs', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center w-full">
-                <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br from-[#8C1C13] to-[#5C0D08] text-white flex items-center justify-center mb-2 shadow-md border border-[#D4AF37]/40 hover:scale-105 transition-transform">
+                <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br from-[#8C1C13] to-[#4D0805] text-[#FFD700] flex items-center justify-center mb-2 shadow-xl border-2 border-[#FFD700] hover:scale-105 transition-transform">
                   <span className="text-lg sm:text-2xl font-bold font-serif">{item.value}</span>
                 </div>
-                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#8C1C13] font-sans text-center">{item.label}</span>
+                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-bold text-[#FFD700] font-sans text-center">{item.label}</span>
               </div>
             ))}
           </div>
@@ -599,49 +649,49 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     wishes: (
-      <section key="wishes" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto font-garamond">
+      <section key="wishes" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#1D0E05] font-garamond">
         <div className="text-center relative z-20">
 
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2">
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
-              <Sparkles className="w-5 h-5 text-[#8C1C13] animate-pulse" />
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
+              <Sparkles className="w-5 h-5 text-[#FFD700] animate-pulse" />
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13]">Send Your Blessings & Wishes</h2>
-            <p className="text-[#6E543B] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send warm wishes to the couple</p>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] drop-shadow">Send Your Blessings & Wishes</h2>
+            <p className="text-amber-200/90 tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Tap the heart to send warm wishes to the couple</p>
           </div>
 
-          <div className="bg-[#FFFFFF] backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#D4AF37]/60 relative overflow-hidden flex flex-col items-center justify-center text-slate-800">
+          <div className="bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 relative overflow-hidden flex flex-col items-center justify-center text-amber-100">
 
             {pulseRing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="w-48 h-48 rounded-full border-4 border-rose-400/40 animate-ping"></div>
+                <div className="w-48 h-48 rounded-full border-4 border-[#FFD700]/60 animate-ping"></div>
               </div>
             )}
 
             <button
               type="button"
               onClick={handleTapWish}
-              className={`w-24 h-24 rounded-full bg-gradient-to-tr from-[#8C1C13] to-[#5C0D08] border-4 border-[#D4AF37] flex items-center justify-center shadow-xl transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-rose-300/40' : 'hover:scale-105 active:scale-95'}`}
+              className={`w-24 h-24 rounded-full bg-gradient-to-tr from-[#8C1C13] to-[#5C0D08] border-4 border-[#FFD700] flex items-center justify-center shadow-2xl transition-all duration-300 group cursor-pointer mb-5 relative z-20 ${pulseRing ? 'scale-110 ring-8 ring-[#FFD700]/40' : 'hover:scale-105 active:scale-95'}`}
               title="Tap to send a wish!"
             >
               <Heart className={`w-12 h-12 fill-rose-500 text-rose-500 drop-shadow-md transition-transform duration-300 ${pulseRing ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`} />
             </button>
 
             <div className="flex flex-col items-center mb-6 relative z-20 font-sans">
-              <span className={`text-4xl sm:text-5xl font-extrabold text-[#8C1C13] font-serif block tracking-wider transition-transform duration-200 ${isCounterPopping ? 'scale-125 text-rose-600' : 'scale-100'}`}>
+              <span className={`text-4xl sm:text-5xl font-extrabold text-[#FFD700] font-serif block tracking-wider transition-transform duration-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] ${isCounterPopping ? 'scale-125 text-amber-300' : 'scale-100'}`}>
                 {wishCount}
               </span>
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Warm Wishes Received</span>
+              <span className="text-xs font-bold text-amber-200/80 uppercase tracking-widest mt-1">Warm Wishes Received</span>
             </div>
 
             <button
               type="button"
               onClick={handleTapWish}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-[#8C1C13] hover:bg-[#6D140C] text-white shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans border border-[#D4AF37]/40 relative z-20"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest bg-gradient-to-r from-[#8C1C13] via-[#A31D1D] to-[#8C1C13] hover:from-[#A31D1D] hover:to-[#6D140C] text-[#FFD700] shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer font-sans border border-[#FFD700] relative z-20"
             >
-              <Sparkles className="w-4 h-4 text-amber-200" />
+              <Sparkles className="w-4 h-4 text-[#FFD700]" />
               Tap to Send Wish & Love ❤️
             </button>
 
@@ -651,17 +701,17 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     registry: (
-      <section key="registry" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF5EA] font-garamond">
-        <div className="bg-[#FFFFFF] backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#D4AF37]/60 text-center relative overflow-hidden">
-          <Gift size={44} className="text-[#8C1C13] mx-auto mb-4" />
-          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13] mb-3">Gift Registry</h2>
-          <p className="text-sm text-[#6E543B] leading-relaxed max-w-md mx-auto mb-6 font-serif">{registryMessage}</p>
+      <section key="registry" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#120703] font-garamond">
+        <div className="bg-[#2A1508]/90 backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 text-center relative overflow-hidden">
+          <Gift size={44} className="text-[#FFD700] mx-auto mb-4" />
+          <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] mb-3 drop-shadow">Gift Registry</h2>
+          <p className="text-sm text-amber-200/80 leading-relaxed max-w-md mx-auto mb-6 font-serif">{registryMessage}</p>
           {registryUrl && (
             <a
               href={registryUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-[#8C1C13] hover:bg-[#6D140C] text-white px-8 py-3.5 rounded-full font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:scale-105 cursor-pointer border border-[#D4AF37]/40 font-sans"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#8C1C13] via-[#A31D1D] to-[#8C1C13] hover:from-[#A31D1D] hover:to-[#6D140C] text-[#FFD700] px-8 py-3.5 rounded-full font-bold tracking-widest uppercase text-xs transition-all shadow-xl hover:scale-105 cursor-pointer border border-[#FFD700] font-sans"
             >
               View Gift Registry
             </a>
@@ -670,48 +720,48 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#FAF5EA] font-garamond">
+      <section key="rsvp" className="py-14 sm:py-20 px-4 sm:px-6 relative z-10 max-w-2xl mx-auto bg-[#120703] font-garamond">
         <div className="text-center">
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center gap-3 mb-2 opacity-90">
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
-              <Sparkles className="w-5 h-5 text-[#8C1C13]" />
-              <div className="h-[1px] w-12 bg-[#8C1C13]"></div>
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
+              <Sparkles className="w-5 h-5 text-[#FFD700]" />
+              <div className="h-[1px] w-12 bg-[#FFD700]"></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#8C1C13]">Will You Join Us?</h2>
-            <p className="text-[#6E543B] tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Please let us know if you can attend</p>
+            <h2 className="text-2xl sm:text-4xl font-serif italic text-[#FFD700] drop-shadow">Will You Join Us?</h2>
+            <p className="text-amber-200/90 tracking-widest uppercase text-xs font-semibold mt-1 font-sans">Please let us know if you can attend</p>
           </div>
 
-          <div className="bg-[#FFFFFF] backdrop-blur rounded-[2.5rem] p-8 md:p-12 shadow-xl border-2 border-[#D4AF37]/60 text-left relative overflow-hidden">
+          <div className="bg-[#2A1508]/90 backdrop-blur rounded-[2.5rem] p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 text-left relative overflow-hidden">
             <form className="space-y-6 relative z-20 font-sans" onSubmit={(e) => e.preventDefault()}>
               <div className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C1C13] mb-2">Name</label>
-                  <input type="text" className="w-full bg-[#FFFDF9] border border-[#D4AF37]/50 rounded-xl px-4 py-3 outline-none focus:border-[#8C1C13] transition-all text-[#2C1810]" placeholder="Your Full Name" />
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#FFD700] mb-2">Name</label>
+                  <input type="text" className="w-full bg-[#1A0B05] border border-[#D4AF37]/60 rounded-xl px-4 py-3 outline-none focus:border-[#FFD700] transition-all text-amber-100 placeholder-amber-200/40" placeholder="Your Full Name" />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C1C13] mb-2">Warm Wishes & Message</label>
-                  <textarea rows={4} className="w-full bg-[#FFFDF9] border border-[#D4AF37]/50 rounded-xl px-4 py-3 outline-none focus:border-[#8C1C13] transition-all text-[#2C1810] resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#FFD700] mb-2">Warm Wishes & Message</label>
+                  <textarea rows={4} className="w-full bg-[#1A0B05] border border-[#D4AF37]/60 rounded-xl px-4 py-3 outline-none focus:border-[#FFD700] transition-all text-amber-100 placeholder-amber-200/40 resize-none" placeholder="Share your warm wishes for the couple..."></textarea>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold tracking-widest uppercase text-[#8C1C13] mb-3">Will you be attending?</label>
+                  <label className="block text-xs font-bold tracking-widest uppercase text-[#FFD700] mb-3">Will you be attending?</label>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#D4AF37]/50 hover:border-[#8C1C13] bg-[#FFFDF9] rounded-xl flex-1 transition-colors">
-                      <input type="radio" name="attending" className="w-4 h-4 accent-[#8C1C13]" />
-                      <span className="text-[#8C1C13] font-bold uppercase tracking-widest text-xs">Joyfully Accepts</span>
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#D4AF37]/60 hover:border-[#FFD700] bg-[#1A0B05] rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-[#FFD700]" />
+                      <span className="text-amber-200 font-bold uppercase tracking-widest text-xs">Joyfully Accepts</span>
                     </label>
-                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#D4AF37]/50 hover:border-[#8C1C13] bg-[#FFFDF9] rounded-xl flex-1 transition-colors">
-                      <input type="radio" name="attending" className="w-4 h-4 accent-[#8C1C13]" />
-                      <span className="text-[#8C1C13] font-bold uppercase tracking-widest text-xs">Regretfully Declines</span>
+                    <label className="flex items-center gap-3 cursor-pointer p-4 border border-[#D4AF37]/60 hover:border-[#FFD700] bg-[#1A0B05] rounded-xl flex-1 transition-colors">
+                      <input type="radio" name="attending" className="w-4 h-4 accent-[#FFD700]" />
+                      <span className="text-amber-200 font-bold uppercase tracking-widest text-xs">Regretfully Declines</span>
                     </label>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 text-center">
-                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#8C1C13] hover:bg-[#6D140C] text-white font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-lg transition-all hover:scale-105 cursor-pointer border border-[#D4AF37]/40">
+                <button type="button" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#8C1C13] via-[#A31D1D] to-[#8C1C13] hover:from-[#A31D1D] hover:to-[#6D140C] text-[#FFD700] font-bold tracking-widest uppercase text-xs px-10 py-4 rounded-full shadow-xl transition-all hover:scale-105 cursor-pointer border border-[#FFD700]">
                   <Send size={14} />
                   Submit RSVP
                 </button>
@@ -724,7 +774,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
   };
 
   return (
-    <div className={`min-h-screen bg-[#FAF5EA] relative font-serif text-[#2C1810] flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen bg-[#120703] relative font-serif text-amber-100 flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       {/* Background Audio */}
       {musicUrl && (
@@ -744,112 +794,106 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
               setIsMuted(!isMuted);
             }
           }}
-          className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full bg-[#8C1C13] text-[#D4AF37] shadow-2xl border border-[#D4AF37]/40 hover:scale-110 active:scale-95 transition-all"
+          className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full bg-[#8C1C13] text-[#FFD700] shadow-2xl border border-[#FFD700]/70 hover:scale-110 active:scale-95 transition-all"
           title={isMuted ? "Play Music" : "Mute Music"}
         >
           {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
         </button>
       )}
 
-      {/* Welcome Screen Interactive Kerala Traditional Kasavu Envelope / Medallion Overlay */}
+      {/* Unique Royal Kerala Nalukettu Palace Double Wooden Door Opening Reveal Screen */}
       <div
         onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#FDFBF7] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#1A0B05] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent perspective-[1000px]`}
       >
+
         {/* Kasavu Gold Zari Border Header */}
-        <div className="w-full absolute top-0 left-0 z-30">
+        <div className="w-full absolute top-0 left-0 z-50">
           <KasavuGoldZariBorder />
         </div>
 
-        {/* Background Image (Kerala Kasavu Background) */}
+        {/* Marigold Toran Garland hanging at top */}
+        <div className="w-full absolute top-4 left-0 z-50 pointer-events-none">
+          <KeralaToranGarland />
+        </div>
+
+        {/* Fullscreen Backdrop (Soft Kerala Backwaters & Coconut Palms) */}
         <div
-          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ${isOpening ? 'scale-110 blur-md opacity-0' : 'scale-100 blur-0 opacity-90'}`}
-          style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-100"
+          style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}
         >
-          <div className="absolute inset-0 bg-[#FDFBF7]/60 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
         </div>
 
-        {/* Banana Leaves - Corners */}
-        <div className="absolute top-8 left-0 pointer-events-none z-10 opacity-90">
-          <BananaLeafTopLeft />
-        </div>
-        <div className="absolute bottom-0 right-0 pointer-events-none z-10 opacity-90">
-          <BananaLeafBottomRight />
-        </div>
-
-        {/* Kudamattom Parasol & Nilavilakku */}
-        <div className="absolute top-4 -right-6 sm:top-6 sm:-right-6 pointer-events-none z-20">
-          <GoldenUmbrella className="w-32 h-44 sm:w-44 sm:h-56 transform -rotate-[28deg]" />
-        </div>
-        <div className="absolute bottom-4 left-4 sm:left-10 pointer-events-none z-30">
-          <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
-        </div>
-        <div className="absolute bottom-4 right-4 sm:right-10 pointer-events-none z-30">
-          <Nilavilakku className="w-12 h-24 sm:w-16 sm:h-32" />
-        </div>
-
-        {/* Top Header Tag */}
-        <div className={`absolute top-10 sm:top-14 z-30 flex flex-col items-center text-center px-4 transition-all duration-700 ${isOpening ? 'opacity-0 -translate-y-8 scale-90' : 'opacity-100 translate-y-0 scale-100'}`}>
-          <div className="flex items-center gap-2 text-[#8C1C13] mb-1">
-            <span className="h-[1px] w-8 bg-[#8C1C13]"></span>
-            <Sparkles size={14} className="animate-pulse text-[#8C1C13]" />
-            <span className="h-[1px] w-8 bg-[#8C1C13]"></span>
+        {/* LEFT KERALA NALUKETTU PALACE WOODEN DOOR PANEL */}
+        <div
+          className={`absolute top-0 left-0 w-1/2 h-full bg-[#2A1508] border-r-4 border-[#D4AF37] shadow-[15px_0_40px_rgba(0,0,0,0.9)] transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] z-30 flex flex-col justify-between p-6 ${isOpening ? '-translate-x-full opacity-0 -rotate-y-90' : 'translate-x-0 opacity-100 rotate-y-0'}`}
+          style={{ backgroundImage: "radial-gradient(ellipse at left, #3A1F0D 0%, #1D0E05 100%)" }}
+        >
+          <div className="mt-12">
+            <BananaLeafTopLeft />
           </div>
-          <span className="text-xs sm:text-sm text-[#8C1C13] font-serif tracking-[0.3em] uppercase font-bold drop-shadow-sm">
-            താലികെട്ട് കല്യാണം
-          </span>
+          <div className="my-auto self-end pr-4">
+            <Nilavilakku className="w-16 h-32" />
+          </div>
+          <div className="mb-6 opacity-40 text-xs font-serif text-[#D4AF37] uppercase tracking-widest">
+            ശ്രീ ഭഗവതി ശരണം
+          </div>
         </div>
 
-        {/* Central Kasavu Gold Medallion Button */}
-        <div className={`relative z-40 flex flex-col items-center justify-center my-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpening ? 'scale-[2.2] opacity-0 blur-md rotate-6' : 'scale-100 opacity-100 rotate-0'}`}>
+        {/* RIGHT KERALA NALUKETTU PALACE WOODEN DOOR PANEL */}
+        <div
+          className={`absolute top-0 right-0 w-1/2 h-full bg-[#2A1508] border-l-4 border-[#D4AF37] shadow-[-15px_0_40px_rgba(0,0,0,0.9)] transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] z-30 flex flex-col justify-between p-6 ${isOpening ? 'translate-x-full opacity-0 rotate-y-90' : 'translate-x-0 opacity-100 rotate-y-0'}`}
+          style={{ backgroundImage: "radial-gradient(ellipse at right, #3A1F0D 0%, #1D0E05 100%)" }}
+        >
+          <div className="mt-12 self-end">
+            <div className="scale-x-[-1]">
+              <BananaLeafTopLeft />
+            </div>
+          </div>
+          <div className="my-auto self-start pl-4">
+            <Nilavilakku className="w-16 h-32" />
+          </div>
+          <div className="mb-6 opacity-40 text-xs font-serif text-[#D4AF37] uppercase tracking-widest text-right">
+            മംഗളം ഭവതു
+          </div>
+        </div>
+
+        {/* CENTER BRASS ELEPHANT CAPARISON (NETIPATTAM) LATCH BUTTON */}
+        <div className={`relative z-40 flex flex-col items-center justify-center my-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpening ? 'scale-[2.2] opacity-0 blur-lg rotate-12' : 'scale-100 opacity-100 rotate-0'}`}>
           
-          {/* Outer Pulsing Aura Rings */}
-          <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full border border-[#D4AF37]/40 animate-ping pointer-events-none" />
+          {/* Outer Pulsing Golden Aura Ring */}
+          <div className="absolute w-56 h-64 sm:w-68 sm:h-80 rounded-3xl border-2 border-[#D4AF37]/50 animate-ping pointer-events-none" />
 
-          {/* Kasavu Gold Medallion */}
-          <div className="w-48 h-48 sm:w-60 sm:h-60 rounded-full bg-gradient-to-br from-[#FFFDF9] via-[#FAF5EA] to-[#F3EAD7] p-3 shadow-[0_15px_45px_rgba(140,28,19,0.2)] border-2 border-[#D4AF37] transition-transform duration-500 hover:scale-105 active:scale-95 group flex flex-col items-center justify-center text-center relative overflow-hidden">
-            
-            {/* Shimmer Reflection */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-amber-200/0 via-amber-100/40 to-amber-200/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          {/* Netipattam Brass Caparison Medallion Latch */}
+          <div className="relative group flex flex-col items-center cursor-pointer transition-transform duration-500 hover:scale-105 active:scale-95">
+            <NetipattamMedallion className="w-48 h-64 sm:w-56 sm:h-76 filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]" />
 
-            {/* Inner Ring */}
-            <div className="w-full h-full rounded-full border-2 border-[#D4AF37]/50 flex flex-col items-center justify-center p-4 bg-[#FFFFFF]/90 backdrop-blur-md shadow-inner relative z-10">
-              
-              <div className="flex items-center gap-1.5 text-[#8C1C13] mb-1">
-                <Sparkles size={14} className="text-[#8C1C13] animate-pulse" />
-                <Heart size={15} className="fill-[#8C1C13] text-[#8C1C13] drop-shadow-sm" />
-                <Sparkles size={14} className="text-[#8C1C13] animate-pulse" />
-              </div>
-
-              <span className="text-2xl sm:text-3xl font-script-alex text-[#8C1C13] font-normal leading-tight">
-                {groomFullName.split(' ')[0]} & {brideFullName.split(' ')[0]}
+            {/* Interactive Unseal Action Pill Tag over Netipattam */}
+            <div className="absolute bottom-10 inset-x-0 mx-auto w-[85%] bg-gradient-to-r from-[#8C1C13] via-[#A31D1D] to-[#8C1C13] text-white py-2.5 px-4 rounded-full border-2 border-[#FFD700] shadow-xl text-center flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
+              <span className="text-[11px] sm:text-xs font-bold font-sans tracking-[0.2em] uppercase text-[#FFD700]">
+                {isOpening ? 'UNSEALING...' : 'തുറക്കുക • OPEN'}
               </span>
-
-              <span className="text-[10px] sm:text-xs font-bold font-sans tracking-[0.25em] uppercase text-[#D4AF37] my-1">
-                KERALA TRADITIONAL
+              <span className="text-[8px] sm:text-[9px] text-amber-100 tracking-widest uppercase font-serif mt-0.5">
+                {groomFullName} & {brideFullName}
               </span>
-
-              <span className="text-[9px] sm:text-[10px] text-white tracking-[0.2em] font-sans font-extrabold uppercase mt-1 bg-[#8C1C13] px-4 py-1.5 rounded-full shadow-md border border-[#D4AF37]/40 group-hover:scale-105 transition-transform">
-                {isOpening ? 'OPENING...' : 'OPEN INVITATION'}
-              </span>
-
             </div>
           </div>
 
-          {/* Couple Names & Date subtitle */}
-          <h1 className="text-xl sm:text-2xl font-script-alex text-[#8C1C13] mt-5 font-normal tracking-wide drop-shadow-sm text-center">
-            {groomFullName} & {brideFullName}
+          {/* Title Subtitle below Medallion */}
+          <h1 className="text-xl sm:text-2xl font-serif text-[#FFD700] mt-6 font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-center">
+            മംഗളകരമായ താലികെട്ട്
           </h1>
-          <p className="text-[#D4AF37] text-xs sm:text-sm tracking-[0.22em] font-sans uppercase mt-1 font-bold">
+          <p className="text-amber-100 text-xs sm:text-sm tracking-[0.2em] font-sans uppercase mt-1 font-semibold drop-shadow">
             {monthStr} {dayNum}, {yearStr}
           </p>
 
         </div>
 
-        {/* Bottom Floating Hint */}
-        <div className={`absolute bottom-6 sm:bottom-10 inset-x-0 mx-auto px-4 z-30 flex flex-col items-center justify-center text-center transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-          <p className="text-[10px] sm:text-xs text-[#8C1C13] font-serif tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow-sm text-center max-w-[280px] sm:max-w-xs leading-relaxed">
-            ✨ Tap button to open invitation ✨
+        {/* Bottom Unlatching Hint */}
+        <div className={`absolute bottom-6 sm:bottom-10 inset-x-0 mx-auto px-4 z-40 flex flex-col items-center justify-center text-center transition-all duration-500 ${isOpening ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <p className="text-[10px] sm:text-xs text-[#FFD700] font-serif tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold animate-bounce drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-center max-w-[280px] sm:max-w-xs leading-relaxed">
+            ✨ Tap Netipattam latch to open Nalukettu doors ✨
           </p>
         </div>
 
@@ -861,9 +905,9 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       </div>
 
       {/* Footer */}
-      <footer className="py-8 relative z-10 text-center bg-[#8C1C13] text-white rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-8 border-t-2 border-[#D4AF37]/40">
-        <h2 className="text-2xl font-script-alex mb-2 text-[#D4AF37]">{rawCoupleNames}</h2>
-        <p className="text-amber-100/70 text-xs tracking-widest uppercase mb-2 font-sans">Made with love by Jaalam</p>
+      <footer className="py-8 relative z-10 text-center bg-[#1A0B05] text-[#FFD700] rounded-t-[2.5rem] w-full max-w-4xl mx-auto mt-8 border-t-2 border-[#FFD700]/60 shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+        <h2 className="text-3xl font-script-alex mb-2 text-[#FFD700] drop-shadow">{rawCoupleNames}</h2>
+        <p className="text-amber-200/70 text-xs tracking-widest uppercase mb-2 font-sans">Made with love by Jaalam</p>
       </footer>
 
     </div>

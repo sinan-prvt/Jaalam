@@ -3,10 +3,11 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
     'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
     'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
     'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
-    'Kerala Traditional': ['Mint Umbrella Traditional', 'Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
+    'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
     'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
     'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
-    'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace']
+    'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace'],
+    'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant']
   },
   'Birthday': {
     'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
@@ -49,67 +50,67 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
 };
 
 export const categoryThemes: Record<string, string[]> = {
-    'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
-    'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'App Style', 'Boutique'],
-    'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
-    'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
-    'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
-    'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
-    'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
-    'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal', 'Playful', 'Rustic'],
-    'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
-    'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
-    'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
-    'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-    'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
-    'South Indian Wedding': ['South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
-    'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
-    'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
-    'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
-    'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace'],
-    'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
-    
-    // Birthday Events
-    'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
-    '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
-    'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
-    'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
-    'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal'],
-    
-    // Housewarming
-    'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
-    'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral'],
-    
-    // Baby Shower
-    'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
-    'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
-    
-    // Engagement
-    'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
-    'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
-    
-    // Farewell
-    'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
-    'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal'],
-    
-    // College Fest
-    'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
-    'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
-    'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate'],
-    
-    // Corporate Event
-    'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
-    'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
-    'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful'],
-    
-    // Religious Events
-    'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
-    'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
-    'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
+  'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
+  'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'App Style', 'Boutique'],
+  'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
+  'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
+  'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
+  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
+  'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
+  'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal', 'Playful', 'Rustic'],
+  'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
+  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
+  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
+  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
+  'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+  'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
+  'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
+  'Kerala Traditional': ['Kasavu Classic', 'Kerala Modern', 'Backwater Floral', 'Gods Own Minimal', 'Traditional Elegant'],
+  'Punjabi Traditional': ['Punjabi Royal', 'Vibrant Modern', 'Bhangra Floral', 'Sikh Minimal', 'Golden Elegant'],
+  'Bengali Wedding': ['Bengali Classic', 'Red & Gold Modern', 'Lotus Floral', 'Minimalist Sindoor', 'Elegant Traditional'],
+  'Christian Invitation': ['White Classic', 'Modern Chapel', 'Rose Floral', 'Minimalist Cross', 'Elegant Lace'],
+  'Engagement Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
+  
+  // Birthday Events
+  'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
+  '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
+  'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
+  'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
+  'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal'],
+  
+  // Housewarming
+  'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
+  'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral'],
+  
+  // Baby Shower
+  'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
+  'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
+  
+  // Engagement
+  'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
+  'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
+  
+  // Farewell
+  'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
+  'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal'],
+  
+  // College Fest
+  'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
+  'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
+  'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate'],
+  
+  // Corporate Event
+  'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
+  'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
+  'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful'],
+  
+  // Religious Events
+  'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
+  'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
+  'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
 
-    'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
-  };
+  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
+};
 
 export const weddingCategories = [
   'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 

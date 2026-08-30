@@ -118,14 +118,12 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'RoyalNikkah';
   } else if (category === 'Islamic Invitation') {
     baseTheme = 'RoyalNikkah';
-  } else if (t.includes('vibrant') || t.includes('peacock')) {
-    baseTheme = 'VibrantElegant';
   } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala') || t.includes('backwater') || t.includes('gods own')) {
     baseTheme = 'KeralaTraditional';
-  } else if (t.includes('silk')) {
-    baseTheme = 'SilkTraditional';
   } else if (t.includes('mint') || t.includes('umbrella')) {
     baseTheme = 'SouthIndianMint';
+  } else if (t.includes('silk')) {
+    baseTheme = 'SilkTraditional';
   } else if (t.includes('temple minimal') || t.includes('starlight') || t.includes('romance')) {
     baseTheme = 'TempleMinimal';
   } else if (t.includes('south indian royal')) {
