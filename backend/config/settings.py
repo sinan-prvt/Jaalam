@@ -68,7 +68,7 @@ DATABASES = {
         conn_max_age=0
     )
 
-}
+}dsssssssssssssssssssssssssssssss
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
