@@ -67,20 +67,7 @@ DATABASES = {
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=0
     )
-dd
-e
-de
-ded
-e
-ewd
-edwe
-dwe
-dw
-edw
-edw
-edw
-edw
-dw
+
 }
 
 AUTH_PASSWORD_VALIDATORS = [
