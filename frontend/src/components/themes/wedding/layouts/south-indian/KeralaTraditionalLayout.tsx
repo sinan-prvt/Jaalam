@@ -804,7 +804,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
       {/* Unique Royal Kerala Nalukettu Palace Double Wooden Door Opening Reveal Screen */}
       <div
         onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#1A0B05] transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent perspective-[1000px]`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-transparent transition-all duration-1000 ease-in-out ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} overflow-hidden cursor-pointer selection:bg-transparent perspective-[1000px]`}
       >
 
         {/* Kasavu Gold Zari Border Header */}
@@ -815,14 +815,6 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
         {/* Marigold Toran Garland hanging at top */}
         <div className="w-full absolute top-4 left-0 z-50 pointer-events-none">
           <KeralaToranGarland />
-        </div>
-
-        {/* Fullscreen Backdrop (Soft Kerala Backwaters & Coconut Palms) */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-100"
-          style={{ backgroundImage: "url('/media/kerala_couple_boat_bg.png')" }}
-        >
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
         </div>
 
         {/* LEFT KERALA NALUKETTU PALACE WOODEN DOOR PANEL */}

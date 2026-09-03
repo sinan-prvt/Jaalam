@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
-import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout, KeralaTraditionalLayout } from './layouts/south-indian';
+import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout, KeralaTraditionalLayout, KeralaModernLayout } from './layouts/south-indian';
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
@@ -118,6 +118,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'RoyalNikkah';
   } else if (category === 'Islamic Invitation') {
     baseTheme = 'RoyalNikkah';
+  } else if (t.includes('kerala modern')) {
+    baseTheme = 'KeralaModern';
   } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala') || t.includes('backwater') || t.includes('gods own')) {
     baseTheme = 'KeralaTraditional';
   } else if (t.includes('mint') || t.includes('umbrella')) {
@@ -141,6 +143,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   }
 
   switch (baseTheme) {
+    case 'KeralaModern':
+      return <KeralaModernLayout {...layoutProps} />;
     case 'KeralaTraditional':
       return <KeralaTraditionalLayout {...layoutProps} />;
     case 'ElegantGolden':
