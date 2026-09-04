@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
-import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout, KeralaTraditionalLayout, KeralaModernLayout } from './layouts/south-indian';
+import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
+import { KeralaTraditionalLayout, KeralaModernLayout, BackwaterFloralLayout, GodsOwnMinimalLayout, TraditionalElegantLayout } from './layouts/kerala-traditional';
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
 
 interface ClassicWeddingThemeProps {
@@ -120,7 +121,13 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'RoyalNikkah';
   } else if (t.includes('kerala modern')) {
     baseTheme = 'KeralaModern';
-  } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala') || t.includes('backwater') || t.includes('gods own')) {
+  } else if (t.includes('backwater')) {
+    baseTheme = 'BackwaterFloral';
+  } else if (t.includes('gods own')) {
+    baseTheme = 'GodsOwnMinimal';
+  } else if (t.includes('traditional elegant')) {
+    baseTheme = 'TraditionalElegant';
+  } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala')) {
     baseTheme = 'KeralaTraditional';
   } else if (t.includes('mint') || t.includes('umbrella')) {
     baseTheme = 'SouthIndianMint';
@@ -147,6 +154,12 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <KeralaModernLayout {...layoutProps} />;
     case 'KeralaTraditional':
       return <KeralaTraditionalLayout {...layoutProps} />;
+    case 'GodsOwnMinimal':
+      return <GodsOwnMinimalLayout {...layoutProps} />;
+    case 'TraditionalElegant':
+      return <TraditionalElegantLayout {...layoutProps} />;
+    case 'BackwaterFloral':
+      return <BackwaterFloralLayout {...layoutProps} />;
     case 'ElegantGolden':
       return <ElegantGoldenLayout {...layoutProps} />;
     case 'MinimalistArabesque':
