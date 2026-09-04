@@ -2,7 +2,18 @@ import os
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission
+from rest_framework import generics
+
+class IsAdminUserOrReadOnly(BasePermission):
+    """
+    Custom permission to only allow admins to edit it.
+    """
+    def has_permission(self, request, view):
+        if request.method in ('GET', 'HEAD', 'OPTIONS'):
+            return True
+        return request.user and request.user.is_authenticated and request.user.is_superuser
+
 from google import genai
 
 class GenerateMarketingCopyView(APIView):
@@ -101,3 +112,22 @@ class GeneratePosterView(APIView):
         except Exception as e:
             print("Poster Generation Error:", e)
             return Response({'error': f'Failed to connect to image generator: {str(e)}'}, status=500)
+
+from .models import Blog
+from .serializers import BlogSerializer
+
+class BlogListCreateView(generics.ListCreateAPIView):
+    serializer_class = BlogSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
+    def get_queryset(self):
+        # Admin sees all, public sees only published
+        if self.request.user and self.request.user.is_authenticated and self.request.user.is_superuser:
+            return Blog.objects.all().order_by('-created_at')
+        return Blog.objects.filter(published=True).order_by('-created_at')
+
+class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+    lookup_field = 'id'

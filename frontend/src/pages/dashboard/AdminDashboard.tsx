@@ -4,7 +4,7 @@ import type { RootState } from '../../store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send, LayoutTemplate, Plus } from 'lucide-react';
+import { Users, Globe, ShieldCheck, Printer, X, ShieldBan, Trash2, ExternalLink, Activity, DollarSign, TrendingUp, Search, UserMinus, ShieldAlert, CheckCircle2, ChevronRight, Menu, LogOut, Beaker, MessageSquare, Paperclip, Send, LayoutTemplate, Plus, FileText, Edit } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { getWebsiteUrl } from '../../utils/url';
 
@@ -57,11 +57,23 @@ interface PhysicalOrder {
   created_at: string;
 }
 
+interface Blog {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  image_url: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export default function AdminDashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Messaging state
@@ -69,7 +81,7 @@ export default function AdminDashboard() {
   const [messageTitle, setMessageTitle] = useState('');
   const [messageContent, setMessageContent] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders' | 'revenue' | 'templates'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'websites' | 'notifications' | 'orders' | 'revenue' | 'templates' | 'blogs'>('overview');
   const [selectedWebsite, setSelectedWebsite] = useState<Website | null>(null);
   const [selectedUserForWebsites, setSelectedUserForWebsites] = useState<AdminUser | null>(null);
   const [websiteSortBy, setWebsiteSortBy] = useState<'newest' | 'visitors'>('newest');
@@ -81,21 +93,27 @@ export default function AdminDashboard() {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [templateFilterStatus, setTemplateFilterStatus] = useState<string>('All');
   const [isTemplateBuilderOpen, setIsTemplateBuilderOpen] = useState(false);
+  const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [blogFormData, setBlogFormData] = useState({ title: '', content: '', image_url: '', published: false });
+  const [isSavingBlog, setIsSavingBlog] = useState(false);
 
   const navigate = useNavigate();
 
   async function fetchData() {
     setLoading(true);
     try {
-      const [usersRes, websitesRes, ordersRes] = await Promise.all([
+      const [usersRes, websitesRes, ordersRes, blogsRes] = await Promise.all([
         axios.get('/api/users/', { withCredentials: true }),
         axios.get('/api/websites/?all=true', { withCredentials: true }),
         axios.get('/api/websites/physical-orders/', { withCredentials: true }),
+        axios.get('/api/marketing/blogs/', { withCredentials: true }),
         loading ? new Promise(resolve => setTimeout(resolve, 1500)) : Promise.resolve()
       ]);
       setUsers(usersRes.data);
       setWebsites(websitesRes.data);
       setPhysicalOrders(ordersRes.data);
+      setBlogs(blogsRes.data);
       
       try {
         const settingsRes = await axios.get('/api/users/system-settings/', { withCredentials: true });
@@ -316,6 +334,45 @@ export default function AdminDashboard() {
     ), { duration: Infinity });
   };
 
+  const handleSaveBlog = async () => {
+    if (!blogFormData.title || !blogFormData.content) {
+      toast.error('Title and Content are required.');
+      return;
+    }
+    setIsSavingBlog(true);
+    try {
+      if (editingBlog) {
+        const res = await axios.put(`/api/marketing/blogs/${editingBlog.id}/`, blogFormData, { withCredentials: true });
+        setBlogs(blogs.map(b => b.id === editingBlog.id ? res.data : b));
+        toast.success('Blog updated successfully.');
+      } else {
+        const res = await axios.post('/api/marketing/blogs/', blogFormData, { withCredentials: true });
+        setBlogs([res.data, ...blogs]);
+        toast.success('Blog created successfully.');
+      }
+      setIsBlogModalOpen(false);
+      setEditingBlog(null);
+      setBlogFormData({ title: '', content: '', image_url: '', published: false });
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to save blog.');
+    } finally {
+      setIsSavingBlog(false);
+    }
+  };
+
+  const handleDeleteBlog = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this blog?')) return;
+    try {
+      await axios.delete(`/api/marketing/blogs/${id}/`, { withCredentials: true });
+      setBlogs(blogs.filter(b => b.id !== id));
+      toast.success('Blog deleted successfully.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to delete blog.');
+    }
+  };
+
   const handleUpdateOrderStatus = async (id: number, status: string) => {
     try {
       await axios.patch(`/api/websites/physical-orders/${id}/`, { status }, { withCredentials: true });
@@ -426,6 +483,14 @@ export default function AdminDashboard() {
           >
             <div className="flex items-center gap-3"><LayoutTemplate size={18} /> Templates</div>
             <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{Object.values(categoryThemes).flat().length}</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('blogs'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'blogs' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <div className="flex items-center gap-3"><FileText size={18} /> Blogs</div>
+            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{blogs.length}</span>
           </button>
 
           <button
@@ -810,6 +875,78 @@ export default function AdminDashboard() {
                         </div>
                       ))}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB: BLOGS */}
+              {activeTab === 'blogs' && (
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[500px] flex flex-col">
+                  <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <h2 className="text-lg font-black text-slate-800 flex items-center gap-2">
+                      <FileText className="text-primary-500" /> Platform Blogs
+                    </h2>
+                    <button
+                      onClick={() => {
+                        setEditingBlog(null);
+                        setBlogFormData({ title: '', content: '', image_url: '', published: false });
+                        setIsBlogModalOpen(true);
+                      }}
+                      className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-lg shadow-sm transition-colors flex items-center gap-2"
+                    >
+                      <Plus size={16} /> Create Blog
+                    </button>
+                  </div>
+                  <div className="overflow-x-auto flex-1">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-white border-b border-slate-200">
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Title</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Status</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider">Date</th>
+                          <th className="py-4 px-6 font-bold text-sm text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {blogs.length === 0 ? (
+                          <tr><td colSpan={4} className="py-8 text-center text-slate-500 font-bold">No blogs found.</td></tr>
+                        ) : blogs.map(blog => (
+                          <tr key={blog.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="py-4 px-6 font-bold text-slate-800">{blog.title}</td>
+                            <td className="py-4 px-6">
+                              <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${blog.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+                                {blog.published ? 'Published' : 'Draft'}
+                              </span>
+                            </td>
+                            <td className="py-4 px-6 text-sm font-medium text-slate-600">
+                              {new Date(blog.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="py-4 px-6 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => {
+                                    setEditingBlog(blog);
+                                    setBlogFormData({ title: blog.title, content: blog.content, image_url: blog.image_url || '', published: blog.published });
+                                    setIsBlogModalOpen(true);
+                                  }}
+                                  className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                  title="Edit Blog"
+                                >
+                                  <Edit size={18} />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteBlog(blog.id)}
+                                  className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                                  title="Delete Blog"
+                                >
+                                  <Trash2 size={18} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}
@@ -1487,6 +1624,79 @@ export default function AdminDashboard() {
       )}
 
       {/* Modals */}
+      {isBlogModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-[120]">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900">
+                {editingBlog ? 'Edit Blog' : 'Create New Blog'}
+              </h3>
+              <button onClick={() => setIsBlogModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto space-y-4 flex-1">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1">Title *</label>
+                <input
+                  type="text"
+                  value={blogFormData.title}
+                  onChange={(e) => setBlogFormData({ ...blogFormData, title: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary-500 outline-none"
+                  placeholder="Enter blog title"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1">Content *</label>
+                <textarea
+                  value={blogFormData.content}
+                  onChange={(e) => setBlogFormData({ ...blogFormData, content: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary-500 outline-none min-h-[200px]"
+                  placeholder="Enter blog content (you can use basic HTML)"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1">Cover Image URL (Optional)</label>
+                <input
+                  type="text"
+                  value={blogFormData.image_url}
+                  onChange={(e) => setBlogFormData({ ...blogFormData, image_url: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary-500 outline-none"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="published"
+                  checked={blogFormData.published}
+                  onChange={(e) => setBlogFormData({ ...blogFormData, published: e.target.checked })}
+                  className="w-4 h-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500"
+                />
+                <label htmlFor="published" className="text-sm font-bold text-slate-700 cursor-pointer">
+                  Publish immediately
+                </label>
+              </div>
+            </div>
+            <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+              <button
+                onClick={() => setIsBlogModalOpen(false)}
+                className="px-6 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveBlog}
+                disabled={isSavingBlog}
+                className="px-6 py-2 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+              >
+                {isSavingBlog ? 'Saving...' : 'Save Blog'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isTemplateBuilderOpen && (
         <TemplateBuilderModal onClose={() => setIsTemplateBuilderOpen(false)} />
       )}
