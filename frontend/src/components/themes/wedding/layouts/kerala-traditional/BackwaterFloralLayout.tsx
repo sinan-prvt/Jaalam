@@ -3,17 +3,9 @@ import { Calendar, MapPin, Clock, Heart, Gift, Sparkles, Send, Volume2, VolumeX,
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
-// Lotus Flower SVG Motif
+// Lotus Flower Motif (Realistic)
 const LotusFlower = ({ className = "w-24 h-24" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 80 C 20 80, 10 50, 10 40 C 30 50, 45 60, 50 80 Z" fill="#FF8FA3" />
-    <path d="M50 80 C 80 80, 90 50, 90 40 C 70 50, 55 60, 50 80 Z" fill="#FF8FA3" />
-    <path d="M50 85 C 30 85, 20 60, 25 45 C 35 60, 45 70, 50 85 Z" fill="#FF4D6D" />
-    <path d="M50 85 C 70 85, 80 60, 75 45 C 65 60, 55 70, 50 85 Z" fill="#FF4D6D" />
-    <path d="M50 90 C 40 90, 35 65, 40 50 C 45 70, 48 80, 50 90 Z" fill="#C9184A" />
-    <path d="M50 90 C 60 90, 65 65, 60 50 C 55 70, 52 80, 50 90 Z" fill="#C9184A" />
-    <path d="M50 95 C 45 95, 45 70, 50 55 C 55 70, 55 95, 50 95 Z" fill="#A4133C" />
-  </svg>
+  <img src="/images/lotus.png" alt="Lotus" className={`object-cover rounded-full shadow-lg ${className}`} />
 );
 
 // Houseboat (Kettuvallam) SVG Motif

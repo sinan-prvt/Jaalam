@@ -4,6 +4,8 @@ import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout
 import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
 import { KeralaTraditionalLayout, KeralaModernLayout, BackwaterFloralLayout, GodsOwnMinimalLayout, TraditionalElegantLayout } from './layouts/kerala-traditional';
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
+import { PunjabiRoyalLayout, PunjabiVibrantModernLayout, PunjabiBhangraFloralLayout, PunjabiSikhMinimalLayout, PunjabiGoldenElegantLayout } from './layouts/punjabi-traditional';
+import { BengaliClassicLayout, BengaliRedGoldModernLayout, BengaliLotusFloralLayout, BengaliMinimalistSindoorLayout } from './layouts/bengali-traditional';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -107,7 +109,9 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   let baseTheme = 'Classic';
   const t = (theme || 'Classic').toLowerCase();
 
-  if (t.includes('emerald') || t.includes('emerald floral')) {
+  if (t.includes('golden elegant')) {
+    baseTheme = 'PunjabiGoldenElegant';
+  } else if (t.includes('emerald') || t.includes('emerald floral')) {
     baseTheme = 'EmeraldFloral';
   } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {
     baseTheme = 'ModernIslamic';
@@ -135,6 +139,22 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SilkTraditional';
   } else if (t.includes('temple minimal') || t.includes('starlight') || t.includes('romance')) {
     baseTheme = 'TempleMinimal';
+  } else if (t.includes('sikh minimal')) {
+    baseTheme = 'PunjabiSikhMinimal';
+  } else if (t.includes('bhangra floral')) {
+    baseTheme = 'PunjabiBhangraFloral';
+  } else if (t.includes('bengali classic')) {
+    baseTheme = 'BengaliClassic';
+  } else if (t.includes('red & gold modern') || t.includes('red and gold modern')) {
+    baseTheme = 'BengaliRedGoldModern';
+  } else if (t.includes('lotus floral') && category === 'Bengali Wedding') {
+    baseTheme = 'BengaliLotusFloral';
+  } else if (t.includes('minimalist sindoor')) {
+    baseTheme = 'BengaliMinimalistSindoor';
+  } else if (t.includes('punjabi royal')) {
+    baseTheme = 'PunjabiRoyal';
+  } else if (t.includes('vibrant modern') && category === 'Punjabi Traditional') {
+    baseTheme = 'PunjabiVibrantModern';
   } else if (t.includes('south indian royal')) {
     baseTheme = 'SouthIndianRoyal';
   } else if (category === 'South Indian Wedding') {
@@ -190,6 +210,24 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <SouthIndianRoyalLayout {...layoutProps} />;
     case 'SouthIndian':
       return <SouthIndianLayout {...layoutProps} />;
+    case 'PunjabiRoyal':
+      return <PunjabiRoyalLayout {...layoutProps} />;
+    case 'PunjabiVibrantModern':
+      return <PunjabiVibrantModernLayout {...layoutProps} />;
+    case 'PunjabiBhangraFloral':
+      return <PunjabiBhangraFloralLayout {...layoutProps} />;
+    case 'PunjabiSikhMinimal':
+      return <PunjabiSikhMinimalLayout {...layoutProps} />;
+    case 'PunjabiGoldenElegant':
+      return <PunjabiGoldenElegantLayout {...layoutProps} />;
+    case 'BengaliClassic':
+      return <BengaliClassicLayout {...layoutProps} />;
+    case 'BengaliRedGoldModern':
+      return <BengaliRedGoldModernLayout {...layoutProps} />;
+    case 'BengaliLotusFloral':
+      return <BengaliLotusFloralLayout {...layoutProps} />;
+    case 'BengaliMinimalistSindoor':
+      return <BengaliMinimalistSindoorLayout {...layoutProps} />;
     case 'Classic':
     default:
       return <ClassicLayout {...layoutProps} />;
