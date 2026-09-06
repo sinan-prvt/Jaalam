@@ -115,8 +115,14 @@ export const categoryThemes: Record<string, string[]> = {
 export const weddingCategories = [
   'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
   'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-  'Christian Invitation', 'Engagement Invitation',
-  'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party',
+  'Christian Invitation', 'Engagement Invitation'
+];
+
+export const birthdayCategories = [
+  'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party'
+];
+
+export const otherEventCategories = [
   'Traditional Housewarming', 'Modern Housewarming',
   'Classic Baby Shower', 'Modern Baby Shower',
   'Classic Engagement', 'Modern Engagement',

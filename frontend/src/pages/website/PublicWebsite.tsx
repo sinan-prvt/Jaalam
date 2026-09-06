@@ -78,6 +78,7 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
+import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
@@ -206,9 +207,17 @@ export default function PublicWebsite() {
       'Christian Invitation', 'Engagement Invitation'
     ];
 
+    const birthdayCategories = [
+      'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party'
+    ];
+
   const renderTheme = () => {
     if (weddingCategories.includes(website?.business_type)) {
       return <ClassicWeddingTheme website={website} content={content} />;
+    }
+
+    if (birthdayCategories.includes(website?.business_type)) {
+      return <BirthdayTheme website={website} content={content} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
@@ -516,7 +525,7 @@ export default function PublicWebsite() {
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
 
-      {(!website?.business_type || !['Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 'Christian Invitation', 'Engagement Invitation'].includes(website.business_type)) && (
+      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type))) && (
         <Chatbot content={content} />
       )}
 

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
-import { weddingCategories } from '../../utils/templateData';
+import { weddingCategories, birthdayCategories } from '../../utils/templateData';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -164,6 +164,10 @@ export default function WebsiteEditor() {
       const res = await axios.get(`/api/websites/${websiteId}/`);
       if (res.data?.business_type && weddingCategories.includes(res.data.business_type)) {
         navigate(`/wedding-editor/${websiteId}`, { replace: true });
+        return;
+      }
+      if (res.data?.business_type && birthdayCategories.includes(res.data.business_type)) {
+        navigate(`/birthday-editor/${websiteId}`, { replace: true });
         return;
       }
       setWebsite(res.data);

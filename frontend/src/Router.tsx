@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/dashboard/AdminDashboard'));
 const WebsiteEditor = lazy(() => import('./pages/website/WebsiteEditor'));
 const WeddingEditor = lazy(() => import('./pages/website/WeddingEditor'));
+const BirthdayEditor = lazy(() => import('./pages/website/BirthdayEditor'));
 const PublicWebsite = lazy(() => import('./pages/website/PublicWebsite'));
 const LivePreview = lazy(() => import('./pages/website/LivePreview'));
 const MaintenancePage = lazy(() => import('./pages/marketing/MaintenancePage'));
@@ -124,6 +125,10 @@ function Router() {
               <Route
                 path="/wedding-editor/:websiteId"
                 element={<ProtectedRoute component={WeddingEditor} />}
+              />
+              <Route
+                path="/birthday-editor/:websiteId"
+                element={<ProtectedRoute component={BirthdayEditor} />}
               />
               <Route path="/_preview" element={<LivePreview />} />
 

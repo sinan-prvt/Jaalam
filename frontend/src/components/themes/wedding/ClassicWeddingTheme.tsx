@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
 import { ChristianRoseFloralLayout, ChristianClassicLayout, ChristianModernChapelLayout, ChristianMinimalistCrossLayout, ChristianElegantLaceLayout } from './layouts/christian';
+import { EngagementClassicLayout, EngagementModernLayout, EngagementFloralLayout, EngagementMinimalLayout, EngagementElegantLayout } from './layouts/engagement';
 import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
 import { KeralaTraditionalLayout, KeralaModernLayout, BackwaterFloralLayout, GodsOwnMinimalLayout, TraditionalElegantLayout } from './layouts/kerala-traditional';
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
@@ -162,22 +163,32 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SouthIndian';
   } else if (t.includes('modern chapel') && category === 'Christian Invitation') {
     baseTheme = 'ChristianModernChapel';
+  } else if (t.includes('modern') && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementModern';
   } else if (t.includes('modern')) {
     baseTheme = 'Modern';
   } else if (t.includes('minimalist cross') && category === 'Christian Invitation') {
     baseTheme = 'ChristianMinimalistCross';
   } else if ((t.includes('rose') || t.includes('floral')) && category === 'Christian Invitation') {
     baseTheme = 'ChristianRoseFloral';
+  } else if (t.includes('floral') && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementFloral';
   } else if (t.includes('floral') || t.includes('lotus') || t.includes('rose')) {
     baseTheme = 'Floral';
+  } else if (t.includes('minimal') && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementMinimal';
   } else if (t.includes('minimal')) {
     baseTheme = 'Minimal';
   } else if ((t.includes('elegant') || t.includes('lace')) && category === 'Christian Invitation') {
     baseTheme = 'ChristianElegantLace';
+  } else if (t.includes('elegant') && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementElegant';
   } else if (t.includes('elegant') || t.includes('royal')) {
     baseTheme = 'Elegant';
   } else if ((t === 'classic' || t.includes('white classic')) && category === 'Christian Invitation') {
     baseTheme = 'ChristianClassic';
+  } else if (t === 'classic' && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementClassic';
   }
 
   switch (baseTheme) {
@@ -249,6 +260,16 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <ChristianElegantLaceLayout {...layoutProps} />;
     case 'ChristianClassic':
       return <ChristianClassicLayout {...layoutProps} />;
+    case 'EngagementClassic':
+      return <EngagementClassicLayout {...layoutProps} />;
+    case 'EngagementModern':
+      return <EngagementModernLayout {...layoutProps} />;
+    case 'EngagementFloral':
+      return <EngagementFloralLayout {...layoutProps} />;
+    case 'EngagementMinimal':
+      return <EngagementMinimalLayout {...layoutProps} />;
+    case 'EngagementElegant':
+      return <EngagementElegantLayout {...layoutProps} />;
     case 'Classic':
     default:
       return <ClassicLayout {...layoutProps} />;

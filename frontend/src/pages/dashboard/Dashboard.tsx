@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail, weddingCategories, eventHierarchy } from '../../utils/templateData';
+import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, eventHierarchy } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -221,7 +221,7 @@ export default function Dashboard() {
       });
 
       await axios.put(`/api/websites/${res.data.slug}/content/`, {
-        hero_title: heroTitle || (weddingCategories.includes(newType) ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
+        hero_title: heroTitle || ((weddingCategories.includes(newType) || birthdayCategories.includes(newType)) ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
@@ -240,6 +240,8 @@ export default function Dashboard() {
       setNewTheme('Modern');
       if (weddingCategories.includes(newType)) {
         navigate(`/wedding-editor/${res.data.slug}`);
+      } else if (birthdayCategories.includes(newType)) {
+        navigate(`/birthday-editor/${res.data.slug}`);
       } else {
         navigate(`/editor/${res.data.slug}`);
       }
@@ -725,7 +727,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => {
                           if (checkCreationLimit()) {
-                            if (weddingCategories.includes(newType)) {
+                            if (weddingCategories.includes(newType) || birthdayCategories.includes(newType)) {
                               setNewType('Restaurant');
                               setNewTheme('Fine Dining');
                             }
@@ -884,7 +886,7 @@ export default function Dashboard() {
                           </button>
                           <div className="flex gap-2">
                             {user && (user as any).role !== 'CLIENT' && (
-                              <Link to={weddingCategories.includes(site.business_type) ? `/wedding-editor/${site.slug}` : `/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                              <Link to={weddingCategories.includes(site.business_type) ? `/wedding-editor/${site.slug}` : birthdayCategories.includes(site.business_type) ? `/birthday-editor/${site.slug}` : `/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                                 <Settings size={14} /> Edit
                               </Link>
                             )}
@@ -1314,7 +1316,7 @@ export default function Dashboard() {
                             }}
                             className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
                           >
-                            {Object.keys(categoryThemes).filter(cat => !weddingCategories.includes(cat)).map(cat => (
+                            {Object.keys(categoryThemes).filter(cat => !weddingCategories.includes(cat) && !birthdayCategories.includes(cat)).map(cat => (
                               <option key={cat} value={cat}>{cat}</option>
                             ))}
                           </select>
