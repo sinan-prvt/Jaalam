@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { KidsPlayfulLayout, KidsMagicLayout } from './layouts/kids';
-
-interface BirthdayThemeProps {
-  content?: any;
-  website?: any;
-  updateContent?: (content: any) => void;
+import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
+import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout } from './layouts/first-birthday';interface BirthdayThemeProps {
+  content?: Record<string, unknown>;
+  website?: Record<string, unknown>;
+  updateContent?: (content: Record<string, unknown>) => void;
   isEditor?: boolean;
 }
 
@@ -13,13 +12,29 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
   const theme = website?.theme || 'Playful';
   const category = website?.business_type || 'Kids Birthday';
 
-  const t = theme.toLowerCase();
+  const t = ((theme as string) || '').toLowerCase().trim();
 
   let baseTheme = 'KidsPlayful';
 
   // Routing logic based on category and theme
-  if (category === 'Kids Birthday' && t === 'magic') {
+  if (category === '1st Birthday') {
+    if (t === 'soft') {
+      baseTheme = 'FirstSoft';
+    } else if (t === 'playful') {
+      baseTheme = 'FirstPlayful';
+    } else if (t === 'minimal') {
+      baseTheme = 'FirstMinimal';
+    } else {
+      baseTheme = 'FirstPlayful'; // Fallback for 1st Birthday
+    }
+  } else if (category === 'Kids Birthday' && t === 'magic') {
     baseTheme = 'KidsMagic';
+  } else if (category === 'Kids Birthday' && t === 'superhero') {
+    baseTheme = 'KidsSuperhero';
+  } else if (category === 'Kids Birthday' && t === 'classic') {
+    baseTheme = 'KidsClassic';
+  } else if (category === 'Kids Birthday' && t === 'fun') {
+    baseTheme = 'KidsFun';
   } else if (category === 'Kids Birthday' && t === 'playful') {
     baseTheme = 'KidsPlayful';
   } else if (category === 'Kids Birthday') {
@@ -34,8 +49,20 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
   };
 
   switch (baseTheme) {
+    case 'FirstSoft':
+      return <FirstSoftLayout {...layoutProps} />;
+    case 'FirstMinimal':
+      return <FirstMinimalLayout {...layoutProps} />;
+    case 'FirstPlayful':
+      return <FirstPlayfulLayout {...layoutProps} />;
     case 'KidsMagic':
       return <KidsMagicLayout {...layoutProps} />;
+    case 'KidsSuperhero':
+      return <KidsSuperheroLayout {...layoutProps} />;
+    case 'KidsClassic':
+      return <KidsClassicLayout {...layoutProps} />;
+    case 'KidsFun':
+      return <KidsFunLayout {...layoutProps} />;
     case 'KidsPlayful':
       return <KidsPlayfulLayout {...layoutProps} />;
     default:
