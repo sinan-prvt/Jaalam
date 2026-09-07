@@ -208,13 +208,13 @@ export default function BirthdayEditor() {
   // Ensure default birthday struct exists
   const birthdayData = content.settings_json?.birthday || {};
   const setBirthdayData = (updates: any) => {
-    setContent({
-      ...content,
+    setContent((prev: any) => ({
+      ...prev,
       settings_json: {
-        ...(content.settings_json || {}),
-        birthday: { ...birthdayData, ...updates }
+        ...(prev?.settings_json || {}),
+        birthday: { ...(prev?.settings_json?.birthday || {}), ...updates }
       }
-    });
+    }));
   };
 
   const tabs = [
@@ -227,8 +227,8 @@ export default function BirthdayEditor() {
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
-    { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
     { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
+    { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
 
   const defaultSections = [
@@ -237,9 +237,9 @@ export default function BirthdayEditor() {
     { id: 'story', label: 'Our Story', visible: true },
     { id: 'schedule', label: 'Schedule & Events', visible: true },
     { id: 'venue', label: 'Venue & Map', visible: true },
-    { id: 'gallery', label: 'Gallery', visible: true },
     { id: 'countdown', label: 'Countdown', visible: true },
     { id: 'wishes', label: 'Wishes & Blessings', visible: true },
+    { id: 'gallery', label: 'Gallery', visible: true },
     { id: 'rsvp', label: 'RSVP', visible: true }
   ];
 
@@ -256,7 +256,28 @@ export default function BirthdayEditor() {
       rawSections = [...rawSections, { id: 'wishes', label: 'Wishes & Blessings', visible: true }];
     }
   }
-  const currentSections = rawSections;
+  const currentSections = rawSections.map((s: any) => {
+    const defaultSec = defaultSections.find(d => d.id === s.id);
+    return { ...s, label: s.label || defaultSec?.label || s.id };
+  });
+
+  // Reorder to match new default if it matches old default order
+  const oldOrder = ['hero', 'about', 'story', 'schedule', 'venue', 'gallery', 'countdown', 'wishes', 'rsvp'];
+  const currentIds = currentSections.map((s: any) => s.id);
+  const isOldOrder = currentIds.join(',') === oldOrder.join(',') || 
+                     currentIds.join(',') === oldOrder.filter(id => id !== 'wishes').join(',');
+  
+  if (isOldOrder) {
+    currentSections.sort((a: any, b: any) => {
+      const idxA = defaultSections.findIndex(d => d.id === a.id);
+      const idxB = defaultSections.findIndex(d => d.id === b.id);
+      return (idxA !== -1 ? idxA : 99) - (idxB !== -1 ? idxB : 99);
+    });
+    // Trigger update to save the new order in the background
+    setTimeout(() => {
+      setBirthdayData({ sections: currentSections });
+    }, 100);
+  }
 
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
@@ -476,20 +497,19 @@ export default function BirthdayEditor() {
                     value={content.quote ?? content.hero_subtitle ?? content.tagline ?? birthdayData.quote ?? ''}
                     onChange={(e) => {
                       const newQuote = e.target.value;
-                      setBirthdayData({ quote: newQuote });
-                      setContent({
-                        ...content,
+                      setContent((prev: any) => ({
+                        ...prev,
                         quote: newQuote,
                         hero_subtitle: newQuote,
                         tagline: newQuote,
                         settings_json: {
-                          ...(content.settings_json || {}),
+                          ...(prev?.settings_json || {}),
                           birthday: {
-                            ...(content.settings_json?.birthday || {}),
+                            ...(prev?.settings_json?.birthday || {}),
                             quote: newQuote
                           }
                         }
-                      });
+                      }));
                     }}
                     placeholder="Two hearts united in love, starting a beautiful journey together."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
@@ -607,18 +627,17 @@ export default function BirthdayEditor() {
                     value={content.about_title ?? birthdayData.story_title ?? ''}
                     onChange={(e) => {
                       const newTitle = e.target.value;
-                      setContent({
-                        ...content,
+                      setContent((prev: any) => ({
+                        ...prev,
                         about_title: newTitle,
                         settings_json: {
-                          ...(content.settings_json || {}),
+                          ...(prev?.settings_json || {}),
                           birthday: {
-                            ...(content.settings_json?.birthday || {}),
+                            ...(prev?.settings_json?.birthday || {}),
                             story_title: newTitle
                           }
                         }
-                      });
-                      setBirthdayData({ story_title: newTitle });
+                      }));
                     }}
                     placeholder="Our Story"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
@@ -669,35 +688,25 @@ export default function BirthdayEditor() {
                     value={content.contact_info?.address ?? content.venue?.name ?? birthdayData.venue ?? ''}
                     onChange={(e) => {
                       const newAddress = e.target.value;
-                      setContent({
-                        ...content,
-                        contact_info: { ...(content.contact_info || {}), address: newAddress },
-                        venue: { ...(content.venue || {}), name: newAddress, address: newAddress },
+                      setContent((prev: any) => ({
+                        ...prev,
+                        contact_info: { ...(prev?.contact_info || {}), address: newAddress },
+                        venue: { ...(prev?.venue || {}), name: newAddress, address: newAddress },
                         settings_json: {
-                          ...(content.settings_json || {}),
+                          ...(prev?.settings_json || {}),
                           birthday: {
-                            ...(content.settings_json?.birthday || {}),
-                            venue: newAddress
+                            ...(prev?.settings_json?.birthday || {}),
+                            venue: newAddress,
+                            mapUrl: `https://maps.google.com/maps?q=${encodeURIComponent(newAddress)}`
                           }
                         }
-                      });
-                      setBirthdayData({ venue: newAddress });
+                      }));
                     }}
                     placeholder="Grand Convention Center, Main Road, City"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium resize-none"
                   />
                 </div>
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Google Maps Embed URL</label>
-                  <input
-                    type="text"
-                    value={birthdayData.mapUrl ?? ''}
-                    onChange={(e) => setBirthdayData({ mapUrl: e.target.value })}
-                    placeholder="https://maps.google.com/..."
-                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm"
-                  />
-                  <p className="mt-2 text-xs text-slate-400">Go to Google Maps, click Share &gt; Embed a map, or copy the link.</p>
-                </div>
+
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">RSVP / Contact Numbers</label>
                   <input

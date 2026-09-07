@@ -162,6 +162,14 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
         </div>
       </section>
     ),
+    about: (
+      <section key="about" className="py-16 px-6 sm:px-12 relative z-10 bg-white">
+        <div className="max-w-2xl mx-auto text-center bg-[#F4F4F4] rounded-3xl p-8 border-4 border-[#FFDF73]">
+          <span className="text-sm font-nunito font-black text-[#888] uppercase tracking-widest block mb-2">Hosted with love by</span>
+          <span className="text-3xl font-fredoka text-[#4ECDC4]">{parentsName}</span>
+        </div>
+      </section>
+    ),
     story: (
       <section key="story" className="py-24 px-6 sm:px-12 relative z-10 bg-white overflow-hidden">
         
@@ -185,10 +193,6 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
               <span className="absolute -top-4 -left-4 text-4xl">🎈</span>
               {story}
             </p>
-            <div className="mt-8 text-center md:text-left">
-              <span className="text-sm font-nunito font-black text-[#888] uppercase tracking-widest block mb-1">Hosted with love by</span>
-              <span className="text-2xl font-fredoka text-[#4ECDC4]">{parentsName}</span>
-            </div>
           </div>
         </div>
       </section>
@@ -281,6 +285,24 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
                 <span className="text-xs sm:text-sm font-nunito font-black uppercase text-[#FF6B6B]">{item.label}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+    ),
+    wishes: (
+      <section key="wishes" className="py-24 px-6 sm:px-12 relative z-10 bg-[#4ECDC4]">
+        <div className="max-w-2xl mx-auto text-center">
+          <Gift className="text-[#FFDF73] mx-auto mb-4" size={48} />
+          <h2 className="text-4xl sm:text-5xl font-fredoka text-white mb-8">Wishes & Blessings</h2>
+          <div className="bg-white p-12 rounded-[3rem] shadow-xl border-4 border-[#333]">
+            <span className="text-7xl font-fredoka text-[#FF6B6B] block mb-2">{wishCount}</span>
+            <span className="text-[#888] font-nunito font-black uppercase tracking-widest text-sm">Happy Wishes Received</span>
+            <button 
+              onClick={() => { setWishCount(prev => prev + 1); triggerConfettiPopper(); }}
+              className="mt-8 bg-[#FFDF73] hover:bg-[#FFC436] text-[#333] px-10 py-4 rounded-full font-nunito font-black tracking-widest uppercase shadow-[0_6px_0_#e6b800] active:shadow-[0_0px_0_#e6b800] active:translate-y-[6px] transition-all"
+            >
+              Send a Wish!
+            </button>
           </div>
         </div>
       </section>

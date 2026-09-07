@@ -182,6 +182,14 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
         </div>
       </section>
     ),
+    about: (
+      <section key="about" className="py-16 px-6 sm:px-12 relative z-10 bg-[#0F0C29]">
+        <div className="max-w-2xl mx-auto text-center border-t border-b border-[#FBBF24]/30 py-8">
+          <span className="text-xs font-quicksand font-bold text-[#A78BFA] uppercase tracking-[0.2em] block mb-2">Hosted by</span>
+          <span className="text-3xl font-cinzel text-white">{parentsName}</span>
+        </div>
+      </section>
+    ),
     story: (
       <section key="story" className="py-24 px-6 sm:px-12 relative z-10 bg-[#24243E] overflow-hidden">
         <div className="absolute inset-0 star-bg opacity-30"></div>
@@ -204,10 +212,6 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
             <p className="text-lg text-[#E0E7FF] font-quicksand leading-relaxed tracking-wide mb-8">
               {story}
             </p>
-            <div className="border-t border-[#FBBF24]/30 pt-8 w-full">
-              <span className="text-xs font-quicksand font-bold text-[#A78BFA] uppercase tracking-[0.2em] block mb-2">Summoned by</span>
-              <span className="text-2xl font-cinzel text-white">{parentsName}</span>
-            </div>
           </div>
         </div>
       </section>
@@ -275,6 +279,17 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
                <div className="absolute inset-0 bg-[#8B5CF6]/20 mix-blend-overlay z-10"></div>
                {venuePhoto ? (
                  <img src={venuePhoto} alt="Venue" className="w-full h-full object-cover" />
+               ) : mapUrl ? (
+                 <iframe
+                   src={mapUrl.includes('embed') ? mapUrl : `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                   width="100%"
+                   height="100%"
+                   style={{ border: 0 }}
+                   allowFullScreen={true}
+                   loading="lazy"
+                   referrerPolicy="no-referrer-when-downgrade"
+                   className="opacity-80"
+                 ></iframe>
                ) : (
                  <div className="w-full h-full bg-[#1A1A2E] flex items-center justify-center">
                    <Moon className="text-[#FBBF24] opacity-50" size={64} />
@@ -325,6 +340,24 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
                 <span className="text-xs sm:text-sm font-quicksand font-bold tracking-widest uppercase text-[#A78BFA]">{item.label}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+    ),
+    wishes: (
+      <section key="wishes" className="py-24 px-6 sm:px-12 relative z-10 bg-[#24243E]">
+        <div className="max-w-2xl mx-auto text-center">
+          <Sparkles className="text-[#FBBF24] mx-auto mb-4 animate-pulse" size={40} />
+          <h2 className="text-4xl sm:text-5xl font-cinzel gradient-text mb-8">Wishes & Blessings</h2>
+          <div className="bg-[#302B63]/40 backdrop-blur-md border border-[#8B5CF6]/30 p-12 rounded-[3rem] shadow-[0_0_30px_rgba(139,92,246,0.15)]">
+            <span className="text-6xl font-cinzel text-white block mb-2">{wishCount}</span>
+            <span className="text-[#A78BFA] font-quicksand font-bold uppercase tracking-widest text-sm">Magical Blessings Received</span>
+            <button 
+              onClick={() => { setWishCount(prev => prev + 1); triggerConfettiPopper(); }}
+              className="mt-8 bg-transparent border-2 border-[#FBBF24] hover:bg-[#FBBF24] hover:text-[#0F0C29] text-[#FBBF24] px-8 py-3 rounded-full font-quicksand font-bold tracking-widest uppercase transition-all"
+            >
+              Send Blessing
+            </button>
           </div>
         </div>
       </section>
