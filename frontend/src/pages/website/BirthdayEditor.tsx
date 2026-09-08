@@ -7,7 +7,10 @@ import {
   Save, ArrowLeft, Heart, BookOpen, Clock,
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
   Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload
-} from 'lucide-react';
+} from 'lucide-react'; jllj
+jkj
+kj
+llj
 import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
@@ -264,9 +267,9 @@ export default function BirthdayEditor() {
   // Reorder to match new default if it matches old default order
   const oldOrder = ['hero', 'about', 'story', 'schedule', 'venue', 'gallery', 'countdown', 'wishes', 'rsvp'];
   const currentIds = currentSections.map((s: any) => s.id);
-  const isOldOrder = currentIds.join(',') === oldOrder.join(',') || 
-                     currentIds.join(',') === oldOrder.filter(id => id !== 'wishes').join(',');
-  
+  const isOldOrder = currentIds.join(',') === oldOrder.join(',') ||
+    currentIds.join(',') === oldOrder.filter(id => id !== 'wishes').join(',');
+
   if (isOldOrder) {
     currentSections.sort((a: any, b: any) => {
       const idxA = defaultSections.findIndex(d => d.id === a.id);
