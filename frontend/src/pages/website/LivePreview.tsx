@@ -123,7 +123,7 @@ function LivePreviewContent() {
     ];
 
     const birthdayCategories = [
-      'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party'
+      'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday'
     ];
 
   const renderTheme = () => {

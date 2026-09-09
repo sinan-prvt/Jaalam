@@ -3,6 +3,7 @@ import React from 'react';
 import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
 import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout, FirstClassicLayout, FirstFloralLayout } from './layouts/first-birthday';
 import { Sweet16ElegantLayout, Sweet16PopLayout, Sweet16ModernLayout, Sweet16ClassicLayout, Sweet16FloralLayout } from './layouts/sweet-16';
+import { AdultNoirLayout, AdultClassicLayout, AdultModernLayout, AdultMinimalLayout, AdultElegantLayout } from './layouts/adult';
 
 interface BirthdayThemeProps {
   content?: Record<string, unknown>;
@@ -48,6 +49,20 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
     } else {
       baseTheme = 'Sweet16Elegant'; // Fallback for Sweet 16
     }
+  } else if (category === 'Adult Birthday') {
+    if (t === 'noir') {
+      baseTheme = 'AdultNoir';
+    } else if (t === 'classic') {
+      baseTheme = 'AdultClassic';
+    } else if (t === 'modern') {
+      baseTheme = 'AdultModern';
+    } else if (t === 'minimal') {
+      baseTheme = 'AdultMinimal';
+    } else if (t === 'elegant') {
+      baseTheme = 'AdultElegant';
+    } else {
+      baseTheme = 'AdultNoir'; // Fallback for Adult Birthday
+    }
   } else if (category === 'Kids Birthday' && t === 'magic') {
     baseTheme = 'KidsMagic';
   } else if (category === 'Kids Birthday' && t === 'superhero') {
@@ -90,6 +105,16 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
       return <Sweet16ClassicLayout {...layoutProps} />;
     case 'Sweet16Floral':
       return <Sweet16FloralLayout {...layoutProps} />;
+    case 'AdultNoir':
+      return <AdultNoirLayout {...layoutProps} />;
+    case 'AdultClassic':
+      return <AdultClassicLayout {...layoutProps} />;
+    case 'AdultModern':
+      return <AdultModernLayout {...layoutProps} />;
+    case 'AdultMinimal':
+      return <AdultMinimalLayout {...layoutProps} />;
+    case 'AdultElegant':
+      return <AdultElegantLayout {...layoutProps} />;
     case 'KidsMagic':
       return <KidsMagicLayout {...layoutProps} />;
     case 'KidsSuperhero':

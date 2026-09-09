@@ -13,8 +13,7 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
     'Kids Birthday': ['Playful', 'Magic', 'Superhero', 'Classic', 'Fun'],
     '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
     'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
-    'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
-    'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal']
+    'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant']
   },
   'Housewarming': {
     'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
@@ -76,7 +75,6 @@ export const categoryThemes: Record<string, string[]> = {
   '1st Birthday': ['Playful', 'Soft', 'Minimal', 'Classic', 'Floral'],
   'Sweet 16 Birthday': ['Elegant', 'Pop', 'Modern', 'Classic', 'Floral'],
   'Adult Birthday': ['Noir', 'Classic', 'Modern', 'Minimal', 'Elegant'],
-  'Surprise Party': ['Pop', 'Playful', 'Modern', 'Classic', 'Minimal'],
   
   // Housewarming
   'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
@@ -119,7 +117,7 @@ export const weddingCategories = [
 ];
 
 export const birthdayCategories = [
-  'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday', 'Surprise Party'
+  'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday'
 ];
 
 export const otherEventCategories = [
