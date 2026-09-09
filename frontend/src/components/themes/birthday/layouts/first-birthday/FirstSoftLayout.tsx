@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Volume2, VolumeX, Mail, CalendarDays, Clock, Heart, Sparkles } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import GiftBoxAnimation from '../../../../ui/GiftBoxAnimation';
 
 export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -409,31 +410,19 @@ export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
 
       {/* Gentle Fade Entrance */}
       <div
-        onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-[2500ms] ease-in-out bg-[#FAFAF8] ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} cursor-pointer selection:bg-transparent`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-[2500ms] ease-in-out bg-[#FAFAF8] ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} selection:bg-transparent`}
       >
         <div className="absolute top-[20%] left-[20%] w-[600px] h-[600px] rounded-full bg-[#E9D5CA] blur-[150px] opacity-40 blob-1 pointer-events-none"></div>
         <div className="absolute bottom-[20%] right-[20%] w-[500px] h-[500px] rounded-full bg-[#D6E4E5] blur-[150px] opacity-40 blob-2 pointer-events-none"></div>
 
-        <div className={`relative z-30 flex flex-col items-center justify-center transition-all duration-[2000ms] ease-out ${isOpening ? 'opacity-0 scale-105 filter blur-sm' : 'opacity-100 scale-100 filter-none'}`}>
-           
-           <div className="glass-panel p-16 sm:p-24 rounded-full aspect-square flex flex-col items-center justify-center max-w-[85vw] max-h-[85vh] relative z-10 text-center border border-white/60 shadow-sm">
-             
-             <span className="font-soft-body text-[10px] text-[#A2AAB0] uppercase tracking-[0.3em] mb-8">
-               A Gentle Invitation
-             </span>
-             
-             <h1 className="text-5xl sm:text-6xl font-soft-title text-[#5C554F] italic mb-6 leading-tight">
-               {name}&apos;s<br/>1st Birthday
-             </h1>
-             
-             <div className="w-12 h-[1px] bg-[#D1C8C1] mb-12"></div>
-             
-             <div className="text-[#8C8279] font-soft-body text-[9px] uppercase tracking-[0.4em] hover:text-[#5C554F] transition-colors">
-               Tap gently to open
-             </div>
-           </div>
-           
+        <div className={`relative z-30 transition-all duration-[2000ms] ease-out ${isOpening ? 'scale-110 filter blur-sm' : 'scale-100 filter-none'}`}>
+          <GiftBoxAnimation 
+            onOpen={handleOpen} 
+            title={`${name}'s 1st Birthday`} 
+            subtitle="Tap gently to open"
+            boxColor="#F6E6D8"
+            ribbonColor="#D6B5A7"
+          />
         </div>
       </div>
 

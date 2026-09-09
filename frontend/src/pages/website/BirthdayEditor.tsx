@@ -7,10 +7,7 @@ import {
   Save, ArrowLeft, Heart, BookOpen, Clock,
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
   Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload
-} from 'lucide-react'; jllj
-jkj
-kj
-llj
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;

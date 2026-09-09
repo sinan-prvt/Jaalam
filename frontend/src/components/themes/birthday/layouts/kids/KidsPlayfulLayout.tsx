@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Gift, Calendar, MapPin, Clock, Music, PartyPopper, Sparkles, Send, Volume2, VolumeX } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import GiftBoxAnimation from '../../../../ui/GiftBoxAnimation';
 
 export default function KidsPlayfulLayout({ content, website, colors }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -369,8 +370,7 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
 
       {/* Playful Entrance */}
       <div
-        onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-[1000ms] ease-in bg-[#4ECDC4] ${isOpened ? 'opacity-0 pointer-events-none -translate-y-full' : 'opacity-100'} cursor-pointer selection:bg-transparent overflow-hidden`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-[1000ms] ease-in bg-[#4ECDC4] ${isOpened ? 'opacity-0 pointer-events-none -translate-y-full' : 'opacity-100'} selection:bg-transparent overflow-hidden`}
       >
         <style>{`
           .polka-bg {
@@ -378,27 +378,18 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
             background-size: 30px 30px;
             opacity: 0.15;
           }
-          @keyframes bounceReveal {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
-          }
         `}</style>
         
         <div className="absolute inset-0 polka-bg pointer-events-none"></div>
 
-        <div className={`relative z-30 flex flex-col items-center justify-center transition-all duration-[500ms] ${isOpening ? 'scale-50 opacity-0' : 'animate-[bounceReveal_2s_infinite]'}`}>
-           
-           <div className="bg-white p-8 rounded-[3rem] shadow-2xl border-8 border-[#FFDF73] flex flex-col items-center max-w-[80vw]">
-             <Gift className="text-[#FF6B6B] mb-4" size={64} strokeWidth={2.5} />
-             <h1 className="text-4xl sm:text-5xl font-fredoka text-[#333] text-center mb-2">
-               {name}'s Birthday
-             </h1>
-             <div className="bg-[#4ECDC4] text-white font-nunito font-black px-6 py-2 rounded-full text-sm uppercase mt-4 animate-pulse">
-               Tap to Open!
-             </div>
-           </div>
-           
+        <div className={`relative z-30 transition-all duration-[500ms] ${isOpening ? 'scale-110 opacity-0' : 'scale-100'}`}>
+          <GiftBoxAnimation 
+            onOpen={handleOpen} 
+            title={`${name}'s Birthday`} 
+            subtitle="Tap to Open!"
+            boxColor="#FFDF73"
+            ribbonColor="#FF6B6B"
+          />
         </div>
       </div>
 

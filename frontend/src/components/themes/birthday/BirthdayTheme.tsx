@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
-import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout } from './layouts/first-birthday';interface BirthdayThemeProps {
+import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout, FirstClassicLayout, FirstFloralLayout } from './layouts/first-birthday';
+
+interface BirthdayThemeProps {
   content?: Record<string, unknown>;
   website?: Record<string, unknown>;
   updateContent?: (content: Record<string, unknown>) => void;
@@ -24,6 +26,10 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
       baseTheme = 'FirstPlayful';
     } else if (t === 'minimal') {
       baseTheme = 'FirstMinimal';
+    } else if (t === 'classic') {
+      baseTheme = 'FirstClassic';
+    } else if (t === 'floral') {
+      baseTheme = 'FirstFloral';
     } else {
       baseTheme = 'FirstPlayful'; // Fallback for 1st Birthday
     }
@@ -55,6 +61,10 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
       return <FirstMinimalLayout {...layoutProps} />;
     case 'FirstPlayful':
       return <FirstPlayfulLayout {...layoutProps} />;
+    case 'FirstClassic':
+      return <FirstClassicLayout {...layoutProps} />;
+    case 'FirstFloral':
+      return <FirstFloralLayout {...layoutProps} />;
     case 'KidsMagic':
       return <KidsMagicLayout {...layoutProps} />;
     case 'KidsSuperhero':

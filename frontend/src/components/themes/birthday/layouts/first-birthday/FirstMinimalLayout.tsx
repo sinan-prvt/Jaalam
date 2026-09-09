@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, Volume2, VolumeX, Mail, CalendarDays } from 'lucide-react';
+import { MapPin, Volume2, VolumeX, Mail, CalendarDays, ArrowRight } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
+import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
 export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -27,18 +28,19 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
   const handleOpen = () => {
     if (isOpening || isOpened) return;
     setIsOpening(true);
+    triggerConfettiPopper();
     if (audioRef.current && musicUrl) {
       audioRef.current.play().catch(console.error);
     }
     setTimeout(() => {
       setIsOpened(true);
-    }, 1200);
+    }, 1500);
   };
 
   const name = content?.hero_title || content?.settings_json?.birthday?.name || "Emma";
   const parentsName = content?.settings_json?.birthday?.parentsName || content?.parents_names || "The Miller Family";
 
-  const story = content?.about_text || `A year of tiny yawns and gentle sighs. We invite you to share in the quiet joy of Emma's first year.`;
+  const story = content?.about_text || `A year of tiny yawns and gentle sighs. We invite you to share in the quiet joy of ${name}'s first year.`;
   const storyTitle = content?.about_title || content?.settings_json?.birthday?.story_title || "You're Invited";
 
   const rawDateStr = content?.settings_json?.birthday?.date || content?.date || "Saturday, October 10, 2026";
@@ -47,7 +49,7 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
 
   const monthStr = content?.settings_json?.birthday?.dateMonth || (isDateValid ? dateObj.toLocaleString('en-US', { month: 'long' }) : 'October');
   const dayNum = content?.settings_json?.birthday?.dateDay || (isDateValid ? String(dateObj.getDate()) : '10');
-  const _yearStr = content?.settings_json?.birthday?.dateYear || (isDateValid ? String(dateObj.getFullYear()) : '2026');
+  const yearStr = content?.settings_json?.birthday?.dateYear || (isDateValid ? String(dateObj.getFullYear()) : '2026');
   const timeStr = content?.settings_json?.birthday?.time || content?.time || '2:00 PM';
 
   const location = content?.contact_info?.address || content?.venue?.address || content?.venue?.name || content?.settings_json?.birthday?.venue || "Our Sunlit Garden";
@@ -56,14 +58,13 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
   const schedule = (Array.isArray(rawSchedule) && rawSchedule.length > 0)
     ? rawSchedule
     : [
-      { time: "2:00 PM", event: "Welcome & Quiet Music", date: rawDateStr, venue: location },
+      { time: "2:00 PM", event: "Arrival & Welcome", date: rawDateStr, venue: location },
       { time: "3:00 PM", event: "Cake Cutting", date: rawDateStr, venue: location },
-      { time: "4:00 PM", event: "Gentle Goodbyes", date: rawDateStr, venue: location }
+      { time: "4:00 PM", event: "Farewells", date: rawDateStr, venue: location }
     ];
 
   const mainPhoto = content?.settings_json?.birthday?.mainPhoto || content?.hero?.image || "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80";
   const mapUrl = content?.settings_json?.birthday?.mapUrl || content?.venue?.mapUrl || "";
-  const _venuePhoto = content?.settings_json?.birthday?.venuePhoto || content?.venue?.image || "";
 
   const gallery = content?.settings_json?.birthday?.gallery || [];
   const validGallery = Array.isArray(gallery) ? gallery.filter((url: string) => url && url.trim() !== "") : [];
@@ -98,99 +99,117 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
-      <section key="hero" className="relative w-full flex flex-col justify-center items-center text-center bg-[#FCFCFC] p-0 overflow-hidden min-h-screen">
+      <section key="hero" className="relative w-full min-h-screen flex flex-col justify-between items-center text-center bg-[#F9F9F9] p-0 overflow-hidden">
         <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap');
-          .font-minimal-title { font-family: 'Playfair Display', serif; font-weight: 400; }
-          .font-minimal-body { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: 0.1em; }
-          
-          .minimal-panel {
-            background: #FFFFFF;
-            border: 1px solid #EAE6DF;
-          }
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@200;300;400&display=swap');
+          .font-editorial-title { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em; }
+          .font-editorial-body { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: 0.25em; }
+          .sharp-border { border: 1px solid #111111; }
+          .thin-border { border: 1px solid #E5E5E5; }
         `}</style>
         
-        <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 flex flex-col items-center justify-center">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <span className="text-[#A3A3A3] font-minimal-body uppercase text-[9px] tracking-[0.4em] block mb-4">First Birthday</span>
-            <h1 className="text-6xl sm:text-7xl font-minimal-title text-[#2A2A2A] leading-tight mt-6 mb-4">{name}</h1>
+        {/* Top Navbar Area */}
+        <div className="w-full p-8 flex justify-between items-start z-10 animate-fade-in-up">
+          <div className="text-left">
+            <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#111111] block mb-1">01</span>
+            <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#888888]">Chapter</span>
           </div>
+          <div className="text-right">
+            <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#111111] block mb-1">{dateObj.getFullYear()}</span>
+            <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#888888]">Year</span>
+          </div>
+        </div>
 
-          <div className="w-full relative px-4 sm:px-12 mt-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="minimal-panel p-2 rounded-xl relative">
-              <img src={mainPhoto} alt={name} className="w-full h-auto aspect-[4/5] object-cover rounded-lg grayscale-[20%]" />
+        {/* Main Hero Content */}
+        <div className="relative z-10 w-full flex-1 flex flex-col items-center justify-center px-6">
+          <div className="relative mb-12">
+            <h1 className="text-[5rem] sm:text-[9rem] md:text-[12rem] font-editorial-title text-[#111111] leading-[0.8] z-20 relative mix-blend-difference text-white">
+              {name.toUpperCase()}
+            </h1>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-2xl aspect-[16/9] z-10 bg-black">
+              <img src={mainPhoto} alt={name} className="w-full h-full object-cover opacity-80 grayscale" />
             </div>
           </div>
           
-          <div className="minimal-panel px-12 py-8 rounded-full flex flex-row items-center gap-16 mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] font-minimal-body uppercase text-[#A3A3A3] tracking-[0.3em] mb-2">{monthStr}</span>
-              <span className="text-4xl font-minimal-title text-[#2A2A2A]">{dayNum}</span>
-            </div>
-            <div className="w-[1px] h-12 bg-[#EAE6DF]"></div>
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] font-minimal-body uppercase text-[#A3A3A3] tracking-[0.3em] mb-2">Time</span>
-              <span className="text-lg font-minimal-body text-[#2A2A2A]">{timeStr}</span>
-            </div>
+          <div className="mt-8 flex flex-col items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+             <span className="font-editorial-title italic text-3xl sm:text-4xl text-[#111111]">is turning one</span>
           </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="w-full border-t border-[#E5E5E5] flex justify-between p-8 bg-white z-10">
+           <div className="flex flex-col items-start">
+             <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#888888] mb-1">Date</span>
+             <span className="font-editorial-body text-[11px] uppercase tracking-widest text-[#111111]">{monthStr} {dayNum}, {yearStr}</span>
+           </div>
+           <div className="flex flex-col items-end">
+             <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#888888] mb-1">Time</span>
+             <span className="font-editorial-body text-[11px] uppercase tracking-widest text-[#111111]">{timeStr}</span>
+           </div>
         </div>
       </section>
     ),
     about: (
-      <section key="about" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
-        <div className="max-w-xl mx-auto text-center relative z-10">
-          <span className="text-[9px] font-minimal-body text-[#A3A3A3] uppercase tracking-[0.4em] block mb-6">Hosted By</span>
-          <span className="text-3xl font-minimal-title text-[#2A2A2A] block mb-16">{parentsName}</span>
-          
-          <div className="w-12 h-[1px] bg-[#EAE6DF] mx-auto mb-16"></div>
-          
-          <h2 className="text-4xl font-minimal-title text-[#2A2A2A] mb-8">{storyTitle}</h2>
-          <p className="text-[#2A2A2A] text-lg font-minimal-body leading-relaxed mb-10 max-w-lg mx-auto">
-            {story}
-          </p>
-          <div className="minimal-panel px-8 py-6 rounded-2xl inline-block mt-4">
-            <p className="text-[#A3A3A3] font-minimal-title text-xl italic leading-relaxed">
-              &quot;{quoteText}&quot;
+      <section key="about" className="py-32 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-16 items-start">
+          <div className="flex-1">
+            <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-8">Details</span>
+            <h2 className="text-4xl sm:text-6xl font-editorial-title text-[#111111] mb-8 leading-tight">{storyTitle}</h2>
+          </div>
+          <div className="flex-1 pt-2 md:pt-12">
+            <p className="text-[#111111] text-lg font-light font-editorial-title italic leading-relaxed mb-12">
+              {story}
             </p>
+            <div className="thin-border p-8 inline-block">
+              <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-4">Hosted By</span>
+              <span className="text-xl font-editorial-title text-[#111111] uppercase tracking-widest block">{parentsName}</span>
+            </div>
           </div>
         </div>
       </section>
     ),
     schedule: (
-      <section key="schedule" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FCFCFC]">
-        <div className="max-w-2xl mx-auto flex flex-col gap-16 items-center relative z-10">
-          <div className="text-center">
-            <span className="font-minimal-body text-[9px] text-[#A3A3A3] uppercase tracking-[0.4em] block mb-6">Schedule</span>
-            <h2 className="text-4xl sm:text-5xl font-minimal-title text-[#2A2A2A]">Order of Events</h2>
+      <section key="schedule" className="py-32 px-6 sm:px-12 relative z-10 bg-[#F9F9F9] border-t border-b border-[#E5E5E5]">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-20">
+            <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-4">Schedule</span>
+            <h2 className="text-4xl sm:text-5xl font-editorial-title text-[#111111]">Order of Events</h2>
           </div>
 
-          <div className="relative border-l border-[#EAE6DF] ml-4 sm:ml-8 space-y-16 pb-8 w-full max-w-md mx-auto">
-            {schedule.map((item: { time: string; event: string; venue?: string }, idx: number) => {
-              return (
-              <div key={idx} className="relative pl-12 sm:pl-16 group">
-                <div className="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-[#EAE6DF] transition-transform duration-500 group-hover:scale-150">
+          <div className="w-full border-t border-[#111111]">
+            {schedule.map((item: { time: string; event: string; venue?: string }, idx: number) => (
+              <div key={idx} className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-8 border-b border-[#E5E5E5] group hover:bg-white transition-colors px-4 -mx-4">
+                <div className="flex-1">
+                  <span className="text-[#111111] font-editorial-title text-2xl sm:text-3xl transition-transform duration-300 group-hover:translate-x-4 inline-block">{item.event}</span>
                 </div>
-                
-                <div className="minimal-panel p-8 rounded-xl transition-all duration-500 hover:shadow-sm">
-                  <span className="text-[#A3A3A3] font-minimal-body text-[9px] uppercase tracking-widest block mb-4">
+                <div className="flex-shrink-0 mt-4 sm:mt-0">
+                  <span className="text-[#888888] font-editorial-body text-[10px] uppercase tracking-[0.3em]">
                     {item.time}
                   </span>
-                  <h3 className="text-xl font-minimal-title text-[#2A2A2A]">{item.event}</h3>
                 </div>
               </div>
-            )})}
+            ))}
           </div>
         </div>
       </section>
     ),
     venue: (
-      <section key="venue" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
-        <div className="max-w-2xl mx-auto text-center relative z-10 minimal-panel p-16 rounded-xl aspect-square flex flex-col items-center justify-center">
-           <MapPin size={24} strokeWidth={1} className="text-[#A3A3A3] mb-8" />
-           <span className="text-[9px] font-minimal-body text-[#A3A3A3] uppercase tracking-[0.4em] block mb-4">Join Us At</span>
-           <h3 className="text-3xl font-minimal-title text-[#2A2A2A] mb-8 leading-relaxed max-w-sm mx-auto">{location}</h3>
-           
-           <div className="mt-8 w-full h-[300px] bg-[#FCFCFC] rounded-lg overflow-hidden border border-[#EAE6DF]">
+      <section key="venue" className="py-32 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-0 border border-[#E5E5E5]">
+          <div className="flex-1 p-16 sm:p-24 flex flex-col justify-center items-start border-b md:border-b-0 md:border-r border-[#E5E5E5]">
+            <MapPin size={24} strokeWidth={1} className="text-[#111111] mb-12" />
+            <span className="text-[9px] font-editorial-body text-[#888888] uppercase tracking-[0.4em] block mb-6">Location</span>
+            <h3 className="text-4xl font-editorial-title text-[#111111] mb-12 leading-tight">{location}</h3>
+            
+            {mapUrl && (
+              <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-[#111111]">
+                <span className="font-editorial-body text-[10px] uppercase tracking-widest border-b border-[#111111] pb-1">Get Directions</span>
+                <ArrowRight size={16} strokeWidth={1} className="transition-transform duration-300 group-hover:translate-x-2" />
+              </a>
+            )}
+          </div>
+          
+          <div className="flex-1 min-h-[400px] bg-[#F9F9F9]">
              {mapUrl ? (
                 <iframe
                   src={mapUrl}
@@ -200,34 +219,34 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
                   allowFullScreen={true}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full grayscale"
                 ></iframe>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center">
-                  <MapPin size={24} strokeWidth={1} className="text-[#EAE6DF] mb-4" />
-                  <span className="text-[#A3A3A3] font-minimal-body text-[9px] uppercase tracking-widest">Location map</span>
+                <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                  <span className="text-[#888888] font-editorial-body text-[9px] uppercase tracking-widest">Map view unavailable</span>
                 </div>
               )}
-           </div>
+          </div>
         </div>
       </section>
     ),
     countdown: (
-      <section key="countdown" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FCFCFC]">
-        <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center text-center">
-          <span className="font-minimal-body text-[9px] text-[#A3A3A3] uppercase tracking-[0.4em] block mb-12">The Celebration Begins In</span>
+      <section key="countdown" className="py-32 px-6 sm:px-12 relative z-10 bg-[#111111] text-white text-center">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-20">Anticipation</span>
           
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 w-full">
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-16 w-full">
             {[
               { label: 'Days', value: timeLeft?.d ?? 0 },
               { label: 'Hours', value: timeLeft?.h ?? 0 },
-              { label: 'Mins', value: timeLeft?.m ?? 0 },
-              { label: 'Secs', value: timeLeft?.s ?? 0 }
+              { label: 'Minutes', value: timeLeft?.m ?? 0 },
+              { label: 'Seconds', value: timeLeft?.s ?? 0 }
             ].map((item, idx) => (
-              <div key={idx} className="flex flex-col items-center minimal-panel rounded-xl aspect-square w-28 sm:w-36 justify-center">
-                <span className="text-4xl sm:text-5xl font-minimal-title text-[#2A2A2A] mb-3">
+              <div key={idx} className="flex flex-col items-center w-24 sm:w-32">
+                <span className="text-6xl sm:text-8xl font-editorial-title mb-6">
                   {String(item.value).padStart(2, '0')}
                 </span>
-                <span className="text-[9px] font-minimal-body uppercase text-[#A3A3A3] tracking-[0.3em]">{item.label}</span>
+                <span className="text-[9px] font-editorial-body uppercase text-[#888888] tracking-[0.3em]">{item.label}</span>
               </div>
             ))}
           </div>
@@ -235,18 +254,21 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
       </section>
     ),
     gallery: validGallery.length > 0 ? (
-      <section key="gallery" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="font-minimal-body text-[9px] text-[#A3A3A3] uppercase tracking-[0.4em] block mb-4">Gallery</span>
-            <h2 className="text-4xl font-minimal-title text-[#2A2A2A]">Captured Moments</h2>
+      <section key="gallery" className="py-32 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-20 flex justify-between items-end">
+            <div>
+              <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-4">Gallery</span>
+              <h2 className="text-4xl font-editorial-title text-[#111111]">Captured Moments</h2>
+            </div>
+            <span className="font-editorial-body text-[9px] text-[#111111] uppercase tracking-[0.4em] hidden sm:block">Volume I</span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
             {validGallery.map((url: string, index: number) => {
-              const isLarge = index % 5 === 0;
               return (
-                <div key={index} className={`relative overflow-hidden minimal-panel p-1 rounded-lg ${isLarge ? 'aspect-square md:col-span-2 md:row-span-2' : 'aspect-square'}`}>
-                  <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover rounded-md grayscale-[15%] transition-transform duration-700 hover:scale-105" />
+                <div key={index} className="break-inside-avoid relative overflow-hidden group">
+                  <img src={url} alt={`Gallery ${index}`} className="w-full h-auto object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105" />
+                  <div className="absolute inset-0 border border-[#111111] opacity-0 group-hover:opacity-100 transition-opacity duration-500 m-4 pointer-events-none"></div>
                 </div>
               );
             })}
@@ -255,73 +277,76 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
       </section>
     ) : null,
     wishes: (
-      <section key="wishes" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FCFCFC]">
-        <div className="max-w-xl mx-auto">
-          <div className="text-center mb-16">
-            <Mail size={24} strokeWidth={1} className="text-[#A3A3A3] mx-auto mb-6" />
-            <h2 className="text-4xl font-minimal-title text-[#2A2A2A] mb-4">Well Wishes</h2>
-            <p className="text-[#A3A3A3] font-minimal-body text-[9px] uppercase tracking-[0.3em]">Leave a message</p>
+      <section key="wishes" className="py-32 px-6 sm:px-12 relative z-10 bg-[#F9F9F9] border-t border-[#E5E5E5]">
+        <div className="max-w-2xl mx-auto text-center">
+          <Mail size={24} strokeWidth={1} className="text-[#111111] mx-auto mb-10" />
+          <h2 className="text-4xl font-editorial-title text-[#111111] mb-12 italic">Guestbook</h2>
+          
+          <div className="flex items-center justify-center gap-8 mb-16">
+            <button 
+              onClick={() => setWishCount(Math.max(0, wishCount - 1))}
+              className="text-[#888888] hover:text-[#111111] transition-colors font-editorial-body text-xl"
+            >-</button>
+            <div className="w-32 text-center border-b border-[#111111] pb-2">
+              <span className="text-6xl font-editorial-title text-[#111111]">{wishCount}</span>
+            </div>
+            <button 
+              onClick={() => { setWishCount(wishCount + 1); triggerConfettiPopper(); }}
+              className="text-[#888888] hover:text-[#111111] transition-colors font-editorial-body text-xl"
+            >+</button>
           </div>
           
-          <div className="minimal-panel p-10 sm:p-16 rounded-xl relative text-center flex flex-col items-center">
-            <div className="flex items-center gap-4 mb-10">
-              <button 
-                onClick={() => setWishCount(Math.max(0, wishCount - 1))}
-                className="w-10 h-10 rounded-full border border-[#EAE6DF] flex items-center justify-center text-[#2A2A2A] hover:bg-[#F9F9F9] transition-colors"
-              >-</button>
-              <div className="w-20 text-center">
-                <span className="text-3xl font-minimal-title text-[#2A2A2A]">{wishCount}</span>
-              </div>
-              <button 
-                onClick={() => setWishCount(wishCount + 1)}
-                className="w-10 h-10 rounded-full border border-[#EAE6DF] flex items-center justify-center text-[#2A2A2A] hover:bg-[#F9F9F9] transition-colors"
-              >+</button>
-            </div>
-            <p className="text-[#A3A3A3] font-minimal-body text-[10px] uppercase tracking-widest mb-10">Wishes received so far</p>
-            
-            <button className="bg-[#2A2A2A] hover:bg-[#1A1A1A] text-white font-minimal-body text-[9px] uppercase tracking-[0.3em] py-5 px-12 rounded-lg transition-colors w-full">
-              Sign the Guestbook
-            </button>
-          </div>
+          <p className="text-[#888888] font-editorial-body text-[9px] uppercase tracking-widest mb-16">Messages Received</p>
+          
+          <button className="bg-transparent border border-[#111111] hover:bg-[#111111] hover:text-white text-[#111111] font-editorial-body text-[9px] uppercase tracking-[0.3em] py-6 px-16 transition-colors">
+            Leave a Message
+          </button>
         </div>
       </section>
     ),
     rsvp: (
-      <section key="rsvp" className="py-24 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
-        <div className="max-w-2xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <span className="font-minimal-body text-[9px] text-[#A3A3A3] uppercase tracking-[0.4em] block mb-4">Attendance</span>
-            <h2 className="text-4xl font-minimal-title text-[#2A2A2A]">RSVP</h2>
+      <section key="rsvp" className="py-32 px-6 sm:px-12 relative z-10 bg-[#FFFFFF]">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-24">
+            <span className="font-editorial-body text-[9px] text-[#888888] uppercase tracking-[0.4em] block mb-4">Response</span>
+            <h2 className="text-5xl font-editorial-title text-[#111111]">RSVP</h2>
           </div>
           
-          <div className="minimal-panel p-10 sm:p-16 rounded-xl">
-            <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex flex-col gap-2">
-                <input type="text" className="w-full bg-transparent border-b border-[#EAE6DF] pb-4 outline-none focus:border-[#2A2A2A] transition-colors text-sm text-[#2A2A2A] placeholder-[#A3A3A3] font-minimal-body" placeholder="Name(s) of Guest(s)" />
-              </div>
+          <form className="flex flex-col gap-12" onSubmit={(e) => e.preventDefault()}>
+            <div className="relative">
+              <input type="text" id="name" className="peer w-full bg-transparent border-b border-[#E5E5E5] focus:border-[#111111] py-4 outline-none text-xl text-[#111111] font-editorial-title italic placeholder-transparent transition-colors" placeholder="Name(s)" />
+              <label htmlFor="name" className="absolute left-0 top-4 text-[#888888] font-editorial-body text-[9px] uppercase tracking-widest transition-all peer-focus:-top-4 peer-focus:text-[#111111] peer-focus:text-[8px] peer-[&:not(:placeholder-shown)]:-top-4 peer-[&:not(:placeholder-shown)]:[text-8px]">Name(s) of Guest(s)</label>
+            </div>
+            
+            <div className="relative mt-4">
+              <textarea id="note" rows={1} className="peer w-full bg-transparent border-b border-[#E5E5E5] focus:border-[#111111] py-4 outline-none text-xl text-[#111111] font-editorial-title italic placeholder-transparent transition-colors resize-none" placeholder="Note"></textarea>
+              <label htmlFor="note" className="absolute left-0 top-4 text-[#888888] font-editorial-body text-[9px] uppercase tracking-widest transition-all peer-focus:-top-4 peer-focus:text-[#111111] peer-focus:text-[8px] peer-[&:not(:placeholder-shown)]:-top-4 peer-[&:not(:placeholder-shown)]:[text-8px]">A brief note...</label>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-8 mt-8">
+              <label className="flex items-center justify-start gap-4 cursor-pointer flex-1 group">
+                <div className="relative w-5 h-5 flex items-center justify-center">
+                   <input type="radio" name="attendance" className="peer appearance-none w-full h-full border border-[#E5E5E5] checked:border-[#111111] transition-colors cursor-pointer" defaultChecked />
+                   <div className="absolute w-2 h-2 bg-[#111111] scale-0 peer-checked:scale-100 transition-transform"></div>
+                </div>
+                <span className="text-[#111111] font-editorial-body text-[10px] uppercase tracking-widest">Accept</span>
+              </label>
               
-              <div className="flex flex-col gap-2">
-                <textarea rows={3} className="w-full bg-transparent border-b border-[#EAE6DF] pb-4 outline-none focus:border-[#2A2A2A] transition-colors text-sm text-[#2A2A2A] placeholder-[#A3A3A3] font-minimal-body resize-none" placeholder="A brief note or dietary requests..."></textarea>
-              </div>
-              
-              <div className="flex gap-4 mt-4">
-                <label className="flex items-center justify-center gap-3 cursor-pointer p-5 border border-[#EAE6DF] rounded-lg bg-transparent hover:bg-[#FCFCFC] transition-colors flex-1 group">
-                  <input type="radio" name="attendance" className="accent-[#2A2A2A]" defaultChecked />
-                  <span className="text-[#2A2A2A] font-minimal-body text-[10px] uppercase tracking-widest">Joyfully Accept</span>
-                </label>
-                <label className="flex items-center justify-center gap-3 cursor-pointer p-5 border border-[#EAE6DF] rounded-lg bg-transparent hover:bg-[#FCFCFC] transition-colors flex-1 group">
-                  <input type="radio" name="attendance" className="accent-[#2A2A2A]" />
-                  <span className="text-[#2A2A2A] font-minimal-body text-[10px] uppercase tracking-widest">Regretfully Decline</span>
-                </label>
-              </div>
-              
-              <div className="mt-8">
-                <button type="button" className="w-full bg-[#2A2A2A] hover:bg-[#1A1A1A] text-white font-minimal-body text-[10px] uppercase tracking-[0.3em] py-5 rounded-lg transition-colors">
-                  Send RSVP
-                </button>
-              </div>
-            </form>
-          </div>
+              <label className="flex items-center justify-start gap-4 cursor-pointer flex-1 group">
+                <div className="relative w-5 h-5 flex items-center justify-center">
+                   <input type="radio" name="attendance" className="peer appearance-none w-full h-full border border-[#E5E5E5] checked:border-[#111111] transition-colors cursor-pointer" />
+                   <div className="absolute w-2 h-2 bg-[#111111] scale-0 peer-checked:scale-100 transition-transform"></div>
+                </div>
+                <span className="text-[#888888] group-hover:text-[#111111] transition-colors font-editorial-body text-[10px] uppercase tracking-widest">Decline</span>
+              </label>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <button type="button" className="w-full bg-[#111111] hover:bg-[#000000] text-white font-editorial-body text-[10px] uppercase tracking-[0.4em] py-6 transition-colors">
+                Submit Response
+              </button>
+            </div>
+          </form>
         </div>
       </section>
     )
@@ -341,7 +366,7 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
   const sections = content?.settings_json?.birthday?.sections || defaultSections;
 
   return (
-    <div className={`min-h-screen bg-[#FCFCFC] relative text-[#2A2A2A] flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen bg-[#FFFFFF] relative text-[#111111] flex flex-col items-center overflow-hidden w-full ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
 
       {musicUrl && <audio ref={audioRef} src={musicUrl} loop preload="auto" />}
 
@@ -349,30 +374,36 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
       {musicUrl && isOpened && (
         <button 
           onClick={toggleMusic}
-          className="fixed bottom-8 right-8 z-[90] w-12 h-12 minimal-panel rounded-full flex items-center justify-center text-[#2A2A2A] hover:bg-[#F9F9F9] transition-colors"
+          className="fixed bottom-8 right-8 z-[90] w-12 h-12 bg-white border border-[#E5E5E5] rounded-full flex items-center justify-center text-[#111111] hover:bg-[#F9F9F9] transition-colors"
         >
-          {isMuted ? <VolumeX size={18} strokeWidth={1} /> : <Volume2 size={18} strokeWidth={1} />}
+          {isMuted ? <VolumeX size={16} strokeWidth={1} /> : <Volume2 size={16} strokeWidth={1} />}
         </button>
       )}
 
-      {/* Minimal Entrance */}
-      <div
-        onClick={handleOpen}
-        className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-1000 ease-in-out bg-[#FFFFFF] ${isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'} cursor-pointer selection:bg-transparent`}
-      >
-        <div className={`relative z-30 flex flex-col items-center justify-center transition-all duration-700 ease-out ${isOpening ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
-           <div className="minimal-panel p-16 sm:p-24 rounded-xl aspect-[3/4] flex flex-col items-center justify-center max-w-[85vw] max-h-[85vh] relative z-10 text-center w-[360px] sm:w-[420px]">
-             
-             <span className="text-[#A3A3A3] font-minimal-body text-[9px] uppercase tracking-[0.4em] mb-6">You are invited</span>
-             
-             <h1 className="text-4xl font-minimal-title text-[#2A2A2A] mb-8">{name} is 1</h1>
-             
-             <CalendarDays size={24} strokeWidth={1} className="text-[#EAE6DF] mb-12" />
-             
-             <div className="mt-8 border border-[#2A2A2A] rounded-full px-10 py-4 hover:bg-[#FCFCFC] transition-colors">
-               <span className="text-[#2A2A2A] font-minimal-body text-[9px] uppercase tracking-[0.3em]">Tap to Reveal</span>
-             </div>
-           </div>
+      {/* Minimal Editorial Split Entrance */}
+      <div className={`fixed inset-0 z-[100] pointer-events-none flex`}>
+        {/* Left Door */}
+        <div 
+          className={`w-1/2 h-full bg-[#FFFFFF] transition-transform duration-[1500ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened || isOpening ? '-translate-x-full' : 'translate-x-0'} border-r border-[#E5E5E5]`}
+        ></div>
+        {/* Right Door */}
+        <div 
+          className={`w-1/2 h-full bg-[#FFFFFF] transition-transform duration-[1500ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${isOpened || isOpening ? 'translate-x-full' : 'translate-x-0'}`}
+        ></div>
+
+        {/* Center Content */}
+        <div 
+          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 pointer-events-auto ${isOpening || isOpened ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        >
+          <div 
+            onClick={handleOpen}
+            className="group cursor-pointer flex flex-col items-center justify-center p-12 bg-[#FFFFFF] border border-[#111111] transition-transform duration-500 hover:scale-105"
+          >
+             <span className="text-[#888888] font-editorial-body text-[9px] uppercase tracking-[0.4em] mb-4">You are invited</span>
+             <h1 className="text-3xl font-editorial-title text-[#111111] mb-8">{name.toUpperCase()}</h1>
+             <div className="w-[1px] h-12 bg-[#111111] mb-8 group-hover:h-16 transition-all duration-500"></div>
+             <span className="font-editorial-body text-[9px] uppercase tracking-widest text-[#111111]">Tap to Reveal</span>
+          </div>
         </div>
       </div>
 
@@ -380,12 +411,9 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
         {sections.filter((s: { id: string; visible: boolean }) => s.visible).map((s: { id: string; visible: boolean }) => sectionMap[s.id])}
       </div>
 
-      <footer className="py-16 relative z-10 text-center bg-[#FCFCFC] text-[#A3A3A3] w-full border-t border-[#EAE6DF]">
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="w-8 h-[1px] bg-[#EAE6DF]"></div>
-          <p className="font-minimal-body text-[9px] uppercase tracking-[0.4em]">Thank You</p>
-          <div className="w-8 h-[1px] bg-[#EAE6DF]"></div>
-        </div>
+      <footer className="py-24 relative z-10 text-center bg-[#111111] text-[#FFFFFF] w-full">
+        <p className="font-editorial-body text-[9px] uppercase tracking-[0.5em] mb-4">A Quiet Celebration</p>
+        <p className="font-editorial-title italic text-sm text-[#888888]">{dateObj.getFullYear()}</p>
       </footer>
     </div>
   );
