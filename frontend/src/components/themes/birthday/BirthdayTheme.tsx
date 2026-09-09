@@ -2,6 +2,7 @@ import React from 'react';
 
 import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
 import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout, FirstClassicLayout, FirstFloralLayout } from './layouts/first-birthday';
+import { Sweet16ElegantLayout, Sweet16PopLayout, Sweet16ModernLayout, Sweet16ClassicLayout, Sweet16FloralLayout } from './layouts/sweet-16';
 
 interface BirthdayThemeProps {
   content?: Record<string, unknown>;
@@ -32,6 +33,20 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
       baseTheme = 'FirstFloral';
     } else {
       baseTheme = 'FirstPlayful'; // Fallback for 1st Birthday
+    }
+  } else if (category === 'Sweet 16 Birthday') {
+    if (t === 'elegant') {
+      baseTheme = 'Sweet16Elegant';
+    } else if (t === 'pop') {
+      baseTheme = 'Sweet16Pop';
+    } else if (t === 'modern') {
+      baseTheme = 'Sweet16Modern';
+    } else if (t === 'classic') {
+      baseTheme = 'Sweet16Classic';
+    } else if (t === 'floral') {
+      baseTheme = 'Sweet16Floral';
+    } else {
+      baseTheme = 'Sweet16Elegant'; // Fallback for Sweet 16
     }
   } else if (category === 'Kids Birthday' && t === 'magic') {
     baseTheme = 'KidsMagic';
@@ -65,6 +80,16 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
       return <FirstClassicLayout {...layoutProps} />;
     case 'FirstFloral':
       return <FirstFloralLayout {...layoutProps} />;
+    case 'Sweet16Elegant':
+      return <Sweet16ElegantLayout {...layoutProps} />;
+    case 'Sweet16Pop':
+      return <Sweet16PopLayout {...layoutProps} />;
+    case 'Sweet16Modern':
+      return <Sweet16ModernLayout {...layoutProps} />;
+    case 'Sweet16Classic':
+      return <Sweet16ClassicLayout {...layoutProps} />;
+    case 'Sweet16Floral':
+      return <Sweet16FloralLayout {...layoutProps} />;
     case 'KidsMagic':
       return <KidsMagicLayout {...layoutProps} />;
     case 'KidsSuperhero':
