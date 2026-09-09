@@ -75,7 +75,9 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
-import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
+import { BirthdayTheme } from '../../components/themes/birthday/BirthdayTheme';
+import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
+import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
@@ -133,6 +135,10 @@ function LivePreviewContent() {
 
     if (birthdayCategories.includes(data.website.business_type)) {
       return <BirthdayTheme website={data.website} content={data.content} />;
+    }
+
+    if (housewarmingCategories.includes(data.website.business_type)) {
+      return <HousewarmingTheme theme={data.website.theme} content={data.content} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer

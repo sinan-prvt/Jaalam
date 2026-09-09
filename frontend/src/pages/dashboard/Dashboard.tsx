@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, eventHierarchy } from '../../utils/templateData';
+import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, housewarmingCategories, eventHierarchy } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -221,7 +221,7 @@ export default function Dashboard() {
       });
 
       await axios.put(`/api/websites/${res.data.slug}/content/`, {
-        hero_title: heroTitle || ((weddingCategories.includes(newType) || birthdayCategories.includes(newType)) ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
+        hero_title: heroTitle || ((weddingCategories.includes(newType) || birthdayCategories.includes(newType) || housewarmingCategories.includes(newType)) ? (websiteName || res.data.slug) : `Welcome to ${websiteName || res.data.slug}`),
         about_text: aboutText || "Add your business description here.",
         contact_info: { email: contactEmail, phone: contactPhone },
         settings_json: { website_name: websiteName }
@@ -242,6 +242,8 @@ export default function Dashboard() {
         navigate(`/wedding-editor/${res.data.slug}`);
       } else if (birthdayCategories.includes(newType)) {
         navigate(`/birthday-editor/${res.data.slug}`);
+      } else if (housewarmingCategories.includes(newType)) {
+        navigate(`/housewarming-editor/${res.data.slug}`);
       } else {
         navigate(`/editor/${res.data.slug}`);
       }
@@ -727,7 +729,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => {
                           if (checkCreationLimit()) {
-                            if (weddingCategories.includes(newType) || birthdayCategories.includes(newType)) {
+                            if (weddingCategories.includes(newType) || birthdayCategories.includes(newType) || housewarmingCategories.includes(newType)) {
                               setNewType('Restaurant');
                               setNewTheme('Fine Dining');
                             }

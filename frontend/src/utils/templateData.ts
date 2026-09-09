@@ -120,6 +120,10 @@ export const birthdayCategories = [
   'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday'
 ];
 
+export const housewarmingCategories = [
+  'Traditional Housewarming', 'Modern Housewarming'
+];
+
 export const otherEventCategories = [
   'Traditional Housewarming', 'Modern Housewarming',
   'Classic Baby Shower', 'Modern Baby Shower',

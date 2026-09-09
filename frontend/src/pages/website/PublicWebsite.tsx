@@ -78,7 +78,9 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
-import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
+import { BirthdayTheme } from '../../components/themes/birthday/BirthdayTheme';
+import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
+import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
@@ -201,23 +203,17 @@ export default function PublicWebsite() {
   const seoTitle = website?.content?.settings_json?.website_name || `${website?.business_type || 'Website'} - ${website?.slug || 'Live'}`;
   const seoDesc = website?.content?.about_text || `Welcome to our ${website?.business_type || 'business'}.`;
 
-    const weddingCategories = [
-      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-      'Christian Invitation', 'Engagement Invitation'
-    ];
-
-    const birthdayCategories = [
-      'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday'
-    ];
-
   const renderTheme = () => {
     if (weddingCategories.includes(website?.business_type)) {
       return <ClassicWeddingTheme website={website} content={content} />;
     }
 
-    if (birthdayCategories.includes(website?.business_type)) {
-      return <BirthdayTheme website={website} content={content} />;
+    if (birthdayCategories.includes(website.business_type)) {
+      return <BirthdayTheme theme={website.theme} content={content} />;
+    }
+    
+    if (housewarmingCategories.includes(website.business_type)) {
+      return <HousewarmingTheme theme={website.theme} content={content} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
