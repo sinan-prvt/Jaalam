@@ -78,7 +78,7 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
-import { BirthdayTheme } from '../../components/themes/birthday/BirthdayTheme';
+import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
 import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
@@ -209,7 +209,7 @@ export default function PublicWebsite() {
     }
 
     if (birthdayCategories.includes(website.business_type)) {
-      return <BirthdayTheme theme={website.theme} content={content} />;
+      return <BirthdayTheme website={website} content={content} />;
     }
     
     if (housewarmingCategories.includes(website.business_type)) {
@@ -521,7 +521,7 @@ export default function PublicWebsite() {
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
 
-      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type))) && (
+      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type) && !housewarmingCategories.includes(website.business_type))) && (
         <Chatbot content={content} />
       )}
 

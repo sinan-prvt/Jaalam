@@ -7,7 +7,7 @@ import {
   Save, ArrowLeft, Home, BookOpen, Clock,
   MapPin, Share2, Eye, EyeOff, Lock,
   Image as ImageIcon, LayoutList, ArrowUp, ArrowDown,
-  Upload, Users, Smartphone, Monitor
+  Upload, Users, Smartphone, Monitor, Music
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
@@ -206,6 +206,7 @@ export default function HousewarmingEditor() {
     { id: 'schedule', icon: <Clock size={16} />, label: 'Schedule' },
     { id: 'venue', icon: <MapPin size={16} />, label: 'New Home' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
+    { id: 'music', icon: <Music size={16} />, label: 'Music' },
     { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
@@ -380,7 +381,20 @@ export default function HousewarmingEditor() {
                   <input
                     type="text"
                     value={housewarmingData.hostName || ''}
-                    onChange={(e) => setHousewarmingData({ hostName: e.target.value })}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setContent((prev: any) => ({
+                        ...prev,
+                        hero_title: val,
+                        settings_json: {
+                          ...(prev?.settings_json || {}),
+                          housewarming: {
+                            ...(prev?.settings_json?.housewarming || {}),
+                            hostName: val
+                          }
+                        }
+                      }));
+                    }}
                     placeholder="The Sharma Family"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium"
                   />
@@ -404,6 +418,30 @@ export default function HousewarmingEditor() {
                     label="Upload Photo"
                     onChange={(url) => setHousewarmingData({ hostPhoto: url })}
                   />
+                </div>
+                <div className="border-t border-slate-100 pt-4 space-y-4">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-slate-700">Event Date & Time Breakdown</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Date</label>
+                      <input
+                        type="date"
+                        value={content.date ? new Date(content.date).toISOString().split('T')[0] : ''}
+                        onChange={(e) => setContent((prev: any) => ({ ...prev, date: e.target.value }))}
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Time</label>
+                      <input
+                        type="text"
+                        value={housewarmingData.time || ''}
+                        onChange={(e) => setHousewarmingData({ time: e.target.value })}
+                        placeholder="9:00 AM"
+                        className="w-full px-3 py-2.5 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-xs"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -622,6 +660,29 @@ export default function HousewarmingEditor() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'music' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-emerald-50 space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Background Music (MP3 URL)</label>
+                  <input
+                    type="text"
+                    value={housewarmingData.musicUrl || ''}
+                    onChange={e => setHousewarmingData({ musicUrl: e.target.value })}
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-sm"
+                    placeholder="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                  />
+                  <FileUpload
+                    accept="audio/*"
+                    label="Upload MP3 File"
+                    onChange={(url) => setHousewarmingData({ musicUrl: url })}
+                  />
+                  <p className="text-[10px] text-slate-400 mt-3">Provide a direct link or upload an MP3 file to enable background music on your site.</p>
                 </div>
               </div>
             </div>

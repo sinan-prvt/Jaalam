@@ -75,7 +75,7 @@ import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
 import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
 import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
-import { BirthdayTheme } from '../../components/themes/birthday/BirthdayTheme';
+import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
 import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
@@ -306,7 +306,7 @@ function LivePreviewContent() {
   return (
     <>
       {renderTheme()}
-      {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type))) && (
+      {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type) && !housewarmingCategories.includes(data.website.business_type))) && (
         <Chatbot content={data.content} />
       )}
     </>

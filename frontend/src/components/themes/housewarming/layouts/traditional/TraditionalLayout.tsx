@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, CalendarDays, Clock, Home, Heart } from 'lucide-react';
+import { MapPin, Phone, CalendarDays, Clock, Home, Heart, Volume2, VolumeX } from 'lucide-react';
 
 export interface HousewarmingLayoutProps {
   content: any;
@@ -10,8 +10,11 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
   const [activeSection, setActiveSection] = useState('hero');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showOpening, setShowOpening] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
+  const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
   const sections = housewarmingData.sections || [];
 
   const isVisible = (id: string) => sections.find((s: any) => s.id === id)?.visible !== false;
@@ -30,7 +33,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       
-      const sectionElements = navItems.map(item => ({
+      const sectionElements = navItems.map((item: any) => ({
         id: item.id,
         element: document.getElementById(item.id)
       }));
@@ -68,83 +71,9 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
     setIsMenuOpen(false);
   };
 
-  // Opening Animation Component
-  if (showOpening) {
-    return (
-      <AnimatePresence>
-        <motion.div
-          className="fixed inset-0 z-50 bg-[#FFFAF0] flex items-center justify-center overflow-hidden cursor-pointer"
-          onClick={() => setShowOpening(false)}
-          exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)", transition: { duration: 1.2, ease: [0.4, 0, 0.2, 1] } }}
-        >
-          {/* Subtle floral/mandala background pattern */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#d97706 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="text-center z-10 p-8 border-[6px] border-[#D4AF37]/30 rounded-t-full rounded-b-lg max-w-sm w-full mx-4 relative bg-white/50 backdrop-blur-sm"
-          >
-            {/* Top motif */}
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="absolute -top-10 left-1/2 -translate-x-1/2 text-[#D4AF37]"
-            >
-              <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M30 0C30 0 45 20 60 20C45 20 30 40 30 40C30 40 15 20 0 20C15 20 30 0 30 0Z" fill="currentColor"/>
-              </svg>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              className="font-serif italic text-[#8B4513] mb-4 text-sm"
-            >
-              You're Invited
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 1 }}
-              className="font-serif text-3xl md:text-4xl text-[#B8860B] mb-2 leading-tight"
-            >
-              Grihapravesham
-            </motion.h1>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="h-px w-24 bg-[#D4AF37] mx-auto my-4"
-            />
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.8, duration: 1 }}
-              className="font-serif text-[#8B4513] font-bold text-lg"
-            >
-              {housewarmingData.hostName}
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, y: [0, 5, 0] }}
-              transition={{ delay: 2.2, duration: 2, repeat: Infinity }}
-              className="text-[#D4AF37] text-xs font-bold uppercase tracking-[0.2em] mt-8"
-            >
-              Tap to Open
-            </motion.p>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-    );
-  }
-
   const parseDateTime = () => {
     try {
-      if (!content.date) return { month: 'OCT', day: '25', year: '2026', weekday: 'SUNDAY', time: '9:00 AM' };
+      if (!content?.date) return { month: 'OCT', day: '25', year: '2026', weekday: 'SUNDAY', time: '9:00 AM' };
       const d = new Date(content.date);
       return {
         month: d.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
@@ -159,8 +88,113 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
   };
   const dateInfo = parseDateTime();
 
+  const handleOpen = () => {
+    setShowOpening(false);
+    if (audioRef.current && musicUrl) {
+      audioRef.current.play().catch(console.error);
+    }
+  };
+
   return (
-    <div className="font-serif bg-[#FFFAF0] text-[#4A3B32] min-h-screen selection:bg-[#F4A460] selection:text-white">
+    <div className={`font-serif bg-[#FFFAF0] text-[#4A3B32] min-h-screen selection:bg-[#F4A460] selection:text-white ${showOpening ? 'max-h-screen overflow-hidden' : ''}`}>
+      {/* Background Audio */}
+      {musicUrl && (
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
+      )}
+
+      {/* Floating Audio Control Button */}
+      {musicUrl && !showOpening && (
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              if (isMuted) {
+                audioRef.current.play();
+              } else {
+                audioRef.current.pause();
+              }
+              setIsMuted(!isMuted);
+            }
+          }}
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 rounded-full bg-white/90 backdrop-blur-md text-[#8B4513] shadow-lg border border-[#D4AF37]/30 hover:scale-110 active:scale-95 transition-all"
+          title={isMuted ? "Play Music" : "Mute Music"}
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      )}
+
+      {/* Opening Animation Component */}
+      <AnimatePresence>
+        {showOpening && (
+          <motion.div
+            key="opening"
+            className="fixed inset-0 z-50 bg-[#FFFAF0] flex items-center justify-center overflow-hidden cursor-pointer"
+            onClick={handleOpen}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)", transition: { duration: 1.2, ease: [0.4, 0, 0.2, 1] } }}
+          >
+            {/* Subtle floral/mandala background pattern */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#d97706 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="text-center z-10 p-8 border-[6px] border-[#D4AF37]/30 rounded-t-full rounded-b-lg max-w-sm w-full mx-4 relative bg-white/50 backdrop-blur-sm"
+            >
+              {/* Top motif */}
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 1 }}
+                className="absolute -top-10 left-1/2 -translate-x-1/2 text-[#D4AF37]"
+              >
+                <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M30 0C30 0 45 20 60 20C45 20 30 40 30 40C30 40 15 20 0 20C15 20 30 0 30 0Z" fill="currentColor"/>
+                </svg>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 1 }}
+                className="font-serif italic text-[#8B4513] mb-4 text-sm"
+              >
+                You're Invited
+              </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="font-serif text-3xl md:text-4xl text-[#B8860B] mb-2 leading-tight"
+              >
+                Grihapravesham
+              </motion.h1>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="h-px w-24 bg-[#D4AF37] mx-auto my-4"
+              />
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.8, duration: 1 }}
+                className="font-serif text-[#8B4513] font-bold text-lg"
+              >
+                {housewarmingData.hostName}
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, y: [0, 5, 0] }}
+                transition={{ delay: 2.2, duration: 2, repeat: Infinity }}
+                className="text-[#D4AF37] text-xs font-bold uppercase tracking-[0.2em] mt-8"
+              >
+                Tap to Open
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Texture */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#8B4513 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
       <div className="fixed top-0 left-0 right-0 h-3 bg-gradient-to-r from-[#D4AF37] via-[#F4A460] to-[#D4AF37] z-50 shadow-[0_4px_15px_rgba(212,175,55,0.4)]"></div>
@@ -174,7 +208,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
             </div>
             
             <div className="hidden md:flex space-x-8">
-              {navItems.map((item) => (
+              {navItems.map((item: any) => (
                 <button
                   key={item.id}
                   onClick={() => scrollTo(item.id)}
@@ -213,7 +247,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
               className="md:hidden bg-[#FFFAF0] border-b border-[#F4A460]/20"
             >
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navItems.map((item) => (
+                {navItems.map((item: any) => (
                   <button
                     key={item.id}
                     onClick={() => scrollTo(item.id)}
@@ -256,7 +290,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
                         {housewarmingData.tagline || 'Please join us for'}
                       </h2>
                       <h1 className="font-serif text-5xl md:text-7xl text-[#B8860B] mb-6 leading-tight capitalize">
-                        {content.hero_title || 'Our New Home'}
+                        {housewarmingData.hostName || content?.hero_title || 'Our New Home'}
                       </h1>
                       <div className="flex items-center justify-center gap-4 my-8">
                         <div className="h-px w-16 bg-[#D4AF37]"></div>
@@ -322,11 +356,11 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
                       transition={{ duration: 1 }}
                     >
                       <h3 className="text-3xl md:text-4xl font-serif text-[#B8860B] mb-8 capitalize relative inline-block">
-                        {content.about_title || 'Welcome'}
+                        {content?.about_title || 'Welcome'}
                         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-[#D4AF37]"></div>
                       </h3>
                       <p className="text-[#6b503f] leading-loose text-lg md:text-xl font-serif italic max-w-2xl mx-auto">
-                        "{content.about_text}"
+                        "{content?.about_text}"
                       </p>
                     </motion.div>
                   </div>
@@ -427,7 +461,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
                         <div>
                           <h4 className="text-2xl font-serif text-[#8B4513] mb-4">Our New Home</h4>
                           <p className="text-[#6b503f] font-medium leading-relaxed">
-                            {content.contact_info?.address || housewarmingData.venue}
+                            {content?.contact_info?.address || housewarmingData.venue}
                           </p>
                         </div>
                         
@@ -508,7 +542,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
                       <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <div className="flex items-center gap-3 text-[#8B4513] font-bold text-lg">
                           <Phone className="text-[#D4AF37]" size={24} />
-                          {housewarmingData.contactNumbers || content.contact_info?.phone}
+                          {housewarmingData.contactNumbers || content?.contact_info?.phone}
                         </div>
                       </div>
                     </motion.div>
