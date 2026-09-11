@@ -213,7 +213,7 @@ export default function PublicWebsite() {
     }
     
     if (housewarmingCategories.includes(website.business_type)) {
-      return <HousewarmingTheme theme={website.theme} content={content} />;
+      return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer

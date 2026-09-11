@@ -138,7 +138,7 @@ function LivePreviewContent() {
     }
 
     if (housewarmingCategories.includes(data.website.business_type)) {
-      return <HousewarmingTheme theme={data.website.theme} content={data.content} />;
+      return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
