@@ -8,6 +8,8 @@ import { KeralaTraditionalLayout, KeralaModernLayout, BackwaterFloralLayout, God
 import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
 import { PunjabiRoyalLayout, PunjabiVibrantModernLayout, PunjabiBhangraFloralLayout, PunjabiSikhMinimalLayout, PunjabiGoldenElegantLayout } from './layouts/punjabi-traditional';
 import { BengaliClassicLayout, BengaliRedGoldModernLayout, BengaliLotusFloralLayout, BengaliMinimalistSindoorLayout } from './layouts/bengali-traditional';
+import { ClassicEngagementLayout, FloralEngagementLayout, MinimalEngagementLayout, ElegantEngagementLayout, TraditionalEngagementLayout } from './layouts/classic-engagement';
+import { ModernEngagementLayout, MinimalModernEngagementLayout, PopModernEngagementLayout, ClassicModernEngagementLayout, ElegantModernEngagementLayout } from './layouts/modern-engagement';
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -93,6 +95,15 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     borderClass = "border-indigo-100";
     heroOpacity = "opacity-40";
     heroBg = "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80";
+  } else if (category === 'Classic Engagement') {
+    bgClass = "bg-[#FDFBF7]";
+    sectionBg = "bg-white";
+    accentText = "text-[#C5A880]";
+    accentBg = "bg-[#C5A880]";
+    accentHover = "hover:bg-[#B39369]";
+    borderClass = "border-[#EAE5D9]";
+    heroOpacity = "opacity-20";
+    heroBg = "https://images.unsplash.com/photo-1616499615673-a621be9a9415?auto=format&fit=crop&w=1920&q=80";
   }
 
   const colors = {
@@ -131,6 +142,8 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'BackwaterFloral';
   } else if (t.includes('gods own')) {
     baseTheme = 'GodsOwnMinimal';
+  } else if (t.includes('traditional') && category === 'Classic Engagement') {
+    baseTheme = 'TraditionalEngagement';
   } else if (t.includes('traditional elegant')) {
     baseTheme = 'TraditionalElegant';
   } else if (category === 'Kerala Traditional' || t.includes('kasavu') || t.includes('kerala')) {
@@ -163,8 +176,12 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'SouthIndian';
   } else if (t.includes('modern chapel') && category === 'Christian Invitation') {
     baseTheme = 'ChristianModernChapel';
+  } else if (t.includes('pop') && category === 'Modern Engagement') {
+    baseTheme = 'PopModernEngagement';
   } else if (t.includes('modern') && category === 'Engagement Invitation') {
     baseTheme = 'EngagementModern';
+  } else if (t.includes('modern') && category === 'Modern Engagement') {
+    baseTheme = 'ModernEngagement';
   } else if (t.includes('modern')) {
     baseTheme = 'Modern';
   } else if (t.includes('minimalist cross') && category === 'Christian Invitation') {
@@ -173,20 +190,38 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'ChristianRoseFloral';
   } else if (t.includes('floral') && category === 'Engagement Invitation') {
     baseTheme = 'EngagementFloral';
+  } else if (t.includes('floral') && category === 'Classic Engagement') {
+    baseTheme = 'FloralEngagement';
+  } else if (t.includes('classic') && category === 'Engagement Invitation') {
+    baseTheme = 'EngagementClassic';
+  } else if (t.includes('classic') && category === 'Classic Engagement') {
+    baseTheme = 'ClassicEngagement';
+  } else if (t.includes('classic') && category === 'Modern Engagement') {
+    baseTheme = 'ClassicModernEngagement';
   } else if (t.includes('floral') || t.includes('lotus') || t.includes('rose')) {
     baseTheme = 'Floral';
   } else if (t.includes('minimal') && category === 'Engagement Invitation') {
     baseTheme = 'EngagementMinimal';
+  } else if (t.includes('minimal') && category === 'Classic Engagement') {
+    baseTheme = 'MinimalEngagement';
+  } else if (t.includes('minimal') && category === 'Modern Engagement') {
+    baseTheme = 'MinimalModernEngagement';
   } else if (t.includes('minimal')) {
     baseTheme = 'Minimal';
   } else if ((t.includes('elegant') || t.includes('lace')) && category === 'Christian Invitation') {
     baseTheme = 'ChristianElegantLace';
   } else if (t.includes('elegant') && category === 'Engagement Invitation') {
     baseTheme = 'EngagementElegant';
+  } else if (t.includes('elegant') && category === 'Classic Engagement') {
+    baseTheme = 'ElegantEngagement';
+  } else if (t.includes('elegant') && category === 'Modern Engagement') {
+    baseTheme = 'ElegantModernEngagement';
   } else if (t.includes('elegant') || t.includes('royal')) {
     baseTheme = 'Elegant';
   } else if ((t === 'classic' || t.includes('white classic')) && category === 'Christian Invitation') {
     baseTheme = 'ChristianClassic';
+  } else if (t === 'classic' && category === 'Classic Engagement') {
+    baseTheme = 'ClassicEngagement';
   } else if (t === 'classic' && category === 'Engagement Invitation') {
     baseTheme = 'EngagementClassic';
   }
@@ -260,6 +295,26 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
       return <ChristianElegantLaceLayout {...layoutProps} />;
     case 'ChristianClassic':
       return <ChristianClassicLayout {...layoutProps} />;
+    case 'ClassicEngagement':
+      return <ClassicEngagementLayout {...layoutProps} />;
+    case 'FloralEngagement':
+      return <FloralEngagementLayout {...layoutProps} />;
+    case 'MinimalEngagement':
+      return <MinimalEngagementLayout {...layoutProps} />;
+    case 'ElegantEngagement':
+      return <ElegantEngagementLayout {...layoutProps} />;
+    case 'TraditionalEngagement':
+      return <TraditionalEngagementLayout {...layoutProps} />;
+    case 'ModernEngagement':
+      return <ModernEngagementLayout {...layoutProps} />;
+    case 'MinimalModernEngagement':
+      return <MinimalModernEngagementLayout {...layoutProps} />;
+    case 'PopModernEngagement':
+      return <PopModernEngagementLayout {...layoutProps} />;
+    case 'ClassicModernEngagement':
+      return <ClassicModernEngagementLayout {...layoutProps} />;
+    case 'ElegantModernEngagement':
+      return <ElegantModernEngagementLayout {...layoutProps} />;
     case 'EngagementClassic':
       return <EngagementClassicLayout {...layoutProps} />;
     case 'EngagementModern':

@@ -1203,7 +1203,7 @@ export default function Dashboard() {
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
                         {creationMode === 'wedding' 
-                          ? (mainEventCategory === 'Wedding' || mainEventCategory === 'Engagement' ? "Couple's Names" : mainEventCategory === 'Housewarming' ? "Family Name" : mainEventCategory === 'Birthday' || mainEventCategory === 'Farewell' || mainEventCategory === 'Baby Shower' ? "Person's Name" : "Event Name") 
+                          ? (mainEventCategory === 'Wedding' || mainEventCategory === 'Engagement' ? "Couple's Names" : mainEventCategory === 'Housewarming' ? "Family Name" : mainEventCategory === 'Birthday' ? "Person's Name" : "Event Name") 
                           : "Website Name"}
                       </label>
                       <input

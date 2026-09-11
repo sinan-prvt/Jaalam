@@ -19,28 +19,18 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
     'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
     'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral']
   },
-  'Baby Shower': {
-    'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
-    'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant']
-  },
+
   'Engagement': {
     'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
     'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant']
   },
-  'Farewell': {
-    'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
-    'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal']
-  },
+
   'College Fest': {
     'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
     'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
     'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate']
   },
-  'Corporate Event': {
-    'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
-    'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
-    'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful']
-  },
+
   'Religious Events': {
     'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
     'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
@@ -79,28 +69,18 @@ export const categoryThemes: Record<string, string[]> = {
   // Housewarming
   'Traditional Housewarming': ['Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
   'Modern Housewarming': ['Modern', 'Minimal', 'Classic', 'Elegant', 'Floral'],
-  
-  // Baby Shower
-  'Classic Baby Shower': ['Classic', 'Floral', 'Minimal', 'Modern', 'Playful'],
-  'Modern Baby Shower': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
+
   
   // Engagement
   'Classic Engagement': ['Classic', 'Floral', 'Minimal', 'Elegant', 'Traditional'],
   'Modern Engagement': ['Modern', 'Minimal', 'Pop', 'Classic', 'Elegant'],
-  
-  // Farewell
-  'Corporate Farewell': ['Corporate', 'Minimal', 'Classic', 'Modern', 'Elegant'],
-  'School Farewell': ['Classic', 'Playful', 'Modern', 'Pop', 'Minimal'],
+
   
   // College Fest
   'Tech Fest': ['Modern', 'Minimal', 'Pop', 'Corporate', 'Noir'],
   'Cultural Fest': ['Classic', 'Floral', 'Playful', 'Traditional', 'Modern'],
   'Sports Meet': ['Modern', 'Pop', 'Minimal', 'Classic', 'Corporate'],
-  
-  // Corporate Event
-  'Conference': ['Corporate', 'Minimal', 'Modern', 'Classic', 'Elegant'],
-  'Seminar': ['Minimal', 'Corporate', 'Modern', 'Classic', 'Elegant'],
-  'Annual Meet': ['Classic', 'Modern', 'Corporate', 'Elegant', 'Playful'],
+
   
   // Religious Events
   'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
@@ -113,7 +93,7 @@ export const categoryThemes: Record<string, string[]> = {
 export const weddingCategories = [
   'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
   'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-  'Christian Invitation', 'Engagement Invitation'
+  'Christian Invitation', 'Engagement Invitation', 'Classic Engagement', 'Modern Engagement'
 ];
 
 export const birthdayCategories = [
@@ -126,11 +106,8 @@ export const housewarmingCategories = [
 
 export const otherEventCategories = [
   'Traditional Housewarming', 'Modern Housewarming',
-  'Classic Baby Shower', 'Modern Baby Shower',
   'Classic Engagement', 'Modern Engagement',
-  'Corporate Farewell', 'School Farewell',
   'Tech Fest', 'Cultural Fest', 'Sports Meet',
-  'Conference', 'Seminar', 'Annual Meet',
   'Mosque Event', 'Church Event', 'Temple Event'
 ];
 

@@ -118,15 +118,7 @@ function LivePreviewContent() {
     );
   }
 
-    const weddingCategories = [
-      'Wedding Invitation', 'Islamic Invitation', 'South Indian Wedding', 
-      'Kerala Traditional', 'Punjabi Traditional', 'Bengali Wedding', 
-      'Christian Invitation', 'Engagement Invitation'
-    ];
 
-    const birthdayCategories = [
-      'Kids Birthday', '1st Birthday', 'Sweet 16 Birthday', 'Adult Birthday'
-    ];
 
   const renderTheme = () => {
     if (weddingCategories.includes(data.website.business_type)) {
