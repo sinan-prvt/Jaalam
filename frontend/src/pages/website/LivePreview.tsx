@@ -77,7 +77,8 @@ import CorporateOtherTheme from '../../components/themes/other/CorporateOtherThe
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
 import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
 import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
-import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
+import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTheme';
+import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
@@ -131,6 +132,10 @@ function LivePreviewContent() {
 
     if (housewarmingCategories.includes(data.website.business_type)) {
       return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} />;
+    }
+
+    if (collegeFestCategories.includes(data.website.business_type)) {
+      return <CollegeFestTheme website={data.website} content={data.content} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
@@ -298,7 +303,7 @@ function LivePreviewContent() {
   return (
     <>
       {renderTheme()}
-      {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type) && !housewarmingCategories.includes(data.website.business_type))) && (
+      {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type) && !housewarmingCategories.includes(data.website.business_type) && !collegeFestCategories.includes(data.website.business_type))) && (
         <Chatbot content={data.content} />
       )}
     </>

@@ -80,7 +80,8 @@ import CorporateOtherTheme from '../../components/themes/other/CorporateOtherThe
 import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
 import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
 import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
-import { weddingCategories, birthdayCategories, housewarmingCategories } from '../../utils/templateData';
+import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTheme';
+import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories } from '../../utils/templateData';
 import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
@@ -214,6 +215,10 @@ export default function PublicWebsite() {
     
     if (housewarmingCategories.includes(website.business_type)) {
       return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} />;
+    }
+
+    if (collegeFestCategories.includes(website.business_type)) {
+      return <CollegeFestTheme website={website} content={content} />;
     }
 
     // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
@@ -521,7 +526,7 @@ export default function PublicWebsite() {
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
 
-      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type) && !housewarmingCategories.includes(website.business_type))) && (
+      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type) && !housewarmingCategories.includes(website.business_type) && !collegeFestCategories.includes(website.business_type))) && (
         <Chatbot content={content} />
       )}
 

@@ -17,6 +17,7 @@ const WebsiteEditor = lazy(() => import('./pages/website/WebsiteEditor'));
 const WeddingEditor = lazy(() => import('./pages/website/WeddingEditor'));
 const BirthdayEditor = lazy(() => import('./pages/website/BirthdayEditor'));
 const HousewarmingEditor = lazy(() => import('./pages/website/HousewarmingEditor'));
+const CollegeFestEditor = lazy(() => import('./pages/website/CollegeFestEditor'));
 const PublicWebsite = lazy(() => import('./pages/website/PublicWebsite'));
 const LivePreview = lazy(() => import('./pages/website/LivePreview'));
 const MaintenancePage = lazy(() => import('./pages/marketing/MaintenancePage'));
@@ -134,6 +135,10 @@ function Router() {
               <Route
                 path="/housewarming-editor/:websiteId"
                 element={<ProtectedRoute component={HousewarmingEditor} />}
+              />
+              <Route
+                path="/fest-editor/:websiteId"
+                element={<ProtectedRoute component={CollegeFestEditor} />}
               />
               <Route path="/_preview" element={<LivePreview />} />
 

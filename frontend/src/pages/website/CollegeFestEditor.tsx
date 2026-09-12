@@ -81,7 +81,7 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
   );
 };
 
-export default function WebsiteEditor() {
+export default function CollegeFestEditor() {
   const { websiteId } = useParams();
   const navigate = useNavigate();
   const { Razorpay } = useRazorpay();
@@ -168,10 +168,6 @@ export default function WebsiteEditor() {
       }
       if (res.data?.business_type && birthdayCategories.includes(res.data.business_type)) {
         navigate(`/birthday-editor/${websiteId}`, { replace: true });
-        return;
-      }
-      if (res.data?.business_type && collegeFestCategories.includes(res.data.business_type)) {
-        navigate(`/fest-editor/${websiteId}`, { replace: true });
         return;
       }
       setWebsite(res.data);
@@ -349,27 +345,26 @@ export default function WebsiteEditor() {
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
 
-  const tabs = isDynamicAI ? [
-    { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
-    { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
-    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
-    { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
-    { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
-  ] : [
+  const defaultTabs = [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
-    { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },
-    { id: 'about', icon: <MessageSquare size={16} />, label: 'About' },
-    { id: 'services', icon: <Layers size={16} />, label: 'Services' },
-    { id: 'products', icon: <ShoppingCart size={16} />, label: 'Menu' },
+    { id: 'about', icon: <MessageSquare size={16} />, label: 'About Fest' },
+    { id: 'services', icon: <Layers size={16} />, label: 'Events' },
     { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
-    { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
+    { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Past Glimpses' },
     { id: 'contact', icon: <Globe size={16} />, label: 'Contact' },
     { id: 'custom', icon: <PlusCircle size={16} />, label: 'Custom' },
     { id: 'layout', icon: <ArrowUpDown size={16} />, label: 'Layout' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ];
+
+  const tabs = isDynamicAI ? [
+    { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
+    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
+    { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
+    { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
+  ] : defaultTabs;
 
   return (
     <div className="flex h-screen bg-[#FAFAFC] font-sans selection:bg-indigo-500/30 overflow-hidden relative">
@@ -589,51 +584,23 @@ export default function WebsiteEditor() {
                     placeholder="Enter your website name"
                   />
                 </div>
-                <ImageUpload
-                  label="Logo Image (Optional)"
-                  hint="Please use a transparent logo without a background"
-                  value={content.settings_json?.logo_image || ''}
-                  onChange={(val: string) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), logo_image: val } })}
-                />
               </div>
-            </div>
-          )}
-
-          {activeTab === 'template' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
-              <TemplateUploader 
-                websiteSlug={website.slug}
-                currentContent={content}
-                currentWebsite={website}
-                onSuccess={(newContent: any, newWebsite?: any) => {
-                  setContent(newContent);
-                  if (newWebsite) {
-                    setWebsite(newWebsite);
-                  }
-                  
-                  // Force an immediate preview update to ensure the iframe receives the very latest state
-                  if (iframeRef.current && iframeRef.current.contentWindow) {
-                    iframeRef.current.contentWindow.postMessage({ 
-                      type: 'UPDATE_PREVIEW', 
-                      website: newWebsite || website, 
-                      content: newContent 
-                    }, '*');
-                  }
-
-                  const newIsDynamicAI = newContent?.settings_json?.blocks !== undefined;
-                  if (newIsDynamicAI) {
-                     setActiveTab('ai-chat');
-                  } else {
-                     setActiveTab('theme');
-                  }
-                }}
-              />
             </div>
           )}
 
           {activeTab === 'hero' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Hero Subtitle (Badge)</label>
+                  <input
+                    type="text"
+                    value={content.hero_subtitle || ''}
+                    onChange={e => setContent({ ...content, hero_subtitle: e.target.value })}
+                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner mb-4"
+                    placeholder="e.g., TECH FEST 2026"
+                  />
+                </div>
                 <div>
                   <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Hero Title</label>
                   <input
@@ -652,6 +619,16 @@ export default function WebsiteEditor() {
                     onChange={e => setContent({ ...content, hero_description: e.target.value, hero_text: e.target.value })}
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-medium text-sm shadow-inner resize-none leading-relaxed"
                     placeholder="A brief description for your hero section..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Fest Date</label>
+                  <input
+                    type="text"
+                    value={content.date || ''}
+                    onChange={e => setContent({ ...content, date: e.target.value })}
+                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
+                    placeholder="e.g., Oct 15 - 17, 2026"
                   />
                 </div>
               </div>
@@ -688,12 +665,12 @@ export default function WebsiteEditor() {
           {activeTab === 'services' && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Services / Features</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Events / Schedule</label>
                 {(content.services_json || []).length < 4 && (
                   <button
-                    onClick={() => setContent({ ...content, services_json: [...(content.services_json || []), { title: 'New Service', description: 'Description', image: '' }] })}
+                    onClick={() => setContent({ ...content, services_json: [...(content.services_json || []), { title: 'New Event', description: 'Description', image: '' }] })}
                     className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
-                  >+ Add Service</button>
+                  >+ Add Event</button>
                 )}
               </div>
 
@@ -717,13 +694,13 @@ export default function WebsiteEditor() {
                       const newSrv = [...content.services_json];
                       newSrv[idx] = { title: e.target.value, description: description, image: image };
                       setContent({ ...content, services_json: newSrv });
-                    }} placeholder="Service Name" className="w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                    }} placeholder="Event Name" className="w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-500/20" />
 
                     <textarea value={description} onChange={e => {
                       const newSrv = [...content.services_json];
                       newSrv[idx] = { title: title, description: e.target.value, image: image };
                       setContent({ ...content, services_json: newSrv });
-                    }} rows={3} placeholder="Service Description..." className="w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none" />
+                    }} rows={3} placeholder="Event Description..." className="w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none" />
 
                     <ImageUpload
                       value={image}

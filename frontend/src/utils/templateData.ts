@@ -104,6 +104,10 @@ export const housewarmingCategories = [
   'Traditional Housewarming', 'Modern Housewarming'
 ];
 
+export const collegeFestCategories = [
+  'Tech Fest', 'Cultural Fest', 'Sports Meet'
+];
+
 export const otherEventCategories = [
   'Traditional Housewarming', 'Modern Housewarming',
   'Classic Engagement', 'Modern Engagement',
