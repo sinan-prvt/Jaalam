@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Heart, Volume2, VolumeX, Sparkles, Key, Navigation } from 'lucide-react';
-import type { HousewarmingLayoutProps } from '../../../../themes/housewarming/layouts/traditional/TraditionalLayout';
+import { motion } from 'framer-motion';
+import { MapPin, Heart, Sparkles, Key, Navigation } from 'lucide-react';
 
 export function ElegantLayout({ content }: { content: any }) {
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
@@ -48,29 +46,7 @@ export function ElegantLayout({ content }: { content: any }) {
   return (
     <div className={`font-serif bg-[#fbf9f6] text-[#0f172a] min-h-screen selection:bg-[#cda776] selection:text-[#0b1b3d] ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
       {/* Background Audio */}
-      {musicUrl && (
-        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
-      )}
-
-      {/* Elegant Audio Control */}
-      {musicUrl && isOpened && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#0b1b3d] text-[#e0c38c] shadow-[0_10px_30px_rgba(11,27,61,0.3)] border border-[#cda776]/30 hover:scale-110 active:scale-95 transition-all"
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </button>
-      )}
+      
 
       {/* GRAND ELEGANT OPENING */}
       <div 

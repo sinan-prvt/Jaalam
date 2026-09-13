@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, CalendarDays, Volume2, VolumeX, ArrowRight } from 'lucide-react';
+import { Phone, CalendarDays, ArrowRight } from 'lucide-react';
 
 export interface HousewarmingLayoutProps {
   content: any;
@@ -8,8 +8,7 @@ export interface HousewarmingLayoutProps {
 
 export function ModernMinimalLayout({ content }: HousewarmingLayoutProps) {
   const [showOpening, setShowOpening] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';

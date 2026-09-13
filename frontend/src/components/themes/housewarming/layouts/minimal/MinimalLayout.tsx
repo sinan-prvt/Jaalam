@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Heart, Volume2, VolumeX, Sparkles, Navigation, ArrowDown, ChevronRight, Home } from 'lucide-react';
-import type { HousewarmingLayoutProps } from '../../../../themes/housewarming/layouts/traditional/TraditionalLayout';
+import { MapPin, Heart, ArrowDown, ChevronRight, Home } from 'lucide-react';
 
 export function MinimalLayout({ content }: { content: any }) {
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
@@ -48,29 +46,7 @@ export function MinimalLayout({ content }: { content: any }) {
   return (
     <div className={`font-sans bg-[#ffffff] text-[#111111] min-h-screen selection:bg-[#111111] selection:text-white ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
       {/* Background Audio */}
-      {musicUrl && (
-        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
-      )}
-
-      {/* Subtle Audio Control Button */}
-      {musicUrl && isOpened && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-[#111111] text-white hover:bg-[#333333] transition-colors"
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-        </button>
-      )}
+      
 
       {/* MINIMAL OPENING ANIMATION */}
       <AnimatePresence>

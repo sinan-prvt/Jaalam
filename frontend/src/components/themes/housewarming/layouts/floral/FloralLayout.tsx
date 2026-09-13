@@ -1,13 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Heart, Volume2, VolumeX, Sparkles, Leaf, Flower2, Navigation, Home } from 'lucide-react';
-import type { HousewarmingLayoutProps } from '../../../../themes/housewarming/layouts/traditional/TraditionalLayout';
+import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { MapPin, Clock, Heart, Leaf, Flower2, Navigation, Home } from 'lucide-react';
 
 export function FloralLayout({ content }: { content: any }) {
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
@@ -52,29 +50,7 @@ export function FloralLayout({ content }: { content: any }) {
   return (
     <div className={`font-serif bg-[#fdfaf6] text-[#2c3d30] min-h-screen selection:bg-[#d4a5a5] selection:text-white ${!isOpened ? 'max-h-screen overflow-hidden' : ''}`}>
       {/* Background Audio */}
-      {musicUrl && (
-        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
-      )}
-
-      {/* Floating Audio Control Button */}
-      {musicUrl && isOpened && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md text-[#2c3d30] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white hover:scale-110 active:scale-95 transition-all"
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </button>
-      )}
+      
 
       {/* SPLIT DOOR OPENING ANIMATION */}
       <div 

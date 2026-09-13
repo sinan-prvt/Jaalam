@@ -464,8 +464,21 @@ export default function HousewarmingEditor() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Message Title</label>
                   <input
                     type="text"
-                    value={housewarmingData.story_title || ''}
-                    onChange={(e) => setHousewarmingData({ story_title: e.target.value })}
+                    value={content?.about_title || housewarmingData.story_title || ''}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setContent((prev: any) => ({
+                        ...prev,
+                        about_title: val,
+                        settings_json: {
+                          ...(prev?.settings_json || {}),
+                          housewarming: {
+                            ...(prev?.settings_json?.housewarming || {}),
+                            story_title: val
+                          }
+                        }
+                      }));
+                    }}
                     placeholder="Our Journey"
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-sm"
                   />

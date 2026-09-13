@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, CalendarDays, Clock, Home, Heart, Volume2, VolumeX, Sparkles, Image as ImageIcon } from 'lucide-react';
-import type { HousewarmingLayoutProps } from '../../../../themes/housewarming/layouts/traditional/TraditionalLayout';
+import { MapPin, Clock, Home, Heart, Sparkles } from 'lucide-react';
 
 export function ClassicLayout({ content }: { content: any }) {
   const [showOpening, setShowOpening] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
