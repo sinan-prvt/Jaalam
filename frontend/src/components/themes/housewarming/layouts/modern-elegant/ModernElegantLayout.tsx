@@ -7,9 +7,7 @@ export interface HousewarmingLayoutProps {
 }
 
 export function ModernElegantLayout({ content }: HousewarmingLayoutProps) {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showOpening, setShowOpening] = useState(true);
+      const [showOpening, setShowOpening] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -21,53 +19,9 @@ export function ModernElegantLayout({ content }: HousewarmingLayoutProps) {
     return sections.filter((s: any) => s.visible !== false);
   };
 
-  const navItems = getOrderedSections().map((s: any) => ({
-    id: s.id,
-    label: s.label
-  }));
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      
-      const sectionElements = navItems.map((item: any) => ({
-        id: item.id,
-        element: document.getElementById(item.id)
-      }));
-
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const { id, element } = sectionElements[i];
-        if (element) {
-          const { top } = element.getBoundingClientRect();
-          if (top <= windowHeight * 0.4) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navItems]);
-
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
-
+  
+  
+  
   const parseDateTime = () => {
     try {
       if (!content?.date) return { month: 'OCTOBER', day: '25', year: '2026', weekday: 'Sunday', time: '9:00 AM' };
@@ -111,26 +65,7 @@ export function ModernElegantLayout({ content }: HousewarmingLayoutProps) {
       )}
 
       {/* Floating Audio Control */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className={`fixed bottom-8 left-8 z-50 p-4 rounded-full bg-white/5 backdrop-blur-xl shadow-2xl border ${colors.border} hover:scale-105 active:scale-95 transition-all flex items-center gap-3 group`}
-        >
-          {isMuted ? <VolumeX size={16} className={colors.accent} /> : <Volume2 size={16} className={colors.accent} />}
-          <span className={`text-[10px] uppercase tracking-[0.3em] font-medium hidden md:block opacity-0 group-hover:opacity-100 transition-opacity w-0 group-hover:w-auto overflow-hidden whitespace-nowrap`}>
-            {isMuted ? 'Unmute' : 'Mute'} Sound
-          </span>
-        </button>
-      )}
+      
 
       {/* Dramatic Opening Sequence */}
       <AnimatePresence>
@@ -189,72 +124,8 @@ export function ModernElegantLayout({ content }: HousewarmingLayoutProps) {
       </AnimatePresence>
 
       {/* Elegant Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${colors.bgAlt}/90 backdrop-blur-xl border-b ${colors.border}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex justify-between items-center h-24">
-            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => scrollTo('hero')}>
-              <span className={`text-xl md:text-2xl font-serif italic ${colors.accent}`}>{housewarmingData.hostName || 'Housewarming'}</span>
-            </div>
-            
-            <div className="hidden md:flex space-x-10">
-              {navItems.map((item: any) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollTo(item.id)}
-                  className={`text-[10px] uppercase tracking-[0.3em] font-medium transition-colors duration-300 relative ${
-                    activeSection === item.id 
-                      ? colors.accent 
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <motion.div layoutId="navIndicatorElegant" className="absolute -bottom-3 left-0 right-0 h-[1px] bg-[#D4AF37]" />
-                  )}
-                </button>
-              ))}
-            </div>
 
-            <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none p-2 text-white">
-                <div className="flex flex-col gap-[6px] justify-center w-6 h-6">
-                  <span className={`block h-[1px] w-full bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''}`}></span>
-                  <span className={`block h-[1px] w-full bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`block h-[1px] w-full bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`}></span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden ${colors.bgAlt} border-b ${colors.border}`}
-            >
-              <div className="px-6 py-8 space-y-8 flex flex-col items-center">
-                {navItems.map((item: any) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollTo(item.id)}
-                    className={`block w-full text-center text-[10px] uppercase tracking-[0.4em] font-medium ${
-                      activeSection === item.id ? colors.accent : 'text-white/60'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      <main className="pt-24">
+      <main className="">
         {getOrderedSections().map((section: any, index: number) => {
           switch (section.id) {
             case 'hero':

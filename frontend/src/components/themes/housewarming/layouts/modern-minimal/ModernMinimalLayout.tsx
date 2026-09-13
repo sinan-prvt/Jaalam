@@ -59,24 +59,7 @@ export function ModernMinimalLayout({ content }: HousewarmingLayoutProps) {
       )}
 
       {/* Minimal Floating Audio Control Button */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className={`fixed bottom-8 right-8 z-50 p-3 bg-white text-black border ${colors.border} hover:bg-black hover:text-white transition-colors duration-300`}
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={16} strokeWidth={1.5} /> : <Volume2 size={16} strokeWidth={1.5} />}
-        </button>
-      )}
+      
 
       {/* Stark Mechanical Opening Sequence */}
       <AnimatePresence>

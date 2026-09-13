@@ -7,9 +7,7 @@ export interface HousewarmingLayoutProps {
 }
 
 export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showOpening, setShowOpening] = useState(true);
+      const [showOpening, setShowOpening] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -17,60 +15,14 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
   const sections = housewarmingData.sections || [];
 
-  const isVisible = (id: string) => sections.find((s: any) => s.id === id)?.visible !== false;
-
+  
   const getOrderedSections = () => {
     return sections.filter((s: any) => s.visible !== false);
   };
 
-  const navItems = getOrderedSections().map((s: any) => ({
-    id: s.id,
-    label: s.label
-  }));
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      const sectionElements = navItems.map((item: any) => ({
-        id: item.id,
-        element: document.getElementById(item.id)
-      }));
-
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const { id, element } = sectionElements[i];
-        if (element) {
-          const { top } = element.getBoundingClientRect();
-          if (top <= windowHeight * 0.4) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navItems]);
-
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
-
+  
+  
+  
   const parseDateTime = () => {
     try {
       if (!content?.date) return { month: 'OCT', day: '25', year: '2026', weekday: 'SUNDAY', time: '9:00 AM' };
@@ -103,24 +55,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 rounded-full bg-white/90 backdrop-blur-md text-[#8B4513] shadow-lg border border-[#D4AF37]/30 hover:scale-110 active:scale-95 transition-all"
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </button>
-      )}
+      
 
       {/* Opening Animation Component */}
       <AnimatePresence>
@@ -200,73 +135,8 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
       <div className="fixed top-0 left-0 right-0 h-3 bg-gradient-to-r from-[#D4AF37] via-[#F4A460] to-[#D4AF37] z-50 shadow-[0_4px_15px_rgba(212,175,55,0.4)]"></div>
 
       {/* Navigation */}
-      <nav className={`fixed top-3 left-0 right-0 z-40 transition-all duration-300 bg-[#FFFAF0]/90 backdrop-blur-md border-b border-[#F4A460]/20 shadow-sm`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => scrollTo('hero')}>
-              <span className="font-serif text-[#B8860B] font-bold text-xl tracking-wider uppercase">{housewarmingData.hostName || 'Housewarming'}</span>
-            </div>
-            
-            <div className="hidden md:flex space-x-8">
-              {navItems.map((item: any) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollTo(item.id)}
-                  className={`text-xs uppercase tracking-widest font-semibold transition-colors duration-300 ${
-                    activeSection === item.id 
-                      ? 'text-[#B8860B] border-b-2 border-[#B8860B]' 
-                      : 'text-[#8B4513] hover:text-[#B8860B]'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
 
-            <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#8B4513] focus:outline-none">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {isMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-[#FFFAF0] border-b border-[#F4A460]/20"
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navItems.map((item: any) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollTo(item.id)}
-                    className={`block w-full text-left px-3 py-2 text-sm uppercase tracking-widest font-semibold ${
-                      activeSection === item.id 
-                        ? 'text-[#B8860B] bg-[#FDF5E6]' 
-                        : 'text-[#8B4513] hover:text-[#B8860B] hover:bg-[#FDF5E6]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      <main className="pt-16">
+      <main className="">
         {getOrderedSections().map((section: any) => {
           switch (section.id) {
             case 'hero':

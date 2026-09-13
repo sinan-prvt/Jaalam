@@ -7,9 +7,7 @@ export interface HousewarmingLayoutProps {
 }
 
 export function ModernClassicLayout({ content }: HousewarmingLayoutProps) {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showOpening, setShowOpening] = useState(true);
+      const [showOpening, setShowOpening] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -21,53 +19,9 @@ export function ModernClassicLayout({ content }: HousewarmingLayoutProps) {
     return sections.filter((s: any) => s.visible !== false);
   };
 
-  const navItems = getOrderedSections().map((s: any) => ({
-    id: s.id,
-    label: s.label
-  }));
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      
-      const sectionElements = navItems.map((item: any) => ({
-        id: item.id,
-        element: document.getElementById(item.id)
-      }));
-
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const { id, element } = sectionElements[i];
-        if (element) {
-          const { top } = element.getBoundingClientRect();
-          if (top <= windowHeight * 0.4) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navItems]);
-
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
-
+  
+  
+  
   const parseDateTime = () => {
     try {
       if (!content?.date) return { month: 'October', day: '25', year: '2026', weekday: 'Sunday', time: '9:00 AM' };
@@ -111,24 +65,7 @@ export function ModernClassicLayout({ content }: HousewarmingLayoutProps) {
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className={`fixed bottom-6 right-6 z-50 p-3 rounded-full bg-white/80 backdrop-blur-md shadow-lg border ${colors.borderDark} hover:scale-105 active:scale-95 transition-all`}
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={18} className={colors.textMain} /> : <Volume2 size={18} className={colors.textMain} />}
-        </button>
-      )}
+      
 
       {/* Elegant Envelope/Card Opening */}
       <AnimatePresence>
@@ -199,72 +136,8 @@ export function ModernClassicLayout({ content }: HousewarmingLayoutProps) {
       </AnimatePresence>
 
       {/* Classic Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-[#F9F7F1]/95 backdrop-blur-md border-b ${colors.border}`}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => scrollTo('hero')}>
-              <span className="text-xl md:text-2xl font-serif tracking-widest">{housewarmingData.hostName || 'Housewarming'}</span>
-            </div>
-            
-            <div className="hidden md:flex space-x-12">
-              {navItems.map((item: any) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollTo(item.id)}
-                  className={`text-[10px] uppercase tracking-[0.2em] font-sans transition-colors duration-300 relative ${
-                    activeSection === item.id 
-                      ? colors.textMain 
-                      : colors.textMuted + ` hover:${colors.textMain}`
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <motion.div layoutId="navIndicator" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#B89B72]" />
-                  )}
-                </button>
-              ))}
-            </div>
 
-            <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none p-2">
-                <div className="flex flex-col gap-[5px] justify-center w-6 h-6">
-                  <span className={`block h-[1px] w-full bg-[#3E3A35] transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-[6px]' : ''}`}></span>
-                  <span className={`block h-[1px] w-full bg-[#3E3A35] transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`block h-[1px] w-full bg-[#3E3A35] transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`}></span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden ${colors.bgMain} border-b ${colors.border}`}
-            >
-              <div className="px-6 py-6 space-y-6 flex flex-col items-center">
-                {navItems.map((item: any) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollTo(item.id)}
-                    className={`block w-full text-center text-[10px] uppercase tracking-[0.3em] font-sans ${
-                      activeSection === item.id ? colors.textMain : colors.textMuted
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      <main className="pt-20">
+      <main className="">
         {getOrderedSections().map((section: any, index: number) => {
           switch (section.id) {
             case 'hero':

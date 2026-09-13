@@ -61,24 +61,7 @@ export function ModernLayout({ content }: HousewarmingLayoutProps) {
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className={`fixed bottom-8 right-8 z-50 p-4 rounded-full bg-white/5 backdrop-blur-xl ${colors.textMain} shadow-2xl ${colors.border} border hover:scale-105 active:scale-95 transition-all`}
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-        </button>
-      )}
+      
 
       {/* Cinematic Opening Sequence */}
       <AnimatePresence>

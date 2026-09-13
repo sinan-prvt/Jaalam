@@ -48,24 +48,7 @@ export function ClassicLayout({ content }: { content: any }) {
       )}
 
       {/* Floating Audio Control Button */}
-      {musicUrl && !showOpening && (
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              if (isMuted) {
-                audioRef.current.play();
-              } else {
-                audioRef.current.pause();
-              }
-              setIsMuted(!isMuted);
-            }
-          }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3.5 rounded-full bg-white/90 backdrop-blur-md text-[#6c5b4e] shadow-xl border border-[#e6d5c3] hover:scale-105 active:scale-95 transition-all"
-          title={isMuted ? "Play Music" : "Mute Music"}
-        >
-          {isMuted ? <VolumeX size={22} /> : <Volume2 size={22} />}
-        </button>
-      )}
+      
 
       {/* Opening Animation Component */}
       <AnimatePresence>
