@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard, FileJson } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard, FileJson, Music } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
@@ -101,6 +101,7 @@ export default function CollegeFestEditor() {
   const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change? (Tip: You can upload images, or even ask me to generate AI images for you!)' }]);
   const [isChatting, setIsChatting] = useState(false);
   const [uploadingChatImage, setUploadingChatImage] = useState(false);
+  const [uploadingMusic, setUploadingMusic] = useState(false);
   const [showGameModal, setShowGameModal] = useState(false);
 
   // Preview Device Mode
@@ -198,6 +199,26 @@ export default function CollegeFestEditor() {
       toast.error('Failed to save');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleMusicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingMusic(true);
+    const formData = new FormData();
+    formData.append('image', file); // Use the generic 'image' field for the backend
+    try {
+      const res = await axios.post('/api/websites/upload/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setContent({ ...content, settings_json: { ...(content.settings_json || {}), music_url: res.data.url } });
+      toast.success('Music uploaded successfully!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Upload failed');
+    } finally {
+      setUploadingMusic(false);
     }
   };
 
@@ -350,10 +371,8 @@ export default function CollegeFestEditor() {
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },
     { id: 'about', icon: <MessageSquare size={16} />, label: 'About Fest' },
     { id: 'services', icon: <Layers size={16} />, label: 'Events' },
-    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Past Glimpses' },
     { id: 'contact', icon: <Globe size={16} />, label: 'Contact' },
-    { id: 'custom', icon: <PlusCircle size={16} />, label: 'Custom' },
     { id: 'layout', icon: <ArrowUpDown size={16} />, label: 'Layout' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
@@ -361,7 +380,6 @@ export default function CollegeFestEditor() {
 
   const tabs = isDynamicAI ? [
     { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
-    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
     { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ] : defaultTabs;
@@ -583,6 +601,49 @@ export default function CollegeFestEditor() {
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
                     placeholder="Enter your website name"
                   />
+                </div>
+                
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Background Music</label>
+                  <div className="flex flex-col gap-2">
+                    {content.settings_json?.music_url && (
+                      <div className="flex items-center gap-2 p-3 bg-white border border-slate-100 rounded-xl shadow-inner">
+                        <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+                          <Music size={16} />
+                        </div>
+                        <div className="flex-1 truncate text-xs font-bold text-slate-700">
+                          {content.settings_json.music_url.split('/').pop()}
+                        </div>
+                        <button 
+                          onClick={() => setContent({ ...content, settings_json: { ...(content.settings_json || {}), music_url: '' } })}
+                          className="p-1.5 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    )}
+                    <label className={`w-full px-4 py-3 border border-dashed rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer text-sm font-bold ${uploadingMusic ? 'border-indigo-300 bg-indigo-50/50 text-indigo-400' : 'border-slate-300 hover:border-indigo-400 hover:bg-indigo-50 text-slate-600'}`}>
+                      {uploadingMusic ? <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div> : <Upload size={16} />}
+                      {uploadingMusic ? 'Uploading...' : (content.settings_json?.music_url ? 'Upload Different Track' : 'Upload MP3 File')}
+                      <input type="file" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg" className="hidden" onChange={handleMusicUpload} disabled={uploadingMusic} />
+                    </label>
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-2 font-medium">Leave blank for default music. This plays when visitors enter the site.</p>
+                </div>
+                
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Click Effect Icon</label>
+                  <select
+                    value={content.settings_json?.click_icon || 'heart'}
+                    onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), click_icon: e.target.value } })}
+                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-sm"
+                  >
+                    <option value="heart">Heart</option>
+                    <option value="star">Star</option>
+                    <option value="sparkles">Sparkles</option>
+                    <option value="zap">Zap (Lightning)</option>
+                    <option value="flame">Flame</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -839,23 +900,13 @@ export default function CollegeFestEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Office / Opening Hours</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Sponsors List (Comma separated)</label>
                   <textarea
-                    rows={2}
-                    value={content.contact_info?.hours || ''}
-                    onChange={e => setContent({ ...content, contact_info: { ...content.contact_info, hours: e.target.value } })}
+                    rows={3}
+                    value={content.settings_json?.sponsors || ''}
+                    onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), sponsors: e.target.value } })}
                     className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner resize-none"
-                    placeholder="Mon-Sun: 11:00 AM - 11:00 PM"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Facebook Link</label>
-                  <input
-                    type="text"
-                    value={content.contact_info?.facebook || ''}
-                    onChange={e => setContent({ ...content, contact_info: { ...content.contact_info, facebook: e.target.value } })}
-                    className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-bold text-sm shadow-inner"
-                    placeholder="https://facebook.com/..."
+                    placeholder="E.g. Google, Microsoft, Amazon"
                   />
                 </div>
                 <div>
@@ -887,7 +938,12 @@ export default function CollegeFestEditor() {
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm">
                 <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">Section Order</label>
                 <div className="space-y-2">
-                  {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom']).map((section: string, idx: number, arr: string[]) => {
+                  {(() => {
+                    const allowed = ['hero', 'about', 'services', 'gallery', 'contact'];
+                    const current = (content.settings_json?.section_order || allowed).filter((s: string) => allowed.includes(s));
+                    allowed.forEach(s => { if (!current.includes(s)) current.push(s); });
+                    return current;
+                  })().map((section: string, idx: number, arr: string[]) => {
                     const isHidden = (content.settings_json?.hidden_sections || []).includes(section);
                     const isHero = section === 'hero';
                     return (
@@ -906,7 +962,9 @@ export default function CollegeFestEditor() {
                           >
                             {isHidden && !isHero ? <EyeOff size={16} /> : <Eye size={16} />}
                           </button>
-                          <span className={`font-bold text-sm uppercase tracking-wider ${isHidden && !isHero ? 'text-slate-400 line-through' : 'text-slate-700'}`}>{section}</span>
+                          <span className={`font-bold text-sm uppercase tracking-wider ${isHidden && !isHero ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
+                            {section === 'services' ? 'EVENTS' : section === 'gallery' ? 'POSTS' : section}
+                          </span>
                         </div>
                         <div className="flex gap-2">
                           <button

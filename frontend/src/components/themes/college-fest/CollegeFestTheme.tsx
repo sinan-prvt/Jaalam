@@ -1,5 +1,6 @@
 import React from 'react';
 import TechFestModernLayout from './layouts/TechFestModernLayout';
+import TechFestClassicLayout from './layouts/TechFestClassicLayout';
 
 interface CollegeFestThemeProps {
   content?: any;
@@ -76,7 +77,9 @@ export default function CollegeFestTheme({ content, website, updateContent, isEd
 
   const layoutProps = { content, website, updateContent, isEditor, colors };
 
-  // For now, all Tech Fest themes use the modern layout with injected colors
-  // If we had more variations (e.g. CulturalFestLayout), we'd switch here.
+  if (t === 'classic') {
+    return <TechFestClassicLayout {...layoutProps} />;
+  }
+
   return <TechFestModernLayout {...layoutProps} />;
 }
