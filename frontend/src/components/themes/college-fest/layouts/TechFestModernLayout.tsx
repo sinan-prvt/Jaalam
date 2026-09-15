@@ -247,7 +247,16 @@ export default function TechFestModernLayout({ content, website, updateContent, 
             </div>
           </div>
         </section>
-            )}
+            )}kjhkjhjkhkjhkjhkjhkjhkhkhkjhkjhkhkhkjhk
+
+
+
+
+
+
+
+
+            hjhjhj
 
             {sectionName === 'services' && (content?.services_json?.length > 0 || isEditor) && (
               <section className={`py-32 px-6 ${c.sectionBg} relative ${isHidden ? 'opacity-50' : ''}`}>
