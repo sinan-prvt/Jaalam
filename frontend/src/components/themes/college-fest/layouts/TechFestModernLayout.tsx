@@ -255,6 +255,16 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                     <h2 className="text-4xl md:text-5xl font-black mb-6">Featured <span className={c.accentText}>Events</span></h2>
                     <div className={`w-24 h-1 ${c.accentBg} mx-auto rounded-full`} />
                   </div>
+                  ds
+                  d
+                  s
+                  s
+                  sds
+                  dsd
+                  sd
+                  sds
+                  dsd
+                  s
 
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {(content?.services_json?.length > 0 ? content.services_json : ['Hackathon', 'Robo Wars', 'Guest Lectures']).map((service: any, index: number) => {
