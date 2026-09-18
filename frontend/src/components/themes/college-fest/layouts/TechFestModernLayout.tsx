@@ -261,28 +261,6 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                       const title = typeof service === 'string' ? service : (service.title || 'New Event');
                       const description = typeof service === 'string' ? 'Participate in our flagship event and win exciting prizes. Compete with the best minds.' : (service.description || 'Event details and schedule will be announced soon.');
 
-                      ads
-                      dsa
-                      ds
-                      ddadadsa
-                      dsa
-                      dsd
-                      sd
-                      sa
-                      ds
-                      dsa
-                      dasd
-                      ad
-                      da
-                      sdsad
-                      sdsa
-                      dsa
-                      TextDecoderStreamdasd
-                      sd
-                      adsa
-                      das
-                      da
-                      d
                       return (
                         <div key={index} className={`reveal group bg-black/40 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:${c.borderClass} transition-all hover:-translate-y-2`}>
                           <div className={`w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:${c.accentBg} group-hover:text-black transition-colors`}>
