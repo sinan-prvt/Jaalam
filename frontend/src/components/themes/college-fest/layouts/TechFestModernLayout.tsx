@@ -267,11 +267,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                             <Zap size={28} className={c.accentText + " group-hover:text-black transition-colors"} />
                           </div>
                           <h3 className="text-2xl font-bold mb-4">{title}</h3>
-                          jgl'
-                          l
-                          ;l
-                          ;;;;
-                          ;l                   <p className="text-gray-400 leading-relaxed">
+                          <p className="text-gray-400 leading-relaxed">
                             {description}
                           </p>
                           <button className={`mt-6 text-sm font-bold flex items-center gap-2 ${c.accentText} group-hover:gap-4 transition-all`}>
