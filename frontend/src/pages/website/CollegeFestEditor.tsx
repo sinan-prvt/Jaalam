@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
-import { weddingCategories, birthdayCategories, collegeFestCategories } from '../../utils/templateData';
+import { weddingCategories, birthdayCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -169,6 +169,10 @@ export default function CollegeFestEditor() {
       }
       if (res.data?.business_type && birthdayCategories.includes(res.data.business_type)) {
         navigate(`/birthday-editor/${websiteId}`, { replace: true });
+        return;
+      }
+      if (res.data?.business_type && religiousEventCategories.includes(res.data.business_type)) {
+        navigate(`/religious-editor/${websiteId}`, { replace: true });
         return;
       }
       setWebsite(res.data);

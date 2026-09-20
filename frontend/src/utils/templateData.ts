@@ -108,6 +108,10 @@ export const collegeFestCategories = [
   'Tech Fest', 'Cultural Fest', 'Sports Meet'
 ];
 
+export const religiousEventCategories = [
+  'Mosque Event', 'Church Event', 'Temple Event'
+];
+
 export const otherEventCategories = [
   'Traditional Housewarming', 'Modern Housewarming',
   'Classic Engagement', 'Modern Engagement',
