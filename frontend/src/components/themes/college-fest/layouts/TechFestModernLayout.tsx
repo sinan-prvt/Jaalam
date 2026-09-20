@@ -269,12 +269,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                           <h3 className="text-2xl font-bold mb-4">{title}</h3>
                           <p className="text-gray-400 leading-relaxed">
                             {description}
-                          </psrstrstststrsy
-                          ;kkl;;k;
-                          k
-                          ;key;key;k;
-                          keyk
-                          >
+                          </p>
                           <button className={`mt-6 text-sm font-bold flex items-center gap-2 ${c.accentText} group-hover:gap-4 transition-all`}>
                             View Details <ExternalLink size={16} />
                           </button>
