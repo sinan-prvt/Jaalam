@@ -1,8 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapPin, Clock, Calendar, Heart, ArrowRight, User, Info, Phone, Mail, BookOpen } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import ModernMosqueLayout from './layouts/ModernMosqueLayout';
+import ClassicMosqueLayout from './layouts/ClassicMosqueLayout';
+import MinimalMosqueLayout from './layouts/MinimalMosqueLayout';
+import ElegantMosqueLayout from './layouts/ElegantMosqueLayout';
+import RoyalMosqueLayout from './layouts/RoyalMosqueLayout';
+import SereneMosqueLayout from './layouts/SereneMosqueLayout';
 
 export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
+  if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
+    return <ModernMosqueLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Mosque Event' && website.theme === 'Classic') {
+    return <ClassicMosqueLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Mosque Event' && website.theme === 'Minimal') {
+    return <MinimalMosqueLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Mosque Event' && website.theme === 'Elegant') {
+    return <ElegantMosqueLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Mosque Event' && website.theme === 'Royal') {
+    return <RoyalMosqueLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Mosque Event' && website.theme === 'Serene') {
+    return <SereneMosqueLayout website={website} content={content} />;
+  }
+
   const religiousData = content?.settings_json?.religious_event || {};
   
   // Theme color mapping based on business_type and theme
@@ -31,6 +56,13 @@ export default function ReligiousEventTheme({ website, content }: { website: any
 
   const styles = getThemeStyles();
   const sections = religiousData.sections || [];
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
   
   // order based on sections array
   const orderedSections = sections.filter((s:any) => s.visible).map((s:any) => s.id === 'donations' ? 'programs' : s.id);
@@ -65,7 +97,7 @@ export default function ReligiousEventTheme({ website, content }: { website: any
             <div className="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center">
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="space-y-6">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-sm font-medium tracking-widest uppercase">
-                  {website.business_type}
+                  {religiousData.subtitle || website.business_type}
                 </span>
                 <h1 className="text-5xl md:text-7xl font-serif text-white font-bold leading-tight drop-shadow-lg">
                   {religiousData.organization_name || 'Organization Name'}
@@ -302,10 +334,14 @@ export default function ReligiousEventTheme({ website, content }: { website: any
               
               <div className="bg-white/5 p-4 rounded-3xl backdrop-blur-sm border border-white/10">
                 <div className="aspect-square md:aspect-video w-full bg-black/20 rounded-2xl overflow-hidden flex items-center justify-center relative">
-                    <div className="text-white/50 flex flex-col items-center gap-2">
-                        <MapPin size={32} />
-                        <span className="font-bold tracking-widest uppercase text-sm">Interactive Map</span>
-                    </div>
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '300px' }}
+                    loading="lazy"
+                    allowFullScreen
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content?.contact_info?.address || '123 Faith Lane, City, Country')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                  ></iframe>
                 </div>
               </div>
             </div>
@@ -318,8 +354,32 @@ export default function ReligiousEventTheme({ website, content }: { website: any
   };
 
   return (
-    <div className="font-sans antialiased text-slate-800 bg-white selection:bg-black selection:text-white overflow-x-hidden">
-      {renderOrder.map(renderSection)}
-    </div>
+    <>
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className={`fixed inset-0 z-50 flex items-center justify-center ${styles.primary}`}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+              className="flex flex-col items-center"
+            >
+              <div className={`w-24 h-24 rounded-full border-t-2 border-r-2 border-white flex items-center justify-center mb-6 animate-spin`}>
+                <div className={`w-16 h-16 rounded-full border-t-2 border-l-2 border-white/50 animate-spin`}></div>
+              </div>
+              <h2 className={`text-xl font-sans text-white tracking-[0.2em] uppercase`}>Loading</h2>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className={`font-sans antialiased text-slate-800 selection:${styles.primary} selection:text-white overflow-x-hidden min-h-screen`}>
+        {renderOrder.map(renderSection)}
+      </div>
+    </>
   );
 }

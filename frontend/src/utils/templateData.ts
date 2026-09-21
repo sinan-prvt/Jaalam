@@ -32,7 +32,7 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
   },
 
   'Religious Events': {
-    'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
+    'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant', 'Royal', 'Serene'],
     'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
     'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant']
   }
@@ -83,7 +83,7 @@ export const categoryThemes: Record<string, string[]> = {
 
   
   // Religious Events
-  'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant'],
+  'Mosque Event': ['Islamic Traditional', 'Modern', 'Classic', 'Minimal', 'Elegant', 'Royal', 'Serene'],
   'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
   'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
 

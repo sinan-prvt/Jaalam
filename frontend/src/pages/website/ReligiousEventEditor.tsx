@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
+import QRCodeLib from 'react-qr-code';
+const QRCode = (QRCodeLib as any).default || QRCodeLib;
 
 const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
   const [uploading, setUploading] = useState(false);
@@ -77,6 +79,7 @@ export default function ReligiousEventEditor() {
 
         const defaultReligious = {
           tagline: rawReligious.tagline || rawContent.quote || 'In the name of God, the Most Gracious, the Most Merciful',
+          subtitle: rawReligious.subtitle || '',
           organization_name: rawReligious.organization_name || rawContent.hero_title || 'Islamic Center',
           leader_title: rawReligious.leader_title || 'Imam / Priest',
           leader_name: rawReligious.leader_name || '',
@@ -165,6 +168,23 @@ export default function ReligiousEventEditor() {
     }
   };
 
+  const handlePublish = async () => {
+    setSaving(true);
+    const loadingToast = toast.loading(website.published ? 'Unpublishing...' : 'Publishing...');
+    try {
+      const res = await axios.patch(`/api/websites/${websiteId}/`, {
+        published: !website.published
+      });
+      setWebsite({ ...website, published: res.data.published });
+      toast.success(res.data.published ? 'Website is now live!' : 'Website unpublished.', { id: loadingToast });
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update status', { id: loadingToast });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading || !website || !content) {
     return (
       <div className="flex items-center justify-center h-screen bg-emerald-50/30">
@@ -193,7 +213,8 @@ export default function ReligiousEventEditor() {
     { id: 'programs', icon: <Layers size={16} />, label: 'Programs' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'contact', icon: <MapPin size={16} />, label: 'Contact' },
-    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' }
+    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
+    { id: 'share', icon: <Share2 size={16} />, label: 'Publish & Share' }
   ];
   const defaultSections = [
     { id: 'hero', label: 'Hero Section', visible: true, locked: true },
@@ -218,6 +239,9 @@ export default function ReligiousEventEditor() {
       currentSections.push({ id: 'leaders', label: 'Event Leaders', visible: true, locked: false });
     }
   }
+
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
 
   return (
     <div className="flex h-screen bg-emerald-50/20 font-sans overflow-hidden relative">
@@ -368,6 +392,16 @@ export default function ReligiousEventEditor() {
                     onChange={(e) => setReligiousData({ tagline: e.target.value })}
                     placeholder="In the name of God..."
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-sm resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Subtitle / Event Type</label>
+                  <input
+                    type="text"
+                    value={religiousData.subtitle || ''}
+                    onChange={(e) => setReligiousData({ subtitle: e.target.value })}
+                    placeholder="e.g. Mosque Event, Special Gathering"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-emerald-500/20 outline-none font-medium text-sm"
                   />
                 </div>
               </div>
@@ -745,6 +779,28 @@ export default function ReligiousEventEditor() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'share' && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-emerald-50 text-center">
+                <button onClick={handlePublish} disabled={saving} className={`w-full py-3 rounded-xl font-bold mb-6 transition-colors shadow-sm ${website.published ? 'bg-red-50 text-red-600' : 'bg-emerald-600 text-white'}`}>
+                  {website.published ? 'Unpublish Website' : 'Publish Website'}
+                </button>
+
+                {website.published && (
+                  <div className="flex flex-col items-center">
+                    <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 inline-block">
+                      <QRCode value={publicUrl} size={150} />
+                    </div>
+                    <a href={publicUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-emerald-600 flex items-center justify-center gap-2 mb-2">
+                      <Share2 size={16} /> Open Public Link
+                    </a>
+                    <p className="text-xs text-slate-400">{publicUrl}</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
