@@ -12,6 +12,11 @@ import ChristianModernLayout from './layouts/ChristianModernLayout';
 import ChristianClassicLayout from './layouts/ChristianClassicLayout';
 import ChristianFloralLayout from './layouts/ChristianFloralLayout';
 import ChristianMinimalLayout from './layouts/ChristianMinimalLayout';
+import HinduTraditionalLayout from './layouts/HinduTraditionalLayout';
+import HinduClassicLayout from './layouts/HinduClassicLayout';
+import HinduFloralLayout from './layouts/HinduFloralLayout';
+import HinduMinimalLayout from './layouts/HinduMinimalLayout';
+import HinduElegantLayout from './layouts/HinduElegantLayout';
 
 export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
   if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
@@ -46,6 +51,21 @@ export default function ReligiousEventTheme({ website, content }: { website: any
   }
   if (website.business_type === 'Church Event' && website.theme === 'Modern') {
     return <ChristianModernLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Temple Event' && website.theme === 'Classic') {
+    return <HinduClassicLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Temple Event' && website.theme === 'Elegant') {
+    return <HinduElegantLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Temple Event' && website.theme === 'Minimal') {
+    return <HinduMinimalLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Temple Event' && website.theme === 'Floral') {
+    return <HinduFloralLayout website={website} content={content} />;
+  }
+  if (website.business_type === 'Temple Event' && website.theme === 'Hindu Traditional') {
+    return <HinduTraditionalLayout website={website} content={content} />;
   }
 
   const religiousData = content?.settings_json?.religious_event || {};
