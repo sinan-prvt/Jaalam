@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import ClickSpark from './components/ui/ClickSpark';
 import CustomCursor from './components/ui/CustomCursor';
 import { HelmetProvider } from 'react-helmet-async';
-import './App.css';
 
 function App() {
   return (
