@@ -89,8 +89,7 @@ export default function WebsiteEditor() {
   const [content, setContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('ai-chat');
-  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('theme');
 
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
@@ -147,17 +146,6 @@ export default function WebsiteEditor() {
       iframeRef.current.contentWindow.postMessage({ type: 'UPDATE_PREVIEW', website, content }, '*');
     }
   }, [website, content, iframeReady, previewDevice]);
-
-  const isDynamicAI = content?.settings_json?.blocks !== undefined;
-
-  // Set default tab based on whether it's an AI site or manual site
-  useEffect(() => {
-    if (isDynamicAI && activeTab !== 'ai-chat' && activeTab !== 'domain' && activeTab !== 'qr' && activeTab !== 'template' && activeTab !== 'payments') {
-      setActiveTab('ai-chat');
-    } else if (!isDynamicAI && activeTab === 'ai-chat') {
-      setActiveTab('theme');
-    }
-  }, [isDynamicAI, activeTab]);
 
   const fetchWebsiteData = async () => {
     try {
@@ -353,13 +341,7 @@ export default function WebsiteEditor() {
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const publicUrl = isLocal ? `${window.location.origin}/${website.slug}` : `https://${website.slug}.jaalam.app`;
 
-  const tabs = isDynamicAI ? [
-    { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
-    { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
-    { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
-    { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
-    { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
-  ] : [
+  const tabs = [
     { id: 'theme', icon: <Palette size={16} />, label: 'Theme' },
     { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },

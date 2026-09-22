@@ -83,7 +83,6 @@ import { HousewarmingTheme } from '../../components/themes/housewarming/Housewar
 import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTheme';
 import ReligiousEventTheme from '../../components/themes/religious/ReligiousEventTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
-import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
@@ -226,11 +225,6 @@ export default function PublicWebsite() {
       return <ReligiousEventTheme website={website} content={content} />;
     }
 
-    // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
-    if (Array.isArray(website?.content?.settings_json?.blocks) && website.content.settings_json.blocks.length > 0) {
-      return <DynamicRenderer website={website} content={website.content} />;
-    }
-  
     // Pre-built fallback templates
     if (website?.business_type === 'Restaurant') {
       return <RestaurantTheme website={website} content={website.content} />;

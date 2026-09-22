@@ -89,8 +89,7 @@ export default function CollegeFestEditor() {
   const [content, setContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('ai-chat');
-  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('theme');
 
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
@@ -148,17 +147,6 @@ export default function CollegeFestEditor() {
       iframeRef.current.contentWindow.postMessage({ type: 'UPDATE_PREVIEW', website, content }, '*');
     }
   }, [website, content, iframeReady, previewDevice]);
-
-  const isDynamicAI = content?.settings_json?.blocks !== undefined;
-
-  // Set default tab based on whether it's an AI site or manual site
-  useEffect(() => {
-    if (isDynamicAI && activeTab !== 'ai-chat' && activeTab !== 'domain' && activeTab !== 'qr' && activeTab !== 'template' && activeTab !== 'payments') {
-      setActiveTab('ai-chat');
-    } else if (!isDynamicAI && activeTab === 'ai-chat') {
-      setActiveTab('theme');
-    }
-  }, [isDynamicAI, activeTab]);
 
   const fetchWebsiteData = async () => {
     try {
@@ -382,11 +370,7 @@ export default function CollegeFestEditor() {
     { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
   ];
 
-  const tabs = isDynamicAI ? [
-    { id: 'ai-chat', icon: <Sparkles size={16} />, label: 'AI Chat' },
-    { id: 'domain', icon: <Link2 size={16} />, label: 'Domain' },
-    { id: 'qr', icon: <QrCode size={16} />, label: 'QR Code' }
-  ] : defaultTabs;
+  const tabs = defaultTabs;
 
   return (
     <div className="flex h-screen bg-[#FAFAFC] font-sans selection:bg-indigo-500/30 overflow-hidden relative">

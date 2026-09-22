@@ -26,7 +26,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
         { name: 'Free Hosting & SSL', included: true },
         { name: 'QR Code & Contact Form', included: true },
         { name: 'Basic SEO', included: true },
-        { name: 'AI Website Builder', included: false },
         { name: 'Analytics Dashboard', included: false },
         { name: 'Custom Domain', included: false },
         { name: 'Priority Support', included: false },
@@ -47,7 +46,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
         { name: 'Custom Domain', included: true },
         { name: 'Basic Analytics', included: true },
         { name: 'Email Support', included: true },
-        { name: 'AI Website Builder', included: false },
       ],
       color: 'blue'
     },
@@ -60,7 +58,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
       features: [
         { name: 'Up to 10 Websites', included: true },
         { name: 'All Standard Templates', included: true },
-        { name: 'AI Website Builder', included: true },
         { name: 'Custom Domain & SSL', included: true },
         { name: 'Advanced SEO & Analytics', included: true },
         { name: 'Online Booking', included: true },
@@ -77,7 +74,6 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
       features: [
         { name: 'Unlimited Websites', included: true },
         { name: 'All + Premium Templates', included: true },
-        { name: 'AI Website Builder', included: true },
         { name: 'Custom Domain & SSL', included: true },
         { name: 'Advanced SEO & Analytics', included: true },
         { name: 'Online Booking', included: true },

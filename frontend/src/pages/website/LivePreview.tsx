@@ -80,7 +80,6 @@ import { HousewarmingTheme } from '../../components/themes/housewarming/Housewar
 import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTheme';
 import ReligiousEventTheme from '../../components/themes/religious/ReligiousEventTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
-import DynamicRenderer from '../../components/renderer/DynamicRenderer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
 
@@ -141,11 +140,6 @@ function LivePreviewContent() {
 
     if (religiousEventCategories.includes(data.website.business_type)) {
       return <ReligiousEventTheme website={data.website} content={data.content} />;
-    }
-
-    // If this is a dynamic AI-generated site with blocks, use DynamicRenderer
-    if (Array.isArray(data.content?.settings_json?.blocks) && data.content.settings_json.blocks.length > 0) {
-      return <DynamicRenderer website={data.website} content={data.content} />;
     }
 
   if (data.website.business_type === 'Restaurant') {

@@ -7,7 +7,6 @@ import uuid
 from django.shortcuts import get_object_or_404
 from .models import Website, WebsiteContent
 from .serializers import WebsiteSerializer, WebsiteContentSerializer
-from .ai_service import generate_website_json, modify_website_json
 from users.notifications import create_notification, notify_all_admins
 
 class WebsiteViewSet(viewsets.ModelViewSet):
@@ -243,43 +242,6 @@ def upload_image(request):
     file_url = request.build_absolute_uri(default_storage.url(saved_path))
     
     return Response({'url': file_url})
-
-@api_view(['POST'])
-def generate_website(request):
-    name = request.data.get('name')
-    description = request.data.get('description')
-    contact = request.data.get('contact', '')
-    vibe = request.data.get('vibe', 'Modern')
-    category = request.data.get('category', 'Other')
-    
-    if not description or not name:
-        return Response({'error': 'Name and description are required'}, status=400)
-        
-    try:
-        data = generate_website_json(name, description, contact, vibe, category)
-        return Response(data)
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
-
-@api_view(['POST'])
-def chat_website(request):
-    prompt = request.data.get('prompt')
-    current_content = request.data.get('current_content')
-    image_urls = request.data.get('image_urls', [])
-    
-    # Backwards compatibility if frontend still sends single image_url
-    single_image_url = request.data.get('image_url')
-    if single_image_url and single_image_url not in image_urls:
-        image_urls.append(single_image_url)
-    
-    if not prompt or not current_content:
-        return Response({'error': 'Prompt and current_content are required'}, status=400)
-        
-    try:
-        data = modify_website_json(prompt, current_content, image_urls)
-        return Response(data)
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
 
 class PhysicalOrderViewSet(viewsets.ModelViewSet):
     serializer_class = __import__('websites.serializers', fromlist=['PhysicalOrderSerializer']).PhysicalOrderSerializer

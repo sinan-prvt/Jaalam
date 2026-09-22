@@ -188,16 +188,7 @@ export default function Dashboard() {
     }
   };
 
-  const hasAIBuilder = () => {
-    return user?.membership === 'BUSINESS' || user?.membership === 'PREMIUM';
-  };
-
-  const checkCreationLimit = (isAI: boolean = false) => {
-    if (isAI && !hasAIBuilder() && !user?.is_superuser && !(user as User).is_test_user) {
-      toast.error('AI Website Builder is only available on Business and Premium plans. Please upgrade to use this feature.');
-      return false;
-    }
-
+  const checkCreationLimit = () => {
     if (websites.length >= getWebsiteLimit() && !user?.is_test_user && !user?.is_superuser) {
       toast.error(`You've reached your limit of ${getWebsiteLimit()} website(s) on the ${user?.membership || 'Free'} plan. Please upgrade to create more.`);
       return false;

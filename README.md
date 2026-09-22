@@ -50,7 +50,7 @@ Jaalam combines a robust Django REST backend with a reactive React/Vite frontend
 
 ## Core Features
 
-- **AI Website Builder**: Instantly generate websites with beautiful designs using AI.
+- **Template-based Website Builder**: Create websites using business and event templates with live editing.
 - **Theming Engine**: Multiple templates (Grocery, Retail, Restaurant, Real Estate, etc.) with responsive layouts.
 - **Live Editor & Preview**: Edit website content with a live split-pane preview that updates instantly.
 - **Subscription Management**: Built-in pricing plans and tiered memberships using Razorpay.
