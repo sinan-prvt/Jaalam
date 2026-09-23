@@ -3,7 +3,7 @@
 ## Overview & Purpose
 
 **What is Jaalam?**
-Jaalam is a powerful monorepo platform designed for generating and managing stunning storefront websites. It features an AI-driven Website Builder that allows users to create themed, dynamic websites in seconds, complete with built-in analytics, SEO, and Razorpay subscription management. 
+Jaalam is a powerful monorepo platform designed for creating and managing stunning storefront websites. Users choose a business or event category, select a template, and customize the site with the visual editor, built-in analytics, SEO, and Razorpay subscription management.
 
 **What is its purpose?**
 The primary purpose of Jaalam is to empower small businesses, creators, and entrepreneurs to establish a professional online presence instantly, with zero coding required. By answering a few prompts or selecting a business type, users get a fully deployed, themed website with integrated booking, contact forms, and custom branding.
@@ -19,8 +19,7 @@ Here is the step-by-step process of how a user interacts with the Jaalam platfor
    - They enter the **Dashboard**, which provides an overview of their current sites, subscription tier, and analytics.
 
 2. **Creating a Website**
-   - **AI Generation:** The user clicks "New Project", inputs their business details (e.g., "A modern coffee shop in downtown"), and the AI instantly generates a themed layout, writes the copy, and creates the site structure.
-   - **Manual Creation:** Alternatively, the user can manually select a template category (e.g., Restaurant, Retail, Gym) and a specific theme layout.
+   - **Template Creation:** The user clicks "New Project", selects a business or event category, and chooses a theme layout.
 
 3. **Live Editing**
    - The user is taken to the **Website Editor**. This interface uses a split-pane view: the left side contains configuration controls (updating text, images, social links, and theme colors) and the right side is a **Live Preview** showing the exact website in real-time.
@@ -67,7 +66,7 @@ Jaalam combines a robust Django REST backend with a reactive React/Vite frontend
   - **`website/`**: Core website building pages including the `WebsiteEditor` (drag-and-drop / AI interface), `LivePreview` (iframe previewer), and `PublicWebsite` (the dynamic renderer for published sites).
 - **`components/`**: Reusable React components.
   - **`layout/`**: Structural components like the `DashboardSidebar` and navigation bars.
-  - **`modals/`**: Dialogs such as the `AIGeneratorModal` which interfaces with the AI builder.
+  - **`modals/`**: Reusable dialogs for project creation and other dashboard actions.
   - **`themes/`**: Distinct UI templates mapped to specific business types (e.g., Grocery, Retail, Restaurant).
   - **`ui/`**: Generic, reusable UI elements (buttons, inputs, alerts).
 - **`Router.tsx`**: Defines all application routes, including protected routes that require authentication.

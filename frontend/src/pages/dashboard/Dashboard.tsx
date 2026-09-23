@@ -1182,7 +1182,7 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center mb-6">
                   <div>
                     <h2 className="text-2xl font-black text-slate-900 tracking-tight">Launch New Site</h2>
-                    <p className="text-slate-500 text-sm mt-1 font-medium">Fill in the details to generate your website.</p>
+                    <p className="text-slate-500 text-sm mt-1 font-medium">Choose a category and template to create your website.</p>
                   </div>
                   <button onClick={() => setIsCreating(false)} className="text-slate-400 hover:text-slate-900 p-2 rounded-xl hover:bg-white shadow-sm transition-colors bg-white/50 shrink-0">
                     <X size={20} />

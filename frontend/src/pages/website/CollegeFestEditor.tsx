@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, Sparkles, Gamepad2, CreditCard, FileJson, Music } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, FileJson, Music } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
-import MiniGame from '../../components/games/MiniGame';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
 import { weddingCategories, birthdayCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
@@ -94,14 +93,7 @@ export default function CollegeFestEditor() {
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
   
-  // AI Chat State
-  const [chatInput, setChatInput] = useState('');
-  const [chatImages, setChatImages] = useState<string[]>([]);
-  const [chatHistory, setChatHistory] = useState([{ role: 'ai', content: 'Hi! I designed this website for you. What would you like to change? (Tip: You can upload images, or even ask me to generate AI images for you!)' }]);
-  const [isChatting, setIsChatting] = useState(false);
-  const [uploadingChatImage, setUploadingChatImage] = useState(false);
   const [uploadingMusic, setUploadingMusic] = useState(false);
-  const [showGameModal, setShowGameModal] = useState(false);
 
   // Preview Device Mode
   // Preview Device Mode
@@ -211,112 +203,6 @@ export default function CollegeFestEditor() {
       toast.error('Upload failed');
     } finally {
       setUploadingMusic(false);
-    }
-  };
-
-  const uploadFile = async (file: File) => {
-    setUploadingChatImage(true);
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      const res = await axios.post('/api/websites/upload/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      setChatImages(prev => [...prev, res.data.url]);
-    } catch (err) {
-      console.error(err);
-      toast.error('Upload failed');
-    } finally {
-      setUploadingChatImage(false);
-    }
-  };
-
-  const handleChatImageUpload = async (e: any) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    for (let i = 0; i < files.length; i++) {
-      await uploadFile(files[i]);
-    }
-  };
-
-  const handlePaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const items = e.clipboardData?.items;
-    if (!items) return;
-    
-    for (const item of Array.from(items)) {
-      if (item.type.indexOf('image') !== -1 || item.type.indexOf('video') !== -1) {
-        const file = item.getAsFile();
-        if (file) {
-          e.preventDefault();
-          await uploadFile(file);
-          break;
-        }
-      }
-    }
-  };
-
-  const handleChatSubmit = async () => {
-    if (!chatInput.trim() && chatImages.length === 0) return;
-    const prompt = chatInput;
-    const attachedImages = [...chatImages];
-    setChatInput('');
-    setChatImages([]);
-    setChatHistory([...chatHistory, { role: 'user', content: attachedImages.length > 0 ? `[Attached ${attachedImages.length} media file(s)] ${prompt}` : prompt }]);
-    setIsChatting(true);
-    const loadingToast = toast.loading('AI is processing your request... This may take a minute.');
-
-    try {
-      const res = await axios.post(`/api/websites/chat/`, {
-        prompt: prompt,
-        current_content: content.settings_json || {},
-        image_urls: attachedImages
-      });
-      const newJsonString = JSON.stringify(res.data);
-      const oldJsonString = JSON.stringify(content.settings_json || {});
-      
-      let aiResponseMsg = 'I have updated the website layout as requested! The changes are now live in the preview.';
-      
-      let imageMissing = false;
-      if (attachedImages.length > 0) {
-        for (const imgUrl of attachedImages) {
-          if (!newJsonString.includes(imgUrl)) {
-            imageMissing = true;
-            break;
-          }
-        }
-      }
-
-      let failedToGenerateImage = false;
-      const lowerPrompt = prompt.toLowerCase();
-      if ((lowerPrompt.includes('generate') || lowerPrompt.includes('image') || lowerPrompt.includes('picture')) && attachedImages.length === 0) {
-        // If they asked for an image but didn't attach one, the AI should have added a pollinations URL
-        if (!newJsonString.includes('pollinations.ai') && newJsonString.match(/(https?:\/\/[^\s]+)/g)?.length === oldJsonString.match(/(https?:\/\/[^\s]+)/g)?.length) {
-          failedToGenerateImage = true;
-        }
-      }
-
-      if (imageMissing) {
-        aiResponseMsg = "I updated the layout, but I wasn't sure exactly where to place your uploaded image based on your instructions. Could you be more specific? (e.g., 'replace the hero image with this')";
-      } else if (failedToGenerateImage) {
-        aiResponseMsg = "I tried to update the layout, but I wasn't able to generate the image you requested. Could you try rephrasing your prompt to be more descriptive about the image?";
-      } else if (newJsonString === oldJsonString) {
-        aiResponseMsg = "I'm sorry, I couldn't figure out how to apply your request to the layout. Could you try rephrasing your instructions?";
-      }
-
-      setContent({ ...content, settings_json: res.data });
-      setChatHistory(prev => [...prev, { role: 'ai', content: aiResponseMsg }]);
-      
-      if (imageMissing || failedToGenerateImage || newJsonString === oldJsonString) {
-        toast.error('AI was unable to complete all instructions.', { id: loadingToast });
-      } else {
-        toast.success('Website updated by AI!', { id: loadingToast });
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('AI failed to modify website.');
-      setChatHistory(prev => [...prev, { role: 'ai', content: 'Sorry, I encountered an error while trying to update the website. Please try again.' }]);
-    } finally {
-      setIsChatting(false);
     }
   };
 
@@ -464,94 +350,6 @@ export default function CollegeFestEditor() {
 
         {/* Editor Forms */}
         <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
-
-          {activeTab === 'ai-chat' && (
-            <div className="space-y-4 animate-in fade-in duration-300 h-full flex flex-col min-h-[400px]">
-              <div className="bg-indigo-600 p-6 text-white rounded-2xl relative shadow-md shrink-0">
-                <div className="flex items-center gap-3 mb-2">
-                  <Sparkles size={24} className="text-indigo-100" />
-                  <h2 className="text-xl font-black">AI Editor</h2>
-                </div>
-                <p className="text-indigo-100 text-sm font-medium">Chat with the AI to redesign or modify your website layout instantly.</p>
-              </div>
-              
-              <div className="flex-1 bg-white/50 border border-white shadow-inner rounded-2xl p-4 overflow-y-auto space-y-4">
-                {chatHistory.map((msg, i) => (
-                  <div key={i} className={`p-3 rounded-xl max-w-[85%] ${msg.role === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-white shadow-sm border border-slate-100 text-slate-800'}`}>
-                    <p className="text-sm font-medium leading-relaxed">{msg.content}</p>
-                  </div>
-                ))}
-                {isChatting && (
-                  <div className="bg-white shadow-sm border border-slate-100 text-slate-800 p-3 rounded-xl max-w-[85%] w-fit">
-                    <div className="flex items-center gap-2 text-indigo-600 mb-3">
-                      <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-                      <span className="text-xs font-bold">
-                        {(() => {
-                          const lastUserMsg = [...chatHistory].reverse().find(m => m.role === 'user')?.content;
-                          if (lastUserMsg) {
-                            const instruction = lastUserMsg.replace(/\[Attached .*?\] /, '');
-                            return `Executing: "${instruction.length > 45 ? instruction.slice(0, 45) + '...' : instruction}"`;
-                          }
-                          return "AI is modifying the layout...";
-                        })()}
-                      </span>
-                    </div>
-                    <button 
-                      onClick={() => setShowGameModal(true)}
-                      className="text-xs w-full bg-indigo-50 text-indigo-700 py-2 px-3 rounded-lg font-bold hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <Gamepad2 size={14} /> Play a Mini-Game while waiting
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2 relative shrink-0">
-                {chatImages.length > 0 && (
-                  <div className="flex gap-2 flex-wrap">
-                    {chatImages.map((img, idx) => (
-                      <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm self-start bg-slate-900 flex items-center justify-center shrink-0">
-                        {img.match(/\.(mp4|webm|ogg)$/i) ? (
-                          <video src={img} className="w-full h-full object-cover" autoPlay loop muted playsInline />
-                        ) : (
-                          <img loading="lazy" src={img} alt="Attached" className="w-full h-full object-cover" />
-                        )}
-                        <button
-                          onClick={() => setChatImages(prev => prev.filter((_, i) => i !== idx))}
-                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
-                        >
-                          <X size={10} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="flex gap-2 relative shrink-0">
-                  <label className={`p-3 rounded-xl border border-slate-200 shadow-sm cursor-pointer transition-colors flex items-center justify-center shrink-0 ${uploadingChatImage ? 'bg-slate-100 text-slate-400' : 'bg-white text-slate-500 hover:text-indigo-600 hover:bg-slate-50'}`}>
-                    <ImageIcon size={20} />
-                    <input type="file" multiple accept="image/*,video/*" className="hidden" onChange={handleChatImageUpload} disabled={isChatting || uploadingChatImage} />
-                  </label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. Generate a modern logo, or upload images..."
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
-                    onPaste={handlePaste}
-                    disabled={isChatting}
-                    className="w-full px-4 py-3 bg-white border border-white shadow-sm rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm font-medium"
-                  />
-                  <button 
-                    onClick={handleChatSubmit}
-                    disabled={isChatting || (!chatInput.trim() && chatImages.length === 0)}
-                    className="bg-indigo-600 text-white px-5 rounded-xl shadow-md hover:bg-indigo-700 disabled:opacity-50 transition-all font-bold shrink-0 whitespace-nowrap"
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
 
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in duration-300">
@@ -1627,10 +1425,6 @@ export default function CollegeFestEditor() {
         </div>
       )}
 
-
-      {showGameModal && (
-        <MiniGame onClose={() => setShowGameModal(false)} isAiFinished={!isChatting} />
-      )}
     </div>
   );
 }
