@@ -34,6 +34,7 @@ export default function CombatGymTheme({ website, content }: Props) {
   const [viewProductsPage, setViewProductsPage] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'BLOODSPORT ACADEMY';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || 'Underground Level 4, Fight District';
 
   /* ─── Palette ─── */
@@ -238,9 +239,11 @@ export default function CombatGymTheme({ website, content }: Props) {
                 </FadeIn>
 
                 <FadeIn delay={200} dir="left">
-                  <h1 className="cg-heading text-7xl sm:text-8xl md:text-[8rem] text-white mb-6 break-words whitespace-pre-wrap">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="cg-heading text-7xl sm:text-8xl md:text-[8rem] text-white mb-6 break-words whitespace-pre-wrap">
                     {content.hero_title || content.settings_json?.hero_title || 'FORGE YOUR WEAPON'}
                   </h1>
+              )}
                 </FadeIn>
 
                 <FadeIn delay={400} dir="left">
@@ -283,9 +286,11 @@ export default function CombatGymTheme({ website, content }: Props) {
                   <div className="lg:col-span-5 order-2 lg:order-1">
                     <FadeIn dir="left">
                       <span className="cg-subheading text-[#D90429] mb-2 block">THE ACADEMY</span>
-                      <h2 className="cg-heading text-6xl md:text-7xl text-white mb-6 break-words whitespace-pre-wrap">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="cg-heading text-6xl md:text-7xl text-white mb-6 break-words whitespace-pre-wrap">
                         {content.settings_json?.about_title || 'BLOOD, SWEAT, AND RESPECT'}
                       </h2>
+              )}
                       <div className="w-16 h-1 bg-[#D90429] mb-8"></div>
                       <p className="cg-body text-gray-400 text-lg leading-relaxed mb-8 break-words whitespace-pre-wrap">
                         {(() => {
@@ -469,32 +474,44 @@ export default function CombatGymTheme({ website, content }: Props) {
                           
                           <div className="flex items-center gap-4">
                             <Phone className="text-[#D90429] shrink-0" size={24} />
-                            <p className="cg-subheading text-white flex-1 min-w-0 break-words">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                            {!hiddenFields.includes('contact_phone') && (
+                                              <p className="cg-subheading text-white flex-1 min-w-0 break-words">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                                              )}
                           </div>
                           
                           <div className="flex items-center gap-4">
                             <Mail className="text-[#D90429] shrink-0" size={24} />
-                            <p className="cg-subheading text-white flex-1 min-w-0 break-words">{content.contact_info?.email || 'fight@bloodsport.com'}</p>
+                            {!hiddenFields.includes('contact_email') && (
+                                              <p className="cg-subheading text-white flex-1 min-w-0 break-words">{content.contact_info?.email || 'fight@bloodsport.com'}</p>
+                                              )}
                           </div>
                           <div className="flex items-center gap-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#D90429] shrink-0"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            <p className="cg-subheading text-white whitespace-pre-line leading-relaxed flex-1 min-w-0 break-words">{content.contact_info?.hours || "MON-FRI: 05:00-23:00\nSAT-SUN: 07:00-21:00"}</p>
+                            {!hiddenFields.includes('contact_hours') && (
+                                              <p className="cg-subheading text-white whitespace-pre-line leading-relaxed flex-1 min-w-0 break-words">{content.contact_info?.hours || "MON-FRI: 05:00-23:00\nSAT-SUN: 07:00-21:00"}</p>
+                                              )}
                           </div>
                         </div>
 
                         <div className="flex gap-4 mt-8">
                           {/* Instagram */}
-                          <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_instagram') && (
+                                          <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                                                    </a>
+                                          )}
                           {/* Facebook */}
-                          <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_facebook') && (
+                                          <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                    </a>
+                                          )}
                           {/* WhatsApp */}
-                          <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_whatsapp') && (
+                                          <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-[#333] flex items-center justify-center hover:bg-[#D90429] hover:border-[#D90429] transition-all text-gray-400 hover:text-white">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                                                    </a>
+                                          )}
                         </div>
                       </div>
                     </FadeIn>

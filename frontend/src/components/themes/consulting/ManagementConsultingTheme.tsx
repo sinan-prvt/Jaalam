@@ -14,6 +14,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Management Consulting';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Organizational Design', price: 'Consultation', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80', description: 'Restructuring organizations for optimal performance and agility.' },
@@ -77,12 +78,16 @@ export default function ManagementConsultingTheme({ website, content }: any) {
       <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative min-h-[90vh] pt-32 md:pt-48 pb-20 px-8 md:px-12 flex items-center bg-[#F7F3ED]">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
           <div className="w-full md:w-1/2">
-            <h1 className="font-management-title text-5xl md:text-7xl font-bold mb-8 leading-[1.1] text-[#2D2D2D]">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-management-title text-5xl md:text-7xl font-bold mb-8 leading-[1.1] text-[#2D2D2D]">
               {content.hero_title || 'Elevating organizational performance.'}
             </h1>
-            <p className="font-management-body text-xl md:text-2xl text-[#2D2D2D]/70 mb-12 max-w-lg leading-relaxed font-light">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-management-body text-xl md:text-2xl text-[#2D2D2D]/70 mb-12 max-w-lg leading-relaxed font-light">
               {content.hero_text || 'We provide the clarity, strategy, and execution needed to navigate periods of profound change.'}
             </p>
+              )}
             <a href="#contact" className="inline-flex items-center gap-3 bg-[#2D2D2D] text-[#F7F3ED] font-management-body font-bold text-sm uppercase tracking-widest py-4 px-10 hover:bg-[#8B1A1A] transition-colors group">
               Schedule Consultation
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -153,9 +158,11 @@ export default function ManagementConsultingTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-32 px-8 md:px-12 bg-[#F7F3ED]">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="font-management-title text-4xl md:text-6xl font-bold mb-10 text-[#2D2D2D]">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-management-title text-4xl md:text-6xl font-bold mb-10 text-[#2D2D2D]">
               {content.settings_json?.about_title || content.about_title || 'A tradition of excellence.'}
             </h2>
+              )}
             <div className="w-24 h-[1px] bg-[#8B1A1A] mx-auto mb-10"></div>
             <p className="font-management-body text-xl md:text-2xl text-[#2D2D2D]/80 leading-loose font-light">
               {content.about_text || 'We believe that the best management consulting combines rigorous analytical methodology with a deep understanding of organizational dynamics and human behavior.'}
@@ -210,52 +217,60 @@ export default function ManagementConsultingTheme({ website, content }: any) {
                 <div className="space-y-8 font-management-body text-lg font-light text-[#F7F3ED]/80">
                   <div className="flex items-center gap-6">
                     <Phone className="text-[#8B1A1A]" size={24} strokeWidth={1.5} />
-                    <p>{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p>{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                                      )}
                   </div>
                   <div className="flex items-center gap-6">
                     <Mail className="text-[#8B1A1A]" size={24} strokeWidth={1.5} />
-                    <p>{content.contact_info?.email || 'contact@managementfirm.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p>{content.contact_info?.email || 'contact@managementfirm.com'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-6">
                     <MapPin className="text-[#8B1A1A] mt-1 shrink-0" size={24} strokeWidth={1.5} />
-                    <p>{content.contact_info?.address || '123 Executive Plaza, Suite 800, Boston, MA'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p>{content.contact_info?.address || '123 Executive Plaza, Suite 800, Boston, MA'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
-              <div className="bg-[#F7F3ED] text-[#2D2D2D] p-12 md:p-16">
-                <h3 className="font-management-title text-3xl font-bold mb-10">Follow Our Insights</h3>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                  <div className="flex flex-wrap gap-8">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
-                        <Facebook size={32} strokeWidth={1.5} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
-                        <Instagram size={32} strokeWidth={1.5} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
-                        <Twitter size={32} strokeWidth={1.5} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
-                        <Youtube size={32} strokeWidth={1.5} />
-                      </a>
-                    )}
-                    {content.contact_info?.whatsapp && (
-                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
-                        <WhatsApp size={32} strokeWidth={1.5} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-[#2D2D2D]/60 font-management-body text-lg font-light">Social media links will appear here once added.</p>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="bg-[#F7F3ED] text-[#2D2D2D] p-12 md:p-16">
+                                          <h3 className="font-management-title text-3xl font-bold mb-10">Follow Our Insights</h3>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                            <div className="flex flex-wrap gap-8">
+                                              {content.contact_info?.facebook && (
+                                                <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
+                                                  <Facebook size={32} strokeWidth={1.5} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.instagram && (
+                                                <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
+                                                  <Instagram size={32} strokeWidth={1.5} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.twitter && (
+                                                <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
+                                                  <Twitter size={32} strokeWidth={1.5} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.youtube && (
+                                                <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
+                                                  <Youtube size={32} strokeWidth={1.5} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.whatsapp && (
+                                                <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#2D2D2D] hover:text-[#8B1A1A] transition-colors">
+                                                  <WhatsApp size={32} strokeWidth={1.5} />
+                                                </a>
+                                              )}
+                                            </div>
+                                          ) : (
+                                            <p className="text-[#2D2D2D]/60 font-management-body text-lg font-light">Social media links will appear here once added.</p>
+                                          )}
+                                        </div>
+                          )}
             </div>
             
             <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
@@ -269,16 +284,18 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             </div>
 
             <div className="mt-20 w-full h-[450px] bg-white border border-[#2D2D2D]/10 p-2 shadow-sm relative z-20">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Executive Plaza, Suite 800, Boston, MA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Executive Plaza, Suite 800, Boston, MA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

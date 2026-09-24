@@ -24,6 +24,7 @@ export default function BoutiqueTheme({ website, content }: any) {
   }, []);
 
   const siteName = content.settings_json?.website_name || website.slug || 'LUMEN BOUTIQUE';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const defaultProducts = [
     { name: 'Silk Midi Dress', price: '₹245', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80', description: 'Elegant silk slip dress with delicate straps.' },
@@ -127,7 +128,9 @@ export default function BoutiqueTheme({ website, content }: any) {
             <div className="absolute inset-0 bg-black/20"></div>
           </div>
           <div className="relative z-10 text-center text-white px-6 bt-fade-in max-w-3xl w-full">
-            <h1 className="bt-serif text-5xl md:text-7xl mb-6 break-words whitespace-pre-wrap leading-snug">{content.hero_title || 'Redefining Elegance'}</h1>
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="bt-serif text-5xl md:text-7xl mb-6 break-words whitespace-pre-wrap leading-snug">{content.hero_title || 'Redefining Elegance'}</h1>
+              )}
             <p className="bt-sans text-lg tracking-widest uppercase mb-10 break-words whitespace-pre-wrap leading-relaxed">{content.about_text || 'Curated fashion for the modern muse'}</p>
             <a href="#collections" className="inline-block border border-white px-10 py-4 bt-sans tracking-widest uppercase text-sm hover:bg-white hover:text-black transition-colors">
               Shop the Collection
@@ -142,10 +145,14 @@ export default function BoutiqueTheme({ website, content }: any) {
         <section id="about" className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1">
+              {!hiddenFields.includes("about_title") && (
               <h2 className="bt-serif text-4xl mb-8 leading-snug break-words whitespace-pre-wrap">{content.settings_json?.about_title || 'Crafted with intention and grace.'}</h2>
+              )}
+              {!hiddenFields.includes("about_description") && (
               <p className="bt-sans text-gray-500 leading-relaxed mb-8 break-words whitespace-pre-wrap">
                 {content.settings_json?.about_description || 'Every piece in our collection is carefully selected to embody timeless elegance. We believe in sustainable practices, ethical sourcing, and creating a wardrobe that lasts a lifetime.'}
               </p>
+              )}
               <a href="#contact" className="inline-flex items-center gap-2 bt-sans tracking-widest uppercase text-sm border-b border-black pb-1 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
                 Visit our store <ArrowRight size={16} />
               </a>
@@ -264,7 +271,9 @@ export default function BoutiqueTheme({ website, content }: any) {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg mb-1">Location</h4>
-                      <p className="text-gray-400 font-light break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <p className="text-gray-400 font-light break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
@@ -273,7 +282,9 @@ export default function BoutiqueTheme({ website, content }: any) {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg mb-1">Phone</h4>
-                      <p className="text-gray-400 font-light">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <p className="text-gray-400 font-light">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
@@ -282,21 +293,29 @@ export default function BoutiqueTheme({ website, content }: any) {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg mb-1">Hours</h4>
-                      <p className="text-gray-400 font-light whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 8:00 PM\nSun: 11:00 AM - 6:00 PM'}</p>
+                      {!hiddenFields.includes('contact_hours') && (
+                                          <p className="text-gray-400 font-light whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 8:00 PM\nSun: 11:00 AM - 6:00 PM'}</p>
+                                          )}
                     </div>
                   </div>
 
                   {/* Social Links */}
                   <div className="pt-8 flex gap-6">
-                    <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                    </a>
-                    <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                      <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
-                    </a>
-                    <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
-                      <Instagram size={20} className="group-hover:scale-110 transition-transform" />
-                    </a>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                          </a>
+                                      )}
+                    {!hiddenFields.includes('contact_whatsapp') && (
+                                      <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                                                            <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
+                                                          </a>
+                                      )}
+                    {!hiddenFields.includes('contact_instagram') && (
+                                      <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-colors group">
+                                                            <Instagram size={20} className="group-hover:scale-110 transition-transform" />
+                                                          </a>
+                                      )}
                   </div>
                 </div>
               </div>
@@ -312,15 +331,17 @@ export default function BoutiqueTheme({ website, content }: any) {
             </div>
             
             <div className="w-full h-[400px] grayscale hover:grayscale-0 transition-all duration-700 bg-black/20">
-              <iframe 
-                src={content.contact_info?.map_embed_url || (content.contact_info?.address ? `https://www.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed` : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.2528000654!2d-74.14448744489344!3d40.69766374865766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1715000000000!5m2!1sen!2s")} 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe 
+                                          src={content.contact_info?.map_embed_url || (content.contact_info?.address ? `https://www.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&output=embed` : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.2528000654!2d-74.14448744489344!3d40.69766374865766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1715000000000!5m2!1sen!2s")} 
+                                          width="100%" 
+                                          height="100%" 
+                                          style={{ border: 0 }} 
+                                          allowFullScreen 
+                                          loading="lazy" 
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -379,15 +400,21 @@ export default function BoutiqueTheme({ website, content }: any) {
             <div className="space-y-4 bt-sans text-gray-400 text-sm">
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="mt-1" />
-                <p className="flex-1 min-w-0 break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
+                {!hiddenFields.includes('contact_address') && (
+                              <p className="flex-1 min-w-0 break-words">{content.contact_info?.address || '123 Fashion Ave, NY 10012'}</p>
+                              )}
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={16} />
-                <p className="flex-1 min-w-0 break-words">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                {!hiddenFields.includes('contact_phone') && (
+                              <p className="flex-1 min-w-0 break-words">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                              )}
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={16} />
-                <p className="flex-1 min-w-0 break-words">{content.contact_info?.email || 'hello@lumen.com'}</p>
+                {!hiddenFields.includes('contact_email') && (
+                              <p className="flex-1 min-w-0 break-words">{content.contact_info?.email || 'hello@lumen.com'}</p>
+                              )}
               </div>
             </div>
           </div>

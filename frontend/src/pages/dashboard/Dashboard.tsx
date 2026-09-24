@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, housewarmingCategories, eventHierarchy } from '../../utils/templateData';
+import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -496,12 +496,12 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen font-sans selection:bg-indigo-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
+    <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
 
       {/* VIBRANT BENTO MESH BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-indigo-300 to-sky-300 mix-blend-multiply filter blur-[120px] opacity-40 animate-[spin_30s_linear_infinite_reverse]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-amber-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-orange-300 to-amber-300 mix-blend-multiply filter blur-[120px] opacity-40 animate-[spin_30s_linear_infinite_reverse]"></div>
         <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 mix-blend-multiply filter blur-[90px] opacity-30 animate-pulse"></div>
       </div>
 
@@ -520,14 +520,14 @@ export default function Dashboard() {
           {/* DESKTOP HEADER */}
           <div className={`hidden md:flex items-center justify-between shrink-0 ${activeTab === 'Notifications' ? 'mb-4' : 'mb-8'}`}>
             <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-              {activeTab === 'Dashboard' && <LayoutDashboard className="text-indigo-500" size={28} />}
+              {activeTab === 'Dashboard' && <LayoutDashboard className="text-orange-500" size={28} />}
               {activeTab}
             </h1>
             <div className="flex items-center gap-4">
               {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Pricing')}
-                  className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl shadow-sm shadow-indigo-200 font-black text-sm uppercase tracking-wider"
+                  className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl shadow-sm shadow-orange-200 font-black text-sm uppercase tracking-wider"
                 >
                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
                   <Zap size={16} className="fill-white/30 relative z-10" />
@@ -536,7 +536,7 @@ export default function Dashboard() {
               )}
               <div className="flex items-center gap-2 px-3 py-2 bg-white/50 backdrop-blur-xl border border-white rounded-xl shadow-sm text-slate-600">
                 <span className="font-black text-xs uppercase">{user?.username}</span>
-                <div className="w-6 h-6 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-700 font-black text-[10px]">
+                <div className="w-6 h-6 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700 font-black text-[10px]">
                   {user?.username?.[0]?.toUpperCase()}
                 </div>
               </div>
@@ -549,7 +549,7 @@ export default function Dashboard() {
               <img loading="lazy" src="/logo.png" className="w-8 h-8 object-contain" alt="Jaalam Logo" />
               <div className="flex flex-col">
                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
-                <span className="text-[9px] font-black uppercase tracking-wider text-indigo-500 mt-0.5">
+                <span className="text-[9px] font-black uppercase tracking-wider text-orange-500 mt-0.5">
                   {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
                 </span>
               </div>
@@ -558,14 +558,14 @@ export default function Dashboard() {
               {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Pricing')}
-                  className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg shadow-sm shadow-indigo-200 font-black text-[10px] uppercase tracking-wider"
+                  className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg shadow-sm shadow-orange-200 font-black text-[10px] uppercase tracking-wider"
                 >
                   <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine"></div>
                   <Zap size={12} className="fill-white/30 relative z-10" />
                   <span className="relative z-10">Upgrade</span>
                 </button>
               )}
-              <button onClick={() => setActiveTab('Templates')} className="text-slate-600 hover:text-indigo-600 transition-colors p-1">
+              <button onClick={() => setActiveTab('Templates')} className="text-slate-600 hover:text-orange-600 transition-colors p-1">
                 <LayoutTemplate size={20} />
               </button>
               <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
@@ -593,10 +593,10 @@ export default function Dashboard() {
 
                 {/* BIG HERO BENTO */}
                 <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
-                  <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-indigo-300 to-blue-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
+                  <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-orange-300 to-amber-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
 
                   <div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/50 backdrop-blur-md shadow-sm border border-white text-[10px] font-black uppercase tracking-wider mb-6 text-indigo-700">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/50 backdrop-blur-md shadow-sm border border-white text-[10px] font-black uppercase tracking-wider mb-6 text-orange-700">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
@@ -605,7 +605,7 @@ export default function Dashboard() {
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-black mb-4 tracking-tight leading-tight text-slate-900">
                       Design.<br />Build.<br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">Launch.</span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Launch.</span>
                     </h1>
                     <p className="text-slate-600 text-sm md:text-base font-medium leading-relaxed max-w-sm">
                       Manage your projects, analyze traffic, and deploy sites in seconds.
@@ -615,11 +615,11 @@ export default function Dashboard() {
                   <div className="mt-8 hidden md:flex gap-3">
                     {user && (user as any).role !== 'CLIENT' ? (
                       <button onClick={() => setIsCreating(true)} className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center gap-2 text-sm hover:scale-105">
-                        <Plus size={18} className="text-indigo-400" /> New Project
+                        <Plus size={18} className="text-orange-400" /> New Project
                       </button>
                     ) : (
-                      <button onClick={() => setActiveTab('Customers')} className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-indigo-600/20 flex items-center gap-2 text-sm hover:scale-105">
-                        <Users size={18} className="text-indigo-200" /> Open CRM
+                      <button onClick={() => setActiveTab('Customers')} className="bg-orange-600 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-orange-600/20 flex items-center gap-2 text-sm hover:scale-105">
+                        <Users size={18} className="text-orange-200" /> Open CRM
                       </button>
                     )}
                     <button onClick={() => setActiveTab('Projects')} className="bg-white/50 backdrop-blur-md text-slate-800 border border-white px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-white flex items-center text-sm">
@@ -630,8 +630,8 @@ export default function Dashboard() {
 
                 {/* SMALL BENTO 1 */}
                 <div className="md:col-span-1 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm border border-blue-100">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-rose-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
+                  <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shadow-sm border border-rose-100">
                     <LayoutDashboard size={20} />
                   </div>
                   <div className="mt-4">
@@ -642,8 +642,8 @@ export default function Dashboard() {
 
                 {/* SMALL BENTO 2 */}
                 <div className="md:col-span-1 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
-                  <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm border border-emerald-100">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-orange-100/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-700"></div>
+                  <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shadow-sm border border-orange-100">
                     <TrendingUp size={20} />
                   </div>
                   <div className="mt-4">
@@ -654,17 +654,17 @@ export default function Dashboard() {
 
                 {/* WIDE BENTO */}
                 <div className="md:col-span-2 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
-                  <div className="absolute top-[-50%] right-[-20%] w-[100%] h-[200%] bg-gradient-to-l from-violet-100/40 to-transparent rotate-12 -z-10 group-hover:rotate-45 transition-transform duration-1000"></div>
+                  <div className="absolute top-[-50%] right-[-20%] w-[100%] h-[200%] bg-gradient-to-l from-amber-100/40 to-transparent rotate-12 -z-10 group-hover:rotate-45 transition-transform duration-1000"></div>
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center shadow-sm border border-violet-100 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-sm border border-amber-100 mb-4">
                       <Users size={20} />
                     </div>
                     <h3 className="text-slate-500 font-black mb-1 uppercase tracking-widest text-[10px]">Total Visitors</h3>
                     <div className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter">{totalVisitors > 0 ? totalVisitors.toLocaleString() : '0'}</div>
                   </div>
                   <div className="hidden sm:flex w-24 h-24 bg-white/50 border border-white shadow-md rounded-full items-center justify-center relative">
-                    <div className="absolute inset-1.5 border-2 border-dashed border-violet-200 rounded-full animate-[spin_20s_linear_infinite]"></div>
-                    <Activity size={28} className="text-violet-500" />
+                    <div className="absolute inset-1.5 border-2 border-dashed border-amber-200 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <Activity size={28} className="text-amber-500" />
                   </div>
                 </div>
               </div>
@@ -715,7 +715,7 @@ export default function Dashboard() {
                         className="hidden sm:flex w-full sm:w-auto bg-pink-50 hover:bg-pink-100 text-pink-600 border border-pink-200 px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                       >
                         <Heart size={16} className="text-pink-500 fill-pink-500" />
-                        Wedding Invite
+                        Event Website
                       </button>
                       <button
                         onClick={() => {
@@ -730,7 +730,7 @@ export default function Dashboard() {
                         }}
                         className="hidden sm:flex w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-black transition-all items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap"
                       >
-                        <Plus size={16} className="text-indigo-400" />
+                        <Plus size={16} className="text-orange-400" />
                         New
                       </button>
                     </>
@@ -740,8 +740,8 @@ export default function Dashboard() {
 
               {/* Websites List */}
               {loading ? (
-                <div className="flex flex-col items-center justify-center py-20 text-indigo-600 gap-4">
-                  <div className="w-12 h-12 border-4 border-white border-t-indigo-500 rounded-full animate-spin shadow-md"></div>
+                <div className="flex flex-col items-center justify-center py-20 text-orange-600 gap-4">
+                  <div className="w-12 h-12 border-4 border-white border-t-orange-500 rounded-full animate-spin shadow-md"></div>
                   <p className="font-black text-lg animate-pulse text-slate-600">Loading magic...</p>
                 </div>
               ) : filteredWebsites.length === 0 ? (
@@ -749,7 +749,7 @@ export default function Dashboard() {
                   {websites.length === 0 ? (
                     <>
                       <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 transform hover:scale-110 transition-transform shadow-md border border-slate-100">
-                        <Globe className="text-indigo-500 w-10 h-10" />
+                        <Globe className="text-orange-500 w-10 h-10" />
                       </div>
                       <h3 className="text-2xl font-black text-slate-900 mb-2">Nothing here yet</h3>
                       <p className="text-slate-500 max-w-md mx-auto mb-8 text-sm font-medium">Create your first stunning website in seconds. Zero coding required.</p>
@@ -767,7 +767,7 @@ export default function Dashboard() {
                             className="bg-pink-50 text-pink-600 border border-pink-200 px-6 py-3 rounded-xl font-black transition-all shadow-sm hover:bg-pink-100 flex items-center justify-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                           >
                             <Heart size={18} className="text-pink-500 fill-pink-500" />
-                            Create Wedding Invite
+                            Create Event Site
                           </button>
                           <button
                             onClick={() => {
@@ -781,7 +781,7 @@ export default function Dashboard() {
                             }}
                             className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 w-full sm:w-auto text-sm hover:scale-105 active:scale-95 whitespace-nowrap"
                           >
-                            <Plus size={18} className="text-indigo-400" />
+                            <Plus size={18} className="text-orange-400" />
                             Create Standard Site
                           </button>
                         </div>
@@ -796,7 +796,7 @@ export default function Dashboard() {
                       <p className="text-slate-500 font-medium text-sm">Try tweaking your search terms or filters.</p>
                       <button
                         onClick={() => { setSearchQuery(''); setFilterStatus('All'); }}
-                        className="mt-6 text-indigo-600 hover:text-indigo-800 font-black text-sm underline underline-offset-4"
+                        className="mt-6 text-orange-600 hover:text-orange-800 font-black text-sm underline underline-offset-4"
                       >
                         Clear Search
                       </button>
@@ -826,8 +826,8 @@ export default function Dashboard() {
                               return (
                                 <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-md border
                                   ${order.status === 'PENDING' ? 'bg-amber-100/90 text-amber-800 border-amber-200' :
-                                    order.status === 'PROCESSING' ? 'bg-blue-100/90 text-blue-800 border-blue-200' :
-                                      order.status === 'SHIPPED' ? 'bg-indigo-100/90 text-indigo-800 border-indigo-200' :
+                                    order.status === 'PROCESSING' ? 'bg-blue-100/90 text-blue-800 border-amber-200' :
+                                      order.status === 'SHIPPED' ? 'bg-orange-100/90 text-orange-800 border-orange-200' :
                                         order.status === 'DELIVERED' ? 'bg-emerald-100/90 text-emerald-800 border-emerald-200' :
                                           'bg-rose-100/90 text-rose-800 border-rose-200'
                                   }`}
@@ -847,7 +847,7 @@ export default function Dashboard() {
                         <div className="absolute top-3 left-3 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1.5">
                           <button
                             onClick={() => handleCopyLink(site.slug)}
-                            className="p-2 bg-white/90 backdrop-blur-md hover:bg-white text-slate-700 hover:text-indigo-600 rounded-lg shadow-sm transition-all"
+                            className="p-2 bg-white/90 backdrop-blur-md hover:bg-white text-slate-700 hover:text-orange-600 rounded-lg shadow-sm transition-all"
                             title="Copy link"
                           >
                             {copiedSlug === site.slug ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
@@ -866,7 +866,7 @@ export default function Dashboard() {
 
                       <div className="p-5 pt-3 flex-1 flex flex-col">
                         <div className="mb-4">
-                          <h3 className="font-black text-xl text-slate-900 group-hover:text-indigo-600 transition-colors cursor-pointer truncate" onClick={() => setSelectedProject(site)}>{site.content?.settings_json?.website_name || site.slug}</h3>
+                          <h3 className="font-black text-xl text-slate-900 group-hover:text-orange-600 transition-colors cursor-pointer truncate" onClick={() => setSelectedProject(site)}>{site.content?.settings_json?.website_name || site.slug}</h3>
                           <div className="flex flex-wrap items-center gap-1.5 mt-2">
                             <span className="px-2.5 py-1 bg-white shadow-sm border border-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">{site.business_type}</span>
                             <span className="px-2.5 py-1 bg-white shadow-sm border border-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">{site.theme}</span>
@@ -875,7 +875,7 @@ export default function Dashboard() {
 
                         <div className="mt-auto pt-4 flex flex-col gap-2">
                           <button onClick={() => setSelectedProject(site)} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-md text-sm">
-                            <BarChart3 size={16} className="text-indigo-400" /> Analytics
+                            <BarChart3 size={16} className="text-orange-400" /> Analytics
                           </button>
                           <div className="flex gap-2">
                             {user && (user as any).role !== 'CLIENT' && (
@@ -883,7 +883,7 @@ export default function Dashboard() {
                                 <Settings size={14} /> Edit
                               </Link>
                             )}
-                            <a href={getWebsiteUrl(site.slug)} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-indigo-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                            <a href={getWebsiteUrl(site.slug)} target="_blank" rel="noreferrer" className="flex-1 bg-white hover:bg-slate-50 text-orange-700 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                               <ExternalLink size={14} /> Visit
                             </a>
                           </div>
@@ -925,7 +925,7 @@ export default function Dashboard() {
                     placeholder="Search templates..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
+                    className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
                   />
                 </div>
                 
@@ -936,7 +936,7 @@ export default function Dashboard() {
                       onClick={() => setFilterStatus(status)}
                       className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
                         filterStatus === status
-                          ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                          ? 'bg-orange-600 text-white shadow-md shadow-orange-200'
                           : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
                       }`}
                     >
@@ -971,7 +971,7 @@ export default function Dashboard() {
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 gap-2">
                           <button
                             onClick={() => handlePreviewTemplate(item.category, item.theme)}
-                            className="w-full bg-indigo-600 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-500 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75"
+                            className="w-full bg-orange-600 text-white font-black py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75"
                           >
                             <ExternalLink size={16} />
                             Live Preview
@@ -987,7 +987,7 @@ export default function Dashboard() {
                       </div>
                       <div className="p-5">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-2.5 py-1 rounded-md">
                             {item.category}
                           </span>
                         </div>
@@ -1017,7 +1017,7 @@ export default function Dashboard() {
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                  <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
+                  <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center shadow-inner">
                     <Users size={24} />
                   </div>
                   <div>
@@ -1037,7 +1037,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                  <div className="w-14 h-14 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center shadow-inner">
+                  <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shadow-inner">
                     <Activity size={24} />
                   </div>
                   <div>
@@ -1106,7 +1106,7 @@ export default function Dashboard() {
               <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-8 pb-8 border-b border-slate-200/50">
                   <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border-2 border-white shadow-md flex items-center justify-center text-slate-900 text-3xl font-black relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-violet-100 opacity-50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-100 to-amber-100 opacity-50"></div>
                     <span className="relative z-10">{user?.username?.[0]?.toUpperCase() || 'U'}</span>
                   </div>
                   <div className="text-center sm:text-left pt-1 flex-1">
@@ -1122,7 +1122,7 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Username</label>
-                      <input type="text" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                      <input type="text" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Email Address</label>
@@ -1131,11 +1131,11 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">First Name</label>
-                      <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} placeholder="e.g. Jane" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                      <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} placeholder="e.g. Jane" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-slate-900 mb-2 uppercase tracking-wider">Last Name</label>
-                      <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} placeholder="e.g. Doe" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none" />
+                      <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} placeholder="e.g. Doe" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-sm shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
                     </div>
                   </div>
 
@@ -1207,7 +1207,7 @@ export default function Dashboard() {
                             setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'));
                           }
                         }}
-                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                         placeholder={creationMode === 'wedding' 
                           ? (mainEventCategory === 'Wedding' || mainEventCategory === 'Engagement' ? "Alex & Jordan" : mainEventCategory === 'Housewarming' ? "The Smiths" : "Alex") 
                           : "My Awesome Business"}
@@ -1218,8 +1218,8 @@ export default function Dashboard() {
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
                         {newType === 'Wedding Invitation' ? "Invitation Link" : "Project Slug"}
                       </label>
-                      <div className={`flex bg-white border ${slugAvailable === false ? 'border-red-400' : 'border-slate-100'} rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm`}>
-                        <span className="px-4 py-2.5 text-indigo-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
+                      <div className={`flex bg-white border ${slugAvailable === false ? 'border-red-400' : 'border-slate-100'} rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-orange-500/20 transition-all shadow-sm`}>
+                        <span className="px-4 py-2.5 text-orange-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
                         <input
                           type="text"
                           required
@@ -1231,7 +1231,7 @@ export default function Dashboard() {
                         {newSlug && (
                           <div className="flex items-center pr-3">
                             {isCheckingSlug ? (
-                              <div className="w-4 h-4 rounded-full border-2 border-indigo-400 border-t-transparent animate-spin"></div>
+                              <div className="w-4 h-4 rounded-full border-2 border-orange-400 border-t-transparent animate-spin"></div>
                             ) : slugAvailable ? (
                               <CheckCircle2 size={16} className="text-emerald-500" />
                             ) : (
@@ -1258,7 +1258,7 @@ export default function Dashboard() {
                               setNewType(subCats[0]);
                               setNewTheme(eventHierarchy[val][subCats[0]][0]);
                             }}
-                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {Object.keys(eventHierarchy).map(cat => (
                               <option key={cat} value={cat}>{cat}</option>
@@ -1275,7 +1275,7 @@ export default function Dashboard() {
                               setNewType(val);
                               setNewTheme(eventHierarchy[mainEventCategory][val][0]);
                             }}
-                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {Object.keys(eventHierarchy[mainEventCategory] || {}).map(cat => (
                               <option key={cat} value={cat}>{cat}</option>
@@ -1288,7 +1288,7 @@ export default function Dashboard() {
                           <select
                             value={newTheme}
                             onChange={(e) => setNewTheme(e.target.value)}
-                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {(eventHierarchy[mainEventCategory]?.[newType] || []).map(theme => (
                               <option key={theme} value={theme}>{theme}</option>
@@ -1307,9 +1307,9 @@ export default function Dashboard() {
                               setNewType(val);
                               setNewTheme(categoryThemes[val][0]);
                             }}
-                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
-                            {Object.keys(categoryThemes).filter(cat => !weddingCategories.includes(cat) && !birthdayCategories.includes(cat)).map(cat => (
+                            {Object.keys(categoryThemes).filter(cat => !weddingCategories.includes(cat) && !birthdayCategories.includes(cat) && !housewarmingCategories.includes(cat) && !collegeFestCategories.includes(cat) && !religiousEventCategories.includes(cat) && !otherEventCategories.includes(cat)).map(cat => (
                               <option key={cat} value={cat}>{cat}</option>
                             ))}
                           </select>
@@ -1320,7 +1320,7 @@ export default function Dashboard() {
                           <select
                             value={newTheme}
                             onChange={(e) => setNewTheme(e.target.value)}
-                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-black text-sm shadow-sm"
+                            className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {categoryThemes[newType]?.map(theme => (
                               <option key={theme} value={theme}>{theme}</option>
@@ -1335,7 +1335,7 @@ export default function Dashboard() {
                   <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 mt-4 border-t border-white">
                     <button type="button" onClick={() => setIsCreating(false)} className="w-full sm:w-auto px-6 py-3 text-slate-600 bg-white border border-white shadow-sm font-black hover:bg-slate-50 rounded-xl transition-colors text-sm">Cancel</button>
                     <button type="submit" disabled={isCheckingSlug || slugAvailable === false} className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white font-black rounded-xl transition-all shadow-md hover:shadow-slate-900/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-sm disabled:opacity-50 disabled:pointer-events-none">
-                      <Edit3 size={16} className="text-indigo-400" />
+                      <Edit3 size={16} className="text-orange-400" />
                       Create & Edit
                     </button>
                   </div>
@@ -1354,7 +1354,7 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center mb-6">
                   <div>
                     <h2 className="text-2xl font-black text-slate-900 tracking-tight">Project Overview</h2>
-                    <p className="text-slate-500 text-sm mt-1 font-medium">Analytics & Meta for <span className="font-bold text-indigo-600">{selectedProject.content?.settings_json?.website_name || selectedProject.slug}</span></p>
+                    <p className="text-slate-500 text-sm mt-1 font-medium">Analytics & Meta for <span className="font-bold text-orange-600">{selectedProject.content?.settings_json?.website_name || selectedProject.slug}</span></p>
                   </div>
                   <button onClick={() => setSelectedProject(null)} className="text-slate-400 hover:text-slate-900 p-2 rounded-xl hover:bg-white shadow-sm transition-colors bg-white/50 shrink-0">
                     <X size={20} />
@@ -1363,7 +1363,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
-                    <div className="text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-2">Total Visitors</div>
+                    <div className="text-orange-600 text-[10px] font-black uppercase tracking-widest mb-2">Total Visitors</div>
                     <div className="text-3xl font-black text-slate-900">{selectedProject.visitors_count || 0}</div>
                   </div>
                   <div className="bg-white p-5 rounded-2xl border border-white shadow-sm">
@@ -1396,7 +1396,7 @@ export default function Dashboard() {
                     <select
                       value={selectedProject.client || ''}
                       onChange={(e) => handleAssignClient(selectedProject.slug, e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-bold text-sm shadow-sm cursor-pointer"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-bold text-sm shadow-sm cursor-pointer"
                     >
                       <option value="">-- No Client (Agent Only) --</option>
                       {clients.map(client => (
@@ -1433,7 +1433,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => handleDownloadTemplate(previewTemplate.category, previewTemplate.theme)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors"
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors"
                 >
                   <Download size={16} />
                   Download

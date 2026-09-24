@@ -54,7 +54,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
       name: 'Business',
       badge: 'Popular',
       price: '₹499',
-      icon: <Building2 size={24} className="text-indigo-500" />,
+      icon: <Building2 size={24} className="text-orange-500" />,
       features: [
         { name: 'Up to 10 Websites', included: true },
         { name: 'All Standard Templates', included: true },
@@ -162,7 +162,7 @@ export default function Pricing({ onSubscribeSuccess }: { onSubscribeSuccess?: (
           return (
             <div key={plan.id} className={`bg-white/70 backdrop-blur-xl border-2 rounded-3xl p-6 flex flex-col relative overflow-hidden transition-all hover:-translate-y-1 shadow-sm hover:shadow-xl ${isCurrentPlan ? `border-${plan.color}-500 ring-4 ring-${plan.color}-100` : 'border-white/80'}`}>
               {plan.badge && (
-                <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl rounded-tr-xl uppercase tracking-widest">
+                <div className="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl rounded-tr-xl uppercase tracking-widest">
                   {plan.badge}
                 </div>
               )}

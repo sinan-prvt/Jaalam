@@ -3,6 +3,7 @@ import { MapPin, Clock, ArrowRight, Info, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MinimalMosqueLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const orderedSections = sections.filter((s: any) => s.visible).map((s: any) => s.id === 'donations' ? 'programs' : s.id);
@@ -246,9 +247,11 @@ export default function MinimalMosqueLayout({ website, content }: { website: any
                       <MapPin size={24} className={`${colors.accent} shrink-0 mt-1`} strokeWidth={1.5} />
                       <div>
                         <h4 className={`text-xs font-bold tracking-widest uppercase ${colors.textSecondary} mb-2`}>Location</h4>
-                        <p className={`text-lg font-serif ${colors.textPrimary} leading-relaxed`}>
-                          {content.contact_info?.address || '123 Faith Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className={`text-lg font-serif ${colors.textPrimary} leading-relaxed`}>
+                                                                  {content.contact_info?.address || '123 Faith Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex gap-4">

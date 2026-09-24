@@ -10,6 +10,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Heritage Handlooms';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Khadi Kurta Set', price: '₹1,850', image: 'https://images.unsplash.com/photo-1589465885857-44edb59bbff2?auto=format&fit=crop&w=600&q=80', description: 'Handspun cotton, natural dyes.' },
@@ -59,9 +60,11 @@ export default function VintageTextilesTheme({ website, content }: any) {
           <h2 className="font-vintage text-4xl italic mb-6 text-[#8C4A32]">
             {content.hero_title || 'Reviving the Art of the Loom.'}
           </h2>
-          <p className="font-body text-lg mb-10 leading-relaxed max-w-2xl mx-auto text-[#5C4A3D]">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg mb-10 leading-relaxed max-w-2xl mx-auto text-[#5C4A3D]">
             {content.hero_text || 'Embrace the charm of slow fashion with our collection of hand-loomed textiles, crafted using age-old techniques.'}
           </p>
+              )}
           <div className="border-4 border-[#3D312A] p-2 inline-block bg-[#F4EFE6] transform rotate-1 shadow-lg">
              <img loading="lazy" src="https://images.unsplash.com/photo-1605808365542-bc9884a15a50?auto=format&fit=crop&w=800&q=80" alt="Weaving" className="w-full h-auto max-w-lg filter sepia-[0.3] contrast-125" />
           </div>
@@ -155,15 +158,21 @@ export default function VintageTextilesTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -195,9 +204,15 @@ export default function VintageTextilesTheme({ website, content }: any) {
             {content.about_text || "A tribute to the artisans who weave magic with their hands."}
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-10 font-body text-sm tracking-widest uppercase border-t border-[#5C4A3D] pt-10">
-            <div className="flex items-center gap-2"><Phone className="text-[#8C4A32]" size={16} /> {content.contact_info?.phone || '98765 43210'}</div>
-            <div className="flex items-center gap-2"><MapPin className="text-[#8C4A32]" size={16} /> {content.contact_info?.address || 'Old Market, Kerala'}</div>
-            <div className="flex items-center gap-2"><Mail className="text-[#8C4A32]" size={16} /> {content.contact_info?.email || 'post@heritage.in'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-2"><Phone className="text-[#8C4A32]" size={16} /> {content.contact_info?.phone || '98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-2"><MapPin className="text-[#8C4A32]" size={16} /> {content.contact_info?.address || 'Old Market, Kerala'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-2"><Mail className="text-[#8C4A32]" size={16} /> {content.contact_info?.email || 'post@heritage.in'}</div>
+                      )}
           </div>
         </div>
       </footer>

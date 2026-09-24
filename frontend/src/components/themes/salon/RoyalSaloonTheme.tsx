@@ -35,6 +35,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
   const [showFullMenuPage, setShowFullMenuPage] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'Royal Crown';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || '1 King Street, London';
 
   /* ─── Palette ─── */
@@ -239,9 +240,11 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               </FadeIn>
 
               <FadeIn delay={200}>
-                <h1 className="rs-heading text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] leading-[1.1] text-white mb-8 break-words drop-shadow-2xl">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="rs-heading text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] leading-[1.1] text-white mb-8 break-words drop-shadow-2xl">
                   {content.hero_title || content.settings_json?.hero_title || 'Experience True Royalty'}
                 </h1>
+              )}
               </FadeIn>
 
               <FadeIn delay={400}>
@@ -301,9 +304,11 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                     
                     <FadeIn dir="right">
                       <div className="rs-heading text-sm tracking-[0.2em] rs-text-gold uppercase mb-4">Our Heritage</div>
-                      <h2 className="rs-heading text-4xl md:text-5xl text-white mb-8 leading-tight">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="rs-heading text-4xl md:text-5xl text-white mb-8 leading-tight">
                         {content.settings_json?.about_title || 'Crafting Elegance Since 2026'}
                       </h2>
+              )}
                       <p className="text-gray-300 text-base leading-relaxed mb-8 font-light break-words overflow-hidden">
                         {(() => {
                           const t = content.settings_json?.about_description || content.about_text;
@@ -466,23 +471,25 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                       <FadeIn dir="left">
                         <div className="bg-[#0B132B]/90 backdrop-blur-md p-10 border border-[#D4AF37]/30 shadow-2xl">
                           <h2 className="rs-heading text-4xl text-white mb-10">Royal Quarters</h2>
-                          <div className="space-y-8">
-                            {[
-                              { Icon: MapPin, label: 'Location', value: content.contact_info?.address || '1 King Street, London' },
-                              { Icon: Phone, label: 'Reservations', value: content.contact_info?.phone || '+44 20 7123 4567' },
-                              { Icon: Mail, label: 'Enquiries', value: content.contact_info?.email || 'concierge@royalsaloon.com' },
-                            ].map(({ Icon, label, value }) => (
-                              <div key={label} className="flex items-start gap-5">
-                                <div className="mt-1 w-12 h-12 rounded-full border border-[#D4AF37]/50 flex items-center justify-center rs-text-gold bg-[#D4AF37]/10 shrink-0">
-                                  <Icon size={20} />
-                                </div>
-                                <div>
-                                  <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-1 font-bold">{label}</div>
-                                  <div className="text-white text-lg">{value}</div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                          {!hiddenFields.includes('contact_phone') && (
+                                      <div className="space-y-8">
+                                                                  {[
+                                                                    { Icon: MapPin, label: 'Location', value: content.contact_info?.address || '1 King Street, London' },
+                                                                    { Icon: Phone, label: 'Reservations', value: content.contact_info?.phone || '+44 20 7123 4567' },
+                                                                    { Icon: Mail, label: 'Enquiries', value: content.contact_info?.email || 'concierge@royalsaloon.com' },
+                                                                  ].map(({ Icon, label, value }) => (
+                                                                    <div key={label} className="flex items-start gap-5">
+                                                                      <div className="mt-1 w-12 h-12 rounded-full border border-[#D4AF37]/50 flex items-center justify-center rs-text-gold bg-[#D4AF37]/10 shrink-0">
+                                                                        <Icon size={20} />
+                                                                      </div>
+                                                                      <div>
+                                                                        <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-1 font-bold">{label}</div>
+                                                                        <div className="text-white text-lg">{value}</div>
+                                                                      </div>
+                                                                    </div>
+                                                                  ))}
+                                                                </div>
+                                      )}
                             
                           <div className="mt-10 pt-8 border-t border-[#D4AF37]/20">
                             <div className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] mb-4 font-bold">Send a Message</div>
@@ -498,13 +505,15 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
 
                       <FadeIn dir="right">
                         <div className="h-[400px] md:h-[500px] border border-[#D4AF37]/30 p-2 bg-[#0B132B]/50">
-                          <iframe
-                            title="Map"
-                            className="w-full h-full grayscale opacity-80"
-                            loading="lazy"
-                            allowFullScreen
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          />
+                          {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                  title="Map"
+                                                                  className="w-full h-full grayscale opacity-80"
+                                                                  loading="lazy"
+                                                                  allowFullScreen
+                                                                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                />
+                                      )}
                         </div>
                       </FadeIn>
                     </div>

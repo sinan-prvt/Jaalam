@@ -8,6 +8,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Wagyu & Co.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = React.useState(false);
@@ -81,9 +82,11 @@ export default function PremiumMeatTheme({ website, content }: any) {
               
               <div className="container mx-auto px-6 relative z-10 text-center">
                 <Flame size={48} className="mx-auto mb-6 text-[#8C2323]" />
-                <h1 className="font-premium text-5xl md:text-7xl font-bold mb-6 text-white tracking-wider">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-premium text-5xl md:text-7xl font-bold mb-6 text-white tracking-wider">
                   {content.hero_title || 'The Art of Meat.'}
                 </h1>
+              )}
                 <p className="font-body text-sm text-gray-300 tracking-widest uppercase max-w-2xl mx-auto mb-10 leading-loose">
                   {content.about_text || content.hero_text || 'Exclusive purveyors of dry-aged steaks, wagyu, and artisanal cuts for the true connoisseur.'}
                 </p>
@@ -102,10 +105,14 @@ export default function PremiumMeatTheme({ website, content }: any) {
                     <div className="h-px bg-[#D4AF37] w-12"></div>
                     <span className="font-body text-xs tracking-[0.3em] uppercase text-[#D4AF37]">Our Philosophy</span>
                   </div>
-                  <h2 className="font-premium text-4xl text-white mb-8 leading-tight">{content.settings_json?.about_title || content.about_title || 'Mastery in Every Cut.'}</h2>
-                  <p className="font-body text-gray-400 leading-loose text-sm font-light mb-8">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-premium text-4xl text-white mb-8 leading-tight">{content.settings_json?.about_title || content.about_title || 'Mastery in Every Cut.'}</h2>
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-gray-400 leading-loose text-sm font-light mb-8">
                     {content.settings_json?.about_description || content.about_description || 'We source only the highest grade meats from sustainable, ethical farms worldwide. Our master butchers treat each piece with the reverence it deserves, ensuring an unparalleled culinary experience at your table.'}
                   </p>
+              )}
                   <div className="flex gap-8">
                      <div className="text-center">
                        <div className="font-premium text-3xl text-white mb-1">100%</div>
@@ -227,43 +234,47 @@ export default function PremiumMeatTheme({ website, content }: any) {
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                   <div>
                     <h2 className="font-premium text-3xl text-white mb-10 tracking-widest uppercase">Private Inquiries</h2>
-                    <div className="space-y-8 font-body text-sm font-light text-gray-300">
-                      {content.contact_info?.phone && (
-                        <div>
-                          <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Concierge</div>
-                          <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info.phone}</div>
-                        </div>
-                      )}
-                      {content.contact_info?.email && (
-                        <div>
-                          <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Electronic Mail</div>
-                          <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info.email}</div>
-                        </div>
-                      )}
-                      {content.contact_info?.address && (
-                        <div>
-                          <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Location</div>
-                          <div className="flex items-start gap-3"><MapPin size={16} className="mt-1 shrink-0" /> <span className="leading-relaxed">{content.contact_info.address}</span></div>
-                        </div>
-                      )}
-                      {content.contact_info?.hours && (
-                        <div>
-                          <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Hours</div>
-                          <div className="leading-relaxed whitespace-pre-wrap">{content.contact_info.hours}</div>
-                        </div>
-                      )}
-                      {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.whatsapp) && (
-                        <div>
-                          <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-4">Socials</div>
-                          <div className="flex gap-4">
-                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>}
-                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>}
-                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg></a>}
-                            {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    {!hiddenFields.includes('contact_phone') && (
+                              <div className="space-y-8 font-body text-sm font-light text-gray-300">
+                                                    {content.contact_info?.phone && (
+                                                      <div>
+                                                        <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Concierge</div>
+                                                        <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info.phone}</div>
+                                                      </div>
+                                                    )}
+                                                    {content.contact_info?.email && (
+                                                      <div>
+                                                        <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Electronic Mail</div>
+                                                        <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info.email}</div>
+                                                      </div>
+                                                    )}
+                                                    {content.contact_info?.address && (
+                                                      <div>
+                                                        <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Location</div>
+                                                        <div className="flex items-start gap-3"><MapPin size={16} className="mt-1 shrink-0" /> <span className="leading-relaxed">{content.contact_info.address}</span></div>
+                                                      </div>
+                                                    )}
+                                                    {content.contact_info?.hours && (
+                                                      <div>
+                                                        <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-2">Hours</div>
+                                                        <div className="leading-relaxed whitespace-pre-wrap">{content.contact_info.hours}</div>
+                                                      </div>
+                                                    )}
+                                                    {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.whatsapp) && (
+                                                      <div>
+                                                        <div className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase mb-4">Socials</div>
+                                                        {!hiddenFields.includes('contact_facebook') && (
+                                              <div className="flex gap-4">
+                                                                                                        {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>}
+                                                                                                        {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>}
+                                                                                                        {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg></a>}
+                                                                                                        {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>}
+                                                                                                      </div>
+                                              )}
+                                                      </div>
+                                                    )}
+                                                  </div>
+                              )}
                   </div>
                   <div className="border border-[#1A1A1A] p-8 bg-[#0D0D0D]">
                     <ContactForm 

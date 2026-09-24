@@ -19,6 +19,7 @@ import HinduMinimalLayout from './layouts/HinduMinimalLayout';
 import HinduElegantLayout from './layouts/HinduElegantLayout';
 
 export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
     return <ModernMosqueLayout website={website} content={content} />;
   }
@@ -355,9 +356,11 @@ export default function ReligiousEventTheme({ website, content }: { website: any
                     <div className="bg-white/10 p-3 rounded-full shrink-0"><MapPin size={24} /></div>
                     <div>
                       <h4 className="text-xl font-bold mb-2">Location</h4>
-                      <p className="text-white/80 leading-relaxed max-w-sm">
-                        {content.contact_info?.address || '123 Faith Lane, City, Country'}
-                      </p>
+                      {!hiddenFields.includes('contact_address') && (
+                                    <p className="text-white/80 leading-relaxed max-w-sm">
+                                                            {content.contact_info?.address || '123 Faith Lane, City, Country'}
+                                                          </p>
+                                    )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">

@@ -596,7 +596,7 @@ export default function AdminDashboard() {
                       <div className="absolute -right-6 -top-6 text-slate-50 opacity-50 group-hover:scale-110 transition-transform"><Activity size={120} /></div>
                       <span className="text-slate-500 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Global Traffic</span>
                       <span className="text-4xl font-black text-slate-800 tracking-tight relative z-10">{totalVisitors.toLocaleString()}</span>
-                      <div className="mt-4 flex items-center gap-1 text-indigo-500 text-sm font-bold relative z-10">
+                      <div className="mt-4 flex items-center gap-1 text-cyan-500 text-sm font-bold relative z-10">
                         <Activity size={16} /> Visitors across all sites
                       </div>
                     </div>
@@ -681,7 +681,7 @@ export default function AdminDashboard() {
                     <h3 className="font-bold text-slate-800 flex items-center gap-2"><Users size={18} className="text-primary-500" /> All Users</h3>
                     <button
                       onClick={() => setMessagingUser('ALL')}
-                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-bold rounded-lg shadow-md shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
+                      className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white text-sm font-bold rounded-lg shadow-md shadow-cyan-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
                     >
                       <MessageSquare size={16} /> Broadcast Message
                     </button>
@@ -752,7 +752,7 @@ export default function AdminDashboard() {
                               <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                                 <button
                                   onClick={() => setMessagingUser(u)}
-                                  className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                  className="p-2 text-slate-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-lg transition-colors"
                                   title="Send Message"
                                 >
                                   <MessageSquare size={18} />
@@ -1121,10 +1121,10 @@ export default function AdminDashboard() {
                   <div className="text-emerald-500 font-bold text-xs mt-2 flex items-center gap-1"><TrendingUp size={14} /> Lifetime earnings</div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                  <div className="absolute top-0 inset-x-0 h-1 bg-indigo-500"></div>
+                  <div className="absolute top-0 inset-x-0 h-1 bg-cyan-500"></div>
                   <div className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">Subscriptions</div>
                   <div className="text-4xl font-black text-slate-800">₹{subscriptionRevenue.toLocaleString()}</div>
-                  <div className="text-indigo-500 font-bold text-xs mt-2 flex items-center gap-1"><Users size={14} /> {subscriptionTransactions.length} payments</div>
+                  <div className="text-cyan-500 font-bold text-xs mt-2 flex items-center gap-1"><Users size={14} /> {subscriptionTransactions.length} payments</div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
                   <div className="absolute top-0 inset-x-0 h-1 bg-orange-500"></div>
@@ -1156,7 +1156,7 @@ export default function AdminDashboard() {
                           <tr key={tx.id} className="hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 font-bold text-slate-800">{tx.email}</td>
                             <td className="px-6 py-4">
-                              <span className={`px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider whitespace-nowrap ${tx.type === 'Subscription' ? 'bg-indigo-100 text-indigo-700' : 'bg-orange-100 text-orange-700'}`}>
+                              <span className={`px-2 py-1 rounded-md text-xs font-black uppercase tracking-wider whitespace-nowrap ${tx.type === 'Subscription' ? 'bg-cyan-100 text-cyan-700' : 'bg-orange-100 text-orange-700'}`}>
                                 {tx.type}
                               </span>
                             </td>
@@ -1207,7 +1207,7 @@ export default function AdminDashboard() {
                           <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold border whitespace-nowrap
                             ${o.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                               o.status === 'PROCESSING' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                                o.status === 'SHIPPED' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                                o.status === 'SHIPPED' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' :
                                   o.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                                     'bg-rose-50 text-rose-700 border-rose-200'
                             }`}
@@ -1242,7 +1242,7 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-8 duration-300">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-inner">
+                    <div className="w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-600 shadow-inner">
                       <MessageSquare size={20} />
                     </div>
                     <div>
@@ -1266,7 +1266,7 @@ export default function AdminDashboard() {
                       type="text"
                       value={messageTitle}
                       onChange={e => setMessageTitle(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all font-medium"
                       placeholder="e.g. Account Update"
                     />
                   </div>
@@ -1276,7 +1276,7 @@ export default function AdminDashboard() {
                       <textarea
                         value={messageContent}
                         onChange={e => setMessageContent(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all min-h-[150px] resize-none"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all min-h-[150px] resize-none"
                         placeholder="Type your message to the user here..."
                       ></textarea>
                       <button
@@ -1298,7 +1298,7 @@ export default function AdminDashboard() {
                           };
                           input.click();
                         }}
-                        className="absolute bottom-3 left-3 text-slate-400 hover:text-indigo-500 transition-colors p-2 bg-white rounded-lg border border-slate-200 hover:bg-indigo-50 shadow-sm"
+                        className="absolute bottom-3 left-3 text-slate-400 hover:text-cyan-500 transition-colors p-2 bg-white rounded-lg border border-slate-200 hover:bg-cyan-50 shadow-sm"
                         title="Attach Image/Screenshot"
                       >
                         <Paperclip size={18} />
@@ -1314,7 +1314,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={handleSendMessage}
                     disabled={isSendingMessage || !messageTitle.trim() || !messageContent.trim()}
-                    className="px-6 py-2.5 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-6 py-2.5 rounded-xl text-sm font-bold bg-cyan-600 text-white hover:bg-cyan-700 transition-colors shadow-lg shadow-cyan-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
                     {isSendingMessage ? 'Sending...' : <><Send size={16} /> Send Message</>}
                   </button>

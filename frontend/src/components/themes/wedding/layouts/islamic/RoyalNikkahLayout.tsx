@@ -14,6 +14,7 @@ const FloralCornerSVG = ({ className = "" }: { className?: string }) => (
 );
 
 export default function RoyalNikkahLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

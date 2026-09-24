@@ -10,6 +10,7 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'MAISON D\'OR';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Embroidered Velvet Gown', price: '₹85,000', image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=600&q=80', collection: 'Evening Wear' },
@@ -58,12 +59,16 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
         
         <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">
           <div className="w-px h-24 bg-[#D4AF37] mb-8"></div>
-          <h1 className="font-luxury text-4xl md:text-6xl font-bold mb-6 text-white tracking-widest uppercase leading-tight">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-luxury text-4xl md:text-6xl font-bold mb-6 text-white tracking-widest uppercase leading-tight">
             {content.hero_title || 'Haute Couture.'}
           </h1>
-          <p className="font-body text-xs text-[#D4AF37] tracking-[0.3em] uppercase max-w-2xl mx-auto mb-12 leading-loose">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-xs text-[#D4AF37] tracking-[0.3em] uppercase max-w-2xl mx-auto mb-12 leading-loose">
             {content.hero_text || 'Exquisite craftsmanship meets contemporary luxury. Discover our latest designer collection.'}
           </p>
+              )}
           <button className="flex items-center gap-4 text-white hover:text-[#D4AF37] font-body text-xs tracking-widest uppercase transition-colors group">
              Explore <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
           </button>
@@ -110,7 +115,9 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -172,15 +179,21 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -212,9 +225,15 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
             {content.about_text || "Bespoke tailoring and luxury pret-a-porter. Experience fashion at its finest."}
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-12 font-body text-[10px] tracking-[0.2em] uppercase text-[#D4AF37]">
-            <div className="flex items-center gap-3"><Phone size={14} /> {content.contact_info?.phone || 'VIP Concierge: +91 98765 43210'}</div>
-            <div className="flex items-center gap-3"><MapPin size={14} /> {content.contact_info?.address || 'Luxury Avenue, Kerala'}</div>
-            <div className="flex items-center gap-3"><Mail size={14} /> {content.contact_info?.email || 'atelier@maisondor.in'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-3"><Phone size={14} /> {content.contact_info?.phone || 'VIP Concierge: +91 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-3"><MapPin size={14} /> {content.contact_info?.address || 'Luxury Avenue, Kerala'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-3"><Mail size={14} /> {content.contact_info?.email || 'atelier@maisondor.in'}</div>
+                      )}
           </div>
         </div>
       </footer>

@@ -34,6 +34,7 @@ export default function PopFancyTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'POP';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Vibrant Sneaks', price: '$120', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80', description: 'Comfort meets bold colors.' },
     { name: 'Neon Jacket', price: '$210', image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80', description: 'Stand out in any crowd.' },
@@ -118,9 +119,11 @@ export default function PopFancyTheme({ website, content }: any) {
               if (sectionId === 'hero') return (
                 <section id="hero" key="hero" className="relative px-6 lg:px-20 py-16 md:py-24 max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
                   <div className="w-full lg:w-1/2 flex flex-col justify-center items-start z-10">
-                    <h1 className="font-pop-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tight mb-6 text-slate-900">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-pop-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tight mb-6 text-slate-900">
                       {content.hero_title || 'STAY LOUD.'}
                     </h1>
+              )}
                     <p className="font-pop-body text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed">
                       {content.about_text || content.hero_text || 'Premium quality for those who want to stand out. Bold aesthetics meets modern craftsmanship.'}
                     </p>
@@ -147,10 +150,14 @@ export default function PopFancyTheme({ website, content }: any) {
                 <section id="about" key="about" className="py-24 px-6 lg:px-20 bg-white">
                   <div className="max-w-[1000px] mx-auto text-center">
                     <span className="font-pop-display text-sm font-bold tracking-widest uppercase text-fuchsia-500 mb-4 block">About Us</span>
-                    <h2 className="font-pop-display text-4xl md:text-5xl font-extrabold text-slate-900 mb-8">{content.settings_json?.about_title || 'The Vision.'}</h2>
-                    <p className="font-pop-body text-xl md:text-3xl text-slate-600 leading-relaxed font-light">
+                    {!hiddenFields.includes("about_title") && (
+              <h2 className="font-pop-display text-4xl md:text-5xl font-extrabold text-slate-900 mb-8">{content.settings_json?.about_title || 'The Vision.'}</h2>
+              )}
+                    {!hiddenFields.includes("about_description") && (
+              <p className="font-pop-body text-xl md:text-3xl text-slate-600 leading-relaxed font-light">
                       {content.settings_json?.about_description || 'We blend cutting-edge design with premium materials to create pieces that speak for themselves. Welcome to the future of style.'}
                     </p>
+              )}
                   </div>
                 </section>
               );
@@ -241,44 +248,46 @@ export default function PopFancyTheme({ website, content }: any) {
                       <span className="font-pop-display text-sm font-bold tracking-widest uppercase text-cyan-400 mb-4 block">Get in Touch</span>
                       <h2 className="font-pop-display text-4xl md:text-6xl font-extrabold text-white mb-12">Contact Us</h2>
                       
-                      <div className="space-y-8">
-                        {content.contact_info?.email && (
-                          <div className="flex items-center gap-6">
-                            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Mail size={20} /></div>
-                            <div>
-                              <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Email</span>
-                              <span className="font-pop-display text-xl text-white">{content.contact_info.email}</span>
-                            </div>
-                          </div>
-                        )}
-                        {content.contact_info?.phone && (
-                          <div className="flex items-center gap-6">
-                            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Phone size={20} /></div>
-                            <div>
-                              <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Phone</span>
-                              <span className="font-pop-display text-xl text-white">{content.contact_info.phone}</span>
-                            </div>
-                          </div>
-                        )}
-                        {content.contact_info?.address && (
-                          <div className="flex items-center gap-6">
-                            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><MapPin size={20} /></div>
-                            <div>
-                              <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Location</span>
-                              <span className="font-pop-display text-xl text-white">{content.contact_info.address}</span>
-                            </div>
-                          </div>
-                        )}
-                        {content.contact_info?.hours && (
-                          <div className="flex items-center gap-6">
-                            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Clock size={20} /></div>
-                            <div>
-                              <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Hours</span>
-                              <span className="font-pop-display text-xl text-white whitespace-pre-wrap">{content.contact_info.hours}</span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                      {!hiddenFields.includes('contact_email') && (
+                              <div className="space-y-8">
+                                                      {content.contact_info?.email && (
+                                                        <div className="flex items-center gap-6">
+                                                          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Mail size={20} /></div>
+                                                          <div>
+                                                            <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Email</span>
+                                                            <span className="font-pop-display text-xl text-white">{content.contact_info.email}</span>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                      {content.contact_info?.phone && (
+                                                        <div className="flex items-center gap-6">
+                                                          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Phone size={20} /></div>
+                                                          <div>
+                                                            <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Phone</span>
+                                                            <span className="font-pop-display text-xl text-white">{content.contact_info.phone}</span>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                      {content.contact_info?.address && (
+                                                        <div className="flex items-center gap-6">
+                                                          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><MapPin size={20} /></div>
+                                                          <div>
+                                                            <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Location</span>
+                                                            <span className="font-pop-display text-xl text-white">{content.contact_info.address}</span>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                      {content.contact_info?.hours && (
+                                                        <div className="flex items-center gap-6">
+                                                          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><Clock size={20} /></div>
+                                                          <div>
+                                                            <span className="font-pop-body text-xs text-slate-400 uppercase tracking-wider block mb-1">Hours</span>
+                                                            <span className="font-pop-display text-xl text-white whitespace-pre-wrap">{content.contact_info.hours}</span>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                    </div>
+                              )}
 
                       {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.whatsapp) && (
                         <div className="mt-16 flex gap-4">

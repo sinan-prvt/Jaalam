@@ -34,6 +34,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
   const [viewProductsPage, setViewProductsPage] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'IRON FORGE';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || '100 Heavy Metal Blvd';
 
   /* ─── Palette ─── */
@@ -220,9 +221,11 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               </FadeIn>
 
               <FadeIn delay={200} dir="left">
-                <h1 className="hi-heading text-6xl sm:text-7xl md:text-8xl lg:text-[8rem] leading-[0.9] text-white mb-6 break-words uppercase">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="hi-heading text-6xl sm:text-7xl md:text-8xl lg:text-[8rem] leading-[0.9] text-white mb-6 break-words uppercase">
                   {content.hero_title || content.settings_json?.hero_title || 'FORGE YOUR LEGACY'}
                 </h1>
+              )}
               </FadeIn>
 
               <FadeIn delay={400} dir="left">
@@ -276,9 +279,11 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                         <Activity className="hi-text-neon" size={24} />
                         <span className="hi-subheading text-gray-400 tracking-widest text-sm">About The Forge</span>
                       </div>
-                      <h2 className="hi-heading text-5xl md:text-7xl text-white mb-8 leading-[0.9] break-words">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="hi-heading text-5xl md:text-7xl text-white mb-8 leading-[0.9] break-words">
                         {content.settings_json?.about_title || 'IRON SHARPENS IRON'}
                       </h2>
+              )}
                       <p className="text-gray-400 text-lg leading-relaxed mb-8 font-bold break-words whitespace-pre-wrap overflow-hidden">
                         {(() => {
                           const t = content.settings_json?.about_description || content.about_text;
@@ -475,7 +480,9 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                             </div>
                             <div>
                               <h4 className="hi-subheading text-white text-lg tracking-widest">PHONE</h4>
-                              <p className="text-gray-400 font-bold">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                              {!hiddenFields.includes('contact_phone') && (
+                                                  <p className="text-gray-400 font-bold">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                                                  )}
                             </div>
                           </div>
                           
@@ -485,7 +492,9 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                             </div>
                             <div>
                               <h4 className="hi-subheading text-white text-lg tracking-widest">EMAIL</h4>
-                              <p className="text-gray-400 font-bold">{content.contact_info?.email || 'train@ironforge.com'}</p>
+                              {!hiddenFields.includes('contact_email') && (
+                                                  <p className="text-gray-400 font-bold">{content.contact_info?.email || 'train@ironforge.com'}</p>
+                                                  )}
                             </div>
                           </div>
                         </div>
@@ -503,9 +512,11 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                             <h4 className="hi-subheading text-white text-xl tracking-widest uppercase">Training Hours</h4>
                           </div>
                           <div className="space-y-4 pl-[4.5rem]">
-                            <div className="text-gray-400 font-bold whitespace-pre-line leading-relaxed border-l-2 border-[#FF2A2A] pl-4">
-                              {content.contact_info?.hours || "MONDAY - FRIDAY: 05:00 - 23:00\nSATURDAY: 07:00 - 21:00\nSUNDAY: 08:00 - 20:00"}
-                            </div>
+                            {!hiddenFields.includes('contact_hours') && (
+                                              <div className="text-gray-400 font-bold whitespace-pre-line leading-relaxed border-l-2 border-[#FF2A2A] pl-4">
+                                                                            {content.contact_info?.hours || "MONDAY - FRIDAY: 05:00 - 23:00\nSATURDAY: 07:00 - 21:00\nSUNDAY: 08:00 - 20:00"}
+                                                                          </div>
+                                              )}
                           </div>
                         </div>
 
@@ -521,17 +532,23 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                           <div className="pl-[4.5rem] space-y-6">
                             <div className="flex gap-4">
                               {/* Instagram */}
-                              <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                              </a>
+                              {!hiddenFields.includes('contact_instagram') && (
+                                                  <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
+                                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                                                                </a>
+                                                  )}
                               {/* Facebook */}
-                              <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                              </a>
+                              {!hiddenFields.includes('contact_facebook') && (
+                                                  <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
+                                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                                </a>
+                                                  )}
                               {/* WhatsApp */}
-                              <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                              </a>
+                              {!hiddenFields.includes('contact_whatsapp') && (
+                                                  <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-2 border-white/10 flex items-center justify-center hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all -skew-x-12 group/icon">
+                                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover/icon:text-white skew-x-12 transition-colors"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                                                                </a>
+                                                  )}
                             </div>
                           </div>
                           <div className="mt-8 mb-8">

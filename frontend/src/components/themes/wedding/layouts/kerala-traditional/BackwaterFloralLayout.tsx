@@ -32,6 +32,7 @@ const CoconutLeaf = ({ className = "w-32 h-32" }: { className?: string }) => (
 );
 
 export default function BackwaterFloralLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

@@ -14,6 +14,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Minimal Consulting';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Strategy', price: 'Inquire', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80', description: 'Clear, actionable strategies for modern businesses.' },
@@ -77,12 +78,16 @@ export default function MinimalConsultingTheme({ website, content }: any) {
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-24 pb-32 px-8">
         <div className="container mx-auto max-w-5xl text-center">
-          <h1 className="font-minimal text-5xl md:text-7xl lg:text-[100px] font-bold mb-10 leading-[0.9] tracking-tighter">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-minimal text-5xl md:text-7xl lg:text-[100px] font-bold mb-10 leading-[0.9] tracking-tighter">
             {content.hero_title || 'Less noise. More signal.'}
           </h1>
-          <p className="font-minimal text-xl md:text-2xl text-gray-500 mb-16 max-w-2xl mx-auto leading-relaxed font-light">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-minimal text-xl md:text-2xl text-gray-500 mb-16 max-w-2xl mx-auto leading-relaxed font-light">
             {content.hero_text || 'We provide minimalist, high-impact consulting for the modern enterprise. We strip away the unnecessary to reveal the essential.'}
           </p>
+              )}
           <a href="#contact" className="inline-block bg-black text-white font-minimal font-bold text-xs uppercase tracking-[0.2em] py-5 px-12 hover:bg-black/80 transition-colors">
             Engage Us
           </a>
@@ -96,9 +101,11 @@ export default function MinimalConsultingTheme({ website, content }: any) {
              <div className="mb-12">
                 <span className="font-minimal text-xs font-bold tracking-[0.2em] uppercase text-gray-400">01 / The Firm</span>
              </div>
-            <h2 className="font-minimal text-3xl md:text-5xl font-bold mb-10 tracking-tight leading-tight">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-minimal text-3xl md:text-5xl font-bold mb-10 tracking-tight leading-tight">
               {content.settings_json?.about_title || content.about_title || 'Simplicity is the ultimate sophistication.'}
             </h2>
+              )}
             <p className="font-minimal text-lg md:text-xl text-gray-500 leading-relaxed font-light">
               {content.about_text || 'Our philosophy is rooted in essentialism. We believe that organizations thrive when they eliminate the superfluous and focus relentlessly on their core strengths. We guide leaders through this process of simplification and strategic alignment.'}
             </p>
@@ -205,53 +212,61 @@ export default function MinimalConsultingTheme({ website, content }: any) {
                 <div className="space-y-10 font-minimal text-lg font-light text-gray-600">
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-bold tracking-[0.2em] uppercase text-black">Phone</span>
-                    <p>{content.contact_info?.phone || '+1 800 000 0000'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p>{content.contact_info?.phone || '+1 800 000 0000'}</p>
+                                      )}
                   </div>
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-bold tracking-[0.2em] uppercase text-black">Email</span>
-                    <p>{content.contact_info?.email || 'hello@minimal.co'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p>{content.contact_info?.email || 'hello@minimal.co'}</p>
+                                      )}
                   </div>
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-bold tracking-[0.2em] uppercase text-black">Studio</span>
-                    <p>{content.contact_info?.address || '100 Minimalist Way, City'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p>{content.contact_info?.address || '100 Minimalist Way, City'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
               <div className="border-l border-black/10 pl-8 md:pl-16 flex flex-col justify-between">
-                <div>
-                   <span className="font-minimal text-xs font-bold tracking-[0.2em] uppercase text-gray-400 block mb-8">Social</span>
-                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                    <div className="flex flex-col gap-6">
-                      {content.contact_info?.facebook && (
-                        <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
-                          <Facebook size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Facebook</span>
-                        </a>
-                      )}
-                      {content.contact_info?.instagram && (
-                        <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
-                          <Instagram size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Instagram</span>
-                        </a>
-                      )}
-                      {content.contact_info?.twitter && (
-                        <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
-                          <Twitter size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Twitter</span>
-                        </a>
-                      )}
-                      {content.contact_info?.youtube && (
-                        <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
-                          <Youtube size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">YouTube</span>
-                        </a>
-                      )}
-                      {content.contact_info?.whatsapp && (
-                        <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
-                          <WhatsApp size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">WhatsApp</span>
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-gray-400 font-minimal text-sm">Social media links will appear here.</p>
-                  )}
-                </div>
+                {!hiddenFields.includes('contact_facebook') && (
+                              <div>
+                                                 <span className="font-minimal text-xs font-bold tracking-[0.2em] uppercase text-gray-400 block mb-8">Social</span>
+                                                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                                  <div className="flex flex-col gap-6">
+                                                    {content.contact_info?.facebook && (
+                                                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
+                                                        <Facebook size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Facebook</span>
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.instagram && (
+                                                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
+                                                        <Instagram size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Instagram</span>
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.twitter && (
+                                                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
+                                                        <Twitter size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">Twitter</span>
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.youtube && (
+                                                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
+                                                        <Youtube size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">YouTube</span>
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.whatsapp && (
+                                                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors flex items-center gap-4">
+                                                        <WhatsApp size={20} /> <span className="font-minimal text-sm uppercase tracking-widest font-semibold">WhatsApp</span>
+                                                      </a>
+                                                    )}
+                                                  </div>
+                                                ) : (
+                                                  <p className="text-gray-400 font-minimal text-sm">Social media links will appear here.</p>
+                                                )}
+                                              </div>
+                              )}
               </div>
             </div>
             
@@ -266,16 +281,18 @@ export default function MinimalConsultingTheme({ website, content }: any) {
             </div>
 
             <div className="mt-20 w-full h-[400px] border border-black/10 relative z-20">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Minimalist Way, City')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Minimalist Way, City')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

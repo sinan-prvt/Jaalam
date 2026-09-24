@@ -13,6 +13,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Metro Living';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Skyline Penthouse', price: '₹4.5 Cr', image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80', location: 'Downtown', type: '3 BHK' },
@@ -67,12 +68,16 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
       <section className="py-20 px-6 container mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="w-full md:w-1/2">
-            <h1 className="font-urban text-5xl md:text-7xl font-black mb-6 tracking-tighter leading-tight text-slate-900">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-urban text-5xl md:text-7xl font-black mb-6 tracking-tighter leading-tight text-slate-900">
               {content.hero_title || 'Find your place in the city.'}
             </h1>
-            <p className="font-urban text-lg text-slate-500 mb-10 max-w-lg leading-relaxed">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-urban text-lg text-slate-500 mb-10 max-w-lg leading-relaxed">
               {content.hero_text || 'Modern apartments, lofts, and penthouses in the most desirable urban neighborhoods.'}
             </p>
+              )}
           </div>
           <div className="w-full md:w-1/2">
             <div className="grid grid-cols-2 gap-4">
@@ -124,7 +129,9 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -197,20 +204,22 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-white border-t border-slate-100">
           <div className="container mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
-              <div className="w-full md:w-1/3">
-                <h2 className="font-urban text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Get in Touch.</h2>
-                <p className="font-urban text-slate-500 mb-8 leading-relaxed">
-                  Have questions about our listings or want to schedule a viewing? We are here to help you find your perfect urban home.
-                </p>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
-                  <div className="flex gap-4">
-                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
-                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
-                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Twitter size={20} /></a>}
-                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Youtube size={20} /></a>}
-                  </div>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="w-full md:w-1/3">
+                                          <h2 className="font-urban text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Get in Touch.</h2>
+                                          <p className="font-urban text-slate-500 mb-8 leading-relaxed">
+                                            Have questions about our listings or want to schedule a viewing? We are here to help you find your perfect urban home.
+                                          </p>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
+                                            <div className="flex gap-4">
+                                              {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
+                                              {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
+                                              {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Twitter size={20} /></a>}
+                                              {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Youtube size={20} /></a>}
+                                            </div>
+                                          )}
+                                        </div>
+                          )}
               <div className="w-full md:w-2/3 flex flex-col gap-8">
                 <div className="grid sm:grid-cols-2 gap-8">
                   <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
@@ -218,28 +227,36 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
                       <Phone size={24} />
                     </div>
                     <h4 className="font-urban font-bold text-slate-900 mb-2">Phone</h4>
-                    <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
+                                      )}
                   </div>
                   <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
                       <Mail size={24} />
                     </div>
                     <h4 className="font-urban font-bold text-slate-900 mb-2">Email</h4>
-                    <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
+                                      )}
                   </div>
                   <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
                       <MapPin size={24} />
                     </div>
                     <h4 className="font-urban font-bold text-slate-900 mb-2">Office</h4>
-                    <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
+                                      )}
                   </div>
                   <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
                       <Clock size={24} />
                     </div>
                     <h4 className="font-urban font-bold text-slate-900 mb-2">Working Hours</h4>
-                    <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -256,16 +273,18 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Level 4, Business Tower, Urban District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Level 4, Business Tower, Urban District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

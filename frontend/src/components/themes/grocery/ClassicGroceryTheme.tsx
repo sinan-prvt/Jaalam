@@ -12,6 +12,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Family Supermarket';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Basmati Rice (Premium)', price: '₹220/kg', image: 'https://images.unsplash.com/photo-1574323347407-15e5a4b51a8d?auto=format&fit=crop&w=600&q=80', originalPrice: '₹250' },
@@ -69,12 +70,16 @@ export default function ClassicGroceryTheme({ website, content }: any) {
         <div className="absolute top-0 right-0 w-1/3 h-full bg-[#0033A0] transform skew-x-12 translate-x-16 opacity-10"></div>
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between p-8 md:p-16 relative z-10">
           <div className="w-full md:w-1/2 pr-0 md:pr-12">
-            <h1 className="font-classic text-4xl md:text-6xl font-black text-[#0033A0] mb-4 uppercase leading-none">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-classic text-4xl md:text-6xl font-black text-[#0033A0] mb-4 uppercase leading-none">
               {content.hero_title || 'Everyday Low Prices.'}
             </h1>
-            <p className="font-classic text-xl font-medium text-gray-600 mb-8">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-classic text-xl font-medium text-gray-600 mb-8">
               {content.hero_text || 'Your one-stop shop for daily groceries, household items, and fresh produce at unbeatable rates.'}
             </p>
+              )}
             <button className="bg-[#FFD100] hover:bg-[#F2C700] text-[#212529] font-classic font-bold text-lg py-3 px-8 rounded shadow-[2px_2px_0_#212529] active:shadow-none active:translate-y-[2px] transition-all" onClick={() => (document.getElementById('menu') || document.getElementById('offers') || document.getElementById('products') || document.getElementById('about'))?.scrollIntoView({ behavior: 'smooth' })}>
               View Weekly Flyer
             </button>
@@ -138,7 +143,9 @@ export default function ClassicGroceryTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -224,21 +231,27 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                   <span className="text-3xl">📞</span>
                   <div>
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Phone</span>
-                    <span className="font-bold text-gray-900 text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <span className="font-bold text-gray-900 text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
                   <span className="text-3xl">✉️</span>
                   <div>
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Email</span>
-                    <span className="font-bold text-gray-900 text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <span className="font-bold text-gray-900 text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
                   <span className="text-3xl">📍</span>
                   <div>
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Address</span>
-                    <span className="font-bold text-gray-900 text-lg">{content.contact_info?.address || '123 Main Street'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <span className="font-bold text-gray-900 text-lg">{content.contact_info?.address || '123 Main Street'}</span>
+                                      )}
                   </div>
                 </div>
 
@@ -246,11 +259,13 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                 {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
                   <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm text-center">
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-4">Connect With Us</span>
-                    <div className="flex justify-center gap-4">
-                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">FB</a>}
-                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">IG</a>}
-                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">TW</a>}
-                    </div>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex justify-center gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">FB</a>}
+                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">IG</a>}
+                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:-translate-y-1 transition-transform shadow-md text-[#E50914] font-black">TW</a>}
+                                                          </div>
+                                      )}
                   </div>
                 )}
               </div>
@@ -258,17 +273,19 @@ export default function ClassicGroceryTheme({ website, content }: any) {
               <div className="w-full lg:w-2/3 flex flex-col gap-6">
                 <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
                   <h3 className="font-bold text-xl mb-4 text-gray-900 flex items-center gap-2"><span>🕒</span> Store Hours</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600 font-medium">
-                    {content.contact_info?.hours ? (
-                      <div className="col-span-1 md:col-span-2 p-3 bg-white rounded shadow-sm whitespace-pre-wrap">{content.contact_info.hours}</div>
-                    ) : (
-                      <>
-                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Monday - Friday</span> <span>8:00 AM - 9:00 PM</span></div>
-                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Saturday</span> <span>9:00 AM - 8:00 PM</span></div>
-                        <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Sunday</span> <span className="text-[#E50914] font-bold">Closed</span></div>
-                      </>
-                    )}
-                  </div>
+                  {!hiddenFields.includes('contact_hours') && (
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600 font-medium">
+                                                      {content.contact_info?.hours ? (
+                                                        <div className="col-span-1 md:col-span-2 p-3 bg-white rounded shadow-sm whitespace-pre-wrap">{content.contact_info.hours}</div>
+                                                      ) : (
+                                                        <>
+                                                          <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Monday - Friday</span> <span>8:00 AM - 9:00 PM</span></div>
+                                                          <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Saturday</span> <span>9:00 AM - 8:00 PM</span></div>
+                                                          <div className="flex justify-between p-3 bg-white rounded shadow-sm"><span>Sunday</span> <span className="text-[#E50914] font-bold">Closed</span></div>
+                                                        </>
+                                                      )}
+                                                    </div>
+                                  )}
                 </div>
                 
                 <div className="bg-gray-50 p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
@@ -287,16 +304,18 @@ export default function ClassicGroceryTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-4xl mt-12">
             <div className="w-full h-80 rounded-2xl overflow-hidden shadow-sm border border-gray-200 relative">
-              <iframe 
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={false} 
-                loading="lazy" 
-                title="Store Location"
-                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe 
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%" 
+                                          height="100%" 
+                                          style={{ border: 0 }} 
+                                          allowFullScreen={false} 
+                                          loading="lazy" 
+                                          title="Store Location"
+                                          className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -313,12 +332,16 @@ export default function ClassicGroceryTheme({ website, content }: any) {
           <div className="flex flex-col md:flex-row justify-center items-center gap-8 font-classic font-bold bg-[#343A40] p-6 rounded-lg">
             <div className="flex items-center gap-2">
               <Phone className="text-[#FFD100]" /> 
-              <span>{content.contact_info?.phone || '0484 234 5678'}</span>
+              {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '0484 234 5678'}</span>
+                          )}
             </div>
             <div className="hidden md:block w-px h-8 bg-gray-600"></div>
             <div className="flex items-center gap-2">
               <MapPin className="text-[#FFD100]" /> 
-              <span>{content.contact_info?.address || 'Main Road Junction, Kerala'}</span>
+              {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || 'Main Road Junction, Kerala'}</span>
+                          )}
             </div>
           </div>
         </div>

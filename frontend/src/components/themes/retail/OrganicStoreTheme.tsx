@@ -25,6 +25,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
   const siteName = content.settings_json?.website_name || website.slug || 'EARTH BOUND';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const defaultProducts = [
     { name: 'Organic Matcha Powder', price: '₹24', image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', description: 'Ceremonial grade matcha from Uji, Japan.' },
@@ -162,9 +163,11 @@ export default function OrganicStoreTheme({ website, content }: any) {
       {!hiddenSections.includes('hero') && (
           <section key="hero" id="hero" className="relative z-10 py-12 md:py-24 px-6 md:px-12 flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto w-full">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
+              {!hiddenFields.includes("hero_title") && (
               <h1 className="os-heading text-5xl md:text-7xl font-semibold mb-6 text-[#4A5D23] leading-tight break-words whitespace-pre-wrap">
                 {content.hero_title || 'Pure & Natural.'}
               </h1>
+              )}
               <p className="os-body text-lg md:text-xl text-[#6B705C] mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed break-words whitespace-pre-wrap">
                 {content.about_text || 'Sustainable products for a mindful lifestyle. Sourced ethically from nature.'}
               </p>
@@ -189,12 +192,16 @@ export default function OrganicStoreTheme({ website, content }: any) {
           <section key="about" id="about" className="relative z-10 py-24 px-6 md:px-12 bg-[#4A5D23] text-[#FDFBF7]">
             <div className="max-w-4xl mx-auto text-center">
               <Leaf className="mx-auto mb-8 opacity-80" size={40} />
+              {!hiddenFields.includes("about_title") && (
               <h2 className="os-heading text-4xl md:text-5xl font-semibold mb-8 leading-snug break-words whitespace-pre-wrap">
                 {content.settings_json?.about_title || 'Rooted in Nature'}
               </h2>
+              )}
+              {!hiddenFields.includes("about_description") && (
               <p className="os-body text-lg text-[#E8EDDF] leading-relaxed max-w-2xl mx-auto break-words whitespace-pre-wrap">
                 {content.settings_json?.about_description || 'We believe that what goes on your body and in your home should be as close to nature as possible. Our commitment is to provide 100% organic, cruelty-free, and sustainably sourced goods.'}
               </p>
+              )}
             </div>
           </section>
       )}
@@ -277,15 +284,29 @@ export default function OrganicStoreTheme({ website, content }: any) {
               <div className="w-full md:w-1/2 space-y-8">
                 <h2 className="os-heading text-4xl md:text-5xl font-semibold">Get in Touch</h2>
                 <div className="space-y-4 os-body text-lg text-[#E8EDDF]">
-                  <p><strong>Location:</strong> {content.contact_info?.address || 'Green Valley, California'}</p>
-                  <p><strong>Email:</strong> {content.contact_info?.email || 'hello@earthbound.com'}</p>
-                  <p><strong>Phone:</strong> {content.contact_info?.phone || '+1 800 555 0199'}</p>
-                  <p><strong>Hours:</strong> {content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                  {!hiddenFields.includes('contact_address') && (
+                              <p><strong>Location:</strong> {content.contact_info?.address || 'Green Valley, California'}</p>
+                              )}
+                  {!hiddenFields.includes('contact_email') && (
+                              <p><strong>Email:</strong> {content.contact_info?.email || 'hello@earthbound.com'}</p>
+                              )}
+                  {!hiddenFields.includes('contact_phone') && (
+                              <p><strong>Phone:</strong> {content.contact_info?.phone || '+1 800 555 0199'}</p>
+                              )}
+                  {!hiddenFields.includes('contact_hours') && (
+                              <p><strong>Hours:</strong> {content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                              )}
                 </div>
                 <div className="flex gap-4 pt-4 text-[#FDFBF7]">
-                  <a href={content.contact_info?.instagram || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><Instagram size={24} /></a>
-                  <a href={content.contact_info?.facebook || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><Facebook size={24} /></a>
-                  <a href={content.contact_info?.whatsapp || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><WhatsApp size={24} /></a>
+                  {!hiddenFields.includes('contact_instagram') && (
+                              <a href={content.contact_info?.instagram || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><Instagram size={24} /></a>
+                              )}
+                  {!hiddenFields.includes('contact_facebook') && (
+                              <a href={content.contact_info?.facebook || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><Facebook size={24} /></a>
+                              )}
+                  {!hiddenFields.includes('contact_whatsapp') && (
+                              <a href={content.contact_info?.whatsapp || '#'} className="hover:text-[#8B5A2B] transition-colors bg-white/10 p-3 rounded-full"><WhatsApp size={24} /></a>
+                              )}
                 </div>
               </div>
               <div className="w-full md:w-1/2 bg-white rounded-2xl p-6 md:p-8">
@@ -300,13 +321,15 @@ export default function OrganicStoreTheme({ website, content }: any) {
             </div>
           
             <div className="mt-12 w-full h-64 md:h-96 bg-[#E8EDDF] rounded-3xl overflow-hidden shadow-inner flex items-center justify-center">
-              <iframe
-                title="Store Location"
-                className="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Green Valley, California')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                      <iframe
+                                      title="Store Location"
+                                      className="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                      src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Green Valley, California')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                      allowFullScreen
+                                      loading="lazy"
+                                    ></iframe>
+                      )}
             </div>
           </section>
       )}
@@ -337,9 +360,15 @@ export default function OrganicStoreTheme({ website, content }: any) {
             <span className="os-heading font-semibold text-lg text-[#8B5A2B]">{siteName}</span>
           </div>
           <div className="flex items-center gap-4 text-[#8B5A2B]">
-            <a href={content.contact_info?.instagram || '#'} className="hover:text-[#4A5D23] transition-colors"><Instagram size={20} /></a>
-            <a href={content.contact_info?.facebook || '#'} className="hover:text-[#4A5D23] transition-colors"><Facebook size={20} /></a>
-            <a href={content.contact_info?.whatsapp || '#'} className="hover:text-[#4A5D23] transition-colors"><WhatsApp size={20} /></a>
+            {!hiddenFields.includes('contact_instagram') && (
+                      <a href={content.contact_info?.instagram || '#'} className="hover:text-[#4A5D23] transition-colors"><Instagram size={20} /></a>
+                      )}
+            {!hiddenFields.includes('contact_facebook') && (
+                      <a href={content.contact_info?.facebook || '#'} className="hover:text-[#4A5D23] transition-colors"><Facebook size={20} /></a>
+                      )}
+            {!hiddenFields.includes('contact_whatsapp') && (
+                      <a href={content.contact_info?.whatsapp || '#'} className="hover:text-[#4A5D23] transition-colors"><WhatsApp size={20} /></a>
+                      )}
           </div>
           <div className="text-center os-body text-sm text-[#8B5A2B]/80">
             &copy; {new Date().getFullYear()} {siteName}. Handcrafted with care.

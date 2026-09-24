@@ -20,6 +20,7 @@ export default function ModernMeatTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const siteName = content.settings_json?.website_name || website.slug || 'Prime Cuts Delivery';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Fresh Chicken Breast', price: '₹280/kg', image: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80', description: 'Skinless, boneless, hormone-free.' },
     { name: 'Premium Mutton Curry Cut', price: '₹850/kg', image: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&q=80', description: 'Tender pieces perfect for curries.' },
@@ -61,7 +62,9 @@ export default function ModernMeatTheme({ website, content }: any) {
            <span className="flex items-center gap-1"><ShieldCheck size={14} className="text-red-500 shrink-0" /> 100% Halal Certified</span>
            <span className="hidden md:flex items-center gap-1"><Clock size={14} className="text-red-500 shrink-0" /> Express Delivery in 45 Mins</span>
         </div>
-        <div className="flex items-center gap-1"><Phone size={14} className="text-red-500 shrink-0" /> {content.contact_info?.phone || 'Order Now: 98765 43210'}</div>
+        {!hiddenFields.includes('contact_phone') && (
+              <div className="flex items-center gap-1"><Phone size={14} className="text-red-500 shrink-0" /> {content.contact_info?.phone || 'Order Now: 98765 43210'}</div>
+              )}
       </div>
 
       {/* Header */}
@@ -91,9 +94,11 @@ export default function ModernMeatTheme({ website, content }: any) {
               <div className="container mx-auto flex flex-col md:flex-row items-center gap-12">
                 <div className="w-full md:w-1/2">
                   <span className="bg-red-100 text-red-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-6 inline-block">Farm Fresh Daily</span>
-                  <h1 className="font-modern text-5xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-5xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
                     {content.hero_title || 'Premium Quality Fresh Meat, Delivered.'}
                   </h1>
+              )}
                   <p className="font-modern text-lg text-slate-600 mb-8 max-w-md">
                     {content.about_text || content.hero_text || 'Hygienically cut, cleaned, and vacuum packed. Order fresh chicken and mutton straight from our farm to your kitchen.'}
                   </p>
@@ -112,11 +117,15 @@ export default function ModernMeatTheme({ website, content }: any) {
             <section key="about" id="about" className="py-20 px-6 bg-white">
               <div className="container mx-auto flex flex-col md:flex-row-reverse items-center gap-12">
                 <div className="w-full md:w-1/2">
-                  <h2 className="font-modern text-4xl font-extrabold text-slate-900 mb-6">{content.settings_json?.about_title || content.about_title || 'Why Choose Us?'}</h2>
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-modern text-4xl font-extrabold text-slate-900 mb-6">{content.settings_json?.about_title || content.about_title || 'Why Choose Us?'}</h2>
+              )}
                   <div className="w-20 h-1 bg-red-600 mb-6"></div>
-                  <p className="font-modern text-lg text-slate-600 leading-relaxed mb-6">
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-modern text-lg text-slate-600 leading-relaxed mb-6">
                     {content.settings_json?.about_description || content.about_description || 'We are committed to delivering the highest quality, most hygienic meat products directly to your doorstep. Our farms maintain strict ethical standards and our processing units are ISO certified.'}
                   </p>
+              )}
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="grid grid-cols-2 gap-4">
@@ -218,7 +227,9 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center shrink-0"><MapPin size={20} className="text-red-600" /></div>
                       <div>
                         <h4 className="font-bold text-slate-900 mb-1">Store Location</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.address || '123 Business St, Fresh Valley, NY 10001'}</p>
+                        {!hiddenFields.includes('contact_address') && (
+                                      <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.address || '123 Business St, Fresh Valley, NY 10001'}</p>
+                                      )}
                       </div>
                     </div>
                     
@@ -226,7 +237,9 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center shrink-0"><Phone size={20} className="text-red-600" /></div>
                       <div>
                         <h4 className="font-bold text-slate-900 mb-1">Phone Number</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.phone || '+1 (555) 000-0000'}</p>
+                        {!hiddenFields.includes('contact_phone') && (
+                                      <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.phone || '+1 (555) 000-0000'}</p>
+                                      )}
                       </div>
                     </div>
                     
@@ -234,7 +247,9 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center shrink-0"><Mail size={20} className="text-red-600" /></div>
                       <div>
                         <h4 className="font-bold text-slate-900 mb-1">Email Address</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.email || 'hello@example.com'}</p>
+                        {!hiddenFields.includes('contact_email') && (
+                                      <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.email || 'hello@example.com'}</p>
+                                      )}
                       </div>
                     </div>
                     
@@ -242,17 +257,23 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center shrink-0"><Clock size={20} className="text-red-600" /></div>
                       <div>
                         <h4 className="font-bold text-slate-900 mb-1">Working Hours</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</p>
+                        {!hiddenFields.includes('contact_hours') && (
+                                      <p className="text-slate-600 text-sm leading-relaxed">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</p>
+                                      )}
                       </div>
                     </div>
                     
                     <div className="flex gap-4 mt-8 pt-6 border-t border-slate-100">
-                      <a href={content.contact_info?.facebook || '#'} className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-red-50 text-slate-600 hover:text-red-600 transition-colors">
-                        <Facebook size={18} />
-                      </a>
-                      <a href={content.contact_info?.instagram || '#'} className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-red-50 text-slate-600 hover:text-red-600 transition-colors">
-                        <Instagram size={18} />
-                      </a>
+                      {!hiddenFields.includes('contact_facebook') && (
+                                  <a href={content.contact_info?.facebook || '#'} className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-red-50 text-slate-600 hover:text-red-600 transition-colors">
+                                                          <Facebook size={18} />
+                                                        </a>
+                                  )}
+                      {!hiddenFields.includes('contact_instagram') && (
+                                  <a href={content.contact_info?.instagram || '#'} className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-red-50 text-slate-600 hover:text-red-600 transition-colors">
+                                                          <Instagram size={18} />
+                                                        </a>
+                                  )}
                     </div>
                   </div>
                 </div>
@@ -269,10 +290,12 @@ export default function ModernMeatTheme({ website, content }: any) {
               </div>
             
             <div className="mt-12 w-full h-[400px] bg-slate-200 rounded-3xl overflow-hidden relative shadow-inner">
-              <iframe 
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, NY')}&output=embed`}
-                className="absolute inset-0 w-full h-full border-0 filter grayscale" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                      <iframe 
+                                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, NY')}&output=embed`}
+                                      className="absolute inset-0 w-full h-full border-0 filter grayscale" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                                    ></iframe>
+                      )}
             </div>
           </section>
         );
@@ -368,15 +391,21 @@ export default function ModernMeatTheme({ website, content }: any) {
            <div>
              <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-xs text-slate-500">Contact Us</h4>
              <div className="space-y-3">
-               <div className="text-slate-400 flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Phone size={16} className="text-red-500" /> {content.contact_info?.phone || '98765 43210'}</div>
-               <div className="text-slate-400 flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Mail size={16} className="text-red-500" /> {content.contact_info?.email || 'support@primecuts.in'}</div>
+               {!hiddenFields.includes('contact_phone') && (
+                          <div className="text-slate-400 flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Phone size={16} className="text-red-500" /> {content.contact_info?.phone || '98765 43210'}</div>
+                          )}
+               {!hiddenFields.includes('contact_email') && (
+                          <div className="text-slate-400 flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><Mail size={16} className="text-red-500" /> {content.contact_info?.email || 'support@primecuts.in'}</div>
+                          )}
              </div>
            </div>
            <div>
              <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-xs text-slate-500">Store Location</h4>
              <div className="text-slate-400 flex items-start gap-2 leading-relaxed">
                 <MapPin size={16} className="mt-1 shrink-0 text-red-500" /> 
-                <span>{content.contact_info?.address || 'Shop 12, Main Market, Kerala'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || 'Shop 12, Main Market, Kerala'}</span>
+                          )}
              </div>
            </div>
         </div>

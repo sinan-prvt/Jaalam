@@ -6,6 +6,7 @@ interface SectionLayoutProps {
 }
 
 export default function SectionLayout({ content, components }: SectionLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   // Default section order if none is set in settings
   const defaultOrder = ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const order = content?.settings_json?.section_order || defaultOrder;

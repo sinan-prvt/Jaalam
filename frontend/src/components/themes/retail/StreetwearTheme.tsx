@@ -24,6 +24,7 @@ export default function StreetwearTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
   const siteName = content.settings_json?.website_name || website.slug || 'DRIP CARTEL';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const defaultProducts = [
     { name: 'Oversized Graphic Tee', price: '₹3500', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80', description: 'Heavyweight cotton with puff print.' },
@@ -148,9 +149,11 @@ export default function StreetwearTheme({ website, content }: any) {
           <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-[url('https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
           <div className="relative z-10 text-center w-full max-w-4xl">
             <div className="inline-block bg-[#ccff00] text-black font-bold px-4 py-1 mb-6 rotate-[-2deg]">SEASON 1</div>
-            <h1 className="st-font text-6xl md:text-8xl font-black italic uppercase leading-none mb-8 break-words whitespace-pre-wrap tracking-tighter drop-shadow-[4px_4px_0_rgba(204,255,0,0.3)]">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="st-font text-6xl md:text-8xl font-black italic uppercase leading-none mb-8 break-words whitespace-pre-wrap tracking-tighter drop-shadow-[4px_4px_0_rgba(204,255,0,0.3)]">
               {content.hero_title || 'STREET UNIFORM'}
             </h1>
+              )}
             <a href="#drop" className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest mt-4 inline-block">
               Shop Now
             </a>
@@ -163,12 +166,16 @@ export default function StreetwearTheme({ website, content }: any) {
         <section id="about" className="p-6 md:p-12 border-b-2 border-[#333] bg-[url('https://images.unsplash.com/photo-1542840410-3092f99611a3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-fixed bg-center relative">
           <div className="absolute inset-0 bg-black/80"></div>
           <div className="relative z-10 max-w-4xl text-[#ccff00]">
-            <h2 className="st-font text-5xl md:text-7xl font-black italic mb-8 break-words whitespace-pre-wrap">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="st-font text-5xl md:text-7xl font-black italic mb-8 break-words whitespace-pre-wrap">
               {content.settings_json?.about_title || 'BORN IN THE STREETS'}
             </h2>
-            <p className="text-xl md:text-2xl font-bold leading-relaxed text-white max-w-2xl break-words whitespace-pre-wrap">
+              )}
+            {!hiddenFields.includes("about_description") && (
+              <p className="text-xl md:text-2xl font-bold leading-relaxed text-white max-w-2xl break-words whitespace-pre-wrap">
               {content.settings_json?.about_description || 'We rebel against fast fashion. Every piece is cut and sewn with intent. Small batches, heavy fabrics, zero compromises.'}
             </p>
+              )}
           </div>
         </section>
       )}
@@ -279,31 +286,41 @@ export default function StreetwearTheme({ website, content }: any) {
                 <MapPin className="text-[#ccff00] mt-1 shrink-0" size={24} />
                 <div>
                   <h4 className="font-bold uppercase mb-1">HQ</h4>
-                  <p className="text-gray-400 font-bold">{content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO'}</p>
+                  {!hiddenFields.includes('contact_address') && (
+                                  <p className="text-gray-400 font-bold">{content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO'}</p>
+                                  )}
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Mail className="text-[#ccff00] mt-1 shrink-0" size={24} />
                 <div>
                   <h4 className="font-bold uppercase mb-1">Inquiries</h4>
-                  <p className="text-gray-400 font-bold">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
+                  {!hiddenFields.includes('contact_email') && (
+                                  <p className="text-gray-400 font-bold">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
+                                  )}
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Phone className="text-[#ccff00] mt-1 shrink-0" size={24} />
                 <div>
                   <h4 className="font-bold uppercase mb-1">Phone</h4>
-                  <p className="text-gray-400 font-bold">{content.contact_info?.phone || '+1 800 555 0199'}</p>
+                  {!hiddenFields.includes('contact_phone') && (
+                                  <p className="text-gray-400 font-bold">{content.contact_info?.phone || '+1 800 555 0199'}</p>
+                                  )}
                 </div>
               </div>
               
               <div className="pt-8 border-t-2 border-[#333] flex gap-4">
-                <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
-                  <Instagram size={20} />
-                </a>
-                <a href={content.contact_info?.facebook || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
-                  <Facebook size={20} />
-                </a>
+                {!hiddenFields.includes('contact_instagram') && (
+                              <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
+                                                <Instagram size={20} />
+                                              </a>
+                              )}
+                {!hiddenFields.includes('contact_facebook') && (
+                              <a href={content.contact_info?.facebook || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
+                                                <Facebook size={20} />
+                                              </a>
+                              )}
                 <a href={content.contact_info?.twitter || '#'} className="w-12 h-12 bg-black border-2 border-[#333] hover:border-[#ccff00] text-gray-400 hover:text-[#ccff00] flex items-center justify-center transition-colors">
                   <Twitter size={20} />
                 </a>
@@ -321,14 +338,16 @@ export default function StreetwearTheme({ website, content }: any) {
           </div>
         
           <div className="mt-12 w-full h-80 md:h-auto min-h-[400px] border-2 border-[#333] grayscale overflow-hidden hover:grayscale-0 transition-all duration-500">
-            <iframe 
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={false} 
-              loading="lazy">
-            </iframe>
+            {!hiddenFields.includes('contact_address') && (
+                      <iframe 
+                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Streetwear Ave, LA / NY / TOKYO')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                    width="100%" 
+                                    height="100%" 
+                                    style={{ border: 0 }} 
+                                    allowFullScreen={false} 
+                                    loading="lazy">
+                                  </iframe>
+                      )}
           </div>
         </section>
       )}
@@ -380,14 +399,22 @@ export default function StreetwearTheme({ website, content }: any) {
           </div>
           <div className="flex flex-col md:items-end justify-between">
             <div className="text-left md:text-right font-bold text-gray-400 space-y-2 uppercase">
-              <p className="break-words">{content.contact_info?.address || 'LA / NY / TOKYO'}</p>
-              <p className="break-words">{content.contact_info?.hours || 'MON-SAT: 11AM - 8PM'}</p>
-              <p className="break-words">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
+              {!hiddenFields.includes('contact_address') && (
+                          <p className="break-words">{content.contact_info?.address || 'LA / NY / TOKYO'}</p>
+                          )}
+              {!hiddenFields.includes('contact_hours') && (
+                          <p className="break-words">{content.contact_info?.hours || 'MON-SAT: 11AM - 8PM'}</p>
+                          )}
+              {!hiddenFields.includes('contact_email') && (
+                          <p className="break-words">{content.contact_info?.email || 'INFO@DRIPCARTEL.COM'}</p>
+                          )}
             </div>
             <div className="flex gap-6 mt-8 md:mt-0">
-              <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 border-2 border-[#333] flex items-center justify-center hover:bg-[#ccff00] hover:text-black hover:border-[#ccff00] transition-colors">
-                <Instagram size={24} />
-              </a>
+              {!hiddenFields.includes('contact_instagram') && (
+                          <a href={content.contact_info?.instagram || '#'} className="w-12 h-12 border-2 border-[#333] flex items-center justify-center hover:bg-[#ccff00] hover:text-black hover:border-[#ccff00] transition-colors">
+                                          <Instagram size={24} />
+                                        </a>
+                          )}
             </div>
           </div>
         </div>

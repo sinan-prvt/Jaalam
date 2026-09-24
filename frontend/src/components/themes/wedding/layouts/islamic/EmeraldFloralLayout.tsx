@@ -89,6 +89,7 @@ const RoyalEnvelopeOverlay = ({
 };
 
 export default function EmeraldFloralLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 

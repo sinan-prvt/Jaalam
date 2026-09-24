@@ -14,6 +14,7 @@ export default function LegalFirmTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Legal Firm';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Corporate Law', price: 'Consultation', image: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80', description: 'Comprehensive legal representation for businesses.' },
@@ -78,12 +79,16 @@ export default function LegalFirmTheme({ website, content }: any) {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-10"></div>
         <div className="container mx-auto max-w-5xl relative z-10 text-center">
           <div className="w-16 h-1 bg-[#C4A962] mx-auto mb-10"></div>
-          <h1 className="font-legal-title text-5xl md:text-7xl font-bold mb-8 leading-tight">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-legal-title text-5xl md:text-7xl font-bold mb-8 leading-tight">
             {content.hero_title || 'Principled advocacy. Proven results.'}
           </h1>
-          <p className="font-legal-body text-xl md:text-2xl text-[#F5F0E8]/80 mb-12 max-w-2xl mx-auto leading-relaxed">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-legal-body text-xl md:text-2xl text-[#F5F0E8]/80 mb-12 max-w-2xl mx-auto leading-relaxed">
             {content.hero_text || 'Providing exceptional legal counsel and unwavering representation for businesses and individuals.'}
           </p>
+              )}
           <a href="#contact" className="inline-flex items-center gap-3 bg-[#C4A962] text-[#1B3D2E] font-legal-body font-bold text-sm uppercase tracking-widest py-4 px-10 hover:bg-[#F5F0E8] transition-colors">
             Request a Consultation <ArrowRight size={18} />
           </a>
@@ -149,9 +154,11 @@ export default function LegalFirmTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-32 px-6 bg-[#1B3D2E] text-[#F5F0E8]">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="font-legal-title text-4xl md:text-5xl font-bold mb-8">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-legal-title text-4xl md:text-5xl font-bold mb-8">
               {content.settings_json?.about_title || content.about_title || 'A legacy of legal excellence.'}
             </h2>
+              )}
             <div className="w-16 h-1 bg-[#C4A962] mx-auto mb-10"></div>
             <p className="font-legal-body text-xl md:text-2xl text-[#F5F0E8]/80 leading-relaxed max-w-3xl mx-auto">
               {content.about_text || 'Our firm was founded on the principle that every client deserves uncompromising advocacy and deeply personalized counsel. We navigate the complexities of the law so you can focus on the future.'}
@@ -212,57 +219,67 @@ export default function LegalFirmTheme({ website, content }: any) {
                 <div className="space-y-6 font-legal-body text-lg">
                   <div className="flex items-start gap-4">
                     <Phone className="text-[#C4A962] mt-1 shrink-0" size={24} />
-                    <p>{content.contact_info?.phone || '+1 (555) 000-0000'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p>{content.contact_info?.phone || '+1 (555) 000-0000'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <Mail className="text-[#C4A962] mt-1 shrink-0" size={24} />
-                    <p>{content.contact_info?.email || 'inquiries@legalfirm.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p>{content.contact_info?.email || 'inquiries@legalfirm.com'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <MapPin className="text-[#C4A962] mt-1 shrink-0" size={24} />
-                    <p>{content.contact_info?.address || '100 Justice Avenue, Suite 500, Washington DC'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p>{content.contact_info?.address || '100 Justice Avenue, Suite 500, Washington DC'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <Clock className="text-[#C4A962] mt-1 shrink-0" size={24} />
-                    <p className="whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9:00 AM - 5:00 PM\nSat-Sun: Closed'}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <p className="whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9:00 AM - 5:00 PM\nSat-Sun: Closed'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
-              <div className="w-full md:w-1/3">
-                 <h3 className="font-legal-title text-2xl font-bold mb-6 text-[#C4A962]">Connect</h3>
-                 <p className="font-legal-body text-[#F5F0E8]/70 mb-8">Follow us for updates and insights.</p>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                  <div className="flex flex-wrap gap-6">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
-                        <Facebook size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
-                        <Instagram size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
-                        <Twitter size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
-                        <Youtube size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.whatsapp && (
-                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
-                        <WhatsApp size={32} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-[#F5F0E8]/50 font-legal-body italic">No social media links provided.</p>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="w-full md:w-1/3">
+                                           <h3 className="font-legal-title text-2xl font-bold mb-6 text-[#C4A962]">Connect</h3>
+                                           <p className="font-legal-body text-[#F5F0E8]/70 mb-8">Follow us for updates and insights.</p>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                            <div className="flex flex-wrap gap-6">
+                                              {content.contact_info?.facebook && (
+                                                <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
+                                                  <Facebook size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.instagram && (
+                                                <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
+                                                  <Instagram size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.twitter && (
+                                                <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
+                                                  <Twitter size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.youtube && (
+                                                <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
+                                                  <Youtube size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.whatsapp && (
+                                                <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#F5F0E8] hover:text-[#C4A962] transition-colors">
+                                                  <WhatsApp size={32} />
+                                                </a>
+                                              )}
+                                            </div>
+                                          ) : (
+                                            <p className="text-[#F5F0E8]/50 font-legal-body italic">No social media links provided.</p>
+                                          )}
+                                        </div>
+                          )}
             </div>
             
             <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
@@ -276,16 +293,18 @@ export default function LegalFirmTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] border-4 border-[#C4A962] p-1 bg-[#1B3D2E] relative z-20">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Justice Avenue, Suite 500, Washington DC')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Justice Avenue, Suite 500, Washington DC')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

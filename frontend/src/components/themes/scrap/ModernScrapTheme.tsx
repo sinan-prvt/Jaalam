@@ -12,6 +12,7 @@ export default function ModernScrapTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'GreenTech Recycling';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.' },
     { name: 'Aluminium Scrap', price: '₹100 – ₹200/kg', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.' },
@@ -101,19 +102,25 @@ export default function ModernScrapTheme({ website, content }: any) {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     Live Market Rates
                   </div>
-                  <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
                     {content.hero_title || 'Smart Recycling for a Better Tomorrow.'}
                   </h1>
-                  <p className="font-modern text-lg text-slate-500 mb-10 max-w-lg leading-relaxed">
+              )}
+                  {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-lg text-slate-500 mb-10 max-w-lg leading-relaxed">
                     {content.hero_description || content.hero_text || 'We offer transparent pricing, instant payments, and professional pickup services for all your recyclable materials.'}
                   </p>
+              )}
                   <div className="flex flex-col sm:flex-row gap-4">
                     <a href="#products" className="bg-emerald-600 hover:bg-emerald-700 text-white font-modern font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-600/20">
                       Check Today's Rates <ArrowRight size={18} />
                     </a>
-                    <a href={`tel:${content.contact_info?.phone || '9876543210'}`} className="bg-white hover:bg-slate-50 text-slate-700 font-modern font-bold py-4 px-8 rounded-xl border border-slate-200 transition-colors flex justify-center items-center">
-                      Call {content.contact_info?.phone || '98765 43210'}
-                    </a>
+                    {!hiddenFields.includes('contact_phone') && (
+                              <a href={`tel:${content.contact_info?.phone || '9876543210'}`} className="bg-white hover:bg-slate-50 text-slate-700 font-modern font-bold py-4 px-8 rounded-xl border border-slate-200 transition-colors flex justify-center items-center">
+                                                    Call {content.contact_info?.phone || '98765 43210'}
+                                                  </a>
+                              )}
                   </div>
                 </div>
                 <div className="w-full md:w-1/2 relative">
@@ -130,12 +137,16 @@ export default function ModernScrapTheme({ website, content }: any) {
                 <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mx-auto mb-8">
                   <Recycle size={32} />
                 </div>
-                <h2 className="font-modern text-4xl font-extrabold text-slate-900 mb-6">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-modern text-4xl font-extrabold text-slate-900 mb-6">
                   {content.settings_json?.about_title || 'Leading the Charge in Sustainable Recycling'}
                 </h2>
-                <p className="font-modern text-lg text-slate-500 leading-relaxed max-w-3xl mx-auto">
+              )}
+                {!hiddenFields.includes("about_description") && (
+              <p className="font-modern text-lg text-slate-500 leading-relaxed max-w-3xl mx-auto">
                   {content.settings_json?.about_description || 'We are committed to building a circular economy by providing state-of-the-art recycling facilities for commercial and residential clients. Our transparent processes ensure you get the best value for your scrap while minimizing environmental impact.'}
                 </p>
+              )}
               </div>
             </section>
           );
@@ -246,21 +257,27 @@ export default function ModernScrapTheme({ website, content }: any) {
                           <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"><Phone size={20} /></div>
                           <div className="min-w-0">
                             <div className="text-emerald-200 text-xs md:text-sm font-bold tracking-wider uppercase">Call Us</div>
-                            <div className="text-base md:text-xl font-semibold break-words">{content.contact_info?.phone || '+91 98765 43210'}</div>
+                            {!hiddenFields.includes('contact_phone') && (
+                                              <div className="text-base md:text-xl font-semibold break-words">{content.contact_info?.phone || '+91 98765 43210'}</div>
+                                              )}
                           </div>
                         </li>
                         <li className="flex items-center gap-4">
                           <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"><MapPin size={20} /></div>
                           <div className="min-w-0">
                             <div className="text-emerald-200 text-xs md:text-sm font-bold tracking-wider uppercase">Visit Us</div>
-                            <div className="text-sm md:text-lg font-semibold break-words">{content.contact_info?.address || 'Industrial Estate, Kerala 682001'}</div>
+                            {!hiddenFields.includes('contact_address') && (
+                                              <div className="text-sm md:text-lg font-semibold break-words">{content.contact_info?.address || 'Industrial Estate, Kerala 682001'}</div>
+                                              )}
                           </div>
                         </li>
                         <li className="flex items-center gap-4">
                           <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"><Mail size={20} /></div>
                           <div className="min-w-0">
                             <div className="text-emerald-200 text-xs md:text-sm font-bold tracking-wider uppercase">Email</div>
-                            <div className="text-sm md:text-lg font-semibold break-words">{content.contact_info?.email || 'contact@greentech.in'}</div>
+                            {!hiddenFields.includes('contact_email') && (
+                                              <div className="text-sm md:text-lg font-semibold break-words">{content.contact_info?.email || 'contact@greentech.in'}</div>
+                                              )}
                           </div>
                         </li>
                       </ul>
@@ -275,18 +292,20 @@ export default function ModernScrapTheme({ website, content }: any) {
 
                       <div className="mb-6">
                          <h3 className="font-modern text-xl md:text-2xl font-bold mb-4">Connect With Us</h3>
-                         <div className="flex gap-4">
-                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
-                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
-                            {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><WhatsApp size={20} /></a>}
-                            {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
-                               <div className="flex gap-4">
-                                 <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Facebook size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Instagram size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><WhatsApp size={20} /></a>
-                               </div>
-                            )}
-                         </div>
+                         {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex gap-4">
+                                                                  {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
+                                                                  {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
+                                                                  {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><WhatsApp size={20} /></a>}
+                                                                  {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
+                                                                     <div className="flex gap-4">
+                                                                       <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Facebook size={20} /></a>
+                                                                       <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><Instagram size={20} /></a>
+                                                                       <a href="#" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"><WhatsApp size={20} /></a>
+                                                                     </div>
+                                                                  )}
+                                                               </div>
+                                      )}
                       </div>
 
                       <div className="flex-grow bg-slate-50 rounded-xl p-6 border border-slate-100">

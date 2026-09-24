@@ -105,6 +105,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
   // AI Generated Images
   const heroImage = "/media/hero.png";
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const defaultGallery = [
     '/media/placeholder_pastry.png',
@@ -221,12 +222,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                 {/* Text Side */}
                 <div className="w-full lg:w-1/2 flex flex-col justify-center pb-12 lg:pb-0 z-20">
-                  <h1 className="text-white text-[2.5rem] lg:text-[4.5rem] font-extrabold tracking-tight leading-tight mb-4 drop-shadow-sm whitespace-pre-line">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="text-white text-[2.5rem] lg:text-[4.5rem] font-extrabold tracking-tight leading-tight mb-4 drop-shadow-sm whitespace-pre-line">
                     {content.hero_title || `Welcome to,\n${content.settings_json?.website_name || 'Cafe'}`}
                   </h1>
-                  <p className="text-white/90 text-sm lg:text-base font-bold max-w-lg mb-6 leading-relaxed drop-shadow-sm">
+              )}
+                  {!hiddenFields.includes("hero_description") && (
+              <p className="text-white/90 text-sm lg:text-base font-bold max-w-lg mb-6 leading-relaxed drop-shadow-sm">
                     {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                   </p>
+              )}
                   <div className="relative mt-4 lg:mt-6">
                     <button
                       onClick={() => setLocationOpen(!locationOpen)}
@@ -400,13 +405,17 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <div className="w-full lg:w-1/2 space-y-6">
                             <div>
                               <span className="text-[#A65E36] font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Our Story</span>
-                              <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                              {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                                 {content.settings_json?.about_title || 'The Art of Traditional Baking'}
                               </h2>
+              )}
                             </div>
-                            <p className="text-slate-500 font-bold leading-relaxed text-sm lg:text-base">
+                            {!hiddenFields.includes("about_description") && (
+              <p className="text-slate-500 font-bold leading-relaxed text-sm lg:text-base">
                               {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses. From our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                             </p>
+              )}
 
                             {/* Stats badges */}
                             <div className="grid grid-cols-2 gap-4 pt-2">
@@ -477,7 +486,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Location</h4>
-                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                    {!hiddenFields.includes('contact_address') && (
+                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                                    )}
                                   </div>
                                 </div>
 
@@ -487,7 +498,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Phone</h4>
-                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                    {!hiddenFields.includes('contact_phone') && (
+                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                                    )}
                                   </div>
                                 </div>
 
@@ -497,7 +510,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Email</h4>
-                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                    {!hiddenFields.includes('contact_email') && (
+                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -524,30 +539,36 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             <div className="border-t border-slate-100 pt-6 mt-6">
                               <h4 className="font-bold text-slate-800 text-sm mb-3">Follow Us</h4>
                               <div className="flex items-center gap-4">
-                                <a
-                                  href={content.contact_info?.facebook || 'https://facebook.com'}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                {!hiddenFields.includes('contact_facebook') && (
+                                            <a
+                                                                              href={content.contact_info?.facebook || 'https://facebook.com'}
+                                                                              target="_blank"
+                                                                              rel="noopener noreferrer"
+                                                                              className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
+                                                                            >
+                                                                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                            </a>
+                                            )}
+                                {!hiddenFields.includes('contact_instagram') && (
+                                            <a
+                                                                              href={content.contact_info?.instagram || 'https://instagram.com'}
+                                                                              target="_blank"
+                                                                              rel="noopener noreferrer"
+                                                                              className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
+                                                                            >
+                                                                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                                            </a>
+                                            )}
+                                {!hiddenFields.includes('contact_whatsapp') && (
+                                            <a
+                                                                              href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
+                                                                              target="_blank"
+                                                                              rel="noopener noreferrer"
+                                                                              className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
+                                                                            >
+                                                                              <MessageCircle size={18} />
                                 </a>
-                                <a
-                                  href={content.contact_info?.instagram || 'https://instagram.com'}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                                </a>
-                                <a
-                                  href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
-                                >
-                                  <MessageCircle size={18} />
-                                </a>
+)}
                               </div>
                             </div>
                           
@@ -559,16 +580,18 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                           {/* Google Map Card */}
                           <div className="w-full lg:w-1/2 bg-white rounded-[2.5rem] p-3 shadow-[0_15px_50px_rgba(0,0,0,0.04)] border border-slate-50 overflow-hidden relative min-h-[300px] lg:min-h-full">
-                            <iframe
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              scrolling="no"
-                              marginHeight={0}
-                              marginWidth={0}
-                              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                              className="w-full h-full rounded-[2rem] grayscale contrast-125 opacity-95 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
-                            ></iframe>
+                            {!hiddenFields.includes('contact_address') && (
+                                    <iframe
+                                                                  width="100%"
+                                                                  height="100%"
+                                                                  frameBorder="0"
+                                                                  scrolling="no"
+                                                                  marginHeight={0}
+                                                                  marginWidth={0}
+                                                                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                                  className="w-full h-full rounded-[2rem] grayscale contrast-125 opacity-95 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
+                                                                ></iframe>
+                                    )}
                           </div>
                         </div>
                       
@@ -693,18 +716,22 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                 <div>
                   <h4 className="text-lg font-bold text-white mb-6 tracking-wide uppercase">Contact Us</h4>
-                  <ul className="space-y-4 text-slate-400 text-sm">
-                    {content.contact_info?.address && (
-                    <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
-                      <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
-                      <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                    </li>
-                    )}
-                    <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                      <Phone size={20} className="shrink-0 text-[#C19A6B]" />
-                      <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                    </li>
-                  </ul>
+                  {!hiddenFields.includes('contact_address') && (
+                                <ul className="space-y-4 text-slate-400 text-sm">
+                                                    {content.contact_info?.address && (
+                                                    <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
+                                                      <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
+                                                      <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                                                    </li>
+                                                    )}
+                                                    <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
+                                                      <Phone size={20} className="shrink-0 text-[#C19A6B]" />
+                                                      {!hiddenFields.includes('contact_phone') && (
+                                            <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                                            )}
+                                                    </li>
+                                                  </ul>
+                                )}
                 </div>
 
                 <div>
@@ -943,9 +970,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <h2 className="text-white text-5xl lg:text-7xl font-playfair font-black tracking-tight leading-[1.1] mb-6 whitespace-pre-line drop-shadow-lg">
                           {content.hero_title || 'Quality breads\nand flavors'}
                         </h2>
-                        <p className="text-white/80 font-outfit text-sm lg:text-base font-medium max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
+                        {!hiddenFields.includes("hero_description") && (
+              <p className="text-white/80 font-outfit text-sm lg:text-base font-medium max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
                           {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
+              )}
                         <button
                           onClick={(e) => handleNavClick('menu', e)}
                           className="bg-[#C5A880] hover:bg-[#B3966E] text-white px-8 py-3.5 rounded-full font-bold font-outfit uppercase tracking-wider text-xs shadow-lg transition-all duration-300 active:scale-95 flex items-center gap-2 group"
@@ -965,12 +994,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="bg-[#FCFAF7] rounded-[2.5rem] border border-[#EBE6DD] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 shadow-sm">
                           <div className="w-full lg:w-1/2 space-y-6">
                             <span className="text-[#C5A880] font-bold font-outfit tracking-[0.25em] uppercase text-xs block">about us</span>
-                            <h2 className="text-3xl lg:text-5xl font-playfair font-black text-[#1E1B18] tracking-tight leading-tight">
+                            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl lg:text-5xl font-playfair font-black text-[#1E1B18] tracking-tight leading-tight">
                               {content.settings_json?.about_title || 'The Art of Traditional Baking'}
                             </h2>
-                            <p className="text-[#6B6155] font-outfit font-medium leading-relaxed text-sm lg:text-base whitespace-pre-line">
+              )}
+                            {!hiddenFields.includes("about_description") && (
+              <p className="text-[#6B6155] font-outfit font-medium leading-relaxed text-sm lg:text-base whitespace-pre-line">
                               {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses.\n\nFrom our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                             </p>
+              )}
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#EBE6DD]">
                               <div>
                                 <span className="block text-3xl font-playfair font-black text-[#C5A880]">15+</span>
@@ -1130,7 +1163,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Location</h4>
-                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                    {!hiddenFields.includes('contact_address') && (
+                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                                      )}
                                   </div>
                                 </div>
 
@@ -1140,7 +1175,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Phone</h4>
-                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                    {!hiddenFields.includes('contact_phone') && (
+                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                                      )}
                                   </div>
                                 </div>
 
@@ -1150,7 +1187,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Email</h4>
-                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                    {!hiddenFields.includes('contact_email') && (
+                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                                      )}
                                   </div>
                                 </div>
                               </div>
@@ -1175,15 +1214,21 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#EBE6DD]/40">
-                                <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_whatsapp') && (
+                                              <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
+                                                                                <MessageCircle size={16} />
                                 </a>
-                                <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                                </a>
-                                <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
-                                  <MessageCircle size={16} />
-                                </a>
+)}
                               </div>
 
                               <div className="border-t border-[#EBE6DD]/40 pt-6 mt-8">
@@ -1195,16 +1240,18 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
                           {/* Maps Card */}
                           <div className="w-full lg:w-1/2 bg-[#FCFAF7] border border-[#EBE6DD] rounded-[2.5rem] p-3 shadow-sm overflow-hidden min-h-[300px] lg:min-h-full">
-                            <iframe
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              scrolling="no"
-                              marginHeight={0}
-                              marginWidth={0}
-                              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                              className="w-full h-full rounded-3xl grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
-                            ></iframe>
+                            {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    frameBorder="0"
+                                                                    scrolling="no"
+                                                                    marginHeight={0}
+                                                                    marginWidth={0}
+                                                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                                    className="w-full h-full rounded-3xl grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
+                                                                  ></iframe>
+                                      )}
                           </div>
                         </div>
                       </div>
@@ -1345,11 +1392,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <ul className="space-y-4 text-slate-400 text-sm">
                   <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
                     <MapPin size={18} className="shrink-0 mt-1 text-[#C5A880]" />
-                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                                    )}
                   </li>
                   <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
                     <Phone size={18} className="shrink-0 text-[#C5A880]" />
-                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                                    )}
                   </li>
                 </ul>
               </div>
@@ -1553,9 +1604,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <h2 className="text-[#2A4B3A] text-5xl lg:text-7xl font-playfair font-black tracking-tight leading-[1.1] whitespace-pre-line">
                             {content.hero_title || 'Baked With\nPassion & Craft'}
                           </h2>
-                          <p className="text-[#5E6B61] font-montserrat text-sm lg:text-base font-medium max-w-xl leading-relaxed">
+                          {!hiddenFields.includes("hero_description") && (
+              <p className="text-[#5E6B61] font-montserrat text-sm lg:text-base font-medium max-w-xl leading-relaxed">
                             {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                           </p>
+              )}
                           <button
                             onClick={(e) => handleNavClick('menu', e)}
                             className="bg-[#C27D56] hover:bg-[#B06E49] text-white px-8 py-3.5 rounded-full font-bold font-montserrat uppercase tracking-wider text-xs shadow-lg transition-all duration-300 active:scale-95 flex items-center gap-2 group"
@@ -1589,12 +1642,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="bg-[#FAF5ED] rounded-[2.5rem] border border-[#E6DEC9] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 shadow-sm">
                           <div className="w-full lg:w-1/2 space-y-6">
                             <span className="text-[#C27D56] font-bold font-montserrat tracking-[0.25em] uppercase text-xs block">our story</span>
-                            <h2 className="text-3xl lg:text-5xl font-playfair font-black text-[#2A4B3A] tracking-tight leading-tight">
+                            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl lg:text-5xl font-playfair font-black text-[#2A4B3A] tracking-tight leading-tight">
                               {content.settings_json?.about_title || 'The Art of Traditional Baking'}
                             </h2>
-                            <p className="text-[#5E6B61] font-montserrat font-medium leading-relaxed text-sm lg:text-base whitespace-pre-line">
+              )}
+                            {!hiddenFields.includes("about_description") && (
+              <p className="text-[#5E6B61] font-montserrat font-medium leading-relaxed text-sm lg:text-base whitespace-pre-line">
                               {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses.\n\nFrom our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                             </p>
+              )}
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#E6DEC9]">
                               <div>
                                 <span className="block text-3xl font-playfair font-black text-[#C27D56]">15+</span>
@@ -1752,7 +1809,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Location</h4>
-                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                    {!hiddenFields.includes('contact_address') && (
+                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                                      )}
                                   </div>
                                 </div>
 
@@ -1762,7 +1821,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Phone</h4>
-                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                    {!hiddenFields.includes('contact_phone') && (
+                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                                      )}
                                   </div>
                                 </div>
 
@@ -1772,7 +1833,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Email</h4>
-                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                    {!hiddenFields.includes('contact_email') && (
+                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                                      )}
                                   </div>
                                 </div>
                               </div>
@@ -1796,15 +1859,21 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#E6DEC9]">
-                                <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_whatsapp') && (
+                                              <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
+                                                                                <MessageCircle size={16} />
                                 </a>
-                                <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                                </a>
-                                <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
-                                  <MessageCircle size={16} />
-                                </a>
+)}
                               </div>
 
                               <div className="border-t border-[#E6DEC9] pt-6 mt-8">
@@ -1815,16 +1884,18 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
 
                           <div className="w-full lg:w-1/2 bg-[#FAF5ED] border border-[#E6DEC9] rounded-[2.5rem] p-3 shadow-sm overflow-hidden min-h-[300px] lg:min-h-full">
-                            <iframe
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              scrolling="no"
-                              marginHeight={0}
-                              marginWidth={0}
-                              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                              className="w-full h-full rounded-3xl grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
-                            ></iframe>
+                            {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    frameBorder="0"
+                                                                    scrolling="no"
+                                                                    marginHeight={0}
+                                                                    marginWidth={0}
+                                                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                                    className="w-full h-full rounded-3xl grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[300px] lg:min-h-[450px]"
+                                                                  ></iframe>
+                                      )}
                           </div>
                         </div>
                       </div>
@@ -1963,11 +2034,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <ul className="space-y-4 text-[#FAF5ED]/70 text-sm">
                   <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
                     <MapPin size={18} className="shrink-0 mt-1 text-[#C27D56]" />
-                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                                    )}
                   </li>
                   <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
                     <Phone size={18} className="shrink-0 text-[#C27D56]" />
-                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                                    )}
                   </li>
                 </ul>
               </div>
@@ -2192,9 +2267,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <h2 className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-syne font-extrabold tracking-tight leading-[1.05] mb-6 uppercase break-words w-full">
                           {content.hero_title || 'Design & Taste'}
                         </h2>
-                        <p className="text-slate-300 font-inter text-sm lg:text-base font-light max-w-lg mx-auto mb-10 leading-relaxed">
+                        {!hiddenFields.includes("hero_description") && (
+              <p className="text-slate-300 font-inter text-sm lg:text-base font-light max-w-lg mx-auto mb-10 leading-relaxed">
                           {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                         </p>
+              )}
                         <button
                           onClick={(e) => handleNavClick('menu', e)}
                           className="bg-[#D4A373] hover:bg-[#C29262] text-[#111111] px-8 py-4 rounded-none font-bold font-grotesk uppercase tracking-widest text-xs shadow-2xl transition-all duration-300 active:scale-95 flex items-center gap-2"
@@ -2214,12 +2291,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                           <div className="lg:col-span-7 space-y-8">
                             <span className="text-[#D4A373] font-bold font-grotesk tracking-[0.3em] uppercase text-xs block">our story</span>
-                            <h2 className="text-2xl sm:text-3xl lg:text-6xl font-syne font-extrabold text-[#111111] tracking-tight leading-tight uppercase break-words w-full">
+                            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-2xl sm:text-3xl lg:text-6xl font-syne font-extrabold text-[#111111] tracking-tight leading-tight uppercase break-words w-full">
                               {content.settings_json?.about_title || 'The Art of Traditional Baking'}
                             </h2>
-                            <p className="text-[#7A7A7A] font-inter font-light leading-relaxed text-sm lg:text-base whitespace-pre-line">
+              )}
+                            {!hiddenFields.includes("about_description") && (
+              <p className="text-[#7A7A7A] font-inter font-light leading-relaxed text-sm lg:text-base whitespace-pre-line">
                               {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses.\n\nFrom our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                             </p>
+              )}
                           </div>
 
                           <div className="lg:col-span-5 grid grid-cols-2 gap-8 border-l border-[#EAEAEA] pl-8 lg:pl-16">
@@ -2357,37 +2438,43 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 Store Locator
                               </h2>
 
-                              <div className="space-y-8 font-inter font-light">
-                                {content.contact_info?.address && (
-                                <div className="flex items-start gap-4">
-                                  <MapPin className="text-[#D4A373] shrink-0 mt-1" size={18} />
-                                  <div>
-                                    <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Address</h4>
-                                    <p className="text-slate-400 text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                                  </div>
-                                </div>
-                                )}
+                              {!hiddenFields.includes('contact_address') && (
+                                          <div className="space-y-8 font-inter font-light">
+                                                                          {content.contact_info?.address && (
+                                                                          <div className="flex items-start gap-4">
+                                                                            <MapPin className="text-[#D4A373] shrink-0 mt-1" size={18} />
+                                                                            <div>
+                                                                              <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Address</h4>
+                                                                              <p className="text-slate-400 text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                                                            </div>
+                                                                          </div>
+                                                                          )}
 
-                                {content.contact_info?.phone && (
-                                <div className="flex items-start gap-4">
-                                  <Phone className="text-[#D4A373] shrink-0 mt-1" size={18} />
-                                  <div>
-                                    <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Phone</h4>
-                                    <p className="text-slate-400 text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                  </div>
-                                </div>
-                                )}
+                                                                          {content.contact_info?.phone && (
+                                                                          <div className="flex items-start gap-4">
+                                                                            <Phone className="text-[#D4A373] shrink-0 mt-1" size={18} />
+                                                                            <div>
+                                                                              <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Phone</h4>
+                                                                              {!hiddenFields.includes('contact_phone') && (
+                                                              <p className="text-slate-400 text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                                              )}
+                                                                            </div>
+                                                                          </div>
+                                                                          )}
 
-                                {content.contact_info?.email && (
-                                <div className="flex items-start gap-4">
-                                  <Mail className="text-[#D4A373] shrink-0 mt-1" size={18} />
-                                  <div>
-                                    <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Email</h4>
-                                    <p className="text-slate-400 text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                  </div>
-                                </div>
-                                )}
-                              </div>
+                                                                          {content.contact_info?.email && (
+                                                                          <div className="flex items-start gap-4">
+                                                                            <Mail className="text-[#D4A373] shrink-0 mt-1" size={18} />
+                                                                            <div>
+                                                                              <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Email</h4>
+                                                                              {!hiddenFields.includes('contact_email') && (
+                                                              <p className="text-slate-400 text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                                              )}
+                                                                            </div>
+                                                                          </div>
+                                                                          )}
+                                                                        </div>
+                                          )}
                             </div>
 
                             <div className="border-t border-[#222222] pt-8 mt-12">
@@ -2408,15 +2495,21 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </div>
 
                               <div className="flex items-center gap-4 mt-12 pt-8 border-t border-[#222222]">
-                                <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_whatsapp') && (
+                                              <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
+                                                                                <MessageCircle size={16} />
                                 </a>
-                                <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                                </a>
-                                <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
-                                  <MessageCircle size={16} />
-                                </a>
+)}
                               </div>
 
                               <div className="border-t border-[#222222] pt-6 mt-8">
@@ -2427,16 +2520,18 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
 
                           <div className="lg:col-span-6 bg-[#222222] p-2 border border-[#222222] overflow-hidden min-h-[350px] lg:min-h-full">
-                            <iframe
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              scrolling="no"
-                              marginHeight={0}
-                              marginWidth={0}
-                              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                              className="w-full h-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[350px] lg:min-h-[450px]"
-                            ></iframe>
+                            {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    frameBorder="0"
+                                                                    scrolling="no"
+                                                                    marginHeight={0}
+                                                                    marginWidth={0}
+                                                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                                    className="w-full h-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700 min-h-[350px] lg:min-h-[450px]"
+                                                                  ></iframe>
+                                      )}
                           </div>
                         </div>
                       </div>
@@ -2575,11 +2670,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 <ul className="space-y-4 text-slate-400 text-sm font-light">
                   <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
                     <MapPin size={18} className="shrink-0 mt-1 text-[#D4A373]" />
-                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                                    )}
                   </li>
                   <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
                     <Phone size={18} className="shrink-0 text-[#D4A373]" />
-                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                                    )}
                   </li>
                 </ul>
               </div>
@@ -2762,9 +2861,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                       <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight font-serif drop-shadow-xl whitespace-pre-line">
                         {content.hero_title || 'Baked With Passion & Craft'}
                       </h2>
-                      <p className="text-lg md:text-xl text-white/90 font-light mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
+                      {!hiddenFields.includes("hero_description") && (
+              <p className="text-lg md:text-xl text-white/90 font-light mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
                         {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
                       </p>
+              )}
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <button onClick={(e) => handleNavClick('menu', e)} className={`${colors.primary} text-white px-6 py-3 text-sm rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-[#292524] transition-all duration-300 flex items-center gap-2 group`}>
                           Explore Full Menu
@@ -2781,12 +2882,16 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   <section key="about" id="story" className="py-20 md:py-32 bg-white">
                     <div className="container mx-auto px-6 md:px-12 flex flex-col items-center text-center max-w-3xl">
                       <span className={`${colors.primaryText} font-bold tracking-[0.2em] uppercase text-sm mb-3 block`}>Our Craft</span>
-                      <h2 className={`text-4xl md:text-5xl font-serif font-black ${colors.textDark} mb-6 leading-tight`}>
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className={`text-4xl md:text-5xl font-serif font-black ${colors.textDark} mb-6 leading-tight`}>
                         {content.settings_json?.about_title || 'The Art of Traditional Baking'}
                       </h2>
-                      <p className={`${colors.textMuted} text-lg mb-10 leading-relaxed`}>
+              )}
+                      {!hiddenFields.includes("about_description") && (
+              <p className={`${colors.textMuted} text-lg mb-10 leading-relaxed`}>
                         {content.settings_json?.about_description || 'Every morning begins before dawn. We source the finest organic ingredients and rely on time-honored techniques to create pastries and breads that awaken the senses. From our flaky, 24-layer croissants to our perfectly balanced espresso, we believe in taking no shortcuts.'}
                       </p>
+              )}
                       <div className="flex items-center justify-center gap-12">
                         <div>
                           <h4 className={`text-4xl font-black ${colors.textDark}`}>15+</h4>
@@ -2906,68 +3011,80 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <p className={`${colors.textMuted} text-lg mb-8 leading-relaxed`}>
                           Stop by our bakery for fresh coffee, warm pastries, and a welcoming atmosphere. We bake everything fresh daily.
                         </p>
-                        <div className="space-y-6">
-                          {content.contact_info?.address && (
-                          <div className="flex items-start gap-4">
-                            <MapPin className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                            <div>
-                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Location</h4>
-                              <p className={colors.textMuted}>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                            </div>
-                          </div>
-                          )}
+                        {!hiddenFields.includes('contact_address') && (
+                                <div className="space-y-6">
+                                                          {content.contact_info?.address && (
+                                                          <div className="flex items-start gap-4">
+                                                            <MapPin className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                                                            <div>
+                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Location</h4>
+                                                              <p className={colors.textMuted}>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                                                            </div>
+                                                          </div>
+                                                          )}
 
-                          {content.contact_info?.phone && (
-                          <div className="flex items-start gap-4">
-                            <Phone className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                            <div>
-                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Phone</h4>
-                              <p className={colors.textMuted}>{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                            </div>
-                          </div>
-                          )}
+                                                          {content.contact_info?.phone && (
+                                                          <div className="flex items-start gap-4">
+                                                            <Phone className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                                                            <div>
+                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Phone</h4>
+                                                              {!hiddenFields.includes('contact_phone') && (
+                                                    <p className={colors.textMuted}>{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                                                    )}
+                                                            </div>
+                                                          </div>
+                                                          )}
 
-                          {content.contact_info?.email && (
-                          <div className="flex items-start gap-4">
-                            <Mail className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                            <div>
-                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Email</h4>
-                              <p className={colors.textMuted}>{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                            </div>
-                          </div>
-                          )}
+                                                          {content.contact_info?.email && (
+                                                          <div className="flex items-start gap-4">
+                                                            <Mail className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                                                            <div>
+                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Email</h4>
+                                                              {!hiddenFields.includes('contact_email') && (
+                                                    <p className={colors.textMuted}>{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                                                    )}
+                                                            </div>
+                                                          </div>
+                                                          )}
 
-                          {/* Social Media Links */}
-                          <div className="pt-4">
-                            <h4 className={`font-bold ${colors.textDark} text-sm mb-3 uppercase tracking-wider`}>Follow Us</h4>
-                            <div className="flex items-center gap-4">
-                              <a
-                                href={content.contact_info?.facebook || 'https://facebook.com'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                          {/* Social Media Links */}
+                                                          <div className="pt-4">
+                                                            <h4 className={`font-bold ${colors.textDark} text-sm mb-3 uppercase tracking-wider`}>Follow Us</h4>
+                                                            <div className="flex items-center gap-4">
+                                                              {!hiddenFields.includes('contact_facebook') && (
+                                                <a
+                                                                                                                href={content.contact_info?.facebook || 'https://facebook.com'}
+                                                                                                                target="_blank"
+                                                                                                                rel="noopener noreferrer"
+                                                                                                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
+                                                                                                              >
+                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                                                              </a>
+                                                )}
+                                                              {!hiddenFields.includes('contact_instagram') && (
+                                                <a
+                                                                                                                href={content.contact_info?.instagram || 'https://instagram.com'}
+                                                                                                                target="_blank"
+                                                                                                                rel="noopener noreferrer"
+                                                                                                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
+                                                                                                              >
+                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                                                                              </a>
+                                                )}
+                                                              {!hiddenFields.includes('contact_whatsapp') && (
+                                                <a
+                                                                                                                href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
+                                                                                                                target="_blank"
+                                                                                                                rel="noopener noreferrer"
+                                                                                                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
+                                                                                                              >
+                                                                                                                <MessageCircle size={18} />
                               </a>
-                              <a
-                                href={content.contact_info?.instagram || 'https://instagram.com'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                              </a>
-                              <a
-                                href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
-                              >
-                                <MessageCircle size={18} />
-                              </a>
+)}
                             </div>
                           </div>
                         </div>
+)}
                       
                             <div className="border-t border-slate-200 pt-6 mt-8">
                               <h4 className={`font-bold ${colors.textDark} text-sm mb-4 uppercase tracking-wider`}>Send a Message</h4>
@@ -2976,16 +3093,18 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
 
                       <div className="md:w-1/2 w-full bg-slate-200 aspect-square md:aspect-[4/3] rounded-sm overflow-hidden relative border border-slate-100">
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          frameBorder="0"
-                          scrolling="no"
-                          marginHeight={0}
-                          marginWidth={0}
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                          className="absolute inset-0 grayscale contrast-125 opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-                        ></iframe>
+                        {!hiddenFields.includes('contact_address') && (
+                                <iframe
+                                                          width="100%"
+                                                          height="100%"
+                                                          frameBorder="0"
+                                                          scrolling="no"
+                                                          marginHeight={0}
+                                                          marginWidth={0}
+                                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                          className="absolute inset-0 grayscale contrast-125 opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+                                                        ></iframe>
+                                )}
                       </div>
                     </div>
                   
@@ -3118,11 +3237,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               <ul className="space-y-4 text-slate-400">
                 <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer">
                   <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
-                  <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                  {!hiddenFields.includes('contact_address') && (
+                                  <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
+                                  )}
                 </li>
                 <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
                   <Phone size={20} className="shrink-0 text-[#C19A6B]" />
-                  <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                  {!hiddenFields.includes('contact_phone') && (
+                                  <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
+                                  )}
                 </li>
               </ul>
             </div>

@@ -10,6 +10,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Minimal';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Simplicity', description: 'Focusing only on what truly matters.' },
@@ -70,13 +71,17 @@ export default function MinimalOtherTheme({ website, content }: any) {
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="min-h-[85vh] flex items-center pt-10 pb-24 px-8 bg-white">
         <div className="container mx-auto max-w-5xl">
-          <h1 className="font-minimal text-6xl md:text-8xl font-medium tracking-tighter mb-10 leading-[0.9]">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-minimal text-6xl md:text-8xl font-medium tracking-tighter mb-10 leading-[0.9]">
             {content.hero_title || 'Less is more.'}
           </h1>
+              )}
           <div className="w-full h-px bg-black mb-10 max-w-sm"></div>
-          <p className="font-minimal text-xl md:text-2xl text-gray-500 mb-16 max-w-2xl font-light">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-minimal text-xl md:text-2xl text-gray-500 mb-16 max-w-2xl font-light">
             {content.hero_text || 'We strip away the unnecessary to reveal the essential. Discover clarity in our offerings.'}
           </p>
+              )}
           <a href="#contact" className="inline-block border border-black text-black font-minimal text-sm uppercase tracking-widest py-4 px-12 hover:bg-black hover:text-white transition-colors">
             Connect
           </a>
@@ -89,9 +94,11 @@ export default function MinimalOtherTheme({ website, content }: any) {
           <div className="container mx-auto max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32">
               <div>
-                <h2 className="font-minimal text-3xl font-medium mb-12 tracking-tight">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-minimal text-3xl font-medium mb-12 tracking-tight">
                   {content.settings_json?.about_title || content.about_title || 'About'}
                 </h2>
+              )}
                 <div className="w-8 h-px bg-white mb-8"></div>
                 <p className="font-minimal text-lg text-gray-400 font-light leading-relaxed">
                   {content.about_text || 'Our philosophy is rooted in minimalism. We believe that by removing the excess, we can focus on what truly adds value to your life and business.'}
@@ -191,15 +198,21 @@ export default function MinimalOtherTheme({ website, content }: any) {
                 <div className="space-y-8 font-minimal font-light text-lg">
                   <div>
                     <div className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Address</div>
-                    <div>{content.contact_info?.address || '123 Minimal St, City'}</div>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <div>{content.contact_info?.address || '123 Minimal St, City'}</div>
+                                      )}
                   </div>
                   <div>
                     <div className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Email</div>
-                    <div>{content.contact_info?.email || 'hello@example.com'}</div>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <div>{content.contact_info?.email || 'hello@example.com'}</div>
+                                      )}
                   </div>
                   <div>
                     <div className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Phone</div>
-                    <div>{content.contact_info?.phone || '+1 234 567 8900'}</div>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <div>{content.contact_info?.phone || '+1 234 567 8900'}</div>
+                                      )}
                   </div>
                   {content.contact_info?.hours && (
                     <div>
@@ -213,13 +226,15 @@ export default function MinimalOtherTheme({ website, content }: any) {
               <div className="flex flex-col justify-between">
                 <div>
                    <div className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-6 font-minimal">Follow</div>
-                   <div className="flex flex-wrap gap-8">
-                     {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Facebook size={24} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Instagram size={24} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Twitter size={24} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Youtube size={24} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><WhatsApp size={24} strokeWidth={1.5} /></a>}
-                   </div>
+                   {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex flex-wrap gap-8">
+                                                       {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Facebook size={24} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Instagram size={24} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Twitter size={24} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><Youtube size={24} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-black hover:text-gray-500 transition-colors"><WhatsApp size={24} strokeWidth={1.5} /></a>}
+                                                     </div>
+                                  )}
                 </div>
                 
               </div>
@@ -238,15 +253,17 @@ export default function MinimalOtherTheme({ website, content }: any) {
 
           <div className="container mx-auto max-w-5xl mt-16">
             <div className="h-[400px] border border-gray-200 relative z-20 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

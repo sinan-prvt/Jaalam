@@ -17,6 +17,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'AURA';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Matte Liquid Lipstick', price: '₹650', image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&w=600&q=80', description: 'Long lasting formula.' },
     { name: 'Minimal Gold Hoops', price: '₹350', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80', description: 'Everyday essential.' },
@@ -109,9 +110,11 @@ export default function MinimalFancyTheme({ website, content }: any) {
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
                 <section key="hero" id="hero" className="pt-40 pb-20 px-8">
-                  <h1 className="font-minimal text-5xl md:text-8xl font-bold tracking-tighter max-w-4xl leading-none mb-12">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-minimal text-5xl md:text-8xl font-bold tracking-tighter max-w-4xl leading-none mb-12">
                     {content.hero_title || 'Elevating the everyday.'}
                   </h1>
+              )}
                   <p className="font-minimal text-lg max-w-xl text-gray-500 mb-12 whitespace-pre-line">
                     {content.about_text || content.hero_text || 'Carefully selected accessories and beauty essentials for the modern minimalist.'}
                   </p>
@@ -126,10 +129,14 @@ export default function MinimalFancyTheme({ website, content }: any) {
                 <section key="about" id="about" className="py-20 px-8 border-t border-black">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <div>
-                      <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">{content.settings_json?.about_title || content.about_title || 'Our Philosophy'}</h2>
-                      <p className="text-gray-500 max-w-md whitespace-pre-line leading-relaxed text-lg">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">{content.settings_json?.about_title || content.about_title || 'Our Philosophy'}</h2>
+              )}
+                      {!hiddenFields.includes("about_description") && (
+              <p className="text-gray-500 max-w-md whitespace-pre-line leading-relaxed text-lg">
                         {content.settings_json?.about_description || content.about_description || 'Simplicity is the ultimate sophistication. We believe in providing products that are both beautiful and functional.'}
                       </p>
+              )}
                     </div>
                     <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
                       <img loading="lazy" src={content.about_image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80"} alt="About" className="w-full h-full object-cover" />
@@ -240,15 +247,21 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     <div>
                       <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">Get in Touch</h2>
                       <div className="space-y-4 text-lg">
-                        <p><span className="font-bold mr-4">E.</span> {content.contact_info?.email || 'hello@minimal.co'}</p>
-                        <p><span className="font-bold mr-4">P.</span> {content.contact_info?.phone || '+1 234 567 8900'}</p>
+                        {!hiddenFields.includes('contact_email') && (
+                                          <p><span className="font-bold mr-4">E.</span> {content.contact_info?.email || 'hello@minimal.co'}</p>
+                                          )}
+                        {!hiddenFields.includes('contact_phone') && (
+                                          <p><span className="font-bold mr-4">P.</span> {content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                          )}
                         {content.contact_info?.hours && <p><span className="font-bold mr-4">H.</span> {content.contact_info.hours}</p>}
                       </div>
-                      <div className="mt-8 flex gap-6">
-                        {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Facebook</a>}
-                        {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Instagram</a>}
-                        {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Twitter</a>}
-                      </div>
+                      {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="mt-8 flex gap-6">
+                                                              {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Facebook</a>}
+                                                              {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Instagram</a>}
+                                                              {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-50 border-b border-black font-bold text-sm uppercase tracking-widest pb-1">Twitter</a>}
+                                                            </div>
+                                      )}
                     </div>
                     <div>
                       <ContactForm 
@@ -262,16 +275,20 @@ export default function MinimalFancyTheme({ website, content }: any) {
                   </div>
                   <div>
                     <h2 className="font-minimal text-4xl font-bold tracking-tighter mb-8">Location</h2>
-                    <p className="text-gray-500 max-w-sm whitespace-pre-line text-lg mb-8">{content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                  <p className="text-gray-500 max-w-sm whitespace-pre-line text-lg mb-8">{content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala'}</p>
+                                  )}
                     <div className="w-full h-64 bg-gray-100 grayscale hover:grayscale-0 transition-all duration-500 overflow-hidden">
-                      <iframe 
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                        width="100%" 
-                        height="100%" 
-                        style={{ border: 0 }} 
-                        allowFullScreen={false} 
-                        loading="lazy"
-                      ></iframe>
+                      {!hiddenFields.includes('contact_address') && (
+                                      <iframe 
+                                                              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Sector 9, Minimalist Road, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                              width="100%" 
+                                                              height="100%" 
+                                                              style={{ border: 0 }} 
+                                                              allowFullScreen={false} 
+                                                              loading="lazy"
+                                                            ></iframe>
+                                      )}
                     </div>
                   </div>
                 </section>
@@ -327,7 +344,9 @@ export default function MinimalFancyTheme({ website, content }: any) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <span className="text-xl font-bold tracking-tighter mb-4 block">{siteName}.</span>
-            <p className="text-gray-500 max-w-sm whitespace-pre-line">{content.settings_json?.about_description || "Simplicity is the ultimate sophistication."}</p>
+            {!hiddenFields.includes("about_description") && (
+              <p className="text-gray-500 max-w-sm whitespace-pre-line">{content.settings_json?.about_description || "Simplicity is the ultimate sophistication."}</p>
+              )}
           </div>
           <div className="md:text-right text-gray-500 text-sm flex flex-col justify-end">
             &copy; {new Date().getFullYear()} {siteName}. All rights reserved.

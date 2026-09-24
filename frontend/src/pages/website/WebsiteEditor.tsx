@@ -80,6 +80,51 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
   );
 };
 
+const FieldLabel = ({ label, fieldKey, content, setContent }: any) => {
+  const hiddenElements = content.settings_json?.hidden_elements || [];
+  const isHidden = hiddenElements.includes(fieldKey);
+  
+  return (
+    <div className="flex justify-between items-center mb-2">
+      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">{label}</label>
+      <button
+        onClick={() => {
+          const newHidden = isHidden ? hiddenElements.filter((k: string) => k !== fieldKey) : [...hiddenElements, fieldKey];
+          setContent({ ...content, settings_json: { ...(content.settings_json || {}), hidden_elements: newHidden } });
+        }}
+        className={`p-1 rounded transition-colors ${isHidden ? 'text-slate-400 hover:text-indigo-600 bg-slate-100' : 'text-indigo-600 hover:text-indigo-800 bg-indigo-50'}`}
+        title={isHidden ? 'Show Field' : 'Hide Field'}
+      >
+        {isHidden ? <EyeOff size={14} /> : <Eye size={14} />}
+      </button>
+    </div>
+  );
+};
+
+const SectionLabel = ({ label, sectionKey, content, setContent, rightAction }: any) => {
+  const hiddenSections = content.settings_json?.hidden_sections || [];
+  const isHidden = hiddenSections.includes(sectionKey);
+  
+  return (
+    <div className="flex justify-between items-center mb-0 w-full">
+      <div className="flex items-center gap-2">
+        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 m-0">{label}</label>
+        <button
+          onClick={() => {
+            const newHidden = isHidden ? hiddenSections.filter((k: string) => k !== sectionKey) : [...hiddenSections, sectionKey];
+            setContent({ ...content, settings_json: { ...(content.settings_json || {}), hidden_sections: newHidden } });
+          }}
+          className={`p-1 rounded transition-colors ${isHidden ? 'text-slate-400 hover:text-indigo-600 bg-slate-100' : 'text-indigo-600 hover:text-indigo-800 bg-indigo-50'}`}
+          title={isHidden ? 'Show Section' : 'Hide Section'}
+        >
+          {isHidden ? <EyeOff size={14} /> : <Eye size={14} />}
+        </button>
+      </div>
+      {rightAction && <div>{rightAction}</div>}
+    </div>
+  );
+};
+
 export default function WebsiteEditor() {
   const { websiteId } = useParams();
   const navigate = useNavigate();
@@ -92,7 +137,7 @@ export default function WebsiteEditor() {
 
   // Mobile View Toggle ('editor' | 'preview')
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
-  
+
   // Preview Device Mode
   // Preview Device Mode
   const [previewDevice, setPreviewDevice] = useState<'mobile' | 'desktop'>('mobile');
@@ -384,7 +429,7 @@ export default function WebsiteEditor() {
 
           {activeTab === 'template' && (
             <div className="space-y-6 animate-in fade-in duration-300">
-              <TemplateUploader 
+              <TemplateUploader
                 websiteSlug={website.slug}
                 currentContent={content}
                 currentWebsite={website}
@@ -393,13 +438,13 @@ export default function WebsiteEditor() {
                   if (newWebsite) {
                     setWebsite(newWebsite);
                   }
-                  
+
                   // Force an immediate preview update to ensure the iframe receives the very latest state
                   if (iframeRef.current && iframeRef.current.contentWindow) {
-                    iframeRef.current.contentWindow.postMessage({ 
-                      type: 'UPDATE_PREVIEW', 
-                      website: newWebsite || website, 
-                      content: newContent 
+                    iframeRef.current.contentWindow.postMessage({
+                      type: 'UPDATE_PREVIEW',
+                      website: newWebsite || website,
+                      content: newContent
                     }, '*');
                   }
 
@@ -413,7 +458,7 @@ export default function WebsiteEditor() {
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Hero Title</label>
+                  <FieldLabel label="Hero Title" fieldKey="hero_title" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.hero_title || ''}
@@ -423,7 +468,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Hero Description</label>
+                  <FieldLabel label="Hero Description" fieldKey="hero_description" content={content} setContent={setContent} />
                   <textarea
                     rows={5}
                     value={content.hero_description || content.hero_text || ''}
@@ -440,7 +485,7 @@ export default function WebsiteEditor() {
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">About Title</label>
+                  <FieldLabel label="About Title" fieldKey="about_title" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.settings_json?.about_title || content.about_title || ''}
@@ -450,7 +495,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">About Description</label>
+                  <FieldLabel label="About Description" fieldKey="about_description" content={content} setContent={setContent} />
                   <textarea
                     rows={8}
                     value={content.settings_json?.about_description || content.about_text || ''}
@@ -466,13 +511,20 @@ export default function WebsiteEditor() {
           {activeTab === 'services' && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Services / Features</label>
-                {(content.services_json || []).length < 4 && (
-                  <button
-                    onClick={() => setContent({ ...content, services_json: [...(content.services_json || []), { title: 'New Service', description: 'Description', image: '' }] })}
-                    className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
-                  >+ Add Service</button>
-                )}
+                <SectionLabel 
+                  label="Services / Features" 
+                  sectionKey="services" 
+                  content={content} 
+                  setContent={setContent}
+                  rightAction={
+                    (content.services_json || []).length < 4 && (
+                      <button
+                        onClick={() => setContent({ ...content, services_json: [...(content.services_json || []), { title: 'New Service', description: 'Description', image: '' }] })}
+                        className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
+                      >+ Add Service</button>
+                    )
+                  }
+                />
               </div>
 
               {(content.services_json || []).map((srv: any, idx: number) => {
@@ -521,13 +573,20 @@ export default function WebsiteEditor() {
           {activeTab === 'gallery' && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Gallery Images</label>
-                {(content.gallery_json || []).length < 6 && (
-                  <button
-                    onClick={() => setContent({ ...content, gallery_json: [...(content.gallery_json || []), ''] })}
-                    className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
-                  >+ Add Image</button>
-                )}
+                <SectionLabel 
+                  label="Gallery Images" 
+                  sectionKey="gallery" 
+                  content={content} 
+                  setContent={setContent}
+                  rightAction={
+                    (content.gallery_json || []).length < 6 && (
+                      <button
+                        onClick={() => setContent({ ...content, gallery_json: [...(content.gallery_json || []), ''] })}
+                        className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
+                      >+ Add Image</button>
+                    )
+                  }
+                />
               </div>
 
               {(content.gallery_json || []).map((imgUrl: string, idx: number) => (
@@ -557,11 +616,18 @@ export default function WebsiteEditor() {
           {activeTab === 'products' && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Products / Menu</label>
-                <button
-                  onClick={() => setContent({ ...content, products_json: [...(content.products_json || []), { name: 'New Item', price: '₹10', image: '', description: 'Description of the item...' }] })}
-                  className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
-                >+ Add Item</button>
+                <SectionLabel 
+                  label="Products / Menu" 
+                  sectionKey="menu" 
+                  content={content} 
+                  setContent={setContent}
+                  rightAction={
+                    <button
+                      onClick={() => setContent({ ...content, products_json: [...(content.products_json || []), { name: 'New Item', price: '₹10', image: '', description: 'Description of the item...' }] })}
+                      className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
+                    >+ Add Item</button>
+                  }
+                />
               </div>
 
               {(content.products_json || []).map((prod: any, idx: number) => (
@@ -610,7 +676,7 @@ export default function WebsiteEditor() {
             <div className="space-y-4 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Phone</label>
+                  <FieldLabel label="Phone" fieldKey="contact_phone" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.contact_info?.phone || ''}
@@ -620,7 +686,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Email</label>
+                  <FieldLabel label="Email" fieldKey="contact_email" content={content} setContent={setContent} />
                   <input
                     type="email"
                     value={content.contact_info?.email || ''}
@@ -630,7 +696,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Address</label>
+                  <FieldLabel label="Address" fieldKey="contact_address" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.contact_info?.address || ''}
@@ -640,7 +706,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Office / Opening Hours</label>
+                  <FieldLabel label="Office / Opening Hours" fieldKey="contact_hours" content={content} setContent={setContent} />
                   <textarea
                     rows={2}
                     value={content.contact_info?.hours || ''}
@@ -650,7 +716,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Facebook Link</label>
+                  <FieldLabel label="Facebook Link" fieldKey="contact_facebook" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.contact_info?.facebook || ''}
@@ -660,7 +726,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">WhatsApp Link</label>
+                  <FieldLabel label="WhatsApp Link" fieldKey="contact_whatsapp" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.contact_info?.whatsapp || ''}
@@ -670,7 +736,7 @@ export default function WebsiteEditor() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Instagram Link</label>
+                  <FieldLabel label="Instagram Link" fieldKey="contact_instagram" content={content} setContent={setContent} />
                   <input
                     type="text"
                     value={content.contact_info?.instagram || ''}
@@ -748,26 +814,33 @@ export default function WebsiteEditor() {
           {activeTab === 'custom' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm">
-                <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500">Custom Section</label>
-                  <div className="flex flex-wrap gap-2">
-                    <button onClick={() => {
-                      const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'heading', content: 'New Heading' }];
-                      setContent({ ...content, custom_blocks_json: newBlocks });
-                    }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Type size={14} /> Heading</button>
-                    <button onClick={() => {
-                      const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'paragraph', content: 'Type some text here...' }];
-                      setContent({ ...content, custom_blocks_json: newBlocks });
-                    }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Type size={14} /> Text</button>
-                    <button onClick={() => {
-                      const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'image', url: '' }];
-                      setContent({ ...content, custom_blocks_json: newBlocks });
-                    }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><ImageIcon size={14} /> Image</button>
-                    <button onClick={() => {
-                      const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'divider' }];
-                      setContent({ ...content, custom_blocks_json: newBlocks });
-                    }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Minus size={14} /> Divider</button>
-                  </div>
+                <div className="flex flex-col gap-4 mb-6">
+                  <SectionLabel 
+                    label="Custom Section" 
+                    sectionKey="custom" 
+                    content={content} 
+                    setContent={setContent}
+                    rightAction={
+                      <div className="flex flex-wrap gap-2">
+                        <button onClick={() => {
+                          const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'heading', content: 'New Heading' }];
+                          setContent({ ...content, custom_blocks_json: newBlocks });
+                        }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Type size={14} /> Heading</button>
+                        <button onClick={() => {
+                          const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'paragraph', content: 'Type some text here...' }];
+                          setContent({ ...content, custom_blocks_json: newBlocks });
+                        }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Type size={14} /> Text</button>
+                        <button onClick={() => {
+                          const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'image', url: '' }];
+                          setContent({ ...content, custom_blocks_json: newBlocks });
+                        }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><ImageIcon size={14} /> Image</button>
+                        <button onClick={() => {
+                          const newBlocks = [...(content.custom_blocks_json || []), { id: Date.now().toString(), type: 'divider' }];
+                          setContent({ ...content, custom_blocks_json: newBlocks });
+                        }} className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-colors"><Minus size={14} /> Divider</button>
+                      </div>
+                    }
+                  />
                 </div>
 
                 <div className="space-y-4">
@@ -928,8 +1001,8 @@ export default function WebsiteEditor() {
                 <div className="pt-4 border-t border-slate-100 mt-4">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <div className="relative">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         className="sr-only peer"
                         checked={content.settings_json?.enable_product_payments ?? true}
                         onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), enable_product_payments: e.target.checked } })}
@@ -1321,12 +1394,12 @@ export default function WebsiteEditor() {
                         ...orderForm,
                         website: website?.id
                       }, { withCredentials: true });
-                      
+
                       // 2. Create Razorpay Order
                       const rzpRes = await axios.post('/api/users/subscriptions/create_physical_order/', {
                         order_id: res.data.id
                       }, { withCredentials: true });
-                      
+
                       const options = {
                         key: rzpRes.data.key,
                         amount: rzpRes.data.amount,
@@ -1357,7 +1430,7 @@ export default function WebsiteEditor() {
                           color: "#10b981", // emerald-500
                         },
                       };
-                      
+
                       const rzp = new window.Razorpay(options);
                       rzp.open();
                     } catch (err) {

@@ -12,6 +12,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Earthly Goods';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Organic Kale Bunch', price: '₹80', image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80', farm: 'Green Acres' },
@@ -68,12 +69,16 @@ export default function OrganicGroceryTheme({ website, content }: any) {
       <section className="py-16 px-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-12 max-w-6xl">
           <div className="w-full md:w-1/2">
-            <h1 className="font-organic text-5xl md:text-6xl font-semibold mb-6 text-[#2C362B] leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-organic text-5xl md:text-6xl font-semibold mb-6 text-[#2C362B] leading-tight">
               {content.hero_title || 'Fresh from the soil.'}
             </h1>
-            <p className="font-body text-lg text-[#5A6B59] mb-10 leading-relaxed max-w-md">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg text-[#5A6B59] mb-10 leading-relaxed max-w-md">
               {content.hero_text || 'We bring the farmers market to your doorstep. 100% organic, pesticide-free produce grown with love.'}
             </p>
+              )}
             <a href="#market" className="bg-[#6B8E23] hover:bg-[#55711C] text-[#FDFBF7] font-body font-semibold py-3 px-8 rounded-full transition-colors inline-flex items-center gap-2 mt-2 w-fit">
               <ShoppingBag size={18} /> Shop the Harvest
             </a>
@@ -126,7 +131,9 @@ export default function OrganicGroceryTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -194,21 +201,27 @@ export default function OrganicGroceryTheme({ website, content }: any) {
                   <span className="text-3xl">📞</span>
                   <div>
                     <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Phone</span>
-                    <span className="font-bold text-black text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <span className="font-bold text-black text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="bg-black/5 rounded-xl p-6 flex items-center gap-4">
                   <span className="text-3xl">✉️</span>
                   <div>
                     <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Email</span>
-                    <span className="font-bold text-black text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <span className="font-bold text-black text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="bg-black/5 rounded-xl p-6 flex items-center gap-4">
                   <span className="text-3xl">📍</span>
                   <div>
                     <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Address</span>
-                    <span className="font-bold text-black text-lg">{content.contact_info?.address || '123 Market Street'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <span className="font-bold text-black text-lg">{content.contact_info?.address || '123 Market Street'}</span>
+                                      )}
                   </div>
                 </div>
 
@@ -216,11 +229,13 @@ export default function OrganicGroceryTheme({ website, content }: any) {
                 {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
                   <div className="bg-black/5 rounded-xl p-6">
                     <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-4">Follow Us</span>
-                    <div className="flex gap-4">
-                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">FB</a>}
-                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">IG</a>}
-                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">TW</a>}
-                    </div>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">FB</a>}
+                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">IG</a>}
+                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">TW</a>}
+                                                          </div>
+                                      )}
                   </div>
                 )}
               </div>
@@ -228,17 +243,19 @@ export default function OrganicGroceryTheme({ website, content }: any) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="bg-black/5 rounded-xl p-6">
                   <h3 className="font-bold text-xl mb-4 text-black flex items-center gap-2"><span>🕒</span> Opening Hours</h3>
-                  <ul className="space-y-3 opacity-80 text-black font-medium text-sm">
-                    {content.contact_info?.hours ? (
-                      <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
-                    ) : (
-                      <>
-                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
-                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
-                        <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-[#6B8E23]">Closed</span></li>
-                      </>
-                    )}
-                  </ul>
+                  {!hiddenFields.includes('contact_hours') && (
+                                  <ul className="space-y-3 opacity-80 text-black font-medium text-sm">
+                                                      {content.contact_info?.hours ? (
+                                                        <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
+                                                      ) : (
+                                                        <>
+                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
+                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
+                                                          <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-[#6B8E23]">Closed</span></li>
+                                                        </>
+                                                      )}
+                                                    </ul>
+                                  )}
                 </div>
 
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-[#E8E4D9]">
@@ -256,16 +273,18 @@ export default function OrganicGroceryTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-4xl mt-12">
             <div className="w-full h-80 rounded-2xl overflow-hidden border border-[#E8E4D9] shadow-sm relative bg-[#FDFBF7] p-2">
-              <iframe
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0, borderRadius: '1rem' }}
-                allowFullScreen={false}
-                loading="lazy"
-                title="Store Location"
-                className="absolute inset-0 w-full h-full filter sepia-[0.3]"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0, borderRadius: '1rem' }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          title="Store Location"
+                                          className="absolute inset-0 w-full h-full filter sepia-[0.3]"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -294,9 +313,15 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {content.about_text || "Supporting local farmers and sustainable agriculture. Eat well, live well."}
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-10 font-body text-sm border-t border-[#3E4A3D] pt-10">
-            <div className="flex items-center gap-2"><Phone size={16} className="text-[#D4A373]" /> {content.contact_info?.phone || '98765 43210'}</div>
-            <div className="flex items-center gap-2"><Mail size={16} className="text-[#D4A373]" /> {content.contact_info?.email || 'hello@earthlygoods.in'}</div>
-            <div className="flex items-center gap-2"><MapPin size={16} className="text-[#D4A373]" /> {content.contact_info?.address || 'Organic Lane, Kerala'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-2"><Phone size={16} className="text-[#D4A373]" /> {content.contact_info?.phone || '98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-2"><Mail size={16} className="text-[#D4A373]" /> {content.contact_info?.email || 'hello@earthlygoods.in'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-2"><MapPin size={16} className="text-[#D4A373]" /> {content.contact_info?.address || 'Organic Lane, Kerala'}</div>
+                      )}
           </div>
         </div>
       </footer>

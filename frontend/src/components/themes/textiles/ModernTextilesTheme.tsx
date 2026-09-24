@@ -10,6 +10,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Loom & Weave';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Linen Blend Shirt', price: '₹1,299', image: 'https://images.unsplash.com/photo-1596755094514-f87e32f6b717?auto=format&fit=crop&w=600&q=80', category: 'Men' },
@@ -74,12 +75,16 @@ export default function ModernTextilesTheme({ website, content }: any) {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="container mx-auto px-6 h-full flex items-center relative z-10">
           <div className="max-w-xl bg-white/90 backdrop-blur p-10 md:p-16">
-            <h1 className="font-modern text-4xl md:text-5xl font-medium mb-4 leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-4xl md:text-5xl font-medium mb-4 leading-tight">
               {content.hero_title || 'The Summer Edit.'}
             </h1>
-            <p className="font-modern text-slate-600 mb-8 text-lg">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-slate-600 mb-8 text-lg">
               {content.hero_text || 'Discover our new collection of lightweight linens and breathable cottons perfect for the season.'}
             </p>
+              )}
             <button className="bg-slate-900 hover:bg-slate-800 text-white font-modern text-sm tracking-widest uppercase py-4 px-8 flex items-center gap-2 transition-colors">
               Shop Collection <ArrowRight size={16} />
             </button>
@@ -144,7 +149,9 @@ export default function ModernTextilesTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -206,15 +213,21 @@ export default function ModernTextilesTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -261,10 +274,16 @@ export default function ModernTextilesTheme({ website, content }: any) {
             <div className="text-sm text-slate-600 space-y-3">
                <div className="flex items-start gap-2">
                  <MapPin size={16} className="shrink-0 mt-0.5" />
-                 <span>{content.contact_info?.address || 'Fashion Street, Kerala'}</span>
+                 {!hiddenFields.includes('contact_address') && (
+                              <span>{content.contact_info?.address || 'Fashion Street, Kerala'}</span>
+                              )}
                </div>
-               <div>{content.contact_info?.email || 'hello@loomandweave.com'}</div>
-               <div>{content.contact_info?.phone || '+91 98765 43210'}</div>
+               {!hiddenFields.includes('contact_email') && (
+                          <div>{content.contact_info?.email || 'hello@loomandweave.com'}</div>
+                          )}
+               {!hiddenFields.includes('contact_phone') && (
+                          <div>{content.contact_info?.phone || '+91 98765 43210'}</div>
+                          )}
             </div>
           </div>
         </div>

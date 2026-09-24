@@ -12,6 +12,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Modern Stationery';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Ergonomic Desk Pen', price: '₹299', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80', description: 'Smooth ink flow with a comfortable grip for long writing sessions.' },
@@ -100,9 +101,11 @@ export default function ModernStationeryTheme({ website, content }: any) {
               <section key="hero" id="hero" className="py-24 px-6 bg-white">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
                   <div>
-                    <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
                       {content.hero_title || 'Work smart. Create better.'}
                     </h1>
+              )}
                     <p className="font-modern text-lg text-slate-500 mb-8 leading-relaxed max-w-lg">
                       {content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace.'}
                     </p>
@@ -123,10 +126,14 @@ export default function ModernStationeryTheme({ website, content }: any) {
           {!hiddenSections.includes('about') && (
               <section key="about" id="about" className="py-20 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
-                  <h2 className="text-3xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
-                  <p className="text-lg opacity-80 leading-relaxed">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="text-lg opacity-80 leading-relaxed">
                     {content.settings_json?.about_description || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
                   </p>
+              )}
                 </div>
               </section>
           )}
@@ -246,33 +253,47 @@ export default function ModernStationeryTheme({ website, content }: any) {
                       <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
                       <div className="flex items-center gap-4 text-lg">
                         <span className="opacity-50">📞</span> 
-                        <span className="font-semibold">{content.contact_info?.phone || '+91 98765 43210'}</span>
+                        {!hiddenFields.includes('contact_phone') && (
+                                          <span className="font-semibold">{content.contact_info?.phone || '+91 98765 43210'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg">
                         <span className="opacity-50">✉️</span> 
-                        <span className="font-semibold">{content.contact_info?.email || 'hello@stationery.com'}</span>
+                        {!hiddenFields.includes('contact_email') && (
+                                          <span className="font-semibold">{content.contact_info?.email || 'hello@stationery.com'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg">
                         <span className="opacity-50">📍</span> 
-                        <span className="font-semibold">{content.contact_info?.address || '123 Paper Street, Design District'}</span>
+                        {!hiddenFields.includes('contact_address') && (
+                                          <span className="font-semibold">{content.contact_info?.address || '123 Paper Street, Design District'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg">
                         <span className="opacity-50">⏱️</span> 
-                        <span className="font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</span>
+                        {!hiddenFields.includes('contact_hours') && (
+                                          <span className="font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</span>
+                                          )}
                       </div>
                       
                       <div className="pt-8 border-t border-current border-opacity-10">
                         <h3 className="text-xl font-bold mb-6">Follow Us</h3>
                         <div className="flex gap-6 text-xl">
-                          <a href={content.contact_info?.whatsapp || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                          </a>
-                          <a href={content.contact_info?.facebook || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                          </a>
-                          <a href={content.contact_info?.instagram || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_whatsapp') && (
+                                              <a href={content.contact_info?.whatsapp || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
+                                                                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                                                        </a>
+                                              )}
+                          {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
+                                                                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                        </a>
+                                              )}
+                          {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || "#"} className="opacity-70 hover:opacity-100 hover:-translate-y-1 transition-all">
+                                                                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                                                        </a>
+                                              )}
                         </div>
                       </div>
                     </div>
@@ -288,12 +309,14 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                   
                   <div className="mt-16 h-80 md:h-96 w-full border-4 border-current border-opacity-20 p-2 relative rounded-2xl overflow-hidden">
-                    <iframe 
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
-                      className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] border-0 filter grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 rounded-xl" 
-                      allowFullScreen={false} 
-                      loading="lazy"
-                    ></iframe>
+                    {!hiddenFields.includes('contact_address') && (
+                                  <iframe 
+                                                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
+                                                        className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] border-0 filter grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 rounded-xl" 
+                                                        allowFullScreen={false} 
+                                                        loading="lazy"
+                                                      ></iframe>
+                                  )}
                   </div>
                 </div>
               </section>
@@ -398,12 +421,18 @@ export default function ModernStationeryTheme({ website, content }: any) {
             </div>
             <div className="space-y-4 font-modern text-sm">
               <h4 className="font-bold text-white uppercase tracking-wider mb-4">Contact</h4>
-              <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-              <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info?.email || 'hello@modernstat.com'}</div>
+              {!hiddenFields.includes('contact_phone') && (
+                          <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                          )}
+              {!hiddenFields.includes('contact_email') && (
+                          <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info?.email || 'hello@modernstat.com'}</div>
+                          )}
             </div>
             <div className="space-y-4 font-modern text-sm">
               <h4 className="font-bold text-white uppercase tracking-wider mb-4">Location</h4>
-              <div className="flex items-start gap-3"><MapPin size={16} className="shrink-0 mt-1" /> <span className="leading-relaxed">{content.contact_info?.address || 'Tech Park, Sector 4, Kerala'}</span></div>
+              <div className="flex items-start gap-3"><MapPin size={16} className="shrink-0 mt-1" /> {!hiddenFields.includes('contact_address') && (
+                          <span className="leading-relaxed">{content.contact_info?.address || 'Tech Park, Sector 4, Kerala'}</span>
+                          )}</div>
             </div>
           </div>
         </div>

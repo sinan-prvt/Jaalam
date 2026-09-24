@@ -12,6 +12,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Heavy Metal Scrap';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
     { name: 'Aluminium Scrap', price: '₹100 – ₹200/kg', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' },
@@ -104,12 +105,16 @@ export default function ClassicScrapTheme({ website, content }: any) {
                   <h1 className="font-industrial text-6xl md:text-8xl lg:text-9xl text-white uppercase mb-6 leading-none">
                     <span className="text-[#FFC107]">{content.hero_title?.split(' ')[0] || 'TOP'}</span> {content.hero_title?.substring(content.hero_title?.indexOf(' ') + 1) || 'CASH FOR SCRAP.'}
                   </h1>
-                  <p className="font-body text-xl text-gray-300 mb-10 max-w-2xl font-bold border-l-4 border-[#FFC107] pl-6 py-2">
+                  {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-xl text-gray-300 mb-10 max-w-2xl font-bold border-l-4 border-[#FFC107] pl-6 py-2">
                     {content.hero_description || content.hero_text || 'We buy all types of ferrous and non-ferrous metals. Industrial, commercial, and residential pickup available.'}
                   </p>
+              )}
                   <div className="flex flex-col sm:flex-row gap-6">
                     <a href="#contact" className="bg-[#FFC107] hover:bg-[#ffb300] text-[#1A1A1A] font-industrial text-2xl uppercase py-5 px-12 rounded-sm transform skew-x-[-10deg] shadow-[6px_6px_0_#1A1A1A] transition-transform active:translate-y-1 active:shadow-none inline-block text-center">
-                      <span className="inline-block transform skew-x-[10deg]">Call {content.contact_info?.phone || '98765 43210'}</span>
+                      {!hiddenFields.includes('contact_phone') && (
+                                  <span className="inline-block transform skew-x-[10deg]">Call {content.contact_info?.phone || '98765 43210'}</span>
+                                  )}
                     </a>
                     <a href="#products" className="bg-transparent border-4 border-[#FFC107] text-[#FFC107] hover:bg-[#FFC107] hover:text-[#1A1A1A] font-industrial text-2xl uppercase py-4 px-10 rounded-sm transform skew-x-[-10deg] transition-all inline-block text-center">
                       <span className="inline-block transform skew-x-[10deg]">View Rates</span>
@@ -132,11 +137,15 @@ export default function ClassicScrapTheme({ website, content }: any) {
                      <div className="w-12 h-1 bg-[#FFC107]"></div>
                      <h2 className="font-industrial text-2xl uppercase text-[#1A1A1A] tracking-wider">About Our Yard</h2>
                   </div>
-                  <h3 className="font-industrial text-5xl uppercase text-[#1A1A1A] mb-8 leading-tight">
+                  {!hiddenFields.includes("about_title") && (
+              <h3 className="font-industrial text-5xl uppercase text-[#1A1A1A] mb-8 leading-tight">
                     {content.settings_json?.about_title || 'HEAVY DUTY RECYCLING. HONEST SCALES.'}
                   </h3>
+              )}
                   <div className="font-body text-lg text-gray-700 font-bold space-y-6">
-                    <p>{content.settings_json?.about_description || 'We process thousands of tons of metal monthly. Our industrial-grade scales are calibrated daily to ensure you get paid exactly what your material is worth.'}</p>
+                    {!hiddenFields.includes("about_description") && (
+              <p>{content.settings_json?.about_description || 'We process thousands of tons of metal monthly. Our industrial-grade scales are calibrated daily to ensure you get paid exactly what your material is worth.'}</p>
+              )}
                     <div className="grid grid-cols-2 gap-6 pt-6 border-t-2 border-dashed border-gray-300">
                       <div>
                         <div className="font-industrial text-4xl text-[#FFC107]">50+</div>
@@ -260,21 +269,27 @@ export default function ClassicScrapTheme({ website, content }: any) {
                         <div className="bg-[#FFC107] p-3 text-[#1A1A1A]"><Phone size={24} /></div>
                         <div>
                           <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Call Scale House</div>
-                          <div>{content.contact_info?.phone || '98765 43210'}</div>
+                          {!hiddenFields.includes('contact_phone') && (
+                                          <div>{content.contact_info?.phone || '98765 43210'}</div>
+                                          )}
                         </div>
                       </div>
                       <div className="flex items-start gap-4">
                         <div className="bg-[#FFC107] p-3 text-[#1A1A1A]"><MapPin size={24} /></div>
                         <div>
                           <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Yard Location</div>
-                          <div>{content.contact_info?.address || 'Industrial Area, Phase 2, Kerala'}</div>
+                          {!hiddenFields.includes('contact_address') && (
+                                          <div>{content.contact_info?.address || 'Industrial Area, Phase 2, Kerala'}</div>
+                                          )}
                         </div>
                       </div>
                       <div className="flex items-start gap-4">
                         <div className="bg-[#FFC107] p-3 text-[#1A1A1A]"><Mail size={24} /></div>
                         <div>
                           <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Email Quotes</div>
-                          <div>{content.contact_info?.email || 'weighbridge@heavymetal.in'}</div>
+                          {!hiddenFields.includes('contact_email') && (
+                                          <div>{content.contact_info?.email || 'weighbridge@heavymetal.in'}</div>
+                                          )}
                         </div>
                       </div>
                     </div>
@@ -290,18 +305,20 @@ export default function ClassicScrapTheme({ website, content }: any) {
 
                     <div className="mb-6">
                        <h3 className="font-industrial text-xl md:text-2xl uppercase font-bold mb-4 text-[#1A1A1A]">Connect With Us</h3>
-                       <div className="flex gap-4">
-                          {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Facebook size={20} /></a>}
-                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Instagram size={20} /></a>}
-                            {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><WhatsApp size={20} /></a>}
-                            {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
-                               <div className="flex gap-4">
-                                 <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Facebook size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Instagram size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><WhatsApp size={20} /></a>
-                               </div>
-                            )}
-                       </div>
+                       {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Facebook size={20} /></a>}
+                                                              {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Instagram size={20} /></a>}
+                                                              {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><WhatsApp size={20} /></a>}
+                                                              {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
+                                                                 <div className="flex gap-4">
+                                                                   <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Facebook size={20} /></a>
+                                                                   <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><Instagram size={20} /></a>
+                                                                   <a href="#" className="w-10 h-10 bg-[#F4F4F4] border-2 border-[#1A1A1A] flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFC107] transition-colors"><WhatsApp size={20} /></a>
+                                                                 </div>
+                                                              )}
+                                                         </div>
+                                  )}
                     </div>
 
                     <div className="flex-grow bg-[#F4F4F4] border-4 border-[#1A1A1A] p-6">

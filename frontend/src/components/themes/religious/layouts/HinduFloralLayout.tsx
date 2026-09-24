@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Info, Phone, ArrowRight, Flower2, Heart 
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HinduFloralLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -348,9 +349,11 @@ export default function HinduFloralLayout({ website, content }: { website: any, 
                       </div>
                       <div>
                         <h4 className="text-base font-sans font-bold tracking-[0.1em] uppercase mb-2 text-[#fde68a]">Address</h4>
-                        <p className="text-white font-serif leading-relaxed text-xl max-w-sm">
-                          {content.contact_info?.address || '123 Sacred Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-white font-serif leading-relaxed text-xl max-w-sm">
+                                                                  {content.contact_info?.address || '123 Sacred Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6 group">

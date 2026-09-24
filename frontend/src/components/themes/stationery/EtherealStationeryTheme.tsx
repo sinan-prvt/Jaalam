@@ -20,6 +20,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Ethereal';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Crystal Glass Dip Pen', price: '₹1500', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80', description: 'Translucent glass with stardust ink.' },
@@ -133,12 +134,16 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                     <div className="inline-flex items-center justify-center gap-2 glass-panel px-4 py-2 rounded-full font-ethereal text-xs font-bold uppercase tracking-widest text-[#8A73A6] mx-auto mb-8">
                       <Droplet size={14} /> New Collection Dropped
                     </div>
-                    <h1 className="font-ethereal text-6xl md:text-8xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#6A4C93] via-[#B49FCC] to-[#FF9CEE]">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-ethereal text-6xl md:text-8xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#6A4C93] via-[#B49FCC] to-[#FF9CEE]">
                       {content.hero_title || 'Dreamy Stationery.'}
                     </h1>
-                    <p className="font-ethereal text-lg md:text-xl font-light text-[#6A4C93]/80 max-w-2xl mx-auto mb-12">
+              )}
+                    {!hiddenFields.includes("hero_description") && (
+              <p className="font-ethereal text-lg md:text-xl font-light text-[#6A4C93]/80 max-w-2xl mx-auto mb-12">
                       {content.hero_text || content.about_text || 'Enhance your desk space with soft colors, gentle textures, and inspiring tools that make every day feel like a daydream.'}
                     </p>
+              )}
                   </section>
               )}
 
@@ -147,10 +152,14 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                   <section key="about" id="about" className="py-24 px-6 max-w-6xl mx-auto">
                     <div className="glass-panel rounded-3xl p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
                       <div className="flex-1">
-                        <h2 className="font-ethereal text-4xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || 'Our Vision'}</h2>
-                        <p className="font-ethereal text-lg leading-relaxed text-[#6A4C93]/80">
+                        {!hiddenFields.includes("about_title") && (
+              <h2 className="font-ethereal text-4xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || 'Our Vision'}</h2>
+              )}
+                        {!hiddenFields.includes("about_description") && (
+              <p className="font-ethereal text-lg leading-relaxed text-[#6A4C93]/80">
                           {content.settings_json?.about_description || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. We believe your workspace should be a sanctuary of calm and inspiration.'}
                         </p>
+              )}
                       </div>
                       <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl border-4 border-white/50">
                         <img loading="lazy" src="https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
@@ -237,29 +246,39 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                         <div className="flex-1 w-full">
                           <h2 className="font-ethereal text-4xl md:text-6xl font-bold mb-8 relative z-10 text-center md:text-left">Say Hello</h2>
                           <div className="space-y-4 font-ethereal text-lg relative z-10 mb-8">
-                            <div className="flex items-center justify-center md:justify-start gap-3"><Phone className="text-[#8A73A6]" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
-                            <div className="flex items-center justify-center md:justify-start gap-3"><Mail className="text-[#8A73A6]" /> {content.contact_info?.email || 'hello@ethereal.com'}</div>
-                            <div className="flex items-center justify-center md:justify-start gap-3"><MapPin className="text-[#8A73A6]" /> {content.contact_info?.address || 'Cloud Nine, Dream City'}</div>
-                            <div className="flex items-center justify-center md:justify-start gap-3"><Clock className="text-[#8A73A6]" /> <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 10AM - 6PM'}</span></div>
+                            {!hiddenFields.includes('contact_phone') && (
+                                                  <div className="flex items-center justify-center md:justify-start gap-3"><Phone className="text-[#8A73A6]" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
+                                                  )}
+                            {!hiddenFields.includes('contact_email') && (
+                                                  <div className="flex items-center justify-center md:justify-start gap-3"><Mail className="text-[#8A73A6]" /> {content.contact_info?.email || 'hello@ethereal.com'}</div>
+                                                  )}
+                            {!hiddenFields.includes('contact_address') && (
+                                                  <div className="flex items-center justify-center md:justify-start gap-3"><MapPin className="text-[#8A73A6]" /> {content.contact_info?.address || 'Cloud Nine, Dream City'}</div>
+                                                  )}
+                            <div className="flex items-center justify-center md:justify-start gap-3"><Clock className="text-[#8A73A6]" /> {!hiddenFields.includes('contact_hours') && (
+                                                  <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 10AM - 6PM'}</span>
+                                                  )}</div>
                           </div>
                           
-                          <div className="flex justify-center md:justify-start gap-6 relative z-10">
-                            {content.contact_info?.instagram && (
-                              <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                                <Instagram size={20} />
-                              </a>
-                            )}
-                            {content.contact_info?.facebook && (
-                              <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                                <Facebook size={20} />
-                              </a>
-                            )}
-                            {content.contact_info?.whatsapp && (
-                              <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
-                                <MessageCircle size={20} />
-                              </a>
-                            )}
-                          </div>
+                          {!hiddenFields.includes('contact_instagram') && (
+                                              <div className="flex justify-center md:justify-start gap-6 relative z-10">
+                                                                          {content.contact_info?.instagram && (
+                                                                            <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                                                              <Instagram size={20} />
+                                                                            </a>
+                                                                          )}
+                                                                          {content.contact_info?.facebook && (
+                                                                            <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                                                              <Facebook size={20} />
+                                                                            </a>
+                                                                          )}
+                                                                          {content.contact_info?.whatsapp && (
+                                                                            <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-[#8A73A6] hover:text-[#B49FCC] hover:scale-110 transition-all">
+                                                                              <MessageCircle size={20} />
+                                                                            </a>
+                                                                          )}
+                                                                        </div>
+                                              )}
                         </div>
                         
                         <div className="flex-1 w-full relative z-20">
@@ -276,15 +295,17 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                       </div>
                       
                       <div className="relative z-10 mt-12 rounded-3xl overflow-hidden glass-panel p-2 shadow-inner border border-white/50 w-full h-80">
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0, borderRadius: '1.5rem' }}
-                          loading="lazy"
-                          allowFullScreen
-                          referrerPolicy="no-referrer-when-downgrade"
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Cloud Nine, Dream City')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                        ></iframe>
+                        {!hiddenFields.includes('contact_address') && (
+                                          <iframe
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    style={{ border: 0, borderRadius: '1.5rem' }}
+                                                                    loading="lazy"
+                                                                    allowFullScreen
+                                                                    referrerPolicy="no-referrer-when-downgrade"
+                                                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Cloud Nine, Dream City')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                                                  ></iframe>
+                                          )}
                       </div>
                     </div>
                   </section>

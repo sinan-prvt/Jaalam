@@ -12,6 +12,7 @@ export default function EcoScrapTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'EcoCycle Solutions';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
     { name: 'Aluminium Scrap', price: '₹100 – ₹200/kg', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' },
@@ -96,12 +97,16 @@ export default function EcoScrapTheme({ website, content }: any) {
                 <div className="inline-flex items-center gap-2 bg-[#E1EFE5] text-[#2C4A3B] px-4 py-2 rounded-full font-eco text-sm font-bold mb-8">
                   <span className="text-[#4CAF50]">●</span> Zero Waste to Landfill Goal
                 </div>
-                <h1 className="font-eco text-5xl md:text-7xl font-extrabold text-[#1A2E24] mb-8 leading-tight">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-eco text-5xl md:text-7xl font-extrabold text-[#1A2E24] mb-8 leading-tight">
                   {content.hero_title || 'Recycle Today for a Greener Tomorrow.'}
                 </h1>
-                <p className="font-eco text-lg text-[#5D806B] mb-12 max-w-2xl mx-auto leading-relaxed">
+              )}
+                {!hiddenFields.includes("hero_description") && (
+              <p className="font-eco text-lg text-[#5D806B] mb-12 max-w-2xl mx-auto leading-relaxed">
                   {content.hero_description || content.hero_text || 'We are dedicated to sustainable scrap management. Turn your waste into resources while protecting our planet.'}
                 </p>
+              )}
                 <div className="flex justify-center gap-4 flex-wrap">
                   <a href="#products" className="inline-flex items-center gap-2 bg-[#4CAF50] hover:bg-[#388E3C] text-white font-eco font-bold py-4 px-10 rounded-full transition-all shadow-[0_8px_20px_rgba(76,175,80,0.3)] hover:-translate-y-1">
                     Start Recycling <ArrowRight size={20} />
@@ -125,12 +130,16 @@ export default function EcoScrapTheme({ website, content }: any) {
                     <Leaf size={20} />
                     <span className="uppercase tracking-widest text-sm">Our Mission</span>
                   </div>
-                  <h2 className="font-eco text-4xl md:text-5xl font-extrabold text-[#1A2E24] mb-6 leading-tight">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-eco text-4xl md:text-5xl font-extrabold text-[#1A2E24] mb-6 leading-tight">
                     {content.settings_json?.about_title || 'Protecting Nature Through Circular Economy.'}
                   </h2>
-                  <p className="font-eco text-lg text-[#5D806B] leading-relaxed mb-8">
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-eco text-lg text-[#5D806B] leading-relaxed mb-8">
                     {content.settings_json?.about_description || 'We partner with communities and businesses to divert thousands of tons of recyclable materials from landfills every year. Our state-of-the-art sorting facilities ensure maximum material recovery with a minimal carbon footprint.'}
                   </p>
+              )}
                   <div className="grid grid-cols-2 gap-8 border-t border-[#D1E2D6] pt-8">
                     <div>
                       <div className="text-4xl font-extrabold text-[#4CAF50] mb-2">99%</div>
@@ -250,21 +259,27 @@ export default function EcoScrapTheme({ website, content }: any) {
                         <div className="w-12 h-12 bg-[#2C4A3B] rounded-full flex items-center justify-center text-[#4CAF50]"><Phone size={20} /></div>
                         <div>
                           <div className="text-sm text-[#A3BDB0] font-bold uppercase tracking-wider mb-1">Call Us</div>
-                          <div className="font-eco text-xl font-bold">{content.contact_info?.phone || '98765 43210'}</div>
+                          {!hiddenFields.includes('contact_phone') && (
+                                          <div className="font-eco text-xl font-bold">{content.contact_info?.phone || '98765 43210'}</div>
+                                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-[#2C4A3B] rounded-full flex items-center justify-center text-[#4CAF50]"><Mail size={20} /></div>
                         <div>
                           <div className="text-sm text-[#A3BDB0] font-bold uppercase tracking-wider mb-1">Email Us</div>
-                          <div className="font-eco text-lg font-bold">{content.contact_info?.email || 'hello@ecocycle.org'}</div>
+                          {!hiddenFields.includes('contact_email') && (
+                                          <div className="font-eco text-lg font-bold">{content.contact_info?.email || 'hello@ecocycle.org'}</div>
+                                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-[#2C4A3B] rounded-full flex items-center justify-center text-[#4CAF50]"><MapPin size={20} /></div>
                         <div>
                           <div className="text-sm text-[#A3BDB0] font-bold uppercase tracking-wider mb-1">Visit Us</div>
-                          <div className="font-eco text-lg font-bold">{content.contact_info?.address || 'Eco Park, Green Belt, Kerala'}</div>
+                          {!hiddenFields.includes('contact_address') && (
+                                          <div className="font-eco text-lg font-bold">{content.contact_info?.address || 'Eco Park, Green Belt, Kerala'}</div>
+                                          )}
                         </div>
                       </div>
                     </div>
@@ -280,18 +295,20 @@ export default function EcoScrapTheme({ website, content }: any) {
 
                       <div className="mb-6">
                          <h3 className="font-eco text-xl md:text-2xl font-bold mb-4 text-[#1A2E24]">Connect With Us</h3>
-                         <div className="flex gap-4">
-                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Facebook size={20} /></a>}
-                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Instagram size={20} /></a>}
-                            {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><WhatsApp size={20} /></a>}
-                            {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
-                               <div className="flex gap-4">
-                                 <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Facebook size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Instagram size={20} /></a>
-                                 <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><WhatsApp size={20} /></a>
-                               </div>
-                            )}
-                         </div>
+                         {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex gap-4">
+                                                                  {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Facebook size={20} /></a>}
+                                                                  {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Instagram size={20} /></a>}
+                                                                  {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><WhatsApp size={20} /></a>}
+                                                                  {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.whatsapp && (
+                                                                     <div className="flex gap-4">
+                                                                       <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Facebook size={20} /></a>
+                                                                       <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><Instagram size={20} /></a>
+                                                                       <a href="#" className="w-10 h-10 bg-[#F0F4F1] rounded-full flex items-center justify-center text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white transition-colors"><WhatsApp size={20} /></a>
+                                                                     </div>
+                                                                  )}
+                                                               </div>
+                                      )}
                       </div>
 
                       <div className="flex-grow bg-[#F0F4F1] rounded-xl p-6 border border-[#D1E2D6]">

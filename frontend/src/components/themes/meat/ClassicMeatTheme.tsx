@@ -23,6 +23,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const siteName = content.settings_json?.website_name || website.slug || 'The Local Butcher';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Whole Chicken (With Skin)', price: '₹220/kg', image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80', description: 'Freshly cut whole chicken.' },
     { name: 'Mutton Biryani Cut', price: '₹820/kg', image: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&q=80', description: 'Medium sized pieces ideal for biryani.' },
@@ -102,11 +103,15 @@ export default function ClassicMeatTheme({ website, content }: any) {
             <section key="about" id="about" className="py-16 px-6 bg-[#EFEBE9] relative z-10 border-y border-[#D7CCC8]">
               <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-12">
                 <div className="md:w-1/2">
-                  <h3 className="font-butcher text-3xl mb-6 text-[#3E2723]">{content.settings_json?.about_title || content.about_title || 'Our Craft'}</h3>
+                  {!hiddenFields.includes("about_title") && (
+              <h3 className="font-butcher text-3xl mb-6 text-[#3E2723]">{content.settings_json?.about_title || content.about_title || 'Our Craft'}</h3>
+              )}
                   <div className="w-12 h-1 bg-[#B71C1C] mb-6"></div>
-                  <p className="font-body text-lg text-[#5D4037] leading-relaxed mb-6">
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-lg text-[#5D4037] leading-relaxed mb-6">
                     {content.settings_json?.about_description || content.about_description || 'With decades of experience behind the counter, we know meat. Our commitment to ethical sourcing and traditional butchery means you get the absolute best cuts for your table.'}
                   </p>
+              )}
                 </div>
                 <div className="md:w-1/2">
                   <div className="border-4 border-[#3E2723] p-2 bg-[#FDFBF7] shadow-[8px_8px_0_#B71C1C]">
@@ -203,22 +208,36 @@ export default function ClassicMeatTheme({ website, content }: any) {
                   <div className="text-left font-body">
                     <h4 className="font-bold text-xl text-[#B71C1C] mb-6">Contact Details</h4>
                     <div className="space-y-4 text-[#5D4037]">
-                      <p className="flex items-center gap-3"><Phone size={20} className="text-[#3E2723]" /> {content.contact_info?.phone || '+1 (555) 123-4567'}</p>
-                      <p className="flex items-center gap-3"><Mail size={20} className="text-[#3E2723]" /> {content.contact_info?.email || 'shop@thebutcherblock.com'}</p>
-                      <p className="flex items-center gap-3"><MapPin size={20} className="text-[#3E2723]" /> {content.contact_info?.address || '123 Market Street, City, State'}</p>
-                      <p className="flex items-center gap-3"><Clock size={20} className="text-[#3E2723]" /> <span className="whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 8AM - 6PM\nSun: Closed'}</span></p>
+                      {!hiddenFields.includes('contact_phone') && (
+                                  <p className="flex items-center gap-3"><Phone size={20} className="text-[#3E2723]" /> {content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                                  )}
+                      {!hiddenFields.includes('contact_email') && (
+                                  <p className="flex items-center gap-3"><Mail size={20} className="text-[#3E2723]" /> {content.contact_info?.email || 'shop@thebutcherblock.com'}</p>
+                                  )}
+                      {!hiddenFields.includes('contact_address') && (
+                                  <p className="flex items-center gap-3"><MapPin size={20} className="text-[#3E2723]" /> {content.contact_info?.address || '123 Market Street, City, State'}</p>
+                                  )}
+                      <p className="flex items-center gap-3"><Clock size={20} className="text-[#3E2723]" /> {!hiddenFields.includes('contact_hours') && (
+                                  <span className="whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 8AM - 6PM\nSun: Closed'}</span>
+                                  )}</p>
                     </div>
                     
                     <div className="flex gap-4 mt-8 pt-6 border-t border-[#D7CCC8]">
-                      <a href={content.contact_info?.facebook || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
-                        <Facebook size={18} />
-                      </a>
-                      <a href={content.contact_info?.instagram || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
-                        <Instagram size={18} />
-                      </a>
-                      <a href={content.contact_info?.whatsapp || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
-                        <WhatsApp size={18} />
-                      </a>
+                      {!hiddenFields.includes('contact_facebook') && (
+                                  <a href={content.contact_info?.facebook || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
+                                                          <Facebook size={18} />
+                                                        </a>
+                                  )}
+                      {!hiddenFields.includes('contact_instagram') && (
+                                  <a href={content.contact_info?.instagram || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
+                                                          <Instagram size={18} />
+                                                        </a>
+                                  )}
+                      {!hiddenFields.includes('contact_whatsapp') && (
+                                  <a href={content.contact_info?.whatsapp || '#'} className="w-10 h-10 bg-[#EFEBE9] rounded-full flex items-center justify-center hover:bg-[#B71C1C] text-[#3E2723] hover:text-white transition-colors">
+                                                          <WhatsApp size={18} />
+                                                        </a>
+                                  )}
                     </div>
                   </div>
                   <div className="w-full bg-[#EFEBE9] p-6 border-2 border-[#3E2723]">
@@ -233,10 +252,12 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 </div>
                 
                 <div className="mt-12 w-full h-80 border-4 border-[#3E2723] shadow-[8px_8px_0_#B71C1C] relative bg-[#FDFBF7] p-2">
-                  <iframe 
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street, City, State')}&output=embed`}
-                    className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125 saturate-150" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                  {!hiddenFields.includes('contact_address') && (
+                          <iframe 
+                                              src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street, City, State')}&output=embed`}
+                                              className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125 saturate-150" allowFullScreen={false} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                                            ></iframe>
+                          )}
                 </div>
               </div>
           </section>
@@ -319,8 +340,12 @@ export default function ClassicMeatTheme({ website, content }: any) {
             {content.about_text || "Your neighborhood butcher shop dedicated to providing the freshest chicken and mutton with personalized service."}
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-8 text-[#EFEBE9] border-t border-[#5D4037] pt-8">
-            <div className="flex items-center gap-2 justify-center"><Phone size={18} className="text-[#B71C1C]" /> {content.contact_info?.phone || 'Call the Shop: 98765 43210'}</div>
-            <div className="flex items-center gap-2 justify-center"><MapPin size={18} className="text-[#B71C1C]" /> {content.contact_info?.address || '12 Butcher Lane, Kerala'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-2 justify-center"><Phone size={18} className="text-[#B71C1C]" /> {content.contact_info?.phone || 'Call the Shop: 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-2 justify-center"><MapPin size={18} className="text-[#B71C1C]" /> {content.contact_info?.address || '12 Butcher Lane, Kerala'}</div>
+                      )}
           </div>
           <p className="mt-8 text-xs text-[#8D6E63]">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
         </div>

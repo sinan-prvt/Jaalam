@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Info, Phone, ArrowRight, BookOpen } from
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HinduClassicLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -325,9 +326,11 @@ export default function HinduClassicLayout({ website, content }: { website: any,
                       </div>
                       <div>
                         <h4 className="text-sm font-sans font-bold tracking-[0.2em] uppercase mb-3 text-[#b45309]">Location</h4>
-                        <p className="text-[#fefce8] font-serif leading-relaxed text-xl max-w-sm">
-                          {content.contact_info?.address || '123 Sacred Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-[#fefce8] font-serif leading-relaxed text-xl max-w-sm">
+                                                                  {content.contact_info?.address || '123 Sacred Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6">

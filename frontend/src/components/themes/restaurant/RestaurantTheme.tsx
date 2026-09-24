@@ -85,37 +85,37 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     menuStyle = 'minimal-cards';
     galleryStyle = 'masonry';
   } else if (website.theme === 'Casual Eats') {
-    primaryColor = 'bg-orange-500';
-    primaryColorHover = 'hover:bg-orange-600';
-    primaryText = 'text-orange-500';
-    headingFont = 'font-sans font-extrabold tracking-wide';
-    bgDark = 'bg-indigo-950';
-    bgDarkSec = 'bg-indigo-900';
-    bgLight = 'bg-white';
-    bgLightSec = 'bg-orange-50/30';
-    buttonShape = 'rounded-full';
-    cardShape = 'rounded-3xl border-transparent shadow-xl';
-    textDark = 'text-indigo-950';
-    textDarkMuted = 'text-indigo-900/70';
-    alignment = 'text-left items-start justify-start';
-    menuStyle = 'grid-cards';
-    galleryStyle = 'grid-rounded';
-  } else if (website.theme === 'Bistro') {
-    primaryColor = 'bg-emerald-600';
-    primaryColorHover = 'hover:bg-emerald-700';
-    primaryText = 'text-emerald-600';
-    headingFont = 'font-serif italic tracking-wider';
-    bgDark = 'bg-stone-900';
-    bgDarkSec = 'bg-stone-800';
-    bgLight = 'bg-[#fdfbf7]';
-    bgLightSec = 'bg-stone-100/50';
-    buttonShape = 'rounded-md shadow-sm border border-emerald-700/20';
-    cardShape = 'rounded-md border-stone-200 shadow-md bg-white';
-    textDark = 'text-stone-800';
-    textDarkMuted = 'text-stone-600';
+    primaryColor = 'bg-gradient-to-r from-[#FF416C] to-[#FF4B2B]';
+    primaryColorHover = 'hover:from-[#FF4B2B] hover:to-[#FF416C] hover:scale-105 transition-all duration-300';
+    primaryText = 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF416C] to-[#FF4B2B]';
+    headingFont = 'font-sans font-black tracking-tight';
+    bgDark = 'bg-[#0f172a]';
+    bgDarkSec = 'bg-[#1e293b]';
+    bgLight = 'bg-[#f8fafc]';
+    bgLightSec = 'bg-white';
+    buttonShape = 'rounded-full shadow-[0_8px_20px_rgba(255,65,108,0.3)] hover:shadow-[0_12px_25px_rgba(255,65,108,0.5)]';
+    cardShape = 'rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] bg-white hover:-translate-y-2 hover:shadow-[0_20px_50px_-10px_rgba(255,65,108,0.15)] transition-all duration-500';
+    textDark = 'text-slate-900';
+    textDarkMuted = 'text-slate-500';
     alignment = 'text-center items-center justify-center';
-    menuStyle = 'classic';
-    galleryStyle = 'grid-polaroid';
+    menuStyle = 'grid-cards';
+    galleryStyle = 'masonry';
+  } else if (website.theme === 'Bistro') {
+    primaryColor = 'bg-gradient-to-br from-[#800020] to-[#5C0017]';
+    primaryColorHover = 'hover:from-[#960026] hover:to-[#800020] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(128,0,32,0.3)] transition-all duration-500';
+    primaryText = 'text-[#800020]';
+    headingFont = 'font-serif italic tracking-[0.1em] drop-shadow-sm';
+    bgDark = 'bg-[#0f1110]';
+    bgDarkSec = 'bg-[#171a18]';
+    bgLight = 'bg-[#f8f6f0]';
+    bgLightSec = 'bg-white';
+    buttonShape = 'rounded-sm border border-[#800020]/20 shadow-md';
+    cardShape = 'rounded-tl-3xl rounded-br-3xl border border-[#ebe5d8] shadow-2xl bg-white/90 backdrop-blur-sm hover:shadow-[0_25px_50px_-12px_rgba(128,0,32,0.15)] hover:-translate-y-2 transition-all duration-500';
+    textDark = 'text-[#2a2a2a]';
+    textDarkMuted = 'text-[#6b6b6b]';
+    alignment = 'text-center items-center justify-center';
+    menuStyle = 'minimal-cards';
+    galleryStyle = 'grid-wide';
   } else if (website.theme === 'Vegan Cafe') {
     primaryColor = 'bg-lime-500';
     primaryColorHover = 'hover:bg-lime-600';
@@ -196,10 +196,10 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
   } else if (website.theme === 'Bistro') {
     defaultHeroImage = 'https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
     defaultProducts = [
-      { name: 'Croque Monsieur', price: '₹16', image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Classic French ham and cheese sandwich with gruyère and béchamel.' },
-      { name: 'French Onion Soup', price: '₹12', image: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Caramelized onions, beef broth, croutons, melted provolone.' },
-      { name: 'Steak Frites', price: '₹29', image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Pan-seared flank steak with herb butter and crispy house fries.' },
-      { name: 'Crème Brûlée', price: '₹9', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Rich vanilla custard topped with a contrasting layer of hard caramel.' },
+      { name: 'Truffle Croque Monsieur', price: '₹35', image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Artisanal brioche, aged gruyère, jambon de Paris, and black truffle béchamel.' },
+      { name: 'Signature French Onion', price: '₹28', image: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: '24-hour slow-simmered beef broth, caramelized sweet onions, melted comté.' },
+      { name: 'Wagyu Steak Frites', price: '₹85', image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Pan-seared A5 Wagyu flank, café de Paris butter, hand-cut russet fries.' },
+      { name: 'Vanilla Bean Crème Brûlée', price: '₹22', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Madagascar vanilla custard with a perfectly torched sugar crust.' },
     ];
     defaultGallery = [
       'https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -210,9 +210,9 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       'https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     ];
     defaultServices = [
-      { title: 'Brunch', description: 'A leisurely morning affair featuring fresh pastries and exceptional coffee.' },
-      { title: 'Intimate Dinners', description: 'Cozy, dimly-lit corners perfect for romantic evenings or quiet conversations.' },
-      { title: 'Patio Seating', description: 'Watch the world go by from our classic, European-style outdoor terrace.' }
+      { title: 'Artisanal Brunch', description: 'An elegant morning affair featuring freshly baked viennoiserie, caviar, and exceptional espresso.' },
+      { title: 'Candlelit Dinners', description: 'Exquisite, dimly-lit corners perfect for romantic, unforgettable evenings.' },
+      { title: 'The Terrace', description: 'Sip vintage wines and observe the evening sky from our classic European-style outdoor veranda.' }
     ];
   } else if (website.theme === 'Vegan Cafe') {
     defaultHeroImage = 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
@@ -267,6 +267,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     : [...defaultGallery];
 
   const heroImage = content.settings_json?.hero_image || defaultHeroImage;
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   return (
     <>
@@ -293,7 +294,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       <div className="bg-[#FAF9F6] min-h-screen font-sans text-slate-800 selection:bg-amber-500/30 overflow-x-hidden">
       
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full z-50 px-6 lg:px-16 py-6 flex items-center justify-between text-white border-b border-white/10">
+      <nav className={`absolute top-0 left-0 w-full z-50 px-6 lg:px-16 py-6 flex items-center justify-between ${website.theme === 'Bistro' ? 'text-[#0f1110] border-[#0f1110]/10' : 'text-white border-white/10 border-b'}`}>
         <div className="flex items-center gap-2 lg:gap-3">
           {content.settings_json?.logo_image ? (
             <img loading="lazy" src={content.settings_json.logo_image} alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover shadow-sm" />
@@ -315,7 +316,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 contact: 'Contact'
               };
               return (
-                <a key={s} href={`#${s}`} className="hover:text-amber-500 transition-colors">
+                <a key={s} href={`#${s}`} className={`transition-colors ${website.theme === 'Bistro' ? 'hover:text-[#800020]' : 'hover:text-amber-500'}`}>
                   {names[s] || s}
                 </a>
               );
@@ -323,11 +324,11 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
         </div>
         
         <div className="flex items-center gap-6">
-          <a href="#contact" className="hidden lg:flex font-bold text-sm hover:text-amber-500 transition-colors uppercase tracking-wider">Reservations</a>
+          <a href="#contact" className={`hidden lg:flex font-bold text-sm uppercase tracking-wider transition-colors ${website.theme === 'Bistro' ? 'hover:text-[#800020]' : 'hover:text-amber-500'}`}>Reservations</a>
           
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden p-2 text-white hover:text-amber-500 transition-colors"
+            className={`lg:hidden p-2 transition-colors ${website.theme === 'Bistro' ? 'text-[#0f1110] hover:text-[#800020]' : 'text-white hover:text-amber-500'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -361,57 +362,137 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
         .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
         .map((sectionId: string) => {
-        if (sectionId === 'hero') return (
-          <div id="home" key="hero" className="relative min-h-[100vh] lg:min-h-[85vh] flex items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden">
-            <div className="absolute inset-0 z-0">
-              <img loading="lazy" src={heroImage} alt="Restaurant Interior" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-slate-900/70 mix-blend-multiply"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-            </div>
-            
-            <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center mt-8 lg:mt-16 w-full">
-              <div className="flex items-center gap-4 mb-4 lg:mb-6 opacity-90">
-                <div className={`w-8 lg:w-12 h-px ${primaryColor}`}></div>
-                <span className="text-white uppercase tracking-[0.3em] text-[10px] lg:text-sm font-semibold">Welcome</span>
-                <div className={`w-8 lg:w-12 h-px ${primaryColor}`}></div>
+        if (sectionId === 'hero') {
+          if (website.theme === 'Bistro') {
+            return (
+              <div id="home" key="hero" className="relative min-h-[100vh] lg:min-h-screen flex items-center bg-[#f8f6f0] px-6 pt-24 lg:pt-0 overflow-hidden">
+                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 py-12 lg:py-24">
+                  <div className="flex flex-col items-start text-left order-2 lg:order-1 mt-8 lg:mt-0">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`w-12 h-px ${primaryColor}`}></div>
+                      <span className={`uppercase tracking-[0.3em] text-xs lg:text-sm font-semibold ${primaryText}`}>Welcome</span>
+                    </div>
+                    {!hiddenFields.includes("hero_title") && (
+                      <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0f1110] leading-[1.1] mb-6 ${headingFont}`}>
+                        {content.hero_title || 'A Culinary Experience Like No Other'}
+                      </h1>
+                    )}
+                    {!hiddenFields.includes("hero_description") && (
+                      <p className="text-[#6b6b6b] text-sm md:text-lg font-light max-w-lg leading-relaxed mb-10">
+                        {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                      </p>
+                    )}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                      <a href="#menu" className={`${primaryColor} ${primaryColorHover} text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold transition-all duration-500 shadow-xl w-full sm:w-auto text-center ${buttonShape}`}>
+                        View Menu
+                      </a>
+                      <a href="#contact" className={`bg-transparent border border-[#0f1110] text-[#0f1110] hover:bg-[#0f1110] hover:text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold transition-all duration-500 w-full sm:w-auto text-center ${buttonShape}`}>
+                        Book a Table
+                      </a>
+                    </div>
+                  </div>
+                  <div className="order-1 lg:order-2 w-full relative h-[40vh] sm:h-[50vh] lg:h-[75vh]">
+                    <div className="absolute inset-0 lg:-inset-4 border border-[#800020]/30 z-0 translate-x-4 lg:translate-x-8 translate-y-4 lg:translate-y-8 rounded-tl-[4rem] rounded-br-[4rem]"></div>
+                    <img loading="lazy" src={heroImage} alt="Restaurant Interior" className="w-full h-full object-cover relative z-10 shadow-2xl rounded-tl-[4rem] rounded-br-[4rem]" />
+                  </div>
+                </div>
               </div>
-              <h1 className={`text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] text-white leading-[1.15] mb-6 drop-shadow-2xl px-2 lg:px-4 ${headingFont}`}>
-                {content.hero_title || 'A Culinary Experience Like No Other'}
-              </h1>
-              <p className="text-slate-200 text-sm sm:text-base md:text-xl font-light max-w-2xl leading-relaxed mb-8 lg:mb-12 px-2 lg:px-4">
-                {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
-              </p>
-              <div className={`flex flex-col sm:flex-row gap-3 lg:gap-4 w-full sm:w-auto px-4 lg:px-6 ${alignment.replace('items-start', 'items-center').replace('text-left', 'justify-start')}`}>
-                <a href="#menu" className={`${primaryColor} ${primaryColorHover} text-white px-6 lg:px-8 py-3.5 lg:py-4 uppercase tracking-widest text-xs lg:text-sm font-bold transition-colors text-center shadow-lg w-full sm:w-auto ${buttonShape}`}>
-                  View Menu
-                </a>
-                <a href="#contact" className={`bg-transparent border border-white text-white hover:bg-white hover:text-slate-900 px-6 lg:px-8 py-3.5 lg:py-4 uppercase tracking-widest text-xs lg:text-sm font-bold transition-colors text-center w-full sm:w-auto ${buttonShape}`}>
-                  Book a Table
-                </a>
-              </div>
-            </div>
-          </div>
-        );
+            );
+          }
 
-        if (sectionId === 'about') return (
-          <div id="about" key="about" className={`py-24 lg:py-32 px-6 lg:px-16 ${bgLight}`}>
-            <FadeInView>
-              <div className={`max-w-4xl mx-auto flex flex-col gap-8 ${alignment}`}>
-              <div className="flex items-center gap-4 mb-2">
-                <div className={`w-12 h-px ${primaryColor}`}></div>
-                <span className={`uppercase tracking-[0.2em] text-sm font-bold ${primaryText}`}>Our Story</span>
-                <div className={`w-12 h-px ${primaryColor}`}></div>
+          return (
+            <div id="home" key="hero" className="relative min-h-[100vh] lg:min-h-[85vh] flex items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden">
+              <div className="absolute inset-0 z-0">
+                <img loading="lazy" src={heroImage} alt="Restaurant Interior" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-slate-900/70 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
               </div>
-              <h2 className={`text-2xl sm:text-3xl lg:text-5xl ${textDark} mb-4 leading-tight break-words ${headingFont}`}>
-                {content.settings_json?.about_title || 'Tradition Meets Modern Gastronomy'}
-              </h2>
-              <p className={`${textDarkMuted} text-base lg:text-lg leading-relaxed mb-4 font-light whitespace-pre-wrap`}>
-                {content.settings_json?.about_description || 'Founded with a passion for bringing people together over exceptional food, our restaurant is a celebration of local ingredients and global techniques. Every dish tells a story of heritage, innovation, and culinary dedication.'}
-              </p>
+              
+              <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center mt-8 lg:mt-16 w-full">
+                <div className="flex items-center gap-4 mb-4 lg:mb-6 opacity-90">
+                  <div className={`w-8 lg:w-12 h-px ${primaryColor}`}></div>
+                  <span className="text-white uppercase tracking-[0.3em] text-[10px] lg:text-sm font-semibold">Welcome</span>
+                  <div className={`w-8 lg:w-12 h-px ${primaryColor}`}></div>
+                </div>
+                {!hiddenFields.includes("hero_title") && (
+                <h1 className={`text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] text-white leading-[1.15] mb-6 drop-shadow-2xl px-2 lg:px-4 ${headingFont}`}>
+                  {content.hero_title || 'A Culinary Experience Like No Other'}
+                </h1>
+                )}
+                {!hiddenFields.includes("hero_description") && (
+                <p className="text-slate-200 text-sm sm:text-base md:text-xl font-light max-w-2xl leading-relaxed mb-8 lg:mb-12 px-2 lg:px-4">
+                  {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                </p>
+                )}
+                <div className={`flex flex-col sm:flex-row gap-3 lg:gap-4 w-full sm:w-auto px-4 lg:px-6 ${alignment.replace('items-start', 'items-center').replace('text-left', 'justify-start')}`}>
+                  <a href="#menu" className={`${primaryColor} ${primaryColorHover} text-white px-6 lg:px-8 py-3.5 lg:py-4 uppercase tracking-widest text-xs lg:text-sm font-bold transition-colors text-center shadow-lg w-full sm:w-auto ${buttonShape}`}>
+                    View Menu
+                  </a>
+                  <a href="#contact" className={`bg-transparent border border-white text-white hover:bg-white hover:text-slate-900 px-6 lg:px-8 py-3.5 lg:py-4 uppercase tracking-widest text-xs lg:text-sm font-bold transition-colors text-center w-full sm:w-auto ${buttonShape}`}>
+                    Book a Table
+                  </a>
+                </div>
+              </div>
             </div>
-            </FadeInView>
-          </div>
-        );
+          );
+        }
+
+        if (sectionId === 'about') {
+          if (website.theme === 'Bistro') {
+            return (
+              <div id="about" key="about" className={`py-24 lg:py-32 px-6 lg:px-16 ${bgLightSec}`}>
+                <FadeInView>
+                  <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div className="relative h-[400px] lg:h-[600px] w-full group">
+                      <div className="absolute inset-0 bg-[#0f1110] transform translate-x-4 translate-y-4 rounded-tl-[3rem] rounded-br-[3rem] opacity-10"></div>
+                      <img loading="lazy" src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="About us" className="w-full h-full object-cover rounded-tl-[3rem] rounded-br-[3rem] shadow-xl relative z-10 group-hover:scale-[1.02] transition-transform duration-700" />
+                    </div>
+                    <div className="flex flex-col items-start text-left">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`w-12 h-px ${primaryColor}`}></div>
+                        <span className={`uppercase tracking-[0.3em] text-sm font-semibold ${primaryText}`}>Our Heritage</span>
+                      </div>
+                      {!hiddenFields.includes("about_title") && (
+                        <h2 className={`text-3xl sm:text-4xl lg:text-5xl text-[#0f1110] mb-6 leading-tight ${headingFont}`}>
+                          {content.settings_json?.about_title || 'Tradition Meets Modern Gastronomy'}
+                        </h2>
+                      )}
+                      {!hiddenFields.includes("about_description") && (
+                        <p className={`text-[#6b6b6b] text-base lg:text-lg leading-relaxed font-light whitespace-pre-wrap`}>
+                          {content.settings_json?.about_description || 'Founded with a passion for bringing people together over exceptional food, our restaurant is a celebration of local ingredients and global techniques. Every dish tells a story of heritage, innovation, and culinary dedication.'}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </FadeInView>
+              </div>
+            );
+          }
+
+          return (
+            <div id="about" key="about" className={`py-24 lg:py-32 px-6 lg:px-16 ${bgLight}`}>
+              <FadeInView>
+                <div className={`max-w-4xl mx-auto flex flex-col gap-8 ${alignment}`}>
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className={`w-12 h-px ${primaryColor}`}></div>
+                    <span className={`uppercase tracking-[0.2em] text-sm font-bold ${primaryText}`}>Our Story</span>
+                    <div className={`w-12 h-px ${primaryColor}`}></div>
+                  </div>
+                  {!hiddenFields.includes("about_title") && (
+                  <h2 className={`text-2xl sm:text-3xl lg:text-5xl ${textDark} mb-4 leading-tight break-words ${headingFont}`}>
+                    {content.settings_json?.about_title || 'Tradition Meets Modern Gastronomy'}
+                  </h2>
+                  )}
+                  {!hiddenFields.includes("about_description") && (
+                  <p className={`${textDarkMuted} text-base lg:text-lg leading-relaxed mb-4 font-light whitespace-pre-wrap`}>
+                    {content.settings_json?.about_description || 'Founded with a passion for bringing people together over exceptional food, our restaurant is a celebration of local ingredients and global techniques. Every dish tells a story of heritage, innovation, and culinary dedication.'}
+                  </p>
+                  )}
+                </div>
+              </FadeInView>
+            </div>
+          );
+        }
 
         if (sectionId === 'services') return (
           <div id="services" key="services" className={`py-24 lg:py-32 px-6 lg:px-16 ${bgDark} text-white relative`}>
@@ -659,7 +740,9 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 <p className="text-slate-300 leading-relaxed font-light mb-10 text-lg">
                   We would love to hear from you. Whether you have a question about our menu, want to book a private event, or simply wish to reserve a table for an unforgettable evening.
                 </p>
-                <div className="space-y-6">
+                
+                <div className="space-y-6 mb-10">
+                  {!hiddenFields.includes('contact_address') && (
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full ${primaryColor} flex items-center justify-center shrink-0 shadow-lg`}>
                       <MapPin className="text-white" size={20} />
@@ -669,6 +752,8 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                       <p className="text-slate-400 font-light">{content.contact_info?.address || '123 Culinary Avenue, Food District, NY 10012'}</p>
                     </div>
                   </div>
+                  )}
+                  {!hiddenFields.includes('contact_phone') && (
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full ${primaryColor} flex items-center justify-center shrink-0 shadow-lg`}>
                       <Phone className="text-white" size={20} />
@@ -678,6 +763,8 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                       <p className="text-slate-400 font-light">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
                     </div>
                   </div>
+                  )}
+                  {!hiddenFields.includes('contact_hours') && (
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full ${primaryColor} flex items-center justify-center shrink-0 shadow-lg`}>
                       <Clock className="text-white" size={20} />
@@ -687,7 +774,24 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                       <p className="text-slate-400 font-light whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</p>
                     </div>
                   </div>
+                  )}
                 </div>
+
+                {!hiddenFields.includes('contact_address') && (
+                  <div className="w-full h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
+                    <iframe 
+                      width="100%" 
+                      height="100%" 
+                      frameBorder="0" 
+                      scrolling="no" 
+                      marginHeight={0} 
+                      marginWidth={0} 
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                      title="Restaurant Location"
+                      className="filter opacity-90 hover:opacity-100 transition-opacity"
+                    ></iframe>
+                  </div>
+                )}
               </div>
               
               <div className={`${bgDark}/80 backdrop-blur-xl p-8 lg:p-12 border border-white/5 shadow-2xl flex flex-col items-center text-center ${cardShape.replace('bg-white', '')}`}>
@@ -704,15 +808,21 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 </div>
                 
                 <div className="flex gap-6 pt-8 border-t border-white/10 w-full justify-center">
-                  <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors bg-slate-900 group`} aria-label="Facebook">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                  </a>
-                  <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors bg-slate-900 group`} aria-label="WhatsApp">
-                    <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
-                  </a>
-                  <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors bg-slate-900 group`} aria-label="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                  </a>
+                  {!hiddenFields.includes('contact_facebook') && (
+                                <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors bg-slate-900 group`} aria-label="Facebook">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                  </a>
+                                )}
+                  {!hiddenFields.includes('contact_whatsapp') && (
+                                <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors bg-slate-900 group`} aria-label="WhatsApp">
+                                                    <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
+                                                  </a>
+                                )}
+                  {!hiddenFields.includes('contact_instagram') && (
+                                <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors bg-slate-900 group`} aria-label="Instagram">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                                  </a>
+                                )}
                 </div>
               </div>
             </div>
@@ -749,20 +859,6 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       
       {/* Reservation / Footer */}
       
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className={`${bgDark} text-slate-400 py-16 lg:py-20 px-6 lg:px-16 border-t border-white/5 relative overflow-hidden`}>
         
@@ -781,65 +877,35 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
               Experience dining at its finest. Join us for an unforgettable culinary journey combining tradition and innovation.
             </p>
             <div className="flex gap-4">
-              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors group" aria-label="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-              </a>
-              <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors group" aria-label="WhatsApp">
-                <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
-              </a>
-              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors group" aria-label="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-              </a>
+              {!hiddenFields.includes('contact_facebook') && (
+                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors group" aria-label="Facebook">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                            </a>
+                              )}
+              {!hiddenFields.includes('contact_whatsapp') && (
+                              <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors group" aria-label="WhatsApp">
+                                              <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
+                                            </a>
+                              )}
+              {!hiddenFields.includes('contact_instagram') && (
+                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors group" aria-label="Instagram">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                            </a>
+                              )}
             </div>
           </div>
 
-          <div>
-            <h4 className={`text-white text-lg mb-6 uppercase tracking-wider ${headingFont}`}>Contact</h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin size={18} className={`shrink-0 ${primaryText}`} />
-                <span>{content.contact_info?.address || '123 Culinary Avenue, Food District, NY 10012'}</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={18} className={`shrink-0 ${primaryText}`} />
-                <span>{content.contact_info?.phone || '+1 (555) 123-4567'}</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={18} className={`shrink-0 ${primaryText}`} />
-                <span>{content.contact_info?.email || 'reservations@restaurant.com'}</span>
-              </li>
-            </ul>
-          </div>
 
-          <div>
-            <h4 className={`text-white text-lg mb-6 uppercase tracking-wider ${headingFont}`}>Hours</h4>
-            <div className="space-y-3 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
-              {content.contact_info?.hours || 'Mon - Thu: 11:00 AM - 10:00 PM\nFri - Sat: 11:00 AM - 11:30 PM\nSunday: 10:00 AM - 9:00 PM'}
-            </div>
-          </div>
 
-          <div>
-            <h4 className={`text-white text-lg mb-6 uppercase tracking-wider ${headingFont}`}>Newsletter</h4>
-            <p className="text-sm mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
-            <div className="flex">
-              <input type="email" placeholder="Enter your email" className="bg-slate-900 border border-slate-800 px-4 py-3 text-sm outline-none focus:border-slate-600 text-white w-full" />
-              <button className={`${primaryColor} ${primaryColorHover} px-4 py-3 text-white transition-colors`}>
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
+
 
         </div>
         
-        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-900 text-sm text-center flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 relative z-10">
+        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-900 text-sm text-center flex flex-col md:flex-row justify-center items-center gap-6 md:gap-4 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
             <p>&copy; {new Date().getFullYear()} {content.settings_json?.website_name || website.slug || 'Restaurant'}. All rights reserved.</p>
             <span className="hidden md:inline-block text-slate-700">|</span>
             <p className="text-slate-500">Powered by <span className="font-bold text-slate-300 tracking-wider">Jaalam</span></p>
-          </div>
-          <div className="flex gap-6">
-            <button onClick={() => setActiveModal('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
-            <button onClick={() => setActiveModal('terms')} className="hover:text-white transition-colors">Terms of Service</button>
           </div>
         </div>
       </footer>

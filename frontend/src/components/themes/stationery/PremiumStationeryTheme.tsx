@@ -9,6 +9,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Luxe Stationery Co.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: '18K Gold Nib Fountain Pen', price: '₹15,000', image: 'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=600&q=80', description: 'Masterfully crafted resin body with solid 18k gold nib.' },
@@ -54,13 +55,17 @@ export default function PremiumStationeryTheme({ website, content }: any) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]"></div>
         
         <div className="container mx-auto px-6 relative z-10 text-center max-w-3xl">
-          <h1 className="font-luxury text-6xl md:text-8xl font-bold mb-6 text-white drop-shadow-2xl">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-luxury text-6xl md:text-8xl font-bold mb-6 text-white drop-shadow-2xl">
             {content.hero_title || 'Elevate Your Writing.'}
           </h1>
+              )}
           <div className="w-16 h-[1px] bg-[#D4AF37] mx-auto mb-8"></div>
-          <p className="font-body text-sm md:text-base text-gray-300 font-light tracking-widest leading-loose mb-12">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-sm md:text-base text-gray-300 font-light tracking-widest leading-loose mb-12">
             {content.hero_text || content.about_text || 'Discover our exclusive range of fine writing instruments and luxury desk accessories crafted for discerning individuals.'}
           </p>
+              )}
           <a href="#collection" className="inline-flex items-center gap-4 bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black px-10 py-4 font-body uppercase tracking-[0.2em] text-xs transition-all duration-500">
             Explore Collection <ChevronRight size={14} />
           </a>
@@ -176,12 +181,18 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             <div className="space-y-12 font-body text-xs tracking-[0.2em] uppercase text-gray-400">
               <div className="border-l-2 border-[#D4AF37] pl-8">
                 <h3 className="text-[#D4AF37] mb-4">Concierge</h3>
-                <div className="mb-2">{content.contact_info?.phone || '+91 98765 43210'}</div>
-                <div>{content.contact_info?.email || 'concierge@luxe.co'}</div>
+                {!hiddenFields.includes('contact_phone') && (
+                              <div className="mb-2">{content.contact_info?.phone || '+91 98765 43210'}</div>
+                              )}
+                {!hiddenFields.includes('contact_email') && (
+                              <div>{content.contact_info?.email || 'concierge@luxe.co'}</div>
+                              )}
               </div>
               <div className="border-l-2 border-[#D4AF37] pl-8">
                 <h3 className="text-[#D4AF37] mb-4">Location</h3>
-                <div className="leading-relaxed max-w-xs">{content.contact_info?.address || '1 Luxury Avenue, Design District, Kerala'}</div>
+                {!hiddenFields.includes('contact_address') && (
+                              <div className="leading-relaxed max-w-xs">{content.contact_info?.address || '1 Luxury Avenue, Design District, Kerala'}</div>
+                              )}
               </div>
               
               <div className="pt-12 border-t border-[#D4AF37]/20 flex gap-8">
@@ -241,15 +252,21 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           <div className="flex flex-col md:flex-row justify-center gap-12 font-body text-xs tracking-widest text-gray-400 mb-16">
             <div className="flex flex-col items-center gap-3">
               <Phone size={16} className="text-[#D4AF37]" />
-              <span>{content.contact_info?.phone || 'Premium Support: +91 98765 43210'}</span>
+              {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || 'Premium Support: +91 98765 43210'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3">
               <MapPin size={16} className="text-[#D4AF37]" />
-              <span>{content.contact_info?.address || '1 Luxury Avenue, Kerala'}</span>
+              {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || '1 Luxury Avenue, Kerala'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3">
               <Mail size={16} className="text-[#D4AF37]" />
-              <span>{content.contact_info?.email || 'concierge@luxe.co'}</span>
+              {!hiddenFields.includes('contact_email') && (
+                          <span>{content.contact_info?.email || 'concierge@luxe.co'}</span>
+                          )}
             </div>
           </div>
           

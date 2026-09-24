@@ -144,6 +144,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
   }
 
   const siteName = content.settings_json?.website_name || website.slug || 'Barber';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address = content.contact_info?.address || 'Lagos, Nigeria';
 
   const categories = [
@@ -276,13 +277,17 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                   </div>
                 )}
 
-                <h1 className={`${heroTextColor} text-5xl md:text-7xl font-extrabold mb-6 tracking-tight drop-shadow-xl break-words w-full ${fontHeading}`}>
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className={`${heroTextColor} text-5xl md:text-7xl font-extrabold mb-6 tracking-tight drop-shadow-xl break-words w-full ${fontHeading}`}>
                   {content.hero_title || content.settings_json?.hero_title || siteName}
                 </h1>
+              )}
 
-                <p className={`${heroSubtextColor} text-sm md:text-base font-medium px-4 mb-10 max-w-md mx-auto leading-relaxed break-all sm:break-words w-full`}>
+                {!hiddenFields.includes("hero_description") && (
+              <p className={`${heroSubtextColor} text-sm md:text-base font-medium px-4 mb-10 max-w-md mx-auto leading-relaxed break-all sm:break-words w-full`}>
                   {content.hero_description || content.settings_json?.hero_description || content.about_text || 'Find a barber close to you and book at your convenience'}
                 </p>
+              )}
 
                 {/* Action Buttons */}
                 <div className="w-full max-w-sm mx-auto flex flex-col gap-4">
@@ -345,10 +350,13 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                       <FadeInView delay={150}>
                         {/* About Section */}
                         <div className="mb-12 md:mb-20" id="about">
-                          <h3 className={`font-bold ${textColor} text-xl md:text-2xl mb-6 ${fontHeading}`}>{content.settings_json?.about_title || 'About Us'}</h3>
+                          {!hiddenFields.includes("about_title") && (
+              <h3 className={`font-bold ${textColor} text-xl md:text-2xl mb-6 ${fontHeading}`}>{content.settings_json?.about_title || 'About Us'}</h3>
+              )}
                           <div className={`p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 ${cardShape} ${theme === 'Wellness' ? 'bg-[#EAF4EE]/30' : theme === 'Modern Saloon' ? 'bg-[#1A1A22]' : theme === 'Classic Barbershop' ? 'bg-white' : 'bg-amber-50/40'}`}>
                             <div className="flex-1">
-                              <p className={`text-sm md:text-base ${textColor} leading-relaxed opacity-95`}>
+                              {!hiddenFields.includes("about_description") && (
+              <p className={`text-sm md:text-base ${textColor} leading-relaxed opacity-95`}>
                                 {(() => {
                                   const text = content.settings_json?.about_description || content.about_text;
                                   if (!text || text === 'Add your business description here.' || text.trim() === '') {
@@ -357,6 +365,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                   return text;
                                 })()}
                               </p>
+              )}
                             </div>
                             <div className="w-full md:w-1/2 shrink-0">
                               <img loading="lazy" src={content.settings_json?.about_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
@@ -513,7 +522,9 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                 </div>
                                 <div>
                                   <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Location</p>
-                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.address || 'Lagos, Nigeria'}</p>
+                                  {!hiddenFields.includes('contact_address') && (
+                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.address || 'Lagos, Nigeria'}</p>
+                                                  )}
                                 </div>
                               </div>
 
@@ -525,7 +536,9 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                 </div>
                                 <div>
                                   <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Phone Number</p>
-                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                  {!hiddenFields.includes('contact_phone') && (
+                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                                  )}
                                 </div>
                               </div>
 
@@ -537,19 +550,25 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                                 </div>
                                 <div>
                                   <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Email Address</p>
-                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.email || 'hello@saloo.com'}</p>
+                                  {!hiddenFields.includes('contact_email') && (
+                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.email || 'hello@saloo.com'}</p>
+                                                  )}
                                 </div>
                               </div>
 
                               <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
 
                               <div className="flex items-center justify-start gap-6 pt-2">
-                                <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className={`${textMuted} hover:scale-110 transition-transform hover:text-amber-500`}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
-                                </a>
-                                <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className={`${textMuted} hover:scale-110 transition-transform hover:text-amber-500`}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-                                </a>
+                                {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className={`${textMuted} hover:scale-110 transition-transform hover:text-amber-500`}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className={`${textMuted} hover:scale-110 transition-transform hover:text-amber-500`}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
+                                                                              </a>
+                                              )}
                                 <a href={content.contact_info?.twitter || '#'} target="_blank" rel="noreferrer" className={`${textMuted} hover:scale-110 transition-transform hover:text-amber-500`}>
                                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5 2.8 12 3 11c-1.1 0-2-.5-2-.5s.7-2.1 2-3.4C1 6 4 6 4 6s1.6-1.5 3-1.5c2 0 3.7 1.6 3.7 3.6 0 .5-.1 1-.2 1.5 1.5-.1 3-.7 4.2-1.7.9 1 1.2 2 1 3-1.3-.8-2.6-1.3-4-1.5 2.5 1 3.8 2.7 4.5 4.5.3 1 .6 2 1 3z" /></svg>
                                 </a>
@@ -568,13 +587,15 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
 
                             {/* Right Side: Map Embed */}
                             <div className={`flex-1 min-h-[250px] lg:min-h-full w-full ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-2xl'} overflow-hidden shadow-inner bg-gray-100 relative`}>
-                              <iframe
-                                title="Location Map"
-                                className="absolute inset-0 w-full h-full border-0 grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-                                loading="lazy"
-                                allowFullScreen
-                                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Lagos, Nigeria')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                              ></iframe>
+                              {!hiddenFields.includes('contact_address') && (
+                                          <iframe
+                                                                          title="Location Map"
+                                                                          className="absolute inset-0 w-full h-full border-0 grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                                                                          loading="lazy"
+                                                                          allowFullScreen
+                                                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Lagos, Nigeria')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                        ></iframe>
+                                          )}
                             </div>
                           </div>
                         </div>
@@ -656,17 +677,23 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                 <h4 className={`text-white text-xl font-bold tracking-wider uppercase ${fontHeading}`} style={{ color: footerAccentColor }}>
                   {content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}
                 </h4>
-                <p className="text-sm leading-relaxed font-medium">
+                {!hiddenFields.includes("hero_description") && (
+              <p className="text-sm leading-relaxed font-medium">
                   {content.hero_description || content.settings_json?.hero_description || 'Find a barber close to you and book at your convenience. Premium experience tailored just for you.'}
                 </p>
+              )}
                 {/* Social Links */}
                 <div className="flex gap-4 pt-2">
-                  <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 border border-stone-850 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
-                  </a>
-                  <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 border border-stone-850 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-                  </a>
+                  {!hiddenFields.includes('contact_instagram') && (
+                                  <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 border border-stone-850 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors group">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+                                                    </a>
+                                  )}
+                  {!hiddenFields.includes('contact_facebook') && (
+                                  <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 border border-stone-850 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors group">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
+                                                    </a>
+                                  )}
                   <a href={content.contact_info?.twitter || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 border border-stone-850 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors group">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5 2.8 12 3 11c-1.1 0-2-.5-2-.5s.7-2.1 2-3.4C1 6 4 6 4 6s1.6-1.5 3-1.5c2 0 3.7 1.6 3.7 3.6 0 .5-.1 1-.2 1.5 1.5-.1 3-.7 4.2-1.7.9 1 1.2 2 1 3-1.3-.8-2.6-1.3-4-1.5 2.5 1 3.8 2.7 4.5 4.5.3 1 .6 2 1 3z" /></svg>
                   </a>
@@ -703,11 +730,15 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Phone size={16} className="shrink-0" style={{ color: footerAccentColor }} />
-                    <span>{content.contact_info?.phone || '+1 234 567 8900'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <span>{content.contact_info?.phone || '+1 234 567 8900'}</span>
+                                      )}
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Mail size={16} className="shrink-0" style={{ color: footerAccentColor }} />
-                    <span>{content.contact_info?.email || 'hello@saloo.com'}</span>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <span>{content.contact_info?.email || 'hello@saloo.com'}</span>
+                                      )}
                   </li>
                 </ul>
               </div>

@@ -24,6 +24,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'The Classic Collection';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Plan Choker Set', price: '₹3,500', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80', description: 'Traditional heavy kundan choker with earrings.' },
     { name: 'Bridal Bindi Collection', price: '₹450', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80', description: 'Handcrafted stone bindis for special occasions.' },
@@ -115,13 +116,17 @@ export default function ClassicFancyTheme({ website, content }: any) {
             <section key="hero" id="hero" className="relative py-24 px-6 overflow-hidden">
               <div className="container mx-auto max-w-4xl text-center relative z-10">
                 <p className="font-sans text-[#8C3A3A] tracking-[0.3em] uppercase text-xs mb-6 font-bold">Bridal & Imitation Jewelry</p>
-                <h1 className="font-classic text-5xl md:text-7xl font-bold mb-8 leading-tight text-[#2B1B12]">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-classic text-5xl md:text-7xl font-bold mb-8 leading-tight text-[#2B1B12]">
                   {content.hero_title || 'Timeless Beauty & Elegance'}
                 </h1>
+              )}
                 <div className="w-24 h-[2px] bg-[#D9C5B2] mx-auto mb-8"></div>
-                <p className="font-classic italic text-lg text-[#6B5A4E] mb-12 max-w-2xl mx-auto leading-relaxed">
+                {!hiddenFields.includes("hero_description") && (
+              <p className="font-classic italic text-lg text-[#6B5A4E] mb-12 max-w-2xl mx-auto leading-relaxed">
                   {content.hero_description || content.settings_json?.hero_description || content.about_text || content.hero_text || 'An exquisite collection of traditional imitation jewelry, imported cosmetics, and fancy accessories for your most cherished moments.'}
                 </p>
+              )}
                 <img loading="lazy" src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />
               </div>
             </section>
@@ -133,11 +138,15 @@ export default function ClassicFancyTheme({ website, content }: any) {
               <div className="container mx-auto max-w-5xl">
                 <div className="flex flex-col md:flex-row gap-16 items-center">
                   <div className="md:w-1/2">
-                    <h2 className="font-classic text-4xl text-[#2B1B12] mb-6">{content.settings_json?.about_title || content.about_title || 'Our Heritage'}</h2>
+                    {!hiddenFields.includes("about_title") && (
+              <h2 className="font-classic text-4xl text-[#2B1B12] mb-6">{content.settings_json?.about_title || content.about_title || 'Our Heritage'}</h2>
+              )}
                     <div className="w-16 h-[2px] bg-[#8C3A3A] mb-8"></div>
-                    <p className="font-sans text-[#6B5A4E] leading-relaxed mb-6 whitespace-pre-line">
+                    {!hiddenFields.includes("about_description") && (
+              <p className="font-sans text-[#6B5A4E] leading-relaxed mb-6 whitespace-pre-line">
                       {content.settings_json?.about_description || content.about_description || 'Welcome to a world of classic beauty. We have been curating the finest imitation jewelry and imported cosmetics since our inception, focusing on timeless elegance.'}
                     </p>
+              )}
                   </div>
                   <div className="md:w-1/2 w-full">
                     <div className="aspect-[4/3] overflow-hidden rounded-sm border-8 border-[#FDF8F5] shadow-lg">
@@ -269,32 +278,40 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 <div className="flex flex-col md:flex-row gap-12 mb-16 text-left">
                   <div className="flex-1 w-full bg-[#FDF8F5] p-10 border border-[#E8DFD8]">
                     <div className="flex flex-col gap-8 font-sans text-lg text-[#6B5A4E] mb-12">
-                      <div className="flex items-center gap-4"><Phone className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-                      <div className="flex items-center gap-4"><Mail className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
-                      <div className="flex items-center gap-4"><MapPin className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
+                      {!hiddenFields.includes('contact_phone') && (
+                                              <div className="flex items-center gap-4"><Phone className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                                              )}
+                      {!hiddenFields.includes('contact_email') && (
+                                              <div className="flex items-center gap-4"><Mail className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
+                                              )}
+                      {!hiddenFields.includes('contact_address') && (
+                                              <div className="flex items-center gap-4"><MapPin className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
+                                              )}
                       {content.contact_info?.hours && (
                         <div className="flex items-center gap-4"><Clock className="text-[#8C3A3A]" /> {content.contact_info.hours}</div>
                       )}
                     </div>
                     
                     {/* Social Links */}
-                    <div className="flex gap-6">
-                      {content.contact_info?.facebook && (
-                        <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
-                          <Facebook size={24} />
-                        </a>
-                      )}
-                      {content.contact_info?.instagram && (
-                        <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
-                          <Instagram size={24} />
-                        </a>
-                      )}
-                      {content.contact_info?.twitter && (
-                        <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
-                          <Twitter size={24} />
-                        </a>
-                      )}
-                    </div>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                          <div className="flex gap-6">
+                                                                {content.contact_info?.facebook && (
+                                                                  <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                                                                    <Facebook size={24} />
+                                                                  </a>
+                                                                )}
+                                                                {content.contact_info?.instagram && (
+                                                                  <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                                                                    <Instagram size={24} />
+                                                                  </a>
+                                                                )}
+                                                                {content.contact_info?.twitter && (
+                                                                  <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="bg-white p-3 rounded-full text-[#8C3A3A] hover:bg-[#8C3A3A] hover:text-white transition-colors border border-[#E8DFD8]">
+                                                                    <Twitter size={24} />
+                                                                  </a>
+                                                                )}
+                                                              </div>
+                                          )}
                   </div>
                   
                   <div className="flex-1 w-full text-left bg-white p-10 border border-[#E8DFD8]">
@@ -309,12 +326,14 @@ export default function ClassicFancyTheme({ website, content }: any) {
                         />
                       </div>
                       <div className="w-full h-80 md:h-[450px] border-8 border-white shadow-xl relative">
-                        <iframe 
-                          title="Google Maps"
-                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                          className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
-                        />
+                        {!hiddenFields.includes('contact_address') && (
+                                                  <iframe 
+                                                                            title="Google Maps"
+                                                                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                                                                            className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
+                                                                          />
+                                                  )}
                       </div>
                     </div>
                   </div>
@@ -378,9 +397,15 @@ export default function ClassicFancyTheme({ website, content }: any) {
           </p>
 
           <div className="flex flex-col md:flex-row justify-center items-center gap-10 font-sans text-xs tracking-widest uppercase border-t border-[#4A3B32] pt-10">
-            <div className="flex items-center gap-3"><Phone size={16} className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-            <div className="flex items-center gap-3"><Mail size={16} className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
-            <div className="flex items-center gap-3"><MapPin size={16} className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-3"><Phone size={16} className="text-[#8C3A3A]" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-3"><Mail size={16} className="text-[#8C3A3A]" /> {content.contact_info?.email || 'contact@classiccollection.in'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-3"><MapPin size={16} className="text-[#8C3A3A]" /> {content.contact_info?.address || 'Main Bazaar, Kerala'}</div>
+                      )}
           </div>
         </div>
       </footer>

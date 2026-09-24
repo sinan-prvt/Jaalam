@@ -114,6 +114,7 @@ const NetipattamMedallion = ({ className = "w-36 h-48" }: { className?: string }
 );
 
 export default function KeralaTraditionalLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

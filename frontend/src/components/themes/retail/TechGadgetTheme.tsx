@@ -32,6 +32,7 @@ export default function TechGadgetTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'NEXUS TECH';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const defaultProducts = [
     { name: 'Premium Urban Backpack', price: '₹120', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80', description: 'Water-resistant, anti-theft design with integrated charging port.' },
@@ -162,9 +163,11 @@ export default function TechGadgetTheme({ website, content }: any) {
               <span className="w-2 h-2 rounded-full bg-[#4285F4] animate-pulse"></span>
               SYSTEM ONLINE
             </div>
-            <h1 className="tg-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight max-w-5xl mx-auto break-all sm:break-words whitespace-pre-wrap">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="tg-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight max-w-5xl mx-auto break-all sm:break-words whitespace-pre-wrap">
               {content.hero_title || 'ENGINEERED FOR EXCELLENCE'}
             </h1>
+              )}
             <p className="tg-mono text-lg md:text-xl max-w-2xl mx-auto mb-12 text-[#8ab4f8]/80 leading-relaxed break-all sm:break-words whitespace-pre-wrap">
               {content.about_text || 'Experience the next generation of premium retail. Discover carefully curated collections built for modern living.'}
             </p>
@@ -188,12 +191,16 @@ export default function TechGadgetTheme({ website, content }: any) {
               </div>
               <div className="relative z-10 max-w-3xl">
                 <h2 className="tg-mono text-sm text-[#4285F4] mb-4">// BRAND_VALUES</h2>
-                <h3 className="tg-display text-4xl md:text-5xl font-bold text-white mb-6 break-all sm:break-words whitespace-pre-wrap">
+                {!hiddenFields.includes("about_title") && (
+              <h3 className="tg-display text-4xl md:text-5xl font-bold text-white mb-6 break-all sm:break-words whitespace-pre-wrap">
                   {content.settings_json?.about_title || 'BEYOND EXPECTATIONS'}
                 </h3>
-                <p className="tg-mono text-lg text-[#8ab4f8]/80 leading-relaxed mb-8 break-all sm:break-words whitespace-pre-wrap">
+              )}
+                {!hiddenFields.includes("about_description") && (
+              <p className="tg-mono text-lg text-[#8ab4f8]/80 leading-relaxed mb-8 break-all sm:break-words whitespace-pre-wrap">
                   {content.settings_json?.about_description || 'We don\'t just sell products. We provide the infrastructure for tomorrow\'s digital realities. Every item is rigorously tested and verified for premium quality.'}
                 </p>
+              )}
                 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-[#4285F4]/20 pt-8 mt-8">
                   <div>
@@ -318,27 +325,41 @@ export default function TechGadgetTheme({ website, content }: any) {
                 <div className="space-y-8">
                   <div>
                     <h4 className="tg-mono text-[#4285F4] mb-2 text-sm">// LOCATION</h4>
-                    <p className="tg-display text-2xl text-white font-bold">{content.contact_info?.address || 'Sector 7, Silicon Valley'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                  <p className="tg-display text-2xl text-white font-bold">{content.contact_info?.address || 'Sector 7, Silicon Valley'}</p>
+                                  )}
                   </div>
                   <div>
                     <h4 className="tg-mono text-[#4285F4] mb-2 text-sm">// TRANSMISSION</h4>
-                    <p className="tg-display text-xl text-white mb-1">{content.contact_info?.email || 'root@nexus.tech'}</p>
-                    <p className="tg-display text-xl text-white">{content.contact_info?.phone || '192.168.1.1'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                  <p className="tg-display text-xl text-white mb-1">{content.contact_info?.email || 'root@nexus.tech'}</p>
+                                  )}
+                    {!hiddenFields.includes('contact_phone') && (
+                                  <p className="tg-display text-xl text-white">{content.contact_info?.phone || '192.168.1.1'}</p>
+                                  )}
                   </div>
                   <div>
                     <h4 className="tg-mono text-[#4285F4] mb-2 text-sm">// OPERATING_HOURS</h4>
-                    <p className="tg-mono text-[#8ab4f8]/80 leading-relaxed break-words">{content.contact_info?.hours || '09:00 - 18:00 (SYSTEM_TIME)'}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                  <p className="tg-mono text-[#8ab4f8]/80 leading-relaxed break-words">{content.contact_info?.hours || '09:00 - 18:00 (SYSTEM_TIME)'}</p>
+                                  )}
                   </div>
                   <div className="pt-8 border-t border-[#4285F4]/20 flex gap-4">
-                    <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
-                      <Facebook size={20} />
-                    </a>
-                    <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
-                      <Instagram size={20} />
-                    </a>
-                    <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
-                      <MessageCircle size={20} />
-                    </a>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                  <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
+                                                        <Facebook size={20} />
+                                                      </a>
+                                  )}
+                    {!hiddenFields.includes('contact_instagram') && (
+                                  <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
+                                                        <Instagram size={20} />
+                                                      </a>
+                                  )}
+                    {!hiddenFields.includes('contact_whatsapp') && (
+                                  <a href={content.contact_info?.whatsapp || '#'} target="_blank" rel="noreferrer" className="w-12 h-12 rounded bg-[#4285F4]/10 border border-[#4285F4]/30 flex items-center justify-center text-[#4285F4] hover:bg-[#4285F4] hover:text-white transition-colors">
+                                                        <MessageCircle size={20} />
+                                                      </a>
+                                  )}
                   </div>
                 </div>
               </div>
@@ -354,15 +375,17 @@ export default function TechGadgetTheme({ website, content }: any) {
             </div>
           
             <div className="mt-12 w-full h-80 md:h-auto min-h-[400px] tg-glass rounded-xl border border-[#4285F4]/30 p-2 overflow-hidden relative group">
-              <iframe 
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, filter: 'grayscale(1) invert(1) contrast(1.2)' }} 
-                allowFullScreen={false} 
-                loading="lazy"
-                className="rounded-lg opacity-80 group-hover:opacity-100 transition-opacity"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                      <iframe 
+                                      src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                      width="100%" 
+                                      height="100%" 
+                                      style={{ border: 0, filter: 'grayscale(1) invert(1) contrast(1.2)' }} 
+                                      allowFullScreen={false} 
+                                      loading="lazy"
+                                      className="rounded-lg opacity-80 group-hover:opacity-100 transition-opacity"
+                                    ></iframe>
+                      )}
             </div>
           </section>
       )}
@@ -417,16 +440,22 @@ export default function TechGadgetTheme({ website, content }: any) {
           <div>
             <h4 className="tg-mono text-white mb-6 uppercase">// Connect</h4>
             <div className="space-y-3 tg-mono text-sm text-[#8ab4f8]/60">
-              <p className="break-words">Email: {content.contact_info?.email || 'root@nexus.tech'}</p>
-              <p className="break-words">Ping: {content.contact_info?.phone || '192.168.1.1'}</p>
+              {!hiddenFields.includes('contact_email') && (
+                          <p className="break-words">Email: {content.contact_info?.email || 'root@nexus.tech'}</p>
+                          )}
+              {!hiddenFields.includes('contact_phone') && (
+                          <p className="break-words">Ping: {content.contact_info?.phone || '192.168.1.1'}</p>
+                          )}
             </div>
           </div>
           
           <div>
             <h4 className="tg-mono text-white mb-6 uppercase">// Location</h4>
-            <p className="tg-mono text-sm text-[#8ab4f8]/60 leading-relaxed break-words">
-              {content.contact_info?.address || 'Sector 7, Silicon Valley'}
-            </p>
+            {!hiddenFields.includes('contact_address') && (
+                      <p className="tg-mono text-sm text-[#8ab4f8]/60 leading-relaxed break-words">
+                                    {content.contact_info?.address || 'Sector 7, Silicon Valley'}
+                                  </p>
+                      )}
           </div>
         </div>
         

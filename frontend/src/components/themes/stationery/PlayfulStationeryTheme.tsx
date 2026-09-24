@@ -21,6 +21,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'Doodle & Co.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Pastel Highlighters', price: '₹199', image: 'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=600&q=80', description: 'Set of 6 macaron color highlighters.' },
@@ -116,12 +117,16 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     <div className="inline-block bg-[#4ECDC4] text-white font-playful px-6 py-2 rounded-full mb-8 transform rotate-3 shadow-md">
                       New Collection is here! 🎉
                     </div>
-                    <h1 className="font-playful text-6xl md:text-8xl text-[#2D3142] mb-8 leading-tight">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-playful text-6xl md:text-8xl text-[#2D3142] mb-8 leading-tight">
                       {content.hero_title || 'Make Your Desk Happy!'}
                     </h1>
-                    <p className="font-body font-bold text-xl text-[#4A4A4A] mb-12 max-w-2xl mx-auto">
+              )}
+                    {!hiddenFields.includes("hero_description") && (
+              <p className="font-body font-bold text-xl text-[#4A4A4A] mb-12 max-w-2xl mx-auto">
                       {content.hero_text || content.about_text || 'Super cute stationery, colorful pens, and everything you need to make studying and working fun.'}
                     </p>
+              )}
                     <button onClick={() => setShowAllProducts(true)} className="inline-block bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-playful text-xl py-4 px-12 rounded-full shadow-[0_8px_0_#c0392b] active:translate-y-2 active:shadow-none transition-all">
                       Start Shopping
                     </button>
@@ -133,10 +138,14 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
             {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="py-20 px-6 relative z-10">
                   <div className="container mx-auto max-w-4xl text-center bg-white rounded-3xl p-12 shadow-xl border-4 border-[#FF6B6B]">
-                    <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
-                    <p className="font-body text-lg font-bold text-[#4A4A4A] leading-relaxed">
+                    {!hiddenFields.includes("about_title") && (
+              <h2 className="font-playful text-3xl md:text-5xl text-[#2D3142] mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
+              )}
+                    {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-lg font-bold text-[#4A4A4A] leading-relaxed">
                       {content.settings_json?.about_description || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
                     </p>
+              )}
                   </div>
                 </section>
             )}
@@ -284,37 +293,47 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                         <h3 className="font-playful text-2xl text-[#2D3142] mb-4">Get in Touch</h3>
                         <div className="flex items-center gap-4 text-lg">
                           <span className="text-2xl">📞</span> 
-                          <span>{content.contact_info?.phone || '+91 98765 43210'}</span>
+                          {!hiddenFields.includes('contact_phone') && (
+                                              <span>{content.contact_info?.phone || '+91 98765 43210'}</span>
+                                              )}
                         </div>
                         <div className="flex items-center gap-4 text-lg">
                           <span className="text-2xl">✉️</span> 
-                          <span>{content.contact_info?.email || 'hello@stationery.com'}</span>
+                          {!hiddenFields.includes('contact_email') && (
+                                              <span>{content.contact_info?.email || 'hello@stationery.com'}</span>
+                                              )}
                         </div>
                         <div className="flex items-center gap-4 text-lg">
                           <span className="text-2xl">📍</span> 
-                          <span>{content.contact_info?.address || '123 Paper Street, Design District'}</span>
+                          {!hiddenFields.includes('contact_address') && (
+                                              <span>{content.contact_info?.address || '123 Paper Street, Design District'}</span>
+                                              )}
                         </div>
                         <div className="flex items-center gap-4 text-lg">
                           <span className="text-2xl">⏰</span> 
-                          <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</span>
+                          {!hiddenFields.includes('contact_hours') && (
+                                              <span className="whitespace-pre-line">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</span>
+                                              )}
                         </div>
-                        <div className="flex items-center gap-4 mt-6 pt-4 border-t-2 border-dashed border-gray-200">
-                          {content.contact_info?.facebook && (
-                            <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
-                              <Facebook size={20} />
-                            </a>
-                          )}
-                          {content.contact_info?.instagram && (
-                            <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
-                              <Instagram size={20} />
-                            </a>
-                          )}
-                          {content.contact_info?.whatsapp && (
-                            <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
-                              <MessageCircle size={20} />
-                            </a>
-                          )}
-                        </div>
+                        {!hiddenFields.includes('contact_facebook') && (
+                                          <div className="flex items-center gap-4 mt-6 pt-4 border-t-2 border-dashed border-gray-200">
+                                                                    {content.contact_info?.facebook && (
+                                                                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
+                                                                        <Facebook size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                    {content.contact_info?.instagram && (
+                                                                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
+                                                                        <Instagram size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                    {content.contact_info?.whatsapp && (
+                                                                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFF0F5] text-[#FF6B6B] rounded-full flex items-center justify-center border-2 border-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white transition-colors">
+                                                                        <MessageCircle size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                  </div>
+                                          )}
                       </div>
                       <div className="bg-white border-4 border-[#FF6B6B] rounded-3xl overflow-hidden p-6 relative">
                         <ContactForm 
@@ -328,12 +347,14 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </div>
 
                     <div className="mt-12 h-80 md:h-full min-h-[300px] border-4 border-[#4ECDC4] rounded-3xl overflow-hidden relative">
-                      <iframe 
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
-                        className="absolute inset-0 w-full h-full border-0" 
-                        allowFullScreen={false} 
-                        loading="lazy"
-                      ></iframe>
+                      {!hiddenFields.includes('contact_address') && (
+                                      <iframe 
+                                                              src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
+                                                              className="absolute inset-0 w-full h-full border-0" 
+                                                              allowFullScreen={false} 
+                                                              loading="lazy"
+                                                            ></iframe>
+                                      )}
                     </div>
                   </div>
                 </section>
@@ -382,8 +403,12 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
         <div className="container mx-auto px-6 max-w-4xl text-center">
           <span className="font-playful text-4xl text-yellow-400 mb-8 block">{siteName}</span>
           <div className="flex flex-col md:flex-row justify-center gap-8 font-body font-bold text-lg mb-12">
-            <div className="flex items-center justify-center gap-2"><Phone className="text-[#FF6B6B]" /> {content.contact_info?.phone || 'Call Us: 98765 43210'}</div>
-            <div className="flex items-center justify-center gap-2"><Mail className="text-[#4ECDC4]" /> {content.contact_info?.email || 'hello@doodleco.in'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center justify-center gap-2"><Phone className="text-[#FF6B6B]" /> {content.contact_info?.phone || 'Call Us: 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center justify-center gap-2"><Mail className="text-[#4ECDC4]" /> {content.contact_info?.email || 'hello@doodleco.in'}</div>
+                      )}
           </div>
           <p className="font-body text-gray-400">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
         </div>

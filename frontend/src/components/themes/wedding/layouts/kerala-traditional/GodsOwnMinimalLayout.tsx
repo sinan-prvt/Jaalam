@@ -20,6 +20,7 @@ const MinimalLeaf = ({ className = "w-16 h-16" }: { className?: string }) => (
 );
 
 export default function GodsOwnMinimalLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

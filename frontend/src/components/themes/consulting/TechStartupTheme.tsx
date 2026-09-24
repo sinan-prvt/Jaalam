@@ -14,6 +14,7 @@ export default function TechStartupTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Tech Startup';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'SaaS Platform', price: 'Enterprise', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80', description: 'Scalable cloud infrastructure for modern applications.' },
@@ -97,12 +98,16 @@ export default function TechStartupTheme({ website, content }: any) {
             </span>
              System Online v2.4
           </div>
-          <h1 className="font-tech-title text-5xl md:text-7xl font-extrabold text-white mb-8 leading-tight tracking-tighter">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-tech-title text-5xl md:text-7xl font-extrabold text-white mb-8 leading-tight tracking-tighter">
             {content.hero_title || 'Building the future of digital infrastructure.'}
           </h1>
-          <p className="font-tech-body text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-tech-body text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
             {content.hero_text || 'Empowering teams with next-generation tools, seamless integration, and unprecedented performance.'}
           </p>
+              )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
              <a href="#contact" className="w-full sm:w-auto bg-[#00D4FF] text-[#0A0A0F] font-tech-title font-bold uppercase tracking-wider py-4 px-10 hover:bg-white hover:shadow-[0_0_30px_rgba(0,212,255,0.4)] transition-all duration-300 rounded-sm">
                 Request Demo
@@ -186,9 +191,11 @@ export default function TechStartupTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-24 px-6 bg-[#00D4FF] text-[#0A0A0F]">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="font-tech-title text-3xl md:text-5xl font-extrabold mb-8 uppercase tracking-tighter">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-tech-title text-3xl md:text-5xl font-extrabold mb-8 uppercase tracking-tighter">
               {content.settings_json?.about_title || content.about_title || 'Redefining the standard.'}
             </h2>
+              )}
             <p className="font-tech-body text-xl md:text-2xl font-medium leading-relaxed max-w-3xl mx-auto">
               {content.about_text || 'We are a team of engineers, designers, and innovators obsessed with pushing the boundaries of what is possible in the digital realm.'}
             </p>
@@ -251,57 +258,65 @@ export default function TechStartupTheme({ website, content }: any) {
                     <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
                        <Phone className="text-[#00D4FF]" size={18} />
                     </div>
-                    <p>{content.contact_info?.phone || '1-800-STARTUP'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p>{content.contact_info?.phone || '1-800-STARTUP'}</p>
+                                      )}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
                        <Mail className="text-[#00D4FF]" size={18} />
                     </div>
-                    <p>{content.contact_info?.email || 'hello@techstartup.io'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p>{content.contact_info?.email || 'hello@techstartup.io'}</p>
+                                      )}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
                        <MapPin className="text-[#00D4FF]" size={18} />
                     </div>
-                    <p>{content.contact_info?.address || 'Silicon Valley, CA'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p>{content.contact_info?.address || 'Silicon Valley, CA'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
 
-              <div className="w-full md:w-auto">
-                 <h3 className="font-tech-title text-sm font-bold text-[#00D4FF] uppercase tracking-widest mb-6 md:text-right">Social Network</h3>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                  <div className="flex gap-4 md:justify-end flex-wrap">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
-                        <Facebook size={20} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
-                        <Instagram size={20} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
-                        <Twitter size={20} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
-                        <Youtube size={20} />
-                      </a>
-                    )}
-                    {content.contact_info?.whatsapp && (
-                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
-                        <WhatsApp size={20} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 font-tech-body text-sm md:text-right">Social links will appear here.</p>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="w-full md:w-auto">
+                                           <h3 className="font-tech-title text-sm font-bold text-[#00D4FF] uppercase tracking-widest mb-6 md:text-right">Social Network</h3>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                            <div className="flex gap-4 md:justify-end flex-wrap">
+                                              {content.contact_info?.facebook && (
+                                                <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
+                                                  <Facebook size={20} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.instagram && (
+                                                <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
+                                                  <Instagram size={20} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.twitter && (
+                                                <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
+                                                  <Twitter size={20} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.youtube && (
+                                                <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
+                                                  <Youtube size={20} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.whatsapp && (
+                                                <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#0A0A0F] border border-white/10 rounded-md flex items-center justify-center hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all">
+                                                  <WhatsApp size={20} />
+                                                </a>
+                                              )}
+                                            </div>
+                                          ) : (
+                                            <p className="text-gray-500 font-tech-body text-sm md:text-right">Social links will appear here.</p>
+                                          )}
+                                        </div>
+                          )}
             </div>
             
             <div className="mt-16 w-full max-w-2xl mx-auto relative z-20">
@@ -315,16 +330,18 @@ export default function TechStartupTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] border border-white/10 rounded-md p-1 bg-[#0A0A0F]">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley, CA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0, borderRadius: '4px' }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Silicon Valley, CA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0, borderRadius: '4px' }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

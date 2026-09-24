@@ -14,6 +14,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Creative Studio';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Brand Identity', price: 'Custom', image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80', description: 'Crafting cohesive and impactful brand identities from scratch.' },
@@ -87,9 +88,11 @@ export default function CreativeAgencyTheme({ website, content }: any) {
             <span className="block">{content.hero_title || 'WE BUILD'}</span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0055] to-[#7000FF]">BRANDS</span>
           </h1>
-          <p className="font-creative-body text-xl md:text-2xl text-white/80 max-w-2xl mx-auto mb-12 font-medium">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-creative-body text-xl md:text-2xl text-white/80 max-w-2xl mx-auto mb-12 font-medium">
             {content.hero_text || 'A full-service creative agency combining strategy, design, and technology to craft unforgettable experiences.'}
           </p>
+              )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
              <a href="#contact" className="px-8 py-4 bg-white text-[#1A1A1A] font-creative-title font-bold uppercase tracking-wider rounded-full hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 w-full sm:w-auto">
                 Start a Project
@@ -164,9 +167,11 @@ export default function CreativeAgencyTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-32 px-6 bg-[#FDFBF7]">
           <div className="container mx-auto max-w-5xl text-center">
-            <h2 className="font-creative-title text-4xl md:text-6xl font-black tracking-tighter mb-8 text-[#1A1A1A]">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-creative-title text-4xl md:text-6xl font-black tracking-tighter mb-8 text-[#1A1A1A]">
               {content.settings_json?.about_title || content.about_title || 'WE ARE A CREATIVE COLLECTIVE'}
             </h2>
+              )}
             <p className="font-creative-body text-2xl md:text-3xl text-gray-600 leading-tight md:leading-snug font-medium">
               {content.about_text || 'Born from a desire to do things differently. We blend strategic thinking with fearless creativity to build brands that matter and experiences that resonate.'}
             </p>
@@ -224,52 +229,60 @@ export default function CreativeAgencyTheme({ website, content }: any) {
                 <div className="space-y-6 font-creative-title text-xl font-medium">
                   <div className="flex items-center gap-4">
                     <Phone className="text-[#FFB800]" size={28} />
-                    <p>{content.contact_info?.phone || '+1 (555) 987-6543'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p>{content.contact_info?.phone || '+1 (555) 987-6543'}</p>
+                                      )}
                   </div>
                   <div className="flex items-center gap-4">
                     <Mail className="text-[#FFB800]" size={28} />
-                    <p>{content.contact_info?.email || 'hello@creativestudio.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p>{content.contact_info?.email || 'hello@creativestudio.com'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <MapPin className="text-[#FFB800] mt-1 shrink-0" size={28} />
-                    <p>{content.contact_info?.address || '456 Innovation Blvd, Design District, NY'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p>{content.contact_info?.address || '456 Innovation Blvd, Design District, NY'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
-              <div className="bg-white/10 backdrop-blur-xl rounded-[3rem] p-10 md:p-14 border border-white/20">
-                <h3 className="font-creative-title text-3xl font-bold mb-8">Follow Our Journey</h3>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                  <div className="flex flex-wrap gap-6">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
-                        <Facebook size={28} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
-                        <Instagram size={28} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
-                        <Twitter size={28} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
-                        <Youtube size={28} />
-                      </a>
-                    )}
-                    {content.contact_info?.whatsapp && (
-                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
-                        <WhatsApp size={28} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-white/70 font-creative-body text-lg">Social media links will appear here once added in the editor.</p>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="bg-white/10 backdrop-blur-xl rounded-[3rem] p-10 md:p-14 border border-white/20">
+                                          <h3 className="font-creative-title text-3xl font-bold mb-8">Follow Our Journey</h3>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                            <div className="flex flex-wrap gap-6">
+                                              {content.contact_info?.facebook && (
+                                                <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
+                                                  <Facebook size={28} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.instagram && (
+                                                <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
+                                                  <Instagram size={28} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.twitter && (
+                                                <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
+                                                  <Twitter size={28} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.youtube && (
+                                                <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
+                                                  <Youtube size={28} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.whatsapp && (
+                                                <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full bg-white text-[#7000FF] flex items-center justify-center hover:bg-[#FF0055] hover:text-white transition-all hover:scale-110">
+                                                  <WhatsApp size={28} />
+                                                </a>
+                                              )}
+                                            </div>
+                                          ) : (
+                                            <p className="text-white/70 font-creative-body text-lg">Social media links will appear here once added in the editor.</p>
+                                          )}
+                                        </div>
+                          )}
             </div>
             
             <div className="mt-16 max-w-3xl mx-auto w-full z-20 relative">
@@ -283,16 +296,18 @@ export default function CreativeAgencyTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] rounded-[3rem] overflow-hidden border-2 border-white/20 relative z-20">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '77 Innovation Way, San Francisco, CA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '77 Innovation Way, San Francisco, CA')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

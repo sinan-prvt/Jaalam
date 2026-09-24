@@ -10,6 +10,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Color Pop Apparel';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Graphic Print Tee', price: '₹499', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80', tag: 'New!' },
@@ -52,12 +53,16 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
         <div className="absolute bottom-10 right-20 text-[#06D6A0] animate-bounce"><Star size={40} /></div>
         
         <div className="container mx-auto max-w-4xl relative z-10">
-          <h1 className="font-fun text-6xl md:text-8xl text-[#1D3557] mb-8 leading-tight">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-fun text-6xl md:text-8xl text-[#1D3557] mb-8 leading-tight">
             {content.hero_title || 'Dress Happy!'}
           </h1>
-          <p className="font-body font-black text-2xl text-[#E63946] mb-12 bg-white inline-block px-8 py-3 rounded-2xl border-4 border-[#1D3557] shadow-[4px_4px_0_#457B9D] transform -rotate-2">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body font-black text-2xl text-[#E63946] mb-12 bg-white inline-block px-8 py-3 rounded-2xl border-4 border-[#1D3557] shadow-[4px_4px_0_#457B9D] transform -rotate-2">
             {content.hero_text || 'Fun, colorful, and super comfy clothes for kids and adults who are young at heart.'}
           </p>
+              )}
           <div className="flex justify-center">
             <a href="#shop" className="bg-[#06D6A0] hover:bg-[#05b586] text-white font-fun text-3xl py-5 px-12 rounded-full border-4 border-[#1D3557] shadow-[8px_8px_0_#1D3557] active:translate-y-2 active:shadow-none transition-all flex items-center gap-4">
               <ShoppingBag size={32} /> Let's Go!
@@ -108,7 +113,9 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -187,15 +194,21 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
           <div className="grid md:grid-cols-3 gap-6 font-fun text-xl">
             <div className="bg-white/10 p-6 rounded-3xl border-2 border-[#457B9D] flex flex-col items-center gap-3 hover:bg-[#E63946] transition-colors">
                <Phone size={32} />
-               <span>{content.contact_info?.phone || '98765 43210'}</span>
+               {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '98765 43210'}</span>
+                          )}
             </div>
             <div className="bg-white/10 p-6 rounded-3xl border-2 border-[#457B9D] flex flex-col items-center gap-3 hover:bg-[#06D6A0] transition-colors">
                <MapPin size={32} />
-               <span>{content.contact_info?.address || 'Fashion Hub, Kerala'}</span>
+               {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || 'Fashion Hub, Kerala'}</span>
+                          )}
             </div>
             <div className="bg-white/10 p-6 rounded-3xl border-2 border-[#457B9D] flex flex-col items-center gap-3 hover:bg-[#FFD166] transition-colors text-white hover:text-[#1D3557]">
                <Mail size={32} />
-               <span>{content.contact_info?.email || 'hello@colorpop.com'}</span>
+               {!hiddenFields.includes('contact_email') && (
+                          <span>{content.contact_info?.email || 'hello@colorpop.com'}</span>
+                          )}
             </div>
           </div>
         </div>

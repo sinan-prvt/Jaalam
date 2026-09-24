@@ -9,6 +9,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'The Old Typewriter';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Antique Brass Compass', price: '₹1450', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80', description: 'Working brass compass in a leather pouch.' },
@@ -56,9 +57,11 @@ export default function VintageStationeryTheme({ website, content }: any) {
           <h2 className="font-vintage text-4xl mb-6 italic text-[#5C4A3D]">
             {content.hero_title || 'Relive the Golden Age of Correspondence'}
           </h2>
-          <p className="font-typewriter text-sm leading-relaxed mb-8 text-[#5C4A3D] border-l-2 border-[#8B7355] pl-4">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-typewriter text-sm leading-relaxed mb-8 text-[#5C4A3D] border-l-2 border-[#8B7355] pl-4">
             {content.hero_text || content.about_text || 'We source the finest antiquarian writing instruments, handcrafted papers, and authentic inks to bring the past back to life upon your desk.'}
           </p>
+              )}
           <a href="#catalogue" className="inline-block border border-[#8B7355] text-[#3E362E] px-6 py-3 font-typewriter uppercase text-sm hover:bg-[#8B7355] hover:text-white transition-colors">
             [ View Catalogue ]
           </a>
@@ -158,15 +161,21 @@ export default function VintageStationeryTheme({ website, content }: any) {
         <h3 className="font-vintage text-4xl text-center mb-12 uppercase tracking-widest text-[#5C4A3D]">Post & Telegraph</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-[#F7F4F0] p-8 border border-[#8B7355]">
           <div className="space-y-6 font-typewriter text-sm text-[#5C4A3D]">
-            <div className="border-b border-[#8B7355] border-dashed pb-4">
-              <span className="font-bold">TELEPHONE:</span> {content.contact_info?.phone || '+91 98765 43210'}
-            </div>
-            <div className="border-b border-[#8B7355] border-dashed pb-4">
-              <span className="font-bold">TELEGRAM:</span> {content.contact_info?.email || 'hello@stationery.com'}
-            </div>
-            <div className="border-b border-[#8B7355] border-dashed pb-4">
-              <span className="font-bold">ADDRESS:</span> {content.contact_info?.address || '123 Paper Street, Design District'}
-            </div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="border-b border-[#8B7355] border-dashed pb-4">
+                                    <span className="font-bold">TELEPHONE:</span> {content.contact_info?.phone || '+91 98765 43210'}
+                                  </div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="border-b border-[#8B7355] border-dashed pb-4">
+                                    <span className="font-bold">TELEGRAM:</span> {content.contact_info?.email || 'hello@stationery.com'}
+                                  </div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="border-b border-[#8B7355] border-dashed pb-4">
+                                    <span className="font-bold">ADDRESS:</span> {content.contact_info?.address || '123 Paper Street, Design District'}
+                                  </div>
+                      )}
             
             <div className="pt-4">
               <span className="font-bold block mb-4">SOCIAL CORRESPONDENCE:</span>
@@ -224,13 +233,19 @@ export default function VintageStationeryTheme({ website, content }: any) {
             <p className="text-gray-600 mb-8 max-w-lg mx-auto">Have questions or want to reach out? Contact our support team.</p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
+                              )}
               </div>
             </div>
             
@@ -260,8 +275,12 @@ export default function VintageStationeryTheme({ website, content }: any) {
           <PenTool size={24} className="mx-auto mb-6 text-[#8B7355]" />
           <p className="mb-8 max-w-lg mx-auto">{content.about_text || "Purveyors of fine antiquarian writing instruments and ephemera."}</p>
           <div className="flex flex-col md:flex-row justify-center gap-8 mb-8">
-            <span>TELEGRAPH: {content.contact_info?.phone || '00-192-837'}</span>
-            <span>POST: {content.contact_info?.address || '14 Heritage Lane, Kerala'}</span>
+            {!hiddenFields.includes('contact_phone') && (
+                      <span>TELEGRAPH: {content.contact_info?.phone || '00-192-837'}</span>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <span>POST: {content.contact_info?.address || '14 Heritage Lane, Kerala'}</span>
+                      )}
           </div>
           <p className="opacity-50">© {new Date().getFullYear()} {siteName}</p>
         </div>

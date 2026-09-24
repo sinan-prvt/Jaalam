@@ -3,6 +3,7 @@ import { Calendar, MapPin, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 
 export default function SouthIndianLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);

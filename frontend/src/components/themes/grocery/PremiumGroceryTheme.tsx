@@ -12,6 +12,7 @@ export default function PremiumGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Luxe Gourmet';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Truffle Infused Olive Oil', price: '₹2,400', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80', origin: 'Italy' },
@@ -72,12 +73,16 @@ export default function PremiumGroceryTheme({ website, content }: any) {
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center">
           <p className="font-body text-[#C9A66B] tracking-[0.3em] text-[10px] sm:text-xs uppercase mb-6">Fine Foods & Groceries</p>
-          <h1 className="font-premium text-4xl sm:text-5xl md:text-7xl font-bold mb-8 text-white tracking-wide leading-tight max-w-4xl mx-auto px-2 break-words">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-premium text-4xl sm:text-5xl md:text-7xl font-bold mb-8 text-white tracking-wide leading-tight max-w-4xl mx-auto px-2 break-words">
             {content.hero_title || 'An Epicurean Journey Awaits.'}
           </h1>
-          <p className="font-premium italic text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-premium italic text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
             {content.hero_text || 'Discover a meticulously curated selection of gourmet ingredients, imported delicacies, and organic local produce.'}
           </p>
+              )}
           <button
             onClick={() => (document.getElementById('curated') || document.getElementById('menu') || document.getElementById('products'))?.scrollIntoView({ behavior: 'smooth' })}
             className="border border-[#C9A66B] text-[#C9A66B] hover:bg-[#C9A66B] hover:text-[#111111] px-10 py-4 font-body text-xs uppercase tracking-widest transition-all duration-300">
@@ -127,7 +132,9 @@ export default function PremiumGroceryTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -213,21 +220,27 @@ export default function PremiumGroceryTheme({ website, content }: any) {
                   <div className="w-12 h-12 rounded-full border border-[#C9A66B]/30 flex items-center justify-center text-[#C9A66B] shrink-0">📞</div>
                   <div>
                     <span className="font-body text-[10px] text-gray-500 uppercase tracking-widest block mb-1">Concierge</span>
-                    <span className="font-premium text-white text-xl">{content.contact_info?.phone || '1800 123 4567'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <span className="font-premium text-white text-xl">{content.contact_info?.phone || '1800 123 4567'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full border border-[#C9A66B]/30 flex items-center justify-center text-[#C9A66B] shrink-0">✉️</div>
                   <div>
                     <span className="font-body text-[10px] text-gray-500 uppercase tracking-widest block mb-1">Inquiries</span>
-                    <span className="font-premium text-white text-xl break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <span className="font-premium text-white text-xl break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full border border-[#C9A66B]/30 flex items-center justify-center text-[#C9A66B] shrink-0">📍</div>
                   <div>
                     <span className="font-body text-[10px] text-gray-500 uppercase tracking-widest block mb-1">Boutique</span>
-                    <span className="font-premium text-white text-xl">{content.contact_info?.address || '123 Main Street'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <span className="font-premium text-white text-xl">{content.contact_info?.address || '123 Main Street'}</span>
+                                      )}
                   </div>
                 </div>
 
@@ -235,11 +248,13 @@ export default function PremiumGroceryTheme({ website, content }: any) {
                 {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
                   <div className="pt-8 border-t border-[#C9A66B]/20">
                     <span className="font-body text-[10px] text-gray-500 uppercase tracking-widest block mb-4">Connect</span>
-                    <div className="flex gap-4">
-                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">FB</a>}
-                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">IG</a>}
-                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">TW</a>}
-                    </div>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">FB</a>}
+                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">IG</a>}
+                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#C9A66B]/30 rounded-full flex items-center justify-center hover:bg-[#C9A66B] hover:text-[#111111] transition-all text-[#C9A66B] font-body text-xs">TW</a>}
+                                                          </div>
+                                      )}
                   </div>
                 )}
               </div>
@@ -247,17 +262,19 @@ export default function PremiumGroceryTheme({ website, content }: any) {
               <div className="flex-1 flex flex-col gap-8">
                 <div>
                   <h3 className="font-premium text-2xl mb-4 text-white">Opening Hours</h3>
-                  <ul className="space-y-4 font-body text-gray-400">
-                    {content.contact_info?.hours ? (
-                      <li className="whitespace-pre-wrap text-white">{content.contact_info.hours}</li>
-                    ) : (
-                      <>
-                        <li className="flex justify-between border-b border-[#C9A66B]/10 pb-2"><span>Monday - Friday</span> <span className="text-white">9:00 AM - 9:00 PM</span></li>
-                        <li className="flex justify-between border-b border-[#C9A66B]/10 pb-2"><span>Saturday</span> <span className="text-white">10:00 AM - 8:00 PM</span></li>
-                        <li className="flex justify-between"><span>Sunday</span> <span className="text-[#C9A66B]">Closed</span></li>
-                      </>
-                    )}
-                  </ul>
+                  {!hiddenFields.includes('contact_hours') && (
+                                  <ul className="space-y-4 font-body text-gray-400">
+                                                      {content.contact_info?.hours ? (
+                                                        <li className="whitespace-pre-wrap text-white">{content.contact_info.hours}</li>
+                                                      ) : (
+                                                        <>
+                                                          <li className="flex justify-between border-b border-[#C9A66B]/10 pb-2"><span>Monday - Friday</span> <span className="text-white">9:00 AM - 9:00 PM</span></li>
+                                                          <li className="flex justify-between border-b border-[#C9A66B]/10 pb-2"><span>Saturday</span> <span className="text-white">10:00 AM - 8:00 PM</span></li>
+                                                          <li className="flex justify-between"><span>Sunday</span> <span className="text-[#C9A66B]">Closed</span></li>
+                                                        </>
+                                                      )}
+                                                    </ul>
+                                  )}
                 </div>
 
                 <div className="bg-[#0A0A0A] p-6 md:p-8 border border-[#C9A66B]/20 rounded-none">
@@ -276,16 +293,18 @@ export default function PremiumGroceryTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-4xl mt-12">
             <div className="w-full h-80 rounded-none overflow-hidden border border-[#C9A66B]/20 relative">
-              <iframe
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                title="Store Location"
-                className="absolute inset-0 grayscale contrast-125 opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Main Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          title="Store Location"
+                                          className="absolute inset-0 grayscale contrast-125 opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -303,15 +322,21 @@ export default function PremiumGroceryTheme({ website, content }: any) {
           <div className="grid md:grid-cols-3 gap-8 font-body text-xs tracking-widest text-gray-400 border-t border-[#1A1A1A] pt-12">
             <div className="flex flex-col items-center gap-3">
               <span className="text-[#C9A66B] uppercase">Boutique</span>
-              <span>{content.contact_info?.address || '1 Heritage Square, Kerala'}</span>
+              {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || '1 Heritage Square, Kerala'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3">
               <span className="text-[#C9A66B] uppercase">Concierge</span>
-              <span>{content.contact_info?.phone || '+91 98765 43210'}</span>
+              {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '+91 98765 43210'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3">
               <span className="text-[#C9A66B] uppercase">Inquiries</span>
-              <span>{content.contact_info?.email || 'concierge@luxegourmet.in'}</span>
+              {!hiddenFields.includes('contact_email') && (
+                          <span>{content.contact_info?.email || 'concierge@luxegourmet.in'}</span>
+                          )}
             </div>
           </div>
         </div>

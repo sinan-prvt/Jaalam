@@ -14,6 +14,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Kanjivaram Silks';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Bridal Kanjivaram Silk', price: '₹45,000', image: 'https://images.unsplash.com/photo-1610030469983-98e550d615ef?auto=format&fit=crop&w=600&q=80', description: 'Pure silk with pure zari work.' },
@@ -70,9 +71,11 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
               {content.hero_title || 'Six Yards of Pure Elegance.'}
             </h2>
             <div className="w-16 h-1 bg-[#D4AF37] mx-auto md:mx-0 mb-8"></div>
-            <p className="font-elegant text-xl italic text-[#6B5A4E] mb-10 leading-relaxed">
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-elegant text-xl italic text-[#6B5A4E] mb-10 leading-relaxed">
               {content.hero_text || 'Exquisite handwoven silk sarees directly from the master weavers of Kanchipuram and Banaras.'}
             </p>
+              )}
             <button className="bg-[#8C3A3A] hover:bg-[#7A3333] text-white font-body text-xs tracking-[0.2em] uppercase py-4 px-10 transition-colors">
               Explore Silks
             </button>
@@ -121,7 +124,9 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -198,13 +203,19 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
             <p className="text-gray-600 mb-8 max-w-lg mx-auto">Have questions or want to reach out? Contact our support team.</p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
+                              )}
               </div>
             </div>
             
@@ -243,15 +254,21 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
           <div className="grid md:grid-cols-3 gap-10 font-body text-[10px] tracking-[0.2em] uppercase border-t border-[#6B5A4E] pt-12">
              <div className="flex flex-col items-center gap-3">
                <Phone className="text-[#D4AF37]" size={16} />
-               <span>{content.contact_info?.phone || '98765 43210'}</span>
+               {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '98765 43210'}</span>
+                          )}
              </div>
              <div className="flex flex-col items-center gap-3">
                <MapPin className="text-[#D4AF37]" size={16} />
-               <span>{content.contact_info?.address || 'Silk Street, Kerala'}</span>
+               {!hiddenFields.includes('contact_address') && (
+                          <span>{content.contact_info?.address || 'Silk Street, Kerala'}</span>
+                          )}
              </div>
              <div className="flex flex-col items-center gap-3">
                <Mail className="text-[#D4AF37]" size={16} />
-               <span>{content.contact_info?.email || 'boutique@silks.com'}</span>
+               {!hiddenFields.includes('contact_email') && (
+                          <span>{content.contact_info?.email || 'boutique@silks.com'}</span>
+                          )}
              </div>
           </div>
         </div>

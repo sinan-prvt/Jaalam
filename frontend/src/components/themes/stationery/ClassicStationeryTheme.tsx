@@ -12,6 +12,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'The Classic Quill';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Leather Bound Journal', price: '₹850', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80', description: 'Handcrafted leather journal with thick, acid-free pages.' },
@@ -97,9 +98,11 @@ export default function ClassicStationeryTheme({ website, content }: any) {
           {!hiddenSections.includes('hero') && (
               <section key="hero" id="hero" className="py-24 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
-                  <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#2C241E] leading-tight">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#2C241E] leading-tight">
                     {content.hero_title || 'The Art of Fine Writing'}
                   </h1>
+              )}
                   <p className="font-body text-lg text-[#6A5A4A] mb-12 max-w-2xl mx-auto italic">
                     {content.about_text || 'Discover our curated collection of premium fountain pens, handcrafted leather journals, and timeless stationery accessories.'}
                   </p>
@@ -112,10 +115,14 @@ export default function ClassicStationeryTheme({ website, content }: any) {
           {!hiddenSections.includes('about') && (
               <section key="about" id="about" className="py-20 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
-                  <h2 className="text-3xl md:text-5xl font-bold mb-6 font-classic">{content.settings_json?.about_title || 'Our Heritage'}</h2>
-                  <p className="text-lg opacity-80 leading-relaxed font-body">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 font-classic">{content.settings_json?.about_title || 'Our Heritage'}</h2>
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="text-lg opacity-80 leading-relaxed font-body">
                     {content.settings_json?.about_description || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
                   </p>
+              )}
                 </div>
               </section>
           )}
@@ -228,33 +235,47 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                       <h3 className="text-2xl font-bold mb-4 font-classic">Get in Touch</h3>
                       <div className="flex items-center gap-4 text-lg font-body">
                         <span className="opacity-50"><Phone size={20} /></span> 
-                        <span className="font-semibold">{content.contact_info?.phone || '+91 98765 43210'}</span>
+                        {!hiddenFields.includes('contact_phone') && (
+                                          <span className="font-semibold">{content.contact_info?.phone || '+91 98765 43210'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg font-body">
                         <span className="opacity-50"><Mail size={20} /></span> 
-                        <span className="font-semibold">{content.contact_info?.email || 'heritage@classicquill.com'}</span>
+                        {!hiddenFields.includes('contact_email') && (
+                                          <span className="font-semibold">{content.contact_info?.email || 'heritage@classicquill.com'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg font-body">
                         <span className="opacity-50"><MapPin size={20} /></span> 
-                        <span className="font-semibold">{content.contact_info?.address || 'Heritage Line, Fort Kochi, Kerala'}</span>
+                        {!hiddenFields.includes('contact_address') && (
+                                          <span className="font-semibold">{content.contact_info?.address || 'Heritage Line, Fort Kochi, Kerala'}</span>
+                                          )}
                       </div>
                       <div className="flex items-center gap-4 text-lg font-body">
                         <span className="opacity-50">⏱️</span> 
-                        <span className="font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 08:00 PM'}</span>
+                        {!hiddenFields.includes('contact_hours') && (
+                                          <span className="font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 10:00 AM - 08:00 PM'}</span>
+                                          )}
                       </div>
                       
                       <div className="pt-8 border-t border-current border-opacity-10">
                         <h3 className="text-xl font-bold mb-6 font-classic">Follow Our Legacy</h3>
                         <div className="flex gap-6 text-xl">
-                          <a href={content.contact_info?.whatsapp || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                          </a>
-                          <a href={content.contact_info?.facebook || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                          </a>
-                          <a href={content.contact_info?.instagram || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_whatsapp') && (
+                                              <a href={content.contact_info?.whatsapp || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
+                                                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                                                        </a>
+                                              )}
+                          {!hiddenFields.includes('contact_facebook') && (
+                                              <a href={content.contact_info?.facebook || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
+                                                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                        </a>
+                                              )}
+                          {!hiddenFields.includes('contact_instagram') && (
+                                              <a href={content.contact_info?.instagram || "#"} className="text-[#8C6D53] hover:text-[#4A3B32] hover:-translate-y-1 transition-all">
+                                                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                                                        </a>
+                                              )}
                         </div>
                       </div>
                     </div>
@@ -269,12 +290,14 @@ export default function ClassicStationeryTheme({ website, content }: any) {
             />
           </div>
           <div className="h-80 md:h-[450px] w-full border-8 border-white shadow-xl relative">
-            <iframe 
-              src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
-              className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
-              allowFullScreen={false} 
-              loading="lazy"
-            />
+            {!hiddenFields.includes('contact_address') && (
+                                          <iframe 
+                                                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Kottakkal')}&output=embed`}
+                                                        className="absolute inset-0 w-full h-full border-0 filter grayscale-[0.8] contrast-[1.2] hover:grayscale-0 transition-all duration-700" 
+                                                        allowFullScreen={false} 
+                                                        loading="lazy"
+                                                      />
+                                          )}
           </div>
         </div>
                   </div>
@@ -383,9 +406,15 @@ export default function ClassicStationeryTheme({ website, content }: any) {
             {content.about_text || "Preserving the tradition of thoughtful correspondence and elegant desk accessories since 1994."}
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8 font-classic text-sm tracking-widest uppercase border-t border-[#4A3B32] pt-8">
-            <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><Phone size={14} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-            <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><Mail size={14} /> {content.contact_info?.email || 'heritage@classicquill.com'}</div>
-            <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><MapPin size={14} /> {content.contact_info?.address || 'Heritage Line, Fort Kochi, Kerala'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><Phone size={14} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><Mail size={14} /> {content.contact_info?.email || 'heritage@classicquill.com'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex items-center gap-2 text-[#8C6D53] hover:text-[#D8CBB6] transition-colors"><MapPin size={14} /> {content.contact_info?.address || 'Heritage Line, Fort Kochi, Kerala'}</div>
+                      )}
           </div>
           <div className="mt-12 font-classic text-xs text-[#6A5A4A] tracking-widest uppercase">
             &copy; {new Date().getFullYear()} {siteName}. All Rights Reserved.

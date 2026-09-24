@@ -12,6 +12,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'essential.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Oat Milk', price: '₹250', size: '1L', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80' },
@@ -65,12 +66,16 @@ export default function MinimalGroceryTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="pt-32 md:pt-48 pb-24 md:pb-32 px-6 md:px-12 max-w-5xl mx-auto">
-        <h1 className="font-min text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight break-words hyphens-auto">
+        {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-min text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight break-words hyphens-auto">
           {content.hero_title || 'just the good stuff.'}
         </h1>
-        <p className="font-min text-xl text-gray-500 max-w-xl leading-relaxed mb-12">
+              )}
+        {!hiddenFields.includes("hero_description") && (
+              <p className="font-min text-xl text-gray-500 max-w-xl leading-relaxed mb-12">
           {content.hero_text || 'curated daily essentials. no clutter, no overwhelming choices. just quality products.'}
         </p>
+              )}
       </section>
 
       {/* Products */}
@@ -104,7 +109,9 @@ export default function MinimalGroceryTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -170,15 +177,21 @@ export default function MinimalGroceryTheme({ website, content }: any) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-12">
               <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
                 <span className="text-3xl mb-3">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
                 <span className="text-3xl mb-3">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-6 bg-black/5 rounded-xl">
                 <span className="text-3xl mb-3">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
 
@@ -186,17 +199,19 @@ export default function MinimalGroceryTheme({ website, content }: any) {
               <div className="space-y-8">
                 <div className="bg-black/5 p-6 rounded-xl">
                   <h3 className="font-bold text-xl mb-4 text-black flex items-center gap-2"><span>🕒</span> Working Hours</h3>
-                  <ul className="space-y-3 opacity-80 text-black font-medium">
-                    {content.contact_info?.hours ? (
-                      <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
-                    ) : (
-                      <>
-                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Monday - Friday</span> <span>9:00 AM - 8:00 PM</span></li>
-                        <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
-                        <li className="flex justify-between"><span>Sunday</span> <span className="text-red-500 font-bold">Closed</span></li>
-                      </>
-                    )}
-                  </ul>
+                  {!hiddenFields.includes('contact_hours') && (
+                                  <ul className="space-y-3 opacity-80 text-black font-medium">
+                                                      {content.contact_info?.hours ? (
+                                                        <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
+                                                      ) : (
+                                                        <>
+                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Monday - Friday</span> <span>9:00 AM - 8:00 PM</span></li>
+                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
+                                                          <li className="flex justify-between"><span>Sunday</span> <span className="text-red-500 font-bold">Closed</span></li>
+                                                        </>
+                                                      )}
+                                                    </ul>
+                                  )}
                 </div>
                 
                 <div className="bg-black/5 p-6 rounded-xl">
@@ -229,17 +244,19 @@ export default function MinimalGroceryTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-5xl mt-12">
             <div className="w-full h-80 rounded-2xl overflow-hidden border border-gray-200 shadow-sm relative">
-              <iframe 
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={false} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Store Location"
-                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe 
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%" 
+                                          height="100%" 
+                                          style={{ border: 0 }} 
+                                          allowFullScreen={false} 
+                                          loading="lazy" 
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                          title="Store Location"
+                                          className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -273,15 +290,21 @@ export default function MinimalGroceryTheme({ website, content }: any) {
             <div>
                <div className="font-medium mb-4">contact</div>
                <div className="text-gray-500 space-y-2">
-                 <div>{content.contact_info?.email || 'hello@essential.com'}</div>
-                 <div>{content.contact_info?.phone || '98765 43210'}</div>
+                 {!hiddenFields.includes('contact_email') && (
+                              <div>{content.contact_info?.email || 'hello@essential.com'}</div>
+                              )}
+                 {!hiddenFields.includes('contact_phone') && (
+                              <div>{content.contact_info?.phone || '98765 43210'}</div>
+                              )}
                </div>
             </div>
             <div>
                <div className="font-medium mb-4">visit</div>
-               <div className="text-gray-500">
-                 {content.contact_info?.address || 'studio 4, quiet lane, kerala'}
-               </div>
+               {!hiddenFields.includes('contact_address') && (
+                          <div className="text-gray-500">
+                                           {content.contact_info?.address || 'studio 4, quiet lane, kerala'}
+                                         </div>
+                          )}
             </div>
           </div>
         </div>

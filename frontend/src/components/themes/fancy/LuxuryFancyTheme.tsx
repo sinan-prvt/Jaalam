@@ -10,6 +10,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'L\'OR';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Diamond Tennis Bracelet', price: '₹45,000', image: 'https://images.unsplash.com/photo-1599643478514-4a4208bd50d6?auto=format&fit=crop&w=600&q=80', description: 'Cubic zirconia tennis bracelet.' },
@@ -55,9 +56,11 @@ export default function LuxuryFancyTheme({ website, content }: any) {
         
         <div className="container mx-auto px-6 relative z-10 text-center">
           <p className="font-body text-xs tracking-[0.4em] text-gray-400 mb-6 uppercase">The Art of Adornment</p>
-          <h1 className="font-luxury text-6xl md:text-8xl font-bold mb-8 text-white drop-shadow-2xl">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-luxury text-6xl md:text-8xl font-bold mb-8 text-white drop-shadow-2xl">
             {content.hero_title || 'Pure Opulence.'}
           </h1>
+              )}
           <a href="#exclusive" className="inline-flex items-center gap-4 border border-[#E5C158] text-[#E5C158] hover:bg-[#E5C158] hover:text-black px-12 py-5 font-body uppercase tracking-[0.2em] text-[10px] transition-all duration-500">
             View Collection <ChevronRight size={14} />
           </a>
@@ -155,15 +158,21 @@ export default function LuxuryFancyTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -215,15 +224,21 @@ export default function LuxuryFancyTheme({ website, content }: any) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 font-body text-[10px] tracking-widest text-gray-500">
             <div className="flex flex-col items-center gap-3 hover:text-[#E5C158] transition-colors cursor-pointer">
               <Phone size={16} />
-              <span>{content.contact_info?.phone || 'VIP: +91 98765 43210'}</span>
+              {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || 'VIP: +91 98765 43210'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3 hover:text-[#E5C158] transition-colors cursor-pointer">
               <Mail size={16} />
-              <span>{content.contact_info?.email || 'concierge@lor.in'}</span>
+              {!hiddenFields.includes('contact_email') && (
+                          <span>{content.contact_info?.email || 'concierge@lor.in'}</span>
+                          )}
             </div>
             <div className="flex flex-col items-center gap-3 hover:text-[#E5C158] transition-colors cursor-pointer">
               <MapPin size={16} />
-              <span className="text-center">{content.contact_info?.address || 'The Luxury Mall, Kerala'}</span>
+              {!hiddenFields.includes('contact_address') && (
+                          <span className="text-center">{content.contact_info?.address || 'The Luxury Mall, Kerala'}</span>
+                          )}
             </div>
           </div>
         </div>

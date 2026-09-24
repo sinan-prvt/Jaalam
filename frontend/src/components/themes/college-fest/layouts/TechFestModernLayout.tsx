@@ -34,6 +34,7 @@ interface TechFestModernLayoutProps {
 }
 
 export default function TechFestModernLayout({ content, website, updateContent, isEditor, colors }: TechFestModernLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [likeCount, setLikeCount] = useState(2453);

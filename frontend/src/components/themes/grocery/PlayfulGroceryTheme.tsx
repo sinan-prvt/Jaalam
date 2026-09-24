@@ -12,6 +12,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Super Yummy Mart!';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Rainbow Cereal', price: '₹250', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80', tag: 'Kids Favorite!' },
@@ -70,12 +71,16 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
         <div className="absolute top-20 right-20 text-[#FFB300] animate-bounce" style={{ animationDelay: '0.5s' }}><Star size={60} /></div>
 
         <div className="container mx-auto max-w-3xl relative z-10">
-          <h1 className="font-fun text-5xl md:text-7xl text-[#00ACC1] mb-6 drop-shadow-sm leading-tight">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-fun text-5xl md:text-7xl text-[#00ACC1] mb-6 drop-shadow-sm leading-tight">
             {content.hero_title || 'Grocery shopping made super fun!'}
           </h1>
-          <p className="font-body font-bold text-2xl text-[#FF4081] mb-10 bg-white inline-block px-6 py-2 rounded-2xl border-4 border-[#FFB300] transform rotate-1">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body font-bold text-2xl text-[#FF4081] mb-10 bg-white inline-block px-6 py-2 rounded-2xl border-4 border-[#FFB300] transform rotate-1">
             {content.hero_text || 'Everything your family needs, delivered with a big smile! 😊'}
           </p>
+              )}
           <div className="flex justify-center">
             <a href="#aisles" className="bg-[#FF4081] hover:bg-[#F50057] text-white font-fun text-3xl py-4 px-10 rounded-full border-4 border-[#00ACC1] shadow-[6px_6px_0_#00ACC1] active:translate-y-2 active:shadow-none transition-all flex items-center gap-3 inline-block">
               <ShoppingCart size={28} /> Start Shopping!
@@ -128,7 +133,9 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -198,21 +205,27 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                   <span className="text-3xl">📞</span>
                   <div>
                     <span className="font-fun text-sm text-[#FF4081] block mb-1">Phone</span>
-                    <span className="font-fun text-[#006064] text-xl">{content.contact_info?.phone || '1800 123 4567'}</span>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <span className="font-fun text-[#006064] text-xl">{content.contact_info?.phone || '1800 123 4567'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="bg-white rounded-3xl p-6 border-4 border-[#00ACC1] shadow-[4px_4px_0_#FF4081] flex items-center gap-4 transform -rotate-1">
                   <span className="text-3xl">✉️</span>
                   <div>
                     <span className="font-fun text-sm text-[#00ACC1] block mb-1">Email</span>
-                    <span className="font-fun text-[#006064] text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <span className="font-fun text-[#006064] text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                                      )}
                   </div>
                 </div>
                 <div className="bg-white rounded-3xl p-6 border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1] flex items-center gap-4 transform rotate-1">
                   <span className="text-3xl">📍</span>
                   <div>
                     <span className="font-fun text-sm text-[#FFB300] block mb-1">Location</span>
-                    <span className="font-fun text-[#006064] text-lg">{content.contact_info?.address || '123 Market Street'}</span>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <span className="font-fun text-[#006064] text-lg">{content.contact_info?.address || '123 Market Street'}</span>
+                                      )}
                   </div>
                 </div>
 
@@ -220,11 +233,13 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                 {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
                   <div className="bg-white rounded-3xl p-6 border-4 border-[#00ACC1] text-center transform -rotate-1">
                     <span className="font-fun text-sm text-[#00ACC1] block mb-4">Let's be Friends!</span>
-                    <div className="flex justify-center gap-4">
-                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FF4081] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FFB300] font-fun text-sm">FB</a>}
-                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#00ACC1] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FF4081] font-fun text-sm">IG</a>}
-                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFB300] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#00ACC1] font-fun text-sm">TW</a>}
-                    </div>
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <div className="flex justify-center gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FF4081] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FFB300] font-fun text-sm">FB</a>}
+                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#00ACC1] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FF4081] font-fun text-sm">IG</a>}
+                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFB300] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#00ACC1] font-fun text-sm">TW</a>}
+                                                          </div>
+                                      )}
                   </div>
                 )}
               </div>
@@ -232,17 +247,19 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="bg-white rounded-3xl p-6 border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1]">
                   <h3 className="font-fun text-2xl mb-4 text-[#FF4081] flex items-center gap-2"><span>🕒</span> Opening Hours</h3>
-                  <ul className="space-y-3 font-body font-bold text-[#006064]">
-                    {content.contact_info?.hours ? (
-                      <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
-                    ) : (
-                      <>
-                        <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
-                        <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
-                        <li className="flex justify-between"><span>Sunday</span> <span className="text-[#FF4081]">Closed</span></li>
-                      </>
-                    )}
-                  </ul>
+                  {!hiddenFields.includes('contact_hours') && (
+                                  <ul className="space-y-3 font-body font-bold text-[#006064]">
+                                                      {content.contact_info?.hours ? (
+                                                        <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
+                                                      ) : (
+                                                        <>
+                                                          <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
+                                                          <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
+                                                          <li className="flex justify-between"><span>Sunday</span> <span className="text-[#FF4081]">Closed</span></li>
+                                                        </>
+                                                      )}
+                                                    </ul>
+                                  )}
                 </div>
 
                 <div className="bg-white p-6 md:p-8 rounded-3xl border-4 border-[#FF4081] shadow-[4px_4px_0_#FFB300]">
@@ -260,16 +277,18 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-4xl mt-12">
             <div className="w-full h-80 rounded-3xl overflow-hidden border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1] bg-white p-2 relative">
-              <iframe
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0, borderRadius: '1rem' }}
-                allowFullScreen={false}
-                loading="lazy"
-                title="Store Location"
-                className="absolute inset-0 w-full h-full"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0, borderRadius: '1rem' }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          title="Store Location"
+                                          className="absolute inset-0 w-full h-full"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>
@@ -299,12 +318,16 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
           </p>
 
           <div className="flex flex-col md:flex-row justify-center gap-6 font-fun text-xl">
-            <div className="bg-white text-[#00ACC1] p-4 rounded-2xl border-4 border-[#FF4081] flex items-center gap-2 shadow-[4px_4px_0_#FFB300]">
-              <Phone size={24} /> {content.contact_info?.phone || '98765 43210'}
-            </div>
-            <div className="bg-white text-[#00ACC1] p-4 rounded-2xl border-4 border-[#FF4081] flex items-center gap-2 shadow-[4px_4px_0_#FFB300]">
-              <MapPin size={24} /> {content.contact_info?.address || 'Happy Lane, Kerala'}
-            </div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="bg-white text-[#00ACC1] p-4 rounded-2xl border-4 border-[#FF4081] flex items-center gap-2 shadow-[4px_4px_0_#FFB300]">
+                                    <Phone size={24} /> {content.contact_info?.phone || '98765 43210'}
+                                  </div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="bg-white text-[#00ACC1] p-4 rounded-2xl border-4 border-[#FF4081] flex items-center gap-2 shadow-[4px_4px_0_#FFB300]">
+                                    <MapPin size={24} /> {content.contact_info?.address || 'Happy Lane, Kerala'}
+                                  </div>
+                      )}
           </div>
         </div>
       </footer>

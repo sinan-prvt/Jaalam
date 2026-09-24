@@ -34,6 +34,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
   const [activeTab, setActiveTab] = useState(0);
 
   const siteName = content.settings_json?.website_name || website.slug || 'Studio';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || 'New York, USA';
 
   /* ─── Palette ─── */
@@ -339,9 +340,11 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                           <div className="w-8 h-px" style={{ background: TEAL }} />
                           <span className="text-xs ms-font-sub font-bold uppercase tracking-widest" style={{ color: TEAL }}>About Us</span>
                         </div>
-                        <h2 className="ms-font-display text-5xl sm:text-7xl text-white mb-12 leading-none">
+                        {!hiddenFields.includes("about_title") && (
+              <h2 className="ms-font-display text-5xl sm:text-7xl text-white mb-12 leading-none">
                           {content.settings_json?.about_title || 'OUR STORY'}
                         </h2>
+              )}
                       </SlideIn>
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -589,60 +592,66 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                       {/* Left: info */}
                       <SlideIn delay={50} dir="left">
-                        <div className="space-y-5">
-                          {[
-                            { Icon: MapPin, label: 'Location', value: content.contact_info?.address || 'New York, USA' },
-                            { Icon: Phone, label: 'Phone', value: content.contact_info?.phone || '+1 234 567 8900' },
-                            { Icon: Mail, label: 'Email', value: content.contact_info?.email || 'hello@studio.com' },
-                          ].map(({ Icon, label, value }) => (
-                            <div key={label} className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
-                                <Icon size={20} style={{ color: TEAL }} />
-                              </div>
-                              <div>
-                                <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">{label}</p>
-                                <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{value}</p>
-                              </div>
-                            </div>
-                          ))}
+                        {!hiddenFields.includes('contact_phone') && (
+                                  <div className="space-y-5">
+                                                            {[
+                                                              { Icon: MapPin, label: 'Location', value: content.contact_info?.address || 'New York, USA' },
+                                                              { Icon: Phone, label: 'Phone', value: content.contact_info?.phone || '+1 234 567 8900' },
+                                                              { Icon: Mail, label: 'Email', value: content.contact_info?.email || 'hello@studio.com' },
+                                                            ].map(({ Icon, label, value }) => (
+                                                              <div key={label} className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
+                                                                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
+                                                                  <Icon size={20} style={{ color: TEAL }} />
+                                                                </div>
+                                                                <div>
+                                                                  <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">{label}</p>
+                                                                  <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{value}</p>
+                                                                </div>
+                                                              </div>
+                                                            ))}
 
-                          {/* Social row */}
-                          <div className="flex gap-4 pt-2">
-                            {[
-                              { href: content.contact_info?.instagram || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> },
-                              { href: content.contact_info?.facebook || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
-                            ].map(({ href, icon }, i) => (
-                              <a key={i} href={href} target="_blank" rel="noreferrer"
-                                className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
-                                style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
-                                {icon}
-                              </a>
-                            ))}
-                          </div>
+                                                            {/* Social row */}
+                                                            {!hiddenFields.includes('contact_facebook') && (
+                                          <div className="flex gap-4 pt-2">
+                                                                                                        {[
+                                                                                                          { href: content.contact_info?.instagram || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> },
+                                                                                                          { href: content.contact_info?.facebook || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+                                                                                                        ].map(({ href, icon }, i) => (
+                                                                                                          <a key={i} href={href} target="_blank" rel="noreferrer"
+                                                                                                            className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
+                                                                                                            style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
+                                                                                                            {icon}
+                                                                                                          </a>
+                                                                                                        ))}
+                                                                                                      </div>
+                                          )}
 
-                          <div className="pt-6 mt-8 border-t border-[#1F2937]">
-                            <h4 className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500 mb-4">Send a Message</h4>
-                            <ContactForm 
-                              websiteId={website.id} 
-                              primaryColor="bg-[#00C9B1]"
-                              primaryColorHover="hover:bg-[#00A896]"
-                              inputStyles="w-full bg-[#111827] border-[#1F2937] text-[#E2E8F0] focus:border-[#00C9B1] focus:ring-[#00C9B1] rounded-xl shadow-sm"
-                            />
-                          </div>
+                                                            <div className="pt-6 mt-8 border-t border-[#1F2937]">
+                                                              <h4 className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500 mb-4">Send a Message</h4>
+                                                              <ContactForm 
+                                                                websiteId={website.id} 
+                                                                primaryColor="bg-[#00C9B1]"
+                                                                primaryColorHover="hover:bg-[#00A896]"
+                                                                inputStyles="w-full bg-[#111827] border-[#1F2937] text-[#E2E8F0] focus:border-[#00C9B1] focus:ring-[#00C9B1] rounded-xl shadow-sm"
+                                                              />
+                                                            </div>
 
-                        </div>
+                                                          </div>
+                                  )}
                       </SlideIn>
 
                       {/* Right: map */}
                       <SlideIn delay={120} dir="right">
                         <div className="rounded-2xl overflow-hidden h-64 sm:h-80 lg:h-full min-h-[260px] relative" style={{ border: `1.5px solid ${BORDER}` }}>
-                          <iframe
-                            title="Map"
-                            className="absolute inset-0 w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-                            loading="lazy"
-                            allowFullScreen
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, USA')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          />
+                          {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                  title="Map"
+                                                                  className="absolute inset-0 w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                                                                  loading="lazy"
+                                                                  allowFullScreen
+                                                                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, USA')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                />
+                                      )}
                         </div>
                       </SlideIn>
                     </div>
@@ -698,9 +707,11 @@ export default function ModernSaloonTheme({ website, content }: Props) {
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
             <div className="space-y-4">
               <h4 className="ms-font-display text-3xl ms-glow-text" style={{ color: TEAL }}>{siteName}</h4>
+              {!hiddenFields.includes("hero_description") && (
               <p className="text-sm ms-font-sub text-slate-400 leading-relaxed max-w-xs">
                 {content.hero_description || content.settings_json?.hero_description || 'Modern salon experiences crafted for the discerning client.'}
               </p>
+              )}
             </div>
 
             <div className="space-y-4">
@@ -718,8 +729,12 @@ export default function ModernSaloonTheme({ website, content }: Props) {
               <h5 className="ms-font-display text-xl text-white tracking-widest">CONTACT INFO</h5>
               <ul className="space-y-3 text-sm ms-font-sub text-slate-400">
                 <li className="flex items-start gap-2"><MapPin size={14} style={{ color: TEAL, marginTop: 2, flexShrink: 0 }} />{address}</li>
-                <li className="flex items-center gap-2"><Phone size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.phone || '+1 234 567 8900'}</li>
-                <li className="flex items-center gap-2"><Mail size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.email || 'hello@studio.com'}</li>
+                {!hiddenFields.includes('contact_phone') && (
+                              <li className="flex items-center gap-2"><Phone size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.phone || '+1 234 567 8900'}</li>
+                              )}
+                {!hiddenFields.includes('contact_email') && (
+                              <li className="flex items-center gap-2"><Mail size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.email || 'hello@studio.com'}</li>
+                              )}
               </ul>
             </div>
           </div>

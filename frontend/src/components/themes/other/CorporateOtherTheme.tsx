@@ -9,6 +9,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Corporate Solutions';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Strategic Planning', description: 'Comprehensive strategies to drive growth and efficiency.', icon: <BarChart className="w-10 h-10 text-[#0056b3]" /> },
@@ -40,8 +41,12 @@ export default function CorporateOtherTheme({ website, content }: any) {
         <div className="bg-[#0056b3] text-white py-2 px-6 hidden md:block">
            <div className="container mx-auto flex justify-between items-center text-sm font-corp-body">
               <div className="flex gap-6">
-                 <span className="flex items-center gap-2"><Phone size={14}/> {content.contact_info?.phone || '1-800-BUSINESS'}</span>
-                 <span className="flex items-center gap-2"><Mail size={14}/> {content.contact_info?.email || 'info@corporate.com'}</span>
+                 {!hiddenFields.includes('contact_phone') && (
+                          <span className="flex items-center gap-2"><Phone size={14}/> {content.contact_info?.phone || '1-800-BUSINESS'}</span>
+                          )}
+                 {!hiddenFields.includes('contact_email') && (
+                          <span className="flex items-center gap-2"><Mail size={14}/> {content.contact_info?.email || 'info@corporate.com'}</span>
+                          )}
               </div>
               <div className="flex gap-4">
                  {content.contact_info?.linkedin && <a href={content.contact_info.linkedin} className="hover:text-gray-300">LinkedIn</a>}
@@ -76,12 +81,16 @@ export default function CorporateOtherTheme({ website, content }: any) {
         </div>
         <div className="container mx-auto max-w-6xl relative z-10 py-32 px-6 flex items-center">
           <div className="max-w-2xl">
-            <h1 className="font-corp-heading text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-corp-heading text-4xl md:text-6xl font-bold mb-6 leading-tight">
               {content.hero_title || 'Empowering Your Business For The Future.'}
             </h1>
-            <p className="font-corp-body text-lg text-gray-300 mb-10 leading-relaxed max-w-xl">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-corp-body text-lg text-gray-300 mb-10 leading-relaxed max-w-xl">
               {content.hero_text || 'We provide robust, scalable solutions tailored to meet the complex demands of modern enterprises.'}
             </p>
+              )}
             <div className="flex gap-4">
                <a href="#services" className="bg-[#0056b3] hover:bg-[#004494] text-white font-corp-body font-medium py-3 px-8 rounded transition-colors flex items-center gap-2">
                  Our Solutions <ArrowRight size={18} />
@@ -104,9 +113,11 @@ export default function CorporateOtherTheme({ website, content }: any) {
               </div>
               <div className="w-full md:w-1/2">
                 <div className="text-[#0056b3] font-corp-body font-bold text-sm tracking-wider uppercase mb-2">Company Overview</div>
-                <h2 className="font-corp-heading text-3xl md:text-4xl font-bold mb-6 text-[#222]">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-corp-heading text-3xl md:text-4xl font-bold mb-6 text-[#222]">
                   {content.settings_json?.about_title || content.about_title || 'Trusted Partner in Growth'}
                 </h2>
+              )}
                 <div className="w-20 h-1 bg-[#0056b3] mb-8"></div>
                 <p className="font-corp-body text-gray-600 leading-relaxed mb-8">
                   {content.about_text || 'With years of industry expertise, we deliver exceptional value to our clients through innovative strategies and dedicated execution. We understand the nuances of the corporate landscape and are committed to driving measurable results.'}
@@ -230,7 +241,9 @@ export default function CorporateOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Headquarters</div>
-                      <div>{content.contact_info?.address || '100 Corporate Parkway, Business District'}</div>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <div>{content.contact_info?.address || '100 Corporate Parkway, Business District'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -239,7 +252,9 @@ export default function CorporateOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Direct Line</div>
-                      <div>{content.contact_info?.phone || '+1 (800) 123-4567'}</div>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <div>{content.contact_info?.phone || '+1 (800) 123-4567'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -248,7 +263,9 @@ export default function CorporateOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Email Inquiry</div>
-                      <div>{content.contact_info?.email || 'contact@corporatesolutions.com'}</div>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <div>{content.contact_info?.email || 'contact@corporatesolutions.com'}</div>
+                                          )}
                     </div>
                   </div>
                 </div>
@@ -259,14 +276,16 @@ export default function CorporateOtherTheme({ website, content }: any) {
                     <h3 className="font-corp-heading text-xl font-bold text-[#222] mb-2">Connect With Us</h3>
                     <p className="font-corp-body text-gray-600 text-sm">Follow our latest updates and industry insights.</p>
                  </div>
-                 <div className="p-8 flex gap-4 justify-center bg-white flex-1 items-center border-b border-gray-200">
-                     {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Facebook size={20} /></a>}
-                     {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Twitter size={20} /></a>}
-                     {/* Using instagram as a generic placeholder for LinkedIn if linkedin is not standard in SocialIcons */}
-                     <a href="#" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                     </a>
-                 </div>
+                 {!hiddenFields.includes('contact_facebook') && (
+                              <div className="p-8 flex gap-4 justify-center bg-white flex-1 items-center border-b border-gray-200">
+                                                   {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Facebook size={20} /></a>}
+                                                   {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Twitter size={20} /></a>}
+                                                   {/* Using instagram as a generic placeholder for LinkedIn if linkedin is not standard in SocialIcons */}
+                                                   <a href="#" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                                   </a>
+                                               </div>
+                              )}
               </div>
             </div>
           </div>
@@ -283,15 +302,17 @@ export default function CorporateOtherTheme({ website, content }: any) {
 
           <div className="container mx-auto max-w-5xl mt-16">
             <div className="h-[400px] w-full rounded-lg overflow-hidden shadow-xl border border-gray-200 relative z-20">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

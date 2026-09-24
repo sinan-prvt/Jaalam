@@ -9,6 +9,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Our Establishment';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Trusted Quality', description: 'Decades of experience delivering uncompromising quality.' },
@@ -59,13 +60,17 @@ export default function ClassicOtherTheme({ website, content }: any) {
       <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'block' }} className="relative bg-[#2C2C2C] text-[#F9F7F1]">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-30"></div>
         <div className="container mx-auto max-w-5xl relative z-10 py-32 px-6 text-center">
-          <h1 className="font-classic-title text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-classic-title text-5xl md:text-7xl font-bold mb-6 leading-tight">
             {content.hero_title || 'Excellence & Tradition.'}
           </h1>
+              )}
           <div className="w-24 h-1 bg-[#8C1C13] mx-auto mb-8"></div>
-          <p className="font-classic-body text-lg md:text-xl text-[#E8E1D5] mb-12 max-w-2xl mx-auto leading-relaxed">
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-classic-body text-lg md:text-xl text-[#E8E1D5] mb-12 max-w-2xl mx-auto leading-relaxed">
             {content.hero_text || 'Providing exceptional service and uncompromising quality to our valued clients for years to come.'}
           </p>
+              )}
           <a href="#contact" className="inline-block border-2 border-[#F9F7F1] text-[#F9F7F1] font-classic-body font-bold text-sm uppercase tracking-widest py-4 px-10 hover:bg-[#F9F7F1] hover:text-[#2C2C2C] transition-colors">
             Contact Us Today
           </a>
@@ -81,9 +86,11 @@ export default function ClassicOtherTheme({ website, content }: any) {
                 <img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="About" className="w-full h-auto rounded shadow-2xl border-4 border-white" />
               </div>
               <div className="w-full md:w-1/2">
-                <h2 className="font-classic-title text-4xl font-bold mb-6 text-[#2C2C2C]">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-classic-title text-4xl font-bold mb-6 text-[#2C2C2C]">
                   {content.settings_json?.about_title || content.about_title || 'Our Heritage'}
                 </h2>
+              )}
                 <div className="w-16 h-1 bg-[#8C1C13] mb-6"></div>
                 <p className="font-classic-body text-lg text-[#555] leading-relaxed mb-6">
                   {content.about_text || 'Rooted in a commitment to quality and classic values, we strive to offer nothing but the best. Our approach combines time-tested methods with a dedication to complete customer satisfaction.'}
@@ -206,21 +213,27 @@ export default function ClassicOtherTheme({ website, content }: any) {
                     <MapPin className="text-[#8C1C13] mt-1" size={24} />
                     <div>
                       <div className="font-bold text-lg mb-1 uppercase tracking-widest text-[#E8E1D5] text-sm">Location</div>
-                      <div className="text-[#bbb]">{content.contact_info?.address || '123 Heritage Lane, City'}</div>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <div className="text-[#bbb]">{content.contact_info?.address || '123 Heritage Lane, City'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Phone className="text-[#8C1C13] mt-1" size={24} />
                     <div>
                       <div className="font-bold text-lg mb-1 uppercase tracking-widest text-[#E8E1D5] text-sm">Phone</div>
-                      <div className="text-[#bbb]">{content.contact_info?.phone || '(555) 123-4567'}</div>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <div className="text-[#bbb]">{content.contact_info?.phone || '(555) 123-4567'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Mail className="text-[#8C1C13] mt-1" size={24} />
                     <div>
                       <div className="font-bold text-lg mb-1 uppercase tracking-widest text-[#E8E1D5] text-sm">Email</div>
-                      <div className="text-[#bbb]">{content.contact_info?.email || 'contact@example.com'}</div>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <div className="text-[#bbb]">{content.contact_info?.email || 'contact@example.com'}</div>
+                                          )}
                     </div>
                   </div>
                   {content.contact_info?.hours && (
@@ -237,13 +250,15 @@ export default function ClassicOtherTheme({ website, content }: any) {
               
               <div>
                 <h3 className="font-classic-title text-2xl font-bold mb-6">Connect</h3>
-                <div className="flex gap-4 mb-10">
-                  {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Facebook size={18} /></a>}
-                  {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Instagram size={18} /></a>}
-                  {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Twitter size={18} /></a>}
-                  {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Youtube size={18} /></a>}
-                  {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><WhatsApp size={18} /></a>}
-                </div>
+                {!hiddenFields.includes('contact_facebook') && (
+                              <div className="flex gap-4 mb-10">
+                                                {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Facebook size={18} /></a>}
+                                                {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Instagram size={18} /></a>}
+                                                {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Twitter size={18} /></a>}
+                                                {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><Youtube size={18} /></a>}
+                                                {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#555] flex items-center justify-center hover:bg-[#8C1C13] hover:border-[#8C1C13] transition-colors"><WhatsApp size={18} /></a>}
+                                              </div>
+                              )}
                 
               </div>
             </div>
@@ -261,15 +276,17 @@ export default function ClassicOtherTheme({ website, content }: any) {
 
           <div className="container mx-auto max-w-5xl mt-16">
             <div className="h-[400px] bg-[#1A1A1A] border border-[#555] relative z-20">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

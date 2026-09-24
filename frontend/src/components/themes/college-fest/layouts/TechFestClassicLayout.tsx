@@ -24,6 +24,7 @@ interface TechFestClassicLayoutProps {
 }
 
 export default function TechFestClassicLayout({ content, website, updateContent, isEditor }: TechFestClassicLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isPlaying, setIsPlaying] = useState(false);
   const [likeCount, setLikeCount] = useState(2453);
   const [hasLiked, setHasLiked] = useState(false);

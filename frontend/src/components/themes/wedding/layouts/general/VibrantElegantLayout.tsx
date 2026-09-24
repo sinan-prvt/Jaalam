@@ -3,6 +3,7 @@ import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send }
 import type { WeddingLayoutProps } from '../types';
 
 export default function VibrantElegantLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);

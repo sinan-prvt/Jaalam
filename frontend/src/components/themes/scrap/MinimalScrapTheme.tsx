@@ -12,6 +12,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'SCRAP.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'COPPER SCRAP', price: '₹500 – ₹800/KG', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
     { name: 'ALUMINIUM SCRAP', price: '₹100 – ₹200/KG', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' },
@@ -83,19 +84,25 @@ export default function MinimalScrapTheme({ website, content }: any) {
 
           if (sectionId === 'hero') return (
             <section key="hero" id="hero" className="p-6 md:p-12 border-b-4 border-black bg-white">
+              {!hiddenFields.includes("hero_title") && (
               <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
                 {content.hero_title || 'TURN TRASH INTO CASH.'}
               </h1>
+              )}
+              {!hiddenFields.includes("hero_description") && (
               <p className="text-lg md:text-xl max-w-3xl border-l-8 border-black pl-6 mb-12 py-2">
                 {content.hero_description || content.hero_text || 'BRING YOUR SCRAP METAL AND E-WASTE. WE WEIGH IT. WE PAY YOU. SIMPLE AS THAT.'}
               </p>
+              )}
               <div className="flex flex-col sm:flex-row gap-6">
                 <a href="#products" className="inline-block bg-black text-white px-8 py-5 font-bold text-center hover:bg-gray-800 transition-colors">
                   VIEW RATES
                 </a>
-                <a href="#contact" className="inline-block bg-white text-black border-4 border-black px-8 py-5 font-bold text-center hover:bg-black hover:text-white transition-colors">
-                  CALL {content.contact_info?.phone || '98765 43210'}
-                </a>
+                {!hiddenFields.includes('contact_phone') && (
+                      <a href="#contact" className="inline-block bg-white text-black border-4 border-black px-8 py-5 font-bold text-center hover:bg-black hover:text-white transition-colors">
+                                        CALL {content.contact_info?.phone || '98765 43210'}
+                                      </a>
+                      )}
               </div>
             </section>
           );
@@ -103,9 +110,13 @@ export default function MinimalScrapTheme({ website, content }: any) {
           if (sectionId === 'about') return (
             <section key="about" id="about" className="p-6 md:p-12 border-b-4 border-black bg-[#E5E5E5]">
               <div className="max-w-4xl">
-                <h2 className="text-3xl font-bold mb-8">{content.settings_json?.about_title || 'WE RECYCLE. NO NONSENSE.'}</h2>
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl font-bold mb-8">{content.settings_json?.about_title || 'WE RECYCLE. NO NONSENSE.'}</h2>
+              )}
                 <div className="text-lg md:text-xl leading-relaxed space-y-6">
-                  <p>{content.settings_json?.about_description || 'ESTABLISHED IN 2010. WE PROVIDE HONEST WEIGHTS AND INSTANT PAYMENTS. OUR FACILITY HANDLES TONS OF SCRAP DAILY.'}</p>
+                  {!hiddenFields.includes("about_description") && (
+              <p>{content.settings_json?.about_description || 'ESTABLISHED IN 2010. WE PROVIDE HONEST WEIGHTS AND INSTANT PAYMENTS. OUR FACILITY HANDLES TONS OF SCRAP DAILY.'}</p>
+              )}
                 </div>
               </div>
             </section>
@@ -180,15 +191,21 @@ export default function MinimalScrapTheme({ website, content }: any) {
                 <div className="space-y-8 text-xl font-bold">
                   <div className="border-b-4 border-black pb-4">
                     <div className="text-sm mb-2 opacity-50">CALL US</div>
-                    <div>{content.contact_info?.phone || '98765 43210'}</div>
+                    {!hiddenFields.includes('contact_phone') && (
+                              <div>{content.contact_info?.phone || '98765 43210'}</div>
+                              )}
                   </div>
                   <div className="border-b-4 border-black pb-4">
                     <div className="text-sm mb-2 opacity-50">EMAIL US</div>
-                    <div>{content.contact_info?.email || 'HELLO@SCRAP.COM'}</div>
+                    {!hiddenFields.includes('contact_email') && (
+                              <div>{content.contact_info?.email || 'HELLO@SCRAP.COM'}</div>
+                              )}
                   </div>
                   <div className="border-b-4 border-black pb-4">
                     <div className="text-sm mb-2 opacity-50">VISIT US</div>
-                    <div>{content.contact_info?.address || 'PLOT 4, INDUSTRIAL AREA, KERALA'}</div>
+                    {!hiddenFields.includes('contact_address') && (
+                              <div>{content.contact_info?.address || 'PLOT 4, INDUSTRIAL AREA, KERALA'}</div>
+                              )}
                   </div>
                 </div>
                 <div className="border-4 border-black bg-white p-4 md:p-8 flex flex-col h-full">
@@ -201,19 +218,21 @@ export default function MinimalScrapTheme({ website, content }: any) {
 
                   <div className="mb-6 border-t-4 border-black pt-6">
                      <h3 className="font-bold text-xl mb-4 uppercase">SOCIALS</h3>
-                     <div className="flex gap-4">
-                        {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Facebook size={24} /></a>}
-                        {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Instagram size={24} /></a>}
-                        {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Twitter size={24} /></a>}
-                        {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Youtube size={24} /></a>}
-                        {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && (
-                           <div className="flex gap-4">
-                             <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Facebook size={24} /></a>
-                             <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Instagram size={24} /></a>
-                             <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Twitter size={24} /></a>
-                           </div>
-                        )}
-                     </div>
+                     {!hiddenFields.includes('contact_facebook') && (
+                              <div className="flex gap-4">
+                                                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Facebook size={24} /></a>}
+                                                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Instagram size={24} /></a>}
+                                                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Twitter size={24} /></a>}
+                                                      {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Youtube size={24} /></a>}
+                                                      {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && (
+                                                         <div className="flex gap-4">
+                                                           <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Facebook size={24} /></a>
+                                                           <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Instagram size={24} /></a>
+                                                           <a href="#" className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"><Twitter size={24} /></a>
+                                                         </div>
+                                                      )}
+                                                   </div>
+                              )}
                   </div>
 
                   <div className="flex-grow bg-[#E5E5E5] p-6 border-4 border-black">

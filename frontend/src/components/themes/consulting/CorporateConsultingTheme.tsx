@@ -14,6 +14,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Corporate Consulting';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Strategic Planning', price: 'Consultation', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80', description: 'Comprehensive strategic planning for enterprise growth.' },
@@ -81,12 +82,16 @@ export default function CorporateConsultingTheme({ website, content }: any) {
             <div className="inline-block border border-[#C49A3C] text-[#C49A3C] font-sans-body text-xs font-bold tracking-[0.2em] uppercase py-1 px-3 mb-6">
               Premier Consulting
             </div>
-            <h1 className="font-serif-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-serif-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
               {content.hero_title || 'Navigating Complexity with Confidence.'}
             </h1>
-            <p className="font-sans-body text-lg md:text-xl text-gray-300 mb-10 max-w-xl leading-relaxed">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-sans-body text-lg md:text-xl text-gray-300 mb-10 max-w-xl leading-relaxed">
               {content.hero_text || 'We partner with visionary leaders to tackle their most important challenges and capture their greatest opportunities.'}
             </p>
+              )}
             <a href="#contact" className="inline-flex items-center gap-2 bg-[#C49A3C] text-[#0B1D3A] font-sans-body font-bold text-sm uppercase tracking-wider py-4 px-8 hover:bg-white transition-colors group">
               Partner With Us
               <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -145,7 +150,9 @@ export default function CorporateConsultingTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-24 px-6 bg-[#0B1D3A] text-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="font-serif-title text-3xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || content.about_title || 'About The Firm'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-serif-title text-3xl md:text-5xl font-bold mb-6">{content.settings_json?.about_title || content.about_title || 'About The Firm'}</h2>
+              )}
             <div className="w-20 h-1 bg-[#C49A3C] mx-auto mb-10"></div>
             <p className="font-sans-body text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
               {content.about_text || 'Founded on the principles of integrity, excellence, and profound insight, we are a leading management consulting firm dedicated to helping organizations achieve their most critical objectives.'}
@@ -231,66 +238,76 @@ export default function CorporateConsultingTheme({ website, content }: any) {
                     <Phone className="text-[#C49A3C] mt-1 shrink-0" size={24} />
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-wider mb-1">Phone</h4>
-                      <p className="text-lg text-gray-300">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <p className="text-lg text-gray-300">{content.contact_info?.phone || '+1 (555) 123-4567'}</p>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Mail className="text-[#C49A3C] mt-1 shrink-0" size={24} />
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-wider mb-1">Email</h4>
-                      <p className="text-lg text-gray-300">{content.contact_info?.email || 'inquiries@corporateconsulting.com'}</p>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <p className="text-lg text-gray-300">{content.contact_info?.email || 'inquiries@corporateconsulting.com'}</p>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <MapPin className="text-[#C49A3C] mt-1 shrink-0" size={24} />
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-wider mb-1">Headquarters</h4>
-                      <p className="text-lg text-gray-300">{content.contact_info?.address || '100 Financial District, Suite 400, New York, NY'}</p>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <p className="text-lg text-gray-300">{content.contact_info?.address || '100 Financial District, Suite 400, New York, NY'}</p>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Clock className="text-[#C49A3C] mt-1 shrink-0" size={24} />
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-wider mb-1">Office Hours</h4>
-                      <p className="text-lg text-gray-300 whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 8:00 AM - 6:00 PM'}</p>
+                      {!hiddenFields.includes('contact_hours') && (
+                                          <p className="text-lg text-gray-300 whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 8:00 AM - 6:00 PM'}</p>
+                                          )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-white p-8 md:p-12 text-[#0B1D3A]">
-                <h3 className="font-serif-title text-2xl font-bold mb-8">Social Presence</h3>
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
-                  <div className="flex flex-wrap gap-6">
-                    {content.contact_info?.facebook && (
-                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
-                        <Facebook size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.instagram && (
-                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
-                        <Instagram size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.twitter && (
-                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
-                        <Twitter size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.youtube && (
-                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
-                        <Youtube size={32} />
-                      </a>
-                    )}
-                    {content.contact_info?.whatsapp && (
-                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
-                        <WhatsApp size={32} />
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 font-sans-body">Social media links will appear here once added in the editor.</p>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="bg-white p-8 md:p-12 text-[#0B1D3A]">
+                                          <h3 className="font-serif-title text-2xl font-bold mb-8">Social Presence</h3>
+                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube || content.contact_info?.whatsapp) ? (
+                                            <div className="flex flex-wrap gap-6">
+                                              {content.contact_info?.facebook && (
+                                                <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
+                                                  <Facebook size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.instagram && (
+                                                <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
+                                                  <Instagram size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.twitter && (
+                                                <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
+                                                  <Twitter size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.youtube && (
+                                                <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
+                                                  <Youtube size={32} />
+                                                </a>
+                                              )}
+                                              {content.contact_info?.whatsapp && (
+                                                <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#0B1D3A] hover:text-[#C49A3C] transition-colors">
+                                                  <WhatsApp size={32} />
+                                                </a>
+                                              )}
+                                            </div>
+                                          ) : (
+                                            <p className="text-gray-500 font-sans-body">Social media links will appear here once added in the editor.</p>
+                                          )}
+                                        </div>
+                          )}
             </div>
             <div className="mt-16 w-full max-w-2xl mx-auto">
               <ContactForm 
@@ -303,16 +320,18 @@ export default function CorporateConsultingTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] bg-white p-2">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Financial District, Suite 400, New York, NY')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Financial District, Suite 400, New York, NY')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

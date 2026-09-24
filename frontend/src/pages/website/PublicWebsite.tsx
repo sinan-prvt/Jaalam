@@ -90,7 +90,7 @@ import Chatbot from '../../components/shared/Chatbot';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
-  
+
   const getSubdomain = () => {
     const host = window.location.hostname;
     if (host.includes('localhost') || host.includes('127.0.0.1')) {
@@ -111,7 +111,7 @@ export default function PublicWebsite() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  
+
   useScrollReveal([website?.theme, website?.business_type]);
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function PublicWebsite() {
       </div>
     );
   }
-  
+
   if (error === 'unpublished') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-center p-6">
@@ -212,7 +212,7 @@ export default function PublicWebsite() {
     if (birthdayCategories.includes(website.business_type)) {
       return <BirthdayTheme website={website} content={content} />;
     }
-    
+
     if (housewarmingCategories.includes(website.business_type)) {
       return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} />;
     }
@@ -229,11 +229,11 @@ export default function PublicWebsite() {
     if (website?.business_type === 'Restaurant') {
       return <RestaurantTheme website={website} content={website.content} />;
     }
-  
+
     if (website.business_type === 'Cafe / Bakery') {
       return <CafeTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Salon' || website.business_type === 'Salon / Spa' || website.business_type === 'Saloon') {
       if (website.theme === 'Glamour Beauty') {
         return <SalonTheme2 website={website} content={content} />;
@@ -249,7 +249,7 @@ export default function PublicWebsite() {
       }
       return <SalonTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Gym / Fitness' || website.business_type === 'Gym') {
       if (website.theme === 'Hardcore Iron') {
         return <HardcoreIronTheme website={website} content={content} />;
@@ -268,7 +268,7 @@ export default function PublicWebsite() {
       }
       return <HardcoreIronTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Real Estate') {
       if (website.theme === 'Luxury Villas') return <LuxuryVillasTheme website={website} content={content} />;
       if (website.theme === 'Urban Apartments') return <UrbanApartmentsTheme website={website} content={content} />;
@@ -277,7 +277,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Classic') return <ClassicRealEstateTheme website={website} content={content} />;
       return <ModernRealEstateTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Retail Store') {
       if (website.theme === 'Boutique') {
         return <BoutiqueTheme website={website} content={content} />;
@@ -296,7 +296,7 @@ export default function PublicWebsite() {
       }
       return <BoutiqueTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Stationery / Books') {
       if (website.theme === 'Classic') return <ClassicStationeryTheme website={website} content={content} />;
       if (website.theme === 'Playful') return <PlayfulStationeryTheme website={website} content={content} />;
@@ -304,7 +304,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Ethereal') return <EtherealStationeryTheme website={website} content={content} />;
       return <ModernStationeryTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Fancy Store') {
       if (website.theme === 'Boutique') return <BoutiqueFancyTheme website={website} content={content} />;
       if (website.theme === 'Minimal') return <MinimalFancyTheme website={website} content={content} />;
@@ -315,7 +315,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Pop') return <PopFancyTheme website={website} content={content} />;
       return <ModernFancyTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Chicken / Meat Stall') {
       if (website.theme === 'Classic') return <ClassicMeatTheme website={website} content={content} />;
       if (website.theme === 'Premium') return <PremiumMeatTheme website={website} content={content} />;
@@ -324,7 +324,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Playful') return <PlayfulMeatTheme website={website} content={content} />;
       return <ModernMeatTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Scrap Dealer') {
       if (website.theme === 'Classic') return <ClassicScrapTheme website={website} content={content} />;
       if (website.theme === 'Minimal') return <MinimalScrapTheme website={website} content={content} />;
@@ -333,7 +333,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Playful') return <PlayfulScrapTheme website={website} content={content} />;
       return <ModernScrapTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Supermarket / Grocery') {
       if (website.theme === 'Classic') return <ClassicGroceryTheme website={website} content={content} />;
       if (website.theme === 'Premium') return <PremiumGroceryTheme website={website} content={content} />;
@@ -344,7 +344,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Pop') return <PopGroceryTheme website={website} content={content} />;
       return <ModernGroceryTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Textiles / Garments') {
       if (website.theme === 'Boutique') return <BoutiqueTextilesTheme website={website} content={content} />;
       if (website.theme === 'Minimal') return <MinimalTextilesTheme website={website} content={content} />;
@@ -353,7 +353,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Playful') return <PlayfulTextilesTheme website={website} content={content} />;
       return <ModernTextilesTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Consulting') {
       if (website.theme === 'Corporate') return <CorporateConsultingTheme website={website} content={content} />;
       if (website.theme === 'Creative Agency') return <CreativeAgencyTheme website={website} content={content} />;
@@ -363,7 +363,7 @@ export default function PublicWebsite() {
       if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
       return <CorporateConsultingTheme website={website} content={content} />;
     }
-  
+
     if (website.business_type === 'Other') {
       if (website.theme === 'Classic') return <ClassicOtherTheme website={website} content={content} />;
       if (website.theme === 'Minimal') return <MinimalOtherTheme website={website} content={content} />;
@@ -372,17 +372,17 @@ export default function PublicWebsite() {
       if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
       return <ModernOtherTheme website={website} content={content} />;
     }
-  
+
     const contact = content?.contact_info || {};
-  
+
     return (
       <div className={`min-h-screen ${website.theme === 'Modern' ? 'font-sans' : website.theme === 'Classic' ? 'font-serif' : website.theme === 'Minimal' ? 'font-mono' : 'font-sans'}`}>
-        
+
         {/* Inject Custom CSS globally for this page view */}
         {content.custom_css && (
           <style dangerouslySetInnerHTML={{ __html: content.custom_css }} />
         )}
-  
+
         {/* Header */}
         <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
           <div className="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -395,7 +395,7 @@ export default function PublicWebsite() {
             </nav>
           </div>
         </header>
-  
+
         {/* Hero Section */}
         <section className={`relative pt-32 pb-40 px-6 overflow-hidden ${website.theme === 'Vibrant' ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50' : 'bg-slate-50'}`}>
           <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-100 rounded-bl-[100px] -z-10 opacity-50" />
@@ -413,7 +413,7 @@ export default function PublicWebsite() {
             </div>
           </div>
         </section>
-  
+
         {/* About Section */}
         <section id="about" className="py-24 px-6 bg-white">
           <div className="container mx-auto max-w-3xl text-center">
@@ -423,7 +423,7 @@ export default function PublicWebsite() {
             </p>
           </div>
         </section>
-  
+
         {/* Services Section */}
         {content.services_json && content.services_json.length > 0 && (
           <section id="services" className="py-24 px-6 bg-slate-50 border-y border-slate-100">
@@ -442,7 +442,7 @@ export default function PublicWebsite() {
             </div>
           </section>
         )}
-  
+
         {/* Gallery Section */}
         {content.gallery_json && content.gallery_json.length > 0 && (
           <section id="gallery" className="py-24 px-6 bg-white">
@@ -458,16 +458,16 @@ export default function PublicWebsite() {
             </div>
           </section>
         )}
-  
+
         {/* Custom HTML Injection */}
         {content.custom_html && (
           <section className="py-24 px-6 bg-slate-50 border-t border-slate-100">
-             <div className="container mx-auto max-w-6xl">
-                <div dangerouslySetInnerHTML={{ __html: content.custom_html }} />
-             </div>
+            <div className="container mx-auto max-w-6xl">
+              <div dangerouslySetInnerHTML={{ __html: content.custom_html }} />
+            </div>
           </section>
         )}
-  
+
         {/* Contact Section */}
         <section id="contact" className="py-24 px-6 bg-slate-900 text-white rounded-t-[3rem] mt-10 shadow-2xl">
           <div className="container mx-auto max-w-4xl">
@@ -475,7 +475,7 @@ export default function PublicWebsite() {
               <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
               <p className="text-slate-400 text-lg">We'd love to hear from you.</p>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-8">
               {contact.phone && (
                 <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
@@ -486,7 +486,7 @@ export default function PublicWebsite() {
                   <p className="text-slate-300">{contact.phone}</p>
                 </div>
               )}
-              
+
               {contact.email && (
                 <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
                   <div className="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/20">
@@ -496,7 +496,7 @@ export default function PublicWebsite() {
                   <p className="text-slate-300">{contact.email}</p>
                 </div>
               )}
-  
+
               {contact.address && (
                 <div className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] text-center border border-white/10 hover:bg-white/10 transition-colors">
                   <div className="w-14 h-14 bg-rose-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-rose-500/20">
@@ -509,7 +509,7 @@ export default function PublicWebsite() {
             </div>
           </div>
         </section>
-  
+
         {/* Footer */}
         <footer className="bg-slate-950 text-slate-500 py-10 text-center text-sm font-medium">
           <p>&copy; {new Date().getFullYear()} {website.slug}. Created with <span className="font-bold text-white">Jaalam</span>.</p>
@@ -531,7 +531,7 @@ export default function PublicWebsite() {
 
       {upiId && (
         <>
-          <button 
+          <button
             onClick={() => setIsPaymentModalOpen(true)}
             className="fixed bottom-6 right-6 z-[99990] bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-full font-black shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group"
           >
@@ -539,11 +539,11 @@ export default function PublicWebsite() {
             <span className="hidden sm:inline">Make a Payment</span>
             <span className="sm:hidden">Pay</span>
           </button>
-          <UPIPaymentModal 
-            isOpen={isPaymentModalOpen} 
-            onClose={() => setIsPaymentModalOpen(false)} 
-            upiId={upiId} 
-            websiteName={website?.content?.settings_json?.website_name || website.business_type || 'Website'} 
+          <UPIPaymentModal
+            isOpen={isPaymentModalOpen}
+            onClose={() => setIsPaymentModalOpen(false)}
+            upiId={upiId}
+            websiteName={website?.content?.settings_json?.website_name || website.business_type || 'Website'}
           />
         </>
       )}

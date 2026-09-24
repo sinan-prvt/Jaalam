@@ -22,6 +22,7 @@ export default function MinimalistTheme({ website, content }: any) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const siteName = content.settings_json?.website_name || website.slug || 'MINIMAL';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address = content.contact_info?.address || '123 Minimalist Way, NY 10012';
 
   const defaultProducts = [
@@ -113,9 +114,11 @@ export default function MinimalistTheme({ website, content }: any) {
               className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-105"
             />
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+              {!hiddenFields.includes("hero_title") && (
               <h1 className="min-sans text-4xl md:text-6xl font-light bg-white/90 backdrop-blur-sm px-8 py-4 break-words whitespace-pre-wrap">
                 {content.hero_title || 'Focus on the essential.'}
               </h1>
+              )}
             </div>
           </div>
         </section>
@@ -125,12 +128,16 @@ export default function MinimalistTheme({ website, content }: any) {
       {!hiddenSections.includes('about') && (
         <section id="about" className="py-24 px-6 md:px-12 bg-gray-50 mt-12">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="min-sans text-3xl md:text-4xl font-light mb-8 leading-snug break-words whitespace-pre-wrap">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="min-sans text-3xl md:text-4xl font-light mb-8 leading-snug break-words whitespace-pre-wrap">
               {content.settings_json?.about_title || 'Design rooted in simplicity and function.'}
             </h2>
-            <p className="min-sans text-gray-500 leading-relaxed max-w-xl mx-auto break-words whitespace-pre-wrap">
+              )}
+            {!hiddenFields.includes("about_description") && (
+              <p className="min-sans text-gray-500 leading-relaxed max-w-xl mx-auto break-words whitespace-pre-wrap">
               {content.settings_json?.about_description || 'We curate objects that elevate everyday rituals. Minimalist design, sustainable materials, and honest craftsmanship are at the core of everything we offer.'}
             </p>
+              )}
           </div>
         </section>
       )}
@@ -226,21 +233,33 @@ export default function MinimalistTheme({ website, content }: any) {
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="font-medium text-black w-24 shrink-0">Email</span>
-                    <p className="flex-1 break-words">{content.contact_info?.email || 'hello@minimal.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p className="flex-1 break-words">{content.contact_info?.email || 'hello@minimal.com'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="font-medium text-black w-24 shrink-0">Phone</span>
-                    <p className="flex-1 break-words">{content.contact_info?.phone || '+1 800 123 4567'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p className="flex-1 break-words">{content.contact_info?.phone || '+1 800 123 4567'}</p>
+                                      )}
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="font-medium text-black w-24 shrink-0">Hours</span>
-                    <p className="flex-1 break-words whitespace-pre-wrap">{content.contact_info?.hours || "Mon - Fri: 10am - 7pm\nSat - Sun: 11am - 5pm"}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <p className="flex-1 break-words whitespace-pre-wrap">{content.contact_info?.hours || "Mon - Fri: 10am - 7pm\nSat - Sun: 11am - 5pm"}</p>
+                                      )}
                   </div>
                 </div>
                 <div className="mt-12 flex gap-6">
-                  <a href={content.contact_info?.instagram || "#"} className="text-black hover:text-gray-500 transition-colors"><Instagram size={20} /></a>
-                  <a href={content.contact_info?.facebook || "#"} className="text-black hover:text-gray-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-                  <a href={content.contact_info?.whatsapp || "#"} className="text-black hover:text-gray-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+                  {!hiddenFields.includes('contact_instagram') && (
+                                  <a href={content.contact_info?.instagram || "#"} className="text-black hover:text-gray-500 transition-colors"><Instagram size={20} /></a>
+                                  )}
+                  {!hiddenFields.includes('contact_facebook') && (
+                                  <a href={content.contact_info?.facebook || "#"} className="text-black hover:text-gray-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                                  )}
+                  {!hiddenFields.includes('contact_whatsapp') && (
+                                  <a href={content.contact_info?.whatsapp || "#"} className="text-black hover:text-gray-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+                                  )}
                 </div>
               </div>
               <div className="w-full flex flex-col justify-center">
@@ -294,8 +313,12 @@ export default function MinimalistTheme({ website, content }: any) {
           <div>
             <h4 className="font-medium mb-4">Contact</h4>
             <ul className="space-y-2 text-gray-500">
-              <li className="break-words">{content.contact_info?.email || 'hello@minimal.com'}</li>
-              <li className="break-words">{content.contact_info?.phone || '+1 800 123 4567'}</li>
+              {!hiddenFields.includes('contact_email') && (
+                          <li className="break-words">{content.contact_info?.email || 'hello@minimal.com'}</li>
+                          )}
+              {!hiddenFields.includes('contact_phone') && (
+                          <li className="break-words">{content.contact_info?.phone || '+1 800 123 4567'}</li>
+                          )}
             </ul>
           </div>
         </div>

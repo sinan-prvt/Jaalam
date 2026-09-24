@@ -11,6 +11,7 @@ export default function PopGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'FreshPOP';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Oat Milk', price: '₹250', size: '1L', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80', description: 'Creamy oat milk.' },
@@ -87,12 +88,16 @@ export default function PopGroceryTheme({ website, content }: any) {
               <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
               Fresh & Organic
             </div>
-            <h1 className="font-pop text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[1.05] mb-6">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-pop text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[1.05] mb-6">
               {content.hero_title || 'Fresh. Bold.\nDelicious.'}
             </h1>
-            <p className="font-body text-gray-600 text-lg leading-relaxed mb-10 max-w-md">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-gray-600 text-lg leading-relaxed mb-10 max-w-md">
               {content.hero_text || 'Your neighbourhood supermarket, reimagined. Discover fresh produce, artisan goods, and everyday essentials — all in one place.'}
             </p>
+              )}
             <div className="flex flex-wrap gap-4">
               {!hiddenSections.includes('menu') && (
                 <a href="#shop" className="font-pop font-bold bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-lg shadow-emerald-200 hover:shadow-xl hover:-translate-y-1 transition-all text-base">
@@ -139,12 +144,16 @@ export default function PopGroceryTheme({ website, content }: any) {
         <section id="about" style={{ order: sectionOrder.indexOf('about') + 1 }} className="py-24 px-6 md:px-16 bg-white">
           <div className="max-w-5xl mx-auto text-center">
             <span className="font-pop text-sm font-bold tracking-widest uppercase text-emerald-500 mb-4 block">Our Story</span>
-            <h2 className="font-pop text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="font-pop text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
               {content.settings_json?.about_title || 'We Bring Farm Freshness to Your Table'}
             </h2>
-            <p className="font-body text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+              )}
+            {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
               {content.settings_json?.about_description || content.about_text || 'Founded with a passion for fresh, quality food — we work directly with local farmers and trusted suppliers to bring you the best produce every single day. No middlemen, no compromises.'}
             </p>
+              )}
           </div>
         </section>
       )}
@@ -256,49 +265,53 @@ export default function PopGroceryTheme({ website, content }: any) {
                 <div>
                   <span className="font-pop text-sm font-bold tracking-widest uppercase text-emerald-400 mb-4 block">Contact Us</span>
                   <h2 className="font-pop text-4xl md:text-5xl font-black text-white mb-10">Let's Talk!</h2>
-                  <div className="space-y-6">
-                    {content.contact_info?.phone && (
-                      <div className="flex items-center gap-4">
-                        <div className="w-11 h-11 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 text-xl">📞</div>
-                        <div>
-                          <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Phone</div>
-                          <div className="font-pop font-bold text-white">{content.contact_info.phone}</div>
-                        </div>
-                      </div>
-                    )}
-                    {content.contact_info?.email && (
-                      <div className="flex items-center gap-4">
-                        <div className="w-11 h-11 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 text-xl">✉️</div>
-                        <div>
-                          <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Email</div>
-                          <div className="font-pop font-bold text-white">{content.contact_info.email}</div>
-                        </div>
-                      </div>
-                    )}
-                    {content.contact_info?.address && (
-                      <div className="flex items-center gap-4">
-                        <div className="w-11 h-11 bg-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl">📍</div>
-                        <div>
-                          <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Address</div>
-                          <div className="font-pop font-bold text-white">{content.contact_info.address}</div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  {!hiddenFields.includes('contact_phone') && (
+                                  <div className="space-y-6">
+                                                      {content.contact_info?.phone && (
+                                                        <div className="flex items-center gap-4">
+                                                          <div className="w-11 h-11 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 text-xl">📞</div>
+                                                          <div>
+                                                            <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Phone</div>
+                                                            <div className="font-pop font-bold text-white">{content.contact_info.phone}</div>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                      {content.contact_info?.email && (
+                                                        <div className="flex items-center gap-4">
+                                                          <div className="w-11 h-11 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 text-xl">✉️</div>
+                                                          <div>
+                                                            <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Email</div>
+                                                            <div className="font-pop font-bold text-white">{content.contact_info.email}</div>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                      {content.contact_info?.address && (
+                                                        <div className="flex items-center gap-4">
+                                                          <div className="w-11 h-11 bg-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl">📍</div>
+                                                          <div>
+                                                            <div className="font-body text-xs text-gray-400 uppercase tracking-wider mb-0.5">Address</div>
+                                                            <div className="font-pop font-bold text-white">{content.contact_info.address}</div>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                    </div>
+                                  )}
                   {/* Hours */}
                   <div className="mt-10 p-6 bg-white/5 rounded-2xl">
                     <div className="font-pop text-xs font-bold tracking-widest uppercase text-gray-400 mb-4">🕒 Store Hours</div>
-                    <ul className="space-y-2 font-body text-sm text-gray-400">
-                      {content.contact_info?.hours ? (
-                        <li className="whitespace-pre-wrap text-white">{content.contact_info.hours}</li>
-                      ) : (
-                        <>
-                          <li className="flex justify-between"><span>Mon – Fri</span><span className="text-white font-semibold">9 AM – 8 PM</span></li>
-                          <li className="flex justify-between"><span>Saturday</span><span className="text-white font-semibold">10 AM – 6 PM</span></li>
-                          <li className="flex justify-between"><span>Sunday</span><span className="text-gray-600">Closed</span></li>
-                        </>
-                      )}
-                    </ul>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <ul className="space-y-2 font-body text-sm text-gray-400">
+                                                            {content.contact_info?.hours ? (
+                                                              <li className="whitespace-pre-wrap text-white">{content.contact_info.hours}</li>
+                                                            ) : (
+                                                              <>
+                                                                <li className="flex justify-between"><span>Mon – Fri</span><span className="text-white font-semibold">9 AM – 8 PM</span></li>
+                                                                <li className="flex justify-between"><span>Saturday</span><span className="text-white font-semibold">10 AM – 6 PM</span></li>
+                                                                <li className="flex justify-between"><span>Sunday</span><span className="text-gray-600">Closed</span></li>
+                                                              </>
+                                                            )}
+                                                          </ul>
+                                      )}
                   </div>
                   {/* Social */}
                   {(content.contact_info?.instagram || content.contact_info?.facebook || content.contact_info?.twitter) && (

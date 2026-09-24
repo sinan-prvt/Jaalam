@@ -13,6 +13,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Heritage Homes';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Colonial Estate', price: '₹8.5 Cr', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80', location: 'Heritage District', details: '5 Beds | 4 Baths | Large Garden' },
@@ -53,7 +54,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             <a href="#about" className="hover:text-[#1A252C] transition-colors">Our History</a>
             <div className="flex items-center gap-2 text-[#1A252C]">
                <Phone size={16} />
-               <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
+               {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
+                          )}
             </div>
           </div>
           <button className="md:hidden text-[#1A252C]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -68,7 +71,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#1A252C] transition-colors">Our History</a>
             <div className="flex items-center gap-2 text-[#1A252C]">
                <Phone size={16} />
-               <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
+               {!hiddenFields.includes('contact_phone') && (
+                          <span>{content.contact_info?.phone || '1-800-ESTATE'}</span>
+                          )}
             </div>
           </div>
         )}
@@ -82,12 +87,16 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                <Award size={20} />
                <span className="font-body font-semibold uppercase tracking-widest text-sm">Trusted Professionals</span>
             </div>
-            <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#1A252C] leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#1A252C] leading-tight">
               {content.hero_title || 'Tradition. Trust. Real Estate.'}
             </h1>
-            <p className="font-body text-lg text-[#5A6C7D] mb-10 leading-relaxed max-w-md">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg text-[#5A6C7D] mb-10 leading-relaxed max-w-md">
               {content.hero_text || 'Guiding families to their dream homes with integrity and generations of local market expertise.'}
             </p>
+              )}
 
           </div>
           <div className="w-full md:w-1/2 relative p-4 bg-white border border-[#EAE3D2] shadow-sm">
@@ -146,7 +155,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-20 px-6 bg-white border-b border-[#EAE3D2]">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl md:text-5xl font-classic font-bold mb-6 text-[#1A252C]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-4xl md:text-5xl font-classic font-bold mb-6 text-[#1A252C]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <div className="w-16 h-1 bg-[#1A252C] mx-auto mb-8"></div>
             <p className="text-lg text-[#5A6C7D] leading-relaxed max-w-2xl mx-auto font-body">
               {content.about_text || 'Welcome to our agency. We are dedicated to bringing you the best real estate options available. Our team works hard to ensure client satisfaction and continuous trust.'}
@@ -215,7 +226,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                   <Phone size={24} className="text-[#1A252C] mt-1 shrink-0" />
                   <div>
                     <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Telephone</h4>
-                    <p className="text-lg text-[#5A6C7D]">{content.contact_info?.phone || '1-800-ESTATE'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p className="text-lg text-[#5A6C7D]">{content.contact_info?.phone || '1-800-ESTATE'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -223,7 +236,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                   <Mail size={24} className="text-[#1A252C] mt-1 shrink-0" />
                   <div>
                     <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Electronic Mail</h4>
-                    <p className="text-lg text-[#5A6C7D] break-all">{content.contact_info?.email || 'contact@heritagehomes.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p className="text-lg text-[#5A6C7D] break-all">{content.contact_info?.email || 'contact@heritagehomes.com'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -231,7 +246,9 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                   <MapPin size={24} className="text-[#1A252C] mt-1 shrink-0" />
                   <div>
                     <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Office Location</h4>
-                    <p className="text-lg text-[#5A6C7D]">{content.contact_info?.address || '100 Main Street, Kerala'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p className="text-lg text-[#5A6C7D]">{content.contact_info?.address || '100 Main Street, Kerala'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
@@ -241,25 +258,29 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
                   <Clock size={24} className="text-[#1A252C] mt-1 shrink-0" />
                   <div>
                     <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-1 text-sm">Business Hours</h4>
-                    <p className="text-lg text-[#5A6C7D] whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9:00 AM - 6:00 PM'}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <p className="text-lg text-[#5A6C7D] whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9:00 AM - 6:00 PM'}</p>
+                                      )}
                   </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-4 text-sm flex items-center gap-2">
-                    Social Presence
-                  </h4>
-                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
-                    <div className="flex gap-4">
-                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Facebook size={18} /></a>}
-                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Instagram size={18} /></a>}
-                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Twitter size={18} /></a>}
-                      {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Youtube size={18} /></a>}
-                    </div>
-                  ) : (
-                    <p className="text-[#5A6C7D] text-sm">Social links not configured.</p>
-                  )}
-                </div>
+                {!hiddenFields.includes('contact_facebook') && (
+                              <div>
+                                                <h4 className="font-bold text-[#1A252C] uppercase tracking-wider mb-4 text-sm flex items-center gap-2">
+                                                  Social Presence
+                                                </h4>
+                                                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) ? (
+                                                  <div className="flex gap-4">
+                                                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Facebook size={18} /></a>}
+                                                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Instagram size={18} /></a>}
+                                                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Twitter size={18} /></a>}
+                                                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 border border-[#EAE3D2] rounded-full flex items-center justify-center text-[#1A252C] hover:bg-[#1A252C] hover:text-white transition-colors"><Youtube size={18} /></a>}
+                                                  </div>
+                                                ) : (
+                                                  <p className="text-[#5A6C7D] text-sm">Social links not configured.</p>
+                                                )}
+                                              </div>
+                              )}
               </div>
             </div>
             
@@ -274,16 +295,18 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             </div>
 
             <div className="mt-16 w-full h-[400px] border border-[#EAE3D2] p-2 bg-white shadow-sm">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Main Street, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Main Street, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

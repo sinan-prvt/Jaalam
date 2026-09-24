@@ -10,6 +10,7 @@ interface CollegeFestThemeProps {
 }
 
 export default function CollegeFestTheme({ content, website, updateContent, isEditor }: CollegeFestThemeProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const theme = website?.theme || 'Modern';
   const category = website?.business_type || 'Tech Fest';
 

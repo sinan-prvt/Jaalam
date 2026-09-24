@@ -13,6 +13,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'AURA';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Villa No. 14', price: '₹5.5 Cr', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80', info: '4 Bed / 4 Bath / 4200 Sqft' },
@@ -65,12 +66,16 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
       <section className="pt-20 pb-32 px-8 md:px-12 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-end">
           <div>
-            <h1 className="font-min text-5xl md:text-7xl font-medium tracking-tighter leading-[1.1] mb-8 uppercase">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-min text-5xl md:text-7xl font-medium tracking-tighter leading-[1.1] mb-8 uppercase">
               {content.hero_title || 'Curated Spaces.'}
             </h1>
-            <p className="font-min text-lg text-gray-500 max-w-md leading-relaxed">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-min text-lg text-gray-500 max-w-md leading-relaxed">
               {content.hero_text || 'A minimalist approach to luxury real estate. Discover properties that speak for themselves.'}
             </p>
+              )}
           </div>
           <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
              <img loading="lazy" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80" alt="Architecture" className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" />
@@ -114,7 +119,9 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -194,7 +201,9 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                   <Phone size={24} className="stroke-1" />
                 </div>
                 <div className="text-sm font-bold uppercase tracking-widest mb-3">Phone</div>
-                <div className="text-gray-600">{content.contact_info?.phone || '+91 98765 43210'}</div>
+                {!hiddenFields.includes('contact_phone') && (
+                              <div className="text-gray-600">{content.contact_info?.phone || '+91 98765 43210'}</div>
+                              )}
               </div>
               
               <div className="flex flex-col text-center items-center group">
@@ -202,7 +211,9 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                   <Mail size={24} className="stroke-1" />
                 </div>
                 <div className="text-sm font-bold uppercase tracking-widest mb-3">Email</div>
-                <div className="text-gray-600 break-all">{content.contact_info?.email || 'hello@aura.com'}</div>
+                {!hiddenFields.includes('contact_email') && (
+                              <div className="text-gray-600 break-all">{content.contact_info?.email || 'hello@aura.com'}</div>
+                              )}
               </div>
               
               <div className="flex flex-col text-center items-center group">
@@ -210,7 +221,9 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                   <MapPin size={24} className="stroke-1" />
                 </div>
                 <div className="text-sm font-bold uppercase tracking-widest mb-3">Studio</div>
-                <div className="text-gray-600 whitespace-pre-wrap">{content.contact_info?.address || 'Design Park\nKerala, India'}</div>
+                {!hiddenFields.includes('contact_address') && (
+                              <div className="text-gray-600 whitespace-pre-wrap">{content.contact_info?.address || 'Design Park\nKerala, India'}</div>
+                              )}
               </div>
               
               <div className="flex flex-col text-center items-center group">
@@ -218,7 +231,9 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
                   <Clock size={24} className="stroke-1" />
                 </div>
                 <div className="text-sm font-bold uppercase tracking-widest mb-3">Hours</div>
-                <div className="text-gray-600 whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 10AM - 7PM'}</div>
+                {!hiddenFields.includes('contact_hours') && (
+                              <div className="text-gray-600 whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 10AM - 7PM'}</div>
+                              )}
               </div>
             </div>
             
@@ -242,16 +257,18 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             </div>
 
             <div className="mt-24 w-full h-[400px] border border-black overflow-hidden filter grayscale hover:grayscale-0 transition-all duration-1000">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Design Park, Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Design Park, Kerala, India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

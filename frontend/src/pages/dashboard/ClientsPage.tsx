@@ -127,7 +127,7 @@ export default function ClientsPage() {
         
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5"
+          className="flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold shadow-lg shadow-orange-600/20 transition-all transform hover:-translate-y-0.5"
         >
           <Plus size={20} />
           <span>New Client</span>
@@ -136,7 +136,7 @@ export default function ClientsPage() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="w-12 h-12 border-4 border-slate-200 border-t-indigo-500 rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-slate-200 border-t-orange-500 rounded-full animate-spin"></div>
         </div>
       ) : clients.length === 0 ? (
         <div className="bg-white/60 border border-slate-200 border-dashed rounded-3xl p-10 text-center shadow-sm">
@@ -145,7 +145,7 @@ export default function ClientsPage() {
           <p className="text-slate-500 mb-6">Create a client account to give website owners access to their own CRM and Analytics.</p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-indigo-100 hover:border-indigo-500 text-indigo-600 rounded-xl font-bold transition-all shadow-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-orange-100 hover:border-orange-500 text-orange-600 rounded-xl font-bold transition-all shadow-sm"
           >
             <Plus size={20} />
             <span>Create First Client</span>
@@ -156,7 +156,7 @@ export default function ClientsPage() {
           {clients.map(client => (
             <div key={client.id} className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
               <div className="flex items-start gap-4 mb-6 relative">
-                <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-700 font-black text-xl shrink-0">
+                <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-700 font-black text-xl shrink-0">
                   {client.username.charAt(0).toUpperCase()}
                 </div>
                 <div className="overflow-hidden pr-16">
@@ -167,7 +167,7 @@ export default function ClientsPage() {
                   </div>
                 </div>
                 <div className="absolute top-0 right-0 flex gap-1">
-                  <button onClick={() => { setEditingClient(client); setEditData({ username: client.username, email: client.email || '', password: '' }); }} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Edit Client">
+                  <button onClick={() => { setEditingClient(client); setEditData({ username: client.username, email: client.email || '', password: '' }); }} className="p-2 text-slate-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors" title="Edit Client">
                     <Edit2 size={16} />
                   </button>
                   <button onClick={() => handleDeleteClient(client.id, client.username)} className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete Client">
@@ -201,7 +201,7 @@ export default function ClientsPage() {
           <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                <User size={24} className="text-indigo-500" />
+                <User size={24} className="text-orange-500" />
                 Create Client Account
               </h2>
             </div>
@@ -215,7 +215,7 @@ export default function ClientsPage() {
                     required
                     value={newClient.username}
                     onChange={e => setNewClient({...newClient, username: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                     placeholder="e.g. cafeowner123"
                   />
                 </div>
@@ -226,7 +226,7 @@ export default function ClientsPage() {
                     type="email"
                     value={newClient.email}
                     onChange={e => setNewClient({...newClient, email: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                     placeholder="client@example.com"
                   />
                 </div>
@@ -244,7 +244,7 @@ export default function ClientsPage() {
                       minLength={6}
                       value={newClient.password}
                       onChange={e => setNewClient({...newClient, password: e.target.value})}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                       placeholder="Minimum 6 characters"
                     />
                   </div>
@@ -262,7 +262,7 @@ export default function ClientsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"
+                  className="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 transition-colors flex justify-center items-center gap-2"
                 >
                   {isSubmitting ? (
                     <Loader2 size={20} className="animate-spin" />
@@ -284,7 +284,7 @@ export default function ClientsPage() {
           <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                <Edit2 size={24} className="text-indigo-500" />
+                <Edit2 size={24} className="text-orange-500" />
                 Edit Client Account
               </h2>
             </div>
@@ -298,7 +298,7 @@ export default function ClientsPage() {
                     required
                     value={editData.username}
                     onChange={e => setEditData({...editData, username: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                   />
                 </div>
                 
@@ -308,7 +308,7 @@ export default function ClientsPage() {
                     type="email"
                     value={editData.email}
                     onChange={e => setEditData({...editData, email: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                   />
                 </div>
                 
@@ -324,7 +324,7 @@ export default function ClientsPage() {
                       minLength={6}
                       value={editData.password}
                       onChange={e => setEditData({...editData, password: e.target.value})}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all font-medium"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                       placeholder="Minimum 6 characters"
                     />
                   </div>
@@ -342,7 +342,7 @@ export default function ClientsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"
+                  className="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 transition-colors flex justify-center items-center gap-2"
                 >
                   {isSubmitting ? (
                     <Loader2 size={20} className="animate-spin" />

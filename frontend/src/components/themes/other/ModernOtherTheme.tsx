@@ -9,6 +9,7 @@ export default function ModernOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'My Business';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Quality Service', description: 'We provide top-notch quality that exceeds expectations.' },
@@ -62,12 +63,16 @@ export default function ModernOtherTheme({ website, content }: any) {
         
         <div className="container mx-auto max-w-6xl relative z-10 flex flex-col lg:flex-row items-center gap-12">
           <div className="w-full lg:w-1/2 text-center lg:text-left">
-            <h1 className="font-modern text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight text-slate-900">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight text-slate-900">
               {content.hero_title || 'Welcome to our business'}
             </h1>
-            <p className="font-modern text-lg md:text-xl text-slate-600 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-lg md:text-xl text-slate-600 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
               {content.hero_text || 'We provide exceptional products and services designed to help you succeed.'}
             </p>
+              )}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a href="#contact" className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-modern font-semibold py-4 px-8 rounded-full shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-1 transition-all">
                 Get Started
@@ -91,9 +96,11 @@ export default function ModernOtherTheme({ website, content }: any) {
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-12 items-center">
               <div className="w-full md:w-1/2">
-                <h2 className="font-modern text-4xl font-bold mb-6 text-slate-900 tracking-tight">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-modern text-4xl font-bold mb-6 text-slate-900 tracking-tight">
                   {content.settings_json?.about_title || content.about_title || 'About Us'}
                 </h2>
+              )}
                 <div className="w-16 h-1.5 bg-blue-600 rounded-full mb-8"></div>
                 <p className="font-modern text-lg text-slate-600 leading-relaxed">
                   {content.about_text || 'We are dedicated to delivering the best experience for our customers. Our journey started with a simple idea and has grown into a passion for excellence. We believe in innovation, quality, and putting our clients first in everything we do.'}
@@ -207,7 +214,9 @@ export default function ModernOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-sm text-slate-500 uppercase tracking-wider font-semibold mb-1">Phone</div>
-                      <div className="text-lg">{content.contact_info?.phone || '+1 (555) 123-4567'}</div>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <div className="text-lg">{content.contact_info?.phone || '+1 (555) 123-4567'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-slate-300">
@@ -216,7 +225,9 @@ export default function ModernOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-sm text-slate-500 uppercase tracking-wider font-semibold mb-1">Email</div>
-                      <div className="text-lg">{content.contact_info?.email || 'hello@example.com'}</div>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <div className="text-lg">{content.contact_info?.email || 'hello@example.com'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-slate-300">
@@ -225,7 +236,9 @@ export default function ModernOtherTheme({ website, content }: any) {
                     </div>
                     <div>
                       <div className="text-sm text-slate-500 uppercase tracking-wider font-semibold mb-1">Location</div>
-                      <div className="text-lg">{content.contact_info?.address || '123 Business Ave, Suite 100'}</div>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <div className="text-lg">{content.contact_info?.address || '123 Business Ave, Suite 100'}</div>
+                                          )}
                     </div>
                   </div>
                   {content.contact_info?.hours && (
@@ -244,18 +257,20 @@ export default function ModernOtherTheme({ website, content }: any) {
               <div>
                 <div className="bg-white/5 p-8 rounded-3xl border border-white/10">
                   <h3 className="font-modern text-2xl font-bold mb-6">Social Presence</h3>
-                  <div className="flex gap-4">
-                    {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition-colors"><Facebook size={20} /></a>}
-                    {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"><Instagram size={20} /></a>}
-                    {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition-colors"><Twitter size={20} /></a>}
-                    {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 transition-colors"><Youtube size={20} /></a>}
-                    {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-green-500 transition-colors"><WhatsApp size={20} /></a>}
-                    
-                    {/* Fallback if no socials */}
-                    {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && !content.contact_info?.whatsapp && (
-                      <div className="text-slate-400 font-modern">Connect with us on our social platforms to stay updated!</div>
-                    )}
-                  </div>
+                  {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex gap-4">
+                                                      {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition-colors"><Facebook size={20} /></a>}
+                                                      {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"><Instagram size={20} /></a>}
+                                                      {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition-colors"><Twitter size={20} /></a>}
+                                                      {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 transition-colors"><Youtube size={20} /></a>}
+                                                      {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-green-500 transition-colors"><WhatsApp size={20} /></a>}
+                                                      
+                                                      {/* Fallback if no socials */}
+                                                      {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && !content.contact_info?.whatsapp && (
+                                                        <div className="text-slate-400 font-modern">Connect with us on our social platforms to stay updated!</div>
+                                                      )}
+                                                    </div>
+                                  )}
                   
                 </div>
               </div>
@@ -274,15 +289,17 @@ export default function ModernOtherTheme({ website, content }: any) {
 
           <div className="container mx-auto max-w-6xl mt-16">
             <div className="rounded-3xl overflow-hidden h-[400px] bg-white/5 relative border border-white/10">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

@@ -21,6 +21,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'MINIMAL';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Monolith Notebook', price: '₹1200', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80', description: 'Pure black edges. 120gsm unlined paper. Distraction-free.' },
@@ -102,9 +103,11 @@ export default function MinimalStationeryTheme({ website, content }: any) {
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
                 <section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
-                  <h1 className="font-minimal text-6xl md:text-9xl font-extrabold tracking-tighter leading-[0.9] mb-8">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-minimal text-6xl md:text-9xl font-extrabold tracking-tighter leading-[0.9] mb-8">
                     {content.hero_title || 'ESSENTIAL\nTOOLS\nFOR\nTHOUGHT.'}
                   </h1>
+              )}
                   <div className="flex flex-col md:flex-row gap-8 items-start md:items-end justify-between border-t border-black pt-8">
                     <p className="font-minimal text-lg md:text-xl font-light max-w-md text-gray-600">
                       {content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace. Stripped of all the unnecessary.'}
@@ -120,12 +123,16 @@ export default function MinimalStationeryTheme({ website, content }: any) {
             {!hiddenSections.includes('about') && (
                 <section key="about" id="about" className="py-32 px-6 bg-black text-white">
                   <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
-                    <h2 className="font-minimal text-4xl md:text-6xl font-extrabold tracking-tighter leading-tight">
+                    {!hiddenFields.includes("about_title") && (
+              <h2 className="font-minimal text-4xl md:text-6xl font-extrabold tracking-tighter leading-tight">
                       {content.settings_json?.about_title || 'REMOVING THE NOISE.'}
                     </h2>
-                    <p className="font-minimal text-xl font-light text-gray-400 leading-relaxed">
+              )}
+                    {!hiddenFields.includes("about_description") && (
+              <p className="font-minimal text-xl font-light text-gray-400 leading-relaxed">
                       {content.settings_json?.about_description || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. We believe in subtraction. When you remove the unnecessary, what remains is essential.'}
                     </p>
+              )}
                   </div>
                 </section>
             )}
@@ -234,21 +241,29 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                       <div className="space-y-6 font-minimal text-sm uppercase tracking-widest text-gray-400">
                         <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-800 pb-2 gap-2">
                           <span className="text-white shrink-0">EMAIL</span> 
-                          <span className="sm:text-right break-all">{content.contact_info?.email || 'studio@minimal.com'}</span>
+                          {!hiddenFields.includes('contact_email') && (
+                                              <span className="sm:text-right break-all">{content.contact_info?.email || 'studio@minimal.com'}</span>
+                                              )}
                         </div>
                         <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-800 pb-2 gap-2">
                           <span className="text-white shrink-0">PHONE</span> 
-                          <span className="sm:text-right break-words">{content.contact_info?.phone || '+1 234 567 890'}</span>
+                          {!hiddenFields.includes('contact_phone') && (
+                                              <span className="sm:text-right break-words">{content.contact_info?.phone || '+1 234 567 890'}</span>
+                                              )}
                         </div>
                         <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-800 pb-2 gap-2">
                           <span className="text-white shrink-0">STUDIO</span> 
-                          <span className="sm:text-right break-words">{content.contact_info?.address || '101 Nowhere St, Void City'}</span>
+                          {!hiddenFields.includes('contact_address') && (
+                                              <span className="sm:text-right break-words">{content.contact_info?.address || '101 Nowhere St, Void City'}</span>
+                                              )}
                         </div>
                         
                         {(content.contact_info?.hours || content.settings_json?.office_hours) && (
                           <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-800 pb-2 gap-2">
                             <span className="text-white shrink-0">HOURS</span> 
-                            <span className="sm:text-right break-words whitespace-pre-line">{content.contact_info?.hours || content.settings_json?.office_hours}</span>
+                            {!hiddenFields.includes('contact_hours') && (
+                                                  <span className="sm:text-right break-words whitespace-pre-line">{content.contact_info?.hours || content.settings_json?.office_hours}</span>
+                                                  )}
                           </div>
                         )}
                         
@@ -285,12 +300,14 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                   </div>
                   
                   <div className="max-w-7xl mx-auto mt-16 aspect-[21/9] bg-gray-900 overflow-hidden relative">
-                    <iframe 
-                      src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
-                      className="w-full h-full border-0 filter grayscale opacity-80" 
-                      allowFullScreen={false} 
-                      loading="lazy"
-                    ></iframe>
+                    {!hiddenFields.includes('contact_address') && (
+                                  <iframe 
+                                                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || content.address || 'Tokyo')}&output=embed`}
+                                                        className="w-full h-full border-0 filter grayscale opacity-80" 
+                                                        allowFullScreen={false} 
+                                                        loading="lazy"
+                                                      ></iframe>
+                                  )}
                   </div>
                 </section>
             )}

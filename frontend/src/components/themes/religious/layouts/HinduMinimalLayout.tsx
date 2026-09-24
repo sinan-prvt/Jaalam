@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Phone, ArrowRight, Minus } from 'lucide-
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HinduMinimalLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -273,9 +274,11 @@ export default function HinduMinimalLayout({ website, content }: { website: any,
                 <div className="space-y-16">
                   <div>
                     <h4 className="text-xs font-sans font-bold tracking-[0.2em] uppercase mb-4 text-stone-500">Address</h4>
-                    <p className="font-sans font-light text-2xl leading-relaxed max-w-sm text-stone-300">
-                      {content.contact_info?.address || '123 Sacred Lane, City, Country'}
-                    </p>
+                    {!hiddenFields.includes('contact_address') && (
+                                <p className="font-sans font-light text-2xl leading-relaxed max-w-sm text-stone-300">
+                                                      {content.contact_info?.address || '123 Sacred Lane, City, Country'}
+                                                    </p>
+                                )}
                   </div>
                   <div>
                     <h4 className="text-xs font-sans font-bold tracking-[0.2em] uppercase mb-4 text-stone-500">Phone</h4>

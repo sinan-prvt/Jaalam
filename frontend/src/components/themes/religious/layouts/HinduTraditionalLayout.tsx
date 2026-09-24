@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Info, Phone, Heart, ArrowRight, Sun } fr
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HinduTraditionalLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -341,9 +342,11 @@ export default function HinduTraditionalLayout({ website, content }: { website: 
                       </div>
                       <div>
                         <h4 className="text-xl font-serif font-bold mb-2 tracking-wide text-white">Temple Location</h4>
-                        <p className="text-[#fef3c7] font-serif leading-relaxed text-lg max-w-sm">
-                          {content.contact_info?.address || '123 Sacred Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-[#fef3c7] font-serif leading-relaxed text-lg max-w-sm">
+                                                                  {content.contact_info?.address || '123 Sacred Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6 group">

@@ -19,6 +19,7 @@ interface ClassicWeddingThemeProps {
 }
 
 export default function ClassicWeddingTheme({ content, website, updateContent, isEditor }: ClassicWeddingThemeProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const theme = website?.theme || 'Classic';
   const category = website?.business_type || 'Wedding Invitation';
 

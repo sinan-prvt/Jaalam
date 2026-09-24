@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Info, Phone, Heart, Flower2, Leaf } from
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ChristianFloralLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -331,9 +332,11 @@ export default function ChristianFloralLayout({ website, content }: { website: a
                       </div>
                       <div>
                         <h4 className="text-xl font-serif font-bold mb-2 tracking-wide text-white">Location</h4>
-                        <p className="text-white/80 font-light leading-relaxed text-lg max-w-sm">
-                          {content.contact_info?.address || '123 Faith Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-white/80 font-light leading-relaxed text-lg max-w-sm">
+                                                                  {content.contact_info?.address || '123 Faith Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6 group">

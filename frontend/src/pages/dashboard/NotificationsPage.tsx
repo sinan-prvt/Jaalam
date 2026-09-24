@@ -193,20 +193,20 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
       <div className="w-full md:w-1/3 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm flex flex-col overflow-hidden flex-1 md:flex-none md:h-full shrink-0 min-h-[200px]">
         <div className="p-4 border-b border-white/50 bg-white/40 flex items-center justify-between">
           <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-            <Bell size={20} className="text-indigo-500" />
+            <Bell size={20} className="text-orange-500" />
             Inbox
           </h2>
           <div className="flex items-center gap-2">
              <select 
                value={filter} 
                onChange={(e) => setFilter(e.target.value)}
-               className="text-xs bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none font-bold text-slate-600 focus:ring-2 focus:ring-indigo-500/20"
+               className="text-xs bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none font-bold text-slate-600 focus:ring-2 focus:ring-orange-500/20"
              >
                <option value="All">All</option>
                <option value="Unread">Unread</option>
              </select>
              {!isAdminView && (
-               <button onClick={() => { setIsComposing(true); setSelectedNotification(null); }} className="bg-indigo-600 text-white p-1.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
+               <button onClick={() => { setIsComposing(true); setSelectedNotification(null); }} className="bg-orange-600 text-white p-1.5 rounded-lg hover:bg-orange-700 transition-colors shadow-sm">
                  <Plus size={16} />
                </button>
              )}
@@ -226,22 +226,22 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                 }}
                 className={`p-4 rounded-2xl cursor-pointer transition-all ${
                   !isComposing && selectedNotification?.id === notif.id 
-                    ? 'bg-indigo-500 text-white shadow-md' 
+                    ? 'bg-orange-500 text-white shadow-md' 
                     : notif.is_read 
                       ? 'hover:bg-white/80 text-slate-700' 
-                      : 'bg-indigo-50 text-indigo-900 border border-indigo-100 hover:bg-indigo-100'
+                      : 'bg-orange-50 text-orange-900 border border-orange-100 hover:bg-orange-100'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div className="mt-1 shrink-0">
-                    {notif.is_read ? <CheckCircle2 size={16} className={!isComposing && selectedNotification?.id === notif.id ? 'text-indigo-200' : 'text-slate-400'} /> : <Circle size={16} className="text-indigo-500 fill-indigo-500" />}
+                    {notif.is_read ? <CheckCircle2 size={16} className={!isComposing && selectedNotification?.id === notif.id ? 'text-orange-200' : 'text-slate-400'} /> : <Circle size={16} className="text-orange-500 fill-orange-500" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold truncate text-sm">{notif.title}</h4>
-                    <p className={`text-xs mt-1 line-clamp-2 ${!isComposing && selectedNotification?.id === notif.id ? 'text-indigo-100' : 'text-slate-500'}`}>
+                    <p className={`text-xs mt-1 line-clamp-2 ${!isComposing && selectedNotification?.id === notif.id ? 'text-orange-100' : 'text-slate-500'}`}>
                       {notif.message}
                     </p>
-                    <div className={`text-[10px] mt-2 flex items-center gap-1 font-bold ${!isComposing && selectedNotification?.id === notif.id ? 'text-indigo-200' : 'text-slate-400'}`}>
+                    <div className={`text-[10px] mt-2 flex items-center gap-1 font-bold ${!isComposing && selectedNotification?.id === notif.id ? 'text-orange-200' : 'text-slate-400'}`}>
                       <Clock size={10} />
                       {new Date(notif.created_at).toLocaleString()}
                     </div>
@@ -264,12 +264,12 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
              <div className="space-y-5 flex-1">
                <div>
                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Subject</label>
-                 <input value={composeTitle} onChange={e => setComposeTitle(e.target.value)} type="text" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium" placeholder="What is this about?" />
+                 <input value={composeTitle} onChange={e => setComposeTitle(e.target.value)} type="text" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium" placeholder="What is this about?" />
                </div>
                <div className="flex-1 flex flex-col min-h-[200px]">
                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2 ml-1">Message</label>
                  <div className="relative flex-1 flex flex-col">
-                   <textarea value={composeMessage} onChange={e => setComposeMessage(e.target.value)} className="w-full flex-1 bg-white border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none transition-all" placeholder="Type your message here..."></textarea>
+                   <textarea value={composeMessage} onChange={e => setComposeMessage(e.target.value)} className="w-full flex-1 bg-white border border-slate-200 rounded-xl pl-4 pr-4 py-3 pb-12 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 resize-none transition-all" placeholder="Type your message here..."></textarea>
                    <button
                      onClick={() => {
                        const input = document.createElement('input');
@@ -289,7 +289,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                        };
                        input.click();
                      }}
-                     className="absolute bottom-3 left-3 text-slate-400 hover:text-indigo-500 transition-colors p-2 bg-slate-50 rounded-lg border border-slate-200 hover:bg-white shadow-sm"
+                     className="absolute bottom-3 left-3 text-slate-400 hover:text-orange-500 transition-colors p-2 bg-slate-50 rounded-lg border border-slate-200 hover:bg-white shadow-sm"
                      title="Attach Image/Screenshot"
                    >
                      <Paperclip size={18} />
@@ -298,7 +298,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                </div>
              </div>
              <div className="pt-6 mt-2 border-t border-white/50 flex justify-end">
-               <button onClick={handleSendMessage} disabled={!composeTitle.trim() || !composeMessage.trim()} className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-600/20 transform hover:-translate-y-0.5">
+               <button onClick={handleSendMessage} disabled={!composeTitle.trim() || !composeMessage.trim()} className="bg-orange-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-orange-600/20 transform hover:-translate-y-0.5">
                  <Send size={18} /> Send Message
                </button>
              </div>
@@ -349,7 +349,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                     </div>
                     <div className={`p-4 rounded-2xl shadow-sm text-sm leading-relaxed ${
                       isMe 
-                        ? 'bg-indigo-600 text-white rounded-tr-sm' 
+                        ? 'bg-orange-600 text-white rounded-tr-sm' 
                         : 'bg-white border border-slate-100 text-slate-700 rounded-tl-sm'
                     }`}>
                       {msg.content.split(/(\[ATTACHMENT:[^:]+:data:image\/[^;]+;base64,[^\]]+\])/).map((part, idx) => {
@@ -382,7 +382,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                     onChange={(e) => setReplyText(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
                     placeholder="Type a reply..."
-                    className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                    className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                   />
                   <button
                     onClick={() => {
@@ -403,7 +403,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                       };
                       input.click();
                     }}
-                    className="absolute left-3 text-slate-400 hover:text-indigo-500 transition-colors p-1"
+                    className="absolute left-3 text-slate-400 hover:text-orange-500 transition-colors p-1"
                     title="Attach Image/Screenshot"
                   >
                     <Paperclip size={18} />
@@ -412,7 +412,7 @@ export default function NotificationsPage({ isAdminView = false }: Notifications
                 <button 
                   onClick={handleSendReply}
                   disabled={!replyText.trim()}
-                  className="bg-indigo-600 text-white px-5 rounded-xl font-bold flex items-center justify-center transition-all hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-indigo-600/20"
+                  className="bg-orange-600 text-white px-5 rounded-xl font-bold flex items-center justify-center transition-all hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-orange-600/20"
                 >
                   <Send size={18} />
                 </button>

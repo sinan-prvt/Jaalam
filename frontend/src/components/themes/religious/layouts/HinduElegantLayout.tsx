@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, User, Phone, ArrowRight, Sun, Sparkles } from 
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HinduElegantLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -307,9 +308,11 @@ export default function HinduElegantLayout({ website, content }: { website: any,
                       </div>
                       <div>
                         <h4 className="text-xs font-sans font-bold tracking-[0.3em] uppercase mb-3 text-[#d4af37]">Location</h4>
-                        <p className="text-[#fafaf9] font-serif leading-relaxed text-2xl">
-                          {content.contact_info?.address || '123 Sacred Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-[#fafaf9] font-serif leading-relaxed text-2xl">
+                                                                  {content.contact_info?.address || '123 Sacred Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-8">

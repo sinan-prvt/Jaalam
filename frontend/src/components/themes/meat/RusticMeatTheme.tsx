@@ -10,6 +10,7 @@ export default function RusticMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'The Honest Farm';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Pasture Raised Chicken', price: '₹420/kg', image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80', description: 'Raised without antibiotics on green pastures.' },
     { name: 'Grass-Fed Lamb', price: '₹1200/kg', image: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80', description: 'Tender cuts from naturally raised lamb.' },
@@ -79,9 +80,11 @@ export default function RusticMeatTheme({ website, content }: any) {
             <section key="hero" id="hero" className="py-16 px-6 bg-[#F4F1EA] border-b-2 border-[#8F9779]/20">
               <div className="container mx-auto max-w-6xl flex flex-col md:flex-row gap-16 items-center">
                 <div className="w-full md:w-1/2">
-                  <h1 className="font-rustic text-5xl md:text-7xl font-bold mb-6 text-[#2A3614] leading-tight">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-rustic text-5xl md:text-7xl font-bold mb-6 text-[#2A3614] leading-tight">
                     {content.hero_title || 'Meat you can feel good about.'}
                   </h1>
+              )}
                   <p className="font-body text-lg text-[#5C6B3E] mb-10 leading-relaxed">
                     {content.about_text || content.hero_text || 'We believe in ethical farming. Our animals roam free on green pastures, resulting in healthier, tastier meat for your family.'}
                   </p>
@@ -107,12 +110,16 @@ export default function RusticMeatTheme({ website, content }: any) {
                     <Leaf size={24} />
                     <span className="font-body font-bold tracking-widest uppercase text-sm">Our Roots</span>
                   </div>
-                  <h2 className="font-rustic text-4xl md:text-5xl font-bold text-[#2A3614] mb-6">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-rustic text-4xl md:text-5xl font-bold text-[#2A3614] mb-6">
                     {content.settings_json?.about_title || content.about_title || 'Sustainable Agriculture'}
                   </h2>
-                  <p className="font-body text-[#5C6B3E] leading-relaxed text-lg mb-6">
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-[#5C6B3E] leading-relaxed text-lg mb-6">
                     {content.settings_json?.about_description || content.about_description || 'We are stewards of the land, committed to regenerative agriculture. By rotating our animals across open pastures, we improve soil health while raising incredibly healthy livestock. No cages, no hormones, just nature working as intended.'}
                   </p>
+              )}
                 </div>
                 <div className="w-full md:w-1/2">
                   <div className="rounded-2xl overflow-hidden border-4 border-white shadow-lg">
@@ -214,35 +221,37 @@ export default function RusticMeatTheme({ website, content }: any) {
                     <p className="font-body text-[#A3AC8D] mb-10 leading-relaxed">
                       We love showing people where their food comes from. Farm tours are available by appointment on weekends.
                     </p>
-                    <div className="space-y-6 font-body">
-                      {content.contact_info?.phone && (
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><Phone size={20} className="text-[#8F9779]" /></div>
-                          <div>
-                            <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Call Us</div>
-                            <div>{content.contact_info.phone}</div>
-                          </div>
-                        </div>
-                      )}
-                      {content.contact_info?.email && (
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><Mail size={20} className="text-[#8F9779]" /></div>
-                          <div>
-                            <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Email</div>
-                            <div>{content.contact_info.email}</div>
-                          </div>
-                        </div>
-                      )}
-                      {content.contact_info?.address && (
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><MapPin size={20} className="text-[#8F9779]" /></div>
-                          <div>
-                            <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Location</div>
-                            <div className="leading-relaxed">{content.contact_info.address}</div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    {!hiddenFields.includes('contact_phone') && (
+                              <div className="space-y-6 font-body">
+                                                    {content.contact_info?.phone && (
+                                                      <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><Phone size={20} className="text-[#8F9779]" /></div>
+                                                        <div>
+                                                          <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Call Us</div>
+                                                          <div>{content.contact_info.phone}</div>
+                                                        </div>
+                                                      </div>
+                                                    )}
+                                                    {content.contact_info?.email && (
+                                                      <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><Mail size={20} className="text-[#8F9779]" /></div>
+                                                        <div>
+                                                          <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Email</div>
+                                                          <div>{content.contact_info.email}</div>
+                                                        </div>
+                                                      </div>
+                                                    )}
+                                                    {content.contact_info?.address && (
+                                                      <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 bg-[#2A3614] rounded-full flex items-center justify-center shrink-0"><MapPin size={20} className="text-[#8F9779]" /></div>
+                                                        <div>
+                                                          <div className="text-xs tracking-widest uppercase text-[#8F9779] font-bold mb-1">Location</div>
+                                                          <div className="leading-relaxed">{content.contact_info.address}</div>
+                                                        </div>
+                                                      </div>
+                                                    )}
+                                                  </div>
+                              )}
                   </div>
                   <div className="bg-[#FAF8F5] p-6 md:p-8 rounded-xl shadow-inner border-2 border-[#8B4513]/20">
                     <ContactForm 

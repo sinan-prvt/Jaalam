@@ -13,6 +13,7 @@ interface BirthdayThemeProps {
 }
 
 export default function BirthdayTheme({ content, website, updateContent, isEditor }: BirthdayThemeProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const theme = website?.theme || 'Playful';
   const category = website?.business_type || 'Kids Birthday';
 

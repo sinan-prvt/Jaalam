@@ -72,6 +72,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
   /* ── Content ── */
   const siteName = content.settings_json?.website_name || website.slug || 'Beautify';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address = content.contact_info?.address || 'Lagos, Nigeria';
 
   const heroImage = content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
@@ -401,9 +402,11 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                             <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-stone-400">About Us</span>
                             <div className="glamour-line" />
                           </div>
-                          <h2 className="font-glamour text-3xl md:text-4xl lg:text-5xl font-bold text-stone-900">
+                          {!hiddenFields.includes("about_title") && (
+              <h2 className="font-glamour text-3xl md:text-4xl lg:text-5xl font-bold text-stone-900">
                             {content.settings_json?.about_title || 'Our Story'}
                           </h2>
+              )}
                         </div>
 
                         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
@@ -421,7 +424,8 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
                           {/* Text */}
                           <div className="flex-1 min-w-0 w-full text-center md:text-left">
-                            <p className="text-stone-500 text-base md:text-lg leading-relaxed font-medium break-words whitespace-pre-wrap">
+                            {!hiddenFields.includes("about_description") && (
+              <p className="text-stone-500 text-base md:text-lg leading-relaxed font-medium break-words whitespace-pre-wrap">
                               {(() => {
                                 const text = content.settings_json?.about_description || content.about_text;
                                 if (!text || text === 'Add your business description here.' || text.trim() === '') {
@@ -430,6 +434,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 return text;
                               })()}
                             </p>
+              )}
                             <div className="mt-8">
                               <button
                                 onClick={() => scrollTo('#contact')}
@@ -633,7 +638,9 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 </div>
                                 <div>
                                   <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-stone-400 mb-1">Location</p>
-                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.address || 'Lagos, Nigeria'}</p>
+                                  {!hiddenFields.includes('contact_address') && (
+                                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.address || 'Lagos, Nigeria'}</p>
+                                                  )}
                                 </div>
                               </div>
 
@@ -645,7 +652,9 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 </div>
                                 <div>
                                   <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-stone-400 mb-1">Phone</p>
-                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                  {!hiddenFields.includes('contact_phone') && (
+                                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                                  )}
                                 </div>
                               </div>
 
@@ -657,7 +666,9 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 </div>
                                 <div>
                                   <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-stone-400 mb-1">Email</p>
-                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.email || 'hello@beautify.com'}</p>
+                                  {!hiddenFields.includes('contact_email') && (
+                                                  <p className="text-sm font-bold text-stone-800">{content.contact_info?.email || 'hello@beautify.com'}</p>
+                                                  )}
                                 </div>
                               </div>
 
@@ -665,27 +676,31 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
                               {/* Social Links */}
                               <div className="flex items-center gap-4 pt-2">
-                                <a
-                                  href={content.contact_info?.instagram || '#'}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
-                                  style={{ ['--tw-hover-bg' as any]: gold }}
-                                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = gold; }}
-                                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
-                                >
-                                  <InstagramIcon size={18} />
-                                </a>
-                                <a
-                                  href={content.contact_info?.facebook || '#'}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
-                                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = gold; }}
-                                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
-                                >
-                                  <FacebookIcon size={18} />
-                                </a>
+                                {!hiddenFields.includes('contact_instagram') && (
+                                              <a
+                                                                                href={content.contact_info?.instagram || '#'}
+                                                                                target="_blank"
+                                                                                rel="noreferrer"
+                                                                                className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
+                                                                                style={{ ['--tw-hover-bg' as any]: gold }}
+                                                                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = gold; }}
+                                                                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+                                                                              >
+                                                                                <InstagramIcon size={18} />
+                                                                              </a>
+                                              )}
+                                {!hiddenFields.includes('contact_facebook') && (
+                                              <a
+                                                                                href={content.contact_info?.facebook || '#'}
+                                                                                target="_blank"
+                                                                                rel="noreferrer"
+                                                                                className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
+                                                                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = gold; }}
+                                                                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+                                                                              >
+                                                                                <FacebookIcon size={18} />
+                                                                              </a>
+                                              )}
                                 <a
                                   href={content.contact_info?.twitter || '#'}
                                   target="_blank"
@@ -711,13 +726,15 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
                             {/* Map */}
                             <div className="flex-1 min-h-[300px] lg:min-h-full relative bg-stone-100">
-                              <iframe
-                                title="Location Map"
-                                className="absolute inset-0 w-full h-full border-0"
-                                loading="lazy"
-                                allowFullScreen
-                                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Lagos, Nigeria')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                              />
+                              {!hiddenFields.includes('contact_address') && (
+                                          <iframe
+                                                                          title="Location Map"
+                                                                          className="absolute inset-0 w-full h-full border-0"
+                                                                          loading="lazy"
+                                                                          allowFullScreen
+                                                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Lagos, Nigeria')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                        />
+                                          )}
                             </div>
                           </div>
                         </div>
@@ -782,12 +799,16 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     {heroDescription.length > 120 ? heroDescription.slice(0, 120) + '...' : heroDescription}
                   </p>
                   <div className="flex gap-3 pt-2">
-                    <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
-                      <InstagramIcon size={16} />
-                    </a>
-                    <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
-                      <FacebookIcon size={16} />
-                    </a>
+                    {!hiddenFields.includes('contact_instagram') && (
+                                      <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
+                                                            <InstagramIcon size={16} />
+                                                          </a>
+                                      )}
+                    {!hiddenFields.includes('contact_facebook') && (
+                                      <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
+                                                            <FacebookIcon size={16} />
+                                                          </a>
+                                      )}
                     <a href={content.contact_info?.twitter || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
                       <TwitterIcon size={16} />
                     </a>
@@ -815,11 +836,15 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     </li>
                     <li className="flex items-center gap-2.5">
                       <Phone size={16} className="shrink-0" style={{ color: gold }} />
-                      <span>{content.contact_info?.phone || '+1 234 567 8900'}</span>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <span>{content.contact_info?.phone || '+1 234 567 8900'}</span>
+                                          )}
                     </li>
                     <li className="flex items-center gap-2.5">
                       <Mail size={16} className="shrink-0" style={{ color: gold }} />
-                      <span>{content.contact_info?.email || 'hello@beautify.com'}</span>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <span>{content.contact_info?.email || 'hello@beautify.com'}</span>
+                                          )}
                     </li>
                   </ul>
                 </div>

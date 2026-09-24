@@ -13,6 +13,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'The Grand Estates';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Beverly Hills Mansion', price: '₹25 Cr', image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80', location: 'Beverly Hills, CA', beds: 6, baths: 8, sqft: '12,500' },
@@ -72,12 +73,16 @@ export default function LuxuryVillasTheme({ website, content }: any) {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center text-white px-6 w-full max-w-4xl">
-          <h1 className="font-luxury text-5xl md:text-7xl font-bold mb-6 tracking-widest drop-shadow-lg">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-luxury text-5xl md:text-7xl font-bold mb-6 tracking-widest drop-shadow-lg">
             {content.hero_title || 'Redefining Luxury Living.'}
           </h1>
-          <p className="font-body text-lg md:text-xl tracking-wider max-w-2xl mx-auto mb-10 text-gray-200">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg md:text-xl tracking-wider max-w-2xl mx-auto mb-10 text-gray-200">
             {content.hero_text || 'Exclusive access to the most coveted estates and architectural masterpieces.'}
           </p>
+              )}
           <a href="#properties" className="inline-block border border-[#D4AF37] bg-[#D4AF37]/20 backdrop-blur hover:bg-[#D4AF37] hover:text-black text-white font-body text-sm tracking-[0.2em] uppercase py-4 px-10 transition-all duration-300">
             View Portfolio
           </a>
@@ -154,7 +159,9 @@ export default function LuxuryVillasTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -237,7 +244,9 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                   <Phone size={24} className="text-[#D4AF37] mt-1 shrink-0" />
                   <div>
                     <h4 className="text-sm text-gray-400 uppercase tracking-widest mb-1">Phone</h4>
-                    <p className="text-lg">{content.contact_info?.phone || '+91 98765 43210'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p className="text-lg">{content.contact_info?.phone || '+91 98765 43210'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -245,7 +254,9 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                   <Mail size={24} className="text-[#D4AF37] mt-1 shrink-0" />
                   <div>
                     <h4 className="text-sm text-gray-400 uppercase tracking-widest mb-1">Email</h4>
-                    <p className="text-lg">{content.contact_info?.email || 'estates@luxury.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p className="text-lg">{content.contact_info?.email || 'estates@luxury.com'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -253,7 +264,9 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                   <MapPin size={24} className="text-[#D4AF37] mt-1 shrink-0" />
                   <div>
                     <h4 className="text-sm text-gray-400 uppercase tracking-widest mb-1">Address</h4>
-                    <p className="text-lg">{content.contact_info?.address || '1 Luxury Lane, Kerala'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p className="text-lg">{content.contact_info?.address || '1 Luxury Lane, Kerala'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -261,39 +274,43 @@ export default function LuxuryVillasTheme({ website, content }: any) {
                   <Clock size={24} className="text-[#D4AF37] mt-1 shrink-0" />
                   <div>
                     <h4 className="text-sm text-gray-400 uppercase tracking-widest mb-1">Office Hours</h4>
-                    <p className="text-lg whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                    {!hiddenFields.includes('contact_hours') && (
+                                      <p className="text-lg whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
               
               <div className="bg-[#222] p-8 md:p-12 border border-[#333] flex flex-col justify-center">
-                <div className="mb-10">
-                  <h3 className="font-luxury text-xl mb-6 tracking-widest text-[#D4AF37] uppercase">Connect</h3>
-                  {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
-                    <div className="flex gap-6">
-                      {content.contact_info?.facebook && (
-                        <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                          <Facebook size={24} />
-                        </a>
-                      )}
-                      {content.contact_info?.instagram && (
-                        <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                          <Instagram size={24} />
-                        </a>
-                      )}
-                      {content.contact_info?.twitter && (
-                        <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                          <Twitter size={24} />
-                        </a>
-                      )}
-                      {content.contact_info?.youtube && (
-                        <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
-                          <Youtube size={24} />
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
+                {!hiddenFields.includes('contact_facebook') && (
+                              <div className="mb-10">
+                                                <h3 className="font-luxury text-xl mb-6 tracking-widest text-[#D4AF37] uppercase">Connect</h3>
+                                                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
+                                                  <div className="flex gap-6">
+                                                    {content.contact_info?.facebook && (
+                                                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                                                        <Facebook size={24} />
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.instagram && (
+                                                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                                                        <Instagram size={24} />
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.twitter && (
+                                                      <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                                                        <Twitter size={24} />
+                                                      </a>
+                                                    )}
+                                                    {content.contact_info?.youtube && (
+                                                      <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#D4AF37] transition-colors">
+                                                        <Youtube size={24} />
+                                                      </a>
+                                                    )}
+                                                  </div>
+                                                )}
+                                              </div>
+                              )}
                 
                 <ContactForm 
                   websiteId={website.id}
@@ -306,16 +323,18 @@ export default function LuxuryVillasTheme({ website, content }: any) {
             </div>
 
             <div className="mt-12 w-full h-[400px] bg-[#222] border border-[#333]">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '1 Luxury Lane, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '1 Luxury Lane, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

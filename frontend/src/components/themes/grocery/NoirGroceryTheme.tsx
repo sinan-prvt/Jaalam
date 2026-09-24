@@ -11,6 +11,7 @@ export default function NoirGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'NOIR MARKET';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Truffle Oil', price: '₹950', size: '250ml', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80', description: 'Premium Italian truffle oil.' },
@@ -86,12 +87,16 @@ export default function NoirGroceryTheme({ website, content }: any) {
           )}
           <div className="relative z-10 max-w-4xl w-full">
             <span className="font-body text-[10px] md:text-xs tracking-[0.4em] uppercase text-zinc-600 block mb-6 md:mb-8">Premium Grocery</span>
-            <h1 className="font-noir text-4xl sm:text-6xl md:text-7xl lg:text-[8rem] font-light text-white leading-[1.1] md:leading-[0.9] mb-6 md:mb-8 tracking-tight break-words">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-noir text-4xl sm:text-6xl md:text-7xl lg:text-[8rem] font-light text-white leading-[1.1] md:leading-[0.9] mb-6 md:mb-8 tracking-tight break-words">
               {content.hero_title || 'Dark Market'}
             </h1>
-            <p className="font-body text-zinc-500 text-lg max-w-lg leading-relaxed font-light mb-12">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-zinc-500 text-lg max-w-lg leading-relaxed font-light mb-12">
               {content.hero_text || 'Rare ingredients for discerning palates. Curated with obsession, delivered with precision.'}
             </p>
+              )}
             {!hiddenSections.includes('menu') && (
               <a href="#shop" className="inline-flex items-center gap-4 font-body text-xs tracking-[0.3em] uppercase text-white border border-white/30 px-8 py-4 hover:bg-white hover:text-black transition-all duration-500">
                 Explore Collection
@@ -110,14 +115,18 @@ export default function NoirGroceryTheme({ website, content }: any) {
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
             <div>
               <span className="font-body text-[10px] tracking-[0.4em] uppercase text-zinc-600 block mb-6 border-l border-zinc-700 pl-4">Our Philosophy</span>
+              {!hiddenFields.includes("about_title") && (
               <h2 className="font-noir text-5xl md:text-6xl text-white font-light leading-tight mb-8">
                 {content.settings_json?.about_title || 'Quality Without Compromise'}
               </h2>
+              )}
             </div>
             <div>
+              {!hiddenFields.includes("about_description") && (
               <p className="font-body text-zinc-400 text-lg leading-relaxed font-light">
                 {content.settings_json?.about_description || content.about_text || 'We source only the rarest and finest ingredients from around the world. Every product is meticulously vetted, every supplier personally visited. This is not just grocery shopping — this is a culinary experience.'}
               </p>
+              )}
             </div>
           </div>
         </section>
@@ -209,40 +218,44 @@ export default function NoirGroceryTheme({ website, content }: any) {
             <div>
               <span className="font-body text-[10px] tracking-[0.4em] uppercase text-zinc-600 block mb-8">Get In Touch</span>
               <h2 className="font-noir text-5xl md:text-6xl text-white font-light mb-12">Contact Us</h2>
-              <ul className="space-y-8">
-                {content.contact_info?.phone && (
-                  <li className="border-b border-zinc-900 pb-8">
-                    <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Phone</span>
-                    <span className="font-noir text-2xl text-white">{content.contact_info.phone}</span>
-                  </li>
-                )}
-                {content.contact_info?.email && (
-                  <li className="border-b border-zinc-900 pb-8">
-                    <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Email</span>
-                    <span className="font-noir text-2xl text-white">{content.contact_info.email}</span>
-                  </li>
-                )}
-                {content.contact_info?.address && (
-                  <li className="border-b border-zinc-900 pb-8">
-                    <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Location</span>
-                    <span className="font-noir text-2xl text-white">{content.contact_info.address}</span>
-                  </li>
-                )}
-              </ul>
+              {!hiddenFields.includes('contact_phone') && (
+                          <ul className="space-y-8">
+                                          {content.contact_info?.phone && (
+                                            <li className="border-b border-zinc-900 pb-8">
+                                              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Phone</span>
+                                              <span className="font-noir text-2xl text-white">{content.contact_info.phone}</span>
+                                            </li>
+                                          )}
+                                          {content.contact_info?.email && (
+                                            <li className="border-b border-zinc-900 pb-8">
+                                              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Email</span>
+                                              <span className="font-noir text-2xl text-white">{content.contact_info.email}</span>
+                                            </li>
+                                          )}
+                                          {content.contact_info?.address && (
+                                            <li className="border-b border-zinc-900 pb-8">
+                                              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-2">Location</span>
+                                              <span className="font-noir text-2xl text-white">{content.contact_info.address}</span>
+                                            </li>
+                                          )}
+                                        </ul>
+                          )}
               {/* Working Hours */}
               <div className="mt-10 p-6 border border-zinc-900">
                 <span className="font-body text-[10px] tracking-[0.3em] uppercase text-zinc-600 block mb-4">Store Hours</span>
-                <ul className="space-y-2 font-body text-sm text-zinc-500">
-                  {content.contact_info?.hours ? (
-                    <li className="whitespace-pre-wrap text-zinc-300">{content.contact_info.hours}</li>
-                  ) : (
-                    <>
-                      <li className="flex justify-between"><span>Mon – Fri</span><span>9:00 AM – 8:00 PM</span></li>
-                      <li className="flex justify-between"><span>Saturday</span><span>10:00 AM – 6:00 PM</span></li>
-                      <li className="flex justify-between"><span>Sunday</span><span className="text-zinc-700">Closed</span></li>
-                    </>
-                  )}
-                </ul>
+                {!hiddenFields.includes('contact_hours') && (
+                              <ul className="space-y-2 font-body text-sm text-zinc-500">
+                                                {content.contact_info?.hours ? (
+                                                  <li className="whitespace-pre-wrap text-zinc-300">{content.contact_info.hours}</li>
+                                                ) : (
+                                                  <>
+                                                    <li className="flex justify-between"><span>Mon – Fri</span><span>9:00 AM – 8:00 PM</span></li>
+                                                    <li className="flex justify-between"><span>Saturday</span><span>10:00 AM – 6:00 PM</span></li>
+                                                    <li className="flex justify-between"><span>Sunday</span><span className="text-zinc-700">Closed</span></li>
+                                                  </>
+                                                )}
+                                              </ul>
+                              )}
               </div>
               {/* Social */}
               {(content.contact_info?.instagram || content.contact_info?.facebook || content.contact_info?.twitter) && (

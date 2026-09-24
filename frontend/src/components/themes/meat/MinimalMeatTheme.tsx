@@ -9,6 +9,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'CUTS.';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [viewProductsPage, setViewProductsPage] = useState(false);
@@ -68,9 +69,11 @@ export default function MinimalMeatTheme({ website, content }: any) {
 
           if (sectionId === 'hero') return (
             <section key="hero" id="hero" className="pt-24 pb-20 px-8 text-center border-b border-gray-200 relative overflow-hidden">
+              {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 text-red-600 relative z-10 break-words px-2 leading-none md:leading-none">
                 {content.hero_title || 'RAW. FRESH.'}
               </h1>
+              )}
               <p className="font-minimal text-sm max-w-md mx-auto text-gray-500 mb-12 leading-loose relative z-10">
                 {content.about_text || content.hero_text || 'NO NONSENSE. JUST HIGH QUALITY MEAT CUT TO PERFECTION EVERY MORNING.'}
               </p>
@@ -89,10 +92,14 @@ export default function MinimalMeatTheme({ website, content }: any) {
             <section key="about" id="about" className="py-20 px-8 border-b border-gray-200 bg-gray-50">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
                 <div className="flex flex-col justify-center">
-                  <h2 className="font-minimal text-4xl font-bold mb-8 text-black">{content.settings_json?.about_title || content.about_title || 'ABOUT US'}</h2>
-                  <p className="text-gray-500 leading-loose text-sm">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-minimal text-4xl font-bold mb-8 text-black">{content.settings_json?.about_title || content.about_title || 'ABOUT US'}</h2>
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="text-gray-500 leading-loose text-sm">
                     {content.settings_json?.about_description || content.about_description || 'WE BELIEVE IN CLEAN CUTS AND TRANSPARENT SOURCING. OUR MEAT IS ALWAYS FRESH, NEVER FROZEN, AND HYGIENICALLY PACKED.'}
                   </p>
+              )}
                 </div>
                 {content.settings_json?.about_image && (
                   <div className="aspect-square border border-gray-200 p-2 bg-white">
@@ -171,32 +178,34 @@ export default function MinimalMeatTheme({ website, content }: any) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
                 <div>
                   <h2 className="font-minimal text-4xl font-bold mb-12">CONTACT.</h2>
-                  <div className="space-y-8 font-minimal text-xs">
-                    {content.contact_info?.email && (
-                      <div>
-                        <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">EMAIL</div>
-                        <div className="text-gray-600">{content.contact_info.email}</div>
-                      </div>
-                    )}
-                    {content.contact_info?.phone && (
-                      <div>
-                        <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">PHONE</div>
-                        <div className="text-gray-600">{content.contact_info.phone}</div>
-                      </div>
-                    )}
-                    {content.contact_info?.address && (
-                      <div>
-                        <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">LOCATION</div>
-                        <div className="text-gray-600 leading-loose whitespace-pre-wrap">{content.contact_info.address}</div>
-                      </div>
-                    )}
-                    {content.contact_info?.hours && (
-                      <div>
-                        <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">HOURS</div>
-                        <div className="text-gray-600 leading-loose whitespace-pre-wrap">{content.contact_info.hours}</div>
-                      </div>
-                    )}
-                  </div>
+                  {!hiddenFields.includes('contact_email') && (
+                          <div className="space-y-8 font-minimal text-xs">
+                                              {content.contact_info?.email && (
+                                                <div>
+                                                  <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">EMAIL</div>
+                                                  <div className="text-gray-600">{content.contact_info.email}</div>
+                                                </div>
+                                              )}
+                                              {content.contact_info?.phone && (
+                                                <div>
+                                                  <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">PHONE</div>
+                                                  <div className="text-gray-600">{content.contact_info.phone}</div>
+                                                </div>
+                                              )}
+                                              {content.contact_info?.address && (
+                                                <div>
+                                                  <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">LOCATION</div>
+                                                  <div className="text-gray-600 leading-loose whitespace-pre-wrap">{content.contact_info.address}</div>
+                                                </div>
+                                              )}
+                                              {content.contact_info?.hours && (
+                                                <div>
+                                                  <div className="font-bold mb-2 border-b border-gray-200 pb-2 inline-block text-red-600">HOURS</div>
+                                                  <div className="text-gray-600 leading-loose whitespace-pre-wrap">{content.contact_info.hours}</div>
+                                                </div>
+                                              )}
+                                            </div>
+                          )}
                 </div>
                 <div className="w-full border border-gray-200 bg-gray-50 p-6 md:p-8">
                   <ContactForm 
@@ -309,12 +318,18 @@ export default function MinimalMeatTheme({ website, content }: any) {
           </div>
           <div>
             <div className="font-bold mb-4 border-b border-gray-800 pb-2 inline-block text-red-500">CONTACT</div>
-            <div className="text-gray-400 mb-2">{content.contact_info?.email || 'ORDER@CUTS.COM'}</div>
-            <div className="text-gray-400">{content.contact_info?.phone || '98765 43210'}</div>
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="text-gray-400 mb-2">{content.contact_info?.email || 'ORDER@CUTS.COM'}</div>
+                      )}
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="text-gray-400">{content.contact_info?.phone || '98765 43210'}</div>
+                      )}
           </div>
           <div>
             <div className="font-bold mb-4 border-b border-gray-800 pb-2 inline-block text-red-500">LOCATION</div>
-            <div className="text-gray-400">{content.contact_info?.address || 'UNIT 4, MEAT MARKET, KERALA'}</div>
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="text-gray-400">{content.contact_info?.address || 'UNIT 4, MEAT MARKET, KERALA'}</div>
+                      )}
           </div>
         </div>
         <div className="mt-16 text-center text-gray-600">

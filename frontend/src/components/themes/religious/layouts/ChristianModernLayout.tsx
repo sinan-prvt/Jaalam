@@ -3,6 +3,7 @@ import { MapPin, Clock, Calendar, ArrowRight, User, Info, Phone, Heart, Plus } f
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ChristianModernLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const [isLoading, setIsLoading] = useState(true);
@@ -317,9 +318,11 @@ export default function ChristianModernLayout({ website, content }: { website: a
                       </div>
                       <div>
                         <h4 className="text-xl font-bold mb-3">Location</h4>
-                        <p className="text-indigo-200 font-light leading-relaxed max-w-sm text-lg">
-                          {content.contact_info?.address || '123 Faith Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className="text-indigo-200 font-light leading-relaxed max-w-sm text-lg">
+                                                                  {content.contact_info?.address || '123 Faith Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6 group">

@@ -9,6 +9,7 @@ export default function NoirOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Noir';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Exclusive', description: 'Curated experiences for those who expect the best.' },
@@ -65,12 +66,16 @@ export default function NoirOtherTheme({ website, content }: any) {
         
         <div className="container mx-auto max-w-6xl relative z-20">
           <div className="max-w-3xl">
-            <h1 className="font-noir-title text-5xl md:text-7xl font-bold mb-8 leading-[1.2] tracking-wide text-white">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-noir-title text-5xl md:text-7xl font-bold mb-8 leading-[1.2] tracking-wide text-white">
               {content.hero_title || 'Elegance in the Shadows.'}
             </h1>
-            <p className="font-noir-body text-lg md:text-xl text-[#a0a0a0] mb-12 max-w-xl leading-relaxed font-light">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-noir-body text-lg md:text-xl text-[#a0a0a0] mb-12 max-w-xl leading-relaxed font-light">
               {content.hero_text || 'Discover a world of refined taste and unparalleled exclusivity.'}
             </p>
+              )}
             <a href="#contact" className="inline-block bg-white text-black font-noir-body text-xs font-semibold uppercase tracking-[0.2em] py-4 px-10 hover:bg-[#ccc] transition-colors">
               Explore
             </a>
@@ -86,9 +91,11 @@ export default function NoirOtherTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row gap-16 items-center">
               <div className="w-full md:w-1/2">
                 <div className="font-noir-body text-xs text-[#666] tracking-[0.3em] uppercase mb-4">Origins</div>
-                <h2 className="font-noir-title text-4xl mb-8 text-white">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-noir-title text-4xl mb-8 text-white">
                   {content.settings_json?.about_title || content.about_title || 'The Story'}
                 </h2>
+              )}
                 <div className="w-12 h-px bg-[#444] mb-8"></div>
                 <p className="font-noir-body text-[15px] text-[#a0a0a0] leading-[2] font-light">
                   {content.about_text || 'Founded on the principles of discretion and excellence, we cater to a discerning clientele who appreciate the finer things in life. Our commitment to unparalleled quality is matched only by our dedication to personalized service.'}
@@ -200,21 +207,27 @@ export default function NoirOtherTheme({ website, content }: any) {
                     <MapPin className="text-[#666] mt-1" size={20} strokeWidth={1} />
                     <div>
                       <div className="text-[10px] tracking-[0.2em] text-[#555] uppercase mb-2">Location</div>
-                      <div className="text-[#ccc] text-sm">{content.contact_info?.address || '123 Exclusive Ave, City'}</div>
+                      {!hiddenFields.includes('contact_address') && (
+                                          <div className="text-[#ccc] text-sm">{content.contact_info?.address || '123 Exclusive Ave, City'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
                     <Phone className="text-[#666] mt-1" size={20} strokeWidth={1} />
                     <div>
                       <div className="text-[10px] tracking-[0.2em] text-[#555] uppercase mb-2">Phone</div>
-                      <div className="text-[#ccc] text-sm">{content.contact_info?.phone || '(555) 000-0000'}</div>
+                      {!hiddenFields.includes('contact_phone') && (
+                                          <div className="text-[#ccc] text-sm">{content.contact_info?.phone || '(555) 000-0000'}</div>
+                                          )}
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
                     <Mail className="text-[#666] mt-1" size={20} strokeWidth={1} />
                     <div>
                       <div className="text-[10px] tracking-[0.2em] text-[#555] uppercase mb-2">Email</div>
-                      <div className="text-[#ccc] text-sm">{content.contact_info?.email || 'inquiries@example.com'}</div>
+                      {!hiddenFields.includes('contact_email') && (
+                                          <div className="text-[#ccc] text-sm">{content.contact_info?.email || 'inquiries@example.com'}</div>
+                                          )}
                     </div>
                   </div>
                   {content.contact_info?.hours && (
@@ -232,13 +245,15 @@ export default function NoirOtherTheme({ website, content }: any) {
               <div className="flex flex-col justify-end">
                 <div className="mb-10">
                    <div className="text-[10px] tracking-[0.2em] text-[#555] uppercase mb-6 font-noir-body">Social</div>
-                   <div className="flex gap-6">
-                     {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Facebook size={20} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Instagram size={20} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Twitter size={20} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Youtube size={20} strokeWidth={1.5} /></a>}
-                     {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><WhatsApp size={20} strokeWidth={1.5} /></a>}
-                   </div>
+                   {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex gap-6">
+                                                       {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Facebook size={20} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Instagram size={20} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Twitter size={20} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><Youtube size={20} strokeWidth={1.5} /></a>}
+                                                       {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="text-[#666] hover:text-white transition-colors"><WhatsApp size={20} strokeWidth={1.5} /></a>}
+                                                     </div>
+                                  )}
                 </div>
                 
                 <ContactForm 
@@ -254,15 +269,17 @@ export default function NoirOtherTheme({ website, content }: any) {
         
           <div className="container mx-auto max-w-5xl mt-20">
             <div className="w-full h-80 border border-[#222] grayscale opacity-50 hover:opacity-80 transition-opacity bg-[#0a0a0a]">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

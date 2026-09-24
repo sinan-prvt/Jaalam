@@ -10,6 +10,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Maison Rouge';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Bridal Set - The Heritage', price: '₹4,500', image: 'https://images.unsplash.com/photo-1599643478514-4a4208bd50d6?auto=format&fit=crop&w=600&q=80', description: 'Heavy imitation Kundan bridal set.' },
@@ -54,9 +55,11 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             <h2 className="font-boutique text-5xl md:text-6xl leading-tight mb-6">
               {content.hero_title || 'Redefining Elegance for the Modern Woman.'}
             </h2>
-            <p className="font-body text-lg text-[#5A4A42] font-light leading-relaxed mb-8">
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg text-[#5A4A42] font-light leading-relaxed mb-8">
               {content.hero_text || 'Step into a world of curated beauty. From bridal imitation jewelry to imported cosmetics, find your perfect statement piece.'}
             </p>
+              )}
             <a href="#collections" className="inline-flex items-center gap-4 bg-[#8C2323] text-white px-8 py-4 font-body text-xs uppercase tracking-widest hover:bg-[#6b1a1a] transition-colors">
               Discover More <ArrowRight size={16} />
             </a>
@@ -108,7 +111,9 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -189,38 +194,46 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
              <div>
                <h4 className="uppercase tracking-widest text-[#8C2323] mb-6 border-b border-[#E8E1D5] pb-2 inline-block">Contact</h4>
                <div className="space-y-4">
-                 <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-                 <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info?.email || 'boutique@maisonrouge.in'}</div>
+                 {!hiddenFields.includes('contact_phone') && (
+                              <div className="flex items-center gap-3"><Phone size={16} /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                              )}
+                 {!hiddenFields.includes('contact_email') && (
+                              <div className="flex items-center gap-3"><Mail size={16} /> {content.contact_info?.email || 'boutique@maisonrouge.in'}</div>
+                              )}
                </div>
              </div>
              <div>
                <h4 className="uppercase tracking-widest text-[#8C2323] mb-6 border-b border-[#E8E1D5] pb-2 inline-block">Visit</h4>
-               <div className="flex items-start gap-3"><MapPin size={16} className="shrink-0 mt-1" /> <span className="leading-relaxed">{content.contact_info?.address || 'The High Street Boutique, Kerala'}</span></div>
+               <div className="flex items-start gap-3"><MapPin size={16} className="shrink-0 mt-1" /> {!hiddenFields.includes('contact_address') && (
+                          <span className="leading-relaxed">{content.contact_info?.address || 'The High Street Boutique, Kerala'}</span>
+                          )}</div>
              </div>
           </div>
         </div>
 
-        <div className="container mx-auto max-w-4xl mt-20">
-            <div className="bg-[#FAF7F2] p-10 border border-[#E8E1D5] shadow-sm mb-12">
-              <ContactForm 
-                websiteId={website.id}
-                primaryColor="bg-[#8C2323] text-white"
-                primaryColorHover="hover:bg-[#6b1a1a]"
-                inputStyles="bg-white border border-[#E8E1D5] text-[#2C1E16] placeholder-[#8c7b70] focus:border-[#8C2323] focus:ring-1 focus:ring-[#8C2323] rounded-none font-body"
-                buttonShape="font-body text-xs tracking-widest font-bold uppercase rounded-none w-full"
-              />
-            </div>
+        {!hiddenFields.includes('contact_address') && (
+              <div className="container mx-auto max-w-4xl mt-20">
+                          <div className="bg-[#FAF7F2] p-10 border border-[#E8E1D5] shadow-sm mb-12">
+                            <ContactForm 
+                              websiteId={website.id}
+                              primaryColor="bg-[#8C2323] text-white"
+                              primaryColorHover="hover:bg-[#6b1a1a]"
+                              inputStyles="bg-white border border-[#E8E1D5] text-[#2C1E16] placeholder-[#8c7b70] focus:border-[#8C2323] focus:ring-1 focus:ring-[#8C2323] rounded-none font-body"
+                              buttonShape="font-body text-xs tracking-widest font-bold uppercase rounded-none w-full"
+                            />
+                          </div>
 
-            {content.contact_info?.address && (
-              <div className="w-full h-80 border border-[#E8E1D5] relative">
-                <iframe
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                  className="filter grayscale contrast-125"
-                />
-              </div>
-            )}
-         </div>
+                          {content.contact_info?.address && (
+                            <div className="w-full h-80 border border-[#E8E1D5] relative">
+                              <iframe
+                                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info.address)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                                className="filter grayscale contrast-125"
+                              />
+                            </div>
+                          )}
+                       </div>
+              )}
       </footer>
     
       

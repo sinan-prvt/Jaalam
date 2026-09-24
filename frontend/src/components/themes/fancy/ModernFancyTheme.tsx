@@ -19,6 +19,7 @@ export default function ModernFancyTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Lumina Accessories';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Crystal Hair Pins', price: '₹299', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80', description: 'Set of 4 elegant crystal embedded hair pins.' },
     { name: 'Rose Gold Watch', price: '₹1499', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80', description: 'Minimalist mesh band watch in rose gold.' },
@@ -119,12 +120,16 @@ export default function ModernFancyTheme({ website, content }: any) {
                     <span className="inline-block py-1 px-4 rounded-full bg-white/80 border border-purple-100 text-purple-600 font-modern text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                       New Arrivals Available
                     </span>
-                    <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight">
                       {content.hero_title || 'Elevate Your Everyday Style'}
                     </h1>
-                    <p className="font-modern text-lg text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+              )}
+                    {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-lg text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
                       {content.hero_text || content.about_text || 'Discover a curated collection of trendy accessories, cosmetics, and lifestyle products designed to make you shine.'}
                     </p>
+              )}
                     <a href="#menu" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-modern font-bold py-4 px-10 rounded-xl transition-all shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-1">
                       Shop Collection <ArrowRight size={18} />
                     </a>
@@ -137,10 +142,14 @@ export default function ModernFancyTheme({ website, content }: any) {
                 <section key="about" id="about" className="relative z-10 py-20 px-6">
                   <div className="container mx-auto max-w-5xl glass-panel rounded-3xl p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
                     <div className="flex-1">
-                      <h2 className="font-modern text-4xl font-bold text-slate-900 mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
-                      <p className="font-modern text-lg text-slate-500 leading-relaxed">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="font-modern text-4xl font-bold text-slate-900 mb-6">{content.settings_json?.about_title || 'About Us'}</h2>
+              )}
+                      {!hiddenFields.includes("about_description") && (
+              <p className="font-modern text-lg text-slate-500 leading-relaxed">
                         {content.settings_json?.about_description || 'We bring you the latest in fashion accessories, blending modern aesthetics with premium quality.'}
                       </p>
+              )}
                     </div>
                     <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl">
                       <img loading="lazy" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80" alt="About" className="w-full h-full object-cover" />
@@ -266,28 +275,38 @@ export default function ModernFancyTheme({ website, content }: any) {
                     <div className="flex flex-col md:flex-row gap-12 items-center mb-12">
                       <div className="flex-1 w-full text-center md:text-left">
                         <div className="space-y-6 text-slate-600 font-modern text-lg mb-8">
-                          <div className="flex justify-center md:justify-start items-center gap-3"><Phone className="text-purple-500" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
-                          <div className="flex justify-center md:justify-start items-center gap-3"><Mail className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
-                          <div className="flex justify-center md:justify-start items-center gap-3"><MapPin className="text-purple-500" /> {content.contact_info?.address || 'Fashion Street, High Street'}</div>
-                          <div className="flex justify-center md:justify-start items-center gap-3"><Clock className="text-pink-500" /> {content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</div>
+                          {!hiddenFields.includes('contact_phone') && (
+                                              <div className="flex justify-center md:justify-start items-center gap-3"><Phone className="text-purple-500" /> {content.contact_info?.phone || '+1 234 567 8900'}</div>
+                                              )}
+                          {!hiddenFields.includes('contact_email') && (
+                                              <div className="flex justify-center md:justify-start items-center gap-3"><Mail className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
+                                              )}
+                          {!hiddenFields.includes('contact_address') && (
+                                              <div className="flex justify-center md:justify-start items-center gap-3"><MapPin className="text-purple-500" /> {content.contact_info?.address || 'Fashion Street, High Street'}</div>
+                                              )}
+                          {!hiddenFields.includes('contact_hours') && (
+                                              <div className="flex justify-center md:justify-start items-center gap-3"><Clock className="text-pink-500" /> {content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</div>
+                                              )}
                         </div>
-                        <div className="flex justify-center md:justify-start gap-6">
-                          {content.contact_info?.instagram && (
-                            <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                              <Instagram size={20} />
-                            </a>
-                          )}
-                          {content.contact_info?.facebook && (
-                            <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                              <Facebook size={20} />
-                            </a>
-                          )}
-                          {content.contact_info?.whatsapp && (
-                            <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
-                              <MessageCircle size={20} />
-                            </a>
-                          )}
-                        </div>
+                        {!hiddenFields.includes('contact_instagram') && (
+                                          <div className="flex justify-center md:justify-start gap-6">
+                                                                    {content.contact_info?.instagram && (
+                                                                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                                                                        <Instagram size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                    {content.contact_info?.facebook && (
+                                                                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                                                                        <Facebook size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                    {content.contact_info?.whatsapp && (
+                                                                      <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white transition-all">
+                                                                        <MessageCircle size={20} />
+                                                                      </a>
+                                                                    )}
+                                                                  </div>
+                                          )}
                       </div>
                       
                       <div className="flex-1 w-full">
@@ -302,15 +321,17 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </div>
                     
                     <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-sm">
-                      <iframe
-                        title="Google Maps"
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        style={{ border: 0 }}
-                        src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Fashion Street, High Street')}&output=embed`}
-                        allowFullScreen
-                      ></iframe>
+                      {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                              title="Google Maps"
+                                                              width="100%"
+                                                              height="100%"
+                                                              frameBorder="0"
+                                                              style={{ border: 0 }}
+                                                              src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Fashion Street, High Street')}&output=embed`}
+                                                              allowFullScreen
+                                                            ></iframe>
+                                      )}
                     </div>
                   </div>
                 </section>
@@ -378,18 +399,26 @@ export default function ModernFancyTheme({ website, content }: any) {
               )}
               <span className="font-modern text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">{siteName}</span>
             </div>
-            <p className="font-modern text-slate-500 text-sm leading-relaxed max-w-sm">
+            {!hiddenFields.includes("about_description") && (
+              <p className="font-modern text-slate-500 text-sm leading-relaxed max-w-sm">
               {content.settings_json?.about_description || "Your premium destination for modern, trendy, and high-quality fancy items and accessories."}
             </p>
+              )}
           </div>
           <div className="space-y-4 font-modern text-sm text-slate-600">
             <h4 className="font-bold text-slate-900 mb-4 uppercase tracking-wider">Contact Info</h4>
-            <div className="flex items-center gap-3"><Phone size={16} className="text-purple-500" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
-            <div className="flex items-center gap-3"><Mail size={16} className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex items-center gap-3"><Phone size={16} className="text-purple-500" /> {content.contact_info?.phone || '+91 98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex items-center gap-3"><Mail size={16} className="text-pink-500" /> {content.contact_info?.email || 'hello@lumina.co'}</div>
+                      )}
           </div>
           <div className="space-y-4 font-modern text-sm text-slate-600">
             <h4 className="font-bold text-slate-900 mb-4 uppercase tracking-wider">Visit Us</h4>
-            <div className="flex items-start gap-3"><MapPin size={16} className="text-purple-500 shrink-0 mt-1" /> <span className="leading-relaxed">{content.contact_info?.address || 'Fashion Street, High Street Mall, Kerala'}</span></div>
+            <div className="flex items-start gap-3"><MapPin size={16} className="text-purple-500 shrink-0 mt-1" /> {!hiddenFields.includes('contact_address') && (
+                      <span className="leading-relaxed">{content.contact_info?.address || 'Fashion Street, High Street Mall, Kerala'}</span>
+                      )}</div>
           </div>
         </div>
       </footer>

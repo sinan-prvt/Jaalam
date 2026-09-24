@@ -10,6 +10,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Pixie Dust';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Unicorn Hair Clips', price: '₹150', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80', description: 'Cute colorful hair accessories.' },
@@ -57,12 +58,16 @@ export default function PlayfulFancyTheme({ website, content }: any) {
           <div className="inline-block bg-white border-2 border-pink-300 text-pink-500 font-playful px-6 py-2 rounded-full mb-8 shadow-md">
              ✨ Magic Awaits! ✨
           </div>
-          <h1 className="font-playful text-6xl md:text-8xl text-purple-800 mb-8 leading-tight drop-shadow-sm">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-playful text-6xl md:text-8xl text-purple-800 mb-8 leading-tight drop-shadow-sm">
             {content.hero_title || 'Cute Finds for Cute Minds!'}
           </h1>
-          <p className="font-body font-bold text-xl text-purple-600 mb-12 max-w-2xl mx-auto">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-body font-bold text-xl text-purple-600 mb-12 max-w-2xl mx-auto">
             {content.hero_text || 'Dive into our magical collection of fun accessories, colorful cosmetics, and adorable lifestyle items.'}
           </p>
+              )}
           <a href="#shop" className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-400 text-white font-body font-black text-xl py-4 px-12 rounded-full shadow-[0_6px_0_#d81b60] active:translate-y-2 active:shadow-none transition-all">
             <Gift size={24} /> Shop Now
           </a>
@@ -168,15 +173,21 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -228,9 +239,15 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             {content.about_text || "Bringing smiles with every accessory! The cutest fancy store in town."}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-body font-bold bg-purple-900/50 p-6 rounded-3xl">
-            <div className="flex flex-col items-center gap-2"><Phone className="text-pink-400" /> {content.contact_info?.phone || '98765 43210'}</div>
-            <div className="flex flex-col items-center gap-2"><Mail className="text-yellow-400" /> {content.contact_info?.email || 'hello@pixiedust.in'}</div>
-            <div className="flex flex-col items-center gap-2"><MapPin className="text-green-400" /> {content.contact_info?.address || 'Fun Street, Kerala'}</div>
+            {!hiddenFields.includes('contact_phone') && (
+                      <div className="flex flex-col items-center gap-2"><Phone className="text-pink-400" /> {content.contact_info?.phone || '98765 43210'}</div>
+                      )}
+            {!hiddenFields.includes('contact_email') && (
+                      <div className="flex flex-col items-center gap-2"><Mail className="text-yellow-400" /> {content.contact_info?.email || 'hello@pixiedust.in'}</div>
+                      )}
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="flex flex-col items-center gap-2"><MapPin className="text-green-400" /> {content.contact_info?.address || 'Fun Street, Kerala'}</div>
+                      )}
           </div>
         </div>
       </footer>

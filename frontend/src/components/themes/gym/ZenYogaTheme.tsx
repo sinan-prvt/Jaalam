@@ -34,6 +34,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
   const [viewProductsPage, setViewProductsPage] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'Zen Yoga Studio';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || '101 Serenity Path, Wellness Valley';
 
   /* ─── Palette ─── */
@@ -211,9 +212,11 @@ export default function ZenYogaTheme({ website, content }: Props) {
               </FadeIn>
 
               <FadeIn delay={200}>
-                <h1 className="zy-heading text-6xl md:text-8xl lg:text-[7rem] text-[#2C402E] mb-6 leading-tight font-light break-words">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="zy-heading text-6xl md:text-8xl lg:text-[7rem] text-[#2C402E] mb-6 leading-tight font-light break-words">
                   {content.hero_title || content.settings_json?.hero_title || 'Breathe. Flow. Be.'}
                 </h1>
+              )}
               </FadeIn>
 
               <FadeIn delay={400}>
@@ -261,9 +264,11 @@ export default function ZenYogaTheme({ website, content }: Props) {
                     <FadeIn dir="right">
                       <div>
                         <span className="zy-subheading text-[#8CA392] text-xs mb-4 block">Our Philosophy</span>
-                        <h2 className="zy-heading text-4xl md:text-6xl text-[#2C402E] mb-8 font-light leading-tight break-words">
+                        {!hiddenFields.includes("about_title") && (
+              <h2 className="zy-heading text-4xl md:text-6xl text-[#2C402E] mb-8 font-light leading-tight break-words">
                           {content.settings_json?.about_title || 'Sanctuary For The Soul'}
                         </h2>
+              )}
                         <p className="text-gray-600 text-lg leading-relaxed mb-8 break-words whitespace-pre-wrap">
                           {(() => {
                             const t = content.settings_json?.about_description || content.about_text;
@@ -450,7 +455,9 @@ export default function ZenYogaTheme({ website, content }: Props) {
                             <Phone className="text-[#8CA392]" size={20} />
                           </div>
                           <div className="flex-1 min-w-0 break-words">
-                            <p className="text-[#F4F1EA] font-light">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                            {!hiddenFields.includes('contact_phone') && (
+                                              <p className="text-[#F4F1EA] font-light">{content.contact_info?.phone || '(555) 123-4567'}</p>
+                                              )}
                           </div>
                         </div>
                         
@@ -459,7 +466,9 @@ export default function ZenYogaTheme({ website, content }: Props) {
                             <Mail className="text-[#8CA392]" size={20} />
                           </div>
                           <div className="flex-1 min-w-0 break-words">
-                            <p className="text-[#F4F1EA] font-light">{content.contact_info?.email || 'namaste@zenyoga.com'}</p>
+                            {!hiddenFields.includes('contact_email') && (
+                                              <p className="text-[#F4F1EA] font-light">{content.contact_info?.email || 'namaste@zenyoga.com'}</p>
+                                              )}
                           </div>
                         </div>
 
@@ -468,20 +477,28 @@ export default function ZenYogaTheme({ website, content }: Props) {
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8CA392]"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                           </div>
                           <div className="flex-1 min-w-0 break-words">
-                            <p className="text-[#F4F1EA] font-light whitespace-pre-line">{content.contact_info?.hours || "MON-FRI: 06:00-20:00\nSAT-SUN: 08:00-18:00"}</p>
+                            {!hiddenFields.includes('contact_hours') && (
+                                              <p className="text-[#F4F1EA] font-light whitespace-pre-line">{content.contact_info?.hours || "MON-FRI: 06:00-20:00\nSAT-SUN: 08:00-18:00"}</p>
+                                              )}
                           </div>
                         </div>
 
                         <div className="flex gap-4 pt-4">
-                          <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                          </a>
-                          <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                          </a>
-                          <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                          </a>
+                          {!hiddenFields.includes('contact_instagram') && (
+                                          <a href={content.contact_info?.instagram || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                                                    </a>
+                                          )}
+                          {!hiddenFields.includes('contact_facebook') && (
+                                          <a href={content.contact_info?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                                                    </a>
+                                          )}
+                          {!hiddenFields.includes('contact_whatsapp') && (
+                                          <a href={content.contact_info?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#8CA392]/30 flex items-center justify-center text-[#8CA392] hover:bg-[#8CA392] hover:text-[#2C402E] transition-all">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                                                    </a>
+                                          )}
                         </div>
                       </div>
                     </div>

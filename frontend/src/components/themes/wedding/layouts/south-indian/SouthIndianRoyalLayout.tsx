@@ -25,6 +25,7 @@ const Toran = () => (
 );
 
 export default function SouthIndianRoyalLayout({ content, website }: WeddingLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const caricatureUrl = "/media/south_indian_couple.png";
   const displayImage = content?.hero?.image || caricatureUrl;
 

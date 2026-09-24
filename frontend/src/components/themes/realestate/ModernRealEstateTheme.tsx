@@ -13,6 +13,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Haven Real Estate';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Modern Family Home', price: '₹1.5 Cr', image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', location: 'Suburbs', beds: 4, baths: 3 },
@@ -73,12 +74,16 @@ export default function ModernRealEstateTheme({ website, content }: any) {
       <section className="py-12 px-6">
         <div className="container mx-auto bg-emerald-50 rounded-3xl overflow-hidden flex flex-col md:flex-row items-center relative">
           <div className="w-full md:w-1/2 p-10 md:p-16 z-10">
-            <h1 className="font-modern text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
               {content.hero_title || 'Find your perfect place.'}
             </h1>
-            <p className="font-modern text-slate-600 text-lg max-w-md">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-slate-600 text-lg max-w-md">
               {content.hero_text || 'Discover homes that match your lifestyle. Buying or renting, we make it easy.'}
             </p>
+              )}
           </div>
           <div className="w-full md:w-1/2 h-64 md:h-full min-h-[500px] bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center md:absolute right-0 top-0">
           </div>
@@ -130,7 +135,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -200,7 +207,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                   </div>
                   <div>
                     <h4 className="text-sm text-slate-400 font-semibold mb-1">Call Us</h4>
-                    <p className="text-lg font-medium">{content.contact_info?.phone || '98765 43210'}</p>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <p className="text-lg font-medium">{content.contact_info?.phone || '98765 43210'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -210,7 +219,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                   </div>
                   <div>
                     <h4 className="text-sm text-slate-400 font-semibold mb-1">Email Us</h4>
-                    <p className="text-lg font-medium break-all">{content.contact_info?.email || 'hello@haven.com'}</p>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <p className="text-lg font-medium break-all">{content.contact_info?.email || 'hello@haven.com'}</p>
+                                      )}
                   </div>
                 </div>
                 
@@ -220,7 +231,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                   </div>
                   <div>
                     <h4 className="text-sm text-slate-400 font-semibold mb-1">Visit Us</h4>
-                    <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.address || 'Tech Hub, Kerala'}</p>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.address || 'Tech Hub, Kerala'}</p>
+                                      )}
                   </div>
                 </div>
               </div>
@@ -233,7 +246,9 @@ export default function ModernRealEstateTheme({ website, content }: any) {
                     </div>
                     <div>
                       <h4 className="text-sm text-slate-400 font-semibold mb-1">Working Hours</h4>
-                      <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                      {!hiddenFields.includes('contact_hours') && (
+                                          <p className="text-lg font-medium whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                                          )}
                     </div>
                   </div>
                   
@@ -261,16 +276,18 @@ export default function ModernRealEstateTheme({ website, content }: any) {
             </div>
             
             <div className="mt-16 w-full h-[400px] rounded-3xl overflow-hidden bg-slate-800 shadow-xl">
-              <iframe
-                title="Office Location Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Tech Hub, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Office Location Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Tech Hub, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

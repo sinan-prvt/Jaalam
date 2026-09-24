@@ -10,6 +10,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'S T U D I O';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Oversized Blazer', price: '₹5,999', image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80', material: 'Wool Blend' },
@@ -52,12 +53,16 @@ export default function MinimalTextilesTheme({ website, content }: any) {
         <img loading="lazy" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80" alt="Fashion Editorial" className="absolute inset-0 w-full h-full object-cover filter grayscale" />
         
         <div className="absolute bottom-10 left-10 md:left-20 max-w-lg mix-blend-difference text-white">
-          <h1 className="font-min text-4xl md:text-6xl font-bold tracking-tighter leading-none mb-6 uppercase">
+          {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-min text-4xl md:text-6xl font-bold tracking-tighter leading-none mb-6 uppercase">
             {content.hero_title || 'Collection 001'}
           </h1>
-          <p className="font-min text-sm md:text-base tracking-widest uppercase opacity-80 mb-8 max-w-sm leading-relaxed">
+              )}
+          {!hiddenFields.includes("hero_description") && (
+              <p className="font-min text-sm md:text-base tracking-widest uppercase opacity-80 mb-8 max-w-sm leading-relaxed">
             {content.hero_text || 'Redefining modern wardrobe staples through minimalist design and premium fabrics.'}
           </p>
+              )}
         </div>
       </section>
 
@@ -96,7 +101,9 @@ export default function MinimalTextilesTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
               {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
             </p>
@@ -158,15 +165,21 @@ export default function MinimalTextilesTheme({ website, content }: any) {
             <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8">
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📞</span>
-                <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                {!hiddenFields.includes('contact_phone') && (
+                              <span className="font-bold text-black">{content.contact_info?.phone || '1800 123 4567'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">✉️</span>
-                <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                {!hiddenFields.includes('contact_email') && (
+                              <span className="font-bold break-all text-black">{content.contact_info?.email || 'hello@example.com'}</span>
+                              )}
               </div>
               <div className="flex flex-col items-center p-4 bg-black/5 rounded-xl flex-1">
                 <span className="text-2xl mb-2">📍</span>
-                <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                {!hiddenFields.includes('contact_address') && (
+                              <span className="font-bold text-black">{content.contact_info?.address || '123 Market Street'}</span>
+                              )}
               </div>
             </div>
           </div>
@@ -202,15 +215,21 @@ export default function MinimalTextilesTheme({ website, content }: any) {
           <div>
             <div className="font-bold mb-6 text-gray-500">Contact</div>
             <div className="space-y-4">
-              <div>{content.contact_info?.email || 'studio@minimal.com'}</div>
-              <div>{content.contact_info?.phone || '+91 98765 43210'}</div>
+              {!hiddenFields.includes('contact_email') && (
+                          <div>{content.contact_info?.email || 'studio@minimal.com'}</div>
+                          )}
+              {!hiddenFields.includes('contact_phone') && (
+                          <div>{content.contact_info?.phone || '+91 98765 43210'}</div>
+                          )}
             </div>
           </div>
           <div>
             <div className="font-bold mb-6 text-gray-500">Location</div>
-            <div className="leading-loose">
-              {content.contact_info?.address || 'Design District\nKerala, India'}
-            </div>
+            {!hiddenFields.includes('contact_address') && (
+                      <div className="leading-loose">
+                                    {content.contact_info?.address || 'Design District\nKerala, India'}
+                                  </div>
+                      )}
           </div>
         </div>
       </footer>

@@ -37,6 +37,7 @@ export default function NoirFancyTheme({ website, content }: any) {
   }, [showAllProducts]);
 
   const siteName = content.settings_json?.website_name || website.slug || 'NOIR';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Onyx Ring', price: '$450', image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=80', description: 'Solid titanium band.' },
     { name: 'Matte Watch', price: '$890', image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=600&q=80', description: 'Stealth tactical aesthetic.' },
@@ -133,9 +134,11 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </>
                   )}
                   <div className="relative z-20 text-center px-6 w-full max-w-7xl">
-                    <h1 className="font-noir-display text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] text-white font-black uppercase tracking-widest leading-tight mb-12 drop-shadow-2xl">
+                    {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-noir-display text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] text-white font-black uppercase tracking-widest leading-tight mb-12 drop-shadow-2xl">
                       {content.hero_title || 'N O I R'}
                     </h1>
+              )}
                     <p className="font-noir-body text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
                       {content.about_text || content.hero_text || 'The absence of color is the presence of everything.'}
                     </p>
@@ -152,12 +155,16 @@ export default function NoirFancyTheme({ website, content }: any) {
                   <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-20">
                     <div className="md:w-1/3">
                       <span className="font-noir-body text-xs tracking-[0.4em] uppercase text-zinc-500 block mb-4 border-l border-zinc-800 pl-4">The Ethos</span>
-                      <h2 className="font-noir-display text-3xl md:text-4xl text-white tracking-widest uppercase">{content.settings_json?.about_title || 'Silence.'}</h2>
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="font-noir-display text-3xl md:text-4xl text-white tracking-widest uppercase">{content.settings_json?.about_title || 'Silence.'}</h2>
+              )}
                     </div>
                     <div className="md:w-2/3">
-                      <p className="font-noir-display text-xl sm:text-2xl md:text-4xl lg:text-5xl text-zinc-400 leading-tight">
+                      {!hiddenFields.includes("about_description") && (
+              <p className="font-noir-display text-xl sm:text-2xl md:text-4xl lg:text-5xl text-zinc-400 leading-tight">
                         {content.settings_json?.about_description || 'We strip away the unnecessary. What remains is pure form, undeniable function, and absolute darkness. Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.'}
                       </p>
+              )}
                     </div>
                   </div>
                 </section>
@@ -252,43 +259,47 @@ export default function NoirFancyTheme({ website, content }: any) {
                   <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-between gap-20">
                     <div className="lg:w-1/2">
                       <h2 className="font-noir-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white uppercase tracking-widest mb-20">Inquire.</h2>
-                      <ul className="space-y-12">
-                        {content.contact_info?.email && (
-                          <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
-                            <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Email</span>
-                            <span className="font-noir-display text-2xl md:text-4xl text-white">{content.contact_info.email}</span>
-                          </li>
-                        )}
-                        {content.contact_info?.phone && (
-                          <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
-                            <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Phone</span>
-                            <span className="font-noir-display text-2xl md:text-4xl text-white">{content.contact_info.phone}</span>
-                          </li>
-                        )}
-                        {content.contact_info?.address && (
-                          <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
-                            <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Studio</span>
-                            <span className="font-noir-display text-2xl md:text-3xl text-white leading-relaxed">{content.contact_info.address}</span>
-                          </li>
-                        )}
-                        {content.contact_info?.hours && (
-                          <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
-                            <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32 shrink-0">Hours</span>
-                            <span className="font-noir-display text-xl md:text-3xl text-white leading-relaxed">{content.contact_info.hours}</span>
-                          </li>
-                        )}
-                        {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.whatsapp) && (
-                          <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
-                            <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32 shrink-0">Socials</span>
-                            <div className="flex flex-wrap gap-6 md:gap-12">
-                              {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Facebook</a>}
-                              {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Instagram</a>}
-                              {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Twitter</a>}
-                              {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">WhatsApp</a>}
-                            </div>
-                          </li>
-                        )}
-                      </ul>
+                      {!hiddenFields.includes('contact_email') && (
+                                      <ul className="space-y-12">
+                                                              {content.contact_info?.email && (
+                                                                <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
+                                                                  <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Email</span>
+                                                                  <span className="font-noir-display text-2xl md:text-4xl text-white">{content.contact_info.email}</span>
+                                                                </li>
+                                                              )}
+                                                              {content.contact_info?.phone && (
+                                                                <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
+                                                                  <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Phone</span>
+                                                                  <span className="font-noir-display text-2xl md:text-4xl text-white">{content.contact_info.phone}</span>
+                                                                </li>
+                                                              )}
+                                                              {content.contact_info?.address && (
+                                                                <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
+                                                                  <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32">Studio</span>
+                                                                  <span className="font-noir-display text-2xl md:text-3xl text-white leading-relaxed">{content.contact_info.address}</span>
+                                                                </li>
+                                                              )}
+                                                              {content.contact_info?.hours && (
+                                                                <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
+                                                                  <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32 shrink-0">Hours</span>
+                                                                  <span className="font-noir-display text-xl md:text-3xl text-white leading-relaxed">{content.contact_info.hours}</span>
+                                                                </li>
+                                                              )}
+                                                              {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.whatsapp) && (
+                                                                <li className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 border-b border-zinc-900 pb-12">
+                                                                  <span className="font-noir-body text-xs tracking-[0.3em] uppercase text-zinc-600 w-32 shrink-0">Socials</span>
+                                                                  {!hiddenFields.includes('contact_facebook') && (
+                                                      <div className="flex flex-wrap gap-6 md:gap-12">
+                                                                                                                          {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Facebook</a>}
+                                                                                                                          {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Instagram</a>}
+                                                                                                                          {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">Twitter</a>}
+                                                                                                                          {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="font-noir-display text-xl md:text-3xl text-white hover:text-zinc-500 transition-colors uppercase tracking-widest">WhatsApp</a>}
+                                                                                                                        </div>
+                                                      )}
+                                                                </li>
+                                                              )}
+                                                            </ul>
+                                      )}
                     </div>
                     <div className="lg:w-1/2">
                       <div className="flex flex-col gap-8">
@@ -300,12 +311,14 @@ export default function NoirFancyTheme({ website, content }: any) {
                           buttonShape="font-noir-display tracking-widest font-bold uppercase rounded-none w-full border border-white"
                         />
                         <div className="w-full h-64 md:h-80 border-4 border-[#FDF8F5] shadow-sm mt-12">
-                          <iframe
-                            title="Google Maps"
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
-                            className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
-                          />
+                          {!hiddenFields.includes('contact_address') && (
+                                              <iframe
+                                                                          title="Google Maps"
+                                                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'London, UK')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                          width="100%" height="100%" style={{ border: 0 }} allowFullScreen={false} loading="lazy"
+                                                                          className="filter grayscale invert contrast-150 hover:grayscale-0 hover:invert-0 transition-all duration-1000"
+                                                                        />
+                                              )}
                         </div>
                       </div>
                     </div>
@@ -348,11 +361,13 @@ export default function NoirFancyTheme({ website, content }: any) {
 
       <footer className="bg-black py-20 border-t border-zinc-900 text-center">
         <h2 className="font-noir-display text-2xl text-white tracking-[1em] uppercase mb-12 ml-[1em]">{siteName}</h2>
-        <div className="flex justify-center gap-12 mb-12">
-          {content.contact_info?.facebook && <a href={content.contact_info.facebook} className="text-zinc-600 hover:text-white transition-colors"><Facebook size={20} strokeWidth={1} /></a>}
-          {content.contact_info?.instagram && <a href={content.contact_info.instagram} className="text-zinc-600 hover:text-white transition-colors"><Instagram size={20} strokeWidth={1} /></a>}
-          {content.contact_info?.twitter && <a href={content.contact_info.twitter} className="text-zinc-600 hover:text-white transition-colors"><Twitter size={20} strokeWidth={1} /></a>}
-        </div>
+        {!hiddenFields.includes('contact_facebook') && (
+              <div className="flex justify-center gap-12 mb-12">
+                        {content.contact_info?.facebook && <a href={content.contact_info.facebook} className="text-zinc-600 hover:text-white transition-colors"><Facebook size={20} strokeWidth={1} /></a>}
+                        {content.contact_info?.instagram && <a href={content.contact_info.instagram} className="text-zinc-600 hover:text-white transition-colors"><Instagram size={20} strokeWidth={1} /></a>}
+                        {content.contact_info?.twitter && <a href={content.contact_info.twitter} className="text-zinc-600 hover:text-white transition-colors"><Twitter size={20} strokeWidth={1} /></a>}
+                      </div>
+              )}
         <p className="font-noir-body text-xs text-zinc-600 uppercase tracking-[0.3em]">&copy; {new Date().getFullYear()} {siteName}. All Rights Reserved.</p>
       </footer>
 

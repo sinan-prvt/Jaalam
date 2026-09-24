@@ -3,6 +3,7 @@ import { MapPin, Clock, ArrowRight, Info, Phone, Calendar, User, BookOpen } from
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RoyalMosqueLayout({ website, content }: { website: any, content: any }) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   const sections = religiousData.sections || [];
   const orderedSections = sections.filter((s: any) => s.visible).map((s: any) => s.id === 'donations' ? 'programs' : s.id);
@@ -287,9 +288,11 @@ export default function RoyalMosqueLayout({ website, content }: { website: any, 
                       </div>
                       <div>
                         <h4 className={`text-sm font-bold tracking-widest uppercase ${colors.textDark} mb-2`}>Location</h4>
-                        <p className={`text-xl font-serif text-stone-700 leading-relaxed`}>
-                          {content.contact_info?.address || '123 Faith Lane, City, Country'}
-                        </p>
+                        {!hiddenFields.includes('contact_address') && (
+                                        <p className={`text-xl font-serif text-stone-700 leading-relaxed`}>
+                                                                  {content.contact_info?.address || '123 Faith Lane, City, Country'}
+                                                                </p>
+                                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-6 group">

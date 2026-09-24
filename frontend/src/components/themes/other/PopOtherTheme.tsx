@@ -9,6 +9,7 @@ export default function PopOtherTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Pop!';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
 
   const services = content.services_json?.length > 0 ? content.services_json : [
     { title: 'Super Fun', description: 'Everything we do is designed to bring a smile to your face.' },
@@ -67,12 +68,16 @@ export default function PopOtherTheme({ website, content }: any) {
             <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full font-pop-title text-sm font-bold text-[#FF4D4D] mb-6 shadow-sm border-2 border-[#2D3748]">
               <Sparkles size={16} /> Welcome to the fun side!
             </div>
-            <h1 className="font-pop-title text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-md">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-pop-title text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-md">
               {content.hero_title || 'Make it pop.'}
             </h1>
-            <p className="font-pop-body text-xl text-white/90 mb-10 max-w-lg mx-auto md:mx-0 font-semibold">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-pop-body text-xl text-white/90 mb-10 max-w-lg mx-auto md:mx-0 font-semibold">
               {content.hero_text || 'Bold, vibrant, and always exciting. Discover a new way to experience our amazing services.'}
             </p>
+              )}
             <a href="#contact" className="inline-block bg-[#FFD700] text-[#2D3748] font-pop-title font-bold text-xl py-4 px-10 rounded-full border-4 border-[#2D3748] shadow-[8px_8px_0px_0px_rgba(45,55,72,1)] hover:shadow-[4px_4px_0px_0px_rgba(45,55,72,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
               Let's Go!
             </a>
@@ -93,9 +98,11 @@ export default function PopOtherTheme({ website, content }: any) {
            
           <div className="container mx-auto max-w-5xl relative z-10">
             <div className="bg-white rounded-[3rem] border-4 border-[#2D3748] shadow-[16px_16px_0px_0px_rgba(45,55,72,1)] p-8 md:p-16 text-center">
+              {!hiddenFields.includes("about_title") && (
               <h2 className="font-pop-title text-5xl font-bold mb-8 text-[#FF4D4D]">
                 {content.settings_json?.about_title || content.about_title || 'Who Are We?'}
               </h2>
+              )}
               <p className="font-pop-body text-xl text-[#2D3748] leading-relaxed max-w-3xl mx-auto font-semibold">
                 {content.about_text || 'We are a team of dreamers, creators, and fun-lovers. We believe that business doesn\'t have to be boring. Every interaction should be memorable, and every product should bring joy.'}
               </p>
@@ -210,19 +217,25 @@ export default function PopOtherTheme({ website, content }: any) {
                     <div className="w-12 h-12 bg-[#4DB8FF] rounded-xl border-2 border-[#2D3748] flex items-center justify-center text-white -rotate-3">
                       <MapPin size={24} />
                     </div>
-                    <div>{content.contact_info?.address || '123 Fun Street, Play City'}</div>
+                    {!hiddenFields.includes('contact_address') && (
+                                      <div>{content.contact_info?.address || '123 Fun Street, Play City'}</div>
+                                      )}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-[#FFD700] rounded-xl border-2 border-[#2D3748] flex items-center justify-center text-[#2D3748] rotate-2">
                       <Phone size={24} />
                     </div>
-                    <div>{content.contact_info?.phone || '1-800-AWESOME'}</div>
+                    {!hiddenFields.includes('contact_phone') && (
+                                      <div>{content.contact_info?.phone || '1-800-AWESOME'}</div>
+                                      )}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-[#FF4D4D] rounded-xl border-2 border-[#2D3748] flex items-center justify-center text-white -rotate-2">
                       <Mail size={24} />
                     </div>
-                    <div>{content.contact_info?.email || 'hello@awesome.com'}</div>
+                    {!hiddenFields.includes('contact_email') && (
+                                      <div>{content.contact_info?.email || 'hello@awesome.com'}</div>
+                                      )}
                   </div>
                   {content.contact_info?.hours && (
                     <div className="flex items-center gap-4">
@@ -236,13 +249,15 @@ export default function PopOtherTheme({ website, content }: any) {
 
                 <div className="mt-12">
                    <h3 className="font-pop-title text-2xl font-bold mb-4 text-[#2D3748]">Find us on the interwebs</h3>
-                   <div className="flex gap-4">
-                     {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#1877F2] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Facebook size={24} /></a>}
-                     {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#E4405F] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Instagram size={24} /></a>}
-                     {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#1DA1F2] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Twitter size={24} /></a>}
-                     {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FF0000] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Youtube size={24} /></a>}
-                     {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#25D366] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><WhatsApp size={24} /></a>}
-                   </div>
+                   {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex gap-4">
+                                                       {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#1877F2] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Facebook size={24} /></a>}
+                                                       {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#E4405F] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Instagram size={24} /></a>}
+                                                       {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#1DA1F2] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Twitter size={24} /></a>}
+                                                       {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FF0000] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><Youtube size={24} /></a>}
+                                                       {content.contact_info?.whatsapp && <a href={content.contact_info.whatsapp} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#25D366] text-white rounded-xl border-2 border-[#2D3748] flex items-center justify-center hover:-translate-y-2 transition-transform"><WhatsApp size={24} /></a>}
+                                                     </div>
+                                  )}
                 </div>
               </div>
             </div>
@@ -259,15 +274,17 @@ export default function PopOtherTheme({ website, content }: any) {
 
           <div className="container mx-auto max-w-5xl mt-16">
             <div className="h-[400px] rounded-3xl overflow-hidden border-8 border-white shadow-[12px_12px_0px_0px_rgba(45,55,72,1)] bg-white relative z-20">
-              <iframe
-                title="Google Maps"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
-                allowFullScreen
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Google Maps"
+                                          width="100%"
+                                          height="100%"
+                                          frameBorder="0"
+                                          style={{ border: 0 }}
+                                          src={`https://www.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York')}&output=embed`}
+                                          allowFullScreen
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

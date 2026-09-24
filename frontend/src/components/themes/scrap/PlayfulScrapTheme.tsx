@@ -12,6 +12,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const siteName = content.settings_json?.website_name || website.slug || 'Junk Busters!';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Copper Scrap', price: '₹500 – ₹800/kg', description: 'Wires, pipes, and pure copper materials.', detailed_description: 'We accept all grades of copper including Bare Bright, #1 Copper, #2 Copper, and insulated copper wire. Clean, unalloyed copper without attachments yields the highest returns.', image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80' },
     { name: 'Aluminium Scrap', price: '₹100 – ₹200/kg', description: 'Cans, extrusions, wheels, and cast aluminium.', detailed_description: 'Accepted materials include aluminium cans (UBCs), extruded aluminium (window frames, etc.), cast aluminium, and aluminium wheels. Must be free of iron attachments for best pricing.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' },
@@ -94,12 +95,16 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                 <div className="absolute top-10 left-0 text-[#4ECDC4] transform -rotate-12"><DollarSign size={80} /></div>
                 <div className="absolute bottom-10 right-0 text-[#FF6B6B] transform rotate-12"><Truck size={100} /></div>
                 
-                <h1 className="font-fun text-6xl md:text-8xl text-[#2B3A67] mb-8 leading-tight drop-shadow-md">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-fun text-6xl md:text-8xl text-[#2B3A67] mb-8 leading-tight drop-shadow-md">
                   {content.hero_title || 'Got Junk? Get Cash!'}
                 </h1>
-                <p className="font-body text-2xl font-bold text-[#FF9F1C] mb-12 bg-white inline-block px-6 py-2 rounded-2xl border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rotate-2">
+              )}
+                {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-2xl font-bold text-[#FF9F1C] mb-12 bg-white inline-block px-6 py-2 rounded-2xl border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rotate-2">
                   {content.hero_description || content.hero_text || 'We clear your clutter and pay you for it! Fast, friendly, and super easy scrap pickup.'}
                 </p>
+              )}
                 <div className="flex justify-center">
                   <a href="#contact" className="bg-[#4ECDC4] hover:bg-[#45b7b0] text-white font-fun text-2xl py-5 px-12 rounded-[2rem] border-4 border-[#2B3A67] shadow-[8px_8px_0_#2B3A67] active:translate-y-2 active:shadow-none transition-all">
                     Book a Pickup! 🚛
@@ -115,10 +120,14 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                 <div className="absolute -top-8 -right-8 text-[#FF9F1C] bg-white rounded-full p-4 border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rotate-12">
                   <Package size={48} />
                 </div>
-                <h2 className="font-fun text-5xl mb-8 drop-shadow-sm">{content.settings_json?.about_title || "We Make Recycling FUN!"}</h2>
-                <p className="font-body text-2xl font-bold leading-relaxed max-w-3xl mx-auto">
+                {!hiddenFields.includes("about_title") && (
+              <h2 className="font-fun text-5xl mb-8 drop-shadow-sm">{content.settings_json?.about_title || "We Make Recycling FUN!"}</h2>
+              )}
+                {!hiddenFields.includes("about_description") && (
+              <p className="font-body text-2xl font-bold leading-relaxed max-w-3xl mx-auto">
                   {content.settings_json?.about_description || "Don't throw away your treasures! We take your unwanted scrap, pay you top dollar, and make sure it gets recycled properly to save our planet."}
                 </p>
+              )}
               </div>
             </section>
           );
@@ -210,15 +219,21 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                 <div className="grid md:grid-cols-3 gap-6 font-fun text-xl">
                   <div className="bg-white p-6 rounded-3xl border-4 border-[#2B3A67] shadow-[6px_6px_0_#2B3A67] flex flex-col items-center gap-3 transform -rotate-2">
                      <Phone className="text-[#FF6B6B]" size={40} />
-                     <span className="text-[#2B3A67]">{content.contact_info?.phone || '98765 43210'}</span>
+                     {!hiddenFields.includes('contact_phone') && (
+                              <span className="text-[#2B3A67]">{content.contact_info?.phone || '98765 43210'}</span>
+                              )}
                   </div>
                   <div className="bg-white p-6 rounded-3xl border-4 border-[#2B3A67] shadow-[6px_6px_0_#2B3A67] flex flex-col items-center gap-3 transform rotate-2 mt-4 md:mt-0">
                      <MapPin className="text-[#FF9F1C]" size={40} />
-                     <span className="text-[#2B3A67]">{content.contact_info?.address || 'Scrap Yard, Kerala'}</span>
+                     {!hiddenFields.includes('contact_address') && (
+                              <span className="text-[#2B3A67]">{content.contact_info?.address || 'Scrap Yard, Kerala'}</span>
+                              )}
                   </div>
                   <div className="bg-white p-6 rounded-3xl border-4 border-[#2B3A67] shadow-[6px_6px_0_#2B3A67] flex flex-col items-center gap-3 transform -rotate-1 mt-4 md:mt-0">
                      <Mail className="text-[#4ECDC4]" size={40} />
-                     <span className="text-[#2B3A67] text-lg break-all">{content.contact_info?.email || 'junk@busters.com'}</span>
+                     {!hiddenFields.includes('contact_email') && (
+                              <span className="text-[#2B3A67] text-lg break-all">{content.contact_info?.email || 'junk@busters.com'}</span>
+                              )}
                   </div>
                 </div>
 
@@ -233,19 +248,21 @@ export default function PlayfulScrapTheme({ website, content }: any) {
 
                     <div className="mb-6">
                        <h3 className="font-fun text-3xl font-bold mb-6 text-[#FF6B6B]">Connect With Us</h3>
-                       <div className="flex gap-4">
-                          {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF9F1C] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Facebook size={24} /></a>}
-                          {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Instagram size={24} /></a>}
-                          {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#4ECDC4] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Twitter size={24} /></a>}
-                          {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Youtube size={24} /></a>}
-                          {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && (
-                             <div className="flex gap-4">
-                               <a href="#" className="w-12 h-12 bg-[#FF9F1C] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Facebook size={24} /></a>
-                               <a href="#" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Instagram size={24} /></a>
-                               <a href="#" className="w-12 h-12 bg-[#4ECDC4] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Twitter size={24} /></a>
-                             </div>
-                          )}
-                       </div>
+                       {!hiddenFields.includes('contact_facebook') && (
+                                  <div className="flex gap-4">
+                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF9F1C] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Facebook size={24} /></a>}
+                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Instagram size={24} /></a>}
+                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#4ECDC4] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Twitter size={24} /></a>}
+                                                            {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Youtube size={24} /></a>}
+                                                            {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && !content.contact_info?.youtube && (
+                                                               <div className="flex gap-4">
+                                                                 <a href="#" className="w-12 h-12 bg-[#FF9F1C] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Facebook size={24} /></a>
+                                                                 <a href="#" className="w-12 h-12 bg-[#FF6B6B] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Instagram size={24} /></a>
+                                                                 <a href="#" className="w-12 h-12 bg-[#4ECDC4] border-4 border-[#2B3A67] shadow-[4px_4px_0_#2B3A67] rounded-full flex items-center justify-center text-white hover:-translate-y-1 transition-transform"><Twitter size={24} /></a>
+                                                               </div>
+                                                            )}
+                                                         </div>
+                                  )}
                     </div>
                   </div>
 

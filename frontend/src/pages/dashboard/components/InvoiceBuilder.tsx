@@ -143,14 +143,14 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
         </div>
         <div className="flex gap-3">
           {invoiceId && (
-            <button onClick={generatePDF} className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-100 transition-colors">
+            <button onClick={generatePDF} className="bg-orange-50 text-orange-600 px-4 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-100 transition-colors">
               <Download size={16} /> PDF
             </button>
           )}
           <button 
             onClick={handleSave} 
             disabled={loading || invoiceId !== null} 
-            className="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors disabled:opacity-50"
+            className="bg-orange-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-700 transition-colors disabled:opacity-50"
           >
             <Save size={16} /> {invoiceId ? 'Saved' : 'Save Invoice'}
           </button>
@@ -192,7 +192,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
                           reader.readAsDataURL(file);
                         }
                       }}
-                      className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors"
+                      className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 transition-colors"
                     />
                     <p className="text-[10px] text-slate-400 mt-1">Upload a small square logo (PNG or JPG)</p>
                   </div>
@@ -200,11 +200,11 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Business Name</label>
-                <input type="text" value={businessName} onChange={e => setBusinessName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="Your Shop Name" />
+                <input type="text" value={businessName} onChange={e => setBusinessName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500/20 outline-none" placeholder="Your Shop Name" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">UPI ID (For QR Code)</label>
-                <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="e.g. shop@okicici" />
+                <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500/20 outline-none" placeholder="e.g. shop@okicici" />
               </div>
             </div>
           </div>
@@ -214,15 +214,15 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Customer Name</label>
-                <input type="text" value={customerName} onChange={e => setCustomerName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="John Doe" />
+                <input type="text" value={customerName} onChange={e => setCustomerName(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500/20 outline-none" placeholder="John Doe" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Phone</label>
-                <input type="tel" value={customerPhone} onChange={e => setCustomerPhone(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="+91 9876543210" />
+                <input type="tel" value={customerPhone} onChange={e => setCustomerPhone(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500/20 outline-none" placeholder="+91 9876543210" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Email (Optional)</label>
-                <input type="email" value={customerEmail} onChange={e => setCustomerEmail(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none" placeholder="john@example.com" />
+                <input type="email" value={customerEmail} onChange={e => setCustomerEmail(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500/20 outline-none" placeholder="john@example.com" />
               </div>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-slate-900">Items</h3>
-              <button onClick={addItem} className="text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:bg-indigo-100">
+              <button onClick={addItem} className="text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:bg-orange-100">
                 <Plus size={14} /> Add Item
               </button>
             </div>
@@ -293,7 +293,7 @@ export default function InvoiceBuilder({ onBack, websiteId, initialBusinessName,
                     <img src={logoUrl} alt="Business Logo" className="max-w-full max-h-full object-contain" />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-black text-xl shadow-md">
+                  <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-black text-xl shadow-md">
                     {businessName.charAt(0).toUpperCase()}
                   </div>
                 )}

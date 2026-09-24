@@ -137,10 +137,10 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
   const CopyButton = ({ text, field }: { text: string, field: string }) => (
     <button
       onClick={() => handleCopy(text, field)}
-      className="absolute top-3 right-3 p-2 bg-white/80 hover:bg-white text-slate-500 hover:text-indigo-600 rounded-lg shadow-sm border border-slate-200 backdrop-blur-md transition-all"
+      className="absolute top-3 right-3 p-2 bg-white/80 hover:bg-white text-slate-500 hover:text-orange-600 rounded-lg shadow-sm border border-slate-200 backdrop-blur-md transition-all"
       title="Copy to clipboard"
     >
-      {copiedField === field ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+      {copiedField === field ? <CheckCircle2 size={16} className="text-orange-500" /> : <Copy size={16} />}
     </button>
   );
 
@@ -160,7 +160,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
           onClick={() => setActiveTab('poster')}
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm transition-all ${activeTab === 'poster' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
         >
-          <Palette size={18} className={activeTab === 'poster' ? 'text-emerald-500' : ''} />
+          <Palette size={18} className={activeTab === 'poster' ? 'text-orange-500' : ''} />
           AI Poster Designer
         </button>
       </div>
@@ -168,7 +168,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
       {activeTab === 'campaign' && (
         <>
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-500/10 to-violet-500/10 border border-fuchsia-500/20 text-fuchsia-700 text-xs font-black uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-500/10 to-amber-500/10 border border-fuchsia-500/20 text-fuchsia-700 text-xs font-black uppercase tracking-wider mb-4">
               <Sparkles size={14} className="text-fuchsia-500" />
               AI Marketing Center
             </div>
@@ -183,7 +183,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
             <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-6 border border-white shadow-sm">
                 <h3 className="font-black text-lg text-slate-800 mb-4 flex items-center gap-2">
-                  <Megaphone className="text-indigo-500" size={20} />
+                  <Megaphone className="text-orange-500" size={20} />
                   Campaign Details
                 </h3>
 
@@ -195,7 +195,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                     <select
                       value={selectedSite}
                       onChange={(e) => setSelectedSite(Number(e.target.value))}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     >
                       <option value="">-- Choose a project --</option>
                       {websites.map(w => (
@@ -213,7 +213,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                     <select
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     >
                       <option value="English">English</option>
                       <option value="Malayalam">Malayalam (മലയാളം)</option>
@@ -231,7 +231,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={promotionDetails}
                       onChange={(e) => setPromotionDetails(e.target.value)}
                       placeholder="e.g. Summer Sale 20% off all items this weekend only!"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none resize-none h-32"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none resize-none h-32"
                     />
                   </div>
 
@@ -240,7 +240,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                     disabled={isGenerating || !selectedSite || !promotionDetails}
                     className={`w-full relative overflow-hidden group flex items-center justify-center gap-2 py-4 rounded-xl font-black text-white shadow-md transition-all ${isGenerating || !selectedSite || !promotionDetails
                         ? 'bg-slate-300 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 hover:shadow-indigo-500/25 hover:-translate-y-0.5'
+                        : 'bg-gradient-to-r from-orange-500 via-amber-500 to-fuchsia-500 hover:shadow-orange-500/25 hover:-translate-y-0.5'
                       }`}
                   >
                     {!isGenerating && <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>}
@@ -275,7 +275,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                   </div>
 
                   <div className="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm relative group">
-                    <div className="flex items-center gap-2 mb-3 text-emerald-500">
+                    <div className="flex items-center gap-2 mb-3 text-orange-500">
                       <MessageSquare size={18} />
                       <h4 className="font-black text-sm uppercase tracking-wider">WhatsApp Broadcast</h4>
                     </div>
@@ -293,7 +293,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                   </div>
 
                   <div className="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm relative group md:col-span-2">
-                    <div className="flex items-center gap-2 mb-3 text-indigo-500">
+                    <div className="flex items-center gap-2 mb-3 text-orange-500">
                       <Mail size={18} />
                       <h4 className="font-black text-sm uppercase tracking-wider">Email Campaign</h4>
                     </div>
@@ -340,8 +340,8 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
       {activeTab === 'poster' && (
         <>
           <div className="mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 text-emerald-700 text-xs font-black uppercase tracking-wider mb-4">
-              <Palette size={14} className="text-emerald-500" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20 text-orange-700 text-xs font-black uppercase tracking-wider mb-4">
+              <Palette size={14} className="text-orange-500" />
               AI Poster Designer
             </div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">Poster Generator</h2>
@@ -355,7 +355,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
             <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-6 border border-white shadow-sm">
                 <h3 className="font-black text-lg text-slate-800 mb-4 flex items-center gap-2">
-                  <ImageIcon className="text-emerald-500" size={20} />
+                  <ImageIcon className="text-orange-500" size={20} />
                   Poster Details
                 </h3>
 
@@ -366,10 +366,10 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                         1. Choose a Design Template
                       </label>
                       <div className="grid grid-cols-2 gap-2">
-                        <button onClick={() => setPosterLayout('centered')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'centered' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Classic Centered</button>
-                        <button onClick={() => setPosterLayout('split-right')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'split-right' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Modern Split (Right)</button>
-                        <button onClick={() => setPosterLayout('split-left')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'split-left' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Modern Split (Left)</button>
-                        <button onClick={() => setPosterLayout('bottom-banner')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'bottom-banner' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Bottom Banner</button>
+                        <button onClick={() => setPosterLayout('centered')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'centered' ? 'border-orange-500 bg-orange-50 text-orange-700 ring-2 ring-orange-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Classic Centered</button>
+                        <button onClick={() => setPosterLayout('split-right')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'split-right' ? 'border-orange-500 bg-orange-50 text-orange-700 ring-2 ring-orange-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Modern Split (Right)</button>
+                        <button onClick={() => setPosterLayout('split-left')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'split-left' ? 'border-orange-500 bg-orange-50 text-orange-700 ring-2 ring-orange-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Modern Split (Left)</button>
+                        <button onClick={() => setPosterLayout('bottom-banner')} className={`p-3 border rounded-xl text-xs font-bold transition-all ${posterLayout === 'bottom-banner' ? 'border-orange-500 bg-orange-50 text-orange-700 ring-2 ring-orange-500' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}>Bottom Banner</button>
                       </div>
                     </div>
 
@@ -379,10 +379,10 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                           Theme Color
                         </label>
                         <div className="flex gap-2">
-                          <button onClick={() => setPosterColor('bg-[#6b2158] text-white')} className={`w-8 h-8 rounded-full bg-[#6b2158] border-2 transition-all ${posterColor.includes('6b2158') ? 'border-emerald-500 scale-110' : 'border-transparent shadow-sm'}`} title="Plum"></button>
-                          <button onClick={() => setPosterColor('bg-emerald-800 text-white')} className={`w-8 h-8 rounded-full bg-emerald-800 border-2 transition-all ${posterColor.includes('emerald-800') ? 'border-emerald-500 scale-110' : 'border-transparent shadow-sm'}`} title="Emerald"></button>
-                          <button onClick={() => setPosterColor('bg-slate-900 text-white')} className={`w-8 h-8 rounded-full bg-slate-900 border-2 transition-all ${posterColor.includes('slate-900') ? 'border-emerald-500 scale-110' : 'border-transparent shadow-sm'}`} title="Dark"></button>
-                          <button onClick={() => setPosterColor('bg-white/95 text-slate-900')} className={`w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 transition-all ${posterColor.includes('white/95') ? 'border-emerald-500 scale-110' : 'shadow-sm'}`} title="Light"></button>
+                          <button onClick={() => setPosterColor('bg-[#6b2158] text-white')} className={`w-8 h-8 rounded-full bg-[#6b2158] border-2 transition-all ${posterColor.includes('6b2158') ? 'border-orange-500 scale-110' : 'border-transparent shadow-sm'}`} title="Plum"></button>
+                          <button onClick={() => setPosterColor('bg-orange-800 text-white')} className={`w-8 h-8 rounded-full bg-orange-800 border-2 transition-all ${posterColor.includes('orange-800') ? 'border-orange-500 scale-110' : 'border-transparent shadow-sm'}`} title="Emerald"></button>
+                          <button onClick={() => setPosterColor('bg-slate-900 text-white')} className={`w-8 h-8 rounded-full bg-slate-900 border-2 transition-all ${posterColor.includes('slate-900') ? 'border-orange-500 scale-110' : 'border-transparent shadow-sm'}`} title="Dark"></button>
+                          <button onClick={() => setPosterColor('bg-white/95 text-slate-900')} className={`w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 transition-all ${posterColor.includes('white/95') ? 'border-orange-500 scale-110' : 'shadow-sm'}`} title="Light"></button>
                         </div>
                       </div>
                     )}
@@ -397,7 +397,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterBrandName}
                       onChange={(e) => setPosterBrandName(e.target.value)}
                       placeholder="e.g. LUMINAIRE"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     />
                   </div>
 
@@ -410,7 +410,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterHeadline}
                       onChange={(e) => setPosterHeadline(e.target.value)}
                       placeholder="e.g. NEW COLLECTION"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-800 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     />
                   </div>
 
@@ -423,7 +423,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterOffer}
                       onChange={(e) => setPosterOffer(e.target.value)}
                       placeholder="e.g. UP TO 30% OFF"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     />
                   </div>
 
@@ -436,7 +436,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterCTA}
                       onChange={(e) => setPosterCTA(e.target.value)}
                       placeholder="e.g. SHOP NOW"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     />
                   </div>
 
@@ -449,7 +449,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterWebsite}
                       onChange={(e) => setPosterWebsite(e.target.value)}
                       placeholder="e.g. www.yourboutique.com"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
                     />
                   </div>
 
@@ -461,7 +461,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       value={posterPrompt}
                       onChange={(e) => setPosterPrompt(e.target.value)}
                       placeholder="e.g. A vibrant retro 80s style poster for a summer coffee sale, high quality, digital art"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none resize-none h-32"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none resize-none h-32"
                     />
                   </div>
 
@@ -471,7 +471,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       disabled={isGeneratingPoster || !posterPrompt}
                       className={`w-full relative overflow-hidden group flex items-center justify-center gap-2 py-4 rounded-xl font-black text-white shadow-md transition-all ${isGeneratingPoster || !posterPrompt
                           ? 'bg-slate-300 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/25 hover:-translate-y-0.5'
+                          : 'bg-gradient-to-r from-orange-500 to-amber-500 hover:shadow-orange-500/25 hover:-translate-y-0.5'
                         }`}
                     >
                       {!isGeneratingPoster && <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>}
@@ -488,7 +488,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                       </div>
                     </div>
 
-                    <label className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-black text-emerald-600 bg-emerald-50 border-2 border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300 transition-all cursor-pointer shadow-sm">
+                    <label className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-black text-orange-600 bg-orange-50 border-2 border-orange-200 hover:bg-orange-100 hover:border-orange-300 transition-all cursor-pointer shadow-sm">
                       <Upload size={18} />
                       <span>Upload Your Own Image</span>
                       <input
@@ -543,7 +543,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                         )}
                         <div className="w-full flex flex-col items-center gap-6 mb-4">
                           {posterCTA && (
-                            <div className="bg-emerald-500 text-white px-8 py-3 rounded-full text-lg font-black tracking-widest shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] uppercase">
+                            <div className="bg-orange-500 text-white px-8 py-3 rounded-full text-lg font-black tracking-widest shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] uppercase">
                               {posterCTA}
                             </div>
                           )}
@@ -627,7 +627,7 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
                             )}
                           </div>
                           {posterCTA && (
-                            <div className="absolute -top-5 sm:-top-6 bg-emerald-500 text-white px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-black tracking-widest shadow-xl uppercase border-4 border-slate-100">
+                            <div className="absolute -top-5 sm:-top-6 bg-orange-500 text-white px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-black tracking-widest shadow-xl uppercase border-4 border-slate-100">
                               {posterCTA}
                             </div>
                           )}

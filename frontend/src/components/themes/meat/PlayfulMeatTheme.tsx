@@ -10,6 +10,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Happy Meats!';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const products = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Yummy Chicken Lollipops', price: '₹350/kg', image: 'https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?auto=format&fit=crop&w=600&q=80', description: 'Perfect for kids parties!' },
     { name: 'Mutton Mince (Kheema)', price: '₹850/kg', image: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&q=80', description: 'Make the best meatballs.' },
@@ -77,9 +78,11 @@ export default function PlayfulMeatTheme({ website, content }: any) {
             <section key="hero" id="hero" className="py-16 px-6 text-center">
               <div className="container mx-auto max-w-4xl flex flex-col items-center">
                 <div className="relative inline-block mb-6">
-                  <h1 className="font-playful text-6xl md:text-8xl text-[#E03A3E] drop-shadow-sm relative z-10">
+                  {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-playful text-6xl md:text-8xl text-[#E03A3E] drop-shadow-sm relative z-10">
                     {content.hero_title || 'Fresh. Clean. Super Tasty!'}
                   </h1>
+              )}
                   <Star className="absolute -top-6 -right-10 text-[#F48C06] fill-[#F48C06] rotate-12" size={48} />
                 </div>
                 <p className="font-body font-bold text-xl md:text-2xl text-[#F48C06] mb-12 bg-white inline-block px-8 py-4 rounded-[2rem] border-4 border-[#F48C06] -rotate-2 max-w-2xl shadow-[6px_6px_0_#E03A3E]">
@@ -101,10 +104,14 @@ export default function PlayfulMeatTheme({ website, content }: any) {
             <section key="about" id="about" className="py-20 px-6">
               <div className="container mx-auto max-w-5xl bg-[#E03A3E] rounded-[3rem] p-8 md:p-16 border-8 border-white shadow-[12px_12px_0_#F48C06] flex flex-col md:flex-row items-center gap-12 rotate-1">
                 <div className="md:w-1/2 text-white text-center md:text-left">
-                  <h2 className="font-playful text-5xl mb-6">{content.settings_json?.about_title || content.about_title || 'About Us!'}</h2>
-                  <p className="font-body font-bold text-xl leading-relaxed">
+                  {!hiddenFields.includes("about_title") && (
+              <h2 className="font-playful text-5xl mb-6">{content.settings_json?.about_title || content.about_title || 'About Us!'}</h2>
+              )}
+                  {!hiddenFields.includes("about_description") && (
+              <p className="font-body font-bold text-xl leading-relaxed">
                     {content.settings_json?.about_description || content.about_description || 'We are a family-owned butcher shop that believes meat should be fun, fresh, and fantastic! We source from happy farms so you get happy meals.'}
                   </p>
+              )}
                 </div>
                 <div className="md:w-1/2">
                   <div className="rounded-[2rem] overflow-hidden border-8 border-white shadow-[8px_8px_0_#F48C06] -rotate-3 bg-white">
@@ -211,26 +218,28 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 <h2 className="font-playful text-5xl text-[#E03A3E] mb-10">Say Hello!</h2>
                 
                 <div className="grid md:grid-cols-2 gap-8 text-left mb-12">
-                  <div className="space-y-6 font-body font-bold text-xl text-[#F48C06]">
-                    {content.contact_info?.phone && (
-                      <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
-                        <Phone size={28} className="text-[#E03A3E]" /> 
-                        <span>{content.contact_info.phone}</span>
-                      </div>
-                    )}
-                    {content.contact_info?.email && (
-                      <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
-                        <Mail size={28} className="text-[#E03A3E]" /> 
-                        <span>{content.contact_info.email}</span>
-                      </div>
-                    )}
-                    {content.contact_info?.address && (
-                      <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
-                        <MapPin size={28} className="text-[#E03A3E] shrink-0" /> 
-                        <span className="text-lg leading-tight">{content.contact_info.address}</span>
-                      </div>
-                    )}
-                  </div>
+                  {!hiddenFields.includes('contact_phone') && (
+                          <div className="space-y-6 font-body font-bold text-xl text-[#F48C06]">
+                                              {content.contact_info?.phone && (
+                                                <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
+                                                  <Phone size={28} className="text-[#E03A3E]" /> 
+                                                  <span>{content.contact_info.phone}</span>
+                                                </div>
+                                              )}
+                                              {content.contact_info?.email && (
+                                                <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
+                                                  <Mail size={28} className="text-[#E03A3E]" /> 
+                                                  <span>{content.contact_info.email}</span>
+                                                </div>
+                                              )}
+                                              {content.contact_info?.address && (
+                                                <div className="flex items-center gap-4 bg-[#FFFBEA] p-4 rounded-2xl border-4 border-[#F48C06]">
+                                                  <MapPin size={28} className="text-[#E03A3E] shrink-0" /> 
+                                                  <span className="text-lg leading-tight">{content.contact_info.address}</span>
+                                                </div>
+                                              )}
+                                            </div>
+                          )}
                   <div className="bg-[#FFFBEA] p-6 md:p-8 rounded-[2rem] border-4 border-[#F48C06] rotate-1">
                     <ContactForm 
                       websiteId={website.id}

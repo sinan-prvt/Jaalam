@@ -9,6 +9,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'FreshMart';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -138,12 +139,16 @@ export default function ModernGroceryTheme({ website, content }: any) {
         <div className="container mx-auto bg-emerald-50 rounded-2xl overflow-hidden flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 p-8 md:p-12">
             <span className="bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">100% Fresh Guarantee</span>
-            <h1 className="font-modern text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-modern text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight">
               {content.hero_title || 'Groceries delivered in minutes.'}
             </h1>
-            <p className="font-modern text-slate-600 mb-8 max-w-md">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-modern text-slate-600 mb-8 max-w-md">
               {content.hero_description || content.hero_text || 'Shop from 5000+ daily essentials, fresh fruits, vegetables, and more.'}
             </p>
+              )}
             <a href="#products" className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-lg inline-flex items-center gap-2 transition-colors w-fit">
               Shop Now <ChevronRight size={18} />
             </a>
@@ -156,7 +161,9 @@ export default function ModernGroceryTheme({ website, content }: any) {
       {/* About */}
       <section className="py-16 px-6 bg-white" id="about">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="font-modern text-3xl font-bold text-slate-900 mb-6">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+          {!hiddenFields.includes("about_title") && (
+              <h2 className="font-modern text-3xl font-bold text-slate-900 mb-6">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
           <p className="text-slate-600 text-lg leading-relaxed">
             {content.about_text || 'We are your neighborhood grocery store committed to providing the freshest produce and daily essentials right to your doorstep. With over 10 years of experience sourcing from local farms, quality is our top priority.'}
           </p>
@@ -248,64 +255,74 @@ export default function ModernGroceryTheme({ website, content }: any) {
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <div className="flex items-center justify-center gap-3 bg-white px-6 py-4 rounded-xl shadow-sm border border-emerald-100 w-full sm:w-auto">
               <Phone className="text-emerald-600 shrink-0" />
-              <span className="font-bold text-slate-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+              {!hiddenFields.includes('contact_phone') && (
+                          <span className="font-bold text-slate-800">{content.contact_info?.phone || '1800 123 4567'}</span>
+                          )}
             </div>
             <div className="flex items-center justify-center gap-3 bg-white px-6 py-4 rounded-xl shadow-sm border border-emerald-100 w-full sm:w-auto">
               <Mail className="text-emerald-600 shrink-0" />
-              <span className="font-bold text-slate-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+              {!hiddenFields.includes('contact_email') && (
+                          <span className="font-bold text-slate-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
+                          )}
             </div>
             <div className="flex items-center justify-center gap-3 bg-white px-6 py-4 rounded-xl shadow-sm border border-emerald-100 w-full sm:w-auto">
               <MapPin className="text-emerald-600 shrink-0" />
-              <span className="font-bold text-slate-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Market Street'}</span>
+              {!hiddenFields.includes('contact_address') && (
+                          <span className="font-bold text-slate-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Market Street'}</span>
+                          )}
             </div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-8 mb-8 text-left">
             <div className="flex-1 space-y-6">
               <h3 className="font-modern text-xl font-bold text-slate-900 mb-4">Connect With Us</h3>
-              <div className="flex gap-4">
-                {content.contact_info?.facebook && (
-                  <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                    <Facebook size={20} />
-                  </a>
-                )}
-                {content.contact_info?.instagram && (
-                  <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                    <Instagram size={20} />
-                  </a>
-                )}
-                {content.contact_info?.twitter && (
-                  <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                    <Twitter size={20} />
-                  </a>
-                )}
-                {(!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter) && (
-                  <>
-                    <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                      <Facebook size={20} />
-                    </a>
-                    <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
-                      <Instagram size={20} />
-                    </a>
-                  </>
-                )}
-              </div>
+              {!hiddenFields.includes('contact_facebook') && (
+                          <div className="flex gap-4">
+                                          {content.contact_info?.facebook && (
+                                            <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                                              <Facebook size={20} />
+                                            </a>
+                                          )}
+                                          {content.contact_info?.instagram && (
+                                            <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                                              <Instagram size={20} />
+                                            </a>
+                                          )}
+                                          {content.contact_info?.twitter && (
+                                            <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                                              <Twitter size={20} />
+                                            </a>
+                                          )}
+                                          {(!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter) && (
+                                            <>
+                                              <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                                                <Facebook size={20} />
+                                              </a>
+                                              <a href="#" className="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">
+                                                <Instagram size={20} />
+                                              </a>
+                                            </>
+                                          )}
+                                        </div>
+                          )}
               
               <div className="mt-8 pt-8 border-t border-emerald-200/50">
                 <h3 className="font-modern text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                   <Clock className="text-emerald-600" size={24} /> Store Hours
                 </h3>
-                <ul className="space-y-3 text-slate-700">
-                  {content.contact_info?.hours ? (
-                    <li className="whitespace-pre-wrap font-medium text-slate-900">{content.contact_info.hours}</li>
-                  ) : (
-                    <>
-                      <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Monday - Friday</span> <span className="font-medium text-slate-900">8:00 AM - 10:00 PM</span></li>
-                      <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Saturday</span> <span className="font-medium text-slate-900">9:00 AM - 9:00 PM</span></li>
-                      <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-emerald-600">Closed</span></li>
-                    </>
-                  )}
-                </ul>
+                {!hiddenFields.includes('contact_hours') && (
+                              <ul className="space-y-3 text-slate-700">
+                                                {content.contact_info?.hours ? (
+                                                  <li className="whitespace-pre-wrap font-medium text-slate-900">{content.contact_info.hours}</li>
+                                                ) : (
+                                                  <>
+                                                    <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Monday - Friday</span> <span className="font-medium text-slate-900">8:00 AM - 10:00 PM</span></li>
+                                                    <li className="flex justify-between border-b border-emerald-100 pb-2"><span>Saturday</span> <span className="font-medium text-slate-900">9:00 AM - 9:00 PM</span></li>
+                                                    <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-emerald-600">Closed</span></li>
+                                                  </>
+                                                )}
+                                              </ul>
+                              )}
               </div>
             </div>
 
@@ -325,16 +342,18 @@ export default function ModernGroceryTheme({ website, content }: any) {
 
         <div className="container mx-auto max-w-4xl mt-12">
           <div className="w-full h-80 rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative">
-            <iframe 
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={false} 
-              loading="lazy" 
-              title="Store Location"
-              className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-            ></iframe>
+            {!hiddenFields.includes('contact_address') && (
+                      <iframe 
+                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                    width="100%" 
+                                    height="100%" 
+                                    style={{ border: 0 }} 
+                                    allowFullScreen={false} 
+                                    loading="lazy" 
+                                    title="Store Location"
+                                    className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                  ></iframe>
+                      )}
           </div>
         </div>
       </section>
@@ -382,16 +401,20 @@ export default function ModernGroceryTheme({ website, content }: any) {
            <div>
              <h4 className="font-modern font-semibold text-white mb-4">Customer Support</h4>
              <ul className="space-y-2 text-sm">
-               <li className="flex items-center gap-2"><Phone size={14} /> {content.contact_info?.phone || '1800 123 4567'}</li>
+               {!hiddenFields.includes('contact_phone') && (
+                          <li className="flex items-center gap-2"><Phone size={14} /> {content.contact_info?.phone || '1800 123 4567'}</li>
+                          )}
                <li>Help Center</li>
                <li>Returns & Refunds</li>
              </ul>
            </div>
            <div>
              <h4 className="font-modern font-semibold text-white mb-4">Our Store</h4>
-             <p className="text-sm leading-relaxed">
-               <MapPin size={14} className="inline mr-1" /> {content.contact_info?.address || '123 Market Street, Kerala'}
-             </p>
+             {!hiddenFields.includes('contact_address') && (
+                      <p className="text-sm leading-relaxed">
+                                     <MapPin size={14} className="inline mr-1" /> {content.contact_info?.address || '123 Market Street, Kerala'}
+                                   </p>
+                      )}
            </div>
         </div>
       </footer>

@@ -13,6 +13,7 @@ export default function CommercialTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const siteName = content.settings_json?.website_name || website.slug || 'Apex Commercial';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   
   const properties = content.products_json?.length > 0 ? content.products_json : [
     { name: 'Financial District Tower', price: 'Lease: ₹250/sqft', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80', location: 'CBD', type: 'Office Space' },
@@ -73,12 +74,16 @@ export default function CommercialTheme({ website, content }: any) {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
         <div className="container mx-auto px-6 py-24 md:py-32 relative z-10 flex flex-col md:flex-row items-center gap-12">
           <div className="w-full">
-            <h1 className="font-corp text-4xl md:text-6xl font-extrabold mb-6 leading-tight max-w-3xl">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="font-corp text-4xl md:text-6xl font-extrabold mb-6 leading-tight max-w-3xl">
               {content.hero_title || 'Strategic Spaces for Business Growth.'}
             </h1>
-            <p className="font-body text-lg md:text-xl text-[#E9ECEF] mb-10 max-w-2xl leading-relaxed">
+              )}
+            {!hiddenFields.includes("hero_description") && (
+              <p className="font-body text-lg md:text-xl text-[#E9ECEF] mb-10 max-w-2xl leading-relaxed">
               {content.hero_text || 'Premium office spaces, retail locations, and industrial properties for modern enterprises.'}
             </p>
+              )}
             <div className="flex flex-col sm:flex-row gap-4 font-corp font-semibold">
               <a href="#properties" className="inline-block text-center bg-white text-[#004B87] px-8 py-4 hover:bg-[#F8F9FA] transition-colors shadow-lg">
                 Find Office Space
@@ -138,7 +143,9 @@ export default function CommercialTheme({ website, content }: any) {
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
         <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-[#DEE2E6]">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-corp font-bold mb-6 text-[#212529]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+            {!hiddenFields.includes("about_title") && (
+              <h2 className="text-3xl md:text-4xl font-corp font-bold mb-6 text-[#212529]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
+              )}
             <p className="text-lg text-[#6C757D] leading-relaxed max-w-2xl mx-auto font-body">
               {content.about_text || 'Welcome to our firm! We are dedicated to bringing you the best commercial real estate opportunities. Our team works hard to ensure client satisfaction and continuous success.'}
             </p>
@@ -205,28 +212,36 @@ export default function CommercialTheme({ website, content }: any) {
                   <Phone size={28} />
                 </div>
                 <h4 className="font-corp font-bold text-[#212529] mb-2">Phone</h4>
-                <p className="text-[#6C757D] font-semibold">{content.contact_info?.phone || '1800 123 4567'}</p>
+                {!hiddenFields.includes('contact_phone') && (
+                              <p className="text-[#6C757D] font-semibold">{content.contact_info?.phone || '1800 123 4567'}</p>
+                              )}
               </div>
               <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
                   <Mail size={28} />
                 </div>
                 <h4 className="font-corp font-bold text-[#212529] mb-2">Email</h4>
-                <p className="text-[#6C757D] font-semibold break-all">{content.contact_info?.email || 'corporate@apex.com'}</p>
+                {!hiddenFields.includes('contact_email') && (
+                              <p className="text-[#6C757D] font-semibold break-all">{content.contact_info?.email || 'corporate@apex.com'}</p>
+                              )}
               </div>
               <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
                   <MapPin size={28} />
                 </div>
                 <h4 className="font-corp font-bold text-[#212529] mb-2">Office</h4>
-                <p className="text-[#6C757D] font-semibold">{content.contact_info?.address || 'Level 12, Apex Tower\nBusiness District, Kerala'}</p>
+                {!hiddenFields.includes('contact_address') && (
+                              <p className="text-[#6C757D] font-semibold">{content.contact_info?.address || 'Level 12, Apex Tower\nBusiness District, Kerala'}</p>
+                              )}
               </div>
               <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
                   <Clock size={28} />
                 </div>
                 <h4 className="font-corp font-bold text-[#212529] mb-2">Hours</h4>
-                <p className="text-[#6C757D] font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                {!hiddenFields.includes('contact_hours') && (
+                              <p className="text-[#6C757D] font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
+                              )}
               </div>
             </div>
             
@@ -250,16 +265,18 @@ export default function CommercialTheme({ website, content }: any) {
             </div>
 
             <div className="mt-12 w-full h-[400px] border-t-4 border-[#004B87] shadow-lg bg-white overflow-hidden">
-              <iframe
-                title="Corporate Office Map"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Financial District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              {!hiddenFields.includes('contact_address') && (
+                          <iframe
+                                          title="Corporate Office Map"
+                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Financial District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                                          width="100%"
+                                          height="100%"
+                                          style={{ border: 0 }}
+                                          allowFullScreen={false}
+                                          loading="lazy"
+                                          referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                          )}
             </div>
           </div>
         </section>

@@ -84,7 +84,7 @@ export default function CustomersPage() {
             placeholder="Search customers..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
+            className="w-full pl-10 pr-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm font-medium placeholder:text-slate-400 shadow-inner outline-none"
           />
         </div>
         <div className="w-full md:w-auto flex items-center gap-2">
@@ -92,7 +92,7 @@ export default function CustomersPage() {
           <select
             value={selectedWebsite}
             onChange={(e) => setSelectedWebsite(e.target.value)}
-            className="w-full md:w-auto px-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm font-bold text-slate-700 shadow-inner outline-none cursor-pointer"
+            className="w-full md:w-auto px-4 py-3 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm font-bold text-slate-700 shadow-inner outline-none cursor-pointer"
           >
             <option value="all">All Sites</option>
             {websites.map(site => (
@@ -106,7 +106,7 @@ export default function CustomersPage() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="w-12 h-12 border-4 border-slate-200 border-t-indigo-500 rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-slate-200 border-t-orange-500 rounded-full animate-spin"></div>
         </div>
       ) : customers.length === 0 ? (
         <div className="bg-white/60 border border-slate-200 border-dashed rounded-3xl p-10 text-center shadow-sm">
@@ -133,7 +133,7 @@ export default function CustomersPage() {
                   <tr key={customer.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="p-4 pl-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-700 font-black">
+                        <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-700 font-black">
                           {customer.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="font-bold text-slate-900">{customer.name}</div>
@@ -172,7 +172,7 @@ export default function CustomersPage() {
                     <td className="p-4 pr-6 text-right">
                       <button 
                         onClick={() => setSelectedCustomer(customer)}
-                        className="p-2 text-slate-400 hover:text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100"
+                        className="p-2 text-slate-400 hover:text-orange-600 bg-white hover:bg-orange-50 rounded-lg transition-colors border border-transparent hover:border-orange-100"
                       >
                         <FileText size={18} />
                       </button>

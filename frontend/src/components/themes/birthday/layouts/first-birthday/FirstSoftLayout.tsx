@@ -5,6 +5,7 @@ import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 import GiftBoxAnimation from '../../../../ui/GiftBoxAnimation';
 
 export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
+    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

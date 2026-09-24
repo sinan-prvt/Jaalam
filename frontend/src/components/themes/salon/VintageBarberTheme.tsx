@@ -34,6 +34,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const siteName = content.settings_json?.website_name || website.slug || 'The Classic';
+  const hiddenFields = content?.settings_json?.hidden_elements || [];
   const address   = content.contact_info?.address || '1920 Retro Ave, NY';
 
   /* ─── Palette ─── */
@@ -247,9 +248,11 @@ export default function VintageBarberTheme({ website, content }: Props) {
               </FadeIn>
 
               <FadeIn delay={200} dir="left">
-                <h1 className="vb-display text-4xl sm:text-5xl md:text-[5.5rem] leading-[1.1] mb-8 break-words">
+                {!hiddenFields.includes("hero_title") && (
+              <h1 className="vb-display text-4xl sm:text-5xl md:text-[5.5rem] leading-[1.1] mb-8 break-words">
                   {content.hero_title || content.settings_json?.hero_title || siteName}
                 </h1>
+              )}
               </FadeIn>
 
               <FadeIn delay={400} dir="left">
@@ -312,9 +315,11 @@ export default function VintageBarberTheme({ website, content }: Props) {
                   <div className="max-w-5xl mx-auto text-center">
                     <FadeIn>
                       <div className="vb-ribbon mb-8 text-sm tracking-widest font-bold">OUR STORY</div>
-                      <h2 className="vb-display text-4xl sm:text-5xl mb-10">
+                      {!hiddenFields.includes("about_title") && (
+              <h2 className="vb-display text-4xl sm:text-5xl mb-10">
                         {content.settings_json?.about_title || 'A TRADITION OF EXCELLENCE'}
                       </h2>
+              )}
                     </FadeIn>
 
                     <FadeIn delay={200}>
@@ -475,21 +480,23 @@ export default function VintageBarberTheme({ website, content }: Props) {
                       <FadeIn dir="left">
                         <div className="vb-card p-8 sm:p-12 bg-white">
                           <h2 className="vb-display text-4xl mb-8">VISIT US</h2>
-                          <div className="space-y-6">
-                            {[
-                              { Icon: MapPin, label: 'Location', value: content.contact_info?.address || '1920 Retro Ave, NY' },
-                              { Icon: Phone, label: 'Telephone', value: content.contact_info?.phone || '+1 234 567 8900' },
-                              { Icon: Mail, label: 'Telegram', value: content.contact_info?.email || 'hello@classic.com' },
-                            ].map(({ Icon, label, value }) => (
-                              <div key={label} className="flex items-start gap-4">
-                                <div className="mt-1"><Icon size={20} style={{ color: CRIMSON }} /></div>
-                                <div>
-                                  <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">{label}</div>
-                                  <div className="vb-serif text-lg font-bold">{value}</div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                          {!hiddenFields.includes('contact_phone') && (
+                                      <div className="space-y-6">
+                                                                  {[
+                                                                    { Icon: MapPin, label: 'Location', value: content.contact_info?.address || '1920 Retro Ave, NY' },
+                                                                    { Icon: Phone, label: 'Telephone', value: content.contact_info?.phone || '+1 234 567 8900' },
+                                                                    { Icon: Mail, label: 'Telegram', value: content.contact_info?.email || 'hello@classic.com' },
+                                                                  ].map(({ Icon, label, value }) => (
+                                                                    <div key={label} className="flex items-start gap-4">
+                                                                      <div className="mt-1"><Icon size={20} style={{ color: CRIMSON }} /></div>
+                                                                      <div>
+                                                                        <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">{label}</div>
+                                                                        <div className="vb-serif text-lg font-bold">{value}</div>
+                                                                      </div>
+                                                                    </div>
+                                                                  ))}
+                                                                </div>
+                                      )}
                           
                           <div className="mt-10 pt-8 border-t-2" style={{ borderColor: ESPRESSO }}>
                             <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-3">Operating Hours</div>
@@ -514,13 +521,15 @@ export default function VintageBarberTheme({ website, content }: Props) {
 
                       <FadeIn dir="right">
                         <div className="h-80 md:h-[500px] vb-border bg-stone-300 relative shadow-[8px_8px_0_rgba(0,0,0,0.15)]">
-                          <iframe
-                            title="Map"
-                            className="absolute inset-0 w-full h-full grayscale contrast-125 sepia-[0.3]"
-                            loading="lazy"
-                            allowFullScreen
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, USA')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          />
+                          {!hiddenFields.includes('contact_address') && (
+                                      <iframe
+                                                                  title="Map"
+                                                                  className="absolute inset-0 w-full h-full grayscale contrast-125 sepia-[0.3]"
+                                                                  loading="lazy"
+                                                                  allowFullScreen
+                                                                  src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'New York, USA')}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                                                />
+                                      )}
                         </div>
                       </FadeIn>
                     </div>
