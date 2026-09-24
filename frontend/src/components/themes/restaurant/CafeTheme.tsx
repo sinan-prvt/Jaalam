@@ -19,6 +19,58 @@ interface Location {
   phone?: string;
 }
 
+const ThemeLoader = ({ theme }: { theme: string }) => {
+  if (theme === 'App Style') {
+    return (
+      <div className="fixed inset-0 bg-[#EF8F63] flex flex-col items-center justify-center z-[9999]">
+        <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }} className="w-16 h-16 border-4 border-white border-t-transparent rounded-full mb-6" />
+        <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="text-white text-2xl font-black tracking-widest uppercase">
+          Loading...
+        </motion.h2>
+      </div>
+    );
+  }
+  if (theme === 'Modern Bakery') {
+    return (
+      <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-[9999]">
+        <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}>
+          <Coffee size={48} className="text-[#86B479] mb-4" />
+        </motion.div>
+        <div className="w-48 h-1 bg-slate-100 rounded-full overflow-hidden relative">
+          <motion.div initial={{ left: "-100%" }} animate={{ left: "100%" }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="w-full h-full bg-[#86B479] absolute" />
+        </div>
+      </div>
+    );
+  }
+  if (theme === 'Artisan') {
+    return (
+      <div className="fixed inset-0 bg-[#1C1917] flex flex-col items-center justify-center z-[9999]">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="text-[#C19A6B] text-4xl font-serif italic tracking-wider">
+          Artisan...
+        </motion.div>
+      </div>
+    );
+  }
+  if (theme === 'Boutique') {
+    return (
+      <div className="fixed inset-0 bg-[#FAF5ED] flex flex-col items-center justify-center z-[9999]">
+        <div className="relative w-24 h-24">
+          {[0, 1, 2].map((i) => (
+            <motion.div key={i} className="absolute inset-0 border-2 border-[#C27D56] rounded-full" animate={{ scale: [1, 2], opacity: [1, 0] }} transition={{ duration: 2, delay: i * 0.6, repeat: Infinity, ease: "easeOut" }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="fixed inset-0 bg-[#111111] flex flex-col items-center justify-center z-[9999]">
+      <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
+        <Star size={40} className="text-[#D4A373]" />
+      </motion.div>
+    </div>
+  );
+};
+
 export default function CafeTheme({ website, content }: CafeThemeProps) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -138,6 +190,17 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
   // Determine if navbar should be solid based on scroll OR if we are in the menu view
   const isNavSolid = scrolled || menuOpen || currentView === 'menu';
+
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  useEffect(() => {
+    setIsInitialLoading(true);
+    const timer = setTimeout(() => setIsInitialLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, [website.theme]);
+
+  if (isInitialLoading) {
+    return <ThemeLoader theme={website.theme} />;
+  }
 
   if (website.theme === 'App Style') {
     return (
@@ -704,7 +767,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           )}
 
           {/* Premium Dark Footer for App Style */}
-          <footer id="contact" className="bg-[#1C1917] text-white pt-20 pb-28 lg:pb-12 border-t border-slate-200/5 relative z-20">
+          <motion.footer initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  id="contact" className="bg-[#1C1917] text-white pt-20 pb-28 lg:pb-12 border-t border-slate-200/5 relative z-20">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
                 <div className="lg:col-span-2 space-y-6">
@@ -733,7 +796,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               </div>
             </div>
           
-          </footer>
+          </motion.footer>
 
           {/* Lightbox Modal for App Style */}
           {selectedImage && (
@@ -914,7 +977,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               .map((sectionId: string) => {
                 if (sectionId === 'hero') {
                   return (
-                    <section key="hero" id="home" className={`relative h-screen flex items-center justify-center overflow-hidden ${bakeryColors.bgDark}`}>
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className={`relative h-screen flex items-center justify-center overflow-hidden ${bakeryColors.bgDark}`}>
                       {/* Scattered Bread Items with float effects */}
                       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                         {scatterBreads.map((bread, index) => (
@@ -955,13 +1018,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'about') {
                   return (
-                    <section key="about" id="story" className="py-24 bg-[#FAF7F2]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="about" id="story" className="py-24 bg-[#FAF7F2]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="bg-[#FCFAF7] rounded-[2.5rem] border border-[#EBE6DD] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 shadow-sm">
                           <div className="w-full lg:w-1/2 space-y-6">
@@ -1002,13 +1065,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'services') {
                   return (
-                    <section key="services" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="services" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-16">
                           <span className="text-[#C5A880] font-bold font-outfit tracking-[0.25em] uppercase text-xs block mb-3">What We Offer</span>
@@ -1033,13 +1096,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'menu') {
                   return (
-                    <section key="menu" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="menu" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                           <div>
@@ -1089,13 +1152,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'gallery') {
                   return (
-                    <section key="gallery" id="gallery" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="gallery" id="gallery" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-16">
                           <span className="text-[#C5A880] font-bold font-outfit tracking-[0.25em] uppercase text-xs block mb-3">gallery</span>
@@ -1120,13 +1183,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'contact') {
                   return (
-                    <section key="contact" id="contact-info" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="contact" id="contact-info" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="flex flex-col lg:flex-row items-stretch gap-10">
                           {/* Contact card */}
@@ -1241,13 +1304,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         </div>
                       </div>
                     
-          </section>
+          </motion.section>
                   );
                 }
 
                 if (sectionId === 'custom' && content.custom_blocks_json && content.custom_blocks_json.length > 0) {
                   return (
-                    <section key="custom" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="custom" className="py-24 bg-[#FAF7F2] border-t border-[#EBE6DD]">
                       <div className="max-w-3xl mx-auto px-6 text-center space-y-8">
                         {content.custom_blocks_json.map((block: any, idx: number) => {
                           if (block.type === 'heading') {
@@ -1265,7 +1328,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           return null;
                         })}
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
@@ -1351,7 +1414,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         
       
 {/* Footer */}
-        <footer id="contact" className={`${bakeryColors.bgDark} text-white pt-20 pb-12`}>
+        <motion.footer initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  id="contact" className={`${bakeryColors.bgDark} text-white pt-20 pb-12`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
               <div className="lg:col-span-2 space-y-6">
@@ -1381,7 +1444,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             </div>
           </div>
         
-          </footer>
+          </motion.footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -1546,7 +1609,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               .map((sectionId: string) => {
                 if (sectionId === 'hero') {
                   return (
-                    <section key="hero" id="home" className={`relative min-h-screen flex items-center justify-center pt-24 pb-12 ${artisanColors.bgCream}`}>
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className={`relative min-h-screen flex items-center justify-center pt-24 pb-12 ${artisanColors.bgCream}`}>
                       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                         <div className="lg:col-span-6 space-y-6 text-left">
                           <span className="block text-[#C27D56] font-bold font-montserrat uppercase tracking-[0.2em] text-xs lg:text-sm">
@@ -1584,13 +1647,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </motion.div>
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'about') {
                   return (
-                    <section key="about" id="story" className="py-24 bg-[#FAF5ED]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="about" id="story" className="py-24 bg-[#FAF5ED]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="bg-[#FAF5ED] rounded-[2.5rem] border border-[#E6DEC9] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 shadow-sm">
                           <div className="w-full lg:w-1/2 space-y-6">
@@ -1630,13 +1693,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'services') {
                   return (
-                    <section key="services" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="services" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-16">
                           <span className="text-[#C27D56] font-bold font-montserrat tracking-[0.25em] uppercase text-xs block mb-3">What We Offer</span>
@@ -1661,13 +1724,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'menu') {
                   return (
-                    <section key="menu" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="menu" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                           <div>
@@ -1717,13 +1780,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'gallery') {
                   return (
-                    <section key="gallery" id="gallery" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="gallery" id="gallery" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-16">
                           <span className="text-[#C27D56] font-bold font-montserrat tracking-[0.25em] uppercase text-xs block mb-3">gallery</span>
@@ -1748,13 +1811,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'contact') {
                   return (
-                    <section key="contact" id="contact-info" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="contact" id="contact-info" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="flex flex-col lg:flex-row items-stretch gap-10">
                           <div className="w-full lg:w-1/2 bg-[#FAF5ED] border border-[#E6DEC9] rounded-[2.5rem] p-8 lg:p-12 shadow-sm flex flex-col justify-between">
@@ -1866,13 +1929,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         </div>
                       </div>
                     
-          </section>
+          </motion.section>
                   );
                 }
 
                 if (sectionId === 'custom' && content.custom_blocks_json && content.custom_blocks_json.length > 0) {
                   return (
-                    <section key="custom" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="custom" className="py-24 bg-[#FAF5ED] border-t border-[#E6DEC9]">
                       <div className="max-w-3xl mx-auto px-6 text-center space-y-8">
                         {content.custom_blocks_json.map((block: any, idx: number) => {
                           if (block.type === 'heading') {
@@ -1890,7 +1953,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           return null;
                         })}
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
@@ -1974,7 +2037,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         )}
 
         {/* Footer */}
-        <footer id="contact" className={`${artisanColors.bgDark} text-white pt-20 pb-12`}>
+        <motion.footer initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  id="contact" className={`${artisanColors.bgDark} text-white pt-20 pb-12`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
               <div className="lg:col-span-2 space-y-6">
@@ -2004,7 +2067,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             </div>
           </div>
         
-          </footer>
+          </motion.footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -2169,7 +2232,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               .map((sectionId: string) => {
                 if (sectionId === 'hero') {
                   return (
-                    <section key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-[#111111]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-[#111111]">
                       {/* Typographic Subtle Overlay */}
                       <div className="absolute inset-0 z-0 flex items-center justify-center opacity-5 select-none pointer-events-none">
                         <span className="text-[12rem] lg:text-[24rem] font-syne font-black text-white whitespace-nowrap tracking-tighter">
@@ -2214,13 +2277,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <ChevronRight size={14} />
                         </button>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'about') {
                   return (
-                    <section key="about" id="story" className="py-32 bg-[#F9F9FB]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="about" id="story" className="py-32 bg-[#F9F9FB]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                           <div className="lg:col-span-7 space-y-8">
@@ -2249,13 +2312,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           </div>
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'services') {
                   return (
-                    <section key="services" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="services" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="mb-20">
                           <span className="text-[#D4A373] font-bold font-grotesk tracking-[0.3em] uppercase text-xs block mb-3">curated range</span>
@@ -2283,13 +2346,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'menu') {
                   return (
-                    <section key="menu" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="menu" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
                           <div>
@@ -2337,13 +2400,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'gallery') {
                   return (
-                    <section key="gallery" id="gallery" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="gallery" id="gallery" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="mb-20 text-left">
                           <span className="text-[#D4A373] font-bold font-grotesk tracking-[0.3em] uppercase text-xs block mb-3">visual archive</span>
@@ -2365,13 +2428,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           ))}
                         </div>
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
                 if (sectionId === 'contact') {
                   return (
-                    <section key="contact" id="contact-info" className="bg-[#111111] text-white py-32 border-t border-[#222222]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="contact" id="contact-info" className="bg-[#111111] text-white py-32 border-t border-[#222222]">
                       <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-stretch">
                           <div className="lg:col-span-6 flex flex-col justify-between">
@@ -2477,13 +2540,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         </div>
                       </div>
                     
-          </section>
+          </motion.section>
                   );
                 }
 
                 if (sectionId === 'custom' && content.custom_blocks_json && content.custom_blocks_json.length > 0) {
                   return (
-                    <section key="custom" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
+                    <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="custom" className="py-24 bg-[#F9F9FB] border-t border-[#EAEAEA]">
                       <div className="max-w-3xl mx-auto px-6 text-center space-y-8">
                         {content.custom_blocks_json.map((block: any, idx: number) => {
                           if (block.type === 'heading') {
@@ -2501,7 +2564,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           return null;
                         })}
                       </div>
-                    </section>
+                    </motion.section>
                   );
                 }
 
@@ -2585,7 +2648,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         )}
 
         {/* Footer */}
-        <footer id="contact" className={`${customColors.bgDark} text-white pt-20 pb-12`}>
+        <motion.footer initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  id="contact" className={`${customColors.bgDark} text-white pt-20 pb-12`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-[#222222] pb-16">
               <div className="lg:col-span-2 space-y-6">
@@ -2615,7 +2678,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             </div>
           </div>
         
-          </footer>
+          </motion.footer>
 
         {/* Lightbox Modal */}
         {selectedImage && (
@@ -2755,7 +2818,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             .map((sectionId: string) => {
               if (sectionId === 'hero') {
                 return (
-                  <section key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 z-0">
                       <img loading="lazy" src={heroImage} alt="Bakery Interior" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/60 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -2782,13 +2845,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         </button>
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
 
               if (sectionId === 'about') {
                 return (
-                  <section key="about" id="story" className="py-20 md:py-32 bg-white">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="about" id="story" className="py-20 md:py-32 bg-white">
                     <div className="container mx-auto px-6 md:px-12 flex flex-col items-center text-center max-w-3xl">
                       <span className={`${colors.primaryText} font-bold tracking-[0.2em] uppercase text-sm mb-3 block`}>Our Craft</span>
                       {!hiddenFields.includes("about_title") && (
@@ -2813,13 +2876,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         </div>
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
 
               if (sectionId === 'services') {
                 return (
-                  <section key="services" className={`py-24 ${colors.bgLight}`}>
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="services" className={`py-24 ${colors.bgLight}`}>
                     <div className="container mx-auto px-6 md:px-12">
                       <div className="text-center max-w-2xl mx-auto mb-16">
                         <span className={`${colors.primaryText} font-bold tracking-[0.2em] uppercase text-sm mb-3 block`}>What We Offer</span>
@@ -2846,13 +2909,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         ))}
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
 
               if (sectionId === 'menu') {
                 return (
-                  <section key="menu" className="py-24 bg-white">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="menu" className="py-24 bg-white">
                     <div className="container mx-auto px-6 md:px-12">
                       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                         <div>
@@ -2890,13 +2953,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         ))}
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
 
               if (sectionId === 'gallery') {
                 return (
-                  <section key="gallery" className="pb-24 bg-white">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="gallery" className="pb-24 bg-white">
                     <div className="container mx-auto px-6 md:px-12">
                       <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
                         <div>
@@ -2915,13 +2978,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         ))}
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
 
               if (sectionId === 'contact') {
                 return (
-                  <section key="contact" id="contact-info" className="py-24 bg-[#FAF8F5]">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="contact" id="contact-info" className="py-24 bg-[#FAF8F5]">
                     <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-12">
                       <div className="md:w-1/2">
                         <span className={`${colors.primaryText} font-bold tracking-[0.2em] uppercase text-sm mb-3 block`}>Visit Us</span>
@@ -3042,13 +3105,13 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                       </div>
                     </div>
                   
-          </section>
+          </motion.section>
                 );
               }
 
               if (sectionId === 'custom' && content.custom_blocks_json && content.custom_blocks_json.length > 0) {
                 return (
-                  <section key="custom" className="py-24 bg-white border-t border-slate-100">
+                  <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="custom" className="py-24 bg-white border-t border-slate-100">
                     <div className="container mx-auto px-6 md:px-12 max-w-3xl text-center">
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {content.custom_blocks_json.map((block: any, idx: number) => {
@@ -3067,7 +3130,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         return null;
                       })}
                     </div>
-                  </section>
+                  </motion.section>
                 );
               }
               return null;
@@ -3144,7 +3207,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
       )}
 
       {/* Premium Dark Footer - Shared across views */}
-      <footer id="contact" className={`${colors.bgDark} text-white pt-24 pb-12`}>
+      <motion.footer initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  id="contact" className={`${colors.bgDark} text-white pt-24 pb-12`}>
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
 
@@ -3175,7 +3238,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           </div>
         </div>
       
-          </footer>
+          </motion.footer>
 
       {/* Lightbox Modal */}
       {selectedImage && (
