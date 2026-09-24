@@ -79,7 +79,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
     ? content.services_json.map((s: any, i: number) => ({
       title: typeof s === 'string' ? s : s.title,
       description: typeof s === 'string' ? '' : s.description,
-      image: defaultCategories[i % defaultCategories.length]?.image || '🍰'
+      image: typeof s === 'string' ? (defaultCategories[i % defaultCategories.length]?.image || '🍰') : (s.image || defaultCategories[i % defaultCategories.length]?.image || '🍰')
     }))
     : defaultCategories;
 
@@ -159,7 +159,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         <div className="w-full bg-[#FAF9F5] min-h-screen relative overflow-hidden">
 
           {/* Header Gradient Area */}
-          <div className="bg-gradient-to-b from-[#EF8F63] to-[#F1A276] pt-10 pb-16 lg:pt-12 lg:pb-20 relative overflow-hidden min-h-[400px] lg:min-h-[550px] flex flex-col">
+          <div className={`bg-gradient-to-b from-[#EF8F63] to-[#F1A276] pt-10 ${currentView === 'home' ? 'pb-16 lg:pt-12 lg:pb-20 min-h-[400px] lg:min-h-[550px]' : 'pb-8 lg:pb-10 min-h-[100px]'} relative overflow-hidden flex flex-col`}>
 
             {/* Wavy background shapes */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -218,6 +218,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               </div>
 
               {/* Hero Content (Text + Image) */}
+              {currentView === 'home' && (
               <div className="flex-1 flex flex-col lg:flex-row items-center justify-between relative w-full">
 
                 {/* Text Side */}
@@ -246,10 +247,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </div>
                 </div>
               </div>
+              )}
 
             </div>
 
             {/* Centered Illustration Wrapper for perfect laptop/desktop alignment and bottom placement */}
+            {currentView === 'home' && (
             <div className="absolute inset-0 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none z-10 flex justify-end overflow-hidden">
               <div className="w-[85%] lg:w-[45%] h-full flex items-end justify-end relative">
                 <img loading="lazy" src="/media/chef_transparent_fixed.png"
@@ -262,9 +265,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 />
               </div>
             </div>
+            )}
           </div>
 
           {/* Unified Overlapping Search Bar */}
+          {currentView === 'home' && (
           <div className="px-6 lg:px-8 -mt-8 lg:-mt-10 relative z-30 max-w-7xl mx-auto w-full flex justify-center lg:justify-start">
             <div className="bg-white rounded-full shadow-[0_15px_40px_rgb(0,0,0,0.15)] p-1.5 pl-6 lg:p-2 lg:pl-8 flex items-center justify-between border border-slate-50 w-full lg:max-w-xl hover:shadow-[0_20px_50px_rgb(0,0,0,0.2)] transition-shadow duration-300 active:scale-95">
               <input
@@ -275,24 +280,19 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    if (currentView !== 'menu') {
-                      setCurrentView('menu');
-                    }
+                    setCurrentView('menu');
                   }
                 }}
               />
               <button
-                onClick={() => {
-                  if (currentView !== 'menu') {
-                    setCurrentView('menu');
-                  }
-                }}
+                onClick={() => setCurrentView('menu')}
                 className="w-12 h-12 lg:w-14 lg:h-14 bg-[#86B479] hover:bg-[#76A569] active:scale-95 transition-all rounded-full flex items-center justify-center text-white shrink-0 shadow-md duration-200"
               >
                 <Search size={20} strokeWidth={2.5} />
               </button>
             </div>
           </div>
+          )}
 
           {currentView === 'home' ? (
             <div className="pb-32 lg:pb-16 max-w-7xl mx-auto">
@@ -317,7 +317,12 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               whileTap={{ scale: 0.95 }}
                               className={`flex items-center gap-2 lg:gap-4 px-5 lg:px-8 py-3.5 lg:py-5 rounded-full snap-start shrink-0 font-bold text-sm lg:text-lg transition-all shadow-md border active:scale-95 duration-200 focus:outline-none ${idx === 0 ? 'bg-[#FFCC99] border-[#FFCC99] text-[#A65E36] hover:shadow-lg' : 'bg-white border-slate-100 text-slate-600 hover:border-[#FFCC99] hover:text-[#A65E36] hover:shadow-lg'}`}
                             >
-                              <span className="lg:text-2xl text-lg">{cat.image || '🍰'}</span> {cat.title}
+                              {cat.image && (cat.image.startsWith('http') || cat.image.startsWith('/')) ? (
+                                <img src={cat.image} alt={cat.title} className="w-6 h-6 lg:w-8 lg:h-8 object-cover rounded-full" />
+                              ) : (
+                                <span className="lg:text-2xl text-lg">{cat.image || '🍰'}</span>
+                              )}
+                              <span>{cat.title}</span>
                             </motion.button>
                           ))}
                         </div>
@@ -378,7 +383,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         {filteredProducts.length > 0 && (
                           <div className="mt-8 lg:mt-12 flex justify-center">
                             <button
-                              onClick={() => setShowAllProducts(true)}
+                              onClick={(e) => handleNavClick('menu', e)}
                               className="px-8 py-3.5 bg-white hover:bg-slate-50 text-[#EF8F63] border-2 border-[#EF8F63] rounded-full font-black text-sm lg:text-base transition-all duration-300 shadow-md active:scale-95 flex items-center gap-2"
                             >
                               View Full Menu
@@ -480,45 +485,46 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </h2>
 
                               <div className="space-y-6">
+                                {!hiddenFields.includes('contact_address') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center shrink-0">
                                     <MapPin className="text-[#A65E36]" size={20} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Location</h4>
-                                    {!hiddenFields.includes('contact_address') && (
-                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                                                    )}
+                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_phone') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center shrink-0">
                                     <Phone className="text-[#A65E36]" size={20} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Phone</h4>
-                                    {!hiddenFields.includes('contact_phone') && (
-                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                                    )}
+                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_email') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center shrink-0">
                                     <Mail className="text-[#A65E36]" size={20} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1">Email</h4>
-                                    {!hiddenFields.includes('contact_email') && (
-                                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                                    )}
+                                    <p className="text-slate-500 font-bold text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                                   </div>
                                 </div>
+                                )}
                               </div>
                             </div>
 
                             {/* Operating hours */}
+                            {!hiddenFields.includes('contact_hours') && (
                             <div className="border-t border-slate-100 pt-6 mt-8 space-y-3">
                               <h4 className="font-bold text-slate-800 text-sm mb-2">Opening Hours</h4>
                               <div className="flex items-center justify-between text-xs lg:text-sm text-slate-500 font-bold">
@@ -534,6 +540,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span className="text-slate-700 font-black">8:00 AM - 5:00 PM</span>
                               </div>
                             </div>
+                            )}
 
                             {/* Social Media Links */}
                             <div className="border-t border-slate-100 pt-6 mt-6">
@@ -644,6 +651,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                     <span className="text-[#A65E36] font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Complete Catalog</span>
                     <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black text-slate-900 tracking-tight break-words">Our Full Menu</h1>
                   </div>
+                  <div className="w-full lg:w-72 relative">
+                    <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-white border border-slate-200 rounded-full py-3 pl-4 pr-10 outline-none focus:border-[#E88C5E] text-slate-700 shadow-sm" />
+                    <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                  </div>
                 </div>
               </div>
 
@@ -714,43 +725,6 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                   </p>
                 </div>
 
-                <div>
-                  <h4 className="text-lg font-bold text-white mb-6 tracking-wide uppercase">Contact Us</h4>
-                  {!hiddenFields.includes('contact_address') && (
-                                <ul className="space-y-4 text-slate-400 text-sm">
-                                                    {content.contact_info?.address && (
-                                                    <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
-                                                      <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
-                                                      <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                                                    </li>
-                                                    )}
-                                                    <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                                                      <Phone size={20} className="shrink-0 text-[#C19A6B]" />
-                                                      {!hiddenFields.includes('contact_phone') && (
-                                            <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                                            )}
-                                                    </li>
-                                                  </ul>
-                                )}
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-bold text-white mb-6 tracking-wide uppercase">Opening Hours</h4>
-                  <ul className="space-y-4 text-slate-400 text-sm">
-                    <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                      <span>Mon - Fri</span>
-                      <span className="text-white font-medium">7:00 AM - 7:00 PM</span>
-                    </li>
-                    <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                      <span>Saturday</span>
-                      <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-                    </li>
-                    <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                      <span>Sunday</span>
-                      <span className="text-white font-medium">8:00 AM - 5:00 PM</span>
-                    </li>
-                  </ul>
-                </div>
               </div>
 
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
@@ -762,7 +736,14 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           </footer>
 
           {/* Lightbox Modal for App Style */}
-          
+          {selectedImage && (
+            <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300" onClick={() => setSelectedImage(null)}>
+              <button className="absolute top-6 right-6 text-white hover:text-[#EF8F63] transition-colors p-2" aria-label="Close">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+              <img loading="lazy" src={selectedImage} alt="Fullscreen Gallery" className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+            </div>
+          )}
 
           {/* Product Detail Modal for App Style */}
           {selectedProduct && (
@@ -903,17 +884,6 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
             </div>
 
             <div className="flex items-center gap-4">
-              {/* Cart Button */}
-              <button
-                onClick={(e) => handleNavClick('menu', e)}
-                className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-outfit uppercase tracking-wider transition-all duration-300 active:scale-95 ${isNavSolid
-                    ? `${bakeryColors.primary} text-white hover:bg-[#B3966E] rounded-full shadow-sm`
-                    : 'bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm border border-white/20'
-                  }`}
-              >
-                Checkout
-              </button>
-
               {/* Mobile Toggle */}
               <button onClick={() => setMenuOpen(!menuOpen)} className={`md:hidden p-1.5 rounded-full ${isNavSolid ? bakeryColors.textDark : 'text-white'}`}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -967,9 +937,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <span className="block text-[#C5A880] font-bold font-outfit uppercase tracking-[0.2em] text-xs lg:text-sm mb-4">
                           Artisan Quality
                         </span>
+                        {!hiddenFields.includes("hero_title") && (
                         <h2 className="text-white text-5xl lg:text-7xl font-playfair font-black tracking-tight leading-[1.1] mb-6 whitespace-pre-line drop-shadow-lg">
                           {content.hero_title || 'Quality breads\nand flavors'}
                         </h2>
+                        )}
                         {!hiddenFields.includes("hero_description") && (
               <p className="text-white/80 font-outfit text-sm lg:text-base font-medium max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
                           {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
@@ -1046,6 +1018,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                           {categories.map((cat: any, idx: number) => (
                             <div key={idx} className="bg-[#FCFAF7] border border-[#EBE6DD] p-8 rounded-3xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative group">
+                              {cat.image && (
+                                <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
+                                  {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
+                                    <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                  ) : (
+                                    <span>{cat.image}</span>
+                                  )}
+                                </div>
+                              )}
                               <h3 className="text-xl font-playfair font-bold text-[#1E1B18] mb-3">{cat.title}</h3>
                               <p className="text-[#6B6155] text-sm leading-relaxed font-outfit">{cat.description || 'Crafted fresh daily using high-quality local organic flour and ingredients.'}</p>
                             </div>
@@ -1157,46 +1138,48 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </h2>
 
                               <div className="space-y-6">
+                                {!hiddenFields.includes('contact_address') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center shrink-0">
                                     <MapPin className="text-[#C5A880]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Location</h4>
-                                    {!hiddenFields.includes('contact_address') && (
-                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                                                      )}
+                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_phone') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center shrink-0">
                                     <Phone className="text-[#C5A880]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Phone</h4>
-                                    {!hiddenFields.includes('contact_phone') && (
-                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                                      )}
+                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_email') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center shrink-0">
                                     <Mail className="text-[#C5A880]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-slate-800 text-sm mb-1 font-outfit uppercase tracking-wider">Email</h4>
-                                    {!hiddenFields.includes('contact_email') && (
-                                                      <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                                      )}
+                                    <p className="text-[#6B6155] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                                   </div>
                                 </div>
+                                )}
                               </div>
                             </div>
 
                             {/* Hours and social links */}
                             <div className="border-t border-[#EBE6DD]/60 pt-6 mt-8">
+                              {!hiddenFields.includes('contact_hours') && (
+                              <>
                               <h4 className="font-bold text-slate-800 text-sm mb-4 font-outfit uppercase tracking-wider">Opening Hours</h4>
                               <div className="space-y-2 text-xs lg:text-sm text-[#6B6155] font-medium">
                                 <div className="flex justify-between">
@@ -1212,6 +1195,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-slate-800 font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
+                              </>
+                              )}
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#EBE6DD]/40">
                                 {!hiddenFields.includes('contact_facebook') && (
@@ -1387,41 +1372,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 </p>
               </div>
 
-              <div>
-                <h4 className="text-lg font-playfair font-bold text-[#C5A880] mb-6">Contact Us</h4>
-                <ul className="space-y-4 text-slate-400 text-sm">
-                  <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
-                    <MapPin size={18} className="shrink-0 mt-1 text-[#C5A880]" />
-                    {!hiddenFields.includes('contact_address') && (
-                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                                    )}
-                  </li>
-                  <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                    <Phone size={18} className="shrink-0 text-[#C5A880]" />
-                    {!hiddenFields.includes('contact_phone') && (
-                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                                    )}
-                  </li>
-                </ul>
-              </div>
 
-              <div>
-                <h4 className="text-lg font-playfair font-bold text-[#C5A880] mb-6">Opening Hours</h4>
-                <ul className="space-y-3 text-slate-400 text-sm">
-                  <li className="flex justify-between border-b border-white/5 pb-2">
-                    <span>Mon - Fri</span>
-                    <span className="text-white font-medium">7:00 AM - 7:00 PM</span>
-                  </li>
-                  <li className="flex justify-between border-b border-white/5 pb-2">
-                    <span>Saturday</span>
-                    <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="text-white font-medium">8:00 AM - 5:00 PM</span>
-                  </li>
-                </ul>
-              </div>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
@@ -1601,9 +1552,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <span className="block text-[#C27D56] font-bold font-montserrat uppercase tracking-[0.2em] text-xs lg:text-sm">
                             Artisan Quality
                           </span>
-                          <h2 className="text-[#2A4B3A] text-5xl lg:text-7xl font-playfair font-black tracking-tight leading-[1.1] whitespace-pre-line">
+                          {!hiddenFields.includes("hero_title") && (
+                            <h2 className="text-[#2A4B3A] text-5xl lg:text-7xl font-playfair font-black tracking-tight leading-[1.1] whitespace-pre-line">
                             {content.hero_title || 'Baked With\nPassion & Craft'}
                           </h2>
+                          )}
                           {!hiddenFields.includes("hero_description") && (
               <p className="text-[#5E6B61] font-montserrat text-sm lg:text-base font-medium max-w-xl leading-relaxed">
                             {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
@@ -1693,6 +1646,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                           {categories.map((cat: any, idx: number) => (
                             <div key={idx} className="bg-[#FAF5ED] border border-[#E6DEC9] p-8 rounded-3xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative group">
+                              {cat.image && (
+                                <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
+                                  {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
+                                    <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                  ) : (
+                                    <span>{cat.image}</span>
+                                  )}
+                                </div>
+                              )}
                               <h3 className="text-xl font-playfair font-bold text-[#2A4B3A] mb-3">{cat.title}</h3>
                               <p className="text-[#5E6B61] text-sm leading-relaxed font-montserrat">{cat.description || 'Crafted fresh daily using high-quality local organic flour and ingredients.'}</p>
                             </div>
@@ -1803,45 +1765,47 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               </h2>
 
                               <div className="space-y-6">
+                                {!hiddenFields.includes('contact_address') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center shrink-0">
                                     <MapPin className="text-[#C27D56]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Location</h4>
-                                    {!hiddenFields.includes('contact_address') && (
-                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                                                      )}
+                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_phone') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center shrink-0">
                                     <Phone className="text-[#C27D56]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Phone</h4>
-                                    {!hiddenFields.includes('contact_phone') && (
-                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                                      )}
+                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                                   </div>
                                 </div>
+                                )}
 
+                                {!hiddenFields.includes('contact_email') && (
                                 <div className="flex items-start gap-4">
                                   <div className="w-10 h-10 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center shrink-0">
                                     <Mail className="text-[#C27D56]" size={18} />
                                   </div>
                                   <div>
                                     <h4 className="font-bold text-[#2A4B3A] text-sm mb-1 font-montserrat uppercase tracking-wider">Email</h4>
-                                    {!hiddenFields.includes('contact_email') && (
-                                                      <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                                      )}
+                                    <p className="text-[#5E6B61] font-medium text-xs lg:text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                                   </div>
                                 </div>
+                                )}
                               </div>
                             </div>
 
                             <div className="border-t border-[#E6DEC9] pt-6 mt-8">
+                              {!hiddenFields.includes('contact_hours') && (
+                              <>
                               <h4 className="font-bold text-[#2A4B3A] text-sm mb-4 font-montserrat uppercase tracking-wider">Opening Hours</h4>
                               <div className="space-y-2 text-xs lg:text-sm text-[#5E6B61] font-medium">
                                 <div className="flex justify-between">
@@ -1857,6 +1821,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-[#2A4B3A] font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
+                              </>
+                              )}
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#E6DEC9]">
                                 {!hiddenFields.includes('contact_facebook') && (
@@ -2029,41 +1995,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 </p>
               </div>
 
-              <div>
-                <h4 className="text-lg font-playfair font-bold text-[#C27D56] mb-6">Contact Us</h4>
-                <ul className="space-y-4 text-[#FAF5ED]/70 text-sm">
-                  <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
-                    <MapPin size={18} className="shrink-0 mt-1 text-[#C27D56]" />
-                    {!hiddenFields.includes('contact_address') && (
-                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                                    )}
-                  </li>
-                  <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                    <Phone size={18} className="shrink-0 text-[#C27D56]" />
-                    {!hiddenFields.includes('contact_phone') && (
-                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                                    )}
-                  </li>
-                </ul>
-              </div>
 
-              <div>
-                <h4 className="text-lg font-playfair font-bold text-[#C27D56] mb-6">Opening Hours</h4>
-                <ul className="space-y-3 text-[#FAF5ED]/70 text-sm">
-                  <li className="flex justify-between border-b border-white/5 pb-2">
-                    <span>Mon - Fri</span>
-                    <span className="text-white font-medium">7:00 AM - 7:00 PM</span>
-                  </li>
-                  <li className="flex justify-between border-b border-white/5 pb-2">
-                    <span>Saturday</span>
-                    <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="text-white font-medium">8:00 AM - 5:00 PM</span>
-                  </li>
-                </ul>
-              </div>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#FAF5ED]/50">
@@ -2264,9 +2196,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <span className="block text-[#D4A373] font-bold font-grotesk uppercase tracking-[0.3em] text-xs lg:text-sm mb-4">
                           {content.settings_json?.website_name || website.slug || 'Luxury Boutique'}
                         </span>
+                        {!hiddenFields.includes("hero_title") && (
                         <h2 className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-syne font-extrabold tracking-tight leading-[1.05] mb-6 uppercase break-words w-full">
                           {content.hero_title || 'Design & Taste'}
                         </h2>
+                        )}
                         {!hiddenFields.includes("hero_description") && (
               <p className="text-slate-300 font-inter text-sm lg:text-base font-light max-w-lg mx-auto mb-10 leading-relaxed">
                           {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
@@ -2333,6 +2267,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             <div key={idx} className="border-t border-[#D4A373] pt-8 flex flex-col justify-between group hover:border-[#111111] transition-colors duration-300">
                               <div>
                                 <span className="block text-xs font-bold font-grotesk text-[#D4A373] mb-4">0{idx + 1}</span>
+                                {cat.image && (
+                                  <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
+                                    {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
+                                      <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    ) : (
+                                      <span>{cat.image}</span>
+                                    )}
+                                  </div>
+                                )}
                                 <h3 className="text-2xl font-syne font-bold text-[#111111] mb-4 uppercase">{cat.title}</h3>
                                 <p className="text-[#7A7A7A] text-sm leading-relaxed font-inter font-light">{cat.description || 'Crafted fresh daily using high-quality local organic flour and ingredients.'}</p>
                               </div>
@@ -2438,9 +2381,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 Store Locator
                               </h2>
 
-                              {!hiddenFields.includes('contact_address') && (
                                           <div className="space-y-8 font-inter font-light">
-                                                                          {content.contact_info?.address && (
+                                                                          {content.contact_info?.address && !hiddenFields.includes('contact_address') && (
                                                                           <div className="flex items-start gap-4">
                                                                             <MapPin className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                                                             <div>
@@ -2450,34 +2392,31 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                                                           </div>
                                                                           )}
 
-                                                                          {content.contact_info?.phone && (
+                                                                          {content.contact_info?.phone && !hiddenFields.includes('contact_phone') && (
                                                                           <div className="flex items-start gap-4">
                                                                             <Phone className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                                                             <div>
                                                                               <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Phone</h4>
-                                                                              {!hiddenFields.includes('contact_phone') && (
-                                                              <p className="text-slate-400 text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                                              )}
+                                                                              <p className="text-slate-400 text-sm">{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
                                                                             </div>
                                                                           </div>
                                                                           )}
 
-                                                                          {content.contact_info?.email && (
+                                                                          {content.contact_info?.email && !hiddenFields.includes('contact_email') && (
                                                                           <div className="flex items-start gap-4">
                                                                             <Mail className="text-[#D4A373] shrink-0 mt-1" size={18} />
                                                                             <div>
                                                                               <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-1">Email</h4>
-                                                                              {!hiddenFields.includes('contact_email') && (
-                                                              <p className="text-slate-400 text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                                              )}
+                                                                              <p className="text-slate-400 text-sm">{content.contact_info?.email || 'info@artisanbakery.com'}</p>
                                                                             </div>
                                                                           </div>
                                                                           )}
                                                                         </div>
-                                          )}
                             </div>
 
                             <div className="border-t border-[#222222] pt-8 mt-12">
+                              {!hiddenFields.includes('contact_hours') && (
+                              <>
                               <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-6">Opening Hours</h4>
                               <div className="space-y-3 text-sm text-slate-400 font-inter font-light">
                                 <div className="flex justify-between border-b border-[#222222] pb-2">
@@ -2493,6 +2432,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span className="text-white font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
                               </div>
+                              </>
+                              )}
 
                               <div className="flex items-center gap-4 mt-12 pt-8 border-t border-[#222222]">
                                 {!hiddenFields.includes('contact_facebook') && (
@@ -2665,41 +2606,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 </p>
               </div>
 
-              <div>
-                <h4 className="text-lg font-syne font-bold text-[#D4A373] mb-6 uppercase">Contact Us</h4>
-                <ul className="space-y-4 text-slate-400 text-sm font-light">
-                  <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer" onClick={(e) => handleNavClick('home', e as any)}>
-                    <MapPin size={18} className="shrink-0 mt-1 text-[#D4A373]" />
-                    {!hiddenFields.includes('contact_address') && (
-                                    <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                                    )}
-                  </li>
-                  <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                    <Phone size={18} className="shrink-0 text-[#D4A373]" />
-                    {!hiddenFields.includes('contact_phone') && (
-                                    <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                                    )}
-                  </li>
-                </ul>
-              </div>
 
-              <div>
-                <h4 className="text-lg font-syne font-bold text-[#D4A373] mb-6 uppercase">Opening Hours</h4>
-                <ul className="space-y-3 text-slate-400 text-sm font-light">
-                  <li className="flex justify-between border-b border-[#222222] pb-2">
-                    <span>Mon - Fri</span>
-                    <span className="text-white font-medium">7:00 AM - 7:00 PM</span>
-                  </li>
-                  <li className="flex justify-between border-b border-[#222222] pb-2">
-                    <span>Saturday</span>
-                    <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="text-white font-medium">8:00 AM - 5:00 PM</span>
-                  </li>
-                </ul>
-              </div>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-light">
@@ -2858,9 +2765,11 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                       <span className="block text-[#C19A6B] font-bold tracking-[0.3em] uppercase text-sm md:text-base mb-4 drop-shadow-md">
                         Artisan Quality
                       </span>
-                      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight font-serif drop-shadow-xl whitespace-pre-line">
+                      {!hiddenFields.includes("hero_title") && (
+                        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight font-serif drop-shadow-xl whitespace-pre-line">
                         {content.hero_title || 'Baked With Passion & Craft'}
                       </h2>
+                      )}
                       {!hiddenFields.includes("hero_description") && (
               <p className="text-lg md:text-xl text-white/90 font-light mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
                         {content.hero_description || content.hero_text || 'Experience the warmth of fresh artisan breads, exquisite pastries, and masterfully roasted coffee in the heart of the city.'}
@@ -2922,6 +2831,15 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         {categories.map((cat: any, idx: number) => (
                           <div key={idx} className="bg-white p-10 text-center group hover:shadow-2xl transition-all duration-500 border border-slate-100 relative overflow-hidden">
                             <div className="absolute inset-0 bg-[#C19A6B] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out opacity-5"></div>
+                            {cat.image && (
+                              <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
+                                {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
+                                  <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                ) : (
+                                  <span>{cat.image}</span>
+                                )}
+                              </div>
+                            )}
                             <h3 className={`text-2xl font-serif font-bold ${colors.textDark} mb-4`}>{cat.title}</h3>
                             <p className={colors.textMuted}>{cat.description}</p>
                           </div>
@@ -3011,41 +2929,57 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                         <p className={`${colors.textMuted} text-lg mb-8 leading-relaxed`}>
                           Stop by our bakery for fresh coffee, warm pastries, and a welcoming atmosphere. We bake everything fresh daily.
                         </p>
-                        {!hiddenFields.includes('contact_address') && (
-                                <div className="space-y-6">
-                                                          {content.contact_info?.address && (
-                                                          <div className="flex items-start gap-4">
-                                                            <MapPin className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                                                            <div>
-                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Location</h4>
-                                                              <p className={colors.textMuted}>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
-                                                            </div>
-                                                          </div>
-                                                          )}
+                        <div className="space-y-6">
+                          {!hiddenFields.includes('contact_address') && (
+                          <div className="flex items-start gap-4">
+                            <MapPin className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                            <div>
+                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Location</h4>
+                              <p className={colors.textMuted}>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</p>
+                            </div>
+                          </div>
+                          )}
 
-                                                          {content.contact_info?.phone && (
-                                                          <div className="flex items-start gap-4">
-                                                            <Phone className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                                                            <div>
-                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Phone</h4>
-                                                              {!hiddenFields.includes('contact_phone') && (
-                                                    <p className={colors.textMuted}>{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
-                                                    )}
-                                                            </div>
-                                                          </div>
-                                                          )}
+                          {!hiddenFields.includes('contact_phone') && (
+                          <div className="flex items-start gap-4">
+                            <Phone className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                            <div>
+                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Phone</h4>
+                              <p className={colors.textMuted}>{content.contact_info?.phone || '+1 (234) 567-8900'}</p>
+                            </div>
+                          </div>
+                          )}
 
-                                                          {content.contact_info?.email && (
-                                                          <div className="flex items-start gap-4">
-                                                            <Mail className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
-                                                            <div>
-                                                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Email</h4>
-                                                              {!hiddenFields.includes('contact_email') && (
-                                                    <p className={colors.textMuted}>{content.contact_info?.email || 'info@artisanbakery.com'}</p>
-                                                    )}
-                                                            </div>
-                                                          </div>
-                                                          )}
+                          {!hiddenFields.includes('contact_email') && (
+                          <div className="flex items-start gap-4">
+                            <Mail className={`${colors.primaryText} shrink-0 mt-1`} size={24} />
+                            <div>
+                              <h4 className={`font-bold ${colors.textDark} mb-1`}>Email</h4>
+                              <p className={colors.textMuted}>{content.contact_info?.email || 'info@artisanbakery.com'}</p>
+                            </div>
+                          </div>
+                          )}
+
+                          {/* Opening Hours */}
+                          {!hiddenFields.includes('contact_hours') && (
+                          <div className="pt-2">
+                            <h4 className={`font-bold ${colors.textDark} text-sm mb-2 uppercase tracking-wider`}>Opening Hours</h4>
+                            <div className="space-y-1 text-sm text-slate-500">
+                              <div className="flex justify-between">
+                                <span>Mon - Fri</span>
+                                <span className={`font-medium ${colors.textDark}`}>7:00 AM - 7:00 PM</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Saturday</span>
+                                <span className={`font-medium ${colors.textDark}`}>8:00 AM - 8:00 PM</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Sunday</span>
+                                <span className={`font-medium ${colors.textDark}`}>8:00 AM - 5:00 PM</span>
+                              </div>
+                            </div>
+                          </div>
+                          )}
 
                                                           {/* Social Media Links */}
                                                           <div className="pt-4">
@@ -3084,7 +3018,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             </div>
                           </div>
                         </div>
-)}
+
                       
                             <div className="border-t border-slate-200 pt-6 mt-8">
                               <h4 className={`font-bold ${colors.textDark} text-sm mb-4 uppercase tracking-wider`}>Send a Message</h4>
@@ -3232,41 +3166,6 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
               </p>
             </div>
 
-            <div>
-              <h4 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Contact Us</h4>
-              <ul className="space-y-4 text-slate-400">
-                <li className="flex items-start gap-3 hover:text-white transition-colors cursor-pointer">
-                  <MapPin size={20} className="shrink-0 mt-1 text-[#C19A6B]" />
-                  {!hiddenFields.includes('contact_address') && (
-                                  <span>{content.contact_info?.address || '123 Artisan Ave, Bakery District, NY 10012'}</span>
-                                  )}
-                </li>
-                <li className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer">
-                  <Phone size={20} className="shrink-0 text-[#C19A6B]" />
-                  {!hiddenFields.includes('contact_phone') && (
-                                  <span>{content.contact_info?.phone || '+1 (234) 567-8900'}</span>
-                                  )}
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Opening Hours</h4>
-              <ul className="space-y-4 text-slate-400">
-                <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <span>Mon - Fri</span>
-                  <span className="text-white font-medium">7:00 AM - 7:00 PM</span>
-                </li>
-                <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <span>Saturday</span>
-                  <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-                </li>
-                <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <span>Sunday</span>
-                  <span className="text-white font-medium">8:00 AM - 5:00 PM</span>
-                </li>
-              </ul>
-            </div>
 
           </div>
 
