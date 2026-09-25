@@ -82,6 +82,7 @@ import ReligiousEventTheme from '../../components/themes/religious/ReligiousEven
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
+import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 
 import CustomCursor from '../../components/ui/CustomCursor';
 
@@ -305,6 +306,13 @@ function LivePreviewContent() {
       {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type) && !housewarmingCategories.includes(data.website.business_type) && !collegeFestCategories.includes(data.website.business_type) && !religiousEventCategories.includes(data.website.business_type))) && (
         <Chatbot content={data.content} />
       )}
+      <FloatingContactButtons 
+        phone={data.content?.settings_json?.cta_phone_number || data.content?.contact_info?.phone} 
+        whatsapp={data.content?.settings_json?.cta_whatsapp_number || data.content?.contact_info?.whatsapp} 
+        showWhatsapp={data.content?.settings_json?.show_whatsapp_float ?? true}
+        showPhone={data.content?.settings_json?.show_phone_float ?? true}
+        style={data.content?.settings_json?.cta_style}
+      />
     </>
   );
 }

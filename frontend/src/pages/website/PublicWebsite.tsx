@@ -87,6 +87,7 @@ import useScrollReveal from '../../hooks/useScrollReveal';
 import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
+import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
@@ -528,6 +529,14 @@ export default function PublicWebsite() {
       {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type) && !housewarmingCategories.includes(website.business_type) && !collegeFestCategories.includes(website.business_type) && !religiousEventCategories.includes(website.business_type))) && (
         <Chatbot content={content} />
       )}
+
+      <FloatingContactButtons 
+        phone={content?.settings_json?.cta_phone_number || content?.contact_info?.phone} 
+        whatsapp={content?.settings_json?.cta_whatsapp_number || content?.contact_info?.whatsapp} 
+        showWhatsapp={content?.settings_json?.show_whatsapp_float ?? true}
+        showPhone={content?.settings_json?.show_phone_float ?? true}
+        style={content?.settings_json?.cta_style}
+      />
 
       {upiId && (
         <>
