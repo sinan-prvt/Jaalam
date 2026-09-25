@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Sparkles, Zap } from 'lucide-react';
+import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Sparkles, Zap, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -221,22 +221,26 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                 </SlideIn>
 
                 <SlideIn delay={80} dir="left">
-                  <h1 className="ms-font-display text-[clamp(3.5rem,10vw,8rem)] leading-none mb-6">
-                    <span className="block text-white">{content.hero_title || content.settings_json?.hero_title || siteName}</span>
-                    <span className="ms-shimmer-text block">REDEFINED</span>
-                  </h1>
+                  {!hiddenFields.includes('hero_title') && (
+                    <h1 className="ms-font-display text-[clamp(3.5rem,10vw,8rem)] leading-none mb-6">
+                      <span className="block text-white">{content.hero_title || content.settings_json?.hero_title || siteName}</span>
+                      <span className="ms-shimmer-text block">REDEFINED</span>
+                    </h1>
+                  )}
                 </SlideIn>
 
                 <SlideIn delay={160} dir="left">
-                  <p className="ms-font-sub text-slate-400 text-base sm:text-lg leading-relaxed max-w-md mb-10 break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                    {(() => {
-                      const t = content.settings_json?.hero_description || content.hero_text;
-                      if (!t || t === 'Add your business description here.' || t.trim() === '') {
-                        return 'Where precision meets artistry. Step into a modern salon experience unlike any other — tailored for you.';
-                      }
-                      return t;
-                    })()}
-                  </p>
+                  {!hiddenFields.includes('hero_description') && (
+                    <p className="ms-font-sub text-slate-400 text-base sm:text-lg leading-relaxed max-w-md mb-10 break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                      {(() => {
+                        const t = content.settings_json?.hero_description || content.hero_text;
+                        if (!t || t === 'Add your business description here.' || t.trim() === '') {
+                          return 'Where precision meets artistry. Step into a modern salon experience unlike any other — tailored for you.';
+                        }
+                        return t;
+                      })()}
+                    </p>
+                  )}
                 </SlideIn>
 
                 <SlideIn delay={240} dir="left">
@@ -350,15 +354,17 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <SlideIn delay={100} dir="left">
                           <div className="space-y-6">
-                            <p className="ms-font-sub text-slate-300 text-base sm:text-lg leading-relaxed break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                              {(() => {
-                                const t = content.settings_json?.about_description || content.about_text;
-                                if (!t || t === 'Add your business description here.' || t.trim() === '') {
-                                  return 'We are a modern salon studio dedicated to crafting personalized looks that express who you are. Our team of expert stylists combines cutting-edge techniques with premium products to deliver results that exceed expectations every single visit.';
-                                }
-                                return t;
-                              })()}
-                            </p>
+                            {!hiddenFields.includes('about_description') && (
+                              <p className="ms-font-sub text-slate-300 text-base sm:text-lg leading-relaxed break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                                {(() => {
+                                  const t = content.settings_json?.about_description || content.about_text;
+                                  if (!t || t === 'Add your business description here.' || t.trim() === '') {
+                                    return 'We are a modern salon studio dedicated to crafting personalized looks that express who you are. Our team of expert stylists combines cutting-edge techniques with premium products to deliver results that exceed expectations every single visit.';
+                                  }
+                                  return t;
+                                })()}
+                              </p>
+                            )}
                             <div className="grid grid-cols-2 gap-4 pt-4">
                               {[['Hair Cutting', Scissors], ['Beauty Parlour', Sparkles], ['Color & Highlights', Zap], ['Hair Care & Wash', Star]].map(([label, Icon]: any) => (
                                 <div key={label} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: 'rgba(0,201,177,0.06)', border: `1px solid ${BORDER}` }}>
@@ -592,39 +598,76 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                       {/* Left: info */}
                       <SlideIn delay={50} dir="left">
-                        {!hiddenFields.includes('contact_phone') && (
                                   <div className="space-y-5">
-                                                            {[
-                                                              { Icon: MapPin, label: 'Location', value: content.contact_info?.address || 'New York, USA' },
-                                                              { Icon: Phone, label: 'Phone', value: content.contact_info?.phone || '+1 234 567 8900' },
-                                                              { Icon: Mail, label: 'Email', value: content.contact_info?.email || 'hello@studio.com' },
-                                                            ].map(({ Icon, label, value }) => (
-                                                              <div key={label} className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
-                                                                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
-                                                                  <Icon size={20} style={{ color: TEAL }} />
-                                                                </div>
-                                                                <div>
-                                                                  <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">{label}</p>
-                                                                  <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{value}</p>
-                                                                </div>
-                                                              </div>
-                                                            ))}
+                                    {!hiddenFields.includes('contact_address') && (
+                                      <div className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
+                                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
+                                          <MapPin size={20} style={{ color: TEAL }} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">Location</p>
+                                          <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{content.contact_info?.address || 'New York, USA'}</p>
+                                        </div>
+                                      </div>
+                                    )}
+                                    {!hiddenFields.includes('contact_phone') && (
+                                      <div className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
+                                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
+                                          <Phone size={20} style={{ color: TEAL }} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">Phone</p>
+                                          <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                        </div>
+                                      </div>
+                                    )}
+                                    {!hiddenFields.includes('contact_email') && (
+                                      <div className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
+                                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
+                                          <Mail size={20} style={{ color: TEAL }} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">Email</p>
+                                          <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{content.contact_info?.email || 'hello@studio.com'}</p>
+                                        </div>
+                                      </div>
+                                    )}
+                                    {!hiddenFields.includes('contact_hours') && (
+                                      <div className="flex items-center gap-5 p-5 rounded-2xl" style={{ background: NAVY, border: `1.5px solid ${BORDER}` }}>
+                                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `rgba(0,201,177,0.12)`, border: `1px solid ${BORDER}` }}>
+                                          <Clock size={20} style={{ color: TEAL }} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500">Office / Opening Hours</p>
+                                          <p className="text-sm ms-font-sub font-semibold text-slate-200 mt-0.5">{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</p>
+                                        </div>
+                                      </div>
+                                    )}
 
                                                             {/* Social row */}
-                                                            {!hiddenFields.includes('contact_facebook') && (
-                                          <div className="flex gap-4 pt-2">
-                                                                                                        {[
-                                                                                                          { href: content.contact_info?.instagram || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> },
-                                                                                                          { href: content.contact_info?.facebook || '#', icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
-                                                                                                        ].map(({ href, icon }, i) => (
-                                                                                                          <a key={i} href={href} target="_blank" rel="noreferrer"
-                                                                                                            className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
-                                                                                                            style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
-                                                                                                            {icon}
-                                                                                                          </a>
-                                                                                                        ))}
-                                                                                                      </div>
-                                          )}
+                                                            <div className="flex gap-4 pt-2">
+                                                              {!hiddenFields.includes('contact_instagram') && (
+                                                                <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer"
+                                                                  className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
+                                                                  style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
+                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                                                                </a>
+                                                              )}
+                                                              {!hiddenFields.includes('contact_facebook') && (
+                                                                <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer"
+                                                                  className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
+                                                                  style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
+                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                                                                </a>
+                                                              )}
+                                                              {!hiddenFields.includes('contact_whatsapp') && (
+                                                                <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/[^0-9]/g, '')}` : '#'} target="_blank" rel="noreferrer"
+                                                                  className="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all ms-btn"
+                                                                  style={{ border: `1.5px solid ${BORDER}`, background: NAVY }}>
+                                                                  <MessageCircle size={18} />
+                                                                </a>
+                                                              )}
+                                                            </div>
 
                                                             <div className="pt-6 mt-8 border-t border-[#1F2937]">
                                                               <h4 className="text-[10px] ms-font-sub uppercase tracking-widest font-bold text-slate-500 mb-4">Send a Message</h4>
@@ -637,7 +680,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                                                             </div>
 
                                                           </div>
-                                  )}
                       </SlideIn>
 
                       {/* Right: map */}
@@ -685,26 +727,11 @@ export default function ModernSaloonTheme({ website, content }: Props) {
         {/* ═══════════════════════════════════════
             FOOTER
         ════════════════════════════════════════ */}
-        
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className="py-16 px-6 sm:px-10 lg:px-16 relative" style={{ backgroundColor: NAVY, borderTop: `1px solid ${BORDER}` }}>
           <div className="absolute top-0 left-0 w-full h-px" style={{ background: `linear-gradient(90deg, transparent, ${TEAL}80, transparent)` }} />
 
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
             <div className="space-y-4">
               <h4 className="ms-font-display text-3xl ms-glow-text" style={{ color: TEAL }}>{siteName}</h4>
               {!hiddenFields.includes("hero_description") && (
@@ -722,19 +749,6 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                     <a href={`#${l.toLowerCase()}`} className="text-slate-400 hover:text-white transition-colors hover:underline underline-offset-4" style={{ textDecorationColor: TEAL }}>{l}</a>
                   </li>
                 ))}
-              </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h5 className="ms-font-display text-xl text-white tracking-widest">CONTACT INFO</h5>
-              <ul className="space-y-3 text-sm ms-font-sub text-slate-400">
-                <li className="flex items-start gap-2"><MapPin size={14} style={{ color: TEAL, marginTop: 2, flexShrink: 0 }} />{address}</li>
-                {!hiddenFields.includes('contact_phone') && (
-                              <li className="flex items-center gap-2"><Phone size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.phone || '+1 234 567 8900'}</li>
-                              )}
-                {!hiddenFields.includes('contact_email') && (
-                              <li className="flex items-center gap-2"><Mail size={14} style={{ color: TEAL, flexShrink: 0 }} />{content.contact_info?.email || 'hello@studio.com'}</li>
-                              )}
               </ul>
             </div>
           </div>

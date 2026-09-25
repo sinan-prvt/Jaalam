@@ -256,6 +256,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               </FadeIn>
 
               <FadeIn delay={400} dir="left">
+                {!hiddenFields.includes('hero_description') && (
                 <p className="vb-serif text-lg sm:text-xl italic max-w-md mb-10 opacity-90 leading-relaxed break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                   {(() => {
                     const t = content.settings_json?.hero_description || content.hero_text;
@@ -265,6 +266,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                     return t;
                   })()}
                 </p>
+              )}
               </FadeIn>
 
               <FadeIn delay={600} dir="left">
@@ -323,7 +325,8 @@ export default function VintageBarberTheme({ website, content }: Props) {
                     </FadeIn>
 
                     <FadeIn delay={200}>
-                      <div className="bg-white p-8 sm:p-12 vb-card relative text-left">
+                      {!hiddenFields.includes('about_description') && (
+                        <div className="bg-white p-8 sm:p-12 vb-card relative text-left">
                         <Quote size={40} className="absolute top-6 left-6 opacity-10" />
                         <p className="vb-serif text-lg sm:text-2xl leading-relaxed italic text-center max-w-3xl mx-auto break-words" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                           {(() => {
@@ -335,6 +338,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                           })()}
                         </p>
                       </div>
+                      )}
                     </FadeIn>
 
                     <FadeIn delay={400}>
@@ -357,7 +361,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                   <div className="max-w-6xl mx-auto">
                     <FadeIn>
                       <div className="vb-line-decor mb-6">
-                        <span className="vb-display text-4xl sm:text-5xl px-4">THE OFFERING</span>
+                        <span className="vb-display text-2xl sm:text-4xl md:text-5xl px-4 whitespace-nowrap text-center">THE OFFERING</span>
                       </div>
                       <p className="text-center font-bold text-sm tracking-widest uppercase mb-16 opacity-70">Expert Grooming Services</p>
                     </FadeIn>
@@ -480,30 +484,66 @@ export default function VintageBarberTheme({ website, content }: Props) {
                       <FadeIn dir="left">
                         <div className="vb-card p-8 sm:p-12 bg-white">
                           <h2 className="vb-display text-4xl mb-8">VISIT US</h2>
-                          {!hiddenFields.includes('contact_phone') && (
-                                      <div className="space-y-6">
-                                                                  {[
-                                                                    { Icon: MapPin, label: 'Location', value: content.contact_info?.address || '1920 Retro Ave, NY' },
-                                                                    { Icon: Phone, label: 'Telephone', value: content.contact_info?.phone || '+1 234 567 8900' },
-                                                                    { Icon: Mail, label: 'Telegram', value: content.contact_info?.email || 'hello@classic.com' },
-                                                                  ].map(({ Icon, label, value }) => (
-                                                                    <div key={label} className="flex items-start gap-4">
-                                                                      <div className="mt-1"><Icon size={20} style={{ color: CRIMSON }} /></div>
-                                                                      <div>
-                                                                        <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">{label}</div>
-                                                                        <div className="vb-serif text-lg font-bold">{value}</div>
-                                                                      </div>
-                                                                    </div>
-                                                                  ))}
-                                                                </div>
-                                      )}
-                          
-                          <div className="mt-10 pt-8 border-t-2" style={{ borderColor: ESPRESSO }}>
-                            <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-3">Operating Hours</div>
-                            <div className="vb-serif text-base space-y-1">
-                              <div className="flex justify-between"><span>Mon - Fri:</span> <span>9:00 AM - 7:00 PM</span></div>
-                              <div className="flex justify-between"><span>Saturday:</span> <span>10:00 AM - 5:00 PM</span></div>
-                              <div className="flex justify-between"><span>Sunday:</span> <span style={{ color: CRIMSON }}>Closed</span></div>
+                          <div className="space-y-6">
+                            {!hiddenFields.includes('contact_address') && (
+                              <div className="flex items-start gap-4">
+                                <div className="mt-1"><MapPin size={20} style={{ color: CRIMSON }} /></div>
+                                <div>
+                                  <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">Location</div>
+                                  <div className="vb-serif text-lg font-bold">{content.contact_info?.address || '1920 Retro Ave, NY'}</div>
+                                </div>
+                              </div>
+                            )}
+                            {!hiddenFields.includes('contact_phone') && (
+                              <div className="flex items-start gap-4">
+                                <div className="mt-1"><Phone size={20} style={{ color: CRIMSON }} /></div>
+                                <div>
+                                  <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">Telephone</div>
+                                  <div className="vb-serif text-lg font-bold">{content.contact_info?.phone || '+1 234 567 8900'}</div>
+                                </div>
+                              </div>
+                            )}
+                            {!hiddenFields.includes('contact_email') && (
+                              <div className="flex items-start gap-4">
+                                <div className="mt-1"><Mail size={20} style={{ color: CRIMSON }} /></div>
+                                <div>
+                                  <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-1">Telegram</div>
+                                  <div className="vb-serif text-lg font-bold">{content.contact_info?.email || 'hello@classic.com'}</div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          {!hiddenFields.includes('contact_hours') && (
+                            <div className="mt-10 pt-8 border-t-2" style={{ borderColor: ESPRESSO }}>
+                              <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-3">Operating Hours</div>
+                              <div className="vb-serif text-base whitespace-pre-wrap">{content.contact_info?.hours || 'Mon - Fri: 9:00 AM - 7:00 PM'}</div>
+                            </div>
+                          )}
+
+                          <div className="mt-8 pt-8 border-t-2" style={{ borderColor: ESPRESSO }}>
+                            <div className="font-bold text-xs uppercase tracking-widest opacity-60 mb-4">Follow Us</div>
+                            <div className="flex gap-4">
+                              {!hiddenFields.includes('contact_instagram') && (
+                                <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer"
+                                  className="w-10 h-10 flex items-center justify-center border-2 hover:bg-[#2A231C] hover:text-[#F4EFE6] transition-colors"
+                                  style={{ borderColor: ESPRESSO }}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                                </a>
+                              )}
+                              {!hiddenFields.includes('contact_facebook') && (
+                                <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer"
+                                  className="w-10 h-10 flex items-center justify-center border-2 hover:bg-[#2A231C] hover:text-[#F4EFE6] transition-colors"
+                                  style={{ borderColor: ESPRESSO }}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                                </a>
+                              )}
+                              {!hiddenFields.includes('contact_whatsapp') && (
+                                <a href={content.contact_info?.whatsapp ? `https://wa.me/${content.contact_info.whatsapp.replace(/[^0-9]/g, '')}` : '#'} target="_blank" rel="noreferrer"
+                                  className="w-10 h-10 flex items-center justify-center border-2 hover:bg-[#2A231C] hover:text-[#F4EFE6] transition-colors"
+                                  style={{ borderColor: ESPRESSO }}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                </a>
+                              )}
                             </div>
                           </div>
 
@@ -564,20 +604,6 @@ export default function VintageBarberTheme({ website, content }: Props) {
             FOOTER
         ════════════════════════════════════════ */}
         
-      {/* Dynamic Custom Section */}
-      {sectionOrder.includes('custom') && !hiddenSections.includes('custom') && content?.custom_blocks_json?.length > 0 && (
-        <section style={{ order: sectionOrder.indexOf('custom') + 1 }} className="py-16 px-4 bg-white/5 border-t border-black/10">
-          <div className="container mx-auto max-w-4xl space-y-8">
-            {content.custom_blocks_json.map((block: any) => {
-              if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
-              if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
-              if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
-              return null;
-            })}
-          </div>
-        </section>
-      )}
 
       <footer className="bg-[#1A130F] text-[#F4EFE6] py-16 px-6 sm:px-12 text-center">
           <div className="max-w-4xl mx-auto">
@@ -618,29 +644,29 @@ export default function VintageBarberTheme({ website, content }: Props) {
                 <X size={18} />
               </button>
               
-              <div className="h-56 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
+              <div className="h-40 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
                 <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover vb-sepia-img" />
               </div>
 
-              <div className="p-8">
-                <h3 className="vb-display text-3xl mb-2">{selectedStyle.name}</h3>
-                <div className="flex items-center gap-4 mb-6 font-bold text-xs uppercase tracking-widest opacity-80">
-                  <span className="vb-display text-2xl opacity-100" style={{ color: CRIMSON }}>{selectedStyle.price}</span>
+              <div className="p-6">
+                <h3 className="vb-display text-2xl mb-2">{selectedStyle.name}</h3>
+                <div className="flex flex-wrap items-center gap-4 mb-4 font-bold text-xs uppercase tracking-widest opacity-80">
+                  <span className="vb-display text-2xl opacity-100 whitespace-nowrap" style={{ color: CRIMSON }}>{selectedStyle.price}</span>
                   <span>•</span>
-                  <span className="flex items-center gap-1"><Clock size={12} /> {selectedStyle.time}</span>
+                  <span className="flex items-center gap-1 whitespace-nowrap"><Clock size={12} /> {selectedStyle.time}</span>
                   <span>•</span>
-                  <span className="flex items-center gap-1"><Star size={12} /> {selectedStyle.rating}</span>
+                  <span className="flex items-center gap-1 whitespace-nowrap"><Star size={12} /> {selectedStyle.rating}</span>
                 </div>
 
-                <div className="w-full h-px bg-black/10 mb-6"></div>
+                <div className="w-full h-px bg-black/10 mb-4"></div>
                 
-                <p className="vb-serif text-base leading-relaxed mb-8">
+                <p className="vb-serif text-base leading-relaxed mb-6">
                   {selectedStyle.description || 'A timeless cut executed with precision and care, guaranteed to leave a lasting impression.'}
                 </p>
 
                 <div className="flex gap-4">
                   <button
-                    className="flex-1 vb-btn py-3"
+                    className="flex-1 vb-btn py-2.5"
                     onClick={() => { setSelectedStyle(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
                   >
                     Book Now
@@ -664,28 +690,28 @@ export default function VintageBarberTheme({ website, content }: Props) {
                 <X size={18} />
               </button>
               
-              <div className="h-56 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
+              <div className="h-40 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
                 {selectedService.image ? (
                   <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover vb-sepia-img" />
                 ) : (
                   <div className="w-full h-full bg-stone-200 flex items-center justify-center">
-                    <Scissors size={40} />
+                    <Scissors size={32} />
                   </div>
                 )}
               </div>
 
-              <div className="p-8">
-                <h3 className="vb-display text-3xl mb-4">{selectedService.title || selectedService.name}</h3>
+              <div className="p-6">
+                <h3 className="vb-display text-2xl mb-3">{selectedService.title || selectedService.name}</h3>
                 
-                <div className="w-full h-px bg-black/10 mb-6"></div>
+                <div className="w-full h-px bg-black/10 mb-4"></div>
                 
-                <p className="vb-serif text-base leading-relaxed mb-8">
+                <p className="vb-serif text-base leading-relaxed mb-6">
                   {selectedService.description}
                 </p>
 
                 <div className="flex gap-4">
                   <button
-                    className="flex-1 vb-btn py-3"
+                    className="flex-1 vb-btn py-2.5"
                     onClick={() => { setSelectedService(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
                   >
                     Book Service

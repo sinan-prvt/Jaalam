@@ -516,47 +516,64 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
                             {/* Left Side: Contact Info */}
                             <div className="flex-1 space-y-6 text-left">
-                              <div className="flex items-center gap-5">
-                                <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
-                                  <MapPin size={20} />
-                                </div>
-                                <div>
-                                  <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Location</p>
-                                  {!hiddenFields.includes('contact_address') && (
-                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.address || 'Lagos, Nigeria'}</p>
-                                                  )}
-                                </div>
-                              </div>
+                              {!hiddenFields.includes('contact_address') && (
+                                <>
+                                  <div className="flex items-center gap-5">
+                                    <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
+                                      <MapPin size={20} />
+                                    </div>
+                                    <div>
+                                      <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Location</p>
+                                      <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.address || 'Lagos, Nigeria'}</p>
+                                    </div>
+                                  </div>
+                                  <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
+                                </>
+                              )}
 
-                              <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
+                              {!hiddenFields.includes('contact_phone') && (
+                                <>
+                                  <div className="flex items-center gap-5">
+                                    <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
+                                      <Phone size={20} />
+                                    </div>
+                                    <div>
+                                      <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Phone Number</p>
+                                      <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.phone || '+1 234 567 8900'}</p>
+                                    </div>
+                                  </div>
+                                  <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
+                                </>
+                              )}
 
-                              <div className="flex items-center gap-5">
-                                <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
-                                  <Phone size={20} />
-                                </div>
-                                <div>
-                                  <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Phone Number</p>
-                                  {!hiddenFields.includes('contact_phone') && (
-                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.phone || '+1 234 567 8900'}</p>
-                                                  )}
-                                </div>
-                              </div>
+                              {!hiddenFields.includes('contact_email') && (
+                                <>
+                                  <div className="flex items-center gap-5">
+                                    <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
+                                      <Mail size={20} />
+                                    </div>
+                                    <div>
+                                      <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Email Address</p>
+                                      <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.email || 'hello@saloo.com'}</p>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
 
-                              <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
-
-                              <div className="flex items-center gap-5">
-                                <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
-                                  <Mail size={20} />
-                                </div>
-                                <div>
-                                  <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Email Address</p>
-                                  {!hiddenFields.includes('contact_email') && (
-                                                  <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.email || 'hello@saloo.com'}</p>
-                                                  )}
-                                </div>
-                              </div>
-
-                              <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'}`}></div>
+                              {!hiddenFields.includes('contact_hours') && (
+                                <>
+                                  <div className={`w-full h-px ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-800' : 'bg-gray-200/60'} my-6`}></div>
+                                  <div className="flex items-center gap-5">
+                                    <div className={`w-12 h-12 ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-full'} ${theme === 'Modern Saloon' || theme === 'Royal Saloon' ? 'bg-stone-900' : 'bg-white'} flex items-center justify-center shadow-sm shrink-0`} style={{ color: primaryGold }}>
+                                      <Clock size={20} />
+                                    </div>
+                                    <div>
+                                      <p className={`text-xs ${textMuted} font-bold tracking-wider uppercase mb-1`}>Office / Opening Hours</p>
+                                      <p className={`text-sm font-bold ${textColor}`}>{content.contact_info?.hours || 'Mon-Sun: 11:00 AM - 11:00 PM'}</p>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
 
                               <div className="flex items-center justify-start gap-6 pt-2">
                                 {!hiddenFields.includes('contact_instagram') && (
@@ -671,7 +688,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             {/* Elegant Top Accent Line */}
             <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: footerAccentColor }}></div>
 
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative z-10 text-left">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 relative z-10 text-left">
               {/* Brand Column */}
               <div className="space-y-5">
                 <h4 className={`text-white text-xl font-bold tracking-wider uppercase ${fontHeading}`} style={{ color: footerAccentColor }}>
@@ -718,30 +735,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                 </ul>
               </div>
 
-              {/* Contact Information Column */}
-              <div className="space-y-5">
-                <h4 className="text-white text-lg font-bold tracking-wider uppercase">
-                  Contact Info
-                </h4>
-                <ul className="space-y-3 text-sm font-medium">
-                  <li className="flex items-start gap-2.5">
-                    <MapPin size={16} className="shrink-0 mt-0.5" style={{ color: footerAccentColor }} />
-                    <span className="leading-snug">{address}</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <Phone size={16} className="shrink-0" style={{ color: footerAccentColor }} />
-                    {!hiddenFields.includes('contact_phone') && (
-                                      <span>{content.contact_info?.phone || '+1 234 567 8900'}</span>
-                                      )}
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <Mail size={16} className="shrink-0" style={{ color: footerAccentColor }} />
-                    {!hiddenFields.includes('contact_email') && (
-                                      <span>{content.contact_info?.email || 'hello@saloo.com'}</span>
-                                      )}
-                  </li>
-                </ul>
-              </div>
+
             </div>
 
             {/* Divider Line */}
