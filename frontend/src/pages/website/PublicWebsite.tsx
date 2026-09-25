@@ -88,6 +88,7 @@ import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
+import LanguageTranslator from '../../components/shared/LanguageTranslator';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
@@ -136,6 +137,16 @@ export default function PublicWebsite() {
     };
     fetchWebsite();
   }, [businessSlug]);
+
+  useEffect(() => {
+    if (website?.content?.settings_json?.show_language_widget === false) {
+      if (document.cookie.includes('googtrans')) {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${window.location.hostname}; path=/;`;
+        window.location.reload();
+      }
+    }
+  }, [website?.content?.settings_json?.show_language_widget]);
 
   if (loading) {
     return (
@@ -537,6 +548,13 @@ export default function PublicWebsite() {
         showPhone={content?.settings_json?.show_phone_float ?? true}
         style={content?.settings_json?.cta_style}
       />
+      {(content?.settings_json?.show_language_widget ?? true) && (
+        <LanguageTranslator 
+          languages={content?.settings_json?.languages}
+          widgetStyle={content?.settings_json?.language_widget_style}
+          widgetAppearance={content?.settings_json?.language_widget_appearance}
+        />
+      )}
 
       {upiId && (
         <>

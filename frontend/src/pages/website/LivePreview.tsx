@@ -83,12 +83,23 @@ import { weddingCategories, birthdayCategories, housewarmingCategories, collegeF
 import useScrollReveal from '../../hooks/useScrollReveal';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
+import LanguageTranslator from '../../components/shared/LanguageTranslator';
 
 import CustomCursor from '../../components/ui/CustomCursor';
 
 function LivePreviewContent() {
   const [data, setData] = useState<any>(null);
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
+
+  useEffect(() => {
+    if (data?.content?.settings_json?.show_language_widget === false) {
+      if (document.cookie.includes('googtrans')) {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${window.location.hostname}; path=/;`;
+        window.location.reload();
+      }
+    }
+  }, [data?.content?.settings_json?.show_language_widget]);
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
@@ -313,6 +324,13 @@ function LivePreviewContent() {
         showPhone={data.content?.settings_json?.show_phone_float ?? true}
         style={data.content?.settings_json?.cta_style}
       />
+      {(data.content?.settings_json?.show_language_widget ?? true) && (
+        <LanguageTranslator 
+          languages={data.content?.settings_json?.languages}
+          widgetStyle={data.content?.settings_json?.language_widget_style}
+          widgetAppearance={data.content?.settings_json?.language_widget_appearance}
+        />
+      )}
     </>
   );
 }

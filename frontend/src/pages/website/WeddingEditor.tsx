@@ -225,7 +225,8 @@ export default function WeddingEditor() {
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
-        { id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
+            { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
+{ id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
 { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
@@ -331,7 +332,80 @@ export default function WeddingEditor() {
         {/* Forms */}
         <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
 
-          {activeTab === 'cta' && (
+          
+          {activeTab === 'languages' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-slate-800">Website Translation</h3>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer"
+                      checked={content.settings_json?.show_language_widget ?? true}
+                      onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_language_widget: e.target.checked } })}
+                    />
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                  </label>
+                </div>
+                <p className="text-xs text-slate-500 mb-4">Select the languages you want to offer your visitors.</p>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {['en', 'ml', 'ar', 'hi'].map(lang => (
+                    <label key={lang} className="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
+                      <input 
+                        type="checkbox"
+                        className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                        checked={(content.settings_json?.languages || ['en', 'ml']).includes(lang)}
+                        onChange={(e) => {
+                          let currentLangs = [...(content.settings_json?.languages || ['en', 'ml'])];
+                          if (e.target.checked) {
+                            if (!currentLangs.includes(lang)) currentLangs.push(lang);
+                          } else {
+                            currentLangs = currentLangs.filter(l => l !== lang);
+                            if (currentLangs.length === 0) currentLangs = ['en'];
+                          }
+                          setContent({ ...content, settings_json: { ...(content.settings_json || {}), languages: currentLangs } });
+                        }}
+                      />
+                      <span className="font-bold text-sm text-slate-700">
+                        {lang === 'en' ? 'English' : lang === 'ml' ? 'Malayalam' : lang === 'hi' ? 'Hindi' : lang === 'ar' ? 'Arabic' : lang}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                
+                <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Appearance</label>
+                    <select
+                      value={content.settings_json?.language_widget_appearance || 'full'}
+                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), language_widget_appearance: e.target.value } })}
+                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
+                    >
+                      <option value="full">Full Style (Icon + Text)</option>
+                      <option value="icon">Icon Only</option>
+                      <option value="short">Short Text (e.g. EN)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Position</label>
+                    <select
+                      value={content.settings_json?.language_widget_style || 'bottom-center'}
+                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), language_widget_style: e.target.value } })}
+                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
+                    >
+                      <option value="bottom-center">Bottom Center</option>
+                      <option value="center-right">Center Right</option>
+                      <option value="center-left">Center Left</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+{activeTab === 'cta' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <h3 className="font-bold text-slate-800">Call to Action (CTA)</h3>
