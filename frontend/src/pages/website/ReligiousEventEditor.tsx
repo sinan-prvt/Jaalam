@@ -6,7 +6,7 @@ import type { RootState } from '../../store';
 import {
   Save, ArrowLeft, BookOpen, Clock,
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Upload, PlusCircle, Layers, Megaphone, Bot
+  Image as ImageIcon, Gift, Upload, PlusCircle, Layers, Megaphone, Bot, Globe
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';

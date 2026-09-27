@@ -7,7 +7,7 @@ import {
   Save, ArrowLeft, Home, BookOpen, Clock,
   MapPin, Share2, Eye, EyeOff, Lock,
   Image as ImageIcon, LayoutList, ArrowUp, ArrowDown,
-  Upload, Users, Smartphone, Monitor, Music, Megaphone, Bot
+  Upload, Users, Smartphone, Monitor, Music, Megaphone, Bot, Globe
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';

@@ -6,7 +6,7 @@ import type { RootState } from '../../store';
 import {
   Save, ArrowLeft, Heart, BookOpen, Clock,
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload, Megaphone, Bot
+  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload, Megaphone, Bot, Globe
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
