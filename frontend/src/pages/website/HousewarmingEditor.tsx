@@ -3,10 +3,12 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
-import {Save, ArrowLeft, Home, BookOpen, Clock,
+import {
+  Save, ArrowLeft, Home, BookOpen, Clock,
   MapPin, Share2, Eye, EyeOff, Lock,
   Image as ImageIcon, LayoutList, ArrowUp, ArrowDown,
-  Upload, Users, Smartphone, Monitor, Music, Megaphone, Bot } from 'lucide-react';
+  Upload, Users, Smartphone, Monitor, Music, Megaphone, Bot
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
 
@@ -205,10 +207,10 @@ export default function HousewarmingEditor() {
     { id: 'venue', icon: <MapPin size={16} />, label: 'New Home' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'music', icon: <Music size={16} />, label: 'Music' },
-            { id: 'bot', icon: <Bot size={16} />, label: 'Bot' },
-            { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
-{ id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
-{ id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
+    { id: 'bot', icon: <Bot size={16} />, label: 'Bot' },
+    { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
+    { id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
+    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
 
@@ -271,8 +273,8 @@ export default function HousewarmingEditor() {
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-slate-800">AI Chatbot</h3>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       className="sr-only peer"
                       checked={content.settings_json?.show_chatbot ?? true}
                       onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_chatbot: e.target.checked } })}
@@ -281,7 +283,7 @@ export default function HousewarmingEditor() {
                   </label>
                 </div>
                 <p className="text-xs text-slate-500 mb-4">Enable an AI support assistant for your visitors.</p>
-                
+
                 <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Bot Icon Style</label>
@@ -323,15 +325,15 @@ export default function HousewarmingEditor() {
           )}
 
 
-          
+
           {activeTab === 'languages' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-slate-800">Website Translation</h3>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       className="sr-only peer"
                       checked={content.settings_json?.show_language_widget ?? true}
                       onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_language_widget: e.target.checked } })}
@@ -340,11 +342,11 @@ export default function HousewarmingEditor() {
                   </label>
                 </div>
                 <p className="text-xs text-slate-500 mb-4">Select the languages you want to offer your visitors.</p>
-                
+
                 <div className="grid grid-cols-2 gap-3">
                   {['en', 'ml', 'ar', 'hi'].map(lang => (
                     <label key={lang} className="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
-                      <input 
+                      <input
                         type="checkbox"
                         className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
                         checked={(content.settings_json?.languages || ['en', 'ml']).includes(lang)}
@@ -365,7 +367,7 @@ export default function HousewarmingEditor() {
                     </label>
                   ))}
                 </div>
-                
+
                 <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Appearance</label>
@@ -396,7 +398,7 @@ export default function HousewarmingEditor() {
             </div>
           )}
 
-{activeTab === 'cta' && (
+          {activeTab === 'cta' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <h3 className="font-bold text-slate-800">Call to Action (CTA)</h3>
@@ -423,7 +425,7 @@ export default function HousewarmingEditor() {
                     </select>
                   </div>
                 </div>
-                
+
                 <div className="flex flex-col p-3 bg-white border border-slate-100 rounded-xl space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
@@ -809,7 +811,7 @@ export default function HousewarmingEditor() {
                     value={housewarmingData.venue || ''}
                     onChange={(e) => {
                       const newAddress = e.target.value;
-                      setHousewarmingData({ 
+                      setHousewarmingData({
                         venue: newAddress,
                         mapUrl: `https://maps.google.com/maps?q=${encodeURIComponent(newAddress)}`
                       });

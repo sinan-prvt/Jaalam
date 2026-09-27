@@ -1,154 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react';
+import re
+import os
 
-interface ChatbotProps {
-  content?: any;
-}
+filepath = 'd:/WebBuilder/frontend/src/components/shared/Chatbot.tsx'
 
-interface Message {
-  id: string;
-  sender: 'bot' | 'user';
-  text: string;
-}
+with open(filepath, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-export default function Chatbot({ content }: ChatbotProps) {
-  if (content?.settings_json?.show_chatbot === false) return null;
-  const iconStyle = content?.settings_json?.chatbot_icon_style || 'modern';
-  const modalStyle = content?.settings_json?.chatbot_modal_style || 'professional';
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { id: '1', sender: 'bot', text: 'Hi there! 👋 I can help answer questions about our business. What would you like to know?' }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+# The point to start replacing is "const getModalStyles = () => {"
+# Or just after "handleSendMessage = (e: React.FormEvent) => { ... }"
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping, isOpen]);
-
-  const generateMockResponse = (query: string): string => {
-    if (!content) return "I'm sorry, I don't have enough information right now.";
-
-    const lowerQuery = query.toLowerCase();
+match = re.search(r'(.*?  const handleSendMessage.*?\n    \}, 1200 \+ Math\.random\(\) \* 800\);\n  \};\n)(.*)', content, flags=re.DOTALL)
+if not match:
+    print("Could not find insertion point!")
+else:
+    head = match.group(1)
     
-    // Theme-specific handling (Weddings, Events, etc.)
-    const isWedding = !!content.settings_json?.wedding;
-    const isBirthday = !!content.settings_json?.birthday;
-    const isEvent = isWedding || isBirthday || !!content.date;
-
-    if (lowerQuery.match(/^(hi|hello|hey|hy|hola|greetings)/)) {
-      return `Hello there! 👋 How can I help you today?`;
-    }
-
-    if (lowerQuery.includes('when') || lowerQuery.includes('date') || lowerQuery.includes('time') || lowerQuery.includes('hours') || lowerQuery.includes('open')) {
-      if (isWedding) {
-        const w = content.settings_json.wedding;
-        if (w.dateMonth && w.dateDay) return `The wedding is on ${w.dateMonth} ${w.dateDay}, ${w.dateYear || ''} at ${w.time || ''}.`;
-      }
-      if (content.date) return `The event is on ${content.date}.`;
-      if (content.contact_info?.hours) return `Our operating hours are: ${content.contact_info.hours}`;
-    }
-
-    if (lowerQuery.includes('where') || lowerQuery.includes('venue') || lowerQuery.includes('location') || lowerQuery.includes('locaton') || lowerQuery.includes('address')) {
-      if (content.contact_info?.address) return `${isEvent ? 'The venue is' : 'We are'} located at: ${content.contact_info.address}`;
-      return "We are located at 123 Main Street, City Center.";
-    }
-
-    if (lowerQuery.includes('who') || lowerQuery.includes('couple') || lowerQuery.includes('names') || lowerQuery.includes('host')) {
-      if (isWedding && content.hero_title) return `We are celebrating the wedding of ${content.hero_title}!`;
-      if (isEvent && content.hero_title) return `This is the event for ${content.hero_title}!`;
-    }
-
-    if (lowerQuery.includes('parents') || lowerQuery.includes('family')) {
-      if (isWedding) {
-         const w = content.settings_json.wedding;
-         return `Family details - Groom's parents: ${w.groomParents || 'N/A'}. Bride's parents: ${w.brideParents || 'N/A'}.`;
-      }
-    }
-
-    if (lowerQuery.includes('schedule') || lowerQuery.includes('program') || lowerQuery.includes('events')) {
-      if (isWedding && content.settings_json.wedding?.schedule) {
-         const schedule = content.settings_json.wedding.schedule;
-         if (Array.isArray(schedule) && schedule.length > 0) {
-           return `Our schedule: ${schedule.map((s:any) => `${s.event} at ${s.time}`).join(', ')}.`;
-         }
-      }
-    }
-
-    // Business / General defaults
-    if (lowerQuery.includes('phone') || lowerQuery.includes('call') || lowerQuery.includes('contact') || lowerQuery.includes('number') || lowerQuery.includes('conatcat')) {
-      if (content.contact_info?.phone) return `You can reach us at: ${content.contact_info.phone}`;
-      return "You can reach us at our main line: +1 (555) 123-4567.";
-    }
-    if (lowerQuery.includes('email') || lowerQuery.includes('contact')) {
-      if (content.contact_info?.email) return `Our email address is: ${content.contact_info.email}`;
-      return "Feel free to email us at: hello@ourwebsite.com.";
-    }
-    if (lowerQuery.includes('service') || lowerQuery.includes('serice') || lowerQuery.includes('what do you do') || lowerQuery.includes('offer')) {
-      if (content.services_json && content.services_json.length > 0) {
-        if (typeof content.services_json[0] === 'string') {
-          return `We offer the following services: ${content.services_json.join(', ')}.`;
-        } else if (content.services_json[0].title) {
-          const serviceTitles = content.services_json.map((s: any) => s.title).join(', ');
-          return `Here are some of our services: ${serviceTitles}.`;
-        }
-      }
-      return "We offer a wide variety of premium services tailored to your needs. Check out our Services section for more details!";
-    }
-    if (lowerQuery.includes('about') || lowerQuery.includes('story')) {
-      if (content.settings_json?.about_description || content.about_text) return (content.settings_json?.about_description || content.about_text);
-      return "Every detail is crafted with care!";
-    }
-    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food')) {
-      if (content.products_json && content.products_json.length > 0) {
-        const itemNames = content.products_json.map((p: any) => {
-          const name = p.name || p.title;
-          const price = p.price ? ` (${p.price})` : '';
-          return `${name}${price}`;
-        }).filter(Boolean).join(', ');
-        return `We have various offerings including: ${itemNames}.`;
-      }
-      return "Please check out our menu or products section for more details and pricing.";
-    }
-    
-    // Default fallback
-    return "I'm still learning! ✨ You can ask me about our services, products, location, contact info, or our story.";
-  };
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      sender: 'user',
-      text: inputValue.trim()
-    };
-
-    setMessages(prev => [...prev, userMsg]);
-    setInputValue('');
-    setIsTyping(true);
-
-    // Mock network delay and AI processing
-    setTimeout(() => {
-      const responseText = generateMockResponse(userMsg.text);
-      const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: 'bot',
-        text: responseText
-      };
-      setMessages(prev => [...prev, botMsg]);
-      setIsTyping(false);
-    }, 1200 + Math.random() * 800);
-  };
-
+    new_tail = """
   // 1. DEFAULT (Professional, Elegant, Neumorphic)
   const renderDefault = () => {
+    // We can map the specific color variants inside Default for the 3 styles that share this layout
     let containerClass = "bg-white rounded-3xl shadow-[0_12px_40px_-12px_rgba(0,0,0,0.15)] border border-slate-200";
     let headerClass = "bg-white p-4 sm:p-5 flex justify-between items-center border-b border-slate-100 z-10 shrink-0";
     let textClass = "text-slate-900";
@@ -352,7 +222,7 @@ export default function Chatbot({ content }: ChatbotProps) {
           </div>
           {messages.map((msg) => (
             <div key={msg.id} className="animate-in fade-in duration-300 flex">
-              <span className={`mr-2 shrink-0 ${msg.sender === 'user' ? 'text-emerald-300' : 'text-emerald-600'}`}>{msg.sender === 'user' ? 'USR&gt;' : 'SYS&gt;'}</span>
+              <span className={`mr-2 shrink-0 ${msg.sender === 'user' ? 'text-emerald-300' : 'text-emerald-600'}`}>{msg.sender === 'user' ? 'USR>' : 'SYS>'}</span>
               <div className={`text-[13px] leading-relaxed ${msg.sender === 'user' ? 'text-emerald-100' : 'text-emerald-400'}`}>
                 {msg.text}
               </div>
@@ -360,7 +230,7 @@ export default function Chatbot({ content }: ChatbotProps) {
           ))}
           {isTyping && (
             <div className="animate-in fade-in duration-300 flex text-emerald-500">
-              <span className="mr-2 shrink-0">SYS&gt;</span>
+              <span className="mr-2 shrink-0">SYS></span>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-4 bg-emerald-500 animate-pulse"></span> processing...
               </div>
@@ -370,7 +240,7 @@ export default function Chatbot({ content }: ChatbotProps) {
         </div>
         <div className="p-4 bg-slate-900 border-t border-emerald-500/30 shrink-0">
           <form onSubmit={handleSendMessage} className="flex gap-2 items-start">
-            <span className="text-emerald-500 mt-2">USR&gt;</span>
+            <span className="text-emerald-500 mt-2">USR></span>
             <textarea rows={1} value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e); } }} className="flex-1 max-h-32 min-h-[30px] py-2 text-[13px] text-emerald-400 bg-transparent border-none focus:ring-0 resize-none scrollbar-hide focus:outline-none" autoFocus />
             <button type="submit" disabled={!inputValue.trim() || isTyping} className="hidden">Send</button>
           </form>
@@ -435,6 +305,7 @@ export default function Chatbot({ content }: ChatbotProps) {
 
   return (
     <>
+      {/* Toggle Button - always positioned at bottom left relative to viewport */}
       <div className={`fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-[99990] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}>
         <button
           onClick={() => setIsOpen(true)}
@@ -474,3 +345,9 @@ export default function Chatbot({ content }: ChatbotProps) {
     </>
   );
 }
+"""
+    
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(head + new_tail)
+        
+    print("Chatbot updated successfully!")

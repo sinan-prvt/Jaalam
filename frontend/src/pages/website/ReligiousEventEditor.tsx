@@ -3,9 +3,11 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
-import {Save, ArrowLeft, BookOpen, Clock,
+import {
+  Save, ArrowLeft, BookOpen, Clock,
   MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Upload, PlusCircle, Layers, Megaphone, Bot } from 'lucide-react';
+  Image as ImageIcon, Gift, Upload, PlusCircle, Layers, Megaphone, Bot
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
 import QRCodeLib from 'react-qr-code';
@@ -52,7 +54,7 @@ export default function ReligiousEventEditor() {
   const [mainEventCategory, setMainEventCategory] = useState('Religious Events');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+
   const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
   const [previewDevice, setPreviewDevice] = useState<'mobile' | 'desktop'>('mobile');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -211,10 +213,10 @@ export default function ReligiousEventEditor() {
     { id: 'programs', icon: <Layers size={16} />, label: 'Programs' },
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'contact', icon: <MapPin size={16} />, label: 'Contact' },
-            { id: 'bot', icon: <Bot size={16} />, label: 'Bot' },
-            { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
-{ id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
-{ id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
+    { id: 'bot', icon: <Bot size={16} />, label: 'Bot' },
+    { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
+    { id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
+    { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Publish & Share' }
   ];
   const defaultSections = [
@@ -227,13 +229,13 @@ export default function ReligiousEventEditor() {
     { id: 'contact', label: 'Contact Info', visible: true, locked: false }
   ];
 
-  let currentSections = religiousData.sections && religiousData.sections.length > 0 
-    ? religiousData.sections.map((s:any) => s.id === 'donations' ? { ...s, id: 'programs', label: 'Programs & Services' } : s)
+  let currentSections = religiousData.sections && religiousData.sections.length > 0
+    ? religiousData.sections.map((s: any) => s.id === 'donations' ? { ...s, id: 'programs', label: 'Programs & Services' } : s)
     : defaultSections;
 
   // Ensure 'leaders' is injected if it's missing from a previously saved layout
-  if (religiousData.sections && religiousData.sections.length > 0 && !currentSections.find((s:any) => s.id === 'leaders')) {
-    const aboutIndex = currentSections.findIndex((s:any) => s.id === 'about');
+  if (religiousData.sections && religiousData.sections.length > 0 && !currentSections.find((s: any) => s.id === 'leaders')) {
+    const aboutIndex = currentSections.findIndex((s: any) => s.id === 'about');
     if (aboutIndex !== -1) {
       currentSections.splice(aboutIndex + 1, 0, { id: 'leaders', label: 'Event Leaders', visible: true, locked: false });
     } else {
@@ -293,8 +295,8 @@ export default function ReligiousEventEditor() {
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-slate-800">AI Chatbot</h3>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       className="sr-only peer"
                       checked={content.settings_json?.show_chatbot ?? true}
                       onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_chatbot: e.target.checked } })}
@@ -303,7 +305,7 @@ export default function ReligiousEventEditor() {
                   </label>
                 </div>
                 <p className="text-xs text-slate-500 mb-4">Enable an AI support assistant for your visitors.</p>
-                
+
                 <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Bot Icon Style</label>
@@ -345,15 +347,15 @@ export default function ReligiousEventEditor() {
           )}
 
 
-          
+
           {activeTab === 'languages' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-slate-800">Website Translation</h3>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       className="sr-only peer"
                       checked={content.settings_json?.show_language_widget ?? true}
                       onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_language_widget: e.target.checked } })}
@@ -362,11 +364,11 @@ export default function ReligiousEventEditor() {
                   </label>
                 </div>
                 <p className="text-xs text-slate-500 mb-4">Select the languages you want to offer your visitors.</p>
-                
+
                 <div className="grid grid-cols-2 gap-3">
                   {['en', 'ml', 'ar', 'hi'].map(lang => (
                     <label key={lang} className="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
-                      <input 
+                      <input
                         type="checkbox"
                         className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
                         checked={(content.settings_json?.languages || ['en', 'ml']).includes(lang)}
@@ -387,7 +389,7 @@ export default function ReligiousEventEditor() {
                     </label>
                   ))}
                 </div>
-                
+
                 <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Appearance</label>
@@ -418,7 +420,7 @@ export default function ReligiousEventEditor() {
             </div>
           )}
 
-{activeTab === 'cta' && (
+          {activeTab === 'cta' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
                 <h3 className="font-bold text-slate-800">Call to Action (CTA)</h3>
@@ -445,7 +447,7 @@ export default function ReligiousEventEditor() {
                     </select>
                   </div>
                 </div>
-                
+
                 <div className="flex flex-col p-3 bg-white border border-slate-100 rounded-xl space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
@@ -773,7 +775,7 @@ export default function ReligiousEventEditor() {
                       newSchedule[idx] = { ...item, name: e.target.value };
                       setReligiousData({ schedule: newSchedule });
                     }} placeholder="Prayer / Event Name" className="w-full px-3 py-2.5 bg-slate-50 border-none rounded-lg text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-500/20" />
-                    
+
                     <input type="text" value={item.time} onChange={e => {
                       const newSchedule = [...religiousData.schedule];
                       newSchedule[idx] = { ...item, time: e.target.value };
@@ -824,7 +826,7 @@ export default function ReligiousEventEditor() {
                       newPrograms[idx] = { ...item, name: e.target.value };
                       setReligiousData({ programs: newPrograms });
                     }} placeholder="Program Name (e.g. Youth Mentorship)" className="w-full px-3 py-2.5 bg-slate-50 border-none rounded-lg text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-500/20" />
-                    
+
                     <input type="text" value={item.timing} onChange={e => {
                       const newPrograms = [...religiousData.programs];
                       newPrograms[idx] = { ...item, timing: e.target.value };

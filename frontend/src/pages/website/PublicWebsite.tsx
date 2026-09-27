@@ -537,9 +537,7 @@ export default function PublicWebsite() {
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       {renderTheme()}
 
-      {(!website?.business_type || (!weddingCategories.includes(website.business_type) && !birthdayCategories.includes(website.business_type) && !housewarmingCategories.includes(website.business_type) && !collegeFestCategories.includes(website.business_type) && !religiousEventCategories.includes(website.business_type))) && (
-        <Chatbot content={content} />
-      )}
+      <Chatbot content={content} />
 
       <FloatingContactButtons 
         phone={content?.settings_json?.cta_phone_number || content?.contact_info?.phone} 

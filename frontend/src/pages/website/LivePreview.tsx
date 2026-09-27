@@ -314,9 +314,7 @@ function LivePreviewContent() {
   return (
     <>
       {renderTheme()}
-      {(!data?.website?.business_type || (!weddingCategories.includes(data.website.business_type) && !birthdayCategories.includes(data.website.business_type) && !housewarmingCategories.includes(data.website.business_type) && !collegeFestCategories.includes(data.website.business_type) && !religiousEventCategories.includes(data.website.business_type))) && (
-        <Chatbot content={data.content} />
-      )}
+      <Chatbot content={data.content} />
       <FloatingContactButtons 
         phone={data.content?.settings_json?.cta_phone_number || data.content?.contact_info?.phone} 
         whatsapp={data.content?.settings_json?.cta_whatsapp_number || data.content?.contact_info?.whatsapp} 
