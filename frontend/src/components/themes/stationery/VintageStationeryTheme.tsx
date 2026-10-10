@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Type, Stamp, PenTool } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function VintageStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -150,7 +151,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
              'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80',
              'https://images.unsplash.com/photo-1590740924976-13a8fc6470aa?auto=format&fit=crop&w=400&q=80',
              'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=400&q=80'
-           ]).map((img, idx) => (
+           ]).map((img: string, idx: number) => (
               <div key={idx} className="aspect-square border-4 border-[#F7F4F0] shadow-md bg-white p-2 transform transition-transform hover:scale-105 hover:-rotate-1">
                 <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover filter sepia contrast-125" />
               </div>
@@ -285,6 +286,9 @@ export default function VintageStationeryTheme({ website, content }: any) {
                       )}
           </div>
           <p className="opacity-50">© {new Date().getFullYear()} {siteName}</p>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} />
         </div>
       </footer>
 

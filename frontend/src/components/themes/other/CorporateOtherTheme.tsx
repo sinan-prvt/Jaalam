@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, ArrowRight, CheckCircle, Briefcase, BarChart, Users } from 'lucide-react';
-import { Facebook, Twitter } from '../scrap/SocialIcons';
+import { Facebook, Instagram, Twitter } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function CorporateOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -276,16 +277,14 @@ export default function CorporateOtherTheme({ website, content }: any) {
                     <h3 className="font-corp-heading text-xl font-bold text-[#222] mb-2">Connect With Us</h3>
                     <p className="font-corp-body text-gray-600 text-sm">Follow our latest updates and industry insights.</p>
                  </div>
-                 {!hiddenFields.includes('contact_facebook') && (
-                              <div className="p-8 flex gap-4 justify-center bg-white flex-1 items-center border-b border-gray-200">
-                                                   {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Facebook size={20} /></a>}
-                                                   {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Twitter size={20} /></a>}
-                                                   {/* Using instagram as a generic placeholder for LinkedIn if linkedin is not standard in SocialIcons */}
-                                                   <a href="#" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors">
-                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                                                   </a>
-                                               </div>
-                              )}
+                 <div className="p-8 flex gap-4 justify-center bg-white flex-1 items-center border-b border-gray-200">
+                  {content.contact_info?.facebook && !hiddenFields.includes('contact_facebook') && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" aria-label="Facebook" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Facebook size={20} /></a>}
+                  {content.contact_info?.instagram && !hiddenFields.includes('contact_instagram') && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Instagram size={20} /></a>}
+                  {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" aria-label="Twitter" className="w-12 h-12 bg-[#f4f7f6] text-[#0056b3] rounded-full flex items-center justify-center hover:bg-[#0056b3] hover:text-white transition-colors"><Twitter size={20} /></a>}
+                  {!content.contact_info?.facebook && !content.contact_info?.instagram && !content.contact_info?.twitter && (
+                    <span className="font-corp-body text-gray-400 text-sm">Social links coming soon</span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -323,6 +322,9 @@ export default function CorporateOtherTheme({ website, content }: any) {
         <div className="container mx-auto">
            <div className="font-corp-heading font-bold text-white mb-2">{siteName}</div>
            <p>&copy; {new Date().getFullYear()} {siteName}. All rights reserved. | <a href="#" className="hover:text-white">Privacy Policy</a> | <a href="#" className="hover:text-white">Terms of Service</a></p>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

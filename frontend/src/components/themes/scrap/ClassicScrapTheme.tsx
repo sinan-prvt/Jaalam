@@ -5,6 +5,7 @@ import { Truck, Scale, MapPin, Mail, Phone, AlertTriangle, Hammer, Factory, X, C
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function ClassicScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -408,6 +409,9 @@ export default function ClassicScrapTheme({ website, content }: any) {
           <div className="font-body font-bold text-gray-400">
             &copy; {new Date().getFullYear()} {siteName}. All Rights Reserved.
           </div>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

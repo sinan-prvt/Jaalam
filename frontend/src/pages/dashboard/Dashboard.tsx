@@ -25,6 +25,14 @@ const editorPath = (type: string | undefined, slug: string) => {
   return `/editor/${slug}`;
 };
 import { getWebsiteUrl } from '../../utils/url';
+
+// Page headings use the same wording as the sidebar labels (tab keys stay unchanged).
+const TAB_LABELS: Record<string, string> = {
+  Dashboard: 'Overview',
+  Projects: 'My Sites',
+  Notifications: 'Inbox',
+  Billing: 'Invoices',
+};
 import toast from 'react-hot-toast';
 
 interface User {
@@ -524,7 +532,7 @@ export default function Dashboard() {
           <div className={`hidden md:flex items-center justify-between shrink-0 ${activeTab === 'Notifications' ? 'mb-4' : 'mb-8'}`}>
             <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
               {activeTab === 'Dashboard' && <LayoutDashboard className="text-orange-500" size={28} />}
-              {activeTab}
+              {TAB_LABELS[activeTab] ?? activeTab}
             </h1>
             <div className="flex items-center gap-4">
               {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
@@ -1005,7 +1013,7 @@ export default function Dashboard() {
 
           {activeTab === 'Analytics' && (
             <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics Overview</h2>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics</h2>
 
               {loading ? (
                 <div className="animate-pulse">

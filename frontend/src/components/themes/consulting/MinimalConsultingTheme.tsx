@@ -5,6 +5,7 @@ import { Briefcase, X, Menu, ArrowRight } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function MinimalConsultingTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -303,6 +304,9 @@ export default function MinimalConsultingTheme({ website, content }: any) {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold tracking-[0.2em] uppercase text-gray-400">
            <span>{siteName}</span>
            <span>© {new Date().getFullYear()}</span>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
@@ -426,144 +427,211 @@ export default function AdminDashboard() {
    
   const proUsers = users.filter(u => u.membership.toUpperCase().includes('PRO')).length;
 
+  // ── Command Center helpers ──────────────────────────────────────────────
+  const pendingOrders = physicalOrders.filter(o => o.status === 'PENDING').length;
+  const liveSites = websites.filter(w => w.published).length;
+  const draftSites = websites.length - liveSites;
+  const blockedSites = websites.filter(w => w.is_blocked).length;
+  const recentSites = [...websites].sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()).slice(0, 5);
+  const pct = (part: number, whole: number) => (whole > 0 ? Math.round((part / whole) * 100) : 0);
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const todayLabel = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+  const timeAgo = (iso?: string) => {
+    if (!iso) return '';
+    const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+    if (mins < 60) return mins <= 1 ? 'just now' : `${mins}m ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.round(hrs / 24);
+    return days < 30 ? `${days}d ago` : new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  };
+  const avatarTones = ['bg-[#fde7d6] text-[#b8673a]', 'bg-emerald-100 text-emerald-700', 'bg-sky-100 text-sky-700', 'bg-violet-100 text-violet-700', 'bg-amber-100 text-amber-700'];
+  const toneFor = (s: string) => avatarTones[(s.charCodeAt(0) || 0) % avatarTones.length];
+
+  type AdminTab = typeof activeTab;
+  const tabTitles: Record<AdminTab, { title: string; subtitle: string }> = {
+    overview: { title: 'Command Center', subtitle: '' },
+    revenue: { title: 'Revenue', subtitle: 'Subscriptions and QR order payments' },
+    users: { title: 'Users', subtitle: 'Accounts, plans and access' },
+    websites: { title: 'Websites', subtitle: 'Every site built on Jaalam' },
+    templates: { title: 'Templates', subtitle: 'Theme library by category' },
+    blogs: { title: 'Blogs', subtitle: 'Posts on the Jaalam blog' },
+    notifications: { title: 'Support Tickets', subtitle: 'Messages from users' },
+    orders: { title: 'QR Orders', subtitle: 'Physical QR sticker orders' },
+  };
+
+  const navSections: { label: string; items: { tab: AdminTab; label: string; icon: ReactNode; badge?: string | number; alert?: boolean }[] }[] = [
+    {
+      label: 'Insights',
+      items: [
+        { tab: 'overview', label: 'Overview', icon: <Activity size={18} /> },
+        { tab: 'revenue', label: 'Revenue', icon: <DollarSign size={18} />, badge: `₹${totalRevenue.toLocaleString()}` },
+      ],
+    },
+    {
+      label: 'Manage',
+      items: [
+        { tab: 'users', label: 'Users', icon: <Users size={18} />, badge: users.length },
+        { tab: 'websites', label: 'Websites', icon: <Globe size={18} />, badge: websites.length },
+        { tab: 'templates', label: 'Templates', icon: <LayoutTemplate size={18} />, badge: Object.values(categoryThemes).flat().length },
+        { tab: 'blogs', label: 'Blogs', icon: <FileText size={18} />, badge: blogs.length },
+      ],
+    },
+    {
+      label: 'Operations',
+      items: [
+        { tab: 'notifications', label: 'Support Tickets', icon: <MessageSquare size={18} /> },
+        { tab: 'orders', label: 'QR Orders', icon: <Printer size={18} />, badge: pendingOrders || undefined, alert: pendingOrders > 0 },
+      ],
+    },
+  ];
+
+  const goTab = (tab: AdminTab) => { setActiveTab(tab); setMobileMenuOpen(false); setSearchQuery(''); };
+
+  const neuCard = 'bg-[var(--neu-bg)] rounded-[24px] shadow-[8px_8px_18px_var(--neu-shadow-dark),-8px_-8px_18px_var(--neu-shadow-light)]';
+  const neuInset = 'shadow-[inset_3px_3px_6px_var(--neu-shadow-dark),inset_-3px_-3px_6px_var(--neu-shadow-light)]';
+
   if (!user?.is_superuser) return null;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex text-slate-800 font-sans">
+    <div className="min-h-screen bg-[var(--neu-bg)] flex text-slate-800 font-sans">
+
+      {/* MOBILE BACKDROP */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px] md:hidden" onClick={() => setMobileMenuOpen(false)} aria-hidden />
+      )}
 
       {/* SIDEBAR */}
-      <aside className={`fixed inset-y-0 left-0 bg-slate-900 text-white w-64 z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:shrink-0 shadow-2xl`}>
-        <div className="h-16 flex items-center justify-between px-6 bg-slate-950 border-b border-slate-800">
-          <div className="flex items-center gap-2 text-primary-400">
-            <ShieldCheck size={24} />
-            <span className="font-black text-lg tracking-tight text-white">SYSTEM ADMIN</span>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-[264px] flex flex-col bg-[var(--neu-bg)] px-[18px] py-[22px] transition-transform duration-300 ease-in-out
+          ${mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
+          md:translate-x-0 md:static md:shrink-0 md:my-4 md:ml-4 md:h-[calc(100vh-32px)] md:rounded-[26px] md:shadow-[10px_10px_22px_var(--neu-shadow-dark),-10px_-10px_22px_var(--neu-shadow-light)]`}
+      >
+        {/* Brand */}
+        <div className="flex items-center justify-between mb-7 px-1">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="relative w-10 h-10 rounded-[13px] flex items-center justify-center font-black text-[17px] text-[#d08757] bg-[var(--neu-bg)] shrink-0 shadow-[6px_7px_13px_rgba(212,206,199,0.72),-6px_-7px_13px_rgba(255,255,255,0.98)]">
+              J
+              <span className="absolute -bottom-1 -right-1 w-[18px] h-[18px] rounded-full bg-gradient-to-br from-[#e49b6b] to-[#d08757] text-white flex items-center justify-center ring-2 ring-[var(--neu-bg)]">
+                <ShieldCheck size={11} />
+              </span>
+            </div>
+            <div className="min-w-0">
+              <h2 className="font-bold text-[16px] text-slate-800 tracking-tight leading-[1.2]">Jaalam</h2>
+              <p className="text-[10px] font-semibold text-[#d08757] tracking-[0.6px] uppercase mt-[1px]">Admin Console</p>
+            </div>
           </div>
-          <button className="md:hidden text-slate-400" onClick={() => setMobileMenuOpen(false)}>
-            <X size={20} />
+          <button className="md:hidden w-8 h-8 rounded-[10px] flex items-center justify-center text-slate-500 hover:text-[#d08757]" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+            <X size={18} />
           </button>
         </div>
 
-        <div className="p-4 flex-1 overflow-y-auto space-y-1">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 mt-4 px-3">Management</div>
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide space-y-5 pb-4">
+          {navSections.map(section => (
+            <div key={section.label}>
+              <div className="text-[10px] font-bold tracking-[1.5px] text-slate-400 uppercase mx-2 mb-2">{section.label}</div>
+              <div className="flex flex-col gap-1.5">
+                {section.items.map(item => {
+                  const isActive = activeTab === item.tab;
+                  return (
+                    <button
+                      key={item.tab}
+                      type="button"
+                      onClick={() => goTab(item.tab)}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={`w-full flex items-center gap-[14px] px-[14px] py-[11px] rounded-xl text-[14px] font-medium transition-all duration-200 active:scale-[0.98] ${
+                        isActive
+                          ? 'text-white bg-gradient-to-br from-[#e49b6b] to-[#d08757] shadow-md'
+                          : 'text-slate-500 hover:text-slate-800 hover:shadow-[inset_3px_3px_6px_var(--neu-shadow-dark),inset_-3px_-3px_6px_var(--neu-shadow-light)]'
+                      }`}
+                    >
+                      <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
+                      <span className="flex-1 text-left whitespace-nowrap">{item.label}</span>
+                      {item.badge !== undefined && (
+                        <span className={`shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full tabular-nums ${
+                          item.alert ? 'bg-rose-500 text-white' : isActive ? 'bg-white/25 text-white' : 'bg-[#efe6dc] text-slate-600'
+                        }`}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
 
-          <button
-            onClick={() => { setActiveTab('overview'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'overview' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <Activity size={18} /> Overview & Analytics
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('revenue'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'revenue' ? 'bg-emerald-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><DollarSign size={18} /> Revenue</div>
-            <span className="bg-emerald-500/20 text-emerald-400 py-0.5 px-2 rounded-full text-xs font-bold">₹{totalRevenue.toLocaleString()}</span>
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('users'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'users' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><Users size={18} /> Users</div>
-            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{users.length}</span>
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('websites'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'websites' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><Globe size={18} /> Websites</div>
-            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{websites.length}</span>
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('templates'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'templates' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><LayoutTemplate size={18} /> Templates</div>
-            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{Object.values(categoryThemes).flat().length}</span>
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('blogs'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'blogs' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><FileText size={18} /> Blogs</div>
-            <span className="bg-slate-800 text-slate-300 py-0.5 px-2 rounded-full text-xs">{blogs.length}</span>
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('notifications'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'notifications' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <ShieldAlert size={18} /> Support Tickets
-          </button>
-
-          <button
-            onClick={() => { setActiveTab('orders'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${activeTab === 'orders' ? 'bg-primary-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3"><Printer size={18} /> QR Orders</div>
-            {physicalOrders.filter(o => o.status === 'PENDING').length > 0 && (
-              <span className="bg-rose-500 text-white font-bold py-0.5 px-2 rounded-full text-xs">{physicalOrders.filter(o => o.status === 'PENDING').length}</span>
-            )}
-          </button>
-        </div>
-
-        <div className="p-4 bg-slate-950 border-t border-slate-800">
+        {/* Admin profile + exit */}
+        <div className={`rounded-2xl p-3 ${neuInset}`}>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#e49b6b] to-[#d08757] text-white font-black flex items-center justify-center text-sm shrink-0">
+              {user?.username?.[0]?.toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-bold text-slate-800 truncate">{user?.username}</div>
+              <div className="text-[11px] font-medium text-slate-500">System admin</div>
+            </div>
+          </div>
           <button
             onClick={() => navigate('/dashboard')}
-            className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white py-2 rounded-lg text-sm font-bold transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-bold text-slate-600 bg-[var(--neu-bg)] shadow-[4px_4px_9px_var(--neu-shadow-dark),-4px_-4px_9px_var(--neu-shadow-light)] hover:text-[#d08757] active:scale-[0.98] transition-all"
           >
-            <LogOut size={16} /> Exit Admin
+            <LogOut size={15} /> Exit admin
           </button>
         </div>
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        {/* TOPNAV */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-slate-500" onClick={() => setMobileMenuOpen(true)}>
-              <Menu size={24} />
+      <main className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden relative">
+        {/* TOP BAR */}
+        <header className="shrink-0 flex items-center justify-between gap-4 px-5 md:px-10 pt-6 md:pt-8 pb-4 z-10">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              className={`md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 bg-[var(--neu-bg)] shadow-[4px_4px_9px_var(--neu-shadow-dark),-4px_-4px_9px_var(--neu-shadow-light)]`}
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={20} />
             </button>
-            <h1 className="text-xl font-black text-slate-800 capitalize">
-              {activeTab === 'overview' ? 'Command Center' : `${activeTab} Management`}
-            </h1>
+            <div className="min-w-0">
+              <h1 className="text-2xl md:text-[28px] font-black text-slate-900 tracking-tight leading-tight truncate">
+                {activeTab === 'overview' ? `${greeting}, ${user?.username}` : tabTitles[activeTab].title}
+              </h1>
+              <p className="text-sm font-medium text-slate-500 mt-0.5 truncate">
+                {activeTab === 'overview' ? `${todayLabel} · here's how Jaalam is doing` : tabTitles[activeTab].subtitle}
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            {activeTab !== 'overview' && (
+          <div className="flex items-center gap-3 shrink-0">
+            {activeTab !== 'overview' && activeTab !== 'notifications' && (
               <div className="relative hidden md:block">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder={`Search ${activeTab}...`}
+                  placeholder={`Search ${tabTitles[activeTab].title.toLowerCase()}...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none w-64 transition-all"
+                  className={`pl-10 pr-4 py-2.5 w-64 rounded-xl bg-[var(--neu-bg)] border-none text-sm outline-none focus:ring-2 focus:ring-[#e49b6b]/40 transition-all ${neuInset}`}
                 />
               </div>
             )}
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-black flex items-center justify-center text-sm border border-primary-200">
-                {user?.username?.[0]?.toUpperCase()}
-              </div>
-            </div>
+            <span className={`hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold ${maintenanceMode ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-700'}`}>
+              <span className={`w-2 h-2 rounded-full ${maintenanceMode ? 'bg-rose-500' : 'bg-emerald-500 animate-pulse'}`} />
+              {maintenanceMode ? 'Maintenance on' : 'All systems live'}
+            </span>
           </div>
         </header>
 
         {/* SCROLLABLE AREA */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8">
+        <div className="flex-1 overflow-y-auto px-5 md:px-10 pb-10 pt-2">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 animate-pulse">
-              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
-              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
-              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
-              <div className="bg-white/40 border border-slate-100 rounded-2xl h-32"></div>
-              <div className="col-span-1 md:col-span-4 bg-white/40 border border-slate-100 rounded-2xl h-[400px]"></div>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 animate-pulse">
+              {[0, 1, 2, 3].map(i => <div key={i} className={`${neuCard} h-36`} />)}
+              <div className={`${neuCard} col-span-1 md:col-span-4 h-[360px]`} />
             </div>
           ) : (
             <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -572,103 +640,196 @@ export default function AdminDashboard() {
               {/* TAB: OVERVIEW */}
               {activeTab === 'overview' && (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {/* STAT CARDS */}
-                    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-100 flex flex-col relative overflow-hidden group">
-                      <div className="absolute -right-6 -top-6 text-slate-50 opacity-50 group-hover:scale-110 transition-transform"><Users size={120} /></div>
-                      <span className="text-slate-500 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Total Users</span>
-                      <span className="text-4xl font-black text-slate-800 tracking-tight relative z-10">{users.length}</span>
-                      <div className="mt-4 flex items-center gap-1 text-emerald-600 text-sm font-bold relative z-10">
-                        <TrendingUp size={16} /> +{users.filter(u => u.is_active).length} Active
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-100 flex flex-col relative overflow-hidden group">
-                      <div className="absolute -right-6 -top-6 text-slate-50 opacity-50 group-hover:scale-110 transition-transform"><Globe size={120} /></div>
-                      <span className="text-slate-500 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Live Websites</span>
-                      <span className="text-4xl font-black text-slate-800 tracking-tight relative z-10">{websites.filter(w => w.published).length}</span>
-                      <div className="mt-4 flex items-center gap-1 text-slate-400 text-sm font-bold relative z-10">
-                        {websites.length} Total Created
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-100 flex flex-col relative overflow-hidden group">
-                      <div className="absolute -right-6 -top-6 text-slate-50 opacity-50 group-hover:scale-110 transition-transform"><Activity size={120} /></div>
-                      <span className="text-slate-500 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Global Traffic</span>
-                      <span className="text-4xl font-black text-slate-800 tracking-tight relative z-10">{totalVisitors.toLocaleString()}</span>
-                      <div className="mt-4 flex items-center gap-1 text-cyan-500 text-sm font-bold relative z-10">
-                        <Activity size={16} /> Visitors across all sites
-                      </div>
-                    </div>
-
-                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 shadow-lg border border-slate-700 flex flex-col relative overflow-hidden group">
-                      <div className="absolute -right-6 -top-6 text-slate-700 opacity-50 group-hover:scale-110 transition-transform"><DollarSign size={120} /></div>
-                      <span className="text-slate-400 font-bold text-sm tracking-wide uppercase mb-1 relative z-10">Total Revenue</span>
-                      <span className="text-4xl font-black text-emerald-400 tracking-tight relative z-10">₹{totalRevenue.toLocaleString()}</span>
-                      <div className="mt-4 flex items-center gap-1 text-slate-300 text-sm font-bold relative z-10">
-                        {subscriptionTransactions.length} Paid Subscriptions
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-black text-slate-800 flex items-center gap-2"><ShieldAlert className="text-rose-500" /> System Controls</h3>
-                        <p className="text-sm text-slate-500 font-medium mt-1">Manage global platform settings and maintenance status.</p>
-                      </div>
-                      <button 
-                        onClick={handleToggleMaintenance}
-                        className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors ${maintenanceMode ? 'bg-rose-500' : 'bg-slate-300'}`}
-                      >
-                        <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${maintenanceMode ? 'translate-x-8' : 'translate-x-1'}`} />
+                  {/* KPI CARDS */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                    {[
+                      {
+                        label: 'Users', value: users.length.toLocaleString(), icon: <Users size={20} />, tone: 'bg-sky-100 text-sky-600',
+                        meta: `${activeUsers} active · ${proUsers} on Pro`, bar: pct(activeUsers, users.length), barTone: 'bg-sky-400', onClick: () => goTab('users'),
+                      },
+                      {
+                        label: 'Live websites', value: liveSites.toLocaleString(), icon: <Globe size={20} />, tone: 'bg-emerald-100 text-emerald-600',
+                        meta: `${pct(liveSites, websites.length)}% of ${websites.length} created`, bar: pct(liveSites, websites.length), barTone: 'bg-emerald-400', onClick: () => goTab('websites'),
+                      },
+                      {
+                        label: 'Visitors', value: totalVisitors.toLocaleString(), icon: <TrendingUp size={20} />, tone: 'bg-violet-100 text-violet-600',
+                        meta: `Across ${websites.length} site${websites.length === 1 ? '' : 's'}`, bar: undefined, barTone: '', onClick: () => goTab('websites'),
+                      },
+                    ].map(card => (
+                      <button key={card.label} type="button" onClick={card.onClick} className={`${neuCard} p-6 text-left group transition-transform hover:-translate-y-0.5`}>
+                        <div className="flex items-center justify-between mb-5">
+                          <span className="text-[13px] font-bold text-slate-500">{card.label}</span>
+                          <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${card.tone}`}>{card.icon}</span>
+                        </div>
+                        <div className="text-[34px] leading-none font-black text-slate-900 tracking-tight tabular-nums">{card.value}</div>
+                        <div className="mt-3 text-[13px] font-medium text-slate-500">{card.meta}</div>
+                        {card.bar !== undefined && (
+                          <div className={`mt-4 h-1.5 rounded-full overflow-hidden ${neuInset}`}>
+                            <div className={`h-full rounded-full ${card.barTone} transition-all duration-700`} style={{ width: `${card.bar}%` }} />
+                          </div>
+                        )}
                       </button>
-                    </div>
-                    {maintenanceMode && (
-                      <div className="mt-4 p-3 bg-rose-50 border border-rose-100 rounded-xl text-rose-700 text-sm font-bold flex items-center gap-2">
-                        <ShieldAlert size={16} /> The application is currently in Maintenance Mode. Only System Admins can access it.
+                    ))}
+
+                    {/* Revenue: the highlight card */}
+                    <button
+                      type="button"
+                      onClick={() => goTab('revenue')}
+                      className="relative overflow-hidden rounded-[24px] p-6 text-left text-white bg-gradient-to-br from-[#e49b6b] to-[#c4764a] shadow-[8px_8px_18px_var(--neu-shadow-dark),-8px_-8px_18px_var(--neu-shadow-light)] transition-transform hover:-translate-y-0.5"
+                    >
+                      <div className="absolute -right-10 -bottom-12 w-40 h-40 rounded-full bg-white/10" aria-hidden />
+                      <div className="absolute right-8 -top-10 w-24 h-24 rounded-full bg-white/10" aria-hidden />
+                      <div className="relative flex items-center justify-between mb-5">
+                        <span className="text-[13px] font-bold text-white/85">Total revenue</span>
+                        <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/20"><DollarSign size={20} /></span>
                       </div>
-                    )}
+                      <div className="relative text-[34px] leading-none font-black tracking-tight tabular-nums">₹{totalRevenue.toLocaleString()}</div>
+                      <div className="relative mt-3 text-[13px] font-medium text-white/85">
+                        ₹{subscriptionRevenue.toLocaleString()} plans · ₹{qrRevenue.toLocaleString()} QR
+                      </div>
+                      <div className="relative mt-4 h-1.5 rounded-full bg-white/25 overflow-hidden">
+                        <div className="h-full rounded-full bg-white" style={{ width: `${pct(subscriptionRevenue, totalRevenue)}%` }} />
+                      </div>
+                    </button>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Globe className="text-primary-500" /> Recent Websites</h3>
-                      <div className="space-y-4">
-                        {websites.slice(0, 5).map(site => (
-                          <div key={site.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
-                            <div>
-                              <div className="font-bold text-slate-900">{site.slug}</div>
-                              <div className="text-xs font-medium text-slate-500">{site.business_type}</div>
+                  {/* ATTENTION + SYSTEM CONTROLS */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className={`${neuCard} p-6 lg:col-span-2`}>
+                      <div className="flex items-center justify-between mb-5">
+                        <h3 className="text-base font-black text-slate-900">Needs your attention</h3>
+                        <span className="text-xs font-semibold text-slate-400">Updated just now</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {[
+                          { label: 'Pending QR orders', value: pendingOrders, hint: pendingOrders ? 'Waiting to be printed' : 'All caught up', icon: <Printer size={18} />, hot: pendingOrders > 0, onClick: () => goTab('orders') },
+                          { label: 'Draft websites', value: draftSites, hint: 'Created but not published', icon: <FileText size={18} />, hot: false, onClick: () => { setWebsiteFilterStatus('draft'); goTab('websites'); } },
+                          { label: 'Blocked websites', value: blockedSites, hint: blockedSites ? 'Hidden from visitors' : 'None blocked', icon: <ShieldBan size={18} />, hot: false, onClick: () => goTab('websites') },
+                        ].map(item => (
+                          <button
+                            key={item.label}
+                            type="button"
+                            onClick={item.onClick}
+                            className={`group text-left rounded-2xl p-4 transition-all ${neuInset} hover:bg-white/40`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className={`w-9 h-9 rounded-xl flex items-center justify-center ${item.hot ? 'bg-rose-100 text-rose-600' : 'bg-[#fde7d6] text-[#c4764a]'}`}>{item.icon}</span>
+                              <ChevronRight size={16} className="text-slate-300 group-hover:text-[#d08757] group-hover:translate-x-0.5 transition-all" />
                             </div>
-                            <div className="flex gap-2">
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${site.published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
-                                {site.published ? 'LIVE' : 'DRAFT'}
-                              </span>
-                            </div>
-                          </div>
+                            <div className={`mt-3 text-2xl font-black tabular-nums ${item.hot ? 'text-rose-600' : 'text-slate-900'}`}>{item.value}</div>
+                            <div className="text-[13px] font-bold text-slate-700">{item.label}</div>
+                            <div className="text-xs font-medium text-slate-400 mt-0.5">{item.hint}</div>
+                          </button>
                         ))}
                       </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                      <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2"><Users className="text-primary-500" /> Newest Users</h3>
-                      <div className="space-y-4">
-                        {users.slice(0, 5).map(u => (
-                          <div key={u.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-black text-slate-600 text-sm">
-                                {u.username[0].toUpperCase()}
-                              </div>
-                              <div>
-                                <div className="font-bold text-slate-900">{u.username}</div>
-                                <div className="text-xs font-medium text-slate-500">{u.email || 'No email'}</div>
-                              </div>
-                            </div>
-                            <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-1 rounded uppercase tracking-wider">{u.membership}</span>
-                          </div>
-                        ))}
+                    <div className={`${neuCard} p-6 flex flex-col`}>
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-base font-black text-slate-900">Maintenance mode</h3>
+                          <p className="text-[13px] text-slate-500 font-medium mt-1 leading-relaxed">
+                            Takes every site and the builder offline for everyone except system admins.
+                          </p>
+                        </div>
+                        <button
+                          onClick={handleToggleMaintenance}
+                          role="switch"
+                          aria-checked={maintenanceMode}
+                          aria-label="Toggle maintenance mode"
+                          className={`relative inline-flex h-8 w-14 shrink-0 items-center rounded-full transition-colors ${maintenanceMode ? 'bg-rose-500' : neuInset}`}
+                        >
+                          <span className={`inline-block h-6 w-6 rounded-full bg-white shadow transition-transform ${maintenanceMode ? 'translate-x-7' : 'translate-x-1'}`} />
+                        </button>
                       </div>
+                      <div className={`mt-auto pt-5`}>
+                        <div className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-[13px] font-bold ${maintenanceMode ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                          {maintenanceMode ? <ShieldAlert size={16} /> : <CheckCircle2 size={16} />}
+                          {maintenanceMode ? 'Platform is in maintenance' : 'Platform is live for everyone'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RECENT ACTIVITY */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className={`${neuCard} p-6`}>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-base font-black text-slate-900">Recent websites</h3>
+                        <button type="button" onClick={() => goTab('websites')} className="text-[13px] font-bold text-[#d08757] hover:text-[#b8673a] flex items-center gap-0.5">
+                          View all <ChevronRight size={15} />
+                        </button>
+                      </div>
+                      {recentSites.length === 0 ? (
+                        <div className="py-10 text-center text-sm font-medium text-slate-400">No websites yet</div>
+                      ) : (
+                        <ul className="divide-y divide-[#ece3d9]">
+                          {recentSites.map(site => (
+                            <li key={site.id}>
+                              <button type="button" onClick={() => setSelectedProjectDetails(site)} className="w-full flex items-center gap-3 py-3 text-left group">
+                                <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${toneFor(site.slug)}`}>
+                                  {site.slug[0]?.toUpperCase()}
+                                </span>
+                                <span className="flex-1 min-w-0">
+                                  <span className="block font-bold text-slate-900 truncate group-hover:text-[#c4764a] transition-colors">{site.slug}</span>
+                                  <span className="block text-xs font-medium text-slate-500 truncate">{site.business_type}{site.theme ? ` · ${site.theme}` : ''}</span>
+                                </span>
+                                <span className="hidden sm:block text-xs font-medium text-slate-400 shrink-0">{timeAgo(site.created_at)}</span>
+                                <span className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                                  site.is_blocked ? 'bg-rose-50 text-rose-600' : site.published ? 'bg-emerald-50 text-emerald-700' : 'bg-[#efe6dc] text-slate-600'
+                                }`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${site.is_blocked ? 'bg-rose-500' : site.published ? 'bg-emerald-500' : 'bg-slate-400'}`} />
+                                  {site.is_blocked ? 'Blocked' : site.published ? 'Live' : 'Draft'}
+                                </span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <div className={`${neuCard} p-6`}>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-base font-black text-slate-900">Newest users</h3>
+                        <button type="button" onClick={() => goTab('users')} className="text-[13px] font-bold text-[#d08757] hover:text-[#b8673a] flex items-center gap-0.5">
+                          View all <ChevronRight size={15} />
+                        </button>
+                      </div>
+                      {users.length === 0 ? (
+                        <div className="py-10 text-center text-sm font-medium text-slate-400">No users yet</div>
+                      ) : (
+                        <ul className="divide-y divide-[#ece3d9]">
+                          {users.slice(0, 5).map(u => (
+                            <li key={u.id}>
+                              <button
+                                type="button"
+                                onClick={() => { setSelectedUserForWebsites(u); goTab('websites'); }}
+                                className="w-full flex items-center gap-3 py-3 text-left group"
+                                title="View this user's websites"
+                              >
+                                <span className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${toneFor(u.username)}`}>
+                                  {u.username[0]?.toUpperCase()}
+                                </span>
+                                <span className="flex-1 min-w-0">
+                                  <span className="flex items-center gap-1.5">
+                                    <span className="font-bold text-slate-900 truncate group-hover:text-[#c4764a] transition-colors">{u.username}</span>
+                                    {u.is_superuser && <ShieldCheck size={14} className="text-[#d08757] shrink-0" />}
+                                    {u.is_test_user && <Beaker size={13} className="text-violet-500 shrink-0" />}
+                                  </span>
+                                  <span className="block text-xs font-medium text-slate-500 truncate">{u.email || 'No email'}</span>
+                                </span>
+                                <span className={`shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide ${
+                                  u.membership.toUpperCase().includes('PRO') || u.membership.toUpperCase().includes('PREMIUM')
+                                    ? 'bg-gradient-to-br from-[#e49b6b] to-[#d08757] text-white'
+                                    : u.membership.toUpperCase() === 'FREE' ? 'bg-[#efe6dc] text-slate-600' : 'bg-[#fde7d6] text-[#b8673a]'
+                                }`}>
+                                  {u.membership}
+                                </span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </>

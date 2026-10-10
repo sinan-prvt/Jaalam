@@ -120,7 +120,7 @@ export default function ClientsPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
-            Client Portal
+            Clients
           </h1>
           <p className="text-slate-500 font-medium">Manage sub-accounts for your website owners.</p>
         </div>

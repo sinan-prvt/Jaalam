@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, ChevronRight, Crown, CheckCircle, Menu } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
   const [vis, setVis] = useState(false);
@@ -577,6 +578,9 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               © {new Date().getFullYear()} {siteName}. Excellence Assured.<br/>
               <span className="opacity-50 mt-2 inline-block">Powered by Jaalam</span>
             </p>
+          </div>
+          <div className="px-6 pb-2">
+            <ContactExtras content={content} />
           </div>
         </footer>
 

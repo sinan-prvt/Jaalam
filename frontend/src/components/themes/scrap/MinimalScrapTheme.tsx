@@ -5,6 +5,7 @@ import { X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function MinimalScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -318,6 +319,9 @@ export default function MinimalScrapTheme({ website, content }: any) {
         <p className="text-sm font-bold opacity-50 text-center md:text-right">
           &copy; {new Date().getFullYear()} {siteName}. {content.about_text || "HONEST WEIGHTS. INSTANT CASH."}
         </p>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
+        </div>
       </footer>
 
       {/* View All Products Modal */}

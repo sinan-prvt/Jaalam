@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { ShoppingBag, MapPin, Mail, Phone, Star } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function PlayfulTextilesTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -214,6 +215,9 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
         </div>
       
             <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="px-6 pb-2">
+              <ContactExtras content={content} />
+            </div>
           </footer>
     
       

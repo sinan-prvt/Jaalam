@@ -11,14 +11,31 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 
-// Add a response interceptor to handle 401 Unauthorized errors globally
+// Only the logged-in app (dashboard, admin, editors) should bounce to /login on a 401.
+// Public websites (subdomains, /:slug pages, the landing page and the live preview)
+// make anonymous API calls and must never redirect visitors to the login screen.
+const PROTECTED_PATH = /^\/(dashboard|admin|editor|[a-z-]+-editor)(\/|$)/;
+
+const isPublicSiteHost = () => {
+  const host = window.location.hostname;
+  const parts = host.split('.');
+  if (host.includes('localhost') || host.includes('127.0.0.1')) {
+    return parts.length >= 2 && parts[0] !== 'localhost' && parts[0] !== '127';
+  }
+  if (host.includes('vercel.app')) return parts.length >= 4;
+  return parts.length >= 3 && parts[0] !== 'www';
+};
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Clear local storage and redirect to login if session expires
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+    if (error.response?.status === 401) {
+      const path = window.location.pathname;
+      if (!isPublicSiteHost() && PROTECTED_PATH.test(path)) {
+        // Session expired inside the app: clear it and send the user to log in again
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

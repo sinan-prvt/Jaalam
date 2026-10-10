@@ -5,6 +5,7 @@ import { Truck, Scale, MapPin, Mail, Phone, ChevronRight, BarChart, ShieldCheck,
 import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function CorporateScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -458,6 +459,9 @@ export default function CorporateScrapTheme({ website, content }: any) {
         </div>
         <div className="container mx-auto max-w-6xl pt-8 border-t border-slate-800 text-center md:text-left text-xs">
           &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

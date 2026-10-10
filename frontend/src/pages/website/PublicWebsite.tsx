@@ -84,6 +84,7 @@ import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTh
 import ReligiousEventTheme from '../../components/themes/religious/ReligiousEventTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import useSmoothScroll from '../../hooks/useSmoothScroll';
 import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
@@ -115,6 +116,7 @@ export default function PublicWebsite() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useScrollReveal([website?.theme, website?.business_type]);
+  useSmoothScroll();
 
   useEffect(() => {
     const fetchWebsite = async () => {

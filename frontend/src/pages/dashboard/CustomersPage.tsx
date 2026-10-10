@@ -71,7 +71,7 @@ export default function CustomersPage() {
     <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Customers (CRM)</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Customers</h1>
           <p className="text-slate-500 mt-1">Manage inquiries and clients from your websites.</p>
         </div>
       </div>

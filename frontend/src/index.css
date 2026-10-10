@@ -34,10 +34,17 @@
     background: var(--neu-bg);
   }
 
-  h1, h2, h3, h4, h5, h6, p, span, a, li, blockquote, div {
+  /* Wrap long unbroken strings (URLs, emails) only when they would overflow;
+     normal words break at spaces and are never split mid-word. */
+  h1, h2, h3, h4, h5, h6, p, li, blockquote, td, th, dd, dt, figcaption {
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: manual;
+  }
+
+  /* Elements that genuinely need to break anywhere (emails, links in narrow cards) can opt in. */
+  .break-anywhere {
     overflow-wrap: anywhere;
-    word-break: break-word;
-    white-space: pre-wrap;
   }
 
   input, select, textarea {
@@ -129,8 +136,12 @@
     animation: float-medium 14s infinite ease-in-out;
   }
 }
-html, body {
+/* Only <html> scrolls. Giving <body> its own overflow made it a second scroll box,
+   which broke smooth (Lenis) scrolling on every theme. */
+html {
   overflow-y: scroll;
+}
+html, body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
@@ -167,3 +178,28 @@ body::-webkit-scrollbar {
   animation: wish-burst 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
+
+/* ── Site-wide scroll reveal (see hooks/useScrollReveal.ts) ─────────────────── */
+.sr-anim {
+  transition:
+    opacity 0.8s cubic-bezier(.22, 1, .36, 1) var(--sr-delay, 0ms),
+    transform 0.8s cubic-bezier(.22, 1, .36, 1) var(--sr-delay, 0ms) !important;
+  will-change: opacity, transform;
+}
+.sr-hidden {
+  opacity: 0 !important;
+  transform: translateY(32px);
+}
+.sr-child.sr-hidden {
+  transform: translateY(20px) scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sr-anim { transition: none !important; }
+  .sr-hidden { opacity: 1 !important; transform: none; }
+}
+
+/* ── Smooth scrolling (Lenis, see hooks/useSmoothScroll.ts) ─────────────────── */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-autoToggle { transition-property: overflow; transition-duration: 1ms; transition-behavior: allow-discrete; }

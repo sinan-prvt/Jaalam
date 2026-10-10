@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail, X, Menu, ArrowUpRight, Palette, Code, Megaphone } 
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function CreativeAgencyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -318,6 +319,9 @@ export default function CreativeAgencyTheme({ website, content }: any) {
         <div className="container mx-auto flex flex-col items-center justify-center gap-6">
            <span className="font-creative-title font-black text-3xl tracking-tight text-white">{siteName}</span>
           <p className="font-medium text-sm tracking-wide uppercase">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

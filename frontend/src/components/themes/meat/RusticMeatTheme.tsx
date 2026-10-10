@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { Leaf, Truck, MapPin, Mail, Phone, Sun, ShieldCheck } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function RusticMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -323,6 +324,9 @@ export default function RusticMeatTheme({ website, content }: any) {
           <div className="font-body text-sm text-[#8F9779] uppercase tracking-widest font-bold">
             © {new Date().getFullYear()} {siteName}. All Rights Reserved.
           </div>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} />
         </div>
       </footer>
     

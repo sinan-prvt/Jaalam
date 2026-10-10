@@ -92,7 +92,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -590,6 +590,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             {!hiddenFields.includes('contact_hours') && (
                             <div className="border-t border-slate-100 pt-6 mt-8 space-y-3">
                               <h4 className="font-bold text-slate-800 text-sm mb-2">Opening Hours</h4>
+                              {content.contact_info?.hours ? (
+                                <div className="whitespace-pre-line leading-relaxed">{content.contact_info.hours}</div>
+                              ) : (
+                              <>
                               <div className="flex items-center justify-between text-xs lg:text-sm text-slate-500 font-bold">
                                 <span>Mon - Fri</span>
                                 <span className="text-slate-700 font-black">7:00 AM - 7:00 PM</span>
@@ -602,6 +606,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span>Sunday</span>
                                 <span className="text-slate-700 font-black">8:00 AM - 5:00 PM</span>
                               </div>
+                              </>
+                              )}
                             </div>
                             )}
 
@@ -609,9 +615,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             <div className="border-t border-slate-100 pt-6 mt-6">
                               <h4 className="font-bold text-slate-800 text-sm mb-3">Follow Us</h4>
                               <div className="flex items-center gap-4">
-                                {!hiddenFields.includes('contact_facebook') && (
+                                {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
                                             <a
-                                                                              href={content.contact_info?.facebook || 'https://facebook.com'}
+                                                                              href={content.contact_info.facebook}
                                                                               target="_blank"
                                                                               rel="noopener noreferrer"
                                                                               className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
@@ -619,9 +625,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                                                               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                                             </a>
                                             )}
-                                {!hiddenFields.includes('contact_instagram') && (
+                                {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
                                             <a
-                                                                              href={content.contact_info?.instagram || 'https://instagram.com'}
+                                                                              href={content.contact_info.instagram}
                                                                               target="_blank"
                                                                               rel="noopener noreferrer"
                                                                               className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-slate-100 flex items-center justify-center text-slate-600 hover:text-[#EF8F63] hover:border-[#EF8F63]/50 transition-colors shadow-sm"
@@ -1245,6 +1251,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <>
                               <h4 className="font-bold text-slate-800 text-sm mb-4 font-outfit uppercase tracking-wider">Opening Hours</h4>
                               <div className="space-y-2 text-xs lg:text-sm text-[#6B6155] font-medium">
+                                {content.contact_info?.hours ? (
+                                  <div className="whitespace-pre-line leading-relaxed">{content.contact_info.hours}</div>
+                                ) : (
+                                <>
                                 <div className="flex justify-between">
                                   <span>Mon - Fri</span>
                                   <span className="text-slate-800 font-bold">7:00 AM - 7:00 PM</span>
@@ -1257,18 +1267,20 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span>Sunday</span>
                                   <span className="text-slate-800 font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
+                                </>
+                                )}
                               </div>
                               </>
                               )}
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#EBE6DD]/40">
-                                {!hiddenFields.includes('contact_facebook') && (
-                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
+                                {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                                              <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                                               </a>
                                               )}
-                                {!hiddenFields.includes('contact_instagram') && (
-                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
+                                {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                                              <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EBE6DD] flex items-center justify-center text-slate-600 hover:text-[#C5A880] transition-colors shadow-sm">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                                                               </a>
                                               )}
@@ -1871,6 +1883,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <>
                               <h4 className="font-bold text-[#2A4B3A] text-sm mb-4 font-montserrat uppercase tracking-wider">Opening Hours</h4>
                               <div className="space-y-2 text-xs lg:text-sm text-[#5E6B61] font-medium">
+                                {content.contact_info?.hours ? (
+                                  <div className="whitespace-pre-line leading-relaxed">{content.contact_info.hours}</div>
+                                ) : (
+                                <>
                                 <div className="flex justify-between">
                                   <span>Mon - Fri</span>
                                   <span className="text-[#2A4B3A] font-bold">7:00 AM - 7:00 PM</span>
@@ -1883,18 +1899,20 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span>Sunday</span>
                                   <span className="text-[#2A4B3A] font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
+                                </>
+                                )}
                               </div>
                               </>
                               )}
 
                               <div className="flex items-center gap-3 mt-8 pt-6 border-t border-[#E6DEC9]">
-                                {!hiddenFields.includes('contact_facebook') && (
-                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
+                                {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                                              <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                                               </a>
                                               )}
-                                {!hiddenFields.includes('contact_instagram') && (
-                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
+                                {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                                              <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#FAF5ED] border border-[#E6DEC9] flex items-center justify-center text-[#2A4B3A] hover:text-[#C27D56] transition-colors shadow-sm">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                                                               </a>
                                               )}
@@ -2482,6 +2500,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               <>
                               <h4 className="font-bold text-white text-xs font-grotesk uppercase tracking-widest mb-6">Opening Hours</h4>
                               <div className="space-y-3 text-sm text-slate-400 font-inter font-light">
+                                {content.contact_info?.hours ? (
+                                  <div className="whitespace-pre-line leading-relaxed">{content.contact_info.hours}</div>
+                                ) : (
+                                <>
                                 <div className="flex justify-between border-b border-[#222222] pb-2">
                                   <span>Mon - Fri</span>
                                   <span className="text-white font-bold">7:00 AM - 7:00 PM</span>
@@ -2494,18 +2516,20 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                   <span>Sunday</span>
                                   <span className="text-white font-bold">8:00 AM - 5:00 PM</span>
                                 </div>
+                                </>
+                                )}
                               </div>
                               </>
                               )}
 
                               <div className="flex items-center gap-4 mt-12 pt-8 border-t border-[#222222]">
-                                {!hiddenFields.includes('contact_facebook') && (
-                                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
+                                {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                                              <a href={content.contact_info.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                                               </a>
                                               )}
-                                {!hiddenFields.includes('contact_instagram') && (
-                                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
+                                {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                                              <a href={content.contact_info.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#222222] flex items-center justify-center text-slate-400 hover:text-[#D4A373] hover:border-[#D4A373]/50 transition-colors">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                                                               </a>
                                               )}
@@ -3028,6 +3052,10 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           <div className="pt-2">
                             <h4 className={`font-bold ${colors.textDark} text-sm mb-2 uppercase tracking-wider`}>Opening Hours</h4>
                             <div className="space-y-1 text-sm text-slate-500">
+                              {content.contact_info?.hours ? (
+                                <div className="whitespace-pre-line leading-relaxed">{content.contact_info.hours}</div>
+                              ) : (
+                              <>
                               <div className="flex justify-between">
                                 <span>Mon - Fri</span>
                                 <span className={`font-medium ${colors.textDark}`}>7:00 AM - 7:00 PM</span>
@@ -3040,6 +3068,8 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 <span>Sunday</span>
                                 <span className={`font-medium ${colors.textDark}`}>8:00 AM - 5:00 PM</span>
                               </div>
+                              </>
+                              )}
                             </div>
                           </div>
                           )}
@@ -3048,9 +3078,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                                           <div className="pt-4">
                                                             <h4 className={`font-bold ${colors.textDark} text-sm mb-3 uppercase tracking-wider`}>Follow Us</h4>
                                                             <div className="flex items-center gap-4">
-                                                              {!hiddenFields.includes('contact_facebook') && (
+                                                              {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
                                                 <a
-                                                                                                                href={content.contact_info?.facebook || 'https://facebook.com'}
+                                                                                                                href={content.contact_info.facebook}
                                                                                                                 target="_blank"
                                                                                                                 rel="noopener noreferrer"
                                                                                                                 className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"
@@ -3058,9 +3088,9 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                                                                               </a>
                                                 )}
-                                                              {!hiddenFields.includes('contact_instagram') && (
+                                                              {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
                                                 <a
-                                                                                                                href={content.contact_info?.instagram || 'https://instagram.com'}
+                                                                                                                href={content.contact_info.instagram}
                                                                                                                 target="_blank"
                                                                                                                 rel="noopener noreferrer"
                                                                                                                 className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#C19A6B] hover:border-[#C19A6B]/50 transition-colors bg-white shadow-sm"

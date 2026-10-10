@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail, X, Menu, ArrowRight, Activity, Cpu, Cloud, Zap } f
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function TechStartupTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -351,6 +352,9 @@ export default function TechStartupTheme({ website, content }: any) {
       <footer className="bg-[#050508] py-8 px-6 font-tech-title text-xs text-gray-500 text-center border-t border-white/5">
         <div className="container mx-auto">
           <p>SYSTEM_ID: {siteName.toUpperCase().replace(/\s+/g, '_')} // © {new Date().getFullYear()} ALL RIGHTS RESERVED.</p>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

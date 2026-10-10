@@ -76,7 +76,7 @@ export default function PopFancyTheme({ website, content }: any) {
 
       {/* Glassmorphism Header */}
       <header className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center bg-white/70 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <a href="#" className="font-pop-display text-2xl font-extrabold tracking-tight text-slate-900">{siteName}</a>
+        <a href="#" className="font-pop-display text-2xl font-extrabold tracking-tight text-slate-900">{content?.settings_json?.logo_image ? <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-8 md:h-10 w-auto object-contain" /> : siteName}</a>
         
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8 items-center">

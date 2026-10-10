@@ -28,7 +28,7 @@ function App() {
             } 
           }} 
         />
-        <ClickSpark sparkColor="#00ffff" sparkCount={6} sparkRadius={20} sparkSize={8} duration={350}>
+        <ClickSpark sparkColor="#e49b6b" sparkCount={6} sparkRadius={20} sparkSize={8} duration={350}>
           <Router />
         </ClickSpark>
       </Provider>

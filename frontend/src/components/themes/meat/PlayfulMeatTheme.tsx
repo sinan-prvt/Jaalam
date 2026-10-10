@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { Smile, Bone, MapPin, Mail, Phone, ShoppingCart, Star } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function PlayfulMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -308,6 +309,9 @@ export default function PlayfulMeatTheme({ website, content }: any) {
           <div className="font-body font-black text-sm text-[#F48C06] bg-white inline-block px-6 py-2 rounded-full border-4 border-[#F48C06]">
             © {new Date().getFullYear()} {siteName}. All Rights Reserved.
           </div>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} />
         </div>
       </footer>
     

@@ -59,7 +59,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -210,9 +210,13 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
             {/* Brand */}
             <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2 group">
-              <span className={`font-glamour text-2xl font-bold tracking-wide transition-colors duration-300 ${scrolled ? 'text-stone-900' : 'text-stone-900'}`}>
-                {siteName}
-              </span>
+              {content.settings_json?.logo_image ? (
+                <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-9 md:h-11 w-auto max-w-[180px] object-contain" />
+              ) : (
+                <span className="font-glamour text-2xl font-bold tracking-wide text-stone-900">
+                  {siteName}
+                </span>
+              )}
             </button>
 
             {/* Desktop Links */}
@@ -674,11 +678,26 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
                               <div className="w-full h-px bg-stone-200/70" />
 
+                              {!hiddenFields.includes('contact_hours') && content.contact_info?.hours && (
+                                <>
+                                  <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm" style={{ backgroundColor: `${gold}15`, color: gold }}>
+                                      <Clock size={20} />
+                                    </div>
+                                    <div>
+                                      <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-stone-400 mb-1">Opening Hours</p>
+                                      <p className="text-sm font-bold text-stone-800 whitespace-pre-line">{content.contact_info.hours}</p>
+                                    </div>
+                                  </div>
+                                  <div className="w-full h-px bg-stone-200/70" />
+                                </>
+                              )}
+
                               {/* Social Links */}
                               <div className="flex items-center gap-4 pt-2">
-                                {!hiddenFields.includes('contact_instagram') && (
+                                {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
                                               <a
-                                                                                href={content.contact_info?.instagram || '#'}
+                                                                                href={content.contact_info.instagram}
                                                                                 target="_blank"
                                                                                 rel="noreferrer"
                                                                                 className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
@@ -689,9 +708,9 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                                                                 <InstagramIcon size={18} />
                                                                               </a>
                                               )}
-                                {!hiddenFields.includes('contact_facebook') && (
+                                {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
                                               <a
-                                                                                href={content.contact_info?.facebook || '#'}
+                                                                                href={content.contact_info.facebook}
                                                                                 target="_blank"
                                                                                 rel="noreferrer"
                                                                                 className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
@@ -701,8 +720,9 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                                                                 <FacebookIcon size={18} />
                                                                               </a>
                                               )}
+                                {content.contact_info?.twitter && (
                                 <a
-                                  href={content.contact_info?.twitter || '#'}
+                                  href={content.contact_info.twitter}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:border-transparent transition-all duration-300"
@@ -711,6 +731,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                                 >
                                   <TwitterIcon size={18} />
                                 </a>
+                                )}
                               </div>
                                 
                                 <div className="pt-6 mt-8 border-t border-stone-200">
@@ -794,24 +815,30 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-left">
                 {/* Brand Column */}
                 <div className="space-y-5">
-                  <h4 className="font-glamour text-2xl font-bold" style={{ color: gold }}>{siteName}</h4>
+                  {content.settings_json?.logo_image ? (
+                    <img loading="lazy" src={content.settings_json.logo_image} alt={siteName} className="h-12 w-auto max-w-[200px] object-contain" />
+                  ) : (
+                    <h4 className="font-glamour text-2xl font-bold" style={{ color: gold }}>{siteName}</h4>
+                  )}
                   <p className="text-stone-400 text-sm leading-relaxed font-medium max-w-xs">
                     {heroDescription.length > 120 ? heroDescription.slice(0, 120) + '...' : heroDescription}
                   </p>
                   <div className="flex gap-3 pt-2">
-                    {!hiddenFields.includes('contact_instagram') && (
-                                      <a href={content.contact_info?.instagram || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
+                    {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                                      <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
                                                             <InstagramIcon size={16} />
                                                           </a>
                                       )}
-                    {!hiddenFields.includes('contact_facebook') && (
-                                      <a href={content.contact_info?.facebook || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
+                    {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                                      <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
                                                             <FacebookIcon size={16} />
                                                           </a>
                                       )}
-                    <a href={content.contact_info?.twitter || '#'} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
+                    {content.contact_info?.twitter && (
+                    <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center text-stone-500 hover:border-amber-500 hover:text-amber-400 transition-colors">
                       <TwitterIcon size={16} />
                     </a>
+                    )}
                   </div>
                 </div>
 
@@ -843,9 +870,15 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     <li className="flex items-center gap-2.5">
                       <Mail size={16} className="shrink-0" style={{ color: gold }} />
                       {!hiddenFields.includes('contact_email') && (
-                                          <span>{content.contact_info?.email || 'hello@beautify.com'}</span>
+                                          <span className="break-anywhere">{content.contact_info?.email || 'hello@beautify.com'}</span>
                                           )}
                     </li>
+                    {!hiddenFields.includes('contact_hours') && content.contact_info?.hours && (
+                      <li className="flex items-start gap-2.5">
+                        <Clock size={16} className="shrink-0 mt-0.5" style={{ color: gold }} />
+                        <span className="leading-snug whitespace-pre-line">{content.contact_info.hours}</span>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>

@@ -81,6 +81,7 @@ import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTh
 import ReligiousEventTheme from '../../components/themes/religious/ReligiousEventTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import useSmoothScroll from '../../hooks/useSmoothScroll';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
@@ -90,6 +91,7 @@ import CustomCursor from '../../components/ui/CustomCursor';
 function LivePreviewContent() {
   const [data, setData] = useState<any>(null);
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
+  useSmoothScroll();
 
   useEffect(() => {
     if (data?.content?.settings_json?.show_language_widget === false) {

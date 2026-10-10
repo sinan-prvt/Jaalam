@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { Star, Gift, ShoppingCart, MapPin, Mail, Phone, Heart } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function PlayfulFancyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -250,6 +251,9 @@ export default function PlayfulFancyTheme({ website, content }: any) {
                       <div className="flex flex-col items-center gap-2"><MapPin className="text-green-400" /> {content.contact_info?.address || 'Fun Street, Kerala'}</div>
                       )}
           </div>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} />
         </div>
       </footer>
     

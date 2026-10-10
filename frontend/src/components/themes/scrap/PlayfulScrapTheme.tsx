@@ -5,6 +5,7 @@ import { Package, Truck, Phone, Mail, MapPin, DollarSign, X, Clock, Menu } from 
 import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function PlayfulScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -351,6 +352,9 @@ export default function PlayfulScrapTheme({ website, content }: any) {
           <p className="font-body font-bold text-sm text-gray-500">
             &copy; {new Date().getFullYear()} {siteName}. All junk belongs to us.
           </p>
+        </div>
+        <div className="px-6 pb-2">
+          <ContactExtras content={content} showSocial={false} />
         </div>
       </footer>
 

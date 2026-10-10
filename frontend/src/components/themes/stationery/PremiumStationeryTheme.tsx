@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { PenTool, Diamond, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
+import ContactExtras from '../shared/ContactExtras';
 export default function PremiumStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -135,6 +136,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
               <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">{service.description}</p>
             </div>
           ))}
+          </div>
         </div>
       </section>
 
@@ -164,7 +166,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
                'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
                'https://images.unsplash.com/photo-1590740924976-13a8fc6470aa?auto=format&fit=crop&w=600&q=80',
                'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=600&q=80'
-             ]).map((img, idx) => (
+             ]).map((img: string, idx: number) => (
                 <div key={idx} className="aspect-[4/5] overflow-hidden group">
                   <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 filter grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100" />
                 </div>
@@ -277,6 +279,9 @@ export default function PremiumStationeryTheme({ website, content }: any) {
         </div>
       
             <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
+            <div className="px-6 pb-2">
+              <ContactExtras content={content} />
+            </div>
           </footer>
 
       <AllProductsModal isOpen={showAllProducts} onClose={() => setShowAllProducts(false)} products={products || []} onProductSelect={setSelectedProduct} />
