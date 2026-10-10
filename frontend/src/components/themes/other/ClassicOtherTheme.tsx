@@ -58,7 +58,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
 
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'block' }} className="relative bg-[#2C2C2C] text-[#F9F7F1]">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-30"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 py-32 px-6 text-center">
           {!hiddenFields.includes("hero_title") && (
               <h1 className="font-classic-title text-5xl md:text-7xl font-bold mb-6 leading-tight">

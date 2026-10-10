@@ -7,7 +7,7 @@ const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
-import { weddingCategories, birthdayCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -194,6 +194,10 @@ export default function WebsiteEditor() {
         navigate(`/birthday-editor/${websiteId}`, { replace: true });
         return;
       }
+      if (res.data?.business_type && housewarmingCategories.includes(res.data.business_type)) {
+        navigate(`/housewarming-editor/${websiteId}`, { replace: true });
+        return;
+      }
       if (res.data?.business_type && collegeFestCategories.includes(res.data.business_type)) {
         navigate(`/fest-editor/${websiteId}`, { replace: true });
         return;
@@ -295,8 +299,8 @@ export default function WebsiteEditor() {
 
       {/* VIBRANT BENTO MESH BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-indigo-300 to-sky-300 mix-blend-multiply filter blur-[120px] opacity-40 animate-[spin_30s_linear_infinite_reverse]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-300 filter blur-[100px] opacity-40"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-indigo-300 to-sky-300 filter blur-[120px] opacity-40"></div>
       </div>
 
       {/* MOBILE TOGGLE BAR */}
@@ -698,6 +702,12 @@ export default function WebsiteEditor() {
                     placeholder="A brief description for your hero section..."
                   />
                 </div>
+                <ImageUpload
+                  label="Hero Background Image (Optional)"
+                  hint="Wide photo, at least 1600px across"
+                  value={content.settings_json?.hero_image || content.hero_image || ''}
+                  onChange={(val: string) => setContent({ ...content, hero_image: val, settings_json: { ...(content.settings_json || {}), hero_image: val } })}
+                />
               </div>
             </div>
           )}
@@ -725,6 +735,11 @@ export default function WebsiteEditor() {
                     placeholder="Tell your visitors about your business..."
                   />
                 </div>
+                <ImageUpload
+                  label="About Image (Optional)"
+                  value={content.settings_json?.about_image || content.about_image || ''}
+                  onChange={(val: string) => setContent({ ...content, about_image: val, settings_json: { ...(content.settings_json || {}), about_image: val } })}
+                />
               </div>
             </div>
           )}

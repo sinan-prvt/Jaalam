@@ -222,7 +222,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
               <FadeIn delay={400}>
                 <p className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto mb-12 font-light leading-relaxed break-words whitespace-pre-wrap">
                   {(() => {
-                    const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                    const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                     if (!t || t === 'Add your business description here.' || t.trim() === '') {
                       return 'Discover tranquility and strength in our serene oasis. A space dedicated to mindful movement and inner peace.';
                     }

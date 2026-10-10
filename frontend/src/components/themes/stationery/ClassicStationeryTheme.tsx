@@ -104,7 +104,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   </h1>
               )}
                   <p className="font-body text-lg text-[#6A5A4A] mb-12 max-w-2xl mx-auto italic">
-                    {content.about_text || 'Discover our curated collection of premium fountain pens, handcrafted leather journals, and timeless stationery accessories.'}
+                    {content.hero_description || content.hero_text || content.about_text || 'Discover our curated collection of premium fountain pens, handcrafted leather journals, and timeless stationery accessories.'}
                   </p>
                   <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80'} alt="Classic Stationery" className="w-full h-96 object-cover shadow-2xl border-4 border-white" />
                 </div>

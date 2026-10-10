@@ -64,7 +64,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
         <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-16">
           <div className="w-full md:w-1/2 relative">
              <div className="absolute inset-0 bg-[#8C3A3A] translate-x-4 translate-y-4"></div>
-             <img loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d615ef?auto=format&fit=crop&w=800&q=80" alt="Silk Saree" className="relative z-10 w-full h-auto object-cover shadow-xl border-4 border-white" />
+             <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1610030469983-98e550d615ef?auto=format&fit=crop&w=800&q=80'} alt="Silk Saree" className="relative z-10 w-full h-auto object-cover shadow-xl border-4 border-white" />
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="font-elegant text-4xl md:text-5xl font-bold mb-6 text-[#4A3B32] leading-tight">

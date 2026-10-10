@@ -50,7 +50,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
            <div className="w-1/2 h-full bg-[#EAEAEA]"></div>
            <div className="w-1/2 h-full bg-[#F5F5F5]"></div>
         </div>
-        <img loading="lazy" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80" alt="Fashion Editorial" className="absolute inset-0 w-full h-full object-cover filter grayscale" />
+        <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80'} alt="Fashion Editorial" className="absolute inset-0 w-full h-full object-cover filter grayscale" />
         
         <div className="absolute bottom-10 left-10 md:left-20 max-w-lg mix-blend-difference text-white">
           {!hiddenFields.includes("hero_title") && (

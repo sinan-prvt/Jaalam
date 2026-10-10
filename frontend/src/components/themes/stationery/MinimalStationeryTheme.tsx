@@ -110,7 +110,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
               )}
                   <div className="flex flex-col md:flex-row gap-8 items-start md:items-end justify-between border-t border-black pt-8">
                     <p className="font-minimal text-lg md:text-xl font-light max-w-md text-gray-600">
-                      {content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace. Stripped of all the unnecessary.'}
+                      {content.hero_description || content.hero_text || content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace. Stripped of all the unnecessary.'}
                     </p>
                     <a href="#collection" className="inline-flex items-center gap-2 font-minimal text-sm font-bold uppercase tracking-widest hover:gap-4 transition-all">
                       Discover <ArrowRight size={16} />

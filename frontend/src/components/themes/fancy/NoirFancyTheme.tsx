@@ -140,7 +140,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </h1>
               )}
                     <p className="font-noir-body text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
-                      {content.about_text || content.hero_text || 'The absence of color is the presence of everything.'}
+                      {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'The absence of color is the presence of everything.'}
                     </p>
                     <div className="mt-16 md:mt-24">
                       <div className="w-[1px] h-16 md:h-24 bg-gradient-to-b from-white to-transparent mx-auto"></div>

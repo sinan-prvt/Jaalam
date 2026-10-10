@@ -76,7 +76,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
 
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative bg-[#0B1D3A] text-white py-24 md:py-32 px-6">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-3/5">
             <div className="inline-block border border-[#C49A3C] text-[#C49A3C] font-sans-body text-xs font-bold tracking-[0.2em] uppercase py-1 px-3 mb-6">

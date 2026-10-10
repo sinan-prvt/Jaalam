@@ -235,8 +235,9 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             <Star className="text-yellow-400 fill-current" size={32} />
             <span className="font-playful text-4xl font-bold text-white tracking-wider">{siteName}</span>
           </div>
+          {(content.settings_json?.about_title || content.about_title) && <h4 className="font-playful text-2xl font-bold text-white mb-4">{content.settings_json?.about_title || content.about_title}</h4>}
           <p className="font-body text-lg max-w-lg mx-auto mb-12 font-bold">
-            {content.about_text || "Bringing smiles with every accessory! The cutest fancy store in town."}
+            {content.settings_json?.about_description || content.about_text || "Bringing smiles with every accessory! The cutest fancy store in town."}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-body font-bold bg-purple-900/50 p-6 rounded-3xl">
             {!hiddenFields.includes('contact_phone') && (

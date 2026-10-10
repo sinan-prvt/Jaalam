@@ -61,7 +61,7 @@ export default function NoirOtherTheme({ website, content }: any) {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a] z-10"></div>
-          <img loading="lazy" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=80" alt="Hero Background" className="w-full h-full object-cover opacity-40 grayscale" />
+          <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1600&q=80'} alt="Hero Background" className="w-full h-full object-cover opacity-40 grayscale" />
         </div>
         
         <div className="container mx-auto max-w-6xl relative z-20">

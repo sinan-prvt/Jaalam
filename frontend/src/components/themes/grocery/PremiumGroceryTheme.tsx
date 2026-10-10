@@ -68,7 +68,7 @@ export default function PremiumGroceryTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1606103920295-9a091573f160?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1606103920295-9a091573f160?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/50 to-transparent"></div>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center">

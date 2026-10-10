@@ -18,6 +18,13 @@ export default function VintageStationeryTheme({ website, content }: any) {
     { name: 'Vintage Map Journal', price: '₹800', image: 'https://images.unsplash.com/photo-1590740924976-13a8fc6470aa?auto=format&fit=crop&w=600&q=80', description: 'Journal covered in a replica of an 18th-century map.' }
   ];
 
+  const defaultServices = [
+    { title: 'Custom Monograms', description: 'Personalized stationery tailored to your exact specifications.' },
+    { title: 'Archival Sourcing', description: 'Rare and vintage supplies procured upon request.' },
+    { title: 'Wax Sealing', description: 'Beautiful, elegant wrapping for those special occasions.' }
+  ];
+  const services = content.services_json?.length > 0 ? content.services_json : defaultServices;
+
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#EFE9E1] text-[#3E362E] font-serif relative border-x-8 border-y-8 border-[#8B7355]">
       <style>{`
@@ -41,7 +48,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
       <header className="border-b-4 border-double border-[#8B7355] py-8 mx-6">
         <div className="container mx-auto text-center">
           <div className="inline-block border-2 border-[#8B7355] p-2 mb-4">
-             <Type size={32} className="text-[#5C4A3D]" />
+             {content.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt="Logo" className="h-8 w-8 object-contain" /> : <Type size={32} className="text-[#5C4A3D]" />}
           </div>
           <h1 className="font-vintage text-5xl md:text-6xl text-[#3E362E] tracking-wider uppercase mb-2">{siteName}</h1>
           <p className="font-typewriter text-xs tracking-[0.3em] text-[#8B7355]">EST. 1920 • FINE STATIONERY & SUPPLIES</p>
@@ -51,7 +58,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
       {/* Hero */}
       <section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="w-full md:w-1/2">
-           <img loading="lazy" src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80" alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
+           <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80'} alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="font-vintage text-4xl mb-6 italic text-[#5C4A3D]">
@@ -101,9 +108,9 @@ export default function VintageStationeryTheme({ website, content }: any) {
       {/* About */}
       <section id="about" className="py-20 px-6 max-w-5xl mx-auto border-t border-dashed border-[#8B7355]">
         <div className="text-center">
-          <h3 className="font-vintage text-4xl mb-6 uppercase tracking-widest text-[#5C4A3D]">Our History</h3>
+          <h3 className="font-vintage text-4xl mb-6 uppercase tracking-widest text-[#5C4A3D]">{content.settings_json?.about_title || content.about_title || 'Our History'}</h3>
           <p className="font-typewriter text-sm leading-relaxed max-w-2xl mx-auto text-[#5C4A3D]">
-            {content.about_text || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
+            {content.settings_json?.about_description || content.about_text || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
           </p>
         </div>
       </section>
@@ -112,18 +119,13 @@ export default function VintageStationeryTheme({ website, content }: any) {
       <section id="services" className="py-20 px-6 max-w-5xl mx-auto border-t border-dashed border-[#8B7355]">
         <h3 className="font-vintage text-4xl text-center mb-12 uppercase tracking-widest text-[#5C4A3D]">Services</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
-            <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">Custom Monograms</h4>
-            <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">Personalized stationery tailored to your exact specifications.</p>
-          </div>
-          <div className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
-            <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">Archival Sourcing</h4>
-            <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">Rare and vintage supplies procured upon request.</p>
-          </div>
-          <div className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
-            <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">Wax Sealing</h4>
-            <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">Beautiful, elegant wrapping for those special occasions.</p>
-          </div>
+          {services.map((service: any, i: number) => (
+            <div key={i} className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
+              {service.image && <img loading="lazy" src={service.image} alt={service.title} className="w-full h-40 object-cover mb-6" />}
+              <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">{service.title || service.name}</h4>
+              <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">{service.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -143,12 +145,12 @@ export default function VintageStationeryTheme({ website, content }: any) {
       <section id="gallery" className="py-20 px-6 max-w-5xl mx-auto border-t border-dashed border-[#8B7355]">
         <h3 className="font-vintage text-4xl text-center mb-12 uppercase tracking-widest text-[#5C4A3D]">Exhibition</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-           {[
+           {(content.gallery_json?.length > 0 ? content.gallery_json.map((g: any) => (typeof g === 'string' ? g : g.url || g.image)) : [
              'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=400&q=80',
              'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80',
              'https://images.unsplash.com/photo-1590740924976-13a8fc6470aa?auto=format&fit=crop&w=400&q=80',
              'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=400&q=80'
-           ].map((img, idx) => (
+           ]).map((img, idx) => (
               <div key={idx} className="aspect-square border-4 border-[#F7F4F0] shadow-md bg-white p-2 transform transition-transform hover:scale-105 hover:-rotate-1">
                 <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover filter sepia contrast-125" />
               </div>

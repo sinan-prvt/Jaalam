@@ -107,7 +107,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                     </h1>
               )}
                     <p className="font-modern text-lg text-slate-500 mb-8 leading-relaxed max-w-lg">
-                      {content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace.'}
+                      {content.hero_description || content.hero_text || content.about_text || 'Premium, functional, and beautifully designed stationery for the modern workspace.'}
                     </p>
                     <a href="#products" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-modern font-semibold py-3 px-8 rounded-lg transition-colors">
                       Shop Now <ArrowRight size={18} />

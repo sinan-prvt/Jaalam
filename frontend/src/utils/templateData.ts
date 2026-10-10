@@ -137,12 +137,14 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     'Consulting': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
     'Wedding Invitation': 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
     'Islamic Invitation': 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80',
-    'South Indian Wedding': 'https://images.unsplash.com/photo-1583939000185-1bf2df2cbf54?auto=format&fit=crop&w=800&q=80',
-    'Kerala Traditional': 'https://images.unsplash.com/photo-1629813589433-2ba920ee9b5e?auto=format&fit=crop&w=800&q=80',
+    'South Indian Wedding': 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80',
+    'Kerala Traditional': 'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?auto=format&fit=crop&w=800&q=80',
     'Punjabi Traditional': 'https://images.unsplash.com/photo-1579227114347-15d08fc37cae?auto=format&fit=crop&w=800&q=80',
-    'Bengali Wedding': 'https://images.unsplash.com/photo-1601296200639-89349ce767cb?auto=format&fit=crop&w=800&q=80',
-    'Christian Invitation': 'https://images.unsplash.com/photo-1532712938730-4e36c457b9c7?auto=format&fit=crop&w=800&q=80',
+    'Bengali Wedding': 'https://images.unsplash.com/photo-1595407753234-0882f1e77954?auto=format&fit=crop&w=800&q=80',
+    'Christian Invitation': 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
     'Engagement Invitation': 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+    'Classic Engagement': 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80',
+    'Modern Engagement': 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=800&q=80',
     'Other': 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
   };
 
@@ -161,7 +163,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Premium') return 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Organic') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1560159813-f66d40510006?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Playful') return 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Noir') return 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80&grayscale';
     if (theme === 'Pop') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80&sat=200';
   }
@@ -170,7 +172,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Boutique') return 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Minimalist') return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Streetwear') return 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Tech Gadget') return 'https://images.unsplash.com/photo-1531297172864-45d1b11e2fb9?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Tech Gadget') return 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Organic Store') return 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
   }
 
@@ -230,11 +232,13 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
   }
 
   if (businessType && weddingCategories.includes(businessType)) {
-    if (theme === 'Classic') return defaults[businessType] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Modern') return defaults[businessType] + '&sat=-50' || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Floral') return defaults[businessType] + '&sat=150' || 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Minimal') return defaults[businessType] + '&con=-20' || 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80';
-    if (theme === 'Elegant') return defaults[businessType] + '&bri=-20' || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80';
+    // Some categories (e.g. Classic/Modern Engagement) have no default image — fall back so URLs never become "undefined&..."
+    const base = defaults[businessType] || defaults['Engagement Invitation'] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Classic') return base;
+    if (theme === 'Modern') return base + '&sat=-50';
+    if (theme === 'Floral') return base + '&sat=150';
+    if (theme === 'Minimal') return base + '&con=-20';
+    if (theme === 'Elegant') return base + '&bri=-20';
   }
 
   if (businessType === 'Other') {

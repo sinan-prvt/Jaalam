@@ -231,7 +231,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               <FadeIn delay={400} dir="left">
                 <p className="text-base md:text-xl text-gray-400 max-w-xl mb-10 font-bold leading-relaxed break-words whitespace-pre-wrap overflow-hidden px-1 border-l-4 border-[#FF2A2A] pl-4">
                   {(() => {
-                    const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                    const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                     if (!t || t === 'Add your business description here.' || t.trim() === '') {
                       return 'Join the elite. Train in a facility designed for maximum intensity and optimal performance.';
                     }

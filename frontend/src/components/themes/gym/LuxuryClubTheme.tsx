@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, X, HeartPulse, Star, Menu } from 'lucide-react';
+import { MapPin, Phone, X, HeartPulse, Star, Menu, Mail } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -229,7 +229,7 @@ export default function LuxuryClubTheme({ website, content }: Props) {
               <FadeIn delay={400}>
                 <p className="text-sm md:text-lg text-gray-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed break-words whitespace-pre-wrap">
                   {(() => {
-                    const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                    const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                     if (!t || t === 'Add your business description here.' || t.trim() === '') {
                       return 'An exclusive sanctuary for those who demand excellence in fitness, recovery, and lifestyle.';
                     }
@@ -472,6 +472,16 @@ export default function LuxuryClubTheme({ website, content }: Props) {
                                                   )}
                             </div>
                           </div>
+
+                          {!hiddenFields.includes('contact_email') && content.contact_info?.email && (
+                          <div className="flex items-start gap-4">
+                            <Mail className="text-[#D4C5B9] mt-1 shrink-0" size={18} strokeWidth={1.5} />
+                            <div className="flex-1 min-w-0 break-words">
+                              <h4 className="lc-subheading text-[#0A1128] mb-1">Email</h4>
+                              <a href={`mailto:${content.contact_info.email}`} className="text-gray-500 font-light text-sm break-all hover:underline">{content.contact_info.email}</a>
+                            </div>
+                          </div>
+                          )}
                           
                           <div className="flex items-start gap-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#D4C5B9] mt-1 shrink-0"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>

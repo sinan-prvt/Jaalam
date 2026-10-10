@@ -222,8 +222,8 @@ export default function HousewarmingEditor() {
     <div className="flex h-screen bg-emerald-50/20 font-sans overflow-hidden relative">
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-200 mix-blend-multiply filter blur-[100px] opacity-40"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-teal-200 mix-blend-multiply filter blur-[120px] opacity-40"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-200 filter blur-[100px] opacity-40"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-teal-200 filter blur-[120px] opacity-40"></div>
       </div>
 
       {/* Mobile Nav */}

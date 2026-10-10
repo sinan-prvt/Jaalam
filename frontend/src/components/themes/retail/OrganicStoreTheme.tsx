@@ -169,7 +169,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               </h1>
               )}
               <p className="os-body text-lg md:text-xl text-[#6B705C] mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed break-words whitespace-pre-wrap">
-                {content.about_text || 'Sustainable products for a mindful lifestyle. Sourced ethically from nature.'}
+                {content.hero_description || content.hero_text || content.about_text || 'Sustainable products for a mindful lifestyle. Sourced ethically from nature.'}
               </p>
               <a href="#shop" className="inline-block bg-[#4A5D23] text-white os-body font-medium px-8 py-4 rounded-full hover:bg-[#3A4A1C] transition-colors shadow-lg shadow-[#4A5D23]/20">
                 Explore Collection

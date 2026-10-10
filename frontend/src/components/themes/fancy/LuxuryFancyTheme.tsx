@@ -51,7 +51,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1515562141207-7a48fb3c274d?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1515562141207-7a48fb3c274d?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
         
         <div className="container mx-auto px-6 relative z-10 text-center">
@@ -61,6 +61,9 @@ export default function LuxuryFancyTheme({ website, content }: any) {
             {content.hero_title || 'Pure Opulence.'}
           </h1>
               )}
+            {!hiddenFields.includes("hero_description") && (content.hero_description || content.hero_text) && (
+              <p className="font-body max-w-2xl mx-auto text-sm md:text-base tracking-widest text-gray-300 mb-10 leading-relaxed break-words whitespace-pre-wrap">{content.hero_description || content.hero_text}</p>
+            )}
           <a href="#exclusive" className="inline-flex items-center gap-4 border border-[#E5C158] text-[#E5C158] hover:bg-[#E5C158] hover:text-black px-12 py-5 font-body uppercase tracking-[0.2em] text-[10px] transition-all duration-500">
             View Collection <ChevronRight size={14} />
           </a>
@@ -217,8 +220,9 @@ export default function LuxuryFancyTheme({ website, content }: any) {
       <footer id="about" className="py-24 px-6 bg-[#0A0A0A] border-t border-[#E5C158]/20">
         <div className="container mx-auto max-w-4xl text-center">
           <h3 className="font-luxury text-3xl text-white mb-8 tracking-widest uppercase">{siteName}</h3>
+          {(content.settings_json?.about_title || content.about_title) && <h4 className="font-luxury text-xl text-[#E5C158] mb-4 tracking-widest">{content.settings_json?.about_title || content.about_title}</h4>}
           <p className="font-body text-xs text-gray-400 tracking-widest leading-loose max-w-lg mx-auto mb-16">
-            {content.about_text || "Curating the finest luxury accessories, fragrances, and statement jewelry pieces."}
+            {content.settings_json?.about_description || content.about_text || "Curating the finest luxury accessories, fragrances, and statement jewelry pieces."}
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 font-body text-[10px] tracking-widest text-gray-500">

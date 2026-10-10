@@ -88,7 +88,7 @@ export default function PremiumMeatTheme({ website, content }: any) {
                 </h1>
               )}
                 <p className="font-body text-sm text-gray-300 tracking-widest uppercase max-w-2xl mx-auto mb-10 leading-loose">
-                  {content.about_text || content.hero_text || 'Exclusive purveyors of dry-aged steaks, wagyu, and artisanal cuts for the true connoisseur.'}
+                  {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'Exclusive purveyors of dry-aged steaks, wagyu, and artisanal cuts for the true connoisseur.'}
                 </p>
                 <a href="#cuts" className="inline-block border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black px-10 py-3 font-body uppercase tracking-[0.2em] text-xs transition-colors">
                   View Selection

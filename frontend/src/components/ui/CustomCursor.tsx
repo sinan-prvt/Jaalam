@@ -1,82 +1,73 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
+/*
+  Lightweight custom cursor.
+  - Renders only on mouse/trackpad devices.
+  - rAF runs only when the mouse actually moves (no idle 60fps loop).
+  - No mix-blend-mode (that forced the whole page to re-composite every frame),
+    no getComputedStyle on hover, no CSS transition lag on position.
+*/
 const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    // Hide default cursor globally when this component mounts
-    document.documentElement.style.cursor = 'none';
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const el = cursorRef.current;
+    if (!el) return;
 
-    let requestRef: number;
-    let mouseX = -100;
-    let mouseY = -100;
+    let x = -100;
+    let y = -100;
+    let hovering = false;
+    let raf = 0;
 
-    const updatePosition = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    const render = () => {
+      raf = 0;
+      el.style.transform = `translate3d(${x - 16}px, ${y - 16}px, 0)`;
+      el.dataset.hovering = hovering ? 'true' : 'false';
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(render);
     };
 
-    const animateCursor = () => {
-      if (cursorRef.current) {
-        // Direct DOM manipulation for maximum performance, bypassing React state
-        cursorRef.current.style.transform = `translate(${mouseX - 16}px, ${mouseY - 16}px) scale(${
-          cursorRef.current.dataset.hovering === 'true' ? 1.5 : 1
-        })`;
-      }
-      requestRef = requestAnimationFrame(animateCursor);
+    const onMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      el.style.opacity = '1';
+      schedule();
+    };
+    const onOver = (e: MouseEvent) => {
+      const t = e.target as Element | null;
+      hovering = !!t?.closest?.('a, button, [role="button"], select, label, summary');
+      schedule();
+    };
+    const onLeave = () => {
+      el.style.opacity = '0';
     };
 
-    const updateHoverState = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.tagName.toLowerCase() === 'a' ||
-        target.tagName.toLowerCase() === 'button' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        window.getComputedStyle(target).cursor === 'pointer'
-      ) {
-        setIsHovering(true);
-        if (cursorRef.current) cursorRef.current.dataset.hovering = 'true';
-      } else {
-        setIsHovering(false);
-        if (cursorRef.current) cursorRef.current.dataset.hovering = 'false';
-      }
-    };
-
-    window.addEventListener('mousemove', updatePosition, { passive: true });
-    window.addEventListener('mouseover', updateHoverState, { passive: true });
-    requestRef = requestAnimationFrame(animateCursor);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseover', onOver, { passive: true });
+    document.documentElement.addEventListener('mouseleave', onLeave);
 
     return () => {
-      document.documentElement.style.cursor = '';
-      window.removeEventListener('mousemove', updatePosition);
-      window.removeEventListener('mouseover', updateHoverState);
-      cancelAnimationFrame(requestRef);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onOver);
+      document.documentElement.removeEventListener('mouseleave', onLeave);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
-    <>
-      {/* Outer circle */}
-      <div
-        ref={cursorRef}
-        data-hovering={isHovering}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center border border-white"
-        style={{
-          transition: 'transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out',
-          willChange: 'transform'
-        }}
-      >
-        {/* Inner dot */}
-        <div 
-          className="w-2 h-2 bg-white rounded-full transition-transform duration-150 ease-out"
-          style={{
-            transform: `scale(${isHovering ? 0 : 1})`,
-          }}
-        />
+    <div
+      ref={cursorRef}
+      aria-hidden
+      data-hovering="false"
+      className="group pointer-events-none fixed left-0 top-0 z-[9999] hidden h-8 w-8 [@media(pointer:fine)]:block"
+      style={{ opacity: 0, willChange: 'transform', transform: 'translate3d(-100px,-100px,0)' }}
+    >
+      <div className="flex h-full w-full items-center justify-center rounded-full border-[1.5px] border-[#d08757] shadow-[0_0_0_1px_rgba(255,255,255,0.7)] transition-transform duration-150 ease-out group-data-[hovering=true]:scale-150 group-data-[hovering=true]:bg-[#e49b6b]/15">
+        <div className="h-1.5 w-1.5 rounded-full bg-[#1a1a1a] transition-transform duration-150 group-data-[hovering=true]:scale-0" />
       </div>
-    </>
+    </div>
   );
 };
 

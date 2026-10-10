@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
-import { MapPin, Phone, X, Anchor, Activity, Zap, ShieldAlert, ArrowRight, Menu } from 'lucide-react';
+import { MapPin, Phone, X, Anchor, Activity, Zap, ShieldAlert, ArrowRight, Menu, Mail } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 /* ─── Intersection-observer fade-in ─── */
@@ -233,7 +233,7 @@ export default function CrossFitTheme({ website, content }: Props) {
               <FadeIn delay={400}>
                 <p className="cf-subheading text-lg md:text-2xl text-black max-w-3xl mx-auto mb-12 font-bold bg-white/80 p-4 border-4 border-black break-words whitespace-pre-wrap">
                   {(() => {
-                    const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                    const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                     if (!t || t === 'Add your business description here.' || t.trim() === '') {
                       return 'Leave your ego at the door. We build fitter, faster, and stronger humans through constantly varied functional movements.';
                     }
@@ -466,6 +466,15 @@ export default function CrossFitTheme({ website, content }: Props) {
                                               <p className="text-white flex-1 min-w-0 break-words">{content.contact_info?.phone || '(555) 123-4567'}</p>
                                               )}
                           </div>
+
+                          {!hiddenFields.includes('contact_email') && content.contact_info?.email && (
+                          <div className="flex items-center gap-6">
+                            <div className="bg-[#E6FF00] p-3 border-2 border-white shrink-0">
+                              <Mail className="text-black" size={24} />
+                            </div>
+                            <a href={`mailto:${content.contact_info.email}`} className="text-white flex-1 min-w-0 break-all hover:underline">{content.contact_info.email}</a>
+                          </div>
+                          )}
 
                           <div className="flex items-center gap-6">
                             <div className="bg-[#E6FF00] p-3 border-2 border-white shrink-0">

@@ -70,7 +70,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative min-h-[100svh] flex flex-col items-center justify-center pt-32 pb-16">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center text-white px-6 w-full max-w-4xl">
           {!hiddenFields.includes("hero_title") && (

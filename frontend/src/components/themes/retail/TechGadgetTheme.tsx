@@ -169,7 +169,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             </h1>
               )}
             <p className="tg-mono text-lg md:text-xl max-w-2xl mx-auto mb-12 text-[#8ab4f8]/80 leading-relaxed break-all sm:break-words whitespace-pre-wrap">
-              {content.about_text || 'Experience the next generation of premium retail. Discover carefully curated collections built for modern living.'}
+              {content.hero_description || content.hero_text || content.about_text || 'Experience the next generation of premium retail. Discover carefully curated collections built for modern living.'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#hardware" className="bg-[#4285F4] hover:bg-[#3367D6] text-white tg-mono px-8 py-3 rounded tracking-wider flex items-center justify-center gap-2 transition-colors">

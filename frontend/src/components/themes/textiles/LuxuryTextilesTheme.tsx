@@ -54,7 +54,7 @@ export default function LuxuryTextilesTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-40"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent"></div>
         
         <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">

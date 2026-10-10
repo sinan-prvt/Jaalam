@@ -86,7 +86,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                   <Star className="absolute -top-6 -right-10 text-[#F48C06] fill-[#F48C06] rotate-12" size={48} />
                 </div>
                 <p className="font-body font-bold text-xl md:text-2xl text-[#F48C06] mb-12 bg-white inline-block px-8 py-4 rounded-[2rem] border-4 border-[#F48C06] -rotate-2 max-w-2xl shadow-[6px_6px_0_#E03A3E]">
-                  {content.about_text || content.hero_text || 'Your friendly neighborhood butcher bringing you the absolute best cuts!'}
+                  {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'Your friendly neighborhood butcher bringing you the absolute best cuts!'}
                 </p>
                 {content.settings_json?.hero_image && (
                   <div className="w-full max-w-2xl mb-12 rounded-[3rem] overflow-hidden border-8 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1">

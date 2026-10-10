@@ -86,7 +86,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                   </h1>
               )}
                   <p className="font-body text-lg text-[#5C6B3E] mb-10 leading-relaxed">
-                    {content.about_text || content.hero_text || 'We believe in ethical farming. Our animals roam free on green pastures, resulting in healthier, tastier meat for your family.'}
+                    {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'We believe in ethical farming. Our animals roam free on green pastures, resulting in healthier, tastier meat for your family.'}
                   </p>
                   <a href="#shop" className="inline-flex items-center gap-2 bg-[#8F9779] hover:bg-[#4A5D23] text-[#F4F1EA] font-body font-bold py-4 px-8 rounded-full transition-colors text-sm uppercase tracking-widest">
                     <Truck size={18} /> Shop Local

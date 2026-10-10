@@ -124,7 +124,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 <div className="w-24 h-[2px] bg-[#D9C5B2] mx-auto mb-8"></div>
                 {!hiddenFields.includes("hero_description") && (
               <p className="font-classic italic text-lg text-[#6B5A4E] mb-12 max-w-2xl mx-auto leading-relaxed">
-                  {content.hero_description || content.settings_json?.hero_description || content.about_text || content.hero_text || 'An exquisite collection of traditional imitation jewelry, imported cosmetics, and fancy accessories for your most cherished moments.'}
+                  {content.hero_description || content.settings_json?.hero_description || content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'An exquisite collection of traditional imitation jewelry, imported cosmetics, and fancy accessories for your most cherished moments.'}
                 </p>
               )}
                 <img loading="lazy" src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />

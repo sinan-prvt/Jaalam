@@ -13,6 +13,17 @@ import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
 import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
+
+// One place that decides which editor a site opens in
+const editorPath = (type: string | undefined, slug: string) => {
+  if (!type) return `/editor/${slug}`;
+  if (weddingCategories.includes(type)) return `/wedding-editor/${slug}`;
+  if (birthdayCategories.includes(type)) return `/birthday-editor/${slug}`;
+  if (housewarmingCategories.includes(type)) return `/housewarming-editor/${slug}`;
+  if (collegeFestCategories.includes(type)) return `/fest-editor/${slug}`;
+  if (religiousEventCategories.includes(type)) return `/religious-editor/${slug}`;
+  return `/editor/${slug}`;
+};
 import { getWebsiteUrl } from '../../utils/url';
 import toast from 'react-hot-toast';
 
@@ -229,15 +240,7 @@ export default function Dashboard() {
       setContactEmail('');
       setContactPhone('');
       setNewTheme('Modern');
-      if (weddingCategories.includes(newType)) {
-        navigate(`/wedding-editor/${res.data.slug}`);
-      } else if (birthdayCategories.includes(newType)) {
-        navigate(`/birthday-editor/${res.data.slug}`);
-      } else if (housewarmingCategories.includes(newType)) {
-        navigate(`/housewarming-editor/${res.data.slug}`);
-      } else {
-        navigate(`/editor/${res.data.slug}`);
-      }
+      navigate(editorPath(newType, res.data.slug));
       toast.success('Project launched successfully!', { id: loadingToast });
     } catch (err: any) {
       console.error(err);
@@ -500,9 +503,9 @@ export default function Dashboard() {
 
       {/* VIBRANT BENTO MESH BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-amber-300 to-fuchsia-300 mix-blend-multiply filter blur-[100px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-orange-300 to-amber-300 mix-blend-multiply filter blur-[120px] opacity-40 animate-[spin_30s_linear_infinite_reverse]"></div>
-        <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 mix-blend-multiply filter blur-[90px] opacity-30 animate-pulse"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-amber-300 to-fuchsia-300 filter blur-[100px] opacity-40"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-orange-300 to-amber-300 filter blur-[120px] opacity-40"></div>
+        <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 filter blur-[90px] opacity-30"></div>
       </div>
 
       <DashboardSidebar
@@ -514,7 +517,7 @@ export default function Dashboard() {
       />
 
       {/* MAIN CONTENT AREA */}
-      <main className={`flex-1 h-screen relative z-10 scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
+      <main className={`flex-1 basis-auto md:basis-0 min-w-0 h-[100dvh] relative z-10 scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
         <div className={`mx-auto w-full max-w-[1400px] ${activeTab === 'Notifications' ? 'flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-6' : 'min-h-full p-4 md:p-8 lg:p-8'}`}>
 
           {/* DESKTOP HEADER */}
@@ -565,13 +568,13 @@ export default function Dashboard() {
                   <span className="relative z-10">Upgrade</span>
                 </button>
               )}
-              <button onClick={() => setActiveTab('Templates')} className="text-slate-600 hover:text-orange-600 transition-colors p-1">
+              <button aria-label="Templates" onClick={() => setActiveTab('Templates')} className="text-slate-600 hover:text-orange-600 transition-colors p-1">
                 <LayoutTemplate size={20} />
               </button>
-              <button onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
+              <button aria-label="Inbox" onClick={() => setActiveTab('Notifications')} className="text-slate-600 hover:text-slate-900 transition-colors p-1">
                 <Bell size={20} />
               </button>
-              <button onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none shrink-0">
+              <button aria-label="Settings" onClick={() => setActiveTab('Settings')} className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 font-black text-sm focus:outline-none shrink-0">
                 {user?.username?.[0]?.toUpperCase()}
               </button>
             </div>
@@ -879,7 +882,7 @@ export default function Dashboard() {
                           </button>
                           <div className="flex gap-2">
                             {user && (user as any).role !== 'CLIENT' && (
-                              <Link to={weddingCategories.includes(site.business_type) ? `/wedding-editor/${site.slug}` : birthdayCategories.includes(site.business_type) ? `/birthday-editor/${site.slug}` : `/editor/${site.slug}`} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
+                              <Link to={editorPath(site.business_type, site.slug)} className="flex-1 bg-white hover:bg-slate-50 text-slate-900 font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-200 shadow-sm text-xs">
                                 <Settings size={14} /> Edit
                               </Link>
                             )}
@@ -1042,7 +1045,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Avg. Visitors/Site</div>
-                    <div className="text-3xl font-black text-slate-900">{activeSites > 0 ? Math.floor(totalVisitors / activeSites).toLocaleString() : 0}</div>
+                    <div className="text-3xl font-black text-slate-900">{websites.length > 0 ? Math.round(totalVisitors / websites.length).toLocaleString() : 0}</div>
                   </div>
                 </div>
               </div>

@@ -92,7 +92,7 @@ export default function ClassicMeatTheme({ website, content }: any) {
                 </h2>
                 <div className="w-16 h-1 bg-[#B71C1C] mx-auto mb-6"></div>
                 <p className="font-body text-lg text-[#5D4037] mb-10 leading-relaxed max-w-2xl mx-auto">
-                  {content.about_text || content.hero_text || 'We take pride in offering the finest, locally sourced meats cut to perfection by our master butchers.'}
+                  {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'We take pride in offering the finest, locally sourced meats cut to perfection by our master butchers.'}
                 </p>
                 <img loading="lazy" src={content.settings_json?.hero_image || "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1000&q=80"} alt="Butcher Block" className="w-full h-80 object-cover border-4 border-[#3E2723] shadow-xl" />
               </div>

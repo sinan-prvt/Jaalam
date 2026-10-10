@@ -75,7 +75,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
               </h1>
               )}
               <p className="font-minimal text-sm max-w-md mx-auto text-gray-500 mb-12 leading-loose relative z-10">
-                {content.about_text || content.hero_text || 'NO NONSENSE. JUST HIGH QUALITY MEAT CUT TO PERFECTION EVERY MORNING.'}
+                {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'NO NONSENSE. JUST HIGH QUALITY MEAT CUT TO PERFECTION EVERY MORNING.'}
               </p>
               {content.settings_json?.about_image && (
                 <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">

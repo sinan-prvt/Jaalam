@@ -119,6 +119,9 @@ export default function MinimalistTheme({ website, content }: any) {
                 {content.hero_title || 'Focus on the essential.'}
               </h1>
               )}
+            {!hiddenFields.includes("hero_description") && (content.hero_description || content.hero_text) && (
+              <p className="min-sans mt-4 max-w-xl text-base md:text-lg bg-white/90 px-6 py-3 text-gray-700 break-words whitespace-pre-wrap">{content.hero_description || content.hero_text}</p>
+            )}
             </div>
           </div>
         </section>

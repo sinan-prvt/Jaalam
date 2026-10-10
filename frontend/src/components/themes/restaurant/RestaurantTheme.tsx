@@ -764,6 +764,17 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                     </div>
                   </div>
                   )}
+                  {!hiddenFields.includes('contact_email') && content.contact_info?.email && (
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-full ${primaryColor} flex items-center justify-center shrink-0 shadow-lg`}>
+                      <Mail className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-1">Email</h4>
+                      <a href={`mailto:${content.contact_info.email}`} className="text-slate-400 font-light break-all hover:underline">{content.contact_info.email}</a>
+                    </div>
+                  </div>
+                  )}
                   {!hiddenFields.includes('contact_hours') && (
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full ${primaryColor} flex items-center justify-center shrink-0 shadow-lg`}>

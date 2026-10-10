@@ -146,7 +146,7 @@ export default function StreetwearTheme({ website, content }: any) {
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
         <section id="hero" className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 border-b-2 border-[#333] overflow-hidden">
-          <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-[url('https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
+          <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-cover bg-center" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80'})` }}></div>
           <div className="relative z-10 text-center w-full max-w-4xl">
             <div className="inline-block bg-[#ccff00] text-black font-bold px-4 py-1 mb-6 rotate-[-2deg]">SEASON 1</div>
             {!hiddenFields.includes("hero_title") && (
@@ -154,6 +154,9 @@ export default function StreetwearTheme({ website, content }: any) {
               {content.hero_title || 'STREET UNIFORM'}
             </h1>
               )}
+            {!hiddenFields.includes("hero_description") && (content.hero_description || content.hero_text) && (
+              <p className="st-font max-w-2xl mx-auto text-lg md:text-xl mb-8 opacity-80 break-words whitespace-pre-wrap">{content.hero_description || content.hero_text}</p>
+            )}
             <a href="#drop" className="st-brutal-btn px-10 py-4 font-bold text-xl uppercase tracking-widest mt-4 inline-block">
               Shop Now
             </a>

@@ -116,7 +116,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                   </h1>
               )}
                   <p className="font-minimal text-lg max-w-xl text-gray-500 mb-12 whitespace-pre-line">
-                    {content.about_text || content.hero_text || 'Carefully selected accessories and beauty essentials for the modern minimalist.'}
+                    {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'Carefully selected accessories and beauty essentials for the modern minimalist.'}
                   </p>
                   <a href="#menu" className="inline-flex items-center gap-2 font-minimal font-bold border-b-2 border-black pb-1 hover:pr-4 transition-all">
                     Explore the curation <ArrowRight size={18} />

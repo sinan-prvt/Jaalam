@@ -131,7 +131,7 @@ export default function BoutiqueTheme({ website, content }: any) {
             {!hiddenFields.includes("hero_title") && (
               <h1 className="bt-serif text-5xl md:text-7xl mb-6 break-words whitespace-pre-wrap leading-snug">{content.hero_title || 'Redefining Elegance'}</h1>
               )}
-            <p className="bt-sans text-lg tracking-widest uppercase mb-10 break-words whitespace-pre-wrap leading-relaxed">{content.about_text || 'Curated fashion for the modern muse'}</p>
+            <p className="bt-sans text-lg tracking-widest uppercase mb-10 break-words whitespace-pre-wrap leading-relaxed">{content.hero_description || content.hero_text || content.about_text || 'Curated fashion for the modern muse'}</p>
             <a href="#collections" className="inline-block border border-white px-10 py-4 bt-sans tracking-widest uppercase text-sm hover:bg-white hover:text-black transition-colors">
               Shop the Collection
             </a>

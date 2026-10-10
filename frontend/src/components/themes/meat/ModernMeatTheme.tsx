@@ -100,7 +100,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                   </h1>
               )}
                   <p className="font-modern text-lg text-slate-600 mb-8 max-w-md">
-                    {content.about_text || content.hero_text || 'Hygienically cut, cleaned, and vacuum packed. Order fresh chicken and mutton straight from our farm to your kitchen.'}
+                    {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'Hygienically cut, cleaned, and vacuum packed. Order fresh chicken and mutton straight from our farm to your kitchen.'}
                   </p>
                   <a href="#menu" className="inline-flex w-fit bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl items-center gap-2 transition-colors">
                     Explore Categories <ChevronRight size={20} />

@@ -76,7 +76,7 @@ export default function LegalFirmTheme({ website, content }: any) {
 
       {/* Hero */}
       <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-32 pb-40 px-6 bg-[#1B3D2E] text-[#F5F0E8] overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 text-center">
           <div className="w-16 h-1 bg-[#C4A962] mx-auto mb-10"></div>
           {!hiddenFields.includes("hero_title") && (

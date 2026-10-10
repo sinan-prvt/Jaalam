@@ -71,7 +71,7 @@ export default function CommercialTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative bg-[#004B87] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto px-6 py-24 md:py-32 relative z-10 flex flex-col md:flex-row items-center gap-12">
           <div className="w-full">
             {!hiddenFields.includes("hero_title") && (

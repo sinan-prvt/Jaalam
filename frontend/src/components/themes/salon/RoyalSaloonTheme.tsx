@@ -250,7 +250,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               <FadeIn delay={400}>
                 <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed break-words overflow-hidden px-2">
                   {(() => {
-                    const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                    const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                     if (!t || t === 'Add your business description here.' || t.trim() === '') {
                       return 'Indulge in bespoke grooming services designed for the modern gentleman. Precision, luxury, and unmatched elegance await.';
                     }

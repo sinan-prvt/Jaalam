@@ -249,7 +249,7 @@ export default function CombatGymTheme({ website, content }: Props) {
                 <FadeIn delay={400} dir="left">
                   <p className="cg-body text-xl text-gray-300 max-w-xl mb-12 font-light break-words whitespace-pre-wrap">
                     {(() => {
-                      const t = content.about_text || content.settings_json?.hero_description || content.hero_text;
+                      const t = content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text;
                       if (!t || t === 'Add your business description here.' || t.trim() === '') {
                         return 'Train alongside champions. Whether you want to step into the cage or just get into fighting shape, our elite coaches will push you beyond your breaking point.';
                       }

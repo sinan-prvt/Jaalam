@@ -71,7 +71,7 @@ export default function ModernTextilesTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative h-[80vh] bg-slate-50">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="container mx-auto px-6 h-full flex items-center relative z-10">
           <div className="max-w-xl bg-white/90 backdrop-blur p-10 md:p-16">

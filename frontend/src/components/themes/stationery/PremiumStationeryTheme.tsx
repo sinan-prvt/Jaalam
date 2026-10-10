@@ -18,6 +18,13 @@ export default function PremiumStationeryTheme({ website, content }: any) {
     { name: 'Bespoke Stationery Set', price: '₹3,000', image: 'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=600&q=80', description: 'Custom monogrammed Egyptian cotton paper.' }
   ];
 
+  const defaultServices = [
+    { title: 'Custom Orders', description: 'Personalized stationery tailored to your exact specifications.' },
+    { title: 'Corporate Gifting', description: 'Premium supplies for your esteemed colleagues and clients.' },
+    { title: 'Complimentary Wrapping', description: 'Elegant presentation for those special occasions.' }
+  ];
+  const services = content.services_json?.length > 0 ? content.services_json : defaultServices;
+
   return (
     <div className="min-h-screen theme-root flex flex-col bg-[#0A0A0A] text-[#D4AF37] font-sans selection:bg-[#D4AF37] selection:text-black">
       <style>{`
@@ -38,7 +45,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
       <header className="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-[#D4AF37]/20">
         <div className="container mx-auto px-8 py-6 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Diamond size={24} className="text-[#D4AF37]" />
+            {content.settings_json?.logo_image ? <img src={content.settings_json.logo_image} alt="Logo" className="h-8 w-8 object-contain" /> : <Diamond size={24} className="text-[#D4AF37]" />}
             <span className="font-luxury text-2xl tracking-[0.2em] uppercase">{siteName}</span>
           </div>
           <nav className="hidden md:flex gap-10 font-body text-xs tracking-[0.2em] uppercase text-gray-400">
@@ -51,7 +58,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
 
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497032205567-50458fd251f6?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-30 mix-blend-luminosity"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497032205567-50458fd251f6?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]"></div>
         
         <div className="container mx-auto px-6 relative z-10 text-center max-w-3xl">
@@ -107,10 +114,10 @@ export default function PremiumStationeryTheme({ website, content }: any) {
       {/* About */}
       <section id="about" className="py-32 px-6 bg-[#050505]">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="font-luxury text-4xl md:text-5xl mb-8 tracking-widest text-white">The Heritage</h2>
+          <h2 className="font-luxury text-4xl md:text-5xl mb-8 tracking-widest text-white">{content.settings_json?.about_title || content.about_title || 'The Heritage'}</h2>
           <div className="w-16 h-[1px] bg-[#D4AF37] mx-auto mb-10"></div>
           <p className="font-body text-sm text-gray-400 tracking-widest leading-loose">
-            {content.about_text || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
+            {content.settings_json?.about_description || content.about_text || 'We are dedicated to providing the highest quality stationery products for your creative and professional needs. Our curated collections are designed to inspire.'}
           </p>
         </div>
       </section>
@@ -121,19 +128,13 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           <h2 className="font-luxury text-4xl md:text-5xl text-center mb-8 tracking-widest text-white">Bespoke Services</h2>
           <div className="w-16 h-[1px] bg-[#D4AF37] mx-auto mb-20"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div className="p-12 border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-700 cursor-pointer group bg-[#050505]">
-              <h3 className="font-luxury text-2xl text-[#D4AF37] mb-6 tracking-wide group-hover:scale-105 transition-transform duration-500">Custom Orders</h3>
-              <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">Personalized stationery tailored to your exact specifications.</p>
+          {services.map((service: any, i: number) => (
+            <div key={i} className="p-12 border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-700 cursor-pointer group bg-[#050505]">
+              {service.image && <img loading="lazy" src={service.image} alt={service.title} className="w-full h-40 object-cover mb-6" />}
+              <h3 className="font-luxury text-2xl text-[#D4AF37] mb-6 tracking-wide group-hover:scale-105 transition-transform duration-500">{service.title || service.name}</h3>
+              <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">{service.description}</p>
             </div>
-            <div className="p-12 border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-700 cursor-pointer group bg-[#050505]">
-              <h3 className="font-luxury text-2xl text-[#D4AF37] mb-6 tracking-wide group-hover:scale-105 transition-transform duration-500">Corporate Gifting</h3>
-              <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">Premium supplies for your esteemed colleagues and clients.</p>
-            </div>
-            <div className="p-12 border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-700 cursor-pointer group bg-[#050505]">
-              <h3 className="font-luxury text-2xl text-[#D4AF37] mb-6 tracking-wide group-hover:scale-105 transition-transform duration-500">Complimentary Wrapping</h3>
-              <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">Elegant presentation for those special occasions.</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -158,12 +159,12 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           <h2 className="font-luxury text-4xl md:text-5xl text-center mb-8 tracking-widest text-white">Atelier</h2>
           <div className="w-16 h-[1px] bg-[#D4AF37] mx-auto mb-20"></div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             {[
+             {(content.gallery_json?.length > 0 ? content.gallery_json.map((g: any) => (typeof g === 'string' ? g : g.url || g.image)) : [
                'https://images.unsplash.com/photo-1585336261022-680e2a5c0b11?auto=format&fit=crop&w=600&q=80',
                'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
                'https://images.unsplash.com/photo-1590740924976-13a8fc6470aa?auto=format&fit=crop&w=600&q=80',
                'https://images.unsplash.com/photo-1510172951991-856a654063f9?auto=format&fit=crop&w=600&q=80'
-             ].map((img, idx) => (
+             ]).map((img, idx) => (
                 <div key={idx} className="aspect-[4/5] overflow-hidden group">
                   <img loading="lazy" src={img} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 filter grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100" />
                 </div>

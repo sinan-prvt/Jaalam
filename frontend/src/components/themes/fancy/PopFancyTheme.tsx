@@ -125,7 +125,7 @@ export default function PopFancyTheme({ website, content }: any) {
                     </h1>
               )}
                     <p className="font-pop-body text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed">
-                      {content.about_text || content.hero_text || 'Premium quality for those who want to stand out. Bold aesthetics meets modern craftsmanship.'}
+                      {content.hero_description || content.hero_text || content.settings_json?.hero_description || content.about_text || 'Premium quality for those who want to stand out. Bold aesthetics meets modern craftsmanship.'}
                     </p>
                     <div className="flex flex-wrap gap-4">
                       {!hiddenSections.includes('menu') && (
