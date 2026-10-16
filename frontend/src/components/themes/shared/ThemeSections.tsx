@@ -165,7 +165,7 @@ export function ThemeServices({ content, look, order }: SectionProps) {
           const name = typeof srv === 'string' ? srv : srv.title || srv.name;
           return (
             <div key={i} className={`group relative overflow-hidden border border-current/10 hover:border-[var(--ts-accent)] transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${radius}`} style={{ background: look.bg }}>
-              {srv.image && <img loading="lazy" src={srv.image} alt={name} className="w-full h-48 object-cover" />}
+              {srv.image && <img loading="lazy" src={srv.image || undefined} alt={name} className="w-full h-48 object-cover" />}
               <div className="p-8">
                 <div className="flex items-start justify-between mb-8">
                   <span className={`${look.headingFont || ''} text-4xl font-light text-[var(--ts-accent)]`}>{String(i + 1).padStart(2, '0')}</span>

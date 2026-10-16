@@ -241,7 +241,7 @@ export default function ChristianMinimalistCrossLayout({ content, website, color
                 <div className="w-56 h-72 sm:w-64 sm:h-80 relative mb-8 overflow-hidden rounded-sm bg-white shadow-sm border border-slate-100 transition-all duration-700 hover:shadow-lg">
                   <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
                   {person.photo ? (
-                    <img src={person.photo} alt={person.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                    <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-200">
                       <div className="w-[1px] h-12 bg-slate-200 relative"><div className="absolute top-3 left-1/2 -translate-x-1/2 w-8 h-[1px] bg-slate-200"></div></div>

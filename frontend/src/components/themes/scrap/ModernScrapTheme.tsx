@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Recycle, ArrowRight, MapPin, Mail, Phone, Scale, DollarSign, Truck, X, Clock, Menu } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function ModernScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -97,7 +98,7 @@ export default function ModernScrapTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-20 md:py-32 px-6">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-20 md:py-32 px-6">
               <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center gap-16">
                 <div className="w-full md:w-1/2">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 font-modern text-sm font-bold mb-6">
@@ -131,6 +132,7 @@ export default function ModernScrapTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -193,7 +195,7 @@ export default function ModernScrapTheme({ website, content }: any) {
                       {p.image && (
                         <div className="h-48 overflow-hidden relative">
                           <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10"></div>
-                          <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="p-6">
@@ -376,7 +378,7 @@ export default function ModernScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -419,7 +421,7 @@ export default function ModernScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover" />
               </div>
             )}
             <div className="p-6 md:p-8">

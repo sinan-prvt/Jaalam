@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function ClassicOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -57,7 +58,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'block' }} className="relative bg-[#2C2C2C] text-[#F9F7F1]">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'block' }} className="relative bg-[#2C2C2C] text-[#F9F7F1]">
         <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 py-32 px-6 text-center">
           {!hiddenFields.includes("hero_title") && (
@@ -76,6 +77,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
@@ -120,7 +122,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
               {services.map((srv: any, i: number) => (
                 <div key={i} className="text-center group">
                   {srv.image ? (
-                    <img loading="lazy" src={srv.image} alt={srv.title} className="w-24 h-24 object-cover mx-auto rounded-full mb-6 border-4 border-[#F9F7F1] shadow-md group-hover:border-[#8C1C13] transition-colors" />
+                    <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-24 h-24 object-cover mx-auto rounded-full mb-6 border-4 border-[#F9F7F1] shadow-md group-hover:border-[#8C1C13] transition-colors" />
                   ) : (
                     <div className="w-20 h-20 mx-auto rounded-full border-2 border-[#E8E1D5] flex items-center justify-center mb-6 group-hover:border-[#8C1C13] transition-colors text-[#8C1C13]">
                        <span className="font-classic-title text-2xl font-bold">{i + 1}</span>

@@ -323,7 +323,7 @@ export default function ChristianClassicLayout({ content, website, colors }: Wed
                   <div className="absolute inset-0 rounded-full border border-slate-300 scale-[1.15] group-hover:scale-[1.2] transition-transform duration-700 pointer-events-none"></div>
                   <div className="w-full h-full rounded-full overflow-hidden bg-white shadow-xl group-hover:shadow-2xl transition-all duration-500 z-10 relative">
                     {person.photo ? (
-                      <img src={person.photo} alt={person.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300">
                         <Heart className="w-12 h-12 fill-slate-200" />

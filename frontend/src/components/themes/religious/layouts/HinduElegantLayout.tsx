@@ -162,7 +162,7 @@ export default function HinduElegantLayout({ website, content }: { website: any,
                     <div className="relative mb-8 w-56 h-56 p-1 border border-[#d4af37]/30 group-hover:border-[#d4af37] transition-colors duration-500 rounded-full">
                       <div className="w-full h-full overflow-hidden rounded-full bg-[#fafaf9]">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover filter sepia-[0.3] group-hover:sepia-0 transition-all duration-700" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover filter sepia-[0.3] group-hover:sepia-0 transition-all duration-700" />
                         ) : (
                           <div className={`w-full h-full flex items-center justify-center ${colors.mutedText}`}>
                             <User size={48} opacity={0.3} />

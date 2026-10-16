@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Truck, Scale, MapPin, Mail, Phone, AlertTriangle, Hammer, Factory, X, Clock, Menu } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function ClassicScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -100,7 +101,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-24 md:py-32 px-6 bg-[url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center relative">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-24 md:py-32 px-6 bg-[url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center relative">
               <div className="absolute inset-0 bg-[#1A1A1A]/80"></div>
               <div className="container mx-auto max-w-6xl relative z-10 flex flex-col md:flex-row items-center gap-12">
                 <div className="w-full md:w-3/4">
@@ -125,6 +126,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -388,7 +390,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -433,7 +435,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full border-b-8 border-[#1A1A1A] relative">
                 <div className="absolute inset-0 bg-[#FFC107]/20 z-10"></div>
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
               </div>
             )}
             

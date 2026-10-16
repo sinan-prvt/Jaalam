@@ -5,6 +5,7 @@ import { Home, MapPin, Phone, Mail, Award, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FDFBF7', altBg: '#F4EFE3', text: '#2C3E50', accent: '#1A252C', headingFont: 'font-classic', bodyFont: 'font-body', radius: 'md' };
 
@@ -84,7 +85,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6">
+      <><section className="py-16 px-6">
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row gap-12 items-center">
           <div className="w-full md:w-1/2">
             <div className="flex items-center gap-2 mb-6 text-[#8B9DAE]">
@@ -108,6 +109,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties */}
       <section id="featured" className="py-20 px-6 bg-[#EFECE5]">
@@ -121,7 +123,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="bg-white border border-[#EAE3D2] p-4 flex flex-col md:flex-row gap-6 group hover:shadow-md transition-shadow cursor-pointer">
                 <div className="w-full md:w-2/5 aspect-[4/3] md:aspect-auto overflow-hidden">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="w-full md:w-3/5 py-2 flex flex-col justify-between">
                   <div>
@@ -182,7 +184,7 @@ export default function ClassicRealEstateTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

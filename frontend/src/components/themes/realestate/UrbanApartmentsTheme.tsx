@@ -5,6 +5,7 @@ import { Building2, MapPin, ArrowRight, ArrowUpRight, Phone, Mail, Clock, X, Men
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FFFFFF', altBg: '#F1F5F9', text: '#0F172A', accent: '#2563EB', headingFont: 'font-urban', bodyFont: 'font-urban', radius: 'xl' };
 
@@ -69,7 +70,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
       </nav>
 
       {/* Hero */}
-      <section className="py-20 px-6 container mx-auto">
+      <><section className="py-20 px-6 container mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="w-full md:w-1/2">
             {!hiddenFields.includes("hero_title") && (
@@ -91,6 +92,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties List */}
       <section id="properties" className="py-20 px-6 bg-slate-50">
@@ -106,7 +108,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
                 <div className="aspect-square overflow-hidden relative">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-slate-900 font-urban font-bold text-xs px-2 py-1 rounded-md">
                     {p.type}
                   </div>
@@ -151,7 +153,7 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

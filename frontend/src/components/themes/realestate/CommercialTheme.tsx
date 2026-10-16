@@ -5,6 +5,7 @@ import { Briefcase, MapPin, Building, Phone, Mail, Clock, X, Menu } from 'lucide
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FFFFFF', altBg: '#F8F9FA', text: '#212529', accent: '#004B87', headingFont: 'font-corp', bodyFont: 'font-body', radius: 'md' };
 
@@ -74,7 +75,7 @@ export default function CommercialTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="relative bg-[#004B87] text-white overflow-hidden">
+      <><section className="relative bg-[#004B87] text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto px-6 py-24 md:py-32 relative z-10 flex flex-col md:flex-row items-center gap-12">
           <div className="w-full">
@@ -100,6 +101,7 @@ export default function CommercialTheme({ website, content }: any) {
 
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties */}
       <section id="properties" className="py-20 px-6 container mx-auto">
@@ -112,7 +114,7 @@ export default function CommercialTheme({ website, content }: any) {
           {properties.map((p: any, i: number) => (
             <div key={i} className="bg-white border border-[#DEE2E6] hover:shadow-xl transition-shadow group">
               <div className="aspect-[4/3] overflow-hidden relative">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 left-4 bg-[#004B87] text-white font-corp font-bold text-xs px-3 py-1 shadow-md">
                   {p.type}
                 </div>
@@ -170,7 +172,7 @@ export default function CommercialTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

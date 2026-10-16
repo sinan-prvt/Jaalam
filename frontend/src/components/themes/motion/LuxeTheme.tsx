@@ -70,7 +70,7 @@ export default function LuxeTheme({ website, content }: any) {
             {!d.hideField('about_title') && <h2 className="font-display font-light text-4xl md:text-6xl leading-[1.05] mb-8 [text-wrap:balance]">{d.aboutTitle}</h2>}
             {!d.hideField('about_text') && <p className="text-white/65 text-lg leading-loose font-light whitespace-pre-line">{d.aboutText}</p>}
             <div className="flex gap-10 mt-12">
-              {d.preset.stats.map(s => (
+              {d.stats.map(s => (
                 <div key={s.label}>
                   <div className="font-display text-4xl font-light" style={{ color: GOLD }}>{s.value}</div>
                   <div className="text-[10px] uppercase tracking-[0.3em] text-white/45 mt-2">{s.label}</div>
@@ -106,7 +106,7 @@ export default function LuxeTheme({ website, content }: any) {
               <button key={i} onClick={() => open(p)} className="group text-center">
                 <div className="aspect-[3/4] rounded-t-full overflow-hidden mb-6 border p-2" style={{ borderColor: `${GOLD}44` }}>
                   <div className="w-full h-full rounded-t-full overflow-hidden bg-white/5">
-                    {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />}
+                    {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />}
                   </div>
                 </div>
                 <h3 className="font-display text-2xl">{p.name}</h3>

@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FFFFFF', altBg: '#F4F4F4', text: '#000000', accent: '#000000', headingFont: 'font-min', bodyFont: 'font-min', radius: 'none' };
 
@@ -67,7 +68,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="pt-20 pb-32 px-8 md:px-12 max-w-7xl mx-auto">
+      <><section className="pt-20 pb-32 px-8 md:px-12 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-end">
           <div>
             {!hiddenFields.includes("hero_title") && (
@@ -86,6 +87,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties */}
       <section id="properties" className="py-20 px-8 md:px-12 bg-black text-white">
@@ -99,7 +101,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             {properties.map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer">
                 <div className="aspect-[3/2] overflow-hidden mb-6 bg-gray-900">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter contrast-125 opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter contrast-125 opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div className="flex justify-between items-start font-min">
                    <div>
@@ -141,7 +143,7 @@ export default function MinimalRealEstateTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

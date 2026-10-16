@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function MinimalFancyTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -109,7 +110,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section key="hero" id="hero" className="pt-40 pb-20 px-8">
+                <Fragment key="hero"><section key="hero" id="hero" className="pt-40 pb-20 px-8">
                   {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-5xl md:text-8xl font-bold tracking-tighter max-w-4xl leading-none mb-12">
                     {content.hero_title || 'Elevating the everyday.'}
@@ -122,6 +123,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     Explore the curation <ArrowRight size={18} />
                   </a>
                 </section>
+      <ThemeStats content={content} /></Fragment>
               )}
 
               {/* About */}
@@ -176,7 +178,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                     {products.slice(0, 4).map((p: any, i: number) => (
                       <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                         <div className="aspect-[4/5] bg-gray-100 mb-6 overflow-hidden">
-                          <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                          <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
                         </div>
                         <div className="flex justify-between items-start font-minimal">
                           <div>
@@ -232,7 +234,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
                       </div>
                       {block.image && (
                         <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                          <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                          <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover" />
                         </div>
                       )}
                     </div>
@@ -312,7 +314,7 @@ export default function MinimalFancyTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-[4/5] bg-gray-100 mb-6 overflow-hidden">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                    <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
                   </div>
                   <div className="flex justify-between items-start font-minimal">
                     <div>

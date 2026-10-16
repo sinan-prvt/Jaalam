@@ -32,7 +32,7 @@ export default function AuroraTheme({ website, content }: any) {
             </div>
             <div className="mt-rise mt-d4 mt-12 flex items-center gap-4 text-sm text-white/60">
               <div className="flex">{[0, 1, 2, 3, 4].map(i => <Star key={i} size={16} fill={accent} stroke="none" />)}</div>
-              {d.preset.stats[d.preset.stats.length - 1].value} · {d.preset.stats[d.preset.stats.length - 1].label}
+              {d.stats[d.stats.length - 1].value} · {d.stats[d.stats.length - 1].label}
             </div>
           </div>
           <div className="mt-rise mt-d2 relative">
@@ -42,7 +42,7 @@ export default function AuroraTheme({ website, content }: any) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
             </div>
-            {d.preset.stats.slice(0, 2).map((s, i) => (
+            {d.stats.slice(0, 2).map((s, i) => (
               <div key={s.label} className={`absolute rounded-2xl px-5 py-4 shadow-2xl ${glass} ${i === 0 ? '-left-3 md:-left-8 top-10' : '-right-3 md:-right-6 bottom-12'}`} style={{ animation: `mt-float ${8 + i * 2}s ease-in-out infinite` }}>
                 <div className="font-display text-2xl" style={{ color: i ? accent2 : accent }}>{s.value}</div>
                 <div className="text-xs text-white/60">{s.label}</div>
@@ -63,7 +63,7 @@ export default function AuroraTheme({ website, content }: any) {
           <div className="md:col-span-2 rounded-[2rem] overflow-hidden min-h-[260px]">
             <img loading="lazy" src={d.gallery[0]} alt="" className="w-full h-full object-cover" />
           </div>
-          {d.preset.stats.map((s, i) => (
+          {d.stats.map((s, i) => (
             <div key={s.label} className={`md:col-span-2 rounded-[2rem] p-8 ${glass}`}>
               <div className="font-display text-4xl md:text-5xl" style={{ color: i % 2 ? accent2 : accent }}>{s.value}</div>
               <div className="text-white/55 mt-2">{s.label}</div>
@@ -103,7 +103,7 @@ export default function AuroraTheme({ website, content }: any) {
             {d.items.slice(0, 8).map((p, i) => (
               <button key={i} onClick={() => open(p)} className={`group text-left rounded-[1.75rem] p-2 transition-transform hover:-translate-y-1 ${glass}`}>
                 <div className="aspect-square rounded-[1.4rem] overflow-hidden bg-white/5">
-                  {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
+                  {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
                 </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">

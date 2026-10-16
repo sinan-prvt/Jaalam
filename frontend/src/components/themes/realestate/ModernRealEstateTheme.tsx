@@ -5,6 +5,7 @@ import { Home, MapPin, ChevronRight, Phone, Mail, Clock, X, Menu } from 'lucide-
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#F8FAFC', altBg: '#FFFFFF', text: '#1E293B', accent: '#059669', headingFont: 'font-modern', bodyFont: 'font-modern', radius: 'xl' };
 
@@ -75,7 +76,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-12 px-6">
+      <><section className="py-12 px-6">
         <div className="container mx-auto bg-emerald-50 rounded-3xl overflow-hidden flex flex-col md:flex-row items-center relative">
           <div className="w-full md:w-1/2 p-10 md:p-16 z-10">
             {!hiddenFields.includes("hero_title") && (
@@ -93,6 +94,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties */}
       <section id="buy" className="py-20 px-6 container mx-auto">
@@ -110,7 +112,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
           {properties.map((p: any, i: number) => (
             <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-100 group cursor-pointer">
               <div className="aspect-[4/3] overflow-hidden relative p-3 pb-0">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-6 left-6 bg-white/90 backdrop-blur text-slate-900 font-modern font-bold text-sm px-3 py-1 rounded-lg shadow-sm">
                   {p.price}
                 </div>
@@ -162,7 +164,7 @@ export default function ModernRealEstateTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

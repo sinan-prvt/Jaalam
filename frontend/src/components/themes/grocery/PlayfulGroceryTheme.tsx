@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, Star, MapPin, Phone, Smile, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FFFFFF', altBg: '#E0F7FA', text: '#006064', accent: '#FF4081', headingFont: 'font-fun', bodyFont: 'font-body', radius: 'xl' };
 
@@ -70,7 +71,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6 text-center relative">
+      <><section className="py-16 px-6 text-center relative">
         <div className="absolute top-10 left-10 text-[#FF4081] animate-bounce"><Star size={40} /></div>
         <div className="absolute top-20 right-20 text-[#FFB300] animate-bounce" style={{ animationDelay: '0.5s' }}><Star size={60} /></div>
 
@@ -92,6 +93,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="aisles" className="py-16 px-6">
@@ -107,7 +109,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                   {p.tag}
                 </div>
                 <div className="aspect-square rounded-2xl overflow-hidden mb-4 border-4 border-[#E0F7FA]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-fun text-xl text-[#006064] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
@@ -160,7 +162,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

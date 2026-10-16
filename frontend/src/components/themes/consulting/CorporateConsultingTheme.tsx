@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { Briefcase, MapPin, Phone, Mail, Clock, X, Menu, ChevronRight, BarChart3, TrendingUp, Building2 } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function CorporateConsultingTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -76,7 +77,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative bg-[#0B1D3A] text-white py-24 md:py-32 px-6">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative bg-[#0B1D3A] text-white py-24 md:py-32 px-6">
         <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-3/5">
@@ -107,6 +108,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Services/Expertise (Menu) */}
       <section style={{ order: sectionOrder.indexOf('menu') + 1 || sectionOrder.indexOf('services') + 1 }} id="services" className="py-24 px-6 bg-white">
@@ -126,7 +128,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer border border-gray-100 bg-[#F8F9FA] hover:bg-white hover:shadow-xl transition-all duration-300" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[16/9] overflow-hidden relative">
                    <div className="absolute inset-0 bg-[#0B1D3A]/20 group-hover:bg-transparent transition-colors z-10"></div>
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                 </div>
                 <div className="p-8">
                   <h3 className="font-serif-title text-2xl font-bold mb-3 text-[#0B1D3A] group-hover:text-[#C49A3C] transition-colors">{service.name}</h3>
@@ -172,7 +174,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center md:text-left flex flex-col items-center md:items-start">
                     <div className="w-16 h-16 bg-[#0B1D3A] text-[#C49A3C] flex items-center justify-center rounded-sm mb-6">
-                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-8 h-8 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-8 h-8 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-serif-title text-2xl font-bold mb-3 text-[#0B1D3A]">{srv.title}</h3>
                     <p className="font-sans-body text-gray-600 leading-relaxed">{srv.description}</p>
@@ -215,7 +217,7 @@ export default function CorporateConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-serif-title text-3xl md:text-4xl font-bold text-[#0B1D3A] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-sans-body text-lg text-gray-600 leading-relaxed text-center">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full h-auto object-cover border border-gray-200" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full h-auto object-cover border border-gray-200" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-gray-200" />;
               return null;
             })}

@@ -136,7 +136,7 @@ export default function HinduMinimalLayout({ website, content }: { website: any,
                   >
                     <div className="mb-8 w-full aspect-[4/5] overflow-hidden bg-stone-200 relative">
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-stone-300">
                           <User size={64} strokeWidth={1} />

@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Sparkles, Zap, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import { getStats } from '../shared/ThemeStats';
 
 /* ─── Intersection-observer fade-in ─── */
 function SlideIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -266,7 +267,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                 {/* Stats row */}
                 <SlideIn delay={320} dir="left">
                   <div className="flex gap-8 mt-12 text-left">
-                    {[['500+', 'Clients Served'], ['4.9★', 'Avg Rating'], ['10+', 'Expert Stylists']].map(([num, label]) => (
+                    {(getStats(content).length ? getStats(content).slice(0, 3).map(s => [s.value, s.label]) : [['500+', 'Clients Served'], ['4.9★', 'Avg Rating'], ['10+', 'Expert Stylists']]).map(([num, label]) => (
                       <div key={label}>
                         <div className="ms-font-display text-2xl sm:text-3xl" style={{ color: TEAL }}>{num}</div>
                         <div className="text-xs ms-font-sub text-slate-500 mt-0.5">{label}</div>
@@ -436,7 +437,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                           <div onClick={() => setSelectedService(s)} className="ms-card-hover rounded-2xl overflow-hidden cursor-pointer group" style={{ background: PANEL, border: `1.5px solid ${BORDER}` }}>
                             <div className="relative h-48 overflow-hidden">
                               {s.image
-                                ? <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                ? <img loading="lazy" src={s.image || undefined} alt={s.title || s.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 : <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, #111827, #0F172A)` }}>
                                     <Scissors size={40} style={{ color: TEAL }} />
                                   </div>
@@ -502,7 +503,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                                 {String(idx + 1).padStart(2, '0')}
                               </span>
                               <div className="w-16 h-16 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0" style={{ border: `1.5px solid ${BORDER}` }}>
-                                <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                <img loading="lazy" src={style.image || undefined} alt={style.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                               </div>
                               <div className="shrink-0 text-right ml-auto sm:hidden">
                                 <span className="ms-font-display text-2xl" style={{ color: TEAL }}>{style.price}</span>
@@ -712,7 +713,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
                       {content.custom_blocks_json.map((block: any, i: number) => {
                         if (block.type === 'heading') return <h3 key={block.id || i} className="ms-font-display text-3xl text-white text-center">{block.content}</h3>;
                         if (block.type === 'paragraph') return <p key={block.id || i} className="ms-font-sub text-slate-300 leading-relaxed text-center">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id || i} src={block.url} alt="" className="w-full rounded-2xl max-h-[500px] object-cover" />;
+                        if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id || i} src={block.url || undefined} alt="" className="w-full rounded-2xl max-h-[500px] object-cover" />;
                         if (block.type === 'divider') return <div key={block.id || i} className="w-full h-px" style={{ background: BORDER }} />;
                         return null;
                       })}
@@ -776,7 +777,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
             >
               {/* Image */}
               <div className="relative h-48 sm:h-56 w-full bg-stone-900 overflow-hidden">
-                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedStyle.image || undefined} alt={selectedStyle.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${PANEL}DD 0%, transparent 50%)` }} />
                 <button onClick={() => setSelectedStyle(null)} className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center bg-black/50 hover:bg-black/80 text-white transition-all">
                   <X size={16} />
@@ -835,7 +836,7 @@ export default function ModernSaloonTheme({ website, content }: Props) {
               {/* Image */}
               <div className="relative h-48 sm:h-56 w-full bg-stone-900 overflow-hidden">
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, #111827, #0F172A)` }}>
                     <Scissors size={40} style={{ color: TEAL }} />

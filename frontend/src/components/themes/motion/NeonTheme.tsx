@@ -46,7 +46,7 @@ export default function NeonTheme({ website, content }: any) {
               <HeroMedia video={d.video} images={d.heroImages} />
               <div className="absolute inset-0 mix-blend-color opacity-25" style={{ background: accent }} />
               <div className="absolute bottom-4 left-4 right-4 flex justify-between font-mono text-[11px] uppercase tracking-widest text-white/80">
-                <span>● REC</span><span>{d.preset.stats[0].value} {d.preset.stats[0].label}</span>
+                <span>● REC</span><span>{d.stats[0].value} {d.stats[0].label}</span>
               </div>
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function NeonTheme({ website, content }: any) {
             {!d.hideField('about_text') && <p className="text-lg text-white/65 leading-relaxed -mt-4 whitespace-pre-line">{d.aboutText}</p>}
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {d.preset.stats.map(s => (
+            {d.stats.map(s => (
               <div key={s.label} className="aspect-square border border-white/15 flex flex-col justify-end p-4 md:p-6 hover:border-white/60 transition-colors">
                 <div className="font-display text-2xl md:text-4xl" style={{ color: accent, ...glow }}>{s.value}</div>
                 <div className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 mt-2">{s.label}</div>
@@ -114,7 +114,7 @@ export default function NeonTheme({ website, content }: any) {
             {d.items.slice(0, 8).map((p, i) => (
               <button key={i} onClick={() => open(p)} className="group text-left border border-white/15 hover:border-white/60 transition-colors">
                 <div className="aspect-square overflow-hidden relative">
-                  {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale-[60%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />}
+                  {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover grayscale-[60%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />}
                   {p.price && <span className="absolute top-0 right-0 px-3 py-1.5 font-mono text-sm text-black" style={{ background: accent }}>{p.price}</span>}
                 </div>
                 <div className="p-5">

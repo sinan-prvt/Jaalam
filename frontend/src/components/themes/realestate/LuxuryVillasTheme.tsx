@@ -5,6 +5,7 @@ import { Key, MapPin, Phone, Mail, X, Clock, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#F5F3ED', altBg: '#ECE8DD', text: '#2C2C2C', accent: '#B8932E', headingFont: 'font-luxury', bodyFont: 'font-body', radius: 'none', uppercase: true };
 
@@ -73,7 +74,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="relative min-h-[100svh] flex flex-col items-center justify-center pt-32 pb-16">
+      <><section className="relative min-h-[100svh] flex flex-col items-center justify-center pt-32 pb-16">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center text-white px-6 w-full max-w-4xl">
@@ -92,6 +93,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Properties */}
       <section id="properties" className="py-24 px-6 bg-[#F5F3ED]">
@@ -107,7 +109,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer bg-white shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                 <div className="aspect-[4/3] relative overflow-hidden">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                   <div className="absolute top-4 right-4 bg-[#D4AF37] text-white font-body text-xs tracking-wider px-3 py-1 z-20 shadow-md">
                     {p.price}
                   </div>
@@ -181,7 +183,7 @@ export default function LuxuryVillasTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

@@ -144,7 +144,7 @@ export default function ChristianTraditionalLayout({ website, content }: { websi
                   >
                     <div className={`w-48 h-64 p-2 border border-[#d4af37]/50 mb-8 bg-white relative overflow-hidden transition-all duration-700 rounded-t-[100px] shadow-lg group-hover:shadow-2xl group-hover:-translate-y-2`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-t-[90px] grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-t-[90px] grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
                       ) : (
                         <div className="w-full h-full rounded-t-[90px] bg-stone-100 flex items-center justify-center">
                           <User size={50} className="text-stone-300" />

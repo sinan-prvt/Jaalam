@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ArrowRight, X, Menu, Clock, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
@@ -119,7 +120,7 @@ export default function BoutiqueTheme({ website, content }: any) {
       )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-        <section id="hero" className="relative h-screen flex items-center justify-center pt-20">
+        <><section id="hero" className="relative h-screen flex items-center justify-center pt-20">
           <div className="absolute inset-0 z-0">
             <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2000&q=80'} 
               alt="Hero" 
@@ -137,6 +138,7 @@ export default function BoutiqueTheme({ website, content }: any) {
             </a>
           </div>
         </section>
+      <ThemeStats content={content} /></>
       )}
 
 
@@ -176,7 +178,7 @@ export default function BoutiqueTheme({ website, content }: any) {
               <div key={i} className="bg-white border border-[#EAE6DF] text-center hover:border-[#D4AF37] transition-colors group overflow-hidden flex flex-col">
                 {service.image ? (
                   <div className="w-full h-48 md:h-56 overflow-hidden">
-                    <img loading="lazy" src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img loading="lazy" src={service.image || undefined} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                 ) : (
                   <div className="pt-10">
@@ -209,7 +211,7 @@ export default function BoutiqueTheme({ website, content }: any) {
             {products.slice(0, 4).map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(p)}>
                 <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute bottom-0 left-0 w-full p-4 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/50 to-transparent flex justify-center">
                     <span className="text-white bt-sans text-xs tracking-widest uppercase border-b border-white pb-1">Quick View</span>
                   </div>
@@ -359,7 +361,7 @@ export default function BoutiqueTheme({ website, content }: any) {
                 return <p key={block.id} className="bt-sans text-[#2C2C2C] leading-relaxed prose prose-lg mx-auto break-words whitespace-pre-wrap">{block.content}</p>;
               }
               if (block.type === 'image') {
-                return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom block" className="w-full h-auto rounded-none object-cover" /> : null;
+                return block.url ? <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom block" className="w-full h-auto rounded-none object-cover" /> : null;
               }
               if (block.type === 'divider') {
                 return <div key={block.id} className="w-12 h-px bg-[#D4AF37] mx-auto my-12"></div>;
@@ -378,7 +380,7 @@ export default function BoutiqueTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -450,7 +452,7 @@ export default function BoutiqueTheme({ website, content }: any) {
         <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4" onClick={() => setSelectedProduct(null)}>
           <div className="bg-white max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="aspect-[3/4] w-full">
-              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+              <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover" />
             </div>
             <div className="p-8 md:p-12 flex flex-col justify-center relative">
               <button className="absolute top-6 right-6 text-gray-400 hover:text-black" onClick={() => setSelectedProduct(null)}>

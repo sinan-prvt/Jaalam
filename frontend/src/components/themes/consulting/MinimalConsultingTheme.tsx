@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function MinimalConsultingTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -78,7 +79,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-24 pb-32 px-8">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-24 pb-32 px-8">
         <div className="container mx-auto max-w-5xl text-center">
           {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-5xl md:text-7xl lg:text-[100px] font-bold mb-10 leading-[0.9] tracking-tighter">
@@ -95,6 +96,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Injected About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
@@ -127,7 +129,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[3/4] overflow-hidden mb-6 bg-gray-100">
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
                 </div>
                 <h3 className="font-minimal text-2xl font-bold mb-3 tracking-tight">{service.name}</h3>
                 <p className="font-minimal text-gray-500 mb-6 font-light">{service.description}</p>
@@ -195,7 +197,7 @@ export default function MinimalConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-minimal text-4xl md:text-5xl font-bold tracking-tighter">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-minimal text-xl text-gray-500 font-light leading-relaxed">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full grayscale" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full grayscale" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-black/10" />;
               return null;
             })}

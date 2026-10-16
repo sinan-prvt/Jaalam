@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import { ThemeAbout, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'fancy', bg: '#FFFDF9', altBg: '#FAF7F2', text: '#2C1E16', accent: '#8C2323', headingFont: 'font-boutique', bodyFont: 'font-body', radius: 'none', uppercase: true };
 export default function BoutiqueFancyTheme({ website, content }: any) {
@@ -53,7 +54,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-20 px-6">
+      <><section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/2 md:pr-12">
             <p className="font-body text-[#8C2323] text-sm tracking-widest uppercase mb-4">Exquisite Collections</p>
@@ -77,6 +78,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Collections Grid */}
       <section id="collections" className="py-24 bg-[#FAF7F2]">
@@ -90,7 +92,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
                 <div className="aspect-[3/4] overflow-hidden mb-6 relative">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                 </div>
                 <h4 className="font-boutique text-lg mb-1">{p.name}</h4>
@@ -134,7 +136,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

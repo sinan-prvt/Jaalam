@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShieldCheck, Truck, Clock, MapPin, Mail, Phone, Search, ChevronRight } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Facebook = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -91,7 +92,7 @@ export default function ModernMeatTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="bg-red-50 py-16 px-6">
+            <Fragment key="hero"><section key="hero" id="hero" className="bg-red-50 py-16 px-6">
               <div className="container mx-auto flex flex-col md:flex-row items-center gap-12">
                 <div className="w-full md:w-1/2">
                   <span className="bg-red-100 text-red-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-6 inline-block">Farm Fresh Daily</span>
@@ -112,6 +113,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -151,7 +153,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                       <div key={idx} className="flex flex-col items-center">
                         <div className="w-20 h-20 bg-red-600/20 rounded-full flex items-center justify-center mb-6 overflow-hidden">
                           {srv.image ? (
-                            <img loading="lazy" src={srv.image} alt={title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={srv.image || undefined} alt={title} className="w-full h-full object-cover" />
                           ) : (
                             typeof srv === 'object' && srv.icon ? <Icon size={40} className="text-red-500" /> : <ShieldCheck size={40} className="text-red-500" />
                           )}
@@ -183,7 +185,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                   {products.slice(0, 4).map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-shadow bg-white flex flex-col cursor-pointer hover:-translate-y-1 transform duration-300">
                       <div className="h-48 overflow-hidden bg-slate-100 relative">
-                        {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />}
+                        {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />}
                         <div className="absolute top-3 left-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-sm">Fresh</div>
                       </div>
                       <div className="p-5 flex-1 flex flex-col">
@@ -307,7 +309,7 @@ export default function ModernMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-modern text-3xl font-extrabold text-slate-900 text-center">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="text-slate-600 text-lg leading-relaxed text-center">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-xl"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-xl"><img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-full h-px bg-slate-200 my-12"></div>;
                   return null;
                 })}
@@ -331,7 +333,7 @@ export default function ModernMeatTheme({ website, content }: any) {
             </button>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12">
               <div className="h-48 md:h-auto md:aspect-square bg-slate-50 rounded-2xl overflow-hidden relative">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover" />
                 <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-green-500 text-white text-[10px] md:text-xs font-bold px-2 py-1 md:px-3 md:py-1.5 rounded uppercase tracking-wider shadow-md">Fresh Cut</div>
               </div>
               <div className="flex flex-col justify-center font-modern">
@@ -371,7 +373,7 @@ export default function ModernMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

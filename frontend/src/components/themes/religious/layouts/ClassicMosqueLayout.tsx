@@ -140,7 +140,7 @@ export default function ClassicMosqueLayout({ website, content }: { website: any
                   >
                     <div className={`w-48 h-56 rounded-t-full p-2 border-2 ${colors.goldBorder} mb-6 shadow-lg bg-white relative overflow-hidden transition-transform duration-500 group-hover:-translate-y-2`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-t-full sepia-[0.3]" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-t-full sepia-[0.3]" />
                       ) : (
                         <div className="w-full h-full rounded-t-full bg-slate-50 flex items-center justify-center">
                           <User size={48} className="text-slate-300" />

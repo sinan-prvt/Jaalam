@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Clock, X, Menu, Scale, Shield, Landmark, ArrowRight } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function LegalFirmTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -76,7 +77,7 @@ export default function LegalFirmTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-32 pb-40 px-6 bg-[#1B3D2E] text-[#F5F0E8] overflow-hidden">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-32 pb-40 px-6 bg-[#1B3D2E] text-[#F5F0E8] overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="container mx-auto max-w-5xl relative z-10 text-center">
           <div className="w-16 h-1 bg-[#C4A962] mx-auto mb-10"></div>
@@ -95,6 +96,7 @@ export default function LegalFirmTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Injected Value Proposition (Services) Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
@@ -106,7 +108,7 @@ export default function LegalFirmTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center flex flex-col items-center">
                     <div className="mb-6">
-                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-legal-title text-2xl font-bold mb-4 text-[#1B3D2E]">{srv.title}</h3>
                     <p className="font-legal-body text-[#1B3D2E]/70 leading-relaxed text-lg">{srv.description}</p>
@@ -130,7 +132,7 @@ export default function LegalFirmTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer border border-[#E5E0D8] bg-[#F5F0E8] hover:shadow-xl transition-all duration-300" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/3] overflow-hidden">
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
                 </div>
                 <div className="p-8">
                   <h3 className="font-legal-title text-2xl font-bold mb-3 text-[#1B3D2E]">{service.name}</h3>
@@ -199,7 +201,7 @@ export default function LegalFirmTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-legal-title text-3xl md:text-4xl font-bold text-[#1B3D2E] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-legal-body text-lg text-[#1B3D2E]/80 leading-relaxed text-center">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full border-4 border-white shadow-lg" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full border-4 border-white shadow-lg" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-[#1B3D2E]/10" />;
               return null;
             })}

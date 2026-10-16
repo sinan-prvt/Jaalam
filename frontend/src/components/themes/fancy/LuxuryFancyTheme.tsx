@@ -5,6 +5,7 @@ import { Crown, Star, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function LuxuryFancyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -52,7 +53,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      <><section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1515562141207-7a48fb3c274d?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
         
@@ -71,6 +72,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="exclusive" className="py-32 px-6 bg-[#050505]">
@@ -85,7 +87,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
                 <div className="relative aspect-square overflow-hidden mb-8 border border-[#E5C158]/20 bg-[#0A0A0A] flex items-center justify-center p-8">
                   <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-                  <img loading="lazy" src={p.image} alt={p.name} className="relative z-10 max-h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-700 group-hover:scale-105" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="relative z-10 max-h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div className="text-center">
                   <h3 className="font-luxury text-2xl text-white mb-3 tracking-wide">{p.name}</h3>
@@ -122,7 +124,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -210,7 +212,7 @@ export default function LuxuryFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

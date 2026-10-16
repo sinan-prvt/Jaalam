@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { Leaf, ShoppingBag, MapPin, Mail, Phone, Sun, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FDFBF7', altBg: '#F2EFE6', text: '#3E4A3D', accent: '#6B8E23', headingFont: 'font-organic', bodyFont: 'font-body', radius: 'xl' };
 
@@ -70,7 +71,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6">
+      <><section className="py-16 px-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-12 max-w-6xl">
           <div className="w-full md:w-1/2">
             {!hiddenFields.includes("hero_title") && (
@@ -93,6 +94,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="market" className="py-20 px-6 bg-[#F4F1EA]">
@@ -106,7 +108,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-[#FDFBF7]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="font-body text-xs text-[#8B9A8B] uppercase tracking-wider mb-1">{p.farm}</div>
                 <h3 className="font-organic text-lg text-[#2C362B] mb-2">{p.name}</h3>
@@ -158,7 +160,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

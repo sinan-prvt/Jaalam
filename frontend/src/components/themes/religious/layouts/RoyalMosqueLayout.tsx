@@ -138,7 +138,7 @@ export default function RoyalMosqueLayout({ website, content }: { website: any, 
                   >
                     <div className={`w-56 h-72 p-2 border-2 ${colors.goldBorder} mb-8 bg-[#4a0410] relative overflow-hidden transition-all duration-700 rounded-t-full shadow-[0_10px_30px_rgba(0,0,0,0.5)]`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-t-full grayscale-[30%] sepia-[0.2] group-hover:grayscale-0 transition-all duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-t-full grayscale-[30%] sepia-[0.2] group-hover:grayscale-0 transition-all duration-700" />
                       ) : (
                         <div className="w-full h-full rounded-t-full bg-[#3a030c] flex items-center justify-center">
                           <User size={50} className={colors.gold} />

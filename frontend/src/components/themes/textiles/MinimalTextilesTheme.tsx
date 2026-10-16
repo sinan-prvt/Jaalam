@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'textiles', bg: '#F5F5F5', altBg: '#EAEAEA', text: '#111111', accent: '#111111', headingFont: 'font-min', bodyFont: 'font-min', radius: 'none', uppercase: true };
 export default function MinimalTextilesTheme({ website, content }: any) {
@@ -50,7 +51,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="h-screen w-full relative bg-white">
+      <><section className="h-screen w-full relative bg-white">
         <div className="absolute inset-0 flex">
            <div className="w-1/2 h-full bg-[#EAEAEA]"></div>
            <div className="w-1/2 h-full bg-[#F5F5F5]"></div>
@@ -70,6 +71,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
               )}
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="shop" className="py-32 px-6 md:px-20 bg-[#F5F5F5]">
@@ -77,7 +79,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
               <div className="aspect-[3/4] bg-[#EAEAEA] mb-6 overflow-hidden">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
               </div>
               <div className="flex justify-between items-start font-min text-sm tracking-widest uppercase">
                  <div>
@@ -129,7 +131,7 @@ export default function MinimalTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

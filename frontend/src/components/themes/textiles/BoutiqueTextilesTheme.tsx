@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'textiles', bg: '#FAFAF8', altBg: '#F3EEE7', text: '#4A3B32', accent: '#8C3A3A', headingFont: 'font-elegant', bodyFont: 'font-body', radius: 'none' };
 const Instagram = ({ size = 18, className = "" }: any) => (
@@ -65,7 +66,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-20 px-6 bg-pattern relative">
+      <><section className="py-20 px-6 bg-pattern relative">
         <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-16">
           <div className="w-full md:w-1/2 relative">
              <div className="absolute inset-0 bg-[#8C3A3A] translate-x-4 translate-y-4"></div>
@@ -87,6 +88,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Featured Products */}
       <section id="collection" className="py-24 px-6 bg-white border-y border-[#D9C5B2]">
@@ -97,7 +99,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer flex gap-6 group cursor-pointer">
                 <div className="w-1/2 aspect-[3/4] relative overflow-hidden bg-[#FAFAF8]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 border-2 border-[#D4AF37]/30 m-4 pointer-events-none"></div>
                 </div>
                 <div className="w-1/2 flex flex-col justify-center py-6 pr-6">
@@ -147,7 +149,7 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

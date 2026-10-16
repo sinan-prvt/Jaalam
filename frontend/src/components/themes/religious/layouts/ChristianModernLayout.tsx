@@ -157,7 +157,7 @@ export default function ChristianModernLayout({ website, content }: { website: a
                     <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 transition-all duration-300 hover:shadow-[0_20px_50px_-15px_rgba(49,46,129,0.1)] hover:-translate-y-2 h-full flex flex-col items-center text-center">
                       <div className="w-48 h-48 mb-8 rounded-[2rem] overflow-hidden rotate-3 group-hover:rotate-0 transition-all duration-300 shadow-xl shadow-slate-200/50">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className={`w-full h-full bg-slate-200 flex items-center justify-center ${colors.mutedText}`}>
                             <User size={64} opacity={0.5} />

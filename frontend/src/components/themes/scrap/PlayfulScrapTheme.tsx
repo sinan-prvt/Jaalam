@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Package, Truck, Phone, Mail, MapPin, DollarSign, X, Clock, Menu } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function PlayfulScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -92,7 +93,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-16 px-6 text-center">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-16 px-6 text-center">
               <div className="container mx-auto max-w-4xl relative">
                 <div className="absolute top-10 left-0 text-[#4ECDC4] transform -rotate-12"><DollarSign size={80} /></div>
                 <div className="absolute bottom-10 right-0 text-[#FF6B6B] transform rotate-12"><Truck size={100} /></div>
@@ -114,6 +115,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -332,7 +334,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -374,7 +376,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full border-b-4 border-[#2B3A67]">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover" />
               </div>
             )}
             <div className="p-6 md:p-8">

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Sparkles, MapPin, Mail, Phone, Diamond, Menu, X, Clock } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -113,7 +114,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-            <section key="hero" id="hero" className="relative py-24 px-6 overflow-hidden">
+            <Fragment key="hero"><section key="hero" id="hero" className="relative py-24 px-6 overflow-hidden">
               <div className="container mx-auto max-w-4xl text-center relative z-10">
                 <p className="font-sans text-[#8C3A3A] tracking-[0.3em] uppercase text-xs mb-6 font-bold">Bridal & Imitation Jewelry</p>
                 {!hiddenFields.includes("hero_title") && (
@@ -130,6 +131,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 <img loading="lazy" src={content.hero_image || "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80"} alt="Classic Fancy Store" className="w-full h-96 object-cover shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-sm" />
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           )}
 
           {/* About */}
@@ -199,7 +201,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                   {products.slice(0, 4).map((p: any, i: number) => (
                     <div key={i} className="flex gap-6 items-center group cursor-pointer bg-[#FDF8F5] p-4 border border-[#E8DFD8] hover:border-[#8C3A3A] transition-colors" onClick={() => setSelectedProduct(p)}>
                       <div className="w-1/2 aspect-square overflow-hidden bg-white">
-                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                       </div>
                       <div className="w-1/2 flex flex-col justify-center">
                         <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>
@@ -259,7 +261,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                     </div>
                     {block.image && (
                       <div className="flex-1 w-full aspect-square border-8 border-[#FDF8F5] shadow-lg">
-                        <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -361,7 +363,7 @@ export default function ClassicFancyTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="flex gap-6 items-center group cursor-pointer bg-white p-4 border border-[#E8DFD8] hover:border-[#8C3A3A] transition-colors" onClick={() => setSelectedProduct(p)}>
                     <div className="w-1/2 aspect-square overflow-hidden bg-white">
-                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                      <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                     </div>
                     <div className="w-1/2 flex flex-col justify-center">
                       <h3 className="font-classic text-xl font-bold text-[#2B1B12] mb-2 leading-snug">{p.name}</h3>

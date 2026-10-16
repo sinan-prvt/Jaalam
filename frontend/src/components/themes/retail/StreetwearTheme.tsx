@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { X, Flame, Zap, ArrowRight, Menu, MapPin, Mail, Phone } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -145,7 +146,7 @@ export default function StreetwearTheme({ website, content }: any) {
       )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-        <section id="hero" className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 border-b-2 border-[#333] overflow-hidden">
+        <><section id="hero" className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 border-b-2 border-[#333] overflow-hidden">
           <div className="absolute inset-0 opacity-30 mix-blend-luminosity bg-cover bg-center" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1552346154-21d32810baa3?auto=format&fit=crop&w=2000&q=80'})` }}></div>
           <div className="relative z-10 text-center w-full max-w-4xl">
             <div className="inline-block bg-[#ccff00] text-black font-bold px-4 py-1 mb-6 rotate-[-2deg]">SEASON 1</div>
@@ -162,6 +163,7 @@ export default function StreetwearTheme({ website, content }: any) {
             </a>
           </div>
         </section>
+      <ThemeStats content={content} /></>
       )}
 
       {/* About */}
@@ -197,7 +199,7 @@ export default function StreetwearTheme({ website, content }: any) {
               <div key={i} className="st-brutal-card flex flex-col group hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(204,255,0,1)] transition-all overflow-hidden">
                 {s.image && (
                   <div className="w-full aspect-video border-b-2 border-[#333] overflow-hidden">
-                    <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img loading="lazy" src={s.image || undefined} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                 )}
                 <div className="p-6 md:p-8">
@@ -225,7 +227,7 @@ export default function StreetwearTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                 <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                   <div className="absolute top-4 left-4 bg-white text-black font-bold px-2 py-1 text-xs">NEW</div>
                 </div>
                 <div className="p-4 flex flex-col flex-1">
@@ -368,7 +370,7 @@ export default function StreetwearTheme({ website, content }: any) {
                   return <p key={block.id} className="text-xl font-bold text-gray-400 break-words whitespace-pre-wrap w-full">{block.content}</p>;
                 }
                 if (block.type === 'image') {
-                  return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
+                  return block.url ? <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom content" className="w-full h-auto border-4 border-[#333] grayscale hover:grayscale-0 transition-all duration-500" /> : null;
                 }
                 if (block.type === 'divider') {
                   return <div key={block.id} className="w-24 h-2 bg-[#ccff00] mx-auto my-8"></div>;
@@ -431,7 +433,7 @@ export default function StreetwearTheme({ website, content }: any) {
               <X size={20} />
             </button>
             <div className="w-full md:w-1/2 h-64 md:h-auto p-4 md:p-12 bg-[#0A0A0A] border-b-2 md:border-b-0 md:border-r-2 border-[#333]">
-              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
+              <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" />
             </div>
             <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
               <div className="inline-block bg-white text-black font-bold px-3 py-1 text-xs md:text-sm self-start mb-4 md:mb-6 uppercase">Drop 01</div>
@@ -475,7 +477,7 @@ export default function StreetwearTheme({ website, content }: any) {
               {products.map((p: any, i: number) => (
                 <div key={i} className="st-brutal-card flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="w-full aspect-[4/5] bg-[#0A0A0A] overflow-hidden border-b-2 border-[#333] group-hover:border-[#ccff00] transition-colors p-4 relative">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                    <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                   </div>
                   <div className="p-4 flex flex-col flex-1">
                     <h3 className="st-font font-bold text-xl uppercase mb-2 flex-1 break-words">{p.name}</h3>

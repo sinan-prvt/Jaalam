@@ -4,6 +4,7 @@ import { PenTool, Diamond, MapPin, Mail, Phone, ChevronRight } from 'lucide-reac
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function PremiumStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -59,7 +60,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <><section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style={{ backgroundImage: `url(${content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497032205567-50458fd251f6?auto=format&fit=crop&w=1600&q=80'})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]"></div>
         
@@ -80,6 +81,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="collection" className="py-32 px-6 bg-[#0A0A0A]">
@@ -90,7 +92,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer">
                 <div className="relative aspect-[4/3] overflow-hidden mb-8 border border-[#D4AF37]/10">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                 </div>
                 <div className="text-center">
@@ -132,7 +134,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
           {services.map((service: any, i: number) => (
             <div key={i} className="p-12 border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-700 cursor-pointer group bg-[#050505]">
-              {service.image && <img loading="lazy" src={service.image} alt={service.title} className="w-full h-40 object-cover mb-6" />}
+              {service.image && <img loading="lazy" src={service.image || undefined} alt={service.title} className="w-full h-40 object-cover mb-6" />}
               <h3 className="font-luxury text-2xl text-[#D4AF37] mb-6 tracking-wide group-hover:scale-105 transition-transform duration-500">{service.title || service.name}</h3>
               <p className="font-body text-xs text-gray-400 tracking-widest leading-relaxed">{service.description}</p>
             </div>
@@ -239,7 +241,7 @@ export default function PremiumStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

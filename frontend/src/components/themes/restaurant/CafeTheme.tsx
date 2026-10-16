@@ -5,6 +5,7 @@ import ProductBuyButton from '../../payments/ProductBuyButton';
 import { motion } from 'framer-motion';
 import { Coffee, ChevronRight, Star, MapPin, Phone, Search, ChevronLeft, Mail, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 interface CafeThemeProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,6 +74,10 @@ const ThemeLoader = ({ theme }: { theme: string }) => {
 
 export default function CafeTheme({ website, content }: CafeThemeProps) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+
+  // Stats strip (Editor → Stats) right after whichever hero variant renders
+  const withHeroStats = (sectionId: string, el: React.ReactNode) =>
+    sectionId === 'hero' && el ? <React.Fragment key="hero">{el}<ThemeStats content={content} /></React.Fragment> : el;
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
 
   const [scrolled, setScrolled] = useState(false);
@@ -357,6 +362,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
 
           {currentView === 'home' ? (
             <div className="pb-32 lg:pb-16 max-w-7xl mx-auto">
+              <ThemeStats content={content} accent="#EF8F63" className="text-slate-800" />
               {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
                 .filter((s: string) => s !== 'hero' && !(content.settings_json?.hidden_sections || []).includes(s))
                 .map((sectionId: string) => {
@@ -379,7 +385,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               className={`flex items-center gap-2 lg:gap-4 px-5 lg:px-8 py-3.5 lg:py-5 rounded-full snap-start shrink-0 font-bold text-sm lg:text-lg transition-all shadow-md border active:scale-95 duration-200 focus:outline-none ${idx === 0 ? 'bg-[#FFCC99] border-[#FFCC99] text-[#A65E36] hover:shadow-lg' : 'bg-white border-slate-100 text-slate-600 hover:border-[#FFCC99] hover:text-[#A65E36] hover:shadow-lg'}`}
                             >
                               {cat.image && (cat.image.startsWith('http') || cat.image.startsWith('/')) ? (
-                                <img src={cat.image} alt={cat.title} className="w-6 h-6 lg:w-8 lg:h-8 object-cover rounded-full" />
+                                <img src={cat.image || undefined} alt={cat.title} className="w-6 h-6 lg:w-8 lg:h-8 object-cover rounded-full" />
                               ) : (
                                 <span className="lg:text-2xl text-lg">{cat.image || '🍰'}</span>
                               )}
@@ -978,7 +984,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <main>
             {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
               .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
-              .map((sectionId: string) => {
+              .map((sectionId: string) => withHeroStats(sectionId, (() => {
                 if (sectionId === 'hero') {
                   return (
                     <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className={`relative h-screen flex items-center justify-center overflow-hidden ${bakeryColors.bgDark}`}>
@@ -991,7 +997,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             animate={{ y: [0, -10, 0], rotate: [index % 2 === 0 ? 0 : 3, index % 2 === 0 ? -3 : 0, 0] }}
                             transition={{ duration: 4 + index, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
                           >
-                            <img loading="lazy" src={bread.url}
+                            <img loading="lazy" src={bread.url || undefined}
                               alt={bread.name}
                               className="w-full h-full object-cover rounded-2xl shadow-2xl opacity-90 border border-white/5"
                             />
@@ -1088,7 +1094,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               {cat.image && (
                                 <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
                                   {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
-                                    <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={cat.image || undefined} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                   ) : (
                                     <span>{cat.image}</span>
                                   )}
@@ -1343,7 +1349,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 }
 
                 return null;
-              })}
+              })()))}
           </main>
         ) : (
           /* --- MENU/SHOP VIEW --- */
@@ -1616,7 +1622,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <main>
             {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
               .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
-              .map((sectionId: string) => {
+              .map((sectionId: string) => withHeroStats(sectionId, (() => {
                 if (sectionId === 'hero') {
                   return (
                     <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className={`relative min-h-screen flex items-center justify-center pt-24 pb-12 ${artisanColors.bgCream}`}>
@@ -1722,7 +1728,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                               {cat.image && (
                                 <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
                                   {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
-                                    <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={cat.image || undefined} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                   ) : (
                                     <span>{cat.image}</span>
                                   )}
@@ -1974,7 +1980,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 }
 
                 return null;
-              })}
+              })()))}
           </main>
         ) : (
           /* --- MENU/SHOP VIEW --- */
@@ -2245,7 +2251,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
           <main>
             {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
               .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
-              .map((sectionId: string) => {
+              .map((sectionId: string) => withHeroStats(sectionId, (() => {
                 if (sectionId === 'hero') {
                   return (
                     <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-[#111111]">
@@ -2349,7 +2355,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                                 {cat.image && (
                                   <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
                                     {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
-                                      <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                      <img src={cat.image || undefined} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                     ) : (
                                       <span>{cat.image}</span>
                                     )}
@@ -2591,7 +2597,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 }
 
                 return null;
-              })}
+              })()))}
           </main>
         ) : (
           /* --- MENU/SHOP VIEW --- */
@@ -2837,7 +2843,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
         <main>
           {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
             .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
-            .map((sectionId: string) => {
+            .map((sectionId: string) => withHeroStats(sectionId, (() => {
               if (sectionId === 'hero') {
                 return (
                   <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}  key="hero" id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -2919,7 +2925,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                             {cat.image && (
                               <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-slate-100 flex items-center justify-center text-4xl">
                                 {cat.image.startsWith('http') || cat.image.startsWith('/') ? (
-                                  <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                  <img src={cat.image || undefined} alt={cat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 ) : (
                                   <span>{cat.image}</span>
                                 )}
@@ -3162,7 +3168,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                 );
               }
               return null;
-            })}
+            })()))}
         </main>
       )}
 

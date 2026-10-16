@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, FileJson, Megaphone, Bot } from 'lucide-react';
+import {ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, FileJson, Megaphone, Bot, Trophy } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
@@ -326,6 +326,7 @@ export default function WebsiteEditor() {
     { id: 'template', icon: <FileJson size={16} />, label: 'Template' },
     { id: 'hero', icon: <LayoutTemplate size={16} />, label: 'Hero' },
     { id: 'about', icon: <MessageSquare size={16} />, label: 'About' },
+    { id: 'stats', icon: <Trophy size={16} />, label: 'Stats' },
     { id: 'services', icon: <Layers size={16} />, label: 'Services' },
     { id: 'products', icon: <ShoppingCart size={16} />, label: 'Menu' },
     { id: 'payments', icon: <CreditCard size={16} />, label: 'Payments' },
@@ -761,6 +762,72 @@ export default function WebsiteEditor() {
                   />
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'stats' && (
+            <div className="space-y-4 animate-in fade-in duration-300">
+              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-3">
+                <SectionLabel
+                  label="Stats / Achievements"
+                  sectionKey="stats"
+                  content={content}
+                  setContent={setContent}
+                  rightAction={
+                    (content.settings_json?.stats || []).length < 4 && (
+                      <button
+                        onClick={() => setContent({ ...content, settings_json: { ...(content.settings_json || {}), stats: [...(content.settings_json?.stats || []), { value: '', label: '' }] } })}
+                        className="bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-indigo-600 active:scale-95"
+                      >+ Add Stat</button>
+                    )
+                  }
+                />
+                <p className="text-xs text-slate-500 leading-relaxed">Highlight up to 4 numbers that build trust, shown in a strip right below your hero. Numbers count up when visitors scroll to them.</p>
+                {!(content.settings_json?.stats || []).length && (
+                  <button
+                    onClick={() => setContent({ ...content, settings_json: { ...(content.settings_json || {}), stats: [{ value: '10+', label: 'Years of experience' }, { value: '5,000+', label: 'Happy customers' }, { value: '4.9★', label: 'Google rating' }] } })}
+                    className="w-full py-3 rounded-xl border border-dashed border-indigo-200 text-indigo-600 text-sm font-bold hover:bg-indigo-50 transition-colors"
+                  >Start with example stats</button>
+                )}
+              </div>
+
+              {(content.settings_json?.stats || []).map((stat: any, idx: number) => {
+                const update = (patch: any) => {
+                  const next = [...(content.settings_json?.stats || [])];
+                  next[idx] = { ...next[idx], ...patch };
+                  setContent({ ...content, settings_json: { ...(content.settings_json || {}), stats: next } });
+                };
+                return (
+                  <div key={idx} className="bg-white/50 p-4 rounded-2xl border border-white shadow-sm relative pt-8">
+                    <button
+                      onClick={() => {
+                        const next = [...(content.settings_json?.stats || [])];
+                        next.splice(idx, 1);
+                        setContent({ ...content, settings_json: { ...(content.settings_json || {}), stats: next } });
+                      }}
+                      className="absolute top-3 right-3 text-rose-500 hover:bg-rose-50 px-2 py-1 rounded-lg text-[10px] uppercase tracking-wider font-black transition-colors"
+                    >Remove</button>
+                    <div className="grid grid-cols-5 gap-3">
+                      <input
+                        type="text"
+                        value={stat.value || ''}
+                        onChange={e => update({ value: e.target.value })}
+                        placeholder="500+"
+                        maxLength={12}
+                        className="col-span-2 w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-black outline-none focus:ring-2 focus:ring-indigo-500/20"
+                      />
+                      <input
+                        type="text"
+                        value={stat.label || ''}
+                        onChange={e => update({ label: e.target.value })}
+                        placeholder="Happy customers"
+                        maxLength={40}
+                        className="col-span-3 w-full px-3 py-2.5 bg-white border border-slate-100 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/20"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 

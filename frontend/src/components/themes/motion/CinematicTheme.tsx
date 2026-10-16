@@ -58,7 +58,7 @@ export default function CinematicTheme({ website, content }: any) {
             {!d.hideField('about_title') && <h2 className="font-display text-4xl md:text-6xl leading-[1.02] mb-8 [text-wrap:balance]">{d.aboutTitle}</h2>}
             {!d.hideField('about_text') && <p className="text-lg md:text-xl text-white/65 leading-relaxed whitespace-pre-line">{d.aboutText}</p>}
             <div className="grid grid-cols-3 gap-6 mt-12 pt-10 border-t border-white/10">
-              {d.preset.stats.map(s => (
+              {d.stats.map(s => (
                 <div key={s.label}>
                   <div className="font-display text-3xl md:text-5xl" style={{ color: accent }}>{s.value}</div>
                   <div className="text-xs md:text-sm uppercase tracking-widest text-white/50 mt-2">{s.label}</div>
@@ -100,7 +100,7 @@ export default function CinematicTheme({ website, content }: any) {
             {d.items.slice(0, 8).map((p, i) => (
               <button key={i} onClick={() => open(p)} className="group text-left">
                 <div className="relative aspect-[3/4] rounded-[1.5rem] overflow-hidden bg-white/5">
-                  {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
+                  {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
                   {p.price && <span className="absolute top-4 right-4 rounded-full px-3 py-1 text-sm font-semibold text-black" style={{ background: accent }}>{p.price}</span>}
                   <div className="absolute bottom-0 inset-x-0 p-5">

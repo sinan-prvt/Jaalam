@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function CorporateOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -75,7 +76,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative bg-[#003366] text-white">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative bg-[#003366] text-white">
         <div className="absolute inset-0 z-0">
            <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80'} alt="Corporate" className="w-full h-full object-cover opacity-20" />
            <div className="absolute inset-0 bg-gradient-to-r from-[#003366] via-[#003366]/90 to-transparent"></div>
@@ -103,6 +104,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Leaf, Truck, MapPin, Mail, Phone, Sun, ShieldCheck } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function RusticMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -79,7 +80,7 @@ export default function RusticMeatTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-16 px-6 bg-[#F4F1EA] border-b-2 border-[#8F9779]/20">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-16 px-6 bg-[#F4F1EA] border-b-2 border-[#8F9779]/20">
               <div className="container mx-auto max-w-6xl flex flex-col md:flex-row gap-16 items-center">
                 <div className="w-full md:w-1/2">
                   {!hiddenFields.includes("hero_title") && (
@@ -102,6 +103,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -146,7 +148,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                     return (
                       <div key={idx} className="bg-[#2A3614] p-8 rounded-3xl border border-[#5C6B3E] text-center hover:-translate-y-2 transition-transform overflow-hidden">
                         {srv.image ? (
-                          <img loading="lazy" src={srv.image} alt={title} className="w-full h-40 object-cover rounded-2xl mb-6" />
+                          <img loading="lazy" src={srv.image || undefined} alt={title} className="w-full h-40 object-cover rounded-2xl mb-6" />
                         ) : (
                           <ShieldCheck size={40} className="text-[#8F9779] mx-auto mb-6" />
                         )}
@@ -172,7 +174,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                   {products.map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group flex flex-col">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4 relative">
-                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute top-2 left-2 bg-[#8F9779] text-white font-body text-xs font-bold px-2 py-1 rounded uppercase">Farm Fresh</div>
                       </div>
                       <h3 className="font-rustic text-xl font-bold text-[#2A3614] mb-2">{p.name}</h3>
@@ -286,7 +288,7 @@ export default function RusticMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-rustic text-4xl font-bold text-center text-[#2A3614]">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-[#5C6B3E] text-lg text-center leading-relaxed">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-lg border-4 border-white"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="rounded-3xl overflow-hidden shadow-lg border-4 border-white"><img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-16 h-1 bg-[#8F9779] mx-auto"></div>;
                   return null;
                 })}
@@ -306,7 +308,7 @@ export default function RusticMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import { ThemeAbout, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'textiles', bg: '#FFFFFF', altBg: '#F0F4FF', text: '#1D3557', accent: '#E63946', headingFont: 'font-fun', bodyFont: 'font-body', radius: 'xl' };
 export default function PlayfulTextilesTheme({ website, content }: any) {
@@ -53,7 +54,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-12 px-6 text-center relative">
+      <><section className="py-12 px-6 text-center relative">
         <div className="absolute top-10 left-10 text-[#FFD166] animate-spin-slow"><Star size={60} /></div>
         <div className="absolute bottom-10 right-20 text-[#06D6A0] animate-bounce"><Star size={40} /></div>
         
@@ -75,6 +76,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="shop" className="py-20 px-6">
@@ -88,7 +90,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
                   {p.tag}
                 </div>
                 <div className="aspect-square rounded-2xl overflow-hidden mb-4 border-4 border-[#F0F4FF]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-fun text-xl text-[#1D3557] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
@@ -136,7 +138,7 @@ export default function PlayfulTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

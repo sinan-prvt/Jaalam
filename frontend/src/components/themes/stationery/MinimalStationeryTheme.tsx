@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -102,7 +103,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
+                <Fragment key="hero"><section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
                   {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-6xl md:text-9xl font-extrabold tracking-tighter leading-[0.9] mb-8">
                     {content.hero_title || 'ESSENTIAL\nTOOLS\nFOR\nTHOUGHT.'}
@@ -117,6 +118,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </a>
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
             )}
 
             {/* About */}
@@ -323,7 +325,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                           <p className="font-minimal text-xl font-light text-gray-600 leading-relaxed whitespace-pre-line">{block.content}</p>
                           {block.image && (
                             <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                              <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover filter grayscale" />
+                              <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover filter grayscale" />
                             </div>
                           )}
                         </div>

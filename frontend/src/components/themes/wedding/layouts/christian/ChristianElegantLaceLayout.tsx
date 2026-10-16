@@ -231,7 +231,7 @@ export default function ChristianElegantLaceLayout({ content, website, colors }:
                 <div className="w-64 h-80 sm:w-72 sm:h-96 relative mb-8 rounded-[1rem] overflow-hidden bg-[#FAFAFA] border border-[#eee] shadow-sm p-3">
                   <div className="w-full h-full rounded-[0.5rem] overflow-hidden relative">
                      {person.photo ? (
-                      <img src={person.photo} alt={person.name} className="w-full h-full object-cover" />
+                      <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center text-[#D4AF37]/50 lace-pattern">
                          <Heart size={32} strokeWidth={1} />

@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function CreativeAgencyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -79,7 +80,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 px-6 bg-[#1A1A1A]">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 px-6 bg-[#1A1A1A]">
         {/* Background Gradients */}
         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#7000FF] rounded-full mix-blend-screen filter blur-[120px] opacity-60 animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#FF0055] rounded-full mix-blend-screen filter blur-[100px] opacity-50"></div>
@@ -111,6 +112,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Injected Value Proposition (Services) Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
@@ -122,7 +124,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
                  return (
                   <div key={i} className="flex flex-col">
                     <div className="mb-6">
-                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-12 h-12 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-creative-title text-3xl font-bold mb-4 text-[#1A1A1A]">{srv.title}</h3>
                     <p className="font-creative-body text-lg text-gray-600 leading-relaxed">{srv.description}</p>
@@ -149,7 +151,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
               <div key={i} className="group cursor-pointer rounded-3xl bg-[#2A2A2A] overflow-hidden" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/5] overflow-hidden relative">
                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                    
                    <div className="absolute bottom-0 left-0 p-8 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <div className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-creative-title uppercase tracking-wider mb-3">
@@ -215,7 +217,7 @@ export default function CreativeAgencyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-creative-title text-4xl md:text-5xl font-black tracking-tighter text-[#1A1A1A]">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-creative-body text-xl text-gray-600 leading-relaxed">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t-2 border-black/10 my-16" />;
               return null;
             })}

@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FFFFFF', altBg: '#F5F5F5', text: '#000000', accent: '#16A34A', headingFont: 'font-min', bodyFont: 'font-min', radius: 'md' };
 export default function MinimalGroceryTheme({ website, content }: any) {
@@ -70,7 +71,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 md:pt-48 pb-24 md:pb-32 px-6 md:px-12 max-w-5xl mx-auto">
+      <><section className="pt-32 md:pt-48 pb-24 md:pb-32 px-6 md:px-12 max-w-5xl mx-auto">
         {!hiddenFields.includes("hero_title") && (
               <h1 className="font-min text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight break-words hyphens-auto">
           {content.hero_title || 'just the good stuff.'}
@@ -82,6 +83,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
         </p>
               )}
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="shop" className="px-8 md:px-12 pb-32">
@@ -89,7 +91,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer flex flex-col">
               <div className="aspect-[4/5] bg-gray-50 mb-6 overflow-hidden">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="flex justify-between items-start mb-2">
                  <h3 className="font-min font-medium text-lg">{p.name}</h3>
@@ -137,7 +139,7 @@ export default function MinimalGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

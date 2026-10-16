@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { ShoppingBasket, MapPin, Phone, Tag, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
 
 const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FFFFFF', altBg: '#F8F9FA', text: '#212529', accent: '#0033A0', headingFont: 'font-classic', bodyFont: 'font-classic', radius: 'md' };
 
@@ -70,7 +71,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="bg-white border-b border-gray-200 shadow-sm relative overflow-hidden">
+      <><section className="bg-white border-b border-gray-200 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-[#0033A0] transform skew-x-12 translate-x-16 opacity-10"></div>
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between p-8 md:p-16 relative z-10">
           <div className="w-full md:w-1/2 pr-0 md:pr-12">
@@ -95,6 +96,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="offers" className="py-16 px-4">
@@ -115,7 +117,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
                 </div>
                 
                 <div className="aspect-square bg-white mb-4 flex items-center justify-center overflow-hidden">
-                  <img loading="lazy" src={p.image} alt={p.name} className="max-w-full max-h-full object-contain" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="max-w-full max-h-full object-contain" />
                 </div>
                 
                 <h3 className="font-classic font-bold text-lg text-[#0033A0] leading-tight mb-2 flex-grow">{p.name}</h3>
@@ -165,7 +167,7 @@ export default function ClassicGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

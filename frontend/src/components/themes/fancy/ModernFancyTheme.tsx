@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Sparkles, ArrowRight, MapPin, Mail, Phone, Heart, Menu, X, MessageCircle, Clock } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -115,7 +116,7 @@ export default function ModernFancyTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section key="hero" id="hero" className="relative z-10 pt-32 pb-20 px-6 text-center">
+                <Fragment key="hero"><section key="hero" id="hero" className="relative z-10 pt-32 pb-20 px-6 text-center">
                   <div className="container mx-auto max-w-4xl">
                     <span className="inline-block py-1 px-4 rounded-full bg-white/80 border border-purple-100 text-purple-600 font-modern text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                       New Arrivals Available
@@ -135,6 +136,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                     </a>
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
             )}
 
             {/* About */}
@@ -194,7 +196,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                       {products.slice(0, 4).map((p: any, i: number) => (
                         <div key={i} className="glass-panel rounded-3xl p-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                            <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <button
                               className="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full text-slate-400 hover:text-pink-500 transition-colors shadow-sm"
                               onClick={(e) => e.stopPropagation()}
@@ -257,7 +259,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="flex-1 w-full aspect-square rounded-2xl overflow-hidden shadow-xl">
-                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover" />
                           </div>
                         )}
                       </div>
@@ -356,7 +358,7 @@ export default function ModernFancyTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="glass-panel rounded-3xl p-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                     <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <button
                         className="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full text-slate-400 hover:text-pink-500 transition-colors shadow-sm"
                         onClick={(e) => e.stopPropagation()}

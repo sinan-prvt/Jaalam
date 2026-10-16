@@ -4,6 +4,7 @@ import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, ShoppingBag, Search, Menu, MapPin, Clock, Phone, ChevronRight, X, Mail } from 'lucide-react';
 import { Facebook, Instagram, Twitter } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function ModernGroceryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -48,7 +49,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
                 <div className="aspect-square bg-slate-50 relative p-4">
-                   <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
+                   <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
                 </div>
                 <div className="p-4">
                   <div className="text-xs text-slate-400 mb-1">{p.category}</div>
@@ -136,7 +137,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-8 px-6">
+      <><section className="py-8 px-6">
         <div className="container mx-auto bg-emerald-50 rounded-2xl overflow-hidden flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 p-8 md:p-12">
             <span className="bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">100% Fresh Guarantee</span>
@@ -158,6 +159,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       <section className="py-16 px-6 bg-white" id="about">
@@ -183,7 +185,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             ]).map((srv: any, i: number) => (
               <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center flex flex-col items-center">
                 <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                  {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <Clock size={24} />}
+                  {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-full h-full object-cover" /> : <Clock size={24} />}
                 </div>
                 <h3 className="font-bold text-lg mb-2">{srv.title}</h3>
                 <p className="text-slate-600 text-sm">{srv.description}</p>
@@ -215,7 +217,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
           {products.map((p: any, i: number) => (
             <div key={i} onClick={() => setSelectedProduct(p)} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
               <div className="aspect-square bg-slate-50 relative p-4">
-                 <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
+                 <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
               </div>
               <div className="p-4">
                 <div className="text-xs text-slate-400 mb-1">{p.category}</div>
@@ -366,7 +368,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-modern text-3xl font-bold text-slate-900">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-slate-600 leading-relaxed whitespace-pre-wrap">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom Content" className="w-full rounded-2xl shadow-sm" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom Content" className="w-full rounded-2xl shadow-sm" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-slate-200 my-8" />;
               return null;
             })}
@@ -382,7 +384,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -429,7 +431,7 @@ export default function ModernGroceryTheme({ website, content }: any) {
             </button>
             <div className="h-48 bg-slate-50 relative p-6 flex items-center justify-center border-b border-slate-100">
               {selectedProduct.image ? (
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
               ) : (
                 <ShoppingCart size={48} className="text-slate-300" />
               )}

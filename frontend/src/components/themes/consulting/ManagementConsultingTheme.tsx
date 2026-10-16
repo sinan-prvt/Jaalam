@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function ManagementConsultingTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -77,7 +78,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative min-h-[90vh] pt-32 md:pt-48 pb-20 px-8 md:px-12 flex items-center bg-[#F7F3ED]">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative min-h-[90vh] pt-32 md:pt-48 pb-20 px-8 md:px-12 flex items-center bg-[#F7F3ED]">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
           <div className="w-full md:w-1/2">
             {!hiddenFields.includes("hero_title") && (
@@ -100,6 +101,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Injected Value Proposition (Services) Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
@@ -111,7 +113,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
                  return (
                   <div key={i} className="text-center flex flex-col items-center">
                     <div className="mb-8">
-                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-10 h-10 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-10 h-10 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-management-title text-2xl font-bold mb-4 text-[#2D2D2D]">{srv.title}</h3>
                     <p className="font-management-body text-[#2D2D2D]/70 leading-relaxed text-lg font-light">{srv.description}</p>
@@ -135,7 +137,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(service)}>
                 <div className="aspect-[4/3] overflow-hidden mb-8">
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                 </div>
                 <div>
                   <h3 className="font-management-title text-2xl md:text-3xl font-bold mb-4 group-hover:text-[#8B1A1A] transition-colors">{service.name}</h3>
@@ -200,7 +202,7 @@ export default function ManagementConsultingTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-management-title text-3xl md:text-5xl font-bold text-[#2D2D2D] text-center">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-management-body text-xl text-[#2D2D2D]/80 leading-relaxed font-light">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-sm" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-sm" />;
               if (block.type === 'divider') return <div key={block.id} className="w-24 h-[1px] bg-[#8B1A1A] mx-auto my-16"></div>;
               return null;
             })}

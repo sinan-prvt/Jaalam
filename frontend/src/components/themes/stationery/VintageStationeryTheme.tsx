@@ -4,6 +4,7 @@ import { Type, Stamp, PenTool } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function VintageStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -58,7 +59,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <><section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="w-full md:w-1/2">
            <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80'} alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
         </div>
@@ -76,6 +77,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="catalogue" className="py-20 px-6 max-w-5xl mx-auto border-t border-dashed border-[#8B7355]">
@@ -86,7 +88,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             <div key={i} className="flex gap-4 p-4 border border-[#8B7355] bg-[#F7F4F0] relative group">
               <div className="absolute top-2 right-2 opacity-20"><Stamp size={48} /></div>
               <div className="w-32 h-32 shrink-0 border border-[#8B7355] p-1 bg-white">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
               </div>
               <div className="flex flex-col justify-center z-10">
                 <h4 className="font-vintage text-xl font-bold mb-1 text-[#3E362E]">{p.name}</h4>
@@ -123,7 +125,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service: any, i: number) => (
             <div key={i} className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
-              {service.image && <img loading="lazy" src={service.image} alt={service.title} className="w-full h-40 object-cover mb-6" />}
+              {service.image && <img loading="lazy" src={service.image || undefined} alt={service.title} className="w-full h-40 object-cover mb-6" />}
               <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">{service.title || service.name}</h4>
               <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">{service.description}</p>
             </div>
@@ -220,7 +222,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

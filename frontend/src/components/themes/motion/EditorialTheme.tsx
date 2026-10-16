@@ -70,7 +70,7 @@ export default function EditorialTheme({ website, content }: any) {
             <div className="lg:col-span-6 lg:col-start-7">
               {!d.hideField('about_text') && <p className="text-xl md:text-2xl leading-relaxed text-stone-700 font-display whitespace-pre-line">{d.aboutText}</p>}
               <div className="grid grid-cols-3 gap-4 mt-12">
-                {d.preset.stats.map(s => (
+                {d.stats.map(s => (
                   <div key={s.label} className="border-t border-stone-900 pt-4">
                     <div className="font-display text-3xl md:text-4xl">{s.value}</div>
                     <div className="text-xs uppercase tracking-widest text-stone-500 mt-1">{s.label}</div>
@@ -114,7 +114,7 @@ export default function EditorialTheme({ website, content }: any) {
           {d.items.map((p, i) => (
             <button key={i} onClick={() => open(p)} className="group snap-start shrink-0 w-[75vw] sm:w-[340px] text-left">
               <div className="aspect-[4/5] overflow-hidden bg-stone-200 mb-5">
-                {p.image && <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />}
+                {p.image && <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />}
               </div>
               <div className="flex items-baseline justify-between gap-4 border-b border-stone-300 pb-3">
                 <h3 className="font-display text-2xl">{p.name}</h3>

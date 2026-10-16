@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, Star, Clock, X, Scissors, Quote, Camera, Menu } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -303,6 +304,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} />
 
         {/* ═══════════════════════════════════════
             CONTENT SECTIONS
@@ -376,7 +378,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                           >
                             <div className="w-full sm:w-2/5 h-48 sm:h-auto border-b-2 sm:border-b-0 sm:border-r-2 relative overflow-hidden" style={{ borderColor: ESPRESSO }}>
                               {s.image ? (
-                                <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover vb-sepia-img" />
+                                <img loading="lazy" src={s.image || undefined} alt={s.title || s.name} className="w-full h-full object-cover vb-sepia-img" />
                               ) : (
                                 <div className="w-full h-full bg-stone-200 flex items-center justify-center">
                                   <Scissors size={32} />
@@ -416,7 +418,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                             className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 cursor-pointer p-4 hover:bg-black/5 transition-colors group border-b border-black/10 pb-6"
                           >
                             <div className="w-16 h-16 rounded-full overflow-hidden vb-border shrink-0 hidden sm:block">
-                              <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover vb-sepia-img" />
+                              <img loading="lazy" src={style.image || undefined} alt={style.name} className="w-full h-full object-cover vb-sepia-img" />
                             </div>
                             
                             <div className="flex-1 w-full text-center sm:text-left">
@@ -588,7 +590,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
                       {content.custom_blocks_json.map((block: any, i: number) => {
                         if (block.type === 'heading') return <h3 key={block.id || i} className="vb-display text-2xl text-center mt-8">{block.content}</h3>;
                         if (block.type === 'paragraph') return <p key={block.id || i} className="vb-serif text-lg leading-relaxed text-center">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="vb-border my-6"><img loading="lazy" src={block.url} alt="" className="w-full h-auto vb-sepia-img" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="vb-border my-6"><img loading="lazy" src={block.url || undefined} alt="" className="w-full h-auto vb-sepia-img" /></div>;
                         if (block.type === 'divider') return <div key={block.id || i} className="vb-line-decor my-8"></div>;
                         return null;
                       })}
@@ -646,7 +648,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               </button>
               
               <div className="h-40 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
-                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover vb-sepia-img" />
+                <img loading="lazy" src={selectedStyle.image || undefined} alt={selectedStyle.name} className="w-full h-full object-cover vb-sepia-img" />
               </div>
 
               <div className="p-6">
@@ -693,7 +695,7 @@ export default function VintageBarberTheme({ website, content }: Props) {
               
               <div className="h-40 w-full bg-stone-900 overflow-hidden border-b-2" style={{ borderColor: ESPRESSO }}>
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover vb-sepia-img" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover vb-sepia-img" />
                 ) : (
                   <div className="w-full h-full bg-stone-200 flex items-center justify-center">
                     <Scissors size={32} />

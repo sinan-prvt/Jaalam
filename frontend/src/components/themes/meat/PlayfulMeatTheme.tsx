@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Smile, Bone, MapPin, Mail, Phone, ShoppingCart, Star } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function PlayfulMeatTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -77,7 +78,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-16 px-6 text-center">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-16 px-6 text-center">
               <div className="container mx-auto max-w-4xl flex flex-col items-center">
                 <div className="relative inline-block mb-6">
                   {!hiddenFields.includes("hero_title") && (
@@ -100,6 +101,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 </a>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -138,7 +140,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                       <div key={idx} className={`bg-white p-8 rounded-[3rem] border-4 border-[#E03A3E] text-center shadow-[8px_8px_0_#F48C06] transition-transform hover:-translate-y-2 ${idx === 1 ? 'md:-translate-y-8' : ''}`}>
                         <div className="w-20 h-20 bg-[#F48C06] rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-[#E03A3E] overflow-hidden">
                           {srv.image ? (
-                            <img loading="lazy" src={srv.image} alt={title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={srv.image || undefined} alt={title} className="w-full h-full object-cover" />
                           ) : (
                             <Smile size={40} className="text-white" />
                           )}
@@ -164,7 +166,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                   {products.map((p: any, i: number) => (
                     <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white rounded-[2rem] p-4 border-4 border-[#E03A3E] hover:-translate-y-4 transition-transform shadow-[8px_8px_0_#F48C06]">
                       <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 border-4 border-[#F48C06]">
-                        <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />
                       </div>
                       <h3 className="font-playful text-2xl text-[#E03A3E] mb-2 leading-none">{p.name}</h3>
                       <p className="font-body font-bold text-sm text-[#F48C06] mb-4">{p.description}</p>
@@ -271,7 +273,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-playful text-5xl text-center text-[#E03A3E] drop-shadow-sm">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body font-bold text-xl text-[#F48C06] text-center bg-white p-8 rounded-[3rem] border-4 border-[#E03A3E] shadow-[8px_8px_0_#E03A3E]">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="p-4 bg-white rounded-[3rem] border-4 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1 hover:-rotate-1 transition-transform"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto rounded-[2rem]" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="p-4 bg-white rounded-[3rem] border-4 border-[#E03A3E] shadow-[12px_12px_0_#F48C06] rotate-1 hover:-rotate-1 transition-transform"><img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto rounded-[2rem]" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="flex justify-center gap-4"><Bone className="text-[#F48C06]" size={32}/><Bone className="text-[#E03A3E]" size={32}/><Bone className="text-[#F48C06]" size={32}/></div>;
                   return null;
                 })}
@@ -291,7 +293,7 @@ export default function PlayfulMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

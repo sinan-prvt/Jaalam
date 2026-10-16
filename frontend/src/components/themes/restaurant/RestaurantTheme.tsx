@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
 
 import ProductBuyButton from '../../payments/ProductBuyButton';
+import ThemeStats from '../shared/ThemeStats';
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -44,6 +45,10 @@ interface RestaurantThemeProps {
 
 export default function RestaurantTheme({ website, content }: RestaurantThemeProps) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
+
+  // Stats strip (Editor → Stats) right after whichever hero variant renders
+  const withHeroStats = (sectionId: string, el: React.ReactNode) =>
+    sectionId === 'hero' && el ? <React.Fragment key="hero">{el}<ThemeStats content={content} /></React.Fragment> : el;
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
@@ -359,7 +364,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
       )}
       {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'])
         .filter((s: string) => !(content.settings_json?.hidden_sections || []).includes(s))
-        .map((sectionId: string) => {
+        .map((sectionId: string) => withHeroStats(sectionId, (() => {
         if (sectionId === 'hero') {
           if (website.theme === 'Bistro') {
             return (
@@ -973,7 +978,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   return <p key={block.id} className="text-slate-600 text-lg leading-relaxed font-light whitespace-pre-wrap text-center">{block.content}</p>;
                 }
                 if (block.type === 'image') {
-                  return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" /> : null;
+                  return block.url ? <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" /> : null;
                 }
                 if (block.type === 'divider') {
                   return <div key={block.id} className="w-full h-px bg-slate-200 my-12"></div>;
@@ -986,7 +991,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
         );
 
         return null;
-      })}
+      })()))}
       
       {/* Reservation / Footer */}
       

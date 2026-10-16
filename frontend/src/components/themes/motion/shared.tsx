@@ -4,6 +4,7 @@ import { MOTION_PRESETS, type MotionItem, type MotionPreset, type MotionService 
 import { resolveBusinessType } from '../registry';
 import ProductModal from '../../shared/ProductModal';
 import AllProductsModal from '../../shared/AllProductsModal';
+import { getStats } from '../shared/ThemeStats';
 
 /** Everything a motion layout needs, with owner content layered over the category preset. */
 export interface MotionData {
@@ -25,6 +26,8 @@ export interface MotionData {
   isHidden: (section: string) => boolean;
   /** True when a single field is hidden in the editor. */
   hideField: (field: string) => boolean;
+  /** Owner stats (Editor → Stats), else the category defaults. */
+  stats: { value: string; label: string }[];
   customBlocks: any[];
 }
 
@@ -62,6 +65,7 @@ export function useMotionData(website: any, content: any): MotionData {
     order: s.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'],
     isHidden: (section: string) => section !== 'hero' && hiddenSections.includes(section),
     hideField: (field: string) => hiddenFields.includes(field),
+    stats: getStats(content).length ? getStats(content).slice(0, 4) : preset.stats,
     customBlocks: content?.custom_blocks_json || [],
   };
 }
@@ -241,7 +245,7 @@ export function CustomBlocks({ data, className = '' }: { data: MotionData; class
         {data.customBlocks.map((block: any) => {
           if (block.type === 'heading') return <h2 key={block.id} className="text-3xl md:text-5xl font-bold break-words">{block.content}</h2>;
           if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 whitespace-pre-wrap break-words">{block.content}</p>;
-          if (block.type === 'image' && block.url) return <img key={block.id} src={block.url} alt="" loading="lazy" className="w-full rounded-2xl" />;
+          if (block.type === 'image' && block.url) return <img key={block.id} src={block.url || undefined} alt="" loading="lazy" className="w-full rounded-2xl" />;
           if (block.type === 'divider') return <hr key={block.id} className="opacity-20" />;
           return null;
         })}
