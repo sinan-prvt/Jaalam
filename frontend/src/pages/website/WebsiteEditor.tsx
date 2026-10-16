@@ -7,24 +7,9 @@ const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
-import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import { resolveBusinessType } from '../../components/themes/registry';
 
-const categoryThemes: Record<string, string[]> = {
-  'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
-  'Cafe / Bakery': ['Cozy Cafe', 'App Style', 'Modern Bakery', 'Artisan', 'Boutique'],
-  'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
-  'Salon': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
-  'Saloon': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
-  'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
-  'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
-  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
-  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
-  'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal'],
-  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
-  'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal'],
-  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],
-  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
-};
 
 const ImageUpload = ({ value, onChange, label, hint }: any) => {
   const [uploading, setUploading] = useState(false);
@@ -624,7 +609,7 @@ export default function WebsiteEditor() {
                   onChange={e => setWebsite({ ...website, theme: e.target.value })}
                   className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-black text-sm shadow-sm"
                 >
-                  {(categoryThemes[website.business_type] || categoryThemes['Other']).map(theme => (
+                  {(categoryThemes[resolveBusinessType(website.business_type)] || categoryThemes['Other']).map(theme => (
                     <option key={theme} value={theme}>{theme}</option>
                   ))}
                 </select>

@@ -44,11 +44,12 @@ export const categoryThemes: Record<string, string[]> = {
   'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
   'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
   'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
-  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
-  'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
+  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal', 'Premium', 'Vintage'],
+  'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic', 'Noir', 'Pop'],
   'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal', 'Playful', 'Rustic'],
   'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
-  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
+  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop'],
+  'Textiles / Garments': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Vintage', 'Playful'],
   'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
   'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
   'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
@@ -182,6 +183,8 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Ethereal') return 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Modern') return 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Premium') return 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Vintage') return 'https://images.unsplash.com/photo-1528255915607-9012fda0f838?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Fancy Store') {
