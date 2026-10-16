@@ -9,6 +9,7 @@ import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import { resolveBusinessType } from '../../components/themes/registry';
+import { MOTION_THEME_NAMES } from '../../components/themes/motion/presets';
 
 
 const ImageUpload = ({ value, onChange, label, hint }: any) => {
@@ -60,6 +61,66 @@ const ImageUpload = ({ value, onChange, label, hint }: any) => {
           {uploading ? 'Uploading...' : 'Upload Image'}
           <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
         </label>
+      </div>
+    </div>
+  );
+};
+
+const VideoUpload = ({ value, onChange }: { value: string; onChange: (url: string) => void }) => {
+  const [uploading, setUploading] = useState(false);
+  const handleUpload = async (e: any) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 25 * 1024 * 1024) {
+      toast.error('Please use a video under 25 MB');
+      return;
+    }
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await axios.post('/api/websites/upload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      onChange(res.data.url);
+    } catch (err) {
+      console.error(err);
+      toast.error('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 shrink-0">Hero Background Video (Optional)</label>
+        <span className="text-[9px] font-bold text-slate-400 normal-case bg-slate-100 px-2 py-0.5 rounded-md inline-block w-fit">MP4, muted loop, under 25 MB</span>
+      </div>
+      <div className="flex flex-col gap-3">
+        {value && (
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-black group">
+            <video src={value} className="w-full h-full object-cover" autoPlay muted loop playsInline />
+            <button
+              onClick={() => onChange('')}
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-sm"
+              title="Remove video"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+        <input
+          type="url"
+          value={value || ''}
+          onChange={e => onChange(e.target.value.trim())}
+          placeholder="Paste a video link (.mp4)"
+          className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-medium text-sm shadow-inner"
+        />
+        <label className={`w-full flex items-center justify-center py-3 rounded-xl font-bold text-sm cursor-pointer transition-all ${uploading ? 'bg-slate-200 text-slate-400' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 shadow-sm border border-indigo-100'}`}>
+          <Upload size={16} className="mr-2" />
+          {uploading ? 'Uploading...' : 'Upload Video'}
+          <input type="file" accept="video/mp4,video/webm" className="hidden" onChange={handleUpload} disabled={uploading} />
+        </label>
+        <p className="text-[11px] text-slate-400 leading-relaxed">Plays behind the hero on the Cinematic, Aurora, Editorial, Neon Pulse and Luxe Motion themes. Without a video, those themes show a moving photo slideshow.</p>
       </div>
     </div>
   );
@@ -693,6 +754,12 @@ export default function WebsiteEditor() {
                   value={content.settings_json?.hero_image || content.hero_image || ''}
                   onChange={(val: string) => setContent({ ...content, hero_image: val, settings_json: { ...(content.settings_json || {}), hero_image: val } })}
                 />
+                {(MOTION_THEME_NAMES as readonly string[]).includes(website?.theme) && (
+                  <VideoUpload
+                    value={content.settings_json?.hero_video || ''}
+                    onChange={(val: string) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), hero_video: val } })}
+                  />
+                )}
               </div>
             </div>
           )}

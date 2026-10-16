@@ -135,6 +135,17 @@ export const businessThemes: Record<string, ThemeMap> = {
   },
 };
 
+// Motion family: five modern video/motion layouts, added to every business category.
+// Each layout reads category-specific copy and imagery from motion/presets.ts.
+const motionThemes: ThemeMap = {
+  'Cinematic': L(() => import('./motion/CinematicTheme')),
+  'Aurora': L(() => import('./motion/AuroraTheme')),
+  'Editorial': L(() => import('./motion/EditorialTheme')),
+  'Neon Pulse': L(() => import('./motion/NeonTheme')),
+  'Luxe Motion': L(() => import('./motion/LuxeTheme')),
+};
+for (const map of Object.values(businessThemes)) Object.assign(map, motionThemes);
+
 /** Legacy / alternate business type names stored on older websites. */
 const businessTypeAliases: Record<string, string> = {
   'Salon': 'Salon / Spa',
