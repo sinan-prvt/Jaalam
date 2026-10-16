@@ -4,6 +4,9 @@ import ProductModal from '../../shared/ProductModal';
 import { Briefcase, MapPin, Building, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+
+const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FFFFFF', altBg: '#F8F9FA', text: '#212529', accent: '#004B87', headingFont: 'font-corp', bodyFont: 'font-body', radius: 'md' };
 
 export default function CommercialTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -32,8 +35,9 @@ export default function CommercialTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -139,147 +143,24 @@ export default function CommercialTheme({ website, content }: any) {
 
       
       
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-[#DEE2E6]">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-corp font-bold mb-6 text-[#212529]">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg text-[#6C757D] leading-relaxed max-w-2xl mx-auto font-body">
-              {content.about_text || 'Welcome to our firm! We are dedicated to bringing you the best commercial real estate opportunities. Our team works hard to ensure client satisfaction and continuous success.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-[#F8F9FA] border-b border-[#DEE2E6]">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-corp font-bold mb-10 text-center text-[#212529]">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Property Management', description: 'Comprehensive management for your commercial assets.' },
-                { title: 'Leasing & Sales', description: 'Expert brokerage services for buyers, sellers, and tenants.' },
-                { title: 'Investment Advisory', description: 'Strategic insights to maximize your real estate portfolio.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-8 border border-[#DEE2E6] hover:shadow-lg transition-shadow text-center">
-                  <div className="w-16 h-16 mx-auto bg-[#004B87]/10 text-[#004B87] rounded-full flex items-center justify-center mb-6 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <Briefcase size={28} />}
-                  </div>
-                  <h3 className="font-corp font-bold text-xl mb-3 text-[#212529]">{srv.title}</h3>
-                  <p className="font-body text-[#6C757D]">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
-      {/* Injected Contact Section */}
+      {/* Shared Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-[#E9ECEF]">
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-16">
-              <h2 className="font-corp text-3xl font-extrabold text-[#212529] mb-4">Contact Our Agents</h2>
-              <div className="w-24 h-1 bg-[#004B87] mx-auto"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 font-body">
-              <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
-                  <Phone size={28} />
-                </div>
-                <h4 className="font-corp font-bold text-[#212529] mb-2">Phone</h4>
-                {!hiddenFields.includes('contact_phone') && (
-                              <p className="text-[#6C757D] font-semibold">{content.contact_info?.phone || '1800 123 4567'}</p>
-                              )}
-              </div>
-              <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
-                  <Mail size={28} />
-                </div>
-                <h4 className="font-corp font-bold text-[#212529] mb-2">Email</h4>
-                {!hiddenFields.includes('contact_email') && (
-                              <p className="text-[#6C757D] font-semibold break-all">{content.contact_info?.email || 'corporate@apex.com'}</p>
-                              )}
-              </div>
-              <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
-                  <MapPin size={28} />
-                </div>
-                <h4 className="font-corp font-bold text-[#212529] mb-2">Office</h4>
-                {!hiddenFields.includes('contact_address') && (
-                              <p className="text-[#6C757D] font-semibold">{content.contact_info?.address || 'Level 12, Apex Tower\nBusiness District, Kerala'}</p>
-                              )}
-              </div>
-              <div className="bg-white p-8 border-t-4 border-[#004B87] shadow-lg flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-[#F8F9FA] rounded-full flex items-center justify-center mb-6 text-[#004B87]">
-                  <Clock size={28} />
-                </div>
-                <h4 className="font-corp font-bold text-[#212529] mb-2">Hours</h4>
-                {!hiddenFields.includes('contact_hours') && (
-                              <p className="text-[#6C757D] font-semibold whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Fri: 9AM - 6PM'}</p>
-                              )}
-              </div>
-            </div>
-            
-            {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
-              <div className="mt-12 flex justify-center gap-6">
-                {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#004B87] shadow-md hover:bg-[#004B87] hover:text-white transition-colors"><Facebook size={20} /></a>}
-                {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#004B87] shadow-md hover:bg-[#004B87] hover:text-white transition-colors"><Instagram size={20} /></a>}
-                {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#004B87] shadow-md hover:bg-[#004B87] hover:text-white transition-colors"><Twitter size={20} /></a>}
-                {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#004B87] shadow-md hover:bg-[#004B87] hover:text-white transition-colors"><Youtube size={20} /></a>}
-              </div>
-            )}
-            
-            <div className="mt-12 w-full bg-white border-t-4 border-[#004B87] shadow-lg p-8 md:p-12">
-              <ContactForm 
-                websiteId={website.id}
-                primaryColor="bg-[#004B87] text-white"
-                primaryColorHover="hover:bg-[#003366]"
-                inputStyles="bg-[#F8F9FA] border border-[#DEE2E6] text-[#212529] placeholder-[#6C757D] focus:border-[#004B87] focus:ring-1 focus:ring-[#004B87] font-body rounded-none"
-                buttonShape="font-corp font-bold uppercase rounded-none w-full transition-colors py-4"
-              />
-            </div>
-
-            <div className="mt-12 w-full h-[400px] border-t-4 border-[#004B87] shadow-lg bg-white overflow-hidden">
-              {!hiddenFields.includes('contact_address') && (
-                          <iframe
-                                          title="Corporate Office Map"
-                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '100 Financial District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                                          width="100%"
-                                          height="100%"
-                                          style={{ border: 0 }}
-                                          allowFullScreen={false}
-                                          loading="lazy"
-                                          referrerPolicy="no-referrer-when-downgrade"
-                                        ></iframe>
-                          )}
-            </div>
-          </div>
-        </section>
+        <ThemeContact content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('contact') + 1} websiteId={website.id} />
       )}
 
       {/* Dynamic Custom Section */}

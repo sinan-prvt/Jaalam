@@ -5,6 +5,9 @@ import { Sparkles, MapPin, Phone, Mail } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+
+const SECTION_LOOK: SectionLook = { kind: 'textiles', bg: '#FAFAF8', altBg: '#F3EEE7', text: '#4A3B32', accent: '#8C3A3A', headingFont: 'font-elegant', bodyFont: 'font-body', radius: 'none' };
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
 );
@@ -39,8 +42,9 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -121,63 +125,19 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
 
       
       
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
       {/* Dynamic Custom Section */}
@@ -196,48 +156,9 @@ export default function BoutiqueTextilesTheme({ website, content }: any) {
       )}
 
       
-      {/* Injected Contact Section */}
+      {/* Shared Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-gray-50 border-t border-gray-200">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Get in Touch</h2>
-            <p className="text-gray-600 mb-8 max-w-lg mx-auto">Have questions or want to reach out? Contact our support team.</p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                {!hiddenFields.includes('contact_phone') && (
-                              <span className="font-bold text-gray-800">{content.contact_info?.phone || '1800 123 4567'}</span>
-                              )}
-              </div>
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                {!hiddenFields.includes('contact_email') && (
-                              <span className="font-bold text-gray-800 break-all">{content.contact_info?.email || 'hello@example.com'}</span>
-                              )}
-              </div>
-              <div className="flex items-center justify-center gap-3 bg-gray-50 px-6 py-4 rounded-xl border border-gray-200 w-full sm:w-auto">
-                {!hiddenFields.includes('contact_address') && (
-                              <span className="font-bold text-gray-800 text-sm max-w-[200px] truncate">{content.contact_info?.address || '123 Main Street'}</span>
-                              )}
-              </div>
-            </div>
-            
-            {/* Embedded Map */}
-            <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative mt-8">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2798902705!2d-74.25986548248684!3d40.697670067823786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1689264426578!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700"
-              ></iframe>
-            </div>
-            
-          </div>
-        
-            <div className="mt-12 w-full z-20 relative"><ContactForm websiteId={website.id} /></div>
-          </section>
+        <ThemeContact content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('contact') + 1} websiteId={website.id} />
       )}
 
       {/* Footer */}

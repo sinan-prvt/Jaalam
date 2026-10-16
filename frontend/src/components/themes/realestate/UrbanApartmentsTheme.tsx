@@ -4,6 +4,9 @@ import ProductModal from '../../shared/ProductModal';
 import { Building2, MapPin, ArrowRight, ArrowUpRight, Phone, Mail, Clock, X, Menu } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+
+const SECTION_LOOK: SectionLook = { kind: 'realestate', bg: '#FFFFFF', altBg: '#F1F5F9', text: '#0F172A', accent: '#2563EB', headingFont: 'font-urban', bodyFont: 'font-urban', radius: 'xl' };
 
 export default function UrbanApartmentsTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -31,8 +34,9 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -125,63 +129,19 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
 
 
 
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer" onClick={() => setSelectedGalleryImage(img)}>
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
       {/* Dynamic Custom Section */}
@@ -199,95 +159,9 @@ export default function UrbanApartmentsTheme({ website, content }: any) {
         </section>
       )}
 
-      {/* Injected Contact Section */}
+      {/* Shared Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-20 px-6 bg-white border-t border-slate-100">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
-              {!hiddenFields.includes('contact_facebook') && (
-                          <div className="w-full md:w-1/3">
-                                          <h2 className="font-urban text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Get in Touch.</h2>
-                                          <p className="font-urban text-slate-500 mb-8 leading-relaxed">
-                                            Have questions about our listings or want to schedule a viewing? We are here to help you find your perfect urban home.
-                                          </p>
-                                          {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter || content.contact_info?.youtube) && (
-                                            <div className="flex gap-4">
-                                              {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Facebook size={20} /></a>}
-                                              {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Instagram size={20} /></a>}
-                                              {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Twitter size={20} /></a>}
-                                              {content.contact_info?.youtube && <a href={content.contact_info.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"><Youtube size={20} /></a>}
-                                            </div>
-                                          )}
-                                        </div>
-                          )}
-              <div className="w-full md:w-2/3 flex flex-col gap-8">
-                <div className="grid sm:grid-cols-2 gap-8">
-                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                      <Phone size={24} />
-                    </div>
-                    <h4 className="font-urban font-bold text-slate-900 mb-2">Phone</h4>
-                    {!hiddenFields.includes('contact_phone') && (
-                                      <p className="text-slate-500 font-urban">{content.contact_info?.phone || '0484 234 5678'}</p>
-                                      )}
-                  </div>
-                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                      <Mail size={24} />
-                    </div>
-                    <h4 className="font-urban font-bold text-slate-900 mb-2">Email</h4>
-                    {!hiddenFields.includes('contact_email') && (
-                                      <p className="text-slate-500 font-urban break-all">{content.contact_info?.email || 'hello@metroliving.com'}</p>
-                                      )}
-                  </div>
-                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                      <MapPin size={24} />
-                    </div>
-                    <h4 className="font-urban font-bold text-slate-900 mb-2">Office</h4>
-                    {!hiddenFields.includes('contact_address') && (
-                                      <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.address || 'Level 4, Business Tower\nUrban District, Kerala'}</p>
-                                      )}
-                  </div>
-                  <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 text-blue-600">
-                      <Clock size={24} />
-                    </div>
-                    <h4 className="font-urban font-bold text-slate-900 mb-2">Working Hours</h4>
-                    {!hiddenFields.includes('contact_hours') && (
-                                      <p className="text-slate-500 font-urban whitespace-pre-wrap">{content.contact_info?.hours || 'Mon-Sat: 9AM - 8PM'}</p>
-                                      )}
-                  </div>
-                </div>
-                
-                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                  <ContactForm 
-                    websiteId={website.id}
-                    primaryColor="bg-blue-600 text-white"
-                    primaryColorHover="hover:bg-blue-700"
-                    inputStyles="bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-urban rounded-xl"
-                    buttonShape="font-urban font-bold text-sm rounded-xl w-full transition-colors py-3 shadow-sm hover:shadow"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-16 w-full h-[400px] rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-              {!hiddenFields.includes('contact_address') && (
-                          <iframe
-                                          title="Office Location Map"
-                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || 'Level 4, Business Tower, Urban District, Kerala')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                                          width="100%"
-                                          height="100%"
-                                          style={{ border: 0 }}
-                                          allowFullScreen={false}
-                                          loading="lazy"
-                                          referrerPolicy="no-referrer-when-downgrade"
-                                        ></iframe>
-                          )}
-            </div>
-          </div>
-        </section>
+        <ThemeContact content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('contact') + 1} websiteId={website.id} />
       )}
 
       {/* Footer */}
