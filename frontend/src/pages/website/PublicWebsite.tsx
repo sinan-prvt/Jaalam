@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Phone, Mail, MapPin, CreditCard } from 'lucide-react';
 
 import { ThemeRenderer } from '../../components/themes/registry';
+import { resolveHost } from '../../utils/host';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
 import SEOHead from '../../components/seo/SEOHead';
@@ -12,25 +13,18 @@ import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
 
-export default function PublicWebsite() {
+interface PublicWebsiteProps {
+  /** Set when the site is opened on its own domain (e.g. mybakery.com). */
+  customHost?: string;
+  /** Called when customHost is not a connected domain, so the app can fall back. */
+  onDomainMissing?: () => void;
+}
+
+export default function PublicWebsite({ customHost, onDomainMissing }: PublicWebsiteProps = {}) {
   const { businessSlug: paramSlug } = useParams();
+  const hostMode = resolveHost();
 
-  const getSubdomain = () => {
-    const host = window.location.hostname;
-    if (host.includes('localhost') || host.includes('127.0.0.1')) {
-      const parts = host.split('.');
-      if (parts.length >= 2 && parts[0] !== 'localhost' && parts[0] !== '127') return parts[0];
-    } else if (host.includes('vercel.app')) {
-      const parts = host.split('.');
-      if (parts.length >= 4) return parts[0];
-    } else {
-      const parts = host.split('.');
-      if (parts.length >= 3 && parts[0] !== 'www') return parts[0];
-    }
-    return null;
-  };
-
-  const businessSlug = paramSlug || getSubdomain();
+  const businessSlug = paramSlug || (hostMode.mode === 'site' ? hostMode.slug : null);
   const [website, setWebsite] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -43,11 +37,17 @@ export default function PublicWebsite() {
     const fetchWebsite = async () => {
       try {
         const [res] = await Promise.all([
-          axios.get(`/api/websites/${businessSlug}/public/`),
-          new Promise(resolve => setTimeout(resolve, 1500)) // Artificial delay to showcase skeleton
+          customHost
+            ? axios.get('/api/websites/by-domain/', { params: { host: customHost } })
+            : axios.get(`/api/websites/${businessSlug}/public/`),
+          new Promise(resolve => setTimeout(resolve, customHost ? 0 : 1500)) // Artificial delay to showcase skeleton
         ]);
         setWebsite(res.data);
       } catch (err: any) {
+        if (customHost && err.response?.status === 404 && onDomainMissing) {
+          onDomainMissing();
+          return;
+        }
         console.error(err);
         if (err.response && err.response.status === 403) {
           setError('unpublished');
@@ -59,7 +59,8 @@ export default function PublicWebsite() {
       }
     };
     fetchWebsite();
-  }, [businessSlug]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [businessSlug, customHost]);
 
   useEffect(() => {
     // Language widget is off unless enabled: drop any leftover translation once the site has loaded

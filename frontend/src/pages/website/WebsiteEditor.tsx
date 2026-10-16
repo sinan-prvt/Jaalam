@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, FileJson, Megaphone, Bot, Trophy } from 'lucide-react';
@@ -7,6 +7,7 @@ const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
+import CustomDomainPanel from '../../components/editor/CustomDomainPanel';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import { resolveBusinessType } from '../../components/themes/registry';
 import { MOTION_THEME_NAMES } from '../../components/themes/motion/presets';
@@ -187,11 +188,6 @@ export default function WebsiteEditor() {
   // Preview Device Mode
   // Preview Device Mode
   const [previewDevice, setPreviewDevice] = useState<'mobile' | 'desktop'>('mobile');
-  const [domainSearch, setDomainSearch] = useState('');
-  const [showDomainModal, setShowDomainModal] = useState(false);
-  const [customDomain, setCustomDomain] = useState('');
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [connectedDomain, setConnectedDomain] = useState('');
 
   const [showOrderStickerModal, setShowOrderStickerModal] = useState(false);
   const [orderForm, setOrderForm] = useState({ name: '', phone: '', email: '', address: '' });
@@ -1112,8 +1108,38 @@ export default function WebsiteEditor() {
                   {(content.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom']).map((section: string, idx: number, arr: string[]) => {
                     const isHidden = (content.settings_json?.hidden_sections || []).includes(section);
                     const isHero = section === 'hero';
+                    const statsCount = (content.settings_json?.stats || []).filter((st: any) => st?.value || st?.label).length;
+                    const statsHidden = (content.settings_json?.hidden_sections || []).includes('stats');
+                    // Stats strip is always placed right below the hero, so it has no arrows
+                    const statsRow = isHero && (
+                      <div className={`flex items-center justify-between bg-white p-4 rounded-xl border border-dashed border-indigo-200 shadow-sm transition-opacity ${statsHidden || !statsCount ? 'opacity-60' : ''}`}>
+                        <div className="flex items-center gap-3 min-w-0">
+                          <button
+                            onClick={() => {
+                              const hidden = content.settings_json?.hidden_sections || [];
+                              const newHidden = statsHidden ? hidden.filter((s: string) => s !== 'stats') : [...hidden, 'stats'];
+                              setContent({ ...content, settings_json: { ...(content.settings_json || {}), hidden_sections: newHidden } });
+                            }}
+                            className={`p-1.5 rounded-lg transition-colors ${statsHidden ? 'text-slate-400 hover:text-indigo-600 bg-slate-100' : 'text-indigo-600 hover:text-indigo-800 bg-indigo-50'}`}
+                            title={statsHidden ? 'Show Section' : 'Hide Section'}
+                          >
+                            {statsHidden ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                          <div className="min-w-0">
+                            <span className={`block font-bold text-sm uppercase tracking-wider ${statsHidden ? 'text-slate-400 line-through' : 'text-slate-700'}`}>Stats</span>
+                            <span className="block text-[10px] text-slate-400 font-medium">
+                              {statsCount ? 'Always shown right below the hero' : 'No stats yet'}
+                            </span>
+                          </div>
+                        </div>
+                        <button onClick={() => setActiveTab('stats')} className="text-[11px] font-bold text-indigo-600 hover:underline shrink-0">
+                          {statsCount ? 'Edit' : 'Add stats'}
+                        </button>
+                      </div>
+                    );
                     return (
-                      <div key={section} className={`flex items-center justify-between bg-white p-4 rounded-xl border border-slate-100 shadow-sm transition-opacity ${isHidden && !isHero ? 'opacity-50' : 'opacity-100'}`}>
+                      <React.Fragment key={section}>
+                      <div className={`flex items-center justify-between bg-white p-4 rounded-xl border border-slate-100 shadow-sm transition-opacity ${isHidden && !isHero ? 'opacity-50' : 'opacity-100'}`}>
                         <div className="flex items-center gap-3">
                           <button
                             disabled={isHero}
@@ -1159,6 +1185,8 @@ export default function WebsiteEditor() {
                           </button>
                         </div>
                       </div>
+                      {statsRow}
+                      </React.Fragment>
                     )
                   })}
                 </div>
@@ -1397,53 +1425,7 @@ export default function WebsiteEditor() {
                 </div>
               </div>
 
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-shadow relative overflow-hidden group">
-                <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-gradient-to-bl from-indigo-100 to-transparent rounded-full mix-blend-multiply opacity-50 group-hover:scale-110 transition-transform"></div>
-                <div className="flex items-center gap-3 mb-4 relative z-10">
-                  <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md">
-                    <Link2 size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-black text-slate-900 text-sm">Custom Domain</h4>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Purchase or connect existing</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 relative z-10">
-                  <div className="flex bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm">
-                    <span className="px-3 py-2.5 text-slate-400 bg-slate-100 border-r border-slate-200 select-none flex items-center font-bold text-sm">www.</span>
-                    <input
-                      type="text"
-                      value={domainSearch}
-                      onChange={(e) => setDomainSearch(e.target.value)}
-                      className="flex-1 bg-transparent px-3 py-2.5 outline-none text-slate-900 placeholder-slate-400 font-bold text-sm w-full min-w-0"
-                      placeholder="yourbusiness.com"
-                    />
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      if (domainSearch.trim()) {
-                        window.open(`https://www.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(domainSearch.trim())}`, '_blank');
-                      }
-                    }}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl transition-all shadow-md active:scale-95 text-sm flex items-center justify-center gap-2"
-                  >
-                    <ShoppingCart size={16} className="text-emerald-400" />
-                    Check Availability
-                  </button>
-
-                  <div className="text-center pt-2">
-                    <span className="text-[11px] text-slate-500 font-medium">Already own a domain? </span>
-                    <button
-                      onClick={() => setShowDomainModal(true)}
-                      className="text-[11px] font-black text-indigo-600 hover:underline"
-                    >
-                      Connect it here
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <CustomDomainPanel slug={website.slug} />
             </div>
           )}
         </div>
@@ -1531,118 +1513,6 @@ export default function WebsiteEditor() {
 
 
       {/* Domain Connection Modal */}
-      {showDomainModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-white/95 backdrop-blur-2xl border border-white rounded-[2rem] p-6 max-w-md w-full shadow-2xl relative overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] animate-in zoom-in-95 duration-300">
-
-            {/* Background Glow */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"></div>
-
-            <div className="flex justify-between items-center mb-4 relative z-10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner">
-                  <Globe size={20} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-black text-slate-900 tracking-tight">Connect Domain</h2>
-                  <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0.5">Custom DNS Setup</p>
-                </div>
-              </div>
-              <button
-                onClick={() => { setShowDomainModal(false); setConnectedDomain(''); setIsConnecting(false); setCustomDomain(''); }}
-                className="text-slate-400 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 transition-colors bg-white/50"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {connectedDomain ? (
-              <div className="space-y-4 relative z-10 animate-in fade-in zoom-in-95">
-                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 text-center shadow-inner">
-                  <div className="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg shadow-emerald-500/30">
-                    <CheckCircle2 size={24} />
-                  </div>
-                  <h3 className="text-lg font-black text-slate-900 mb-0.5">Domain Connected!</h3>
-                  <p className="text-sm font-medium text-emerald-700">Your domain <strong className="text-emerald-900">{connectedDomain}</strong> has been linked.</p>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200">
-                  <p className="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider text-center">Next Steps: Configure DNS</p>
-                  <p className="text-xs text-slate-500 mb-3 text-center leading-relaxed px-4">
-                    Login to your domain registrar and add the following<br />
-                    <strong>A Record</strong> to point your domain to our servers:
-                  </p>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
-                      <span className="text-xs font-black text-slate-400 uppercase">Type</span>
-                      <span className="text-sm font-black text-slate-900">A</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
-                      <span className="text-xs font-black text-slate-400 uppercase">Name</span>
-                      <span className="text-sm font-black text-slate-900">@</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
-                      <span className="text-xs font-black text-slate-400 uppercase">Value</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded">104.21.45.89</span>
-                        <button className="text-slate-400 hover:text-indigo-600 transition-colors" title="Copy"><Copy size={14} /></button>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-[10px] text-slate-400 text-center mt-3 italic">DNS propagation may take up to 48 hours.</p>
-                </div>
-
-                <button
-                  onClick={() => { setShowDomainModal(false); setConnectedDomain(''); }}
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl transition-all shadow-md active:scale-95 text-sm"
-                >
-                  Got it, close
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-6 relative z-10">
-                <p className="text-sm text-slate-600 font-medium leading-relaxed">
-                  Enter the domain you already own. We will provide you with the DNS records needed to point it to your Jaalam website.
-                </p>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Your Domain</label>
-                  <div className="flex bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-sm">
-                    <span className="px-4 py-3 text-slate-400 bg-slate-100 border-r border-slate-200 select-none flex items-center font-bold text-sm">https://</span>
-                    <input
-                      type="text"
-                      value={customDomain}
-                      onChange={(e) => setCustomDomain(e.target.value)}
-                      className="flex-1 bg-transparent px-4 py-3 outline-none text-slate-900 placeholder-slate-400 font-bold text-sm w-full min-w-0"
-                      placeholder="www.myrestaurant.com"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => {
-                    if (!customDomain.trim()) return;
-                    setIsConnecting(true);
-                    setTimeout(() => {
-                      setConnectedDomain(customDomain);
-                      setIsConnecting(false);
-                    }, 1500);
-                  }}
-                  disabled={isConnecting || !customDomain.trim()}
-                  className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white font-black py-3.5 rounded-xl transition-all shadow-md active:scale-95 text-sm flex items-center justify-center gap-2"
-                >
-                  {isConnecting ? (
-                    <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Connecting...</>
-                  ) : (
-                    <><Link2 size={16} /> Verify & Connect</>
-                  )}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
       {/* Order Sticker Modal */}
       {showOrderStickerModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">

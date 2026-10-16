@@ -10,6 +10,11 @@ class Website(models.Model):
     published = models.BooleanField(default=False)
     is_blocked = models.BooleanField(default=False)
     visitors_count = models.IntegerField(default=0)
+    # Custom domain (e.g. "mybakery.com"), stored without scheme or "www."
+    custom_domain = models.CharField(max_length=253, unique=True, null=True, blank=True)
+    domain_token = models.CharField(max_length=64, blank=True, default='')
+    domain_verified = models.BooleanField(default=False)
+    domain_verified_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

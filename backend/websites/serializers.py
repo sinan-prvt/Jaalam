@@ -13,7 +13,8 @@ class WebsiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Website
         fields = '__all__'
-        read_only_fields = ('user',)
+        # Domains change only through the verified connect flow (/domain/ endpoints)
+        read_only_fields = ('user', 'custom_domain', 'domain_token', 'domain_verified', 'domain_verified_at')
 
 class PhysicalOrderSerializer(serializers.ModelSerializer):
     website_slug = serializers.CharField(source='website.slug', read_only=True)

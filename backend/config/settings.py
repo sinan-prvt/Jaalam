@@ -113,3 +113,14 @@ RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='irv4jEX9tvQLlF5DGiI
 
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+
+# ── Custom domains ────────────────────────────────────────────────────────────
+# DNS targets customers point their domain at. Defaults are Vercel's (the frontend host);
+# change them if the frontend moves.
+CUSTOM_DOMAIN_A_RECORD = config('CUSTOM_DOMAIN_A_RECORD', default='76.76.21.21')
+CUSTOM_DOMAIN_CNAME = config('CUSTOM_DOMAIN_CNAME', default='cname.vercel-dns.com')
+# Optional: when set, verified domains are added to the Vercel frontend project automatically
+# so Vercel routes them and issues SSL. Without these, add verified domains in Vercel by hand.
+VERCEL_TOKEN = config('VERCEL_TOKEN', default='')
+VERCEL_PROJECT_ID = config('VERCEL_PROJECT_ID', default='')
+VERCEL_TEAM_ID = config('VERCEL_TEAM_ID', default='')

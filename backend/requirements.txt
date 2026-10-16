@@ -16,3 +16,4 @@ qrcode>=7.4.2
 annotated-types>=0.7.0
 asgiref>=3.7.0
 sqlparse>=0.5.0
+dnspython>=2.6.0
