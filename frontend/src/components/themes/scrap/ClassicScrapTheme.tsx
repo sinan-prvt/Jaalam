@@ -301,7 +301,7 @@ export default function ClassicScrapTheme({ website, content }: any) {
                     <div className="mb-6">
                       <h3 className="font-industrial text-xl md:text-2xl uppercase font-bold mb-2 text-[#1A1A1A] flex items-center gap-2"><Clock size={20} className="text-[#FFC107]"/> Working Hours</h3>
                       <p className="text-gray-800 font-bold whitespace-pre-line font-body">
-                        {content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
+                        {content.contact_info?.hours || content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
                       </p>
                     </div>
 

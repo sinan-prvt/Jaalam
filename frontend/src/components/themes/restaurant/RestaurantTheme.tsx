@@ -506,7 +506,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                   <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 text-white">
                     {[
                       { icon: <Utensils size={18} />, label: 'Daily', value: 'Fresh from the harbour' },
-                      { icon: <Clock size={18} />, label: 'Hours', value: content.settings_json?.opening_hours || 'Open 12pm \u2013 11pm' },
+                      { icon: <Clock size={18} />, label: 'Hours', value: content.contact_info?.hours || content.settings_json?.opening_hours || 'Open 12pm \u2013 11pm' },
                       { icon: <MapPin size={18} />, label: 'Find us', value: content.contact_info?.address || 'By the waterfront' },
                     ].map(item => (
                       <div key={item.label} className="flex items-center gap-4 px-6 py-5">

@@ -214,7 +214,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                   <div className="mb-6">
                     <h3 className="font-bold text-xl mb-4 uppercase flex items-center gap-2"><Clock size={20}/> HOURS</h3>
                     <p className="font-bold text-lg whitespace-pre-line">
-                      {content.contact_info?.office_hours || 'MON-FRI: 08:00 - 18:00\nSAT: 08:00 - 14:00\nSUN: CLOSED'}
+                      {content.contact_info?.hours || content.contact_info?.office_hours || 'MON-FRI: 08:00 - 18:00\nSAT: 08:00 - 14:00\nSUN: CLOSED'}
                     </p>
                   </div>
 

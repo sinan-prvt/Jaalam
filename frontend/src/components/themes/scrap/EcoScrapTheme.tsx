@@ -291,7 +291,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                       <div className="mb-6">
                         <h3 className="font-eco text-xl md:text-2xl font-bold mb-2 text-[#1A2E24] flex items-center gap-2"><Clock size={20} className="text-[#4CAF50]"/> Working Hours</h3>
                         <p className="text-[#5D806B] font-medium whitespace-pre-line">
-                          {content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
+                          {content.contact_info?.hours || content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
                         </p>
                       </div>
 

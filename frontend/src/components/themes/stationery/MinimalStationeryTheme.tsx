@@ -267,20 +267,20 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                           </div>
                         )}
                         
-                        {(content.social_links?.facebook || content.social_links?.instagram || content.social_links?.whatsapp) && (
+                        {((content.contact_info || content.social_links)?.facebook || (content.contact_info || content.social_links)?.instagram || (content.contact_info || content.social_links)?.whatsapp) && (
                            <div className="flex justify-start sm:justify-end gap-6 pt-4 border-b border-gray-800 pb-4">
-                             {content.social_links?.facebook && (
-                               <a href={content.social_links.facebook} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.facebook && (
+                               <a href={(content.contact_info || content.social_links).facebook} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <Facebook size={24} />
                                </a>
                              )}
-                             {content.social_links?.instagram && (
-                               <a href={content.social_links.instagram} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.instagram && (
+                               <a href={(content.contact_info || content.social_links).instagram} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <Instagram size={24} />
                                </a>
                              )}
-                             {content.social_links?.whatsapp && (
-                               <a href={`https://wa.me/${content.social_links.whatsapp}`} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.whatsapp && (
+                               <a href={`https://wa.me/${(content.contact_info || content.social_links).whatsapp}`} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <MessageCircle size={24} />
                                </a>
                              )}
@@ -380,13 +380,13 @@ export default function MinimalStationeryTheme({ website, content }: any) {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-minimal text-xs font-bold uppercase tracking-widest text-gray-500">
           <div>&copy; {new Date().getFullYear()} {siteName}.</div>
           <div className="flex items-center gap-6">
-            <a href={content.social_links?.whatsapp ? `https://wa.me/${content.social_links.whatsapp}` : "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.whatsapp ? `https://wa.me/${(content.contact_info || content.social_links).whatsapp}` : "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <MessageCircle size={20} />
             </a>
-            <a href={content.social_links?.instagram || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.instagram || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <Instagram size={20} />
             </a>
-            <a href={content.social_links?.facebook || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.facebook || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <Facebook size={20} />
             </a>
           </div>

@@ -225,7 +225,7 @@ export function AdultElegantLayout({ content, website, updateContent, isEditor }
            {mapUrl && (
              <div className="w-full max-w-3xl aspect-[21/9] border border-[#d4af37]/20 relative overflow-hidden mb-12 opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700">
                <iframe 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x0%3A0x0!2zM!3zM!4v1600000000000!5m2!1sen!2sus" 
+                 src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`} 
                  className="absolute inset-0 w-full h-full"
                  style={{ border: 0 }}
                  allowFullScreen

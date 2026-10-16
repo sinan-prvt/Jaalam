@@ -288,7 +288,7 @@ export default function ModernScrapTheme({ website, content }: any) {
                       <div className="mb-6">
                         <h3 className="font-modern text-xl md:text-2xl font-bold mb-2 flex items-center gap-2"><Clock size={20} className="text-emerald-600"/> Working Hours</h3>
                         <p className="text-slate-600 font-medium whitespace-pre-line">
-                          {content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
+                          {content.contact_info?.hours || content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
                         </p>
                       </div>
 

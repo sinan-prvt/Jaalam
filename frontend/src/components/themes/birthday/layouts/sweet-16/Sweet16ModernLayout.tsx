@@ -239,7 +239,7 @@ export function Sweet16ModernLayout({ content, website, updateContent, isEditor 
              </div>
              {mapUrl && (
                <iframe 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x0%3A0x0!2zM!3zM!4v1600000000000!5m2!1sen!2sus" 
+                 src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`} 
                  className="absolute inset-0 w-full h-full grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
                  style={{ border: 0 }}
                  allowFullScreen

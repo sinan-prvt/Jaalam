@@ -244,7 +244,7 @@ export default function PlayfulScrapTheme({ website, content }: any) {
                     <div className="mb-8">
                       <h3 className="font-fun text-3xl font-bold mb-4 text-[#FF6B6B] flex items-center gap-3"><Clock size={32} className="text-[#FF9F1C]"/> Working Hours</h3>
                       <p className="text-[#2B3A67] font-bold text-xl whitespace-pre-line">
-                        {content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
+                        {content.contact_info?.hours || content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
                       </p>
                     </div>
 
