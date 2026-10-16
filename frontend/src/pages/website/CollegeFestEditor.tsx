@@ -406,7 +406,7 @@ export default function CollegeFestEditor() {
                     <input 
                       type="checkbox" 
                       className="sr-only peer"
-                      checked={content.settings_json?.show_language_widget ?? true}
+                      checked={content.settings_json?.show_language_widget ?? false}
                       onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_language_widget: e.target.checked } })}
                     />
                     <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -1335,7 +1335,7 @@ export default function CollegeFestEditor() {
           )}
 
           {/* Live Website Content inside the frame */}
-          <div className="flex-1 overflow-hidden bg-white relative">
+          <div className="flex-1 overflow-hidden bg-white relative transform-gpu isolate">
             <iframe
               ref={iframeRef}
               src="/_preview"

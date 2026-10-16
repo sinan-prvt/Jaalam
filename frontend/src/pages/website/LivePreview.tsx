@@ -14,14 +14,15 @@ function LivePreviewContent() {
   useSmoothScroll();
 
   useEffect(() => {
-    if (data?.content?.settings_json?.show_language_widget === false) {
+    // Language widget is off unless enabled: drop any leftover translation once the site has loaded
+    if (data && data.content?.settings_json?.show_language_widget !== true) {
       if (document.cookie.includes('googtrans')) {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${window.location.hostname}; path=/;`;
         window.location.reload();
       }
     }
-  }, [data?.content?.settings_json?.show_language_widget]);
+  }, [data, data?.content?.settings_json?.show_language_widget]);
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
@@ -77,7 +78,7 @@ function LivePreviewContent() {
         showPhone={data.content?.settings_json?.show_phone_float ?? true}
         style={data.content?.settings_json?.cta_style}
       />
-      {(data.content?.settings_json?.show_language_widget ?? true) && (
+      {(data.content?.settings_json?.show_language_widget ?? false) && (
         <LanguageTranslator 
           languages={data.content?.settings_json?.languages}
           widgetStyle={data.content?.settings_json?.language_widget_style}

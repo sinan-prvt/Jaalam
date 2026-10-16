@@ -62,14 +62,15 @@ export default function PublicWebsite() {
   }, [businessSlug]);
 
   useEffect(() => {
-    if (website?.content?.settings_json?.show_language_widget === false) {
+    // Language widget is off unless enabled: drop any leftover translation once the site has loaded
+    if (website && website.content?.settings_json?.show_language_widget !== true) {
       if (document.cookie.includes('googtrans')) {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${window.location.hostname}; path=/;`;
         window.location.reload();
       }
     }
-  }, [website?.content?.settings_json?.show_language_widget]);
+  }, [website, website?.content?.settings_json?.show_language_widget]);
 
   if (loading) {
     return (
@@ -301,7 +302,7 @@ export default function PublicWebsite() {
         showPhone={content?.settings_json?.show_phone_float ?? true}
         style={content?.settings_json?.cta_style}
       />
-      {(content?.settings_json?.show_language_widget ?? true) && (
+      {(content?.settings_json?.show_language_widget ?? false) && (
         <LanguageTranslator 
           languages={content?.settings_json?.languages}
           widgetStyle={content?.settings_json?.language_widget_style}
