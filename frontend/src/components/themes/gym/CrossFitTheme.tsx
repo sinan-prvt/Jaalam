@@ -222,7 +222,7 @@ export default function CrossFitTheme({ website, content }: Props) {
 
               <FadeIn delay={200}>
                 {!hiddenFields.includes("hero_title") && (
-              <h1 className="cf-heading text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] leading-[0.85] text-black mb-8 break-words text-shadow-md">
+              <h1 className="cf-heading text-6xl sm:text-7xl md:text-[8rem] lg:text-[10rem] leading-[0.9] text-black mb-8 [text-wrap:balance] text-shadow-md">
                   {content.hero_title || content.settings_json?.hero_title || 'EMBRACE THE SUCK'}
                 </h1>
               )}

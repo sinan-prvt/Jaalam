@@ -86,9 +86,15 @@ export default function CreativeAgencyTheme({ website, content }: any) {
         <div className="absolute top-[30%] right-[20%] w-[300px] h-[300px] bg-[#FFB800] rounded-full mix-blend-screen filter blur-[80px] opacity-40"></div>
 
         <div className="container mx-auto relative z-10 text-center">
-          <h1 className="font-creative-title text-6xl md:text-8xl lg:text-[120px] font-black text-white leading-[0.9] tracking-tighter mb-8">
-            <span className="block">{content.hero_title || 'WE BUILD'}</span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0055] to-[#7000FF]">BRANDS</span>
+          <h1 className={`font-creative-title font-black text-white leading-[0.95] tracking-tighter mb-8 [text-wrap:balance] ${content.hero_title ? 'text-5xl md:text-7xl lg:text-[96px]' : 'text-6xl md:text-8xl lg:text-[120px]'}`}>
+            {content.hero_title ? (
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#FF6FA5]">{content.hero_title}</span>
+            ) : (
+              <>
+                <span className="block">WE BUILD</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0055] to-[#7000FF]">BRANDS</span>
+              </>
+            )}
           </h1>
           {!hiddenFields.includes("hero_description") && (
               <p className="font-creative-body text-xl md:text-2xl text-white/80 max-w-2xl mx-auto mb-12 font-medium">

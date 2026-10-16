@@ -107,22 +107,31 @@ export default function MinimalistTheme({ website, content }: any) {
       )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-        <section id="hero" className="pt-24 md:pt-32 pb-12 px-6 md:px-12">
-          <div className="w-full aspect-[16/9] md:aspect-[21/9] bg-gray-100 relative overflow-hidden group">
+        <section id="hero" className="pt-28 md:pt-40 pb-12 px-6 md:px-12">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-end mb-10 md:mb-14">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="md:col-span-8 min-sans text-5xl sm:text-6xl lg:text-8xl font-light tracking-tight leading-[0.95] text-black [text-wrap:balance] whitespace-pre-wrap">
+                {content.hero_title || 'Focus on the essential.'}
+              </h1>
+            )}
+            <div className="md:col-span-4 md:pb-3">
+              {!hiddenFields.includes("hero_description") && (
+                <p className="min-sans text-base md:text-lg text-gray-500 leading-relaxed mb-8 whitespace-pre-wrap">
+                  {content.hero_description || content.hero_text || 'Thoughtfully designed objects for everyday living. Fewer, better things, made to last.'}
+                </p>
+              )}
+              <a href="#shop" className="group inline-flex items-center gap-4 min-sans text-sm uppercase tracking-[0.2em] text-black">
+                <span className="border-b border-black pb-1">Shop the collection</span>
+                <span className="w-10 h-10 rounded-full border border-black flex items-center justify-center transition-colors group-hover:bg-black group-hover:text-white">&rarr;</span>
+              </a>
+            </div>
+          </div>
+          <div className="w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] bg-gray-100 relative overflow-hidden group">
             <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=2000&q=80'}
               alt="Hero"
               className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-105"
             />
-            <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-              {!hiddenFields.includes("hero_title") && (
-              <h1 className="min-sans text-4xl md:text-6xl font-light bg-white/90 backdrop-blur-sm px-8 py-4 break-words whitespace-pre-wrap">
-                {content.hero_title || 'Focus on the essential.'}
-              </h1>
-              )}
-            {!hiddenFields.includes("hero_description") && (content.hero_description || content.hero_text) && (
-              <p className="min-sans mt-4 max-w-xl text-base md:text-lg bg-white/90 px-6 py-3 text-gray-700 break-words whitespace-pre-wrap">{content.hero_description || content.hero_text}</p>
-            )}
-            </div>
+            <span className="absolute bottom-4 left-4 md:bottom-6 md:left-6 min-sans text-[11px] uppercase tracking-[0.25em] bg-white px-3 py-1.5 text-black">New Season</span>
           </div>
         </section>
       )}

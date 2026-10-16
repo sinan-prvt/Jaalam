@@ -206,7 +206,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
         {/* ═══════════════════════════════════════
             NAVIGATION
             ═══════════════════════════════════════ */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_20px_rgba(0,0,0,0.06)]' : 'bg-transparent'}`}>
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_20px_rgba(0,0,0,0.06)]' : 'bg-white/70 backdrop-blur-md'}`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
             {/* Brand */}
             <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2 group">

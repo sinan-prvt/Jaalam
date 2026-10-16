@@ -398,6 +398,128 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
             );
           }
 
+          if (website.theme === 'Casual Eats') {
+            return (
+              <div id="home" key="hero" className="relative min-h-[100vh] flex items-center bg-[#0f172a] px-6 pt-28 pb-16 lg:pt-24 overflow-hidden">
+                <div className="absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-[#FF416C]/25 blur-[120px]"></div>
+                <div className="absolute -bottom-40 -left-32 w-[420px] h-[420px] rounded-full bg-[#FF4B2B]/15 blur-[120px]"></div>
+                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center relative z-10">
+                  <div className="flex flex-col items-start text-left">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-widest mb-8">
+                      <Utensils size={14} className="text-[#FF6B6B]" /> Open today &middot; Dine-in &amp; Takeaway
+                    </span>
+                    {!hiddenFields.includes("hero_title") && (
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.02] mb-6 [text-wrap:balance]">
+                        {content.hero_title || 'A Culinary Experience Like No Other'}
+                      </h1>
+                    )}
+                    {!hiddenFields.includes("hero_description") && (
+                      <p className="text-slate-300 text-base md:text-lg max-w-lg leading-relaxed mb-10">
+                        {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                      </p>
+                    )}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                      <a href="#menu" className={`${primaryColor} ${primaryColorHover} text-white px-8 py-4 text-sm font-bold text-center ${buttonShape}`}>See the Menu</a>
+                      <a href="#contact" className="px-8 py-4 rounded-full text-sm font-bold text-white text-center border border-white/20 hover:bg-white/10 transition-colors">Order / Reserve</a>
+                    </div>
+                    <div className="flex items-center gap-6 mt-12">
+                      <div className="flex text-amber-400">{[0, 1, 2, 3, 4].map(i => <Star key={i} size={16} fill="currentColor" />)}</div>
+                      <span className="text-sm text-slate-400"><b className="text-white">4.9</b> from happy regulars</span>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-6 rounded-[3rem] bg-gradient-to-br from-[#FF416C] to-[#FF4B2B] rotate-6 opacity-80"></div>
+                    <img loading="lazy" src={heroImage} alt="Our food" className="relative w-full aspect-[4/5] sm:aspect-square object-cover rounded-[3rem] shadow-2xl" />
+                    <div className="absolute -bottom-6 left-6 sm:-left-6 bg-white rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-full bg-gradient-to-r from-[#FF416C] to-[#FF4B2B] flex items-center justify-center text-white"><Clock size={18} /></span>
+                      <span><span className="block text-xs text-slate-500">Ready in</span><span className="block font-black text-slate-900">15&ndash;20 min</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (website.theme === 'Vegan Cafe') {
+            return (
+              <div id="home" key="hero" className="relative min-h-[100vh] flex items-center bg-[#0c2a1a] px-6 pt-28 pb-16 lg:pt-24 overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(#bef264 1px, transparent 1px)', backgroundSize: '22px 22px' }}></div>
+                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-14 items-center relative z-10">
+                  <div className="lg:col-span-7 flex flex-col items-start text-left">
+                    <span className="text-lime-300 uppercase tracking-[0.3em] text-xs font-semibold mb-6">100% Plant Based &middot; Locally Grown</span>
+                    {!hiddenFields.includes("hero_title") && (
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium tracking-tight text-[#f4f8f4] leading-[1.05] mb-6 [text-wrap:balance]">
+                        {content.hero_title || 'A Culinary Experience Like No Other'}
+                      </h1>
+                    )}
+                    {!hiddenFields.includes("hero_description") && (
+                      <p className="text-green-100/70 text-base md:text-lg max-w-xl leading-relaxed mb-10">
+                        {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                      </p>
+                    )}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                      <a href="#menu" className="bg-lime-400 hover:bg-lime-300 text-green-950 px-8 py-4 rounded-2xl text-sm font-bold text-center transition-colors">Explore the Menu</a>
+                      <a href="#contact" className="px-8 py-4 rounded-2xl text-sm font-bold text-lime-200 text-center border border-lime-200/30 hover:bg-lime-200/10 transition-colors">Visit Us</a>
+                    </div>
+                    <div className="grid grid-cols-3 gap-6 mt-14 w-full max-w-md">
+                      {[['Organic', 'produce'], ['Zero', 'waste kitchen'], ['Fresh', 'every morning']].map(([a, b]) => (
+                        <div key={a} className="border-l border-lime-300/30 pl-4">
+                          <div className="text-lime-300 font-semibold">{a}</div>
+                          <div className="text-xs text-green-100/60">{b}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="lg:col-span-5 relative">
+                    <img loading="lazy" src={heroImage} alt="Plant-based dishes" className="w-full aspect-[4/5] object-cover rounded-t-full rounded-b-[2rem] shadow-2xl border-8 border-[#123822]" />
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (website.theme === 'Seafood Grill') {
+            return (
+              <div id="home" key="hero" className="relative min-h-[100vh] flex flex-col justify-end px-6 pt-28 overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                  <img loading="lazy" src={heroImage} alt="Seafood Grill" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/20"></div>
+                </div>
+                <div className="relative z-10 max-w-7xl mx-auto w-full pb-10 lg:pb-16">
+                  <span className="inline-block text-cyan-300 uppercase tracking-[0.35em] text-xs font-semibold mb-5">Fresh Catch &middot; Open Flame</span>
+                  {!hiddenFields.includes("hero_title") && (
+                    <h1 className="font-serif font-black uppercase tracking-wide text-white text-4xl sm:text-6xl lg:text-8xl leading-[1.02] max-w-5xl mb-6 [text-wrap:balance]">
+                      {content.hero_title || 'A Culinary Experience Like No Other'}
+                    </h1>
+                  )}
+                  {!hiddenFields.includes("hero_description") && (
+                    <p className="text-slate-300 text-base md:text-xl max-w-2xl leading-relaxed mb-10">
+                      {content.hero_description || content.hero_text || 'Immerse yourself in a world of exquisite flavors, crafted with passion and the finest seasonal ingredients.'}
+                    </p>
+                  )}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <a href="#menu" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-8 py-4 rounded-sm uppercase tracking-widest text-xs font-bold text-center transition-colors">View Menu</a>
+                    <a href="#contact" className="px-8 py-4 rounded-sm uppercase tracking-widest text-xs font-bold text-white text-center border-2 border-white/40 hover:border-white transition-colors">Book a Table</a>
+                  </div>
+                </div>
+                <div className="relative z-10 border-t border-white/10 bg-slate-950/70 backdrop-blur-md -mx-6">
+                  <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 text-white">
+                    {[
+                      { icon: <Utensils size={18} />, label: 'Daily', value: 'Fresh from the harbour' },
+                      { icon: <Clock size={18} />, label: 'Hours', value: content.settings_json?.opening_hours || 'Open 12pm \u2013 11pm' },
+                      { icon: <MapPin size={18} />, label: 'Find us', value: content.contact_info?.address || 'By the waterfront' },
+                    ].map(item => (
+                      <div key={item.label} className="flex items-center gap-4 px-6 py-5">
+                        <span className="text-cyan-300">{item.icon}</span>
+                        <span className="min-w-0"><span className="block text-[10px] uppercase tracking-[0.25em] text-slate-400">{item.label}</span><span className="block font-semibold truncate">{item.value}</span></span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           return (
             <div id="home" key="hero" className="relative min-h-[100vh] lg:min-h-[85vh] flex items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden">
               <div className="absolute inset-0 z-0">

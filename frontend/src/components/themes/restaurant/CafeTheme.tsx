@@ -2276,7 +2276,7 @@ export default function CafeTheme({ website, content }: CafeThemeProps) {
                           {content.settings_json?.website_name || website.slug || 'Luxury Boutique'}
                         </span>
                         {!hiddenFields.includes("hero_title") && (
-                        <h2 className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-syne font-extrabold tracking-tight leading-[1.05] mb-6 uppercase break-words w-full">
+                        <h2 className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-syne font-extrabold tracking-tight leading-[1.05] mb-6 uppercase [text-wrap:balance] w-full">
                           {content.hero_title || 'Design & Taste'}
                         </h2>
                         )}

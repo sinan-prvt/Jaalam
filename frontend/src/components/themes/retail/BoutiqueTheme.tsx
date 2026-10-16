@@ -74,13 +74,13 @@ export default function BoutiqueTheme({ website, content }: any) {
       `}</style>
 
       {/* Header */}
-      <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4' : 'bg-transparent py-6'}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4 text-[#2C2C2C]' : 'bg-gradient-to-b from-black/40 to-transparent py-6 text-white'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <button className="md:hidden" onClick={() => setIsMenuOpen(true)}>
-            <Menu size={24} className="text-[#2C2C2C]" />
+            <Menu size={24} />
           </button>
           
-          <div className="bt-serif text-3xl tracking-wider uppercase flex-1 text-center md:text-left">
+          <div className="bt-serif text-xl sm:text-2xl md:text-3xl tracking-wider uppercase flex-1 text-center md:text-left truncate px-3 md:px-0">
             {siteName}
           </div>
 
