@@ -16,6 +16,22 @@ import Pricing from './Pricing';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
 
 // One place that decides which editor a site opens in
+// Turns a name into a clean link, e.g. "Arjun & Diya" -> "arjun-weds-diya".
+// `joiner` replaces "&", "+" and "and" between names.
+const slugify = (name: string, joiner = 'and') =>
+  name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s*(&|\+|\band\b|\bweds\b)\s*/g, ` ${joiner} `)
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+    .replace(/-+$/, '');
+
+// Characters allowed while typing a link by hand (single dashes only).
+const cleanSlugInput = (value: string) => value.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/-{2,}/g, '-').replace(/^-+/, '');
+
 const editorPath = (type: string | undefined, slug: string) => {
   if (!type) return `/editor/${slug}`;
   if (weddingCategories.includes(type)) return `/wedding-editor/${slug}`;
@@ -88,6 +104,8 @@ export default function Dashboard() {
   // Form State
   const [websiteName, setWebsiteName] = useState('');
   const [newSlug, setNewSlug] = useState('');
+  // Once the user edits the link by hand, stop regenerating it from the name.
+  const [slugEdited, setSlugEdited] = useState(false);
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
   const [newType, setNewType] = useState('Restaurant');
@@ -145,6 +163,14 @@ export default function Dashboard() {
       console.error('Failed to load clients', err);
     }
   };
+
+  // Keep the link in sync with the name until the user edits it:
+  // weddings read "a-weds-b", engagements and everything else "a-and-b".
+  useEffect(() => {
+    if (slugEdited) return;
+    const isWedding = creationMode === 'wedding' && mainEventCategory === 'Wedding' && !/engagement/i.test(newType);
+    setNewSlug(slugify(websiteName, isWedding ? 'weds' : 'and'));
+  }, [websiteName, slugEdited, creationMode, mainEventCategory, newType]);
 
   useEffect(() => {
     if (!newSlug) {
@@ -224,7 +250,7 @@ export default function Dashboard() {
     const loadingToast = toast.loading('Building your website... This may take a minute.');
     try {
       const res = await axios.post('/api/websites/', {
-        slug: newSlug,
+        slug: newSlug.replace(/-+$/, ''),
         business_type: newType,
         theme: newTheme,
       }, {
@@ -244,6 +270,7 @@ export default function Dashboard() {
       setIsCreating(false);
       setWebsiteName('');
       setNewSlug('');
+      setSlugEdited(false);
       setHeroTitle('');
       setAboutText('');
       setContactEmail('');
@@ -253,7 +280,7 @@ export default function Dashboard() {
       toast.success('Project launched successfully!', { id: loadingToast });
     } catch (err: any) {
       console.error(err);
-      const errorMessage = err.response?.data?.error || err.response?.data?.slug?.[0] || 'Failed to create site. Slug might be taken.';
+      const errorMessage = err.response?.data?.error || err.response?.data?.slug?.[0] || (err.response?.status >= 500 ? 'Server error while creating the site. Please try again.' : 'Failed to create site. Slug might be taken.');
       toast.error(errorMessage, { id: loadingToast });
     }
   };
@@ -1210,9 +1237,6 @@ export default function Dashboard() {
                         value={websiteName}
                         onChange={(e) => {
                           setWebsiteName(e.target.value);
-                          if (!newSlug || newSlug === websiteName.slice(0, -1).toLowerCase().replace(/[^a-z0-9-]/g, '-')) {
-                            setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'));
-                          }
                         }}
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                         placeholder={creationMode === 'wedding' 
@@ -1223,7 +1247,7 @@ export default function Dashboard() {
 
                     <div className="md:col-span-2 bg-white/50 p-4 rounded-2xl border border-white">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
-                        {newType === 'Wedding Invitation' ? "Invitation Link" : "Project Slug"}
+                        {creationMode === 'wedding' ? "Invitation Link" : "Project Slug"}
                       </label>
                       <div className={`flex bg-white border ${slugAvailable === false ? 'border-red-400' : 'border-slate-100'} rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-orange-500/20 transition-all shadow-sm`}>
                         <span className="px-4 py-2.5 text-orange-400 bg-slate-50 border-r border-slate-100 select-none flex items-center font-black text-sm">jaalam.app/</span>
@@ -1231,9 +1255,14 @@ export default function Dashboard() {
                           type="text"
                           required
                           value={newSlug}
-                          onChange={(e) => setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
+                          onChange={(e) => {
+                            const value = cleanSlugInput(e.target.value);
+                            setNewSlug(value);
+                            setSlugEdited(value !== '');
+                          }}
+                          onBlur={() => setNewSlug(newSlug.replace(/-+$/, ''))}
                           className="flex-1 bg-transparent px-4 py-2.5 outline-none text-slate-900 placeholder-slate-300 font-black text-sm w-full min-w-0"
-                          placeholder={newType === 'Wedding Invitation' ? "alex-and-jordan" : "my-business"}
+                          placeholder={creationMode === 'wedding' ? (mainEventCategory === 'Wedding' && !/engagement/i.test(newType) ? "alex-weds-jordan" : "alex-and-jordan") : "my-business"}
                         />
                         {newSlug && (
                           <div className="flex items-center pr-3">
