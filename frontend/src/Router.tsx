@@ -23,6 +23,7 @@ const CollegeFestEditor = lazy(() => import('./pages/website/CollegeFestEditor')
 const ReligiousEventEditor = lazy(() => import('./pages/website/ReligiousEventEditor'));
 const PublicWebsite = lazy(() => import('./pages/website/PublicWebsite'));
 const LivePreview = lazy(() => import('./pages/website/LivePreview'));
+const PublicInvoice = lazy(() => import('./pages/billing/PublicInvoice'));
 const MaintenancePage = lazy(() => import('./pages/marketing/MaintenancePage'));
 
 const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -150,6 +151,7 @@ function Router() {
                 element={<ProtectedRoute component={ReligiousEventEditor} />}
               />
               <Route path="/_preview" element={<LivePreview />} />
+              <Route path="/invoice/:token" element={<PublicInvoice />} />
 
               <Route path="/:businessSlug" element={<PublicWebsite />} />
             </Routes>
