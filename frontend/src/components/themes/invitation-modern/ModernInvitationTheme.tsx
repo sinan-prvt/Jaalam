@@ -895,3 +895,57 @@ export default function ModernInvitationTheme({ family, style, content, website 
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Thumbnail preview                                                   */
+/* ------------------------------------------------------------------ */
+
+const PREVIEW_W = 1280;
+const PREVIEW_H = 800;
+
+const previewContent = {
+  date: '2026-12-12',
+  settings_json: {
+    wedding: { time: '10:30 AM', venue: 'The Grand Palace' },
+    birthday: { time: '6:00 PM', venue: 'Skyline Hall' },
+    housewarming: { time: '9:00 AM', venue: 'Green Villa' },
+  },
+};
+
+// Renders the real hero of a style at desktop size, scaled down to fit its box,
+// so dashboard cards show exactly what the theme looks like.
+export function InvitationHeroPreview({ family, style, category }: { family: InviteFamily; style: InvitationStyle; category: string }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0);
+  const website = useMemo(() => ({ business_type: category }), [category]);
+  const d = useMemo(() => buildInviteData(family, previewContent, website), [family, website]);
+
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const update = () => setScale(el.clientWidth / PREVIEW_W);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const palette = getInvitePalette(category);
+  const skin = SKINS[style];
+  const Hero = HEROES[style];
+  const lift = (c: string) => (skin.dark ? `color-mix(in srgb, ${c} 70%, white)` : c);
+  const cssVars = { '--acc': lift(palette.accent), '--acc2': lift(palette.accent2), '--acc3': palette.accent3 } as React.CSSProperties;
+
+  return (
+    <div ref={boxRef} className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden="true">
+      {scale > 0 && (
+        <div
+          className={`${skin.root} [&_section]:min-h-0! [&_section]:h-[800px]`}
+          style={{ ...cssVars, width: PREVIEW_W, height: PREVIEW_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}
+        >
+          <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={d.heroImage || palette.image} Icon={ICONS[palette.icon]} left={null} />
+        </div>
+      )}
+    </div>
+  );
+}

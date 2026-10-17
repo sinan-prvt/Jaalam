@@ -1,3 +1,4 @@
+import ThemeThumbnail from '../../components/themes/invitation-modern/ThemeThumbnail';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
@@ -12,7 +13,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
-import { categoryThemes, getThemeThumbnail, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
+import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
 
 // One place that decides which editor a site opens in
 const editorPath = (type: string | undefined, slug: string) => {
@@ -820,7 +821,7 @@ export default function Dashboard() {
                     <div key={site.id} className={`group bg-white/70 backdrop-blur-xl rounded-3xl border border-white overflow-hidden flex flex-col transition-all hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${deletingId === site.id ? 'opacity-50 pointer-events-none' : ''}`}>
 
                       <div className="h-40 bg-slate-100/50 relative overflow-hidden flex items-center justify-center m-2 rounded-2xl group/img">
-                        <img loading="lazy" src={getThemeThumbnail(site.theme, site.business_type)} alt={site.theme} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <ThemeThumbnail theme={site.theme} category={site.business_type} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/50 transition-colors duration-500 backdrop-blur-[2px]"></div>
 
                         {/* Dynamic Overlay Text */}
@@ -973,12 +974,7 @@ export default function Dashboard() {
                   .map((item, idx) => (
                     <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white/80 backdrop-blur-xl border border-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-1">
                       <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative">
-                        <img 
-                          src={getThemeThumbnail(item.theme, item.category)} 
-                          alt={item.theme}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          loading="lazy"
-                        />
+                        <ThemeThumbnail theme={item.theme} category={item.category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 gap-2">
                           <button
                             onClick={() => handlePreviewTemplate(item.category, item.theme)}
