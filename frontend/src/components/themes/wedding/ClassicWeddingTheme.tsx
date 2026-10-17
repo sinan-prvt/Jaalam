@@ -9,6 +9,7 @@ import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, Minimalist
 import { PunjabiRoyalLayout, PunjabiVibrantModernLayout, PunjabiBhangraFloralLayout, PunjabiSikhMinimalLayout, PunjabiGoldenElegantLayout } from './layouts/punjabi-traditional';
 import { BengaliClassicLayout, BengaliRedGoldModernLayout, BengaliLotusFloralLayout, BengaliMinimalistSindoorLayout } from './layouts/bengali-traditional';
 import { ClassicEngagementLayout, FloralEngagementLayout, MinimalEngagementLayout, ElegantEngagementLayout, TraditionalEngagementLayout } from './layouts/classic-engagement';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 import { ModernEngagementLayout, MinimalModernEngagementLayout, PopModernEngagementLayout, ClassicModernEngagementLayout, ElegantModernEngagementLayout } from './layouts/modern-engagement';
 
 interface ClassicWeddingThemeProps {
@@ -22,6 +23,11 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const theme = website?.theme || 'Classic';
   const category = website?.business_type || 'Wedding Invitation';
+
+  const modernStyle = getModernInvitationStyle(theme);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="wedding" style={modernStyle} website={website} content={content} />;
+  }
 
   // 1. Set base colors and background based on Category (business_type)
   let bgClass = "bg-[#fdfbf7]";
@@ -129,7 +135,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'EmeraldFloral';
   } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {
     baseTheme = 'ModernIslamic';
-  } else if (t.includes('golden') || t.includes('elegant golden')) {
+  } else if ((t.includes('golden') || t.includes('elegant golden')) && category === 'Islamic Invitation') {
     baseTheme = 'ElegantGolden';
   } else if (t.includes('arabesque') || t.includes('minimalist arabesque')) {
     baseTheme = 'MinimalistArabesque';

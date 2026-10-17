@@ -228,7 +228,7 @@ export default function PublicWebsite() {
     }
 
     if (housewarmingCategories.includes(website.business_type)) {
-      return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} />;
+      return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} website={website} />;
     }
 
     if (collegeFestCategories.includes(website.business_type)) {

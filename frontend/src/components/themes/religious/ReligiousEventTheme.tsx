@@ -17,9 +17,13 @@ import HinduClassicLayout from './layouts/HinduClassicLayout';
 import HinduFloralLayout from './layouts/HinduFloralLayout';
 import HinduMinimalLayout from './layouts/HinduMinimalLayout';
 import HinduElegantLayout from './layouts/HinduElegantLayout';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 
 export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
-    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
+  const modernStyle = getModernInvitationStyle(website?.theme);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="religious" style={modernStyle} website={website} content={content} />;
+  }
   if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
     return <ModernMosqueLayout website={website} content={content} />;
   }
@@ -69,6 +73,13 @@ export default function ReligiousEventTheme({ website, content }: { website: any
     return <HinduTraditionalLayout website={website} content={content} />;
   }
 
+  return <GenericReligiousLayout website={website} content={content} />;
+}
+
+// Fallback layout (e.g. 'Islamic Traditional'). Kept as its own component so its hooks
+// always run in the same order, regardless of which theme the dispatcher above picks.
+function GenericReligiousLayout({ website, content }: { website: any, content: any }) {
+  const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   
   // Theme color mapping based on business_type and theme

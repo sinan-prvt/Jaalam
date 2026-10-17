@@ -145,7 +145,7 @@ function LivePreviewContent() {
     }
 
     if (housewarmingCategories.includes(data.website.business_type)) {
-      return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} />;
+      return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} website={data.website} />;
     }
 
     if (collegeFestCategories.includes(data.website.business_type)) {

@@ -3,6 +3,7 @@ import React from 'react';
 import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
 import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout, FirstClassicLayout, FirstFloralLayout } from './layouts/first-birthday';
 import { Sweet16ElegantLayout, Sweet16PopLayout, Sweet16ModernLayout, Sweet16ClassicLayout, Sweet16FloralLayout } from './layouts/sweet-16';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 import { AdultNoirLayout, AdultClassicLayout, AdultModernLayout, AdultMinimalLayout, AdultElegantLayout } from './layouts/adult';
 
 interface BirthdayThemeProps {
@@ -18,6 +19,11 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
   const category = website?.business_type || 'Kids Birthday';
 
   const t = ((theme as string) || '').toLowerCase().trim();
+
+  const modernStyle = getModernInvitationStyle(theme as string);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="birthday" style={modernStyle} website={website} content={content} />;
+  }
 
   let baseTheme = 'KidsPlayful';
 
