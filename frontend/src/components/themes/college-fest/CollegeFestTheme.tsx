@@ -49,13 +49,15 @@ export default function CollegeFestTheme({ content, website, updateContent, isEd
   } else if (t === 'traditional') {
     colors = { ...colors, bgClass: 'bg-[#1c0d02]', sectionBg: 'bg-[#2a1405]', accentText: 'text-amber-400', accentBg: 'bg-amber-500', accentHover: 'hover:bg-amber-400', borderClass: 'border-amber-500/30', heroOpacity: 'opacity-40 sepia' };
   } else if (t === 'minimal') {
+    // The fest layouts use light text throughout, so "minimal" is a monochrome dark palette
+    // (a white background made headings, descriptions and buttons invisible).
     colors = {
-      bgClass: 'bg-white',
-      sectionBg: 'bg-gray-50',
-      accentText: 'text-black',
-      accentBg: 'bg-black',
-      accentHover: 'hover:bg-gray-900',
-      borderClass: 'border-gray-200',
+      bgClass: 'bg-zinc-950',
+      sectionBg: 'bg-zinc-900',
+      accentText: 'text-zinc-100',
+      accentBg: 'bg-zinc-100',
+      accentHover: 'hover:bg-white',
+      borderClass: 'border-zinc-700',
       heroOpacity: 'opacity-20 grayscale',
       heroBg: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80'
     };
@@ -71,13 +73,14 @@ export default function CollegeFestTheme({ content, website, updateContent, isEd
       heroBg: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80'
     };
   } else if (t === 'corporate') {
+    // Navy instead of white for the same reason as "minimal" above.
     colors = {
-      bgClass: 'bg-slate-50',
-      sectionBg: 'bg-white',
-      accentText: 'text-blue-600',
-      accentBg: 'bg-blue-600',
-      accentHover: 'hover:bg-blue-700',
-      borderClass: 'border-blue-100',
+      bgClass: 'bg-[#0b1426]',
+      sectionBg: 'bg-[#111d35]',
+      accentText: 'text-blue-400',
+      accentBg: 'bg-blue-500',
+      accentHover: 'hover:bg-blue-400',
+      borderClass: 'border-blue-400/30',
       heroOpacity: 'opacity-30',
       heroBg: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80'
     };

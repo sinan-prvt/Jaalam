@@ -230,6 +230,18 @@ function Photo({ src, alt, className }: { src: string; alt: string; className?: 
   return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} className={`object-cover ${className || ''}`} />;
 }
 
+// Cover photo that degrades to the palette gradient if the image can't load.
+function Cover({ src, alt, className }: { src: string; alt: string; className: string }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
+  if (failed) return <div role="img" aria-label={alt} className={`${className} bg-linear-to-br from-(--acc) via-(--acc2) to-(--acc3)`} />;
+  return <img src={src} alt={alt} onError={() => setFailed(true)} className={className} />;
+}
+
+const hideOnError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  (e.currentTarget.parentElement?.dataset.galleryItem ? e.currentTarget.parentElement : e.currentTarget).style.display = 'none';
+};
+
 /* ------------------------------------------------------------------ */
 /* Heroes                                                              */
 /* ------------------------------------------------------------------ */
@@ -262,7 +274,7 @@ function TitleLines({ d, className, joinerClass }: { d: InviteData; className: s
 function GlassHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
   return (
     <section id="hero" className="relative min-h-[100svh] flex items-center justify-center px-5 py-24 overflow-hidden">
-      <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px]" />
+      <Cover src={image} alt="" className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px]" />
       <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/30 to-[#07070c]" />
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
@@ -315,7 +327,7 @@ function AuroraHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.15 }} className="relative mx-auto w-full max-w-sm">
           <div className="absolute -inset-3 rounded-[999px] bg-linear-to-br from-(--acc) via-(--acc2) to-(--acc3) opacity-70 blur-md" />
-          <img src={image} alt={d.title} className="relative w-full aspect-[3/4] object-cover rounded-[999px] border-8 border-white shadow-2xl" />
+          <Cover src={image} alt={d.title} className="relative w-full aspect-[3/4] object-cover rounded-[999px] border-8 border-white shadow-2xl" />
         </motion.div>
       </div>
     </section>
@@ -337,7 +349,7 @@ function BentoHero({ d, skin, eyebrow, image, Icon, left }: HeroProps) {
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="col-span-2 md:row-span-2 rounded-[1.75rem] overflow-hidden min-h-[320px] relative">
-          <img src={image} alt={d.title} className="absolute inset-0 w-full h-full object-cover" />
+          <Cover src={image} alt={d.title} className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 backdrop-blur-md px-5 py-4 text-sm font-medium text-zinc-700 line-clamp-3">{d.quote}</div>
         </motion.div>
         {d.dateText && (
@@ -403,7 +415,7 @@ function EditorialHero({ d, skin, eyebrow, image }: HeroProps) {
         </div>
       </div>
       <div className="relative min-h-[55vh] order-1 md:order-2">
-        <img src={image} alt={d.title} className="absolute inset-0 w-full h-full object-cover grayscale-[30%]" />
+        <Cover src={image} alt={d.title} className="absolute inset-0 w-full h-full object-cover grayscale-[30%]" />
         <div className="absolute bottom-6 left-6 bg-[#f6f1e9] px-4 py-2 text-[10px] uppercase tracking-[0.4em]">{d.family === 'religious' ? 'Est. with faith' : 'An invitation'}</div>
       </div>
     </section>
@@ -419,7 +431,7 @@ function LuxeHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
         <Icon size={28} strokeWidth={1.2} className="text-(--acc)" />
         <p className={`${skin.eyebrow} mt-6`}>{eyebrow}</p>
         <div className="relative mt-10 w-56 md:w-64 aspect-[3/4] rounded-t-full overflow-hidden border border-(--acc)/60 p-2">
-          <img src={image} alt={d.title} className="w-full h-full object-cover rounded-t-full" />
+          <Cover src={image} alt={d.title} className="w-full h-full object-cover rounded-t-full" />
         </div>
         <TitleLines d={d} className="mt-10 font-['Playfair_Display'] text-5xl md:text-7xl font-light tracking-wide" joinerClass="font-['Great_Vibes'] text-(--acc) text-4xl md:text-5xl my-1" />
         <p className={`mt-6 text-xs md:text-sm uppercase tracking-[0.45em] ${skin.muted}`}>{d.subtitle}</p>
@@ -627,7 +639,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
       body: (
         <div className="grid md:grid-cols-2 gap-4 md:gap-6 items-stretch">
           <div className={`${skin.card} p-6 md:p-10 flex flex-col justify-center`}>
-            {d.venuePhoto && <img src={d.venuePhoto} alt={d.venueName || 'Venue'} loading="lazy" className={`w-full aspect-video object-cover mb-6 ${skin.dark || style === 'Editorial' ? '' : 'rounded-2xl'}`} />}
+            {d.venuePhoto && <img src={d.venuePhoto} alt={d.venueName || 'Venue'} loading="lazy" onError={hideOnError} className={`w-full aspect-video object-cover mb-6 ${skin.dark || style === 'Editorial' ? '' : 'rounded-2xl'}`} />}
             <MapPin size={24} className={skin.accentText} />
             {d.venueName && <h3 className={`mt-4 text-2xl ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{d.venueName}</h3>}
             {d.address && d.address !== d.venueName && <p className={`mt-2 leading-relaxed ${skin.muted}`}>{d.address}</p>}
@@ -661,9 +673,10 @@ export default function ModernInvitationTheme({ family, style, content, website 
           {d.gallery.map((url, i) => (
             <div
               key={i}
+              data-gallery-item="true"
               className={`overflow-hidden break-inside-avoid group ${isBento ? `rounded-[1.25rem] ${i % 5 === 0 ? 'col-span-2 row-span-2' : ''}` : style === 'Glassmorphism' || style === 'Aurora Gradient' ? 'rounded-2xl' : ''}`}
             >
-              <img src={url} alt={`Gallery ${i + 1}`} loading="lazy" className={`w-full ${isBento ? 'h-full object-cover' : 'h-auto'} group-hover:scale-105 transition-transform duration-700`} />
+              <img src={url} alt={`Gallery ${i + 1}`} loading="lazy" onError={hideOnError} className={`w-full ${isBento ? 'h-full object-cover' : 'h-auto'} group-hover:scale-105 transition-transform duration-700`} />
             </div>
           ))}
         </div>
@@ -760,7 +773,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-(--acc2) opacity-40 blur-[110px]" />
               </div>
             )}
-            {style === 'Glassmorphism' && <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 blur-md" />}
+            {style === 'Glassmorphism' && <Cover src={image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 blur-md" />}
             <div className="relative z-10 flex flex-col items-center">
               <motion.div
                 animate={{ scale: [1, 1.08, 1] }}
