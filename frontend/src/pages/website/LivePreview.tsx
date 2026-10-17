@@ -1,84 +1,6 @@
-import { useEffect, useState } from 'react';
-import RestaurantTheme from '../../components/themes/restaurant/RestaurantTheme';
-import CafeTheme from '../../components/themes/restaurant/CafeTheme';
-import SalonTheme from '../../components/themes/salon/SalonTheme';
-import SalonTheme2 from '../../components/themes/salon/SalonTheme2';
-import ModernSaloonTheme from '../../components/themes/salon/ModernSaloonTheme';
-import VintageBarberTheme from '../../components/themes/salon/VintageBarberTheme';
-import RoyalSaloonTheme from '../../components/themes/salon/RoyalSaloonTheme';
-import HardcoreIronTheme from '../../components/themes/gym/HardcoreIronTheme';
-import ZenYogaTheme from '../../components/themes/gym/ZenYogaTheme';
-import CrossFitTheme from '../../components/themes/gym/CrossFitTheme';
-import LuxuryClubTheme from '../../components/themes/gym/LuxuryClubTheme';
-import CombatGymTheme from '../../components/themes/gym/CombatGymTheme';
-import BoutiqueTheme from '../../components/themes/retail/BoutiqueTheme';
-import MinimalistTheme from '../../components/themes/retail/MinimalistTheme';
-import StreetwearTheme from '../../components/themes/retail/StreetwearTheme';
-import TechGadgetTheme from '../../components/themes/retail/TechGadgetTheme';
-import ModernStationeryTheme from '../../components/themes/stationery/ModernStationeryTheme';
-import ClassicStationeryTheme from '../../components/themes/stationery/ClassicStationeryTheme';
-import PlayfulStationeryTheme from '../../components/themes/stationery/PlayfulStationeryTheme';
-import MinimalStationeryTheme from '../../components/themes/stationery/MinimalStationeryTheme';
-import EtherealStationeryTheme from '../../components/themes/stationery/EtherealStationeryTheme';
-import OrganicStoreTheme from '../../components/themes/retail/OrganicStoreTheme';
-import ModernFancyTheme from '../../components/themes/fancy/ModernFancyTheme';
-import BoutiqueFancyTheme from '../../components/themes/fancy/BoutiqueFancyTheme';
-import MinimalFancyTheme from '../../components/themes/fancy/MinimalFancyTheme';
-import LuxuryFancyTheme from '../../components/themes/fancy/LuxuryFancyTheme';
-import PlayfulFancyTheme from '../../components/themes/fancy/PlayfulFancyTheme';
-import ClassicFancyTheme from '../../components/themes/fancy/ClassicFancyTheme';
-import NoirFancyTheme from '../../components/themes/fancy/NoirFancyTheme';
-import PopFancyTheme from '../../components/themes/fancy/PopFancyTheme';
-import ModernMeatTheme from '../../components/themes/meat/ModernMeatTheme';
-import ClassicMeatTheme from '../../components/themes/meat/ClassicMeatTheme';
-import PremiumMeatTheme from '../../components/themes/meat/PremiumMeatTheme';
-import MinimalMeatTheme from '../../components/themes/meat/MinimalMeatTheme';
-import RusticMeatTheme from '../../components/themes/meat/RusticMeatTheme';
-import PlayfulMeatTheme from '../../components/themes/meat/PlayfulMeatTheme';
-import ModernScrapTheme from '../../components/themes/scrap/ModernScrapTheme';
-import ClassicScrapTheme from '../../components/themes/scrap/ClassicScrapTheme';
-import MinimalScrapTheme from '../../components/themes/scrap/MinimalScrapTheme';
-import CorporateScrapTheme from '../../components/themes/scrap/CorporateScrapTheme';
-import EcoScrapTheme from '../../components/themes/scrap/EcoScrapTheme';
-import PlayfulScrapTheme from '../../components/themes/scrap/PlayfulScrapTheme';
-import ModernGroceryTheme from '../../components/themes/grocery/ModernGroceryTheme';
-import ClassicGroceryTheme from '../../components/themes/grocery/ClassicGroceryTheme';
-import PremiumGroceryTheme from '../../components/themes/grocery/PremiumGroceryTheme';
-import MinimalGroceryTheme from '../../components/themes/grocery/MinimalGroceryTheme';
-import OrganicGroceryTheme from '../../components/themes/grocery/OrganicGroceryTheme';
-import PlayfulGroceryTheme from '../../components/themes/grocery/PlayfulGroceryTheme';
-import NoirGroceryTheme from '../../components/themes/grocery/NoirGroceryTheme';
-import PopGroceryTheme from '../../components/themes/grocery/PopGroceryTheme';
-import ModernTextilesTheme from '../../components/themes/textiles/ModernTextilesTheme';
-import BoutiqueTextilesTheme from '../../components/themes/textiles/BoutiqueTextilesTheme';
-import MinimalTextilesTheme from '../../components/themes/textiles/MinimalTextilesTheme';
-import LuxuryTextilesTheme from '../../components/themes/textiles/LuxuryTextilesTheme';
-import VintageTextilesTheme from '../../components/themes/textiles/VintageTextilesTheme';
-import PlayfulTextilesTheme from '../../components/themes/textiles/PlayfulTextilesTheme';
-import LuxuryVillasTheme from '../../components/themes/realestate/LuxuryVillasTheme';
-import UrbanApartmentsTheme from '../../components/themes/realestate/UrbanApartmentsTheme';
-import CommercialTheme from '../../components/themes/realestate/CommercialTheme';
-import ModernRealEstateTheme from '../../components/themes/realestate/ModernRealEstateTheme';
-import MinimalRealEstateTheme from '../../components/themes/realestate/MinimalRealEstateTheme';
-import ClassicRealEstateTheme from '../../components/themes/realestate/ClassicRealEstateTheme';
-import CorporateConsultingTheme from '../../components/themes/consulting/CorporateConsultingTheme';
-import CreativeAgencyTheme from '../../components/themes/consulting/CreativeAgencyTheme';
-import TechStartupTheme from '../../components/themes/consulting/TechStartupTheme';
-import ManagementConsultingTheme from '../../components/themes/consulting/ManagementConsultingTheme';
-import MinimalConsultingTheme from '../../components/themes/consulting/MinimalConsultingTheme';
-import LegalFirmTheme from '../../components/themes/consulting/LegalFirmTheme';
+import { useEffect, useState, Suspense } from 'react';
+import { RestaurantTheme, CafeTheme, SalonTheme, SalonTheme2, ModernSaloonTheme, VintageBarberTheme, RoyalSaloonTheme, HardcoreIronTheme, ZenYogaTheme, CrossFitTheme, LuxuryClubTheme, CombatGymTheme, BoutiqueTheme, MinimalistTheme, StreetwearTheme, TechGadgetTheme, OrganicStoreTheme, ModernStationeryTheme, ClassicStationeryTheme, PlayfulStationeryTheme, MinimalStationeryTheme, EtherealStationeryTheme, ModernFancyTheme, BoutiqueFancyTheme, MinimalFancyTheme, LuxuryFancyTheme, PlayfulFancyTheme, ClassicFancyTheme, NoirFancyTheme, PopFancyTheme, ModernMeatTheme, ClassicMeatTheme, PremiumMeatTheme, MinimalMeatTheme, RusticMeatTheme, PlayfulMeatTheme, ModernScrapTheme, ClassicScrapTheme, MinimalScrapTheme, CorporateScrapTheme, EcoScrapTheme, PlayfulScrapTheme, ModernGroceryTheme, ClassicGroceryTheme, PremiumGroceryTheme, MinimalGroceryTheme, OrganicGroceryTheme, PlayfulGroceryTheme, NoirGroceryTheme, PopGroceryTheme, ModernTextilesTheme, BoutiqueTextilesTheme, MinimalTextilesTheme, LuxuryTextilesTheme, VintageTextilesTheme, PlayfulTextilesTheme, LuxuryVillasTheme, UrbanApartmentsTheme, CommercialTheme, ModernRealEstateTheme, MinimalRealEstateTheme, ClassicRealEstateTheme, CorporateConsultingTheme, CreativeAgencyTheme, TechStartupTheme, ManagementConsultingTheme, MinimalConsultingTheme, LegalFirmTheme, ModernOtherTheme, ClassicOtherTheme, MinimalOtherTheme, NoirOtherTheme, PopOtherTheme, CorporateOtherTheme, ClassicWeddingTheme, BirthdayTheme, HousewarmingTheme, CollegeFestTheme, ReligiousEventTheme } from '../../components/themes/lazyThemes';
 
-import ModernOtherTheme from '../../components/themes/other/ModernOtherTheme';
-import ClassicOtherTheme from '../../components/themes/other/ClassicOtherTheme';
-import MinimalOtherTheme from '../../components/themes/other/MinimalOtherTheme';
-import NoirOtherTheme from '../../components/themes/other/NoirOtherTheme';
-import PopOtherTheme from '../../components/themes/other/PopOtherTheme';
-import CorporateOtherTheme from '../../components/themes/other/CorporateOtherTheme';
-import ClassicWeddingTheme from '../../components/themes/wedding/ClassicWeddingTheme';
-import BirthdayTheme from '../../components/themes/birthday/BirthdayTheme';
-import { HousewarmingTheme } from '../../components/themes/housewarming/HousewarmingTheme';
-import CollegeFestTheme from '../../components/themes/college-fest/CollegeFestTheme';
-import ReligiousEventTheme from '../../components/themes/religious/ReligiousEventTheme';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
@@ -328,7 +250,9 @@ function LivePreviewContent() {
 
   return (
     <>
-      {renderTheme()}
+      <Suspense fallback={<div className="min-h-screen" />}>
+        {renderTheme()}
+      </Suspense>
       <Chatbot content={data.content} />
       <FloatingContactButtons 
         phone={data.content?.settings_json?.cta_phone_number || data.content?.contact_info?.phone} 

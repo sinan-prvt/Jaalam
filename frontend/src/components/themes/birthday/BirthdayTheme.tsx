@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { lazy } from 'react';
 
-import { KidsPlayfulLayout, KidsMagicLayout, KidsSuperheroLayout, KidsClassicLayout, KidsFunLayout } from './layouts/kids';
-import { FirstPlayfulLayout, FirstSoftLayout, FirstMinimalLayout, FirstClassicLayout, FirstFloralLayout } from './layouts/first-birthday';
-import { Sweet16ElegantLayout, Sweet16PopLayout, Sweet16ModernLayout, Sweet16ClassicLayout, Sweet16FloralLayout } from './layouts/sweet-16';
 import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
-import { AdultNoirLayout, AdultClassicLayout, AdultModernLayout, AdultMinimalLayout, AdultElegantLayout } from './layouts/adult';
+
+// Layouts load on demand so a site only downloads the one it renders.
+const KidsPlayfulLayout = lazy(() => import('./layouts/kids/KidsPlayfulLayout'));
+const KidsMagicLayout = lazy(() => import('./layouts/kids/KidsMagicLayout'));
+const KidsSuperheroLayout = lazy(() => import('./layouts/kids/KidsSuperheroLayout'));
+const KidsClassicLayout = lazy(() => import('./layouts/kids/KidsClassicLayout'));
+const KidsFunLayout = lazy(() => import('./layouts/kids/KidsFunLayout'));
+const FirstPlayfulLayout = lazy(() => import('./layouts/first-birthday/FirstPlayfulLayout'));
+const FirstSoftLayout = lazy(() => import('./layouts/first-birthday/FirstSoftLayout'));
+const FirstMinimalLayout = lazy(() => import('./layouts/first-birthday/FirstMinimalLayout'));
+const FirstClassicLayout = lazy(() => import('./layouts/first-birthday/FirstClassicLayout'));
+const FirstFloralLayout = lazy(() => import('./layouts/first-birthday/FirstFloralLayout'));
+const Sweet16ElegantLayout = lazy(() => import('./layouts/sweet-16/Sweet16ElegantLayout').then((m) => ({ default: m.Sweet16ElegantLayout })));
+const Sweet16PopLayout = lazy(() => import('./layouts/sweet-16/Sweet16PopLayout').then((m) => ({ default: m.Sweet16PopLayout })));
+const Sweet16ModernLayout = lazy(() => import('./layouts/sweet-16/Sweet16ModernLayout').then((m) => ({ default: m.Sweet16ModernLayout })));
+const Sweet16ClassicLayout = lazy(() => import('./layouts/sweet-16/Sweet16ClassicLayout').then((m) => ({ default: m.Sweet16ClassicLayout })));
+const Sweet16FloralLayout = lazy(() => import('./layouts/sweet-16/Sweet16FloralLayout').then((m) => ({ default: m.Sweet16FloralLayout })));
+const AdultNoirLayout = lazy(() => import('./layouts/adult/AdultNoirLayout').then((m) => ({ default: m.AdultNoirLayout })));
+const AdultClassicLayout = lazy(() => import('./layouts/adult/AdultClassicLayout').then((m) => ({ default: m.AdultClassicLayout })));
+const AdultModernLayout = lazy(() => import('./layouts/adult/AdultModernLayout').then((m) => ({ default: m.AdultModernLayout })));
+const AdultMinimalLayout = lazy(() => import('./layouts/adult/AdultMinimalLayout').then((m) => ({ default: m.AdultMinimalLayout })));
+const AdultElegantLayout = lazy(() => import('./layouts/adult/AdultElegantLayout').then((m) => ({ default: m.AdultElegantLayout })));
 
 interface BirthdayThemeProps {
   content?: Record<string, unknown>;
