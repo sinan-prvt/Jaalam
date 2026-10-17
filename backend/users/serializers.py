@@ -23,6 +23,28 @@ class UserSerializer(serializers.ModelSerializer):
             return SubscriptionSerializer(latest_sub).data
         return None
 
+    # Only admins may change these; for everyone else they are read-only (previously anyone
+    # could PATCH themselves to is_superuser or a paid membership).
+    ADMIN_ONLY_FIELDS = ('membership', 'role', 'agent', 'is_test_user', 'is_superuser', 'is_active', 'has_completed_onboarding')
+
+    def get_fields(self):
+        fields = super().get_fields()
+        request = self.context.get('request')
+        if not (request and request.user.is_authenticated and request.user.is_superuser):
+            for name in self.ADMIN_ONLY_FIELDS:
+                if name in fields:
+                    fields[name].read_only = True
+        return fields
+
+    def update(self, instance, validated_data):
+        # Hash new passwords instead of storing them as plain text.
+        password = validated_data.pop('password', None)
+        instance = super().update(instance, validated_data)
+        if password:
+            instance.set_password(password)
+            instance.save(update_fields=['password'])
+        return instance
+
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],

@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.middleware.csrf import get_token
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from .serializers import UserSerializer, NotificationSerializer
@@ -15,9 +16,24 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action in ['list', 'destroy']:
+        if self.action in ['list', 'destroy', 'create']:
             return [permissions.IsAdminUser()]
+        if self.action in ['retrieve', 'update', 'partial_update']:
+            return [permissions.IsAuthenticated()]
         return super().get_permissions()
+
+    def get_queryset(self):
+        # Users may only read or edit their own account (admins: anyone).
+        user = self.request.user
+        if self.action in ['retrieve', 'update', 'partial_update'] and not user.is_superuser:
+            return User.objects.filter(pk=user.pk)
+        return User.objects.all()
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny], authentication_classes=[])
+    def csrf(self, request):
+        # get_token() also makes Django set the csrftoken cookie. The token is returned too, so
+        # the frontend can send it in the X-CSRFToken header even when calling from another origin.
+        return Response({'csrfToken': get_token(request)})
 
     @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
@@ -120,11 +136,18 @@ class UserViewSet(viewsets.ModelViewSet):
         
         return Response({"is_test_user": user.is_test_user})
 
-    @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[permissions.IsAuthenticated])
+    @action(detail=False, methods=['get', 'put', 'patch', 'delete'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         if request.method == 'GET':
             serializer = self.get_serializer(request.user)
             return Response(serializer.data)
+
+        if request.method == 'DELETE':
+            # "Delete account" in the dashboard (this method was missing, so it always failed).
+            user = request.user
+            logout(request)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
             
         serializer = self.get_serializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)

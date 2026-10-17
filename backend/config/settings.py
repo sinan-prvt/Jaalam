@@ -3,14 +3,22 @@ Django settings for config project.
 """
 from pathlib import Path
 import os
+import sys
+from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings configured for Render & Local
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-@fj*yjickc)4*5(75mw+l$%jf$bup6$-w1m)3)_uiklxwcgbob')
-DEBUG = config('DEBUG', default=True, cast=bool)
+# Debug defaults to on for local `manage.py` commands and off for servers (gunicorn on Render).
+# Production should still set DEBUG=False explicitly (render.yaml does).
+DEBUG = config('DEBUG', default=Path(sys.argv[0]).name == 'manage.py', cast=bool)
+SECRET_KEY = config('SECRET_KEY', default='')
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured('Set the SECRET_KEY environment variable (required when DEBUG is off).')
+    SECRET_KEY = 'django-insecure-local-development-only'
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
@@ -88,9 +96,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Browser origins allowed to call the API with the user's login cookie. The production
+# frontend proxies /api through its own domain (frontend/vercel.json), so it is same-origin
+# and needs no entry here. Add an origin only if a frontend calls the backend directly
+# (e.g. VITE_API_URL=https://...onrender.com): FRONTEND_ORIGINS=https://jaalam.app,https://www.jaalam.app
+LOCAL_ORIGINS = [f'http://{host}:{port}' for host in ('localhost', '127.0.0.1') for port in (5173, 5174, 4173)]
+FRONTEND_ORIGINS = [o.strip() for o in config('FRONTEND_ORIGINS', default='').split(',') if o.strip()]
+CORS_ALLOWED_ORIGINS = LOCAL_ORIGINS + FRONTEND_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', 'https://*.vercel.app', 'https://*.onrender.com']
+CSRF_TRUSTED_ORIGINS = LOCAL_ORIGINS + ['https://*.vercel.app', 'https://*.onrender.com'] + FRONTEND_ORIGINS
+
+# The frontend proxies /api to this backend (Vercel -> Render). Trust the original host and
+# scheme those proxies forward, so Django's CSRF origin check sees the frontend's own domain
+# (e.g. a custom domain) and same-site requests pass without listing every domain here.
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
@@ -99,8 +119,8 @@ CSRF_COOKIE_SECURE = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'users.authentication.CsrfExemptSessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # CSRF-checked session auth (the frontend sends the X-CSRFToken header, see main.tsx)
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
@@ -108,8 +128,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Razorpay settings
-RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='rzp_test_T9pRLlJJvZvPYh')
-RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='irv4jEX9tvQLlF5DGiIgY1HY')
+# Set these in the environment (or backend/.env locally); never commit real keys.
+RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='')
+RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='')
 
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')

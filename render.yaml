@@ -18,6 +18,14 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
+      # Set these in the Render dashboard (they are no longer hard-coded in settings.py)
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      # Only needed if a frontend calls this backend directly instead of through its /api proxy
+      - key: FRONTEND_ORIGINS
+        sync: false
 
 databases:
   - name: webbuilder-db

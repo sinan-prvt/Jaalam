@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action, api_view, parser_classes
+from rest_framework.decorators import action, api_view, parser_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from django.core.files.storage import default_storage
@@ -12,12 +12,16 @@ from users.notifications import create_notification, notify_all_admins
 class WebsiteViewSet(viewsets.ModelViewSet):
     serializer_class = WebsiteSerializer
     lookup_field = 'slug'
-    
+    # Logged-in by default; public actions (public, wish) opt out below.
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_queryset(self):
-        if self.action in ['public', 'retrieve', 'toggle_block']:
+        # 'retrieve' used to return every site to anyone, exposing unpublished drafts;
+        # it now goes through the owner/client filter below like list/update.
+        if self.action in ['public', 'wish', 'toggle_block']:
             return Website.objects.all()
         if self.request.user.is_authenticated:
-            if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
+            if self.request.user.is_superuser and (self.request.query_params.get('all') == 'true' or self.action == 'retrieve'):
                 return Website.objects.all()
             if getattr(self.request.user, 'role', 'AGENT') == 'CLIENT':
                 return Website.objects.filter(client=self.request.user)
@@ -117,7 +121,9 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer = WebsiteSerializer(website)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get', 'post'], permission_classes=[permissions.AllowAny])
+    # No authentication: guests tap this anonymously, and it must also work for a logged-in
+    # owner viewing their own invitation (session auth would demand a CSRF token).
+    @action(detail=True, methods=['get', 'post'], permission_classes=[permissions.AllowAny], authentication_classes=[])
     def wish(self, request, slug=None):
         website = self.get_object()
         if not hasattr(website, 'content'):
@@ -228,14 +234,47 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=500)
 
+# Uploads are served back from /media/, so only real images and audio are accepted: anything
+# else (HTML, SVG, scripts) could be used to host pages or scripts on the site's own domain.
+IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'png', 'webp', 'gif'}
+AUDIO_EXTENSIONS = {'mp3', 'wav', 'ogg', 'm4a', 'aac'}
+MAX_IMAGE_BYTES = 15 * 1024 * 1024
+MAX_AUDIO_BYTES = 25 * 1024 * 1024
+
+
+def _validate_upload(file_obj):
+    ext = file_obj.name.rsplit('.', 1)[-1].lower() if '.' in file_obj.name else ''
+    if ext in IMAGE_EXTENSIONS:
+        if file_obj.size > MAX_IMAGE_BYTES:
+            return None, 'Image is too large (max 15 MB).'
+        try:
+            from PIL import Image
+            with Image.open(file_obj) as img:
+                img.verify()
+        except Exception:
+            return None, 'This file is not a valid image.'
+        file_obj.seek(0)
+        return ext, None
+    if ext in AUDIO_EXTENSIONS:
+        if file_obj.size > MAX_AUDIO_BYTES:
+            return None, 'Audio file is too large (max 25 MB).'
+        if not (file_obj.content_type or '').startswith(('audio/', 'video/mp4', 'application/octet-stream')):
+            return None, 'This file is not a valid audio file.'
+        return ext, None
+    return None, 'Only images (JPG, PNG, WebP, GIF) and audio (MP3, WAV, OGG, M4A) can be uploaded.'
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
+@permission_classes([permissions.IsAuthenticated])
 def upload_image(request):
     if 'image' not in request.FILES:
         return Response({'error': 'No image provided'}, status=400)
-    
+
     file_obj = request.FILES['image']
-    ext = file_obj.name.split('.')[-1]
+    ext, error = _validate_upload(file_obj)
+    if error:
+        return Response({'error': error}, status=400)
     filename = f"{uuid.uuid4()}.{ext}"
     
     saved_path = default_storage.save(filename, file_obj)
