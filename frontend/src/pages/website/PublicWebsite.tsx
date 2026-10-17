@@ -12,6 +12,8 @@ import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
+import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
+import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
@@ -463,6 +465,10 @@ export default function PublicWebsite() {
         {renderTheme()}
       </Suspense>
 
+      {/* Invitation layouts without a built-in calendar button get a floating one */}
+      {invitationCategories.includes(website?.business_type) && !invitationStyleFor(website?.theme, website?.business_type) && (
+        <FloatingAddToCalendar content={content} website={website} />
+      )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(website?.business_type) && (
         <>

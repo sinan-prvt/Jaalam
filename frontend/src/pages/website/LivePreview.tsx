@@ -7,6 +7,8 @@ import useSmoothScroll from '../../hooks/useSmoothScroll';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
+import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
+import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 
 
 function LivePreviewContent() {
@@ -252,6 +254,10 @@ function LivePreviewContent() {
       <Suspense fallback={<div className="min-h-screen" />}>
         {renderTheme()}
       </Suspense>
+      {/* Invitation layouts without a built-in calendar button get a floating one */}
+      {invitationCategories.includes(data.website?.business_type) && !invitationStyleFor(data.website?.theme, data.website?.business_type) && (
+        <FloatingAddToCalendar content={data.content} website={data.website} />
+      )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(data.website?.business_type) && (
         <>
