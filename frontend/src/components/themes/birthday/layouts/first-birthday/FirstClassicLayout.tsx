@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Volume2, VolumeX, Mail, BookOpen, Sparkles } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FirstClassicLayout({ content }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -116,6 +117,7 @@ export default function FirstClassicLayout({ content }: BirthdayLayoutProps) {
             position: absolute;
             inset: 4px;
             border: 1px solid rgba(193, 154, 107, 0.5);
+            pointer-events: none; /* decorative only: let clicks reach the RSVP inputs */
           }
           .storybook-page {
             transform-origin: left center;
@@ -336,7 +338,7 @@ export default function FirstClassicLayout({ content }: BirthdayLayoutProps) {
           </div>
 
           <div className="vintage-border bg-white p-10 sm:p-16">
-            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-12">
               <div>
                 <input type="text" className="w-full bg-transparent border-b border-[#C19A6B]/40 pb-4 outline-none focus:border-[#4A3B32] transition-colors text-xl font-classic-title italic text-[#4A3B32] placeholder-[#A3B1C6]" placeholder="Name(s) of Guest(s)" />
               </div>
@@ -363,7 +365,7 @@ export default function FirstClassicLayout({ content }: BirthdayLayoutProps) {
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

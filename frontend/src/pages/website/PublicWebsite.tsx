@@ -12,6 +12,10 @@ import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
+import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
+import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
+import useHideBranding from '../../hooks/useHideBranding';
+import { SiteContext } from '../../components/themes/shared/siteContext';
 
 export default function PublicWebsite() {
   const { businessSlug: paramSlug } = useParams();
@@ -39,6 +43,7 @@ export default function PublicWebsite() {
 
   useScrollReveal([website?.theme, website?.business_type]);
   useSmoothScroll();
+  useHideBranding(website?.show_branding === false);
 
   useEffect(() => {
     const fetchWebsite = async () => {
@@ -50,7 +55,9 @@ export default function PublicWebsite() {
         setWebsite(res.data);
       } catch (err: any) {
         console.error(err);
-        if (err.response && err.response.status === 403) {
+        if (err.response?.status === 403 && err.response?.data?.error === 'paused') {
+          setError('paused');
+        } else if (err.response && err.response.status === 403) {
           setError('unpublished');
         } else {
           setError('not_found');
@@ -97,6 +104,17 @@ export default function PublicWebsite() {
               <div className="w-40 h-14 bg-slate-300 rounded-full"></div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error === 'paused') {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-center p-6">
+        <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-slate-100 max-w-md w-full">
+          <h1 className="text-2xl font-black text-slate-900 mb-2">Temporarily unavailable</h1>
+          <p className="text-slate-500 font-medium">This website is paused. If it's yours, renew your plan in the Jaalam dashboard to bring it back online.</p>
         </div>
       </div>
     );
@@ -459,10 +477,16 @@ export default function PublicWebsite() {
   return (
     <>
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
-      <Suspense fallback={<div className="min-h-screen" />}>
-        {renderTheme()}
-      </Suspense>
+      <SiteContext.Provider value={{ slug: website?.slug }}>
+        <Suspense fallback={<div className="min-h-screen" />}>
+          {renderTheme()}
+        </Suspense>
+      </SiteContext.Provider>
 
+      {/* Invitation layouts without a built-in calendar button get a floating one */}
+      {invitationCategories.includes(website?.business_type) && !invitationStyleFor(website?.theme, website?.business_type) && (
+        <FloatingAddToCalendar content={content} website={website} />
+      )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(website?.business_type) && (
         <>

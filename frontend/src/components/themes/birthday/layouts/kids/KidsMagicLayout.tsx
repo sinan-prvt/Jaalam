@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Star, Sparkles, Moon, Wand2, Volume2, VolumeX } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KidsMagicLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -372,7 +373,7 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
           </div>
 
           <div className="bg-[#302B63]/50 backdrop-blur-md p-8 sm:p-12 rounded-[2rem] border border-[#FBBF24]/20 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-            <form className="space-y-8 font-quicksand" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-quicksand">
               <div>
                 <label className="block text-xs uppercase tracking-widest text-[#FBBF24] mb-3 ml-2">Name of Wizard / Witch</label>
                 <input type="text" className="w-full bg-[#1A1A2E]/80 border-b-2 border-[#8B5CF6]/50 px-4 py-4 outline-none focus:border-[#FBBF24] transition-colors text-white text-lg rounded-t-lg" placeholder="Enter name(s)" />
@@ -405,7 +406,7 @@ export default function KidsMagicLayout({ content, website, colors }: BirthdayLa
                   Deliver Message
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

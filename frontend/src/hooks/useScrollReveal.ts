@@ -54,13 +54,16 @@ export default function useScrollReveal(dependencies: any[] = []) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          // Very tall sections (long galleries on phones) can never reach 12% visibility,
+          // so also reveal once a section covers a third of the screen.
+          const coversScreen = entry.intersectionRect.height > window.innerHeight * 0.33;
+          if (entry.isIntersecting && (entry.intersectionRatio >= 0.12 || coversScreen)) {
             reveal(entry.target as HTMLElement);
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+      { threshold: [0, 0.05, 0.12, 0.25], rootMargin: '0px 0px -60px 0px' }
     );
 
     const prepare = () => {

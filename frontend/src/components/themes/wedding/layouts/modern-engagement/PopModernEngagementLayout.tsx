@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Volume2, VolumeX, ArrowRight, Zap, Star } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function PopModernEngagementLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -353,7 +354,7 @@ export default function PopModernEngagementLayout({ content, website, colors }: 
 
           <h2 className="font-pop font-black text-5xl sm:text-6xl text-[#09090B] uppercase text-center mb-12">RSVP <br/><span className="text-[#EC4899]">Now!</span></h2>
 
-          <form className="space-y-8 font-pop" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-8 font-pop">
             <div>
               <label className="block text-xl font-black uppercase mb-2 text-[#09090B]">Full Name</label>
               <input type="text" className="w-full bg-[#FAFAFA] border-4 border-[#09090B] p-4 text-xl font-bold outline-none focus:bg-[#FBBF24] transition-colors neo-shadow placeholder:text-[#09090B]/30" placeholder="e.g. Andy Warhol" />
@@ -380,7 +381,7 @@ export default function PopModernEngagementLayout({ content, website, colors }: 
                 Send It!
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

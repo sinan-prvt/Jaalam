@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, CalendarDays, Home, Heart } from 'lucide-react';
+import { DEFAULT_HOUSEWARMING_SECTIONS } from '../defaultSections';
 
 export interface HousewarmingLayoutProps {
   content: any;
@@ -12,7 +13,7 @@ export function TraditionalLayout({ content }: HousewarmingLayoutProps) {
 
   const housewarmingData = content?.settings_json?.housewarming || {};
   const musicUrl = housewarmingData.musicUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-  const sections = housewarmingData.sections || [];
+  const sections = housewarmingData.sections?.length ? housewarmingData.sections : DEFAULT_HOUSEWARMING_SECTIONS;
 
   
   const getOrderedSections = () => {

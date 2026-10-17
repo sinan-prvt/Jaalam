@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Heart, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Lotus Flower Motif (Realistic)
 const LotusFlower = ({ className = "w-24 h-24" }: { className?: string }) => (
@@ -423,7 +424,7 @@ export default function BackwaterFloralLayout({ content, website }: WeddingLayou
         <section className="py-20 px-4 w-full max-w-2xl mx-auto z-10 mb-20">
           <div className="bg-[#064253] border-2 border-[#12705E] rounded-3xl p-8 sm:p-12 shadow-2xl">
             <h2 className="text-3xl sm:text-5xl font-vibes text-[#F4B41A] mb-6 text-center">RSVP</h2>
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-4">
               <input type="text" placeholder="Your Name" className="w-full bg-[#0F4C5C] border border-[#12705E] rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-[#F4B41A]" />
               <textarea rows={3} placeholder="Your Message" className="w-full bg-[#0F4C5C] border border-[#12705E] rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-[#F4B41A]"></textarea>
               <div className="flex gap-4">
@@ -439,7 +440,7 @@ export default function BackwaterFloralLayout({ content, website }: WeddingLayou
               <button className="w-full bg-[#F4B41A] text-[#064253] font-bold uppercase tracking-widest py-4 rounded-xl mt-4 hover:bg-[#FF8FA3] hover:text-white transition-colors flex items-center justify-center gap-2">
                 <Send size={16} /> Send RSVP
               </button>
-            </form>
+            </RsvpForm>
           </div>
         </section>
 

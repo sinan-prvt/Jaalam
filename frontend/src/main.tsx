@@ -10,6 +10,42 @@ axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+// CSRF protection: the backend checks the X-CSRFToken header on every logged-in request that
+// changes data. Same-origin, axios copies it from the csrftoken cookie; the token from
+// /api/users/csrf/ also covers a backend on another origin (VITE_API_URL), whose cookie
+// this page cannot read. Django rotates the token at login, so a rejected token is
+// refreshed and the request retried once.
+let csrfToken: string | null = null;
+const CSRF_URL = '/api/users/csrf/';
+const UNSAFE_METHODS = ['post', 'put', 'patch', 'delete'];
+const refreshCsrfToken = async () => {
+  const res = await axios.get(CSRF_URL);
+  csrfToken = res.data?.csrfToken || null;
+  return csrfToken;
+};
+
+axios.interceptors.request.use(async (config) => {
+  if (UNSAFE_METHODS.includes((config.method || 'get').toLowerCase()) && config.url !== CSRF_URL) {
+    if (!csrfToken) {
+      try { await refreshCsrfToken(); } catch { /* backend unreachable: let the request fail on its own */ }
+    }
+    if (csrfToken) config.headers.set('X-CSRFToken', csrfToken);
+  }
+  return config;
+});
+
+axios.interceptors.response.use(undefined, async (error) => {
+  const config = error.config;
+  const isCsrfFailure = error.response?.status === 403 && /csrf/i.test(String(error.response?.data?.detail || ''));
+  if (isCsrfFailure && config && !config._csrfRetried) {
+    config._csrfRetried = true;
+    await refreshCsrfToken();
+    if (csrfToken) config.headers.set('X-CSRFToken', csrfToken);
+    return axios(config);
+  }
+  return Promise.reject(error);
+});
+
 
 // Only the logged-in app (dashboard, admin, editors) should bounce to /login on a 401.
 // Public websites (subdomains, /:slug pages, the landing page and the live preview)

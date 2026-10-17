@@ -13,6 +13,7 @@ import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
 import MarketingPage from './MarketingPage';
 import Pricing from './Pricing';
+import usePlan from '../../hooks/usePlan';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
 
 // One place that decides which editor a site opens in
@@ -87,6 +88,9 @@ interface PhysicalOrder {
 
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
+  const planInfo = usePlan();
+  const { isLockedTheme } = planInfo;
+  const planLabel = user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${planInfo.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase();
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -136,6 +140,12 @@ export default function Dashboard() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Refresh the account (plan, expiry, usage) from the server whenever the dashboard opens;
+  // the copy saved at login goes stale. This also triggers any due renewal reminder.
+  useEffect(() => {
+    axios.get('/api/users/me/').then((res) => dispatch(loginSuccess(res.data))).catch(() => undefined);
+  }, [dispatch]);
 
   useEffect(() => {
     if (location.state?.tab) {
@@ -224,19 +234,13 @@ export default function Dashboard() {
     }
   };
 
-  const getWebsiteLimit = () => {
-    switch (user?.membership) {
-      case 'TEST': return 1;
-      case 'STARTER': return 2;
-      case 'BUSINESS': return 10;
-      case 'PREMIUM': return Infinity;
-      default: return 1;
-    }
-  };
+  // Limits come from the backend plan (users/plans.py), which also enforces them.
+  const getWebsiteLimit = () => planInfo.websiteLimit ?? Infinity;
 
   const checkCreationLimit = () => {
-    if (websites.length >= getWebsiteLimit() && !user?.is_test_user && !user?.is_superuser) {
-      toast.error(`You've reached your limit of ${getWebsiteLimit()} website(s) on the ${user?.membership || 'Free'} plan. Please upgrade to create more.`);
+    if (websites.length >= getWebsiteLimit()) {
+      toast.error(`Your ${planInfo.plan?.name || 'Free'} plan allows ${getWebsiteLimit()} website(s). Upgrade to create more.`);
+      setActiveTab('Pricing');
       return false;
     }
 
@@ -557,13 +561,28 @@ export default function Dashboard() {
         <div className={`mx-auto w-full max-w-[1400px] ${activeTab === 'Notifications' ? 'flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-6' : 'min-h-full p-4 md:p-8 lg:p-8'}`}>
 
           {/* DESKTOP HEADER */}
+          {planInfo.needsRenewal && activeTab !== 'Pricing' && user?.role !== 'CLIENT' && (
+            <div className={`mb-6 rounded-2xl border px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3 ${planInfo.plan?.expired || planInfo.plan?.in_grace ? 'bg-red-50 border-red-200 text-red-800' : 'bg-amber-50 border-amber-200 text-amber-900'}`} role="status">
+              <p className="text-sm font-semibold flex-1">
+                {planInfo.plan?.expired
+                  ? `Your paid plan has ended — you're on ${planInfo.plan?.name}. Websites over its limit are paused until you renew.`
+                  : planInfo.plan?.in_grace
+                    ? `Your ${planInfo.plan?.name} plan has expired. Renew in the next few days to keep your features.`
+                    : `Your ${planInfo.plan?.name} plan renews in ${planInfo.plan?.days_left} day(s).`}
+              </p>
+              <button onClick={() => setActiveTab('Pricing')} className="shrink-0 rounded-xl bg-slate-900 text-white px-4 py-2 text-xs font-black uppercase tracking-wider hover:bg-slate-700">
+                Renew plan
+              </button>
+            </div>
+          )}
+
           <div className={`hidden md:flex items-center justify-between shrink-0 ${activeTab === 'Notifications' ? 'mb-4' : 'mb-8'}`}>
             <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
               {activeTab === 'Dashboard' && <LayoutDashboard className="text-orange-500" size={28} />}
               {TAB_LABELS[activeTab] ?? activeTab}
             </h1>
             <div className="flex items-center gap-4">
-              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
+              {planInfo.plan?.code !== 'PREMIUM' && !planInfo.unrestricted && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Pricing')}
                   className="relative overflow-hidden group flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl shadow-sm shadow-orange-200 font-black text-sm uppercase tracking-wider"
@@ -589,12 +608,12 @@ export default function Dashboard() {
               <div className="flex flex-col">
                 <span className="text-xl font-black text-slate-900 tracking-tight leading-none">Jaalam</span>
                 <span className="text-[9px] font-black uppercase tracking-wider text-orange-500 mt-0.5">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                  {planLabel}
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {user?.membership !== 'PREMIUM' && !user?.is_test_user && !user?.is_superuser && user?.role !== 'CLIENT' && (
+              {planInfo.plan?.code !== 'PREMIUM' && !planInfo.unrestricted && user?.role !== 'CLIENT' && (
                 <button
                   onClick={() => setActiveTab('Pricing')}
                   className="relative overflow-hidden group flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg shadow-sm shadow-orange-200 font-black text-[10px] uppercase tracking-wider"
@@ -1002,6 +1021,11 @@ export default function Dashboard() {
                     <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white/80 backdrop-blur-xl border border-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-1">
                       <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative">
                         <ThemeThumbnail theme={item.theme} category={item.category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        {(planInfo.plan?.premium_themes || []).includes(item.theme) && (
+                          <span className="absolute top-3 left-3 z-10 rounded-full bg-fuchsia-600/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white shadow">
+                            {isLockedTheme(item.theme) ? '🔒 Premium' : 'Premium'}
+                          </span>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 gap-2">
                           <button
                             onClick={() => handlePreviewTemplate(item.category, item.theme)}
@@ -1146,7 +1170,7 @@ export default function Dashboard() {
                   <div className="text-center sm:text-left pt-1 flex-1">
                     <h3 className="text-2xl font-black text-slate-900 mb-2">{user?.username}</h3>
                     <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">
-                      {user?.is_test_user ? 'TEST USER (PRO)' : user?.membership || 'Creator'}
+                      {user?.is_test_user ? 'TEST USER (PRO)' : planInfo.plan?.name || user?.membership || 'Creator'}
                     </span>
                     <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
                   </div>
@@ -1327,7 +1351,7 @@ export default function Dashboard() {
                             className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {(eventHierarchy[mainEventCategory]?.[newType] || []).map(theme => (
-                              <option key={theme} value={theme}>{theme}</option>
+                              <option key={theme} value={theme} disabled={isLockedTheme(theme)}>{isLockedTheme(theme) ? `🔒 ${theme} (Premium)` : theme}</option>
                             ))}
                           </select>
                         </div>
@@ -1359,7 +1383,7 @@ export default function Dashboard() {
                             className="w-full px-4 py-2.5 rounded-xl border border-slate-100 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-black text-sm shadow-sm"
                           >
                             {categoryThemes[newType]?.map(theme => (
-                              <option key={theme} value={theme}>{theme}</option>
+                              <option key={theme} value={theme} disabled={isLockedTheme(theme)}>{isLockedTheme(theme) ? `🔒 ${theme} (Premium)` : theme}</option>
                             ))}
                           </select>
                         </div>

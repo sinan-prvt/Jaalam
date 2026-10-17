@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function BengaliRedGoldModernLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -496,7 +497,7 @@ export default function BengaliRedGoldModernLayout({ content, website, colors }:
         </div>
 
         <div className="bg-[#FAFAFA] rounded-[3rem] p-8 md:p-12 shadow-xl border border-[#E5E5E5] text-left relative overflow-hidden">
-          <form className="space-y-8 relative z-20" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-8 relative z-20">
             <div className="space-y-6">
               <div>
                 <label className="block text-xs font-bold tracking-[0.15em] uppercase text-[#1A1A1A] mb-2 font-outfit">Name</label>
@@ -529,7 +530,7 @@ export default function BengaliRedGoldModernLayout({ content, website, colors }:
                 Submit RSVP
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

@@ -3,6 +3,7 @@ import { Gift, MapPin, Clock, Music, PartyPopper, Sparkles, Volume2, VolumeX } f
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 import GiftBoxAnimation from '../../../../ui/GiftBoxAnimation';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KidsPlayfulLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -318,7 +319,7 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
           </div>
 
           <div className="bg-white p-8 sm:p-12 rounded-[3rem] shadow-xl border-4 border-[#333]">
-            <form className="space-y-6 font-nunito font-bold" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 font-nunito font-bold">
               <div>
                 <label className="block text-sm text-[#555] mb-2 ml-4">Who is coming?</label>
                 <input type="text" className="w-full bg-[#F9F9F9] border-2 border-[#E5E5E5] rounded-full px-6 py-4 outline-none focus:border-[#4ECDC4] transition-colors text-[#333] text-lg" placeholder="Enter name(s)" />
@@ -347,7 +348,7 @@ export default function KidsPlayfulLayout({ content, website, colors }: Birthday
                   Send RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

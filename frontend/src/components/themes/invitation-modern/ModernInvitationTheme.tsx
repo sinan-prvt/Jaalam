@@ -5,6 +5,8 @@ import {
   Calendar, Clock, MapPin, Navigation, Phone, Mail, MessageCircle, Volume2, VolumeX, Sparkles, User, ArrowDown,
 } from 'lucide-react';
 import { triggerConfettiPopper } from '../../../utils/confettiPopper';
+import { AddToCalendarButton } from '../../shared/AddToCalendar';
+import { getInvitationEvent, type CalendarEvent } from '../../../utils/calendar';
 import { applyEdit, buildInviteData, type EditableField, type InviteData, type InviteFamily } from './adapters';
 import { getInvitePalette, type InviteIcon, type InvitationStyle } from './palettes';
 
@@ -334,6 +336,7 @@ interface HeroProps {
   image: string;
   Icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
   left: ReturnType<typeof useCountdown>;
+  calendarEvent?: CalendarEvent | null;
 }
 
 function TitleLines({ d, className, joinerClass }: { d: InviteData; className: string; joinerClass: string }) {
@@ -418,7 +421,7 @@ function AuroraHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
   );
 }
 
-function BentoHero({ d, skin, eyebrow, image, Icon, left }: HeroProps) {
+function BentoHero({ d, skin, eyebrow, image, Icon, left, calendarEvent }: HeroProps) {
   return (
     <section id="hero" className="px-3 md:px-6 pt-3 md:pt-6 pb-3">
       <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 auto-rows-[minmax(150px,auto)] gap-3 md:gap-4">
@@ -442,6 +445,9 @@ function BentoHero({ d, skin, eyebrow, image, Icon, left }: HeroProps) {
             <div>
               <div className="font-['Outfit'] text-5xl font-bold leading-none">{d.dateParts.day || '—'}</div>
               <div className="mt-1 text-sm font-semibold uppercase tracking-widest opacity-90">{d.dateParts.month} {d.dateParts.year}</div>
+              {calendarEvent && (
+                <AddToCalendarButton event={calendarEvent} label="Add" menuPlacement="top" menuAlign="start" className="mt-4 rounded-full bg-white/20 hover:bg-white/30 px-3 py-1.5 text-xs font-semibold transition" />
+              )}
             </div>
           </div>
         )}
@@ -574,6 +580,7 @@ const HEROES: Record<InvitationStyle, React.ComponentType<HeroProps>> = {
 
 export default function ModernInvitationTheme({ family, style, content, website, isEditor, updateContent }: ModernInvitationThemeProps) {
   const d = useMemo(() => buildInviteData(family, content, website), [family, content, website]);
+  const calendarEvent = useMemo(() => getInvitationEvent(content, website), [content, website]);
   const editor = useMemo<InlineEditor | null>(
     () =>
       isEditor && updateContent
@@ -640,6 +647,7 @@ export default function ModernInvitationTheme({ family, style, content, website,
       eyebrow: 'Save The Date',
       title: 'The Details',
       body: (
+        <>
         <div className="grid sm:grid-cols-3 gap-4 md:gap-6">
           {[
             { icon: Calendar, label: 'Date', value: d.dateText || 'To be announced' },
@@ -653,6 +661,12 @@ export default function ModernInvitationTheme({ family, style, content, website,
             </div>
           ))}
         </div>
+        {calendarEvent && (
+          <div className={`mt-8 flex ${skin.align === 'center' ? 'justify-center' : ''}`}>
+            <AddToCalendarButton event={calendarEvent} menuPlacement="top" className={`${skin.button} px-6 py-3 font-semibold transition`} />
+          </div>
+        )}
+        </>
       ),
     });
   }
@@ -928,7 +942,7 @@ export default function ModernInvitationTheme({ family, style, content, website,
         </button>
       )}
 
-      <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={image} Icon={Icon} left={left} />
+      <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={image} Icon={Icon} left={left} calendarEvent={calendarEvent} />
 
       {blocks.map((b, i) => (
         <section key={b.id} id={b.id} className={`${skin.section} ${altBg(i)}`}>

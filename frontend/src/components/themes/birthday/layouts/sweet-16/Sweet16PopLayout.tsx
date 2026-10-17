@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, CalendarDays, Clock, Sparkles, Music, Zap } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function Sweet16PopLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -396,7 +397,7 @@ export function Sweet16PopLayout({ content, website, updateContent, isEditor }: 
           </div>
 
           <div className="bg-white/5 backdrop-blur-xl p-8 sm:p-16 rounded-[3rem] border border-white/10 shadow-2xl">
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8">
               <div>
                 <input type="text" className="w-full bg-[#111] border border-white/10 p-6 rounded-2xl outline-none focus:border-[#ff1493] transition-colors text-white font-medium placeholder-gray-600 text-lg" placeholder="Your Name" />
               </div>
@@ -423,7 +424,7 @@ export function Sweet16PopLayout({ content, website, updateContent, isEditor }: 
                   Send RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

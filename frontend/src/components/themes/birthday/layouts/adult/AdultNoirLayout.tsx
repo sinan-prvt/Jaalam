@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, GlassWater, Sparkles, ChevronDown } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function AdultNoirLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -364,7 +365,7 @@ export function AdultNoirLayout({ content, website, updateContent, isEditor }: B
           </div>
 
           <div className="bg-[#0a0a0a] p-10 sm:p-16 border border-[#222]">
-            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-12">
               <div>
                 <input type="text" className="w-full bg-transparent border-b border-[#333] pb-4 outline-none focus:border-[#fff] transition-all duration-500 text-[#fff] placeholder-[#555] font-sans text-sm tracking-widest uppercase rounded-none" placeholder="Guest Name(s)" />
               </div>
@@ -391,7 +392,7 @@ export function AdultNoirLayout({ content, website, updateContent, isEditor }: B
                   Submit
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

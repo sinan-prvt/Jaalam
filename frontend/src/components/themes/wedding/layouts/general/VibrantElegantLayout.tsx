@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function VibrantElegantLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -287,7 +288,7 @@ export default function VibrantElegantLayout({ content, website }: WeddingLayout
           <p className="text-teal-900 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can attend</p>
 
           <div className="bg-white/95 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border border-teal-300/50 text-left">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Name</label>
@@ -320,7 +321,7 @@ export default function VibrantElegantLayout({ content, website }: WeddingLayout
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

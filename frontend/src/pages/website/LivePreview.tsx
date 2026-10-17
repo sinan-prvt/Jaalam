@@ -7,12 +7,17 @@ import useSmoothScroll from '../../hooks/useSmoothScroll';
 import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
+import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
+import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
+import useHideBranding from '../../hooks/useHideBranding';
+import { SiteContext } from '../../components/themes/shared/siteContext';
 
 
 function LivePreviewContent() {
   const [data, setData] = useState<any>(null);
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
   useSmoothScroll();
+  useHideBranding(data?.website?.show_branding === false);
 
   useEffect(() => {
     if (data?.content?.settings_json?.show_language_widget === false) {
@@ -249,9 +254,15 @@ function LivePreviewContent() {
 
   return (
     <>
-      <Suspense fallback={<div className="min-h-screen" />}>
-        {renderTheme()}
-      </Suspense>
+      <SiteContext.Provider value={{ slug: data.website?.slug, preview: true }}>
+        <Suspense fallback={<div className="min-h-screen" />}>
+          {renderTheme()}
+        </Suspense>
+      </SiteContext.Provider>
+      {/* Invitation layouts without a built-in calendar button get a floating one */}
+      {invitationCategories.includes(data.website?.business_type) && !invitationStyleFor(data.website?.theme, data.website?.business_type) && (
+        <FloatingAddToCalendar content={data.content} website={data.website} />
+      )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(data.website?.business_type) && (
         <>

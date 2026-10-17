@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Clock, Heart, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Golden Kerala Kudamattom Temple Parasol / Umbrella SVG
 const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => (
@@ -734,7 +735,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
           </div>
 
           <div className="bg-[#2A1508]/90 backdrop-blur rounded-[2.5rem] p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.8)] border-2 border-[#FFD700]/70 text-left relative overflow-hidden">
-            <form className="space-y-6 relative z-20 font-sans" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20 font-sans">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#FFD700] mb-2">Name</label>
@@ -767,7 +768,7 @@ export default function KeralaTraditionalLayout({ content, website }: WeddingLay
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

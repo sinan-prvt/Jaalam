@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, Wine, Star } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function AdultClassicLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -348,7 +349,7 @@ export function AdultClassicLayout({ content, website, updateContent, isEditor }
             <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-[#0f172a]"></div>
             <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-[#0f172a]"></div>
 
-            <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-10">
               <div>
                 <label className="block text-xs uppercase tracking-[0.2em] text-[#64748b] font-semibold mb-2">M.</label>
                 <input type="text" className="w-full bg-transparent border-b border-[#cbd5e1] pb-3 outline-none focus:border-[#0f172a] transition-colors text-[#0f172a] font-serif text-lg" />
@@ -377,7 +378,7 @@ export function AdultClassicLayout({ content, website, updateContent, isEditor }
                   Send Reply
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

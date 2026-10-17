@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Gift, Send, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function ChristianElegantLaceLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -423,7 +424,7 @@ export default function ChristianElegantLaceLayout({ content, website, colors }:
           </div>
 
           <div className="bg-[#FAFAFA] p-8 sm:p-16 border border-[#eee] rounded-xl shadow-sm mt-12">
-            <form className="space-y-8 font-sans max-w-xl mx-auto" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-sans max-w-xl mx-auto">
               <div>
                 <label className="block text-[10px] tracking-[0.2em] uppercase text-[#888] mb-3">Name</label>
                 <input type="text" className="w-full bg-white border border-[#e0e0e0] rounded px-4 py-3 outline-none focus:border-[#D4AF37] transition-colors text-[#2C2C2C]" placeholder="Your Name" />
@@ -454,7 +455,7 @@ export default function ChristianElegantLaceLayout({ content, website, colors }:
                   Send Reply
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

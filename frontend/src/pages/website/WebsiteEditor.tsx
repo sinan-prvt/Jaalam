@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
 import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import usePlan from '../../hooks/usePlan';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
@@ -126,6 +127,7 @@ const SectionLabel = ({ label, sectionKey, content, setContent, rightAction }: a
 };
 
 export default function WebsiteEditor() {
+  const { isLockedTheme } = usePlan();
   const { websiteId } = useParams();
   const navigate = useNavigate();
   const { Razorpay } = useRazorpay();
@@ -625,7 +627,7 @@ export default function WebsiteEditor() {
                   className="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all font-black text-sm shadow-sm"
                 >
                   {(categoryThemes[website.business_type] || categoryThemes['Other']).map(theme => (
-                    <option key={theme} value={theme}>{theme}</option>
+                    <option key={theme} value={theme} disabled={isLockedTheme(theme)}>{isLockedTheme(theme) ? `🔒 ${theme} (Premium)` : theme}</option>
                   ))}
                 </select>
                 <p className="mt-3 text-xs text-slate-500 font-medium">Changing the theme will instantly update the preview on the right. Don't forget to Save!</p>

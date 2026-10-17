@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Volume2, VolumeX, Cloud, Star, Heart, PartyPopper } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FirstPlayfulLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -370,7 +371,7 @@ export default function FirstPlayfulLayout({ content, website, colors }: Birthda
           </div>
 
           <div className="bg-white p-8 sm:p-12 rounded-[3rem] border-4 border-white soft-cloud-shadow">
-            <form className="space-y-8 font-baby-body font-bold text-[#7B8B9A]" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-baby-body font-bold text-[#7B8B9A]">
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2 ml-4">Who is coming?</label>
                 <input type="text" className="w-full bg-[#F9F9F9] border-2 border-[#F0F0F0] rounded-full px-6 py-4 outline-none focus:border-[#B0E0E6] transition-colors text-lg" placeholder="Enter name(s)" />
@@ -399,7 +400,7 @@ export default function FirstPlayfulLayout({ content, website, colors }: Birthda
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

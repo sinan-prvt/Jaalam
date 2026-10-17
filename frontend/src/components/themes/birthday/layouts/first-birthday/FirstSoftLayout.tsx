@@ -3,6 +3,7 @@ import { MapPin, Volume2, VolumeX, Mail, CalendarDays, Clock, Heart, Sparkles } 
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 import GiftBoxAnimation from '../../../../ui/GiftBoxAnimation';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -360,7 +361,7 @@ export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
           </div>
 
           <div className="glass-panel p-10 sm:p-16 rounded-[2rem] border border-[#F0EBE6]">
-            <form className="space-y-12 font-soft-body" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-12 font-soft-body">
               <div>
                 <input type="text" className="w-full bg-transparent border-b border-[#E6DFD9] pb-4 outline-none focus:border-[#D6B5A7] transition-colors text-sm text-[#5C554F] placeholder-[#C2BCB6]" placeholder="Name(s) of Guest(s)" />
               </div>
@@ -387,7 +388,7 @@ export default function FirstSoftLayout({ content }: BirthdayLayoutProps) {
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

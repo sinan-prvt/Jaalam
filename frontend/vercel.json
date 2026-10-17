@@ -5,6 +5,17 @@
       "destination": "https://jaalam-backend.onrender.com/api/$1"
     },
     {
+      "source": "/:slug([a-z0-9-]+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|SkypeUriPreview|Pinterest|redditbot|Embedly|vkShare|Viber|Snapchat).*"
+        }
+      ],
+      "destination": "https://jaalam-backend.onrender.com/api/websites/share/:slug/"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

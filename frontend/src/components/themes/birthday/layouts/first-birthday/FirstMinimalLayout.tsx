@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Volume2, VolumeX, Mail, ArrowRight } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -313,7 +314,7 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
             <h2 className="text-5xl font-editorial-title text-[#111111]">RSVP</h2>
           </div>
           
-          <form className="flex flex-col gap-12" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="flex flex-col gap-12">
             <div className="relative">
               <input type="text" id="name" className="peer w-full bg-transparent border-b border-[#E5E5E5] focus:border-[#111111] py-4 outline-none text-xl text-[#111111] font-editorial-title italic placeholder-transparent transition-colors" placeholder="Name(s)" />
               <label htmlFor="name" className="absolute left-0 top-4 text-[#888888] font-editorial-body text-[9px] uppercase tracking-widest transition-all peer-focus:-top-4 peer-focus:text-[#111111] peer-focus:text-[8px] peer-[&:not(:placeholder-shown)]:-top-4 peer-[&:not(:placeholder-shown)]:[text-8px]">Name(s) of Guest(s)</label>
@@ -347,7 +348,7 @@ export default function FirstMinimalLayout({ content }: BirthdayLayoutProps) {
                 Submit Response
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

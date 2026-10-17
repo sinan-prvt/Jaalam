@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Navigation, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
+import RsvpForm from '../../../shared/RsvpForm';
 
 const Toran = () => (
   <>
@@ -312,7 +313,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
           <p className="text-slate-500 mb-10 tracking-widest uppercase text-sm">Please let us know if you can make it</p>
 
           <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl border border-amber-100 text-left">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6">
               <div className="space-y-6">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Name</label>
@@ -344,7 +345,7 @@ export default function SouthIndianRoyalLayout({ content, website }: WeddingLayo
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

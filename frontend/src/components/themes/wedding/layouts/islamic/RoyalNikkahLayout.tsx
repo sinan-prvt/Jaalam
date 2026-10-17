@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 const FloralCornerSVG = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
@@ -563,7 +564,7 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
           <div className="bg-white/95 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border-2 border-emerald-200/80 text-left relative overflow-hidden">
             <img src="/media/floral_corner_accent.png" alt="" className="absolute -top-4 -right-4 w-28 opacity-75 pointer-events-none z-10 -scale-x-100" />
 
-            <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-serif">Name</label>
@@ -596,7 +597,7 @@ export default function RoyalNikkahLayout({ content, website }: WeddingLayoutPro
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

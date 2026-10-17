@@ -11,6 +11,8 @@ import CommandPalette from './components/ui/CommandPalette';
 const LandingPage = lazy(() => import('./pages/marketing/LandingPage'));
 const Login = lazy(() => import('./pages/auth/Login'));
 const Register = lazy(() => import('./pages/auth/Register'));
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/dashboard/AdminDashboard'));
 const WebsiteEditor = lazy(() => import('./pages/website/WebsiteEditor'));
@@ -21,6 +23,7 @@ const CollegeFestEditor = lazy(() => import('./pages/website/CollegeFestEditor')
 const ReligiousEventEditor = lazy(() => import('./pages/website/ReligiousEventEditor'));
 const PublicWebsite = lazy(() => import('./pages/website/PublicWebsite'));
 const LivePreview = lazy(() => import('./pages/website/LivePreview'));
+const PublicInvoice = lazy(() => import('./pages/billing/PublicInvoice'));
 const MaintenancePage = lazy(() => import('./pages/marketing/MaintenancePage'));
 
 const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -112,6 +115,8 @@ function Router() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               
               <Route
                 path="/dashboard"
@@ -146,6 +151,7 @@ function Router() {
                 element={<ProtectedRoute component={ReligiousEventEditor} />}
               />
               <Route path="/_preview" element={<LivePreview />} />
+              <Route path="/invoice/:token" element={<PublicInvoice />} />
 
               <Route path="/:businessSlug" element={<PublicWebsite />} />
             </Routes>

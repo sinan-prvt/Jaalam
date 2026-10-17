@@ -22,6 +22,9 @@ interface AdminUser {
   is_superuser: boolean;
   is_active: boolean;
   is_test_user: boolean;
+  plan_expires_at?: string | null;
+  plan_period?: string;
+  plan?: { code: string; name: string; period: string | null; expires_at: string | null };
   subscription_details?: {
     plan_type: string;
     status: string;
@@ -191,6 +194,19 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error(err);
       toast.error("Failed to update role.");
+    }
+  };
+
+  // Grant or change a plan by hand (e.g. cash/bank payment). Value: "TEST", "BUSINESS:30", "PREMIUM:lifetime"...
+  const handleSetPlan = async (userId: number, value: string) => {
+    if (!value) return;
+    const [plan, term] = value.split(':');
+    try {
+      const res = await axios.post(`/api/users/${userId}/set_plan/`, term === 'lifetime' ? { plan, lifetime: true } : { plan, days: Number(term || 30) });
+      setUsers(users.map(u => u.id === userId ? { ...u, ...res.data } : u));
+      toast.success(`Plan updated for ${res.data.username}`);
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Could not update the plan');
     }
   };
 
@@ -891,8 +907,27 @@ export default function AdminDashboard() {
                                       u.membership === 'STARTER' ? 'bg-emerald-100 text-emerald-700' :
                                         'bg-slate-100 text-slate-700'
                                   }`}>
-                                  {u.membership}
+                                  {u.plan?.name || u.membership}
                                 </span>
+                                <span className="text-[10px] text-slate-400 font-semibold">
+                                  {u.plan?.period === 'LIFETIME' ? 'Lifetime' : u.plan?.expires_at ? `until ${new Date(u.plan.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}
+                                </span>
+                                <select
+                                  aria-label={`Set plan for ${u.username}`}
+                                  value=""
+                                  onChange={(e) => handleSetPlan(u.id, e.target.value)}
+                                  className="mt-1 w-fit rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[11px] font-semibold text-slate-600"
+                                >
+                                  <option value="">Set plan…</option>
+                                  <option value="TEST">Free</option>
+                                  {['STARTER', 'BUSINESS', 'PREMIUM'].map(code => (
+                                    <optgroup key={code} label={code.charAt(0) + code.slice(1).toLowerCase()}>
+                                      <option value={`${code}:30`}>30 days</option>
+                                      <option value={`${code}:365`}>1 year</option>
+                                      <option value={`${code}:lifetime`}>Lifetime</option>
+                                    </optgroup>
+                                  ))}
+                                </select>
                                 {u.subscription_details && u.subscription_details.razorpay_payment_id && u.membership !== 'STARTER' && !u.is_test_user && (
                                   <div className="text-[10px] text-slate-400 font-mono mt-1">
                                     <span className="font-bold">PAY:</span> {u.subscription_details.razorpay_payment_id}

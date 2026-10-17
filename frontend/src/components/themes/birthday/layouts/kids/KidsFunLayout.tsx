@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Volume2, VolumeX, PartyPopper, Sparkles, Star, Camera, Smile, Send } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KidsFunLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -359,7 +360,7 @@ export default function KidsFunLayout({ content, website, colors }: BirthdayLayo
           </div>
 
           <div className="bg-white p-8 sm:p-12 rounded-[3rem] border-4 border-[#1E0B36] shadow-[15px_15px_0_#1E0B36] transform -rotate-1">
-            <form className="space-y-8 font-fun-body font-bold" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-fun-body font-bold">
               <div>
                 <label className="block text-xl text-[#FF007F] mb-2 uppercase">Who's Coming?</label>
                 <input type="text" className="w-full bg-[#f4f4f4] border-4 border-[#1E0B36] rounded-2xl px-6 py-4 outline-none focus:bg-[#FFEA00] transition-colors text-[#1E0B36] text-xl" placeholder="Enter your name" />
@@ -388,7 +389,7 @@ export default function KidsFunLayout({ content, website, colors }: BirthdayLayo
                   <Send size={32} /> SUBMIT RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

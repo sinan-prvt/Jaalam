@@ -18,6 +18,41 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
+      # Set these in the Render dashboard (they are no longer hard-coded in settings.py)
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      # Razorpay > Settings > Webhooks: URL https://<backend>/api/users/subscriptions/webhook/,
+      # events payment.captured + order.paid; paste the webhook secret here
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      # Public frontend address used in emailed links, e.g. https://jaalam.app
+      - key: FRONTEND_URL
+        sync: false
+      # SMTP for real emails (password reset, plan reminders); without it emails only go to the logs
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      # Photo/music storage (S3-compatible, e.g. Cloudflare R2). Without these, uploads are lost on redeploy.
+      - key: AWS_STORAGE_BUCKET_NAME
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_S3_ENDPOINT_URL
+        sync: false
+      - key: AWS_S3_CUSTOM_DOMAIN
+        sync: false
+      # Only needed if a frontend calls this backend directly instead of through its /api proxy
+      - key: FRONTEND_ORIGINS
+        sync: false
 
 databases:
   - name: webbuilder-db

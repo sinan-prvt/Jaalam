@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Golden Temple Parasol / Umbrella (Kudamattom SVG)
 const GoldenUmbrella = ({ className = "w-32 h-32" }: { className?: string }) => (
@@ -389,7 +390,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
           <p className="text-teal-900 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can make it</p>
 
           <div className="bg-white/90 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border border-amber-200 text-left">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Name</label>
@@ -421,7 +422,7 @@ export default function SouthIndianMintLayout({ content, website }: WeddingLayou
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

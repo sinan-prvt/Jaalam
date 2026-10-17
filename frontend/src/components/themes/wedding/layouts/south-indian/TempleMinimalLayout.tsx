@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function TempleMinimalLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -283,7 +284,7 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
           <p className="text-amber-200/80 mb-8 tracking-widest uppercase text-xs font-semibold">Please let us know if you can attend</p>
 
           <div className="bg-white/10 backdrop-blur-md rounded-[2rem] p-8 md:p-10 shadow-2xl border border-amber-300/30 text-left text-white">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-amber-200/80 mb-2">Name</label>
@@ -316,7 +317,7 @@ export default function TempleMinimalLayout({ content, website }: WeddingLayoutP
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

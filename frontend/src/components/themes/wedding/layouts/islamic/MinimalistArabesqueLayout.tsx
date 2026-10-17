@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function MinimalistArabesqueLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -520,7 +521,7 @@ export default function MinimalistArabesqueLayout({ content, website }: WeddingL
           </div>
 
           <div className="bg-slate-900/90 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-2xl border-2 border-amber-400/30 text-left relative overflow-hidden text-white">
-            <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-300 mb-2 font-serif">Name</label>
@@ -553,7 +554,7 @@ export default function MinimalistArabesqueLayout({ content, website }: WeddingL
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

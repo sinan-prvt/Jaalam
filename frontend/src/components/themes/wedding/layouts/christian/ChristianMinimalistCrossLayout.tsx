@@ -2,6 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
+
+// Defined outside the layout so React keeps the same component between renders: defined
+// inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
+const MinimalSectionHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
+  <div className="flex flex-col items-center mb-16 relative z-20 text-center">
+    {subtitle && <span className="text-[9px] tracking-[0.5em] text-slate-400 font-sans uppercase font-semibold mb-3">{subtitle}</span>}
+    <h2 className="text-2xl sm:text-3xl font-playfair text-slate-900 tracking-[0.2em] uppercase">{title}</h2>
+    <div className="w-12 h-px bg-slate-200 mt-6"></div>
+  </div>
+);
 
 export default function ChristianMinimalistCrossLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -159,14 +170,6 @@ export default function ChristianMinimalistCrossLayout({ content, website, color
     }
   }
   const sections = rawSections;
-
-  const MinimalSectionHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-    <div className="flex flex-col items-center mb-16 relative z-20 text-center">
-      {subtitle && <span className="text-[9px] tracking-[0.5em] text-slate-400 font-sans uppercase font-semibold mb-3">{subtitle}</span>}
-      <h2 className="text-2xl sm:text-3xl font-playfair text-slate-900 tracking-[0.2em] uppercase">{title}</h2>
-      <div className="w-12 h-px bg-slate-200 mt-6"></div>
-    </div>
-  );
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
@@ -440,7 +443,7 @@ export default function ChristianMinimalistCrossLayout({ content, website, color
           <MinimalSectionHeader title="RSVP" subtitle="Kindly Reply" />
 
           <div className="bg-white p-8 sm:p-16 border border-slate-100 mt-12">
-            <form className="space-y-10 font-inter max-w-xl mx-auto" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-10 font-inter max-w-xl mx-auto">
               <div className="space-y-8">
                 <div>
                   <label className="block text-[9px] font-semibold tracking-[0.3em] uppercase text-slate-400 mb-3">Name</label>
@@ -477,7 +480,7 @@ export default function ChristianMinimalistCrossLayout({ content, website, color
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>
