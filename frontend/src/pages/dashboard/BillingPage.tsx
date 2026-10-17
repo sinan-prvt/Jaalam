@@ -5,6 +5,8 @@ import InvoiceBuilder from './components/InvoiceBuilder';
 
 import toast from 'react-hot-toast';
 import { Download, Printer, Trash2 } from 'lucide-react';
+import usePlan from '../../hooks/usePlan';
+import UpgradeNotice from '../../components/ui/UpgradeNotice';
 
 interface InvoiceItem {
   description: string;
@@ -28,6 +30,8 @@ interface Invoice {
 }
 
 export default function BillingPage() {
+  const { can, requiredPlan } = usePlan();
+  const canInvoice = can('invoices');
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -302,7 +306,14 @@ export default function BillingPage() {
 
   return (
     <div className="h-full flex-1 flex flex-col animate-in fade-in zoom-in-[0.98] duration-500 overflow-hidden">
-      
+      {!canInvoice && (
+        <UpgradeNotice
+          className="mb-4 shrink-0"
+          title="Creating invoices needs a paid plan"
+          message={`Upgrade to ${requiredPlan('invoices')} or higher to create and send invoices. Existing invoices stay available to view and download.`}
+        />
+      )}
+
       {/* HEADER STATS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 shrink-0">
         <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 flex items-center justify-between shadow-sm">
@@ -354,7 +365,9 @@ export default function BillingPage() {
             </div>
             <button 
               onClick={() => setIsCreating(true)} 
-              className="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm shrink-0"
+              disabled={!canInvoice}
+              title={canInvoice ? undefined : `Invoices need the ${requiredPlan('invoices')} plan`}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Plus size={18} /> <span className="hidden sm:inline">Create Invoice</span>
             </button>

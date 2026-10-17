@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PlanSummary } from './utils/plan';
 
 interface User {
   id: string;
@@ -12,6 +13,9 @@ interface User {
   agent?: string;
   is_superuser?: boolean;
   is_test_user?: boolean;
+  has_completed_onboarding?: boolean;
+  plan?: PlanSummary;
+  lifetime_plan?: string;
 }
 
 interface AuthState {

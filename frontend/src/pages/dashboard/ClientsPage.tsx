@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Users, Plus, Mail, User, Shield, Lock, Loader2, Edit2, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import usePlan from '../../hooks/usePlan';
+import UpgradeNotice from '../../components/ui/UpgradeNotice';
 
 interface Client {
   id: number;
@@ -14,6 +16,8 @@ interface Client {
 }
 
 export default function ClientsPage() {
+  const { can, requiredPlan } = usePlan();
+  const canAddClients = can('client_accounts');
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,6 +121,13 @@ export default function ClientsPage() {
 
   return (
     <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
+      {!canAddClients && (
+        <UpgradeNotice
+          className="mb-6"
+          title="Client accounts are part of the Business plan"
+          message={`Upgrade to ${requiredPlan('client_accounts')} to give your clients their own logins. Existing clients keep working.`}
+        />
+      )}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
@@ -127,7 +138,8 @@ export default function ClientsPage() {
         
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold shadow-lg shadow-orange-600/20 transition-all transform hover:-translate-y-0.5"
+          disabled={!canAddClients}
+          className="flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold shadow-lg shadow-orange-600/20 transition-all transform hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none"
         >
           <Plus size={20} />
           <span>New Client</span>
@@ -145,7 +157,8 @@ export default function ClientsPage() {
           <p className="text-slate-500 mb-6">Create a client account to give website owners access to their own CRM and Analytics.</p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-orange-100 hover:border-orange-500 text-orange-600 rounded-xl font-bold transition-all shadow-sm"
+            disabled={!canAddClients}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-orange-100 hover:border-orange-500 text-orange-600 rounded-xl font-bold transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Plus size={20} />
             <span>Create First Client</span>

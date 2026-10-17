@@ -1,5 +1,7 @@
 from rest_framework import viewsets, permissions
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from users import plans
 from .models import Invoice
 from .serializers import InvoiceSerializer
 
@@ -18,4 +20,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         return Invoice.objects.filter(website__user=user).order_by('-created_at')
 
     def perform_create(self, serializer):
+        # Creating invoices is a paid feature; existing invoices stay viewable after a downgrade.
+        if not plans.has_feature(self.request.user, plans.INVOICES):
+            raise PermissionDenied(f"Invoices need the {plans.required_plan_for(plans.INVOICES)} plan or higher.")
         serializer.save(created_by=self.request.user)

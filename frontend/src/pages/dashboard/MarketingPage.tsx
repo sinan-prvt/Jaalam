@@ -3,6 +3,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import * as htmlToImage from 'html-to-image';
 import { Sparkles, Copy, CheckCircle2, Megaphone, Camera, Share2, Mail, MessageSquare, Image as ImageIcon, Smartphone, Video, Palette, Download, Star, Upload } from 'lucide-react';
+import usePlan from '../../hooks/usePlan';
+import UpgradeNotice from '../../components/ui/UpgradeNotice';
 
 interface Website {
   id: number;
@@ -32,6 +34,7 @@ interface MarketingPageProps {
 }
 
 export default function MarketingPage({ websites }: MarketingPageProps) {
+  const { can, requiredPlan, aiLimit, aiUsed } = usePlan();
   const [selectedSite, setSelectedSite] = useState<number | ''>('');
   const [promotionDetails, setPromotionDetails] = useState('');
   const [language, setLanguage] = useState('English');
@@ -146,6 +149,18 @@ export default function MarketingPage({ websites }: MarketingPageProps) {
 
   return (
     <div className="animate-in fade-in zoom-in-[0.98] duration-500 pb-20">
+
+      {!can('ai_marketing') ? (
+        <UpgradeNotice
+          className="mb-6"
+          title="AI marketing is a paid feature"
+          message={`Generate campaigns and posters with the ${requiredPlan('ai_marketing')} plan (50 a month) or Premium (300 a month).`}
+        />
+      ) : aiLimit !== null && (
+        <p className={`mb-6 text-sm font-bold ${aiUsed >= aiLimit ? 'text-red-600' : 'text-slate-500'}`}>
+          AI generations this month: {aiUsed} / {aiLimit}{aiUsed >= aiLimit ? ' — limit reached, resets on the 1st' : ''}
+        </p>
+      )}
 
       {/* Tabs */}
       <div className="flex p-1 mb-8 bg-slate-200/50 rounded-2xl w-fit backdrop-blur-sm border border-slate-200/60">

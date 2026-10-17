@@ -8,6 +8,10 @@ from google.auth.transport import requests as google_requests
 from .serializers import UserSerializer, NotificationSerializer
 from .models import Notification
 from .notifications import create_notification
+from .subscriptions import sync_plan_status, switch_to_free
+from datetime import timedelta
+from django.utils import timezone
+from . import plans
 
 User = get_user_model()
 
@@ -136,9 +140,52 @@ class UserViewSet(viewsets.ModelViewSet):
         
         return Response({"is_test_user": user.is_test_user})
 
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def set_plan(self, request, pk=None):
+        """Admin: grant or change a plan by hand (e.g. after a cash or bank payment).
+        Body: {"plan": "BUSINESS", "days": 30}, {"plan": "BUSINESS", "lifetime": true},
+        or {"plan": "TEST"} for Free (also removes a lifetime plan)."""
+        user = self.get_object()
+        code = request.data.get('plan')
+        if code not in plans.PLANS:
+            return Response({"error": "Unknown plan"}, status=status.HTTP_400_BAD_REQUEST)
+        if code == plans.FREE:
+            switch_to_free(user)
+            user.lifetime_plan = ''
+            user.save(update_fields=['lifetime_plan'])
+        elif request.data.get('lifetime'):
+            user.membership = code
+            user.lifetime_plan = code
+            user.plan_period = 'LIFETIME'
+            user.plan_expires_at = None
+            user.plan_reminders_sent = []
+            user.has_completed_onboarding = True
+            user.save()
+        else:
+            try:
+                days = int(request.data.get('days', 30))
+            except (TypeError, ValueError):
+                return Response({"error": "days must be a number"}, status=status.HTTP_400_BAD_REQUEST)
+            if not 1 <= days <= 3660:
+                return Response({"error": "days must be between 1 and 3660"}, status=status.HTTP_400_BAD_REQUEST)
+            user.membership = code
+            user.plan_period = 'YEARLY' if days >= 365 else 'MONTHLY'
+            user.plan_expires_at = timezone.now() + timedelta(days=days)
+            user.plan_reminders_sent = []
+            user.has_completed_onboarding = True
+            user.save()
+        create_notification(
+            user=user,
+            title="Plan updated",
+            message=f"An administrator set your plan to {plans.PLANS[code]['name']}.",
+            notification_type="subscription",
+        )
+        return Response(self.get_serializer(user).data)
+
     @action(detail=False, methods=['get', 'put', 'patch', 'delete'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         if request.method == 'GET':
+            sync_plan_status(request.user)
             serializer = self.get_serializer(request.user)
             return Response(serializer.data)
 
@@ -165,6 +212,8 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
             
         if request.method == 'POST':
+            if not plans.has_feature(request.user, plans.CLIENT_ACCOUNTS):
+                return Response({"error": f"Client accounts need the {plans.required_plan_for(plans.CLIENT_ACCOUNTS)} plan.", "upgrade": True}, status=status.HTTP_403_FORBIDDEN)
             # Create a new client
             username = request.data.get('username')
             password = request.data.get('password')

@@ -4,6 +4,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission
 from rest_framework import generics
+from users import plans
+from users.models import UsageCounter
+
+
+def ai_access_error(user):
+    """Response explaining why the user can't generate (plan or monthly quota), else None."""
+    if not plans.has_feature(user, plans.AI_MARKETING):
+        return Response({'error': f'AI marketing needs the {plans.required_plan_for(plans.AI_MARKETING)} plan or higher.', 'upgrade': True}, status=403)
+    quota = plans.limit(user, 'ai_generations')
+    if quota is not None and UsageCounter.current(user, 'ai_generations') >= quota:
+        return Response({'error': f'You have used all {quota} AI generations for this month. They reset on the 1st, or upgrade for more.', 'upgrade': True}, status=403)
+    return None
 
 class IsAdminUserOrReadOnly(BasePermission):
     """
@@ -20,9 +32,9 @@ class GenerateMarketingCopyView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        # Allow only paid users or admins
-        if request.user.membership not in ['BUSINESS', 'PREMIUM'] and not request.user.is_superuser and not request.user.is_test_user:
-            return Response({'error': 'Upgrade to Business or Premium to use the AI Marketing Center.'}, status=403)
+        denied = ai_access_error(request.user)
+        if denied:
+            return denied
 
         try:
             from decouple import config
@@ -74,6 +86,7 @@ class GenerateMarketingCopyView(APIView):
                 text_response = text_response[3:-3]
                 
             data = json.loads(text_response.strip())
+            UsageCounter.increment(request.user, 'ai_generations')
             return Response(data)
             
         except Exception as e:
@@ -89,8 +102,9 @@ class GeneratePosterView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        if request.user.membership not in ['BUSINESS', 'PREMIUM'] and not request.user.is_superuser and not request.user.is_test_user:
-            return Response({'error': 'Upgrade to Business or Premium to use the AI Poster Generator.'}, status=403)
+        denied = ai_access_error(request.user)
+        if denied:
+            return denied
 
         prompt = request.data.get('prompt', '')
         if not prompt:
@@ -108,6 +122,7 @@ class GeneratePosterView(APIView):
                 
             image_bytes = response.content
             base64_img = base64.b64encode(image_bytes).decode('utf-8')
+            UsageCounter.increment(request.user, 'ai_generations')
             return Response({'image': f'data:image/jpeg;base64,{base64_img}'})
         except Exception as e:
             print("Poster Generation Error:", e)

@@ -23,6 +23,10 @@ services:
         sync: false
       - key: RAZORPAY_KEY_SECRET
         sync: false
+      # Razorpay > Settings > Webhooks: URL https://<backend>/api/users/subscriptions/webhook/,
+      # events payment.captured + order.paid; paste the webhook secret here
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
       # Only needed if a frontend calls this backend directly instead of through its /api proxy
       - key: FRONTEND_ORIGINS
         sync: false

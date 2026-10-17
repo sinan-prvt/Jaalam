@@ -10,6 +10,7 @@ interface User {
   membership?: string;
   is_test_user?: boolean;
   role?: string;
+  plan?: { code: string; name: string };
 }
 
 interface DashboardSidebarProps {
@@ -163,7 +164,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
         <div className="mt-auto flex flex-col shrink-0">
           <div className={`h-[1px] bg-[#d1d5db] transition-all duration-300 ease-in-out ${isCollapsed ? 'my-2 mx-2' : 'my-4 mx-1'}`}></div>
           
-          {user?.membership !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && user?.role !== 'CLIENT' && (
+          {(user?.plan?.code || user?.membership) !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && user?.role !== 'CLIENT' && (
             <div 
               onClick={() => setActiveTab('Pricing')}
               className={`flex items-center rounded-xl mb-3 cursor-pointer text-[14px] font-medium transition-all duration-200 ease-in-out text-white bg-gradient-to-r from-amber-500 to-orange-500 active:scale-[0.98] shadow-md hover:shadow-lg ${
@@ -189,7 +190,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               <div className={`flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${isCollapsed ? 'max-w-0 opacity-0 hidden' : 'max-w-[100px] opacity-100'}`}>
                 <span className="text-[13px] font-bold text-slate-800 truncate">{user?.username}</span>
                 <span className="text-[9px] text-[#d08757] font-bold uppercase tracking-wider truncate">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                 </span>
               </div>
             </div>
@@ -271,7 +272,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-slate-800">{user?.username}</span>
                   <span className="text-[9px] font-bold uppercase tracking-wider text-[#d08757]">
-                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.membership ? `${user.membership} PLAN` : 'FREE TIER'}
+                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                   </span>
                 </div>
               </div>
@@ -298,7 +299,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                   </button>
                 );
               })}
-              {user?.membership !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && user?.role !== 'CLIENT' && (
+              {(user?.plan?.code || user?.membership) !== 'PREMIUM' && !user?.is_superuser && !user?.is_test_user && user?.role !== 'CLIENT' && (
                 <button
                   type="button"
                   onClick={() => { setActiveTab('Pricing'); setIsMoreOpen(false); }}

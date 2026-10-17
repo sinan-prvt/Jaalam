@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import { eventHierarchy } from '../../utils/templateData';
+import usePlan from '../../hooks/usePlan';
 
 const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
   const [uploading, setUploading] = useState(false);
@@ -44,6 +45,7 @@ const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => vo
 };
 
 export default function WeddingEditor() {
+  const { isLockedTheme } = usePlan();
   const { websiteId } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -396,7 +398,7 @@ export default function WeddingEditor() {
                     className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-pink-500/20 outline-none font-medium text-sm border-none shadow-sm cursor-pointer"
                   >
                     {(eventHierarchy[mainEventCategory]?.[website.business_type] || []).map(t => (
-                      <option key={t} value={t}>{t}</option>
+                      <option key={t} value={t} disabled={isLockedTheme(t)}>{isLockedTheme(t) ? `🔒 ${t} (Premium)` : t}</option>
                     ))}
                   </select>
                   <p className="mt-3 text-xs text-slate-500 font-medium">Changing the theme will instantly update the preview on the right.</p>

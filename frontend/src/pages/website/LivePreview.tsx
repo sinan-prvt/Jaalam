@@ -9,12 +9,14 @@ import FloatingContactButtons from '../../components/shared/FloatingContactButto
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
 import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
+import useHideBranding from '../../hooks/useHideBranding';
 
 
 function LivePreviewContent() {
   const [data, setData] = useState<any>(null);
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
   useSmoothScroll();
+  useHideBranding(data?.website?.show_branding === false);
 
   useEffect(() => {
     if (data?.content?.settings_json?.show_language_widget === false) {

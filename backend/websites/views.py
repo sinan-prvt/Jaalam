@@ -7,7 +7,23 @@ import uuid
 from django.shortcuts import get_object_or_404
 from .models import Website, WebsiteContent
 from .serializers import WebsiteSerializer, WebsiteContentSerializer
+from rest_framework.exceptions import ValidationError
 from users.notifications import create_notification, notify_all_admins
+from users import plans
+
+
+def check_theme_allowed(owner, theme):
+    if theme and not plans.theme_allowed(owner, theme):
+        raise ValidationError({"error": f"'{theme}' is a premium template. Upgrade to {plans.required_plan_for(plans.PREMIUM_TEMPLATES)} to use it.", "upgrade": True})
+
+
+def is_paused(website):
+    """Sites beyond the owner's plan limit (after a downgrade) are paused, newest first."""
+    limit = plans.limit(website.user, 'websites')
+    if limit is None:
+        return False
+    live_ids = Website.objects.filter(user=website.user).order_by('created_at', 'id').values_list('id', flat=True)[:limit]
+    return website.id not in set(live_ids)
 
 class WebsiteViewSet(viewsets.ModelViewSet):
     serializer_class = WebsiteSerializer
@@ -52,18 +68,10 @@ class WebsiteViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        current_count = Website.objects.filter(user=user).count()
-        
-        limit = {
-            'TEST': 1,
-            'STARTER': 2,
-            'BUSINESS': 10,
-            'PREMIUM': float('inf')
-        }.get(user.membership, 1)
-
-        if current_count >= limit and not user.is_test_user and not user.is_superuser:
-            from rest_framework.exceptions import ValidationError
-            raise ValidationError({"error": f"Website limit reached for your plan."})
+        limit = plans.limit(user, 'websites')
+        if limit is not None and Website.objects.filter(user=user).count() >= limit:
+            raise ValidationError({"error": f"Your {plans.PLANS[plans.effective_plan(user)]['name']} plan allows {limit} website(s). Upgrade to create more.", "upgrade": True})
+        check_theme_allowed(user, serializer.validated_data.get('theme'))
 
         website = serializer.save(user=self.request.user)
         # Create default content
@@ -78,6 +86,13 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             message=f"User {self.request.user.username} created a new website: {website.slug}",
             notification_type="new_website"
         )
+
+    def perform_update(self, serializer):
+        # Plan rules follow the site owner (a client editing an assigned site uses the owner's plan).
+        theme = serializer.validated_data.get('theme')
+        if theme and theme != serializer.instance.theme:
+            check_theme_allowed(serializer.instance.user, theme)
+        serializer.save()
 
     def perform_destroy(self, instance):
         if self.request.user.is_superuser and instance.user != self.request.user:
@@ -109,6 +124,9 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             
         if getattr(website, 'is_blocked', False):
             return Response({'error': 'Website is suspended'}, status=403)
+
+        if is_paused(website) and not (request.user.is_authenticated and request.user == website.user):
+            return Response({'error': 'paused', 'message': 'This website is temporarily paused.'}, status=403)
             
         if not hasattr(website, 'content'):
             # Auto-create content if missing even on public view to prevent crashes

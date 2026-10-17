@@ -124,7 +124,8 @@ def share_preview(request, slug):
     page_url = f"{scheme}://{host}/{slug}"
 
     website = Website.objects.select_related('content').filter(slug=slug).first()
-    if website and website.published and not website.is_blocked:
+    from .views import is_paused
+    if website and website.published and not website.is_blocked and not is_paused(website):
         title, description, image = build_preview(website)
     else:
         # Unknown, unpublished or suspended: a neutral card that reveals nothing private.
