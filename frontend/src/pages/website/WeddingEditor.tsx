@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import {
   Save, ArrowLeft, Heart, BookOpen, Clock,
-  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Music as MusicIcon, Hourglass, Upload, Megaphone, Bot, Globe
+  MapPin, Share2, Eye, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
+  Image as ImageIcon, Music as MusicIcon, Hourglass, Upload, Megaphone, Bot, Globe
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
-import { categoryThemes, eventHierarchy } from '../../utils/templateData';
+import { eventHierarchy } from '../../utils/templateData';
 
 const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
   const [uploading, setUploading] = useState(false);

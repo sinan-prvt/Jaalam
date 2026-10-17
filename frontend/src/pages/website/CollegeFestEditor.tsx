@@ -1,13 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, FileJson, Music, Megaphone, Bot } from 'lucide-react';
+import {ArrowLeft, Save, Globe, Smartphone, Edit3, LayoutTemplate, MessageSquare, QrCode, Layers, Image as ImageIcon, ExternalLink, Rocket, Palette, ShoppingCart, Monitor, Upload, X, ArrowUp, ArrowDown, ArrowUpDown, PlusCircle, Type, Minus, Eye, EyeOff, Link2, CheckCircle2, Copy, Download, CreditCard, Music, Megaphone, Bot } from 'lucide-react';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
-import TemplateUploader from '../../components/ui/TemplateUploader';
-import { weddingCategories, birthdayCategories, collegeFestCategories, religiousEventCategories, categoryThemes as eventCategoryThemes } from '../../utils/templateData';
+import { weddingCategories, birthdayCategories, religiousEventCategories, categoryThemes as eventCategoryThemes } from '../../utils/templateData';
 
 const categoryThemes: Record<string, string[]> = {
   'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],

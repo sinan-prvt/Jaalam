@@ -1,5 +1,5 @@
 import React, { useEffect, useState, lazy } from 'react';
-import { MapPin, Clock, Calendar, Heart, ArrowRight, User, Info, Phone, Mail, BookOpen } from 'lucide-react';
+import { MapPin, Clock, Calendar, ArrowRight, User, Info, Phone, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 
@@ -121,7 +121,7 @@ function GenericReligiousLayout({ website, content }: { website: any, content: a
   // order based on sections array
   const orderedSections = sections.filter((s:any) => s.visible).map((s:any) => s.id === 'donations' ? 'programs' : s.id);
   // default order if sections is empty
-  let renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
+  const renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
 
   // Ensure 'leaders' is injected if it's missing from a previously saved layout
   if (orderedSections.length > 0 && !orderedSections.includes('leaders')) {

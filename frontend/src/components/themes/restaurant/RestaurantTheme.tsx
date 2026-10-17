@@ -3,7 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import ContactForm from '../shared/ContactForm';
 import { motion } from 'framer-motion';
-import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, ChevronRight, Menu, X } from 'lucide-react';
+import { Star, MapPin, Phone, Mail, Clock, MessageCircle, Utensils, Menu, X } from 'lucide-react';
 
 import ProductBuyButton from '../../payments/ProductBuyButton';
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
@@ -258,7 +258,7 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
     ];
   }
 
-  let products = content.products_json && content.products_json.length > 0
+  const products = content.products_json && content.products_json.length > 0
     ? [...content.products_json]
     : [...defaultProducts];
   

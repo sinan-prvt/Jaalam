@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import {
   Save, ArrowLeft, BookOpen, Clock,
-  MapPin, Settings, Share2, Eye, QrCode, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Gift, Upload, PlusCircle, Layers, Megaphone, Bot, Globe
+  MapPin, Share2, Eye, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
+  Image as ImageIcon, Upload, PlusCircle, Layers, Megaphone, Bot, Globe
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
@@ -233,7 +233,7 @@ export default function ReligiousEventEditor() {
     { id: 'contact', label: 'Contact Info', visible: true, locked: false }
   ];
 
-  let currentSections = religiousData.sections && religiousData.sections.length > 0
+  const currentSections = religiousData.sections && religiousData.sections.length > 0
     ? religiousData.sections.map((s: any) => s.id === 'donations' ? { ...s, id: 'programs', label: 'Programs & Services' } : s)
     : defaultSections;
 

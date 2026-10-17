@@ -8,7 +8,6 @@ import Chatbot from '../../components/shared/Chatbot';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
 
-import CustomCursor from '../../components/ui/CustomCursor';
 
 function LivePreviewContent() {
   const [data, setData] = useState<any>(null);

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, UploadCloud, FileJson, CheckCircle2, Upload } from 'lucide-react';
+import { X, UploadCloud, FileJson, Upload } from 'lucide-react';
 import { categoryThemes } from '../../utils/templateData';
 import toast from 'react-hot-toast';
 

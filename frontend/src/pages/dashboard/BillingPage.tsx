@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Receipt, Plus, FileText, CheckCircle2, Clock, XCircle, Search } from 'lucide-react';
+import { Receipt, Plus, FileText, CheckCircle2, Clock, Search } from 'lucide-react';
 import InvoiceBuilder from './components/InvoiceBuilder';
 
 import toast from 'react-hot-toast';

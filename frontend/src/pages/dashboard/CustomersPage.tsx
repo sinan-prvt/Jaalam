@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Users, Phone, Mail, FileText, Search, User, CheckCircle, ExternalLink, MessageCircle } from 'lucide-react';
+import { Users, Phone, Mail, FileText, Search, MessageCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface Customer {

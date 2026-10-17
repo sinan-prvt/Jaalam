@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Volume2, VolumeX, Mail, CalendarDays, Clock, MessageSquare, ArrowRight, ArrowDown } from 'lucide-react';
+import { MapPin, Volume2, VolumeX, MessageSquare, ArrowRight, ArrowDown } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 

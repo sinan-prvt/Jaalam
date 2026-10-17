@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, MessageCircle, Heart } from 'lucide-react';
+import { Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, Heart } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';

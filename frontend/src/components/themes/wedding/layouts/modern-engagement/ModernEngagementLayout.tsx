@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MapPin, Sparkles, Navigation, Calendar, Clock, Volume2, VolumeX, ArrowRight } from 'lucide-react';
+import { Heart, MapPin, Sparkles, Navigation, Clock, Volume2, VolumeX, ArrowRight } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
