@@ -27,6 +27,18 @@ services:
       # events payment.captured + order.paid; paste the webhook secret here
       - key: RAZORPAY_WEBHOOK_SECRET
         sync: false
+      # Public frontend address used in emailed links, e.g. https://jaalam.app
+      - key: FRONTEND_URL
+        sync: false
+      # SMTP for real emails (password reset, plan reminders); without it emails only go to the logs
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
       # Only needed if a frontend calls this backend directly instead of through its /api proxy
       - key: FRONTEND_ORIGINS
         sync: false

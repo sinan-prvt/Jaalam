@@ -11,6 +11,8 @@ import CommandPalette from './components/ui/CommandPalette';
 const LandingPage = lazy(() => import('./pages/marketing/LandingPage'));
 const Login = lazy(() => import('./pages/auth/Login'));
 const Register = lazy(() => import('./pages/auth/Register'));
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/dashboard/AdminDashboard'));
 const WebsiteEditor = lazy(() => import('./pages/website/WebsiteEditor'));
@@ -112,6 +114,8 @@ function Router() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               
               <Route
                 path="/dashboard"

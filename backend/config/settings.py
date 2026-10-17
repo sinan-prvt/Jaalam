@@ -110,6 +110,10 @@ CSRF_TRUSTED_ORIGINS = LOCAL_ORIGINS + ['https://*.vercel.app', 'https://*.onren
 # scheme those proxies forward, so Django's CSRF origin check sees the frontend's own domain
 # (e.g. a custom domain) and same-site requests pass without listing every domain here.
 USE_X_FORWARDED_HOST = True
+
+# Public address of the frontend, used in emailed links (password reset...). Links are never
+# built from request headers in production, which an attacker could forge.
+FRONTEND_URL = config('FRONTEND_URL', default='').rstrip('/')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SESSION_COOKIE_SAMESITE = 'None'
@@ -122,6 +126,11 @@ REST_FRAMEWORK = {
         # CSRF-checked session auth (the frontend sends the X-CSRFToken header, see main.tsx)
         'rest_framework.authentication.SessionAuthentication',
     ],
+    # Used by the scoped throttles on login and password reset (see users/views.py).
+    'DEFAULT_THROTTLE_RATES': {
+        'login': '10/min',
+        'password_reset': '5/hour',
+    },
 }
 
 MEDIA_URL = '/media/'
@@ -134,4 +143,11 @@ RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='')
 RAZORPAY_WEBHOOK_SECRET = config('RAZORPAY_WEBHOOK_SECRET', default='')
 
 # Email settings
-EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+# Emails print to the console unless an SMTP server is configured (e.g. Gmail, Brevo, SES).
+EMAIL_HOST = config('EMAIL_HOST', default='')
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend' if EMAIL_HOST else 'django.core.mail.backends.console.EmailBackend')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Jaalam <no-reply@jaalam.app>')

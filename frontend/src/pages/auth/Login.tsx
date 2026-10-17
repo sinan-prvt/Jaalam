@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginStart, loginSuccess, loginFailure } from '../../authSlice';
 import axios from 'axios';
 import type { RootState } from '../../store';
@@ -27,6 +28,26 @@ export default function Login() {
     } catch (err: any) {
       dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
       toast.error(err.response?.data?.error || 'Login failed');
+    }
+  };
+
+  // Username/password sign-in, for client accounts that agencies create on the Clients page.
+  const [showPasswordLogin, setShowPasswordLogin] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      const res = await axios.post('/api/users/login/', { username, password });
+      dispatch(loginSuccess(res.data));
+      toast.success('Successfully logged in!');
+      navigate('/dashboard');
+    } catch (err: any) {
+      const message = err.response?.status === 429 ? 'Too many attempts. Please wait a minute and try again.' : err.response?.data?.error || 'Login failed';
+      dispatch(loginFailure(message));
+      toast.error(message);
     }
   };
 
@@ -83,6 +104,36 @@ export default function Login() {
             />
           </div>
           
+          <div className="mt-6 text-center">
+            {!showPasswordLogin ? (
+              <button type="button" onClick={() => setShowPasswordLogin(true)} className="text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors">
+                Have a client account? Sign in with username
+              </button>
+            ) : (
+              <form onSubmit={handlePasswordLogin} className="space-y-3 text-left">
+                <div className="flex items-center gap-3 text-xs text-slate-400 uppercase tracking-widest font-bold">
+                  <span className="h-px flex-1 bg-slate-200" /> client account <span className="h-px flex-1 bg-slate-200" />
+                </div>
+                <label className="block">
+                  <span className="text-xs font-bold text-slate-600">Username</span>
+                  <input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" required
+                    className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                </label>
+                <label className="block">
+                  <span className="text-xs font-bold text-slate-600">Password</span>
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required
+                    className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                </label>
+                <button type="submit" disabled={loading} className="w-full rounded-xl bg-slate-900 py-3 text-sm font-black text-white hover:bg-slate-800 disabled:opacity-50">
+                  Sign in
+                </button>
+                <p className="text-center">
+                  <Link to="/forgot-password" className="text-sm font-semibold text-indigo-600 hover:underline">Forgot password?</Link>
+                </p>
+              </form>
+            )}
+          </div>
+
           <div className="mt-8 pt-6 border-t border-slate-100 text-center">
             <p className="text-xs text-slate-400">
               By continuing, you agree to our <br/> <a href="#" className="text-indigo-500 hover:text-indigo-600 hover:underline transition-colors">Terms of Service</a> and <a href="#" className="text-indigo-500 hover:text-indigo-600 hover:underline transition-colors">Privacy Policy</a>.

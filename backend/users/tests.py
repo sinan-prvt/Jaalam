@@ -2,6 +2,7 @@ import json
 import tempfile
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 
@@ -55,6 +56,7 @@ class CsrfTests(TestCase):
     """Real browser flow with CSRF checks on (Django's test client skips them by default)."""
 
     def setUp(self):
+        cache.clear()  # these tests log in repeatedly; reset the login rate limit
         User.objects.create_user(username='owner', email='owner@example.com', password='pw-12345!')
         self.client = Client(enforce_csrf_checks=True)
 

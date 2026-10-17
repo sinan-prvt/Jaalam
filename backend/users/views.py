@@ -1,8 +1,19 @@
+import logging
+
+from django.conf import settings
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.middleware.csrf import get_token
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from rest_framework.throttling import SimpleRateThrottle
+
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from .serializers import UserSerializer, NotificationSerializer
@@ -14,6 +25,33 @@ from django.utils import timezone
 from . import plans
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
+
+
+def frontend_base_url(request):
+    """Where emailed links should point. Uses the configured FRONTEND_URL; for local development
+    without it, a trusted local origin. Never the request's Host headers, which can be forged."""
+    if settings.FRONTEND_URL:
+        return settings.FRONTEND_URL
+    origin = request.headers.get('Origin', '')
+    if origin in settings.CORS_ALLOWED_ORIGINS:
+        return origin
+    if settings.DEBUG:
+        return settings.LOCAL_ORIGINS[0]
+    return ''
+
+
+class LoginThrottle(SimpleRateThrottle):
+    """Per-IP limit on password logins (rates in REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'])."""
+    scope = 'login'
+
+    def get_cache_key(self, request, view):
+        return self.cache_format % {'scope': self.scope, 'ident': self.get_ident(request)}
+
+
+class PasswordResetThrottle(LoginThrottle):
+    scope = 'password_reset'
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -47,7 +85,7 @@ class UserViewSet(viewsets.ModelViewSet):
         login(request, user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
+    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny], throttle_classes=[LoginThrottle])
     def login(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -58,6 +96,44 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         
+    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny], authentication_classes=[], throttle_classes=[PasswordResetThrottle])
+    def password_reset(self, request):
+        """Email a reset link. Always answers the same way, so it can't reveal which emails exist."""
+        email = (request.data.get('email') or '').strip()
+        if email:
+            for user in User.objects.filter(email__iexact=email, is_active=True):
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
+                base = frontend_base_url(request)
+                if not base:
+                    logger.error('FRONTEND_URL is not set; cannot email password reset links.')
+                    break
+                link = f"{base}/reset-password?uid={uid}&token={token}"
+                send_mail(
+                    'Reset your Jaalam password',
+                    f"Hi {user.username},\n\nUse this link to choose a new password (it works once and expires in 3 days):\n{link}\n\n"
+                    "If you didn't ask for this, you can ignore this email.",
+                    None, [user.email], fail_silently=True,
+                )
+        return Response({'status': 'If an account uses that email, a reset link has been sent.'})
+
+    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny], authentication_classes=[], throttle_classes=[PasswordResetThrottle])
+    def password_reset_confirm(self, request):
+        try:
+            user = User.objects.get(pk=force_str(urlsafe_base64_decode(request.data.get('uid', ''))))
+        except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+            user = None
+        if not user or not default_token_generator.check_token(user, request.data.get('token', '')):
+            return Response({'error': 'This reset link is invalid or has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
+        password = request.data.get('new_password') or ''
+        try:
+            validate_password(password, user)
+        except DjangoValidationError as e:
+            return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+        user.set_password(password)
+        user.save(update_fields=['password'])
+        return Response({'status': 'Password updated. You can sign in now.'})
+
     @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def google_login(self, request):
         credential = request.data.get('credential')
