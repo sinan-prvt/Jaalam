@@ -23,6 +23,9 @@ export interface InviteCard {
   meta?: string;
 }
 
+// Fields of the hero/about area that can be edited inline in the editor preview.
+export type EditableField = 'title' | 'subtitle' | 'quote' | 'aboutTitle' | 'aboutText';
+
 export interface InviteData {
   family: InviteFamily;
   title: string;
@@ -58,6 +61,8 @@ export interface InviteData {
   wishCount: number;
   hidden: (section: string) => boolean;
   hiddenFields: string[];
+  // Content paths each inline-editable field is saved to (a field may write several paths).
+  editPaths: Partial<Record<EditableField, string[][]>>;
 }
 
 const clean = (list: unknown): string[] =>
@@ -150,6 +155,7 @@ function weddingAdapter(content: any, category: string): Partial<InviteData> {
     musicUrl: w.musicUrl || '',
     wishCount: Number(w.wish_count) || 48,
     hidden: sectionVisibility(w.sections, { people: ['about'], about: ['story'], wishes: ['wishes'] }),
+    editPaths: { title: [['hero_title']], subtitle: [['hero_subtitle']], quote: [['quote']], aboutTitle: [['about_title']], aboutText: [['about_text']] },
   };
 }
 
@@ -196,6 +202,7 @@ function birthdayAdapter(content: any, category: string): Partial<InviteData> {
     musicUrl: b.musicUrl || content?.music_url || '',
     wishCount: Number(b.wish_count) || 50,
     hidden: sectionVisibility(b.sections, { people: ['about'], about: ['story'] }),
+    editPaths: { title: [['hero_title']], subtitle: [['hero_subtitle']], quote: [['quote']], aboutTitle: [['about_title']], aboutText: [['about_text']] },
   };
 }
 
@@ -231,6 +238,12 @@ function housewarmingAdapter(content: any): Partial<InviteData> {
     musicUrl: h.musicUrl || '',
     wishCount: Number(h.wish_count) || 24,
     hidden: sectionVisibility(h.sections, { people: ['hosts'], about: ['story'] }),
+    editPaths: {
+      title: [['hero_title'], ['settings_json', 'housewarming', 'hostName']],
+      quote: [['settings_json', 'housewarming', 'tagline']],
+      aboutTitle: [['about_title']],
+      aboutText: [['about_text']],
+    },
   };
 }
 
@@ -274,6 +287,13 @@ function collegeFestAdapter(content: any, category: string): Partial<InviteData>
       const map: Record<string, string> = { about: 'about', cards: 'services', gallery: 'gallery', tags: 'sponsors', contact: 'contact' };
       return Array.isArray(s.hidden_sections) && s.hidden_sections.includes(map[section] || section);
     },
+    editPaths: {
+      title: [['hero_title']],
+      subtitle: [['hero_subtitle']],
+      quote: [['hero_description']],
+      aboutTitle: [['settings_json', 'about_title']],
+      aboutText: [['settings_json', 'about_description']],
+    },
   };
 }
 
@@ -307,6 +327,14 @@ function religiousAdapter(content: any, category: string): Partial<InviteData> {
     whatsapp: content?.contact_info?.whatsapp || '',
     wishCount: 33,
     hidden: sectionVisibility(r.sections, { cards: ['programs', 'donations'], people: ['leaders'], venue: ['contact'] }),
+    editPaths: {
+      title: [['settings_json', 'religious_event', 'organization_name']],
+      subtitle: [['settings_json', 'religious_event', 'subtitle']],
+      quote: [['settings_json', 'religious_event', 'tagline']],
+      aboutTitle: [['settings_json', 'religious_event', 'about_title']],
+      // The about text also shows vision & mission, so only edit it inline when that is empty.
+      ...(r.vision_mission ? {} : { aboutText: [['settings_json', 'religious_event', 'about_description']] }),
+    },
   };
 }
 
@@ -358,8 +386,23 @@ export function buildInviteData(family: InviteFamily, content: any, website: any
     musicUrl: '',
     wishCount: 0,
     hidden: () => false,
+    editPaths: {},
     ...partial,
     hiddenFields,
     slug: website?.slug,
   } as InviteData;
+}
+
+// Returns a copy of `content` with `value` written at every given path.
+export function applyEdit(content: any, paths: string[][], value: string) {
+  const next = structuredClone(content || {});
+  for (const path of paths) {
+    let node = next;
+    path.slice(0, -1).forEach((key) => {
+      if (typeof node[key] !== 'object' || node[key] === null) node[key] = {};
+      node = node[key];
+    });
+    node[path[path.length - 1]] = value;
+  }
+  return next;
 }

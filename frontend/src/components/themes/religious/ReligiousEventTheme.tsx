@@ -19,10 +19,10 @@ import HinduMinimalLayout from './layouts/HinduMinimalLayout';
 import HinduElegantLayout from './layouts/HinduElegantLayout';
 import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 
-export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
+export default function ReligiousEventTheme({ website, content, isEditor, updateContent }: { website: any, content: any, isEditor?: boolean, updateContent?: (content: any) => void }) {
   const modernStyle = getModernInvitationStyle(website?.theme);
   if (modernStyle) {
-    return <ModernInvitationTheme family="religious" style={modernStyle} website={website} content={content} />;
+    return <ModernInvitationTheme family="religious" style={modernStyle} website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
   }
   if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
     return <ModernMosqueLayout website={website} content={content} />;

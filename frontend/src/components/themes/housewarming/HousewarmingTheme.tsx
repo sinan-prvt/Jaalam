@@ -18,12 +18,14 @@ interface HousewarmingThemeProps {
   content: any;
   businessType?: string;
   website?: any;
+  isEditor?: boolean;
+  updateContent?: (content: any) => void;
 }
 
-export function HousewarmingTheme({ theme, content, businessType, website }: HousewarmingThemeProps) {
+export function HousewarmingTheme({ theme, content, businessType, website, isEditor, updateContent }: HousewarmingThemeProps) {
   const modernStyle = getModernInvitationStyle(theme);
   if (modernStyle) {
-    return <ModernInvitationTheme family="housewarming" style={modernStyle} website={website || { business_type: businessType, theme }} content={content} />;
+    return <ModernInvitationTheme family="housewarming" style={modernStyle} website={website || { business_type: businessType, theme }} content={content} isEditor={isEditor} updateContent={updateContent} />;
   }
 
   const FallbackLoader = () => (

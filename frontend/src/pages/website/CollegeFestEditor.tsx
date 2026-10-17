@@ -128,6 +128,10 @@ export default function CollegeFestEditor() {
       if (e.data?.type === 'PREVIEW_READY') {
         setIframeReady(true);
       }
+      // Inline text edits made directly in the preview (same-origin iframe only)
+      if (e.data?.type === 'CONTENT_EDIT' && e.origin === window.location.origin && e.source === iframeRef.current?.contentWindow) {
+        setContent(e.data.content);
+      }
     };
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);

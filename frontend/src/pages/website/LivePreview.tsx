@@ -135,25 +135,38 @@ function LivePreviewContent() {
 
 
 
+  // Inside the editor's iframe, invitation themes allow click-to-edit text. Edits are applied
+  // locally and sent to the editor, which stores them in its form state like any other change.
+  const inEditorFrame = window.parent !== window;
+  const editProps = inEditorFrame
+    ? {
+        isEditor: true,
+        updateContent: (nextContent: any) => {
+          setData((prev: any) => ({ ...prev, content: nextContent }));
+          window.parent.postMessage({ type: 'CONTENT_EDIT', content: nextContent }, window.location.origin);
+        },
+      }
+    : {};
+
   const renderTheme = () => {
     if (weddingCategories.includes(data.website.business_type)) {
-      return <ClassicWeddingTheme website={data.website} content={data.content} />;
+      return <ClassicWeddingTheme website={data.website} content={data.content} {...editProps} />;
     }
 
     if (birthdayCategories.includes(data.website.business_type)) {
-      return <BirthdayTheme website={data.website} content={data.content} />;
+      return <BirthdayTheme website={data.website} content={data.content} {...editProps} />;
     }
 
     if (housewarmingCategories.includes(data.website.business_type)) {
-      return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} website={data.website} />;
+      return <HousewarmingTheme theme={data.website.theme} content={data.content} businessType={data.website.business_type} website={data.website} {...editProps} />;
     }
 
     if (collegeFestCategories.includes(data.website.business_type)) {
-      return <CollegeFestTheme website={data.website} content={data.content} />;
+      return <CollegeFestTheme website={data.website} content={data.content} {...editProps} />;
     }
 
     if (religiousEventCategories.includes(data.website.business_type)) {
-      return <ReligiousEventTheme website={data.website} content={data.content} />;
+      return <ReligiousEventTheme website={data.website} content={data.content} {...editProps} />;
     }
 
     if (data.website.business_type === 'Restaurant') {

@@ -17,7 +17,7 @@ export default function CollegeFestTheme({ content, website, updateContent, isEd
 
   const modernStyle = getModernInvitationStyle(theme);
   if (modernStyle) {
-    return <ModernInvitationTheme family="collegeFest" style={modernStyle} website={website} content={content} />;
+    return <ModernInvitationTheme family="collegeFest" style={modernStyle} website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
   }
 
   // Base colors mapped by theme

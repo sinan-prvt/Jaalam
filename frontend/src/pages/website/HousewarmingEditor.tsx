@@ -146,6 +146,10 @@ export default function HousewarmingEditor() {
       if (event.data?.type === 'PREVIEW_READY') {
         setIframeReady(true);
       }
+      // Inline text edits made directly in the preview (same-origin iframe only)
+      if (event.data?.type === 'CONTENT_EDIT' && event.origin === window.location.origin && event.source === iframeRef.current?.contentWindow) {
+        setContent(event.data.content);
+      }
     };
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);

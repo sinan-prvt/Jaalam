@@ -22,7 +22,7 @@ export default function BirthdayTheme({ content, website, updateContent, isEdito
 
   const modernStyle = getModernInvitationStyle(theme as string);
   if (modernStyle) {
-    return <ModernInvitationTheme family="birthday" style={modernStyle} website={website} content={content} />;
+    return <ModernInvitationTheme family="birthday" style={modernStyle} website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
   }
 
   let baseTheme = 'KidsPlayful';

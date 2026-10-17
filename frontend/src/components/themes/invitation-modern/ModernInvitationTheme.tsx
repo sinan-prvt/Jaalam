@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Heart, Gem, Gift, Cake, Home, Zap, Palette, Trophy, Moon, Church, Flame,
   Calendar, Clock, MapPin, Navigation, Phone, Mail, MessageCircle, Volume2, VolumeX, Sparkles, User, ArrowDown,
 } from 'lucide-react';
 import { triggerConfettiPopper } from '../../../utils/confettiPopper';
-import { buildInviteData, type InviteData, type InviteFamily } from './adapters';
+import { applyEdit, buildInviteData, type EditableField, type InviteData, type InviteFamily } from './adapters';
 import { getInvitePalette, type InviteIcon, type InvitationStyle } from './palettes';
 
 interface ModernInvitationThemeProps {
@@ -13,6 +13,8 @@ interface ModernInvitationThemeProps {
   style: InvitationStyle;
   content?: any;
   website?: any;
+  isEditor?: boolean;
+  updateContent?: (content: any) => void;
 }
 
 interface Skin {
@@ -185,7 +187,45 @@ function useWishes(slug: string | undefined, initial: number) {
 /* Shared building blocks                                              */
 /* ------------------------------------------------------------------ */
 
-function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; style: InvitationStyle; eyebrow: string; title: string; index: number }) {
+interface InlineEditor {
+  can: (field: EditableField) => boolean;
+  save: (field: EditableField, value: string) => void;
+}
+
+const EditContext = createContext<InlineEditor | null>(null);
+
+// Text that becomes click-to-edit inside the editor preview; plain text everywhere else.
+function Editable({ as = 'span', field, value, className, multiline }: { as?: 'span' | 'p' | 'h1' | 'h2'; field: EditableField; value: string; className?: string; multiline?: boolean }) {
+  const editor = useContext(EditContext);
+  const Tag = as;
+  if (!editor?.can(field)) return <Tag className={className}>{value}</Tag>;
+  return (
+    <Tag
+      key={value}
+      contentEditable
+      suppressContentEditableWarning
+      title="Click to edit"
+      className={`${className || ''} ${multiline ? 'whitespace-pre-line' : ''} cursor-text rounded-md outline-2 outline-dashed outline-transparent outline-offset-4 hover:outline-(--acc)/60 focus:outline-(--acc)`}
+      onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.key === 'Enter' && !multiline) {
+          e.preventDefault();
+          e.currentTarget.blur();
+        }
+      }}
+      onBlur={(e: React.FocusEvent<HTMLElement>) => {
+        const next = e.currentTarget.innerText.trim();
+        if (next && next !== value) editor.save(field, next);
+      }}
+    >
+      {value}
+    </Tag>
+  );
+}
+
+function SectionHeading({ skin, style, eyebrow, title, index, field }: { skin: Skin; style: InvitationStyle; eyebrow: string; title: string; index: number; field?: EditableField }) {
+  const heading = (
+    field ? <Editable as="h2" field={field} value={title} className={`${skin.heading} mt-3`} /> : <h2 className={`${skin.heading} mt-3`}>{title}</h2>
+  );
   const centered = skin.align === 'center';
   if (style === 'Editorial') {
     return (
@@ -193,7 +233,7 @@ function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; st
         <span className="md:col-span-2 font-['Playfair_Display'] text-6xl md:text-8xl text-(--acc) leading-none">{String(index).padStart(2, '0')}</span>
         <div className="md:col-span-10">
           <p className={skin.eyebrow}>{eyebrow}</p>
-          <h2 className={`${skin.heading} mt-3`}>{title}</h2>
+          {heading}
         </div>
       </div>
     );
@@ -201,7 +241,7 @@ function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; st
   return (
     <div className={`mb-10 md:mb-14 ${centered ? 'text-center' : ''}`}>
       <p className={skin.eyebrow}>{eyebrow}</p>
-      <h2 className={`${skin.heading} mt-3`}>{title}</h2>
+      {heading}
       {style === 'Midnight Luxe' && (
         <div className="mt-6 flex items-center justify-center gap-3 text-(--acc)">
           <span className="h-px w-16 bg-(--acc)/50" />
@@ -297,6 +337,9 @@ interface HeroProps {
 }
 
 function TitleLines({ d, className, joinerClass }: { d: InviteData; className: string; joinerClass: string }) {
+  const editor = useContext(EditContext);
+  // While editing, show the title as one editable line so "A & B" can be changed freely.
+  if (editor?.can('title')) return <Editable as="h1" field="title" value={d.title} className={className} />;
   if (d.titleParts.length > 1) {
     return (
       <h1 className={className}>
@@ -328,7 +371,7 @@ function GlassHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
         </div>
         <p className={skin.eyebrow}>{eyebrow}</p>
         <TitleLines d={d} className="mt-5 font-['Outfit'] text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]" joinerClass="text-(--acc) font-['Great_Vibes'] font-normal text-4xl md:text-5xl my-1" />
-        <p className="mt-5 text-sm md:text-base uppercase tracking-[0.3em] text-white/80">{d.subtitle}</p>
+        <Editable as="p" field="subtitle" value={d.subtitle} className="mt-5 text-sm md:text-base uppercase tracking-[0.3em] text-white/80" />
         {(d.dateText || d.timeText) && (
           <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2">
             {d.dateText && <span className={`${skin.chip} px-4 py-2 text-xs md:text-sm flex items-center gap-2`}><Calendar size={14} />{d.dateText}</span>}
@@ -359,8 +402,8 @@ function AuroraHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
             className="mt-6 font-['Outfit'] text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] bg-linear-to-br from-slate-900 via-(--acc3) to-(--acc) bg-clip-text text-transparent pb-2"
             joinerClass="text-4xl md:text-6xl font-['Great_Vibes'] font-normal text-(--acc) my-2"
           />
-          <p className="mt-6 text-lg md:text-2xl font-semibold text-slate-700">{d.subtitle}</p>
-          <p className={`mt-3 max-w-lg ${skin.muted}`}>{d.quote}</p>
+          <Editable as="p" field="subtitle" value={d.subtitle} className="mt-6 text-lg md:text-2xl font-semibold text-slate-700" />
+          <Editable as="p" field="quote" value={d.quote} className={`mt-3 max-w-lg ${skin.muted}`} />
           <div className="mt-8 flex flex-wrap gap-3">
             {d.dateText && <span className="rounded-2xl bg-white/80 backdrop-blur px-5 py-3 shadow-sm border border-white text-sm font-semibold flex items-center gap-2"><Calendar size={16} className="text-(--acc)" />{d.dateText}</span>}
             {d.timeText && <span className="rounded-2xl bg-white/80 backdrop-blur px-5 py-3 shadow-sm border border-white text-sm font-semibold flex items-center gap-2"><Clock size={16} className="text-(--acc)" />{d.timeText}</span>}
@@ -386,12 +429,12 @@ function BentoHero({ d, skin, eyebrow, image, Icon, left }: HeroProps) {
           </div>
           <div>
             <TitleLines d={d} className="font-['Outfit'] text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95]" joinerClass="text-(--acc) text-4xl md:text-5xl" />
-            <p className={`mt-4 text-lg ${skin.muted}`}>{d.subtitle}</p>
+            <Editable as="p" field="subtitle" value={d.subtitle} className={`mt-4 text-lg ${skin.muted}`} />
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="col-span-2 md:row-span-2 rounded-[1.75rem] overflow-hidden min-h-[320px] relative">
           <Cover src={image} alt={d.title} className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 backdrop-blur-md px-5 py-4 text-sm font-medium text-zinc-700 line-clamp-3">{d.quote}</div>
+          <Editable as="p" field="quote" value={d.quote} className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 backdrop-blur-md px-5 py-4 text-sm font-medium text-zinc-700 line-clamp-3" />
         </motion.div>
         {d.dateText && (
           <div className="rounded-[1.75rem] bg-(--acc) text-white p-6 flex flex-col justify-between">
@@ -441,8 +484,8 @@ function EditorialHero({ d, skin, eyebrow, image }: HeroProps) {
         </div>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="py-14">
           <TitleLines d={d} className="font-['Playfair_Display'] text-6xl md:text-[6.5rem] leading-[0.88] tracking-tight" joinerClass="italic text-(--acc) text-5xl md:text-7xl my-2" />
-          <p className="mt-8 font-['Playfair_Display'] italic text-2xl md:text-3xl">{d.subtitle}</p>
-          <p className={`mt-6 max-w-md text-base leading-relaxed ${skin.muted}`}>{d.quote}</p>
+          <Editable as="p" field="subtitle" value={d.subtitle} className="mt-8 font-['Playfair_Display'] italic text-2xl md:text-3xl" />
+          <Editable as="p" field="quote" value={d.quote} className={`mt-6 max-w-md text-base leading-relaxed ${skin.muted}`} />
         </motion.div>
         <div className="grid grid-cols-2 gap-6 border-t border-[#1b1813] pt-5 text-sm">
           <div>
@@ -475,7 +518,7 @@ function LuxeHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
           <Cover src={image} alt={d.title} className="w-full h-full object-cover rounded-t-full" />
         </div>
         <TitleLines d={d} className="mt-10 font-['Playfair_Display'] text-5xl md:text-7xl font-light tracking-wide" joinerClass="font-['Great_Vibes'] text-(--acc) text-4xl md:text-5xl my-1" />
-        <p className={`mt-6 text-xs md:text-sm uppercase tracking-[0.45em] ${skin.muted}`}>{d.subtitle}</p>
+        <Editable as="p" field="subtitle" value={d.subtitle} className={`mt-6 text-xs md:text-sm uppercase tracking-[0.45em] ${skin.muted}`} />
         {(d.dateText || d.timeText) && (
           <div className="mt-10 flex items-center gap-4 text-sm tracking-[0.2em] uppercase">
             <span className="h-px w-10 bg-(--acc)" />
@@ -502,7 +545,7 @@ function HeritageHero({ d, skin, eyebrow, image }: HeroProps) {
             <Cover src={image} alt={d.title} className="relative w-full h-full rounded-full object-cover border-4 border-(--acc2) shadow-xl" />
           </div>
           <TitleLines d={d} className="mt-12 font-['Playfair_Display'] text-5xl md:text-7xl text-(--acc) leading-tight" joinerClass="font-['Great_Vibes'] text-(--acc2) text-4xl md:text-5xl my-1" />
-          <p className={`mt-4 text-xs md:text-sm uppercase tracking-[0.4em] ${skin.muted}`}>{d.subtitle}</p>
+          <Editable as="p" field="subtitle" value={d.subtitle} className={`mt-4 text-xs md:text-sm uppercase tracking-[0.4em] ${skin.muted}`} />
           {(d.dateText || d.timeText) && (
             <div className={`${skin.chip} mt-8 px-6 py-3 text-sm font-semibold flex flex-wrap items-center justify-center gap-x-4 gap-y-1`}>
               {d.dateText && <span className="flex items-center gap-2"><Calendar size={15} className="text-(--acc)" />{d.dateText}</span>}
@@ -529,8 +572,18 @@ const HEROES: Record<InvitationStyle, React.ComponentType<HeroProps>> = {
 /* Theme                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function ModernInvitationTheme({ family, style, content, website }: ModernInvitationThemeProps) {
+export default function ModernInvitationTheme({ family, style, content, website, isEditor, updateContent }: ModernInvitationThemeProps) {
   const d = useMemo(() => buildInviteData(family, content, website), [family, content, website]);
+  const editor = useMemo<InlineEditor | null>(
+    () =>
+      isEditor && updateContent
+        ? {
+            can: (field) => !!d.editPaths[field]?.length,
+            save: (field, value) => updateContent(applyEdit(content, d.editPaths[field] || [], value)),
+          }
+        : null,
+    [isEditor, updateContent, content, d],
+  );
   const palette = getInvitePalette(website?.business_type);
   const skin = SKINS[style];
   const Icon = ICONS[palette.icon];
@@ -578,7 +631,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
     return i % 2 ? 'bg-[#efe8dc]' : '';
   };
 
-  type Block = { id: string; eyebrow: string; title: string; body: React.ReactNode };
+  type Block = { id: string; eyebrow: string; title: string; titleField?: EditableField; body: React.ReactNode };
   const blocks: Block[] = [];
 
   if (!isBento && (d.dateText || d.timeText)) {
@@ -609,9 +662,12 @@ export default function ModernInvitationTheme({ family, style, content, website 
       id: 'about',
       eyebrow: d.family === 'religious' ? 'Who We Are' : 'A Few Words',
       title: d.aboutTitle,
+      titleField: 'aboutTitle',
       body: (
         <div className={`${style === 'Editorial' ? 'md:pl-[16.66%]' : 'max-w-3xl mx-auto'} ${skin.align === 'center' ? 'text-center' : ''}`}>
-          {d.aboutText.split(/\n{2,}/).map((para, i) => (
+          {editor?.can('aboutText') ? (
+            <Editable as="p" field="aboutText" multiline value={d.aboutText} className={`text-lg md:text-xl leading-relaxed ${skin.muted}`} />
+          ) : d.aboutText.split(/\n{2,}/).map((para, i) => (
             <p key={i} className={`text-lg md:text-xl leading-relaxed ${i ? 'mt-6' : ''} ${style === 'Editorial' && i === 0 ? "first-letter:font-['Playfair_Display'] first-letter:text-7xl first-letter:float-left first-letter:mr-3 first-letter:leading-[0.8] first-letter:text-(--acc)" : ''} ${skin.muted}`}>
               {para}
             </p>
@@ -825,6 +881,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
   }
 
   return (
+    <EditContext.Provider value={editor}>
     <div className={`${skin.root} min-h-screen overflow-x-hidden antialiased ${!opened ? 'max-h-screen overflow-hidden' : ''}`} style={cssVars}>
       {d.musicUrl && <audio ref={audioRef} src={d.musicUrl} loop preload="auto" />}
 
@@ -881,7 +938,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
             </div>
           )}
           <div className={`relative ${wrap} ${sectionCard}`}>
-            <SectionHeading skin={skin} style={style} eyebrow={b.eyebrow} title={b.title} index={i + 1} />
+            <SectionHeading skin={skin} style={style} eyebrow={b.eyebrow} title={b.title} index={i + 1} field={b.titleField} />
             {b.body}
           </div>
         </section>
@@ -893,6 +950,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
         <p className={`mt-2 text-xs uppercase tracking-[0.3em] ${skin.muted}`}>{d.dateText || palette.eyebrow}</p>
       </footer>
     </div>
+    </EditContext.Provider>
   );
 }
 
