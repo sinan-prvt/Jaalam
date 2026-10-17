@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Save, Download, CreditCard, ChevronLeft, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, Save, Download, ChevronLeft, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { QRCodeSVG } from 'qrcode.react';

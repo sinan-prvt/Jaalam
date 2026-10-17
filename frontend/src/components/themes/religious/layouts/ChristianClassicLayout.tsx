@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapPin, Clock, Calendar, ArrowRight, User, Info, Phone, BookOpen, ChevronRight, Plus } from 'lucide-react';
+import { MapPin, Clock, Calendar, User, Phone, BookOpen, ChevronRight, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ChristianClassicLayout({ website, content }: { website: any, content: any }) {
@@ -14,7 +14,7 @@ export default function ChristianClassicLayout({ website, content }: { website: 
   }, []);
 
   const orderedSections = sections.filter((s: any) => s.visible).map((s: any) => s.id === 'donations' ? 'programs' : s.id);
-  let renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
+  const renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
 
   if (orderedSections.length > 0 && !orderedSections.includes('leaders')) {
     const aboutIndex = renderOrder.indexOf('about');

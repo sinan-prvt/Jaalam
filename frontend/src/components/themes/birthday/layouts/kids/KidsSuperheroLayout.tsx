@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Gift, Calendar, MapPin, Clock, Zap, Star, Shield, Music, Volume2, VolumeX, Flame } from 'lucide-react';
+import { MapPin, Zap, Star, Shield, Volume2, VolumeX, Flame } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 

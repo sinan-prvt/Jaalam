@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { Upload, FileJson, CheckCircle2, AlertCircle, Loader2, Download } from 'lucide-react';
+import { Upload, FileJson, Loader2, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface TemplateUploaderProps {

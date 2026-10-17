@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, Calendar, MapPin, Clock, Music, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
+import { Heart, Calendar, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
-import { eventHierarchy } from '../../../../../utils/templateData';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
 export default function ClassicLayout({ content, website, colors }: WeddingLayoutProps) {

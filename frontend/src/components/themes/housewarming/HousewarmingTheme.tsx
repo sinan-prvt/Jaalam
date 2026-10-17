@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 
 const TraditionalLayout = React.lazy(() => import('./layouts/traditional'));
 const ClassicLayout = React.lazy(() => import('./layouts/classic'));
@@ -16,9 +17,17 @@ interface HousewarmingThemeProps {
   theme: string;
   content: any;
   businessType?: string;
+  website?: any;
+  isEditor?: boolean;
+  updateContent?: (content: any) => void;
 }
 
-export function HousewarmingTheme({ theme, content, businessType }: HousewarmingThemeProps) {
+export function HousewarmingTheme({ theme, content, businessType, website, isEditor, updateContent }: HousewarmingThemeProps) {
+  const modernStyle = getModernInvitationStyle(theme);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="housewarming" style={modernStyle} website={website || { business_type: businessType, theme }} content={content} isEditor={isEditor} updateContent={updateContent} />;
+  }
+
   const FallbackLoader = () => (
     <div className="flex items-center justify-center min-h-screen bg-[#FFFAF0]">
       <Loader2 className="w-8 h-8 animate-spin text-[#D4AF37]" />

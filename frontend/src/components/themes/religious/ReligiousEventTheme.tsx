@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { MapPin, Clock, Calendar, Heart, ArrowRight, User, Info, Phone, Mail, BookOpen } from 'lucide-react';
+import React, { useEffect, useState, lazy } from 'react';
+import { MapPin, Clock, Calendar, ArrowRight, User, Info, Phone, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ModernMosqueLayout from './layouts/ModernMosqueLayout';
-import ClassicMosqueLayout from './layouts/ClassicMosqueLayout';
-import MinimalMosqueLayout from './layouts/MinimalMosqueLayout';
-import ElegantMosqueLayout from './layouts/ElegantMosqueLayout';
-import RoyalMosqueLayout from './layouts/RoyalMosqueLayout';
-import SereneMosqueLayout from './layouts/SereneMosqueLayout';
-import ChristianTraditionalLayout from './layouts/ChristianTraditionalLayout';
-import ChristianModernLayout from './layouts/ChristianModernLayout';
-import ChristianClassicLayout from './layouts/ChristianClassicLayout';
-import ChristianFloralLayout from './layouts/ChristianFloralLayout';
-import ChristianMinimalLayout from './layouts/ChristianMinimalLayout';
-import HinduTraditionalLayout from './layouts/HinduTraditionalLayout';
-import HinduClassicLayout from './layouts/HinduClassicLayout';
-import HinduFloralLayout from './layouts/HinduFloralLayout';
-import HinduMinimalLayout from './layouts/HinduMinimalLayout';
-import HinduElegantLayout from './layouts/HinduElegantLayout';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
 
-export default function ReligiousEventTheme({ website, content }: { website: any, content: any }) {
-    const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
+// Layouts load on demand so a site only downloads the one it renders.
+const ModernMosqueLayout = lazy(() => import('./layouts/ModernMosqueLayout'));
+const ClassicMosqueLayout = lazy(() => import('./layouts/ClassicMosqueLayout'));
+const MinimalMosqueLayout = lazy(() => import('./layouts/MinimalMosqueLayout'));
+const ElegantMosqueLayout = lazy(() => import('./layouts/ElegantMosqueLayout'));
+const RoyalMosqueLayout = lazy(() => import('./layouts/RoyalMosqueLayout'));
+const SereneMosqueLayout = lazy(() => import('./layouts/SereneMosqueLayout'));
+const ChristianTraditionalLayout = lazy(() => import('./layouts/ChristianTraditionalLayout'));
+const ChristianModernLayout = lazy(() => import('./layouts/ChristianModernLayout'));
+const ChristianClassicLayout = lazy(() => import('./layouts/ChristianClassicLayout'));
+const ChristianFloralLayout = lazy(() => import('./layouts/ChristianFloralLayout'));
+const ChristianMinimalLayout = lazy(() => import('./layouts/ChristianMinimalLayout'));
+const HinduTraditionalLayout = lazy(() => import('./layouts/HinduTraditionalLayout'));
+const HinduClassicLayout = lazy(() => import('./layouts/HinduClassicLayout'));
+const HinduFloralLayout = lazy(() => import('./layouts/HinduFloralLayout'));
+const HinduMinimalLayout = lazy(() => import('./layouts/HinduMinimalLayout'));
+const HinduElegantLayout = lazy(() => import('./layouts/HinduElegantLayout'));
+
+export default function ReligiousEventTheme({ website, content, isEditor, updateContent }: { website: any, content: any, isEditor?: boolean, updateContent?: (content: any) => void }) {
+  const modernStyle = getModernInvitationStyle(website?.theme);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="religious" style={modernStyle} website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
+  }
   if (website.business_type === 'Mosque Event' && website.theme === 'Modern') {
     return <ModernMosqueLayout website={website} content={content} />;
   }
@@ -69,6 +75,13 @@ export default function ReligiousEventTheme({ website, content }: { website: any
     return <HinduTraditionalLayout website={website} content={content} />;
   }
 
+  return <GenericReligiousLayout website={website} content={content} />;
+}
+
+// Fallback layout (e.g. 'Islamic Traditional'). Kept as its own component so its hooks
+// always run in the same order, regardless of which theme the dispatcher above picks.
+function GenericReligiousLayout({ website, content }: { website: any, content: any }) {
+  const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const religiousData = content?.settings_json?.religious_event || {};
   
   // Theme color mapping based on business_type and theme
@@ -108,7 +121,7 @@ export default function ReligiousEventTheme({ website, content }: { website: any
   // order based on sections array
   const orderedSections = sections.filter((s:any) => s.visible).map((s:any) => s.id === 'donations' ? 'programs' : s.id);
   // default order if sections is empty
-  let renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
+  const renderOrder = orderedSections.length > 0 ? orderedSections : ['hero', 'about', 'leaders', 'schedule', 'programs', 'gallery', 'contact'];
 
   // Ensure 'leaders' is injected if it's missing from a previously saved layout
   if (orderedSections.length > 0 && !orderedSections.includes('leaders')) {

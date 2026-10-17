@@ -1,6 +1,5 @@
 import React from 'react';
-import { Hammer, Wrench, ShieldCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Hammer, Wrench } from 'lucide-react';
 
 export default function MaintenancePage() {
   return (

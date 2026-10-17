@@ -1,3 +1,4 @@
+import ThemeThumbnail from '../../components/themes/invitation-modern/ThemeThumbnail';
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
@@ -10,7 +11,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { getWebsiteUrl } from '../../utils/url';
 
 import NotificationsPage from './NotificationsPage';
-import { categoryThemes, getThemeThumbnail } from '../../utils/templateData';
+import { categoryThemes } from '../../utils/templateData';
 import TemplateBuilderModal from '../../components/modals/TemplateBuilderModal';
 
 interface AdminUser {
@@ -1000,12 +1001,7 @@ export default function AdminDashboard() {
                       .map((item, idx) => (
                         <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all">
                           <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative border-b border-slate-100">
-                            <img 
-                              src={getThemeThumbnail(item.theme, item.category)} 
-                              alt={item.theme}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                              loading="lazy"
-                            />
+                            <ThemeThumbnail theme={item.theme} category={item.category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={(e) => {

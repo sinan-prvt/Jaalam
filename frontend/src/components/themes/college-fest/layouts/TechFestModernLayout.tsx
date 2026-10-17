@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, Ticket, Users, Zap, Mail, Phone, ExternalLink, Power, MessageCircle, Camera, Heart, Star, Sparkles, Flame, Play, Pause } from 'lucide-react';
+import { Calendar, MapPin, Ticket, Zap, Mail, Phone, ExternalLink, Power, Heart, Star, Sparkles, Flame, Play, Pause } from 'lucide-react';
 import useScrollReveal from '../../../../hooks/useScrollReveal';
 
 const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (

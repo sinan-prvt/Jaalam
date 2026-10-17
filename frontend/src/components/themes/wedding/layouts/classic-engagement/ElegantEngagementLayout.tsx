@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MapPin, Sparkles, Diamond, ChevronDown, Volume2, VolumeX } from 'lucide-react';
+import { Heart, Diamond, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 

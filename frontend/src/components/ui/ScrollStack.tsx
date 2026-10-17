@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useRef, useCallback } from 'react';
-import Lenis from 'lenis';
 
 interface ScrollStackItemProps {
   children: React.ReactNode;

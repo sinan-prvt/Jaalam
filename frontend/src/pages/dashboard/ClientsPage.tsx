@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Users, Plus, Mail, User, Shield, Lock, Loader2, Link, Edit2, Trash2 } from 'lucide-react';
+import { Users, Plus, Mail, User, Shield, Lock, Loader2, Edit2, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 

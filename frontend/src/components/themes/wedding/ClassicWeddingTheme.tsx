@@ -1,15 +1,58 @@
-import React from 'react';
+import React, { lazy } from 'react';
 
-import { ClassicLayout, ModernLayout, FloralLayout, MinimalLayout, ElegantLayout, VibrantElegantLayout } from './layouts/general';
-import { ChristianRoseFloralLayout, ChristianClassicLayout, ChristianModernChapelLayout, ChristianMinimalistCrossLayout, ChristianElegantLaceLayout } from './layouts/christian';
-import { EngagementClassicLayout, EngagementModernLayout, EngagementFloralLayout, EngagementMinimalLayout, EngagementElegantLayout } from './layouts/engagement';
-import { SouthIndianLayout, TempleMinimalLayout, SouthIndianRoyalLayout, SouthIndianMintLayout, SilkTraditionalLayout } from './layouts/south-indian';
-import { KeralaTraditionalLayout, KeralaModernLayout, BackwaterFloralLayout, GodsOwnMinimalLayout, TraditionalElegantLayout } from './layouts/kerala-traditional';
-import { RoyalNikkahLayout, ModernIslamicLayout, EmeraldFloralLayout, MinimalistArabesqueLayout, ElegantGoldenLayout } from './layouts/islamic';
-import { PunjabiRoyalLayout, PunjabiVibrantModernLayout, PunjabiBhangraFloralLayout, PunjabiSikhMinimalLayout, PunjabiGoldenElegantLayout } from './layouts/punjabi-traditional';
-import { BengaliClassicLayout, BengaliRedGoldModernLayout, BengaliLotusFloralLayout, BengaliMinimalistSindoorLayout } from './layouts/bengali-traditional';
-import { ClassicEngagementLayout, FloralEngagementLayout, MinimalEngagementLayout, ElegantEngagementLayout, TraditionalEngagementLayout } from './layouts/classic-engagement';
-import { ModernEngagementLayout, MinimalModernEngagementLayout, PopModernEngagementLayout, ClassicModernEngagementLayout, ElegantModernEngagementLayout } from './layouts/modern-engagement';
+import { ModernInvitationTheme, getModernInvitationStyle } from '../invitation-modern';
+
+// Layouts load on demand so a site only downloads the one it renders.
+const ClassicLayout = lazy(() => import('./layouts/general/ClassicLayout'));
+const ModernLayout = lazy(() => import('./layouts/general/ModernLayout'));
+const FloralLayout = lazy(() => import('./layouts/general/FloralLayout'));
+const MinimalLayout = lazy(() => import('./layouts/general/MinimalLayout'));
+const ElegantLayout = lazy(() => import('./layouts/general/ElegantLayout'));
+const VibrantElegantLayout = lazy(() => import('./layouts/general/VibrantElegantLayout'));
+const ChristianRoseFloralLayout = lazy(() => import('./layouts/christian/ChristianRoseFloralLayout'));
+const ChristianClassicLayout = lazy(() => import('./layouts/christian/ChristianClassicLayout'));
+const ChristianModernChapelLayout = lazy(() => import('./layouts/christian/ChristianModernChapelLayout'));
+const ChristianMinimalistCrossLayout = lazy(() => import('./layouts/christian/ChristianMinimalistCrossLayout'));
+const ChristianElegantLaceLayout = lazy(() => import('./layouts/christian/ChristianElegantLaceLayout'));
+const EngagementClassicLayout = lazy(() => import('./layouts/engagement/EngagementClassicLayout'));
+const EngagementModernLayout = lazy(() => import('./layouts/engagement/EngagementModernLayout'));
+const EngagementFloralLayout = lazy(() => import('./layouts/engagement/EngagementFloralLayout'));
+const EngagementMinimalLayout = lazy(() => import('./layouts/engagement/EngagementMinimalLayout'));
+const EngagementElegantLayout = lazy(() => import('./layouts/engagement/EngagementElegantLayout'));
+const SouthIndianLayout = lazy(() => import('./layouts/south-indian/SouthIndianLayout'));
+const TempleMinimalLayout = lazy(() => import('./layouts/south-indian/TempleMinimalLayout'));
+const SouthIndianRoyalLayout = lazy(() => import('./layouts/south-indian/SouthIndianRoyalLayout'));
+const SouthIndianMintLayout = lazy(() => import('./layouts/south-indian/SouthIndianMintLayout'));
+const SilkTraditionalLayout = lazy(() => import('./layouts/south-indian/SilkTraditionalLayout'));
+const KeralaTraditionalLayout = lazy(() => import('./layouts/kerala-traditional/KeralaTraditionalLayout'));
+const KeralaModernLayout = lazy(() => import('./layouts/kerala-traditional/KeralaModernLayout'));
+const BackwaterFloralLayout = lazy(() => import('./layouts/kerala-traditional/BackwaterFloralLayout'));
+const GodsOwnMinimalLayout = lazy(() => import('./layouts/kerala-traditional/GodsOwnMinimalLayout'));
+const TraditionalElegantLayout = lazy(() => import('./layouts/kerala-traditional/TraditionalElegantLayout'));
+const RoyalNikkahLayout = lazy(() => import('./layouts/islamic/RoyalNikkahLayout'));
+const ModernIslamicLayout = lazy(() => import('./layouts/islamic/ModernIslamicLayout'));
+const EmeraldFloralLayout = lazy(() => import('./layouts/islamic/EmeraldFloralLayout'));
+const MinimalistArabesqueLayout = lazy(() => import('./layouts/islamic/MinimalistArabesqueLayout'));
+const ElegantGoldenLayout = lazy(() => import('./layouts/islamic/ElegantGoldenLayout'));
+const PunjabiRoyalLayout = lazy(() => import('./layouts/punjabi-traditional/PunjabiRoyalLayout'));
+const PunjabiVibrantModernLayout = lazy(() => import('./layouts/punjabi-traditional/PunjabiVibrantModernLayout'));
+const PunjabiBhangraFloralLayout = lazy(() => import('./layouts/punjabi-traditional/PunjabiBhangraFloralLayout'));
+const PunjabiSikhMinimalLayout = lazy(() => import('./layouts/punjabi-traditional/PunjabiSikhMinimalLayout'));
+const PunjabiGoldenElegantLayout = lazy(() => import('./layouts/punjabi-traditional/PunjabiGoldenElegantLayout'));
+const BengaliClassicLayout = lazy(() => import('./layouts/bengali-traditional/BengaliClassicLayout'));
+const BengaliRedGoldModernLayout = lazy(() => import('./layouts/bengali-traditional/BengaliRedGoldModernLayout'));
+const BengaliLotusFloralLayout = lazy(() => import('./layouts/bengali-traditional/BengaliLotusFloralLayout'));
+const BengaliMinimalistSindoorLayout = lazy(() => import('./layouts/bengali-traditional/BengaliMinimalistSindoorLayout'));
+const ClassicEngagementLayout = lazy(() => import('./layouts/classic-engagement/ClassicEngagementLayout'));
+const FloralEngagementLayout = lazy(() => import('./layouts/classic-engagement/FloralEngagementLayout'));
+const MinimalEngagementLayout = lazy(() => import('./layouts/classic-engagement/MinimalEngagementLayout'));
+const ElegantEngagementLayout = lazy(() => import('./layouts/classic-engagement/ElegantEngagementLayout'));
+const TraditionalEngagementLayout = lazy(() => import('./layouts/classic-engagement/TraditionalEngagementLayout'));
+const ModernEngagementLayout = lazy(() => import('./layouts/modern-engagement/ModernEngagementLayout'));
+const MinimalModernEngagementLayout = lazy(() => import('./layouts/modern-engagement/MinimalModernEngagementLayout'));
+const PopModernEngagementLayout = lazy(() => import('./layouts/modern-engagement/PopModernEngagementLayout'));
+const ClassicModernEngagementLayout = lazy(() => import('./layouts/modern-engagement/ClassicModernEngagementLayout'));
+const ElegantModernEngagementLayout = lazy(() => import('./layouts/modern-engagement/ElegantModernEngagementLayout'));
 
 interface ClassicWeddingThemeProps {
   content?: any;
@@ -22,6 +65,15 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const theme = website?.theme || 'Classic';
   const category = website?.business_type || 'Wedding Invitation';
+
+  const modernStyle = getModernInvitationStyle(theme);
+  if (modernStyle) {
+    return <ModernInvitationTheme family="wedding" style={modernStyle} website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
+  }
+  // Bengali "Elegant Traditional" has no dedicated layout file; it uses the Bengali Heritage style.
+  if (category === 'Bengali Wedding' && theme.toLowerCase().includes('elegant traditional')) {
+    return <ModernInvitationTheme family="wedding" style="Heritage" website={website} content={content} isEditor={isEditor} updateContent={updateContent} />;
+  }
 
   // 1. Set base colors and background based on Category (business_type)
   let bgClass = "bg-[#fdfbf7]";
@@ -129,7 +181,7 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
     baseTheme = 'EmeraldFloral';
   } else if (t.includes('modern islamic') || t.includes('modern_islamic')) {
     baseTheme = 'ModernIslamic';
-  } else if (t.includes('golden') || t.includes('elegant golden')) {
+  } else if ((t.includes('golden') || t.includes('elegant golden')) && category === 'Islamic Invitation') {
     baseTheme = 'ElegantGolden';
   } else if (t.includes('arabesque') || t.includes('minimalist arabesque')) {
     baseTheme = 'MinimalistArabesque';

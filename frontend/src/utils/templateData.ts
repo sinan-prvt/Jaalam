@@ -1,3 +1,5 @@
+import { MODERN_INVITATION_THEMES, getInvitePalette } from '../components/themes/invitation-modern/palettes';
+
 export const eventHierarchy: Record<string, Record<string, string[]>> = {
   'Wedding': {
     'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
@@ -119,7 +121,33 @@ export const otherEventCategories = [
   'Mosque Event', 'Church Event', 'Temple Event'
 ];
 
+export const invitationCategories = [
+  ...weddingCategories, ...birthdayCategories, ...housewarmingCategories,
+  ...collegeFestCategories, ...religiousEventCategories
+];
+
+// Every invitation category also offers the five shared modern themes
+// (Glassmorphism, Aurora Gradient, Bento Grid, Editorial, Midnight Luxe).
+const withModernThemes = (themes: string[]) => [...themes, ...MODERN_INVITATION_THEMES.filter(t => !themes.includes(t))];
+Object.values(eventHierarchy).forEach(subCategories => {
+  Object.keys(subCategories).forEach(cat => { subCategories[cat] = withModernThemes(subCategories[cat]); });
+});
+invitationCategories.forEach(cat => {
+  if (categoryThemes[cat]) categoryThemes[cat] = withModernThemes(categoryThemes[cat]);
+});
+
 export const getThemeThumbnail = (theme: string, businessType?: string) => {
+  const isInvitation = !!businessType && invitationCategories.includes(businessType);
+  const invitationImage = isInvitation ? getInvitePalette(businessType).image.replace('w=1920', 'w=800') : '';
+  const modernTint: Record<string, string> = {
+    'Glassmorphism': '&exp=-10',
+    'Aurora Gradient': '&sat=40',
+    'Bento Grid': '',
+    'Editorial': '&sat=-60',
+    'Midnight Luxe': '&bri=-30'
+  };
+  if (isInvitation && theme in modernTint) return invitationImage + modernTint[theme];
+
   // Generic mapping by business type to provide fallback defaults
   const defaults: Record<string, string> = {
     'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
@@ -274,6 +302,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
   if (businessType && defaults[businessType]) {
     return defaults[businessType];
   }
+  if (invitationImage) return invitationImage;
 
   // Final fallback
   if (businessType?.includes('Salon') || businessType?.includes('Saloon')) return defaults['Salon'];

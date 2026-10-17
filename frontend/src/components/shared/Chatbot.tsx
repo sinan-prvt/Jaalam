@@ -12,7 +12,6 @@ interface Message {
 }
 
 export default function Chatbot({ content }: ChatbotProps) {
-  if (content?.settings_json?.show_chatbot === false) return null;
   const iconStyle = content?.settings_json?.chatbot_icon_style || 'modern';
   const modalStyle = content?.settings_json?.chatbot_modal_style || 'professional';
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +29,9 @@ export default function Chatbot({ content }: ChatbotProps) {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isTyping, isOpen]);
+
+  // Checked after the hooks so toggling the chatbot in the editor doesn't change the hook order.
+  if (content?.settings_json?.show_chatbot === false) return null;
 
   const generateMockResponse = (query: string): string => {
     if (!content) return "I'm sorry, I don't have enough information right now.";
