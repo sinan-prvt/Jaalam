@@ -116,6 +116,7 @@ export default function FirstClassicLayout({ content }: BirthdayLayoutProps) {
             position: absolute;
             inset: 4px;
             border: 1px solid rgba(193, 154, 107, 0.5);
+            pointer-events: none; /* decorative only: let clicks reach the RSVP inputs */
           }
           .storybook-page {
             transform-origin: left center;
