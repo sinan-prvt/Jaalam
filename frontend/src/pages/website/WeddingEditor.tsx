@@ -6,7 +6,7 @@ import type { RootState } from '../../store';
 import {
   Save, ArrowLeft, Heart, BookOpen, Clock,
   MapPin, Share2, Eye, Smartphone, Monitor, Palette, Users, LayoutList, ArrowUp, ArrowDown, EyeOff, Lock,
-  Image as ImageIcon, Music as MusicIcon, Hourglass, Upload, Megaphone, Bot, Globe
+  Image as ImageIcon, Music as MusicIcon, Hourglass, Upload
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
@@ -231,9 +231,6 @@ export default function WeddingEditor() {
     { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
     { id: 'music', icon: <MusicIcon size={16} />, label: 'Music' },
     { id: 'countdown', icon: <Hourglass size={16} />, label: 'Countdown' },
-    { id: 'bot', icon: <Bot size={16} />, label: 'Bot' },
-    { id: 'languages', icon: <Globe size={16} />, label: 'Languages' },
-    { id: 'cta', icon: <Megaphone size={16} />, label: 'CTA' },
     { id: 'layout', icon: <LayoutList size={16} />, label: 'Layout' },
     { id: 'share', icon: <Share2 size={16} />, label: 'Share' },
   ];
@@ -338,223 +335,10 @@ export default function WeddingEditor() {
 
         {/* Forms */}
         <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
-          {activeTab === 'bot' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
-              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-slate-800">AI Chatbot</h3>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={content.settings_json?.show_chatbot ?? true}
-                      onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_chatbot: e.target.checked } })}
-                    />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                  </label>
-                </div>
-                <p className="text-xs text-slate-500 mb-4">Enable an AI support assistant for your visitors.</p>
-
-                <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Bot Icon Style</label>
-                    <select
-                      value={content.settings_json?.chatbot_icon_style || 'modern'}
-                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), chatbot_icon_style: e.target.value } })}
-                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
-                    >
-                      <option value="modern">Modern Dark</option>
-                      <option value="gradient">Gradient Glow</option>
-                      <option value="light">Clean Light</option>
-                      <option value="custom1">Purple Square Bot</option>
-                      <option value="custom2">Cyan Eyes Robot</option>
-                      <option value="custom3">Simple Outline Bot</option>
-                      <option value="custom4">3D Floating Robot</option>
-                      <option value="custom5">Headset Robot</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Modal Style</label>
-                    <select
-                      value={content.settings_json?.chatbot_modal_style || 'professional'}
-                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), chatbot_modal_style: e.target.value } })}
-                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
-                    >
-                      <option value="professional">Professional Clean</option>
-                      <option value="glassmorphic">Glassmorphic Modern</option>
-                      <option value="playful">Playful Rounded</option>
-                      <option value="cyberpunk">Dark Cyberpunk</option>
-                      <option value="minimalist">Minimalist Monochrome</option>
-                      <option value="pastel">Soft Pastel</option>
-                      <option value="neumorphic">Neumorphic 3D</option>
-                      <option value="elegant">Elegant Luxury</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
 
 
-          {activeTab === 'languages' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
-              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-slate-800">Website Translation</h3>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={content.settings_json?.show_language_widget ?? true}
-                      onChange={(e) => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_language_widget: e.target.checked } })}
-                    />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                  </label>
-                </div>
-                <p className="text-xs text-slate-500 mb-4">Select the languages you want to offer your visitors.</p>
 
-                <div className="grid grid-cols-2 gap-3">
-                  {['en', 'ml', 'ar', 'hi'].map(lang => (
-                    <label key={lang} className="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
-                        checked={(content.settings_json?.languages || ['en', 'ml']).includes(lang)}
-                        onChange={(e) => {
-                          let currentLangs = [...(content.settings_json?.languages || ['en', 'ml'])];
-                          if (e.target.checked) {
-                            if (!currentLangs.includes(lang)) currentLangs.push(lang);
-                          } else {
-                            currentLangs = currentLangs.filter(l => l !== lang);
-                            if (currentLangs.length === 0) currentLangs = ['en'];
-                          }
-                          setContent({ ...content, settings_json: { ...(content.settings_json || {}), languages: currentLangs } });
-                        }}
-                      />
-                      <span className="font-bold text-sm text-slate-700">
-                        {lang === 'en' ? 'English' : lang === 'ml' ? 'Malayalam' : lang === 'hi' ? 'Hindi' : lang === 'ar' ? 'Arabic' : lang}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="pt-6 border-t border-slate-100 mt-4 space-y-4">
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Appearance</label>
-                    <select
-                      value={content.settings_json?.language_widget_appearance || 'full'}
-                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), language_widget_appearance: e.target.value } })}
-                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
-                    >
-                      <option value="full">Full Style (Icon + Text)</option>
-                      <option value="icon">Icon Only</option>
-                      <option value="short">Short Text (e.g. EN)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Widget Position</label>
-                    <select
-                      value={content.settings_json?.language_widget_style || 'bottom-center'}
-                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), language_widget_style: e.target.value } })}
-                      className="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none font-bold text-sm cursor-pointer focus:ring-2 focus:ring-indigo-500/20"
-                    >
-                      <option value="bottom-center">Bottom Center</option>
-                      <option value="center-right">Center Right</option>
-                      <option value="center-left">Center Left</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'cta' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
-              <div className="bg-white/50 p-5 rounded-2xl border border-white shadow-sm space-y-4">
-                <h3 className="font-bold text-slate-800">Call to Action (CTA)</h3>
-
-
-                <div className="flex flex-col p-3 bg-white border border-slate-100 rounded-xl mb-4 space-y-3">
-                  <div>
-                    <div className="font-bold text-sm text-slate-700">Floating Button Style</div>
-                    <div className="text-xs text-slate-500 mb-2">Choose the appearance of the floating buttons</div>
-                    <select
-                      value={content.settings_json?.cta_style || 'style1'}
-                      onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), cta_style: e.target.value } })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-100 rounded-lg outline-none font-bold text-sm cursor-pointer"
-                    >
-                      <option value="style1">Classic Rounded</option>
-                      <option value="style2">Neon Glow Effect</option>
-                      <option value="style3">Glassmorphism Card</option>
-                      <option value="style4">Floating Pill with Text</option>
-                      <option value="style5">Minimal Outlined</option>
-                      <option value="style6">Soft Shadows (Neumorphism)</option>
-                      <option value="style7">Dynamic Expanding</option>
-                      <option value="style8">Monotone B&W</option>
-                      <option value="style9">Gradient Bubble</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex flex-col p-3 bg-white border border-slate-100 rounded-xl space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-bold text-sm text-slate-700">Floating WhatsApp Button</div>
-                      <div className="text-xs text-slate-500">Show a floating WhatsApp icon for quick chat</div>
-                    </div>
-                    <button
-                      onClick={() => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_whatsapp_float: !(content.settings_json?.show_whatsapp_float ?? true) } })}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${content.settings_json?.show_whatsapp_float ?? true ? 'bg-indigo-600' : 'bg-slate-300'}`}
-                    >
-                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${content.settings_json?.show_whatsapp_float ?? true ? 'translate-x-6' : 'translate-x-1'}`} />
-                    </button>
-                  </div>
-                  {(content.settings_json?.show_whatsapp_float ?? true) && (
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">WhatsApp Number</label>
-                      <input
-                        type="text"
-                        value={content.settings_json?.cta_whatsapp_number || content.contact_info?.whatsapp || ''}
-                        onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), cta_whatsapp_number: e.target.value } })}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-100 rounded-lg outline-none font-bold text-sm"
-                        placeholder="+1234567890"
-                      />
-                      <p className="text-[9px] text-slate-400 mt-1">Leave empty to use main contact WhatsApp</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex flex-col p-3 bg-white border border-slate-100 rounded-xl space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-bold text-sm text-slate-700">Floating Phone Button</div>
-                      <div className="text-xs text-slate-500">Show a floating Phone icon for quick calls</div>
-                    </div>
-                    <button
-                      onClick={() => setContent({ ...content, settings_json: { ...(content.settings_json || {}), show_phone_float: !(content.settings_json?.show_phone_float ?? true) } })}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${content.settings_json?.show_phone_float ?? true ? 'bg-indigo-600' : 'bg-slate-300'}`}
-                    >
-                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${content.settings_json?.show_phone_float ?? true ? 'translate-x-6' : 'translate-x-1'}`} />
-                    </button>
-                  </div>
-                  {(content.settings_json?.show_phone_float ?? true) && (
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Phone Number</label>
-                      <input
-                        type="text"
-                        value={content.settings_json?.cta_phone_number || content.contact_info?.phone || ''}
-                        onChange={e => setContent({ ...content, settings_json: { ...(content.settings_json || {}), cta_phone_number: e.target.value } })}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-100 rounded-lg outline-none font-bold text-sm"
-                        placeholder="+1234567890"
-                      />
-                      <p className="text-[9px] text-slate-400 mt-1">Leave empty to use main contact Phone</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
 
           {activeTab === 'theme' && (
             <div className="space-y-6 animate-in fade-in">

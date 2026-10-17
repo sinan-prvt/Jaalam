@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Phone, Mail, MapPin, CreditCard } from 'lucide-react';
 import { RestaurantTheme, CafeTheme, SalonTheme, SalonTheme2, ModernSaloonTheme, VintageBarberTheme, RoyalSaloonTheme, HardcoreIronTheme, ZenYogaTheme, CrossFitTheme, LuxuryClubTheme, CombatGymTheme, BoutiqueTheme, MinimalistTheme, StreetwearTheme, TechGadgetTheme, OrganicStoreTheme, ModernStationeryTheme, ClassicStationeryTheme, PlayfulStationeryTheme, MinimalStationeryTheme, EtherealStationeryTheme, ModernFancyTheme, BoutiqueFancyTheme, MinimalFancyTheme, LuxuryFancyTheme, PlayfulFancyTheme, ClassicFancyTheme, NoirFancyTheme, PopFancyTheme, ModernMeatTheme, ClassicMeatTheme, PremiumMeatTheme, MinimalMeatTheme, RusticMeatTheme, PlayfulMeatTheme, ModernScrapTheme, ClassicScrapTheme, MinimalScrapTheme, CorporateScrapTheme, EcoScrapTheme, PlayfulScrapTheme, ModernGroceryTheme, ClassicGroceryTheme, PremiumGroceryTheme, MinimalGroceryTheme, OrganicGroceryTheme, PlayfulGroceryTheme, NoirGroceryTheme, PopGroceryTheme, ModernTextilesTheme, BoutiqueTextilesTheme, MinimalTextilesTheme, LuxuryTextilesTheme, VintageTextilesTheme, PlayfulTextilesTheme, LuxuryVillasTheme, UrbanApartmentsTheme, CommercialTheme, ModernRealEstateTheme, MinimalRealEstateTheme, ClassicRealEstateTheme, CorporateConsultingTheme, CreativeAgencyTheme, TechStartupTheme, ManagementConsultingTheme, MinimalConsultingTheme, LegalFirmTheme, ModernOtherTheme, ClassicOtherTheme, MinimalOtherTheme, NoirOtherTheme, PopOtherTheme, CorporateOtherTheme, ClassicWeddingTheme, BirthdayTheme, HousewarmingTheme, CollegeFestTheme, ReligiousEventTheme } from '../../components/themes/lazyThemes';
 
-import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, invitationCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
 import SEOHead from '../../components/seo/SEOHead';
@@ -463,21 +463,26 @@ export default function PublicWebsite() {
         {renderTheme()}
       </Suspense>
 
-      <Chatbot content={content} />
+      {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
+      {!invitationCategories.includes(website?.business_type) && (
+        <>
+          <Chatbot content={content} />
 
-      <FloatingContactButtons 
-        phone={content?.settings_json?.cta_phone_number || content?.contact_info?.phone} 
-        whatsapp={content?.settings_json?.cta_whatsapp_number || content?.contact_info?.whatsapp} 
-        showWhatsapp={content?.settings_json?.show_whatsapp_float ?? true}
-        showPhone={content?.settings_json?.show_phone_float ?? true}
-        style={content?.settings_json?.cta_style}
-      />
-      {(content?.settings_json?.show_language_widget ?? true) && (
-        <LanguageTranslator 
-          languages={content?.settings_json?.languages}
-          widgetStyle={content?.settings_json?.language_widget_style}
-          widgetAppearance={content?.settings_json?.language_widget_appearance}
-        />
+          <FloatingContactButtons 
+            phone={content?.settings_json?.cta_phone_number || content?.contact_info?.phone} 
+            whatsapp={content?.settings_json?.cta_whatsapp_number || content?.contact_info?.whatsapp} 
+            showWhatsapp={content?.settings_json?.show_whatsapp_float ?? true}
+            showPhone={content?.settings_json?.show_phone_float ?? true}
+            style={content?.settings_json?.cta_style}
+          />
+          {(content?.settings_json?.show_language_widget ?? true) && (
+            <LanguageTranslator 
+              languages={content?.settings_json?.languages}
+              widgetStyle={content?.settings_json?.language_widget_style}
+              widgetAppearance={content?.settings_json?.language_widget_appearance}
+            />
+          )}
+        </>
       )}
 
       {upiId && (
