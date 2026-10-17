@@ -6,11 +6,11 @@ import {
 } from 'lucide-react';
 import { triggerConfettiPopper } from '../../../utils/confettiPopper';
 import { buildInviteData, type InviteData, type InviteFamily } from './adapters';
-import { getInvitePalette, type InviteIcon, type ModernInvitationStyle } from './palettes';
+import { getInvitePalette, type InviteIcon, type InvitationStyle } from './palettes';
 
 interface ModernInvitationThemeProps {
   family: InviteFamily;
-  style: ModernInvitationStyle;
+  style: InvitationStyle;
   content?: any;
   website?: any;
 }
@@ -29,7 +29,7 @@ interface Skin {
   align: 'center' | 'left';
 }
 
-const SKINS: Record<ModernInvitationStyle, Skin> = {
+const SKINS: Record<InvitationStyle, Skin> = {
   Glassmorphism: {
     dark: true,
     root: 'bg-[#07070c] text-white font-sans',
@@ -82,6 +82,19 @@ const SKINS: Record<ModernInvitationStyle, Skin> = {
     accentText: 'text-(--acc)',
     align: 'left',
   },
+  Heritage: {
+    dark: false,
+    root: 'bg-[#fbf3e4] text-[#3b0d0c] font-sans',
+    section: 'relative py-20 md:py-28 px-5 md:px-8',
+    card: 'rounded-2xl bg-white/70 border border-(--acc2)/50 shadow-[0_10px_30px_-15px_rgba(127,29,29,0.35)]',
+    heading: "font-['Playfair_Display'] text-4xl md:text-6xl text-(--acc)",
+    eyebrow: 'text-[11px] font-semibold uppercase tracking-[0.4em] text-(--acc3)',
+    muted: 'text-[#3b0d0c]/65',
+    button: 'rounded-full bg-(--acc) text-white hover:bg-(--acc3)',
+    chip: 'rounded-full border border-(--acc2)/60 bg-white/60',
+    accentText: 'text-(--acc)',
+    align: 'center',
+  },
   'Midnight Luxe': {
     dark: true,
     root: 'bg-[#0a0a0d] text-[#f3eee6] font-sans',
@@ -100,6 +113,8 @@ const SKINS: Record<ModernInvitationStyle, Skin> = {
 const ICONS: Record<InviteIcon, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>> = {
   heart: Heart, ring: Gem, gift: Gift, cake: Cake, home: Home, zap: Zap, palette: Palette, trophy: Trophy, moon: Moon, church: Church, flame: Flame,
 };
+
+const isSerif = (style: InvitationStyle) => style === 'Editorial' || style === 'Midnight Luxe' || style === 'Heritage';
 
 const digits = (s: string) => (s || '').replace(/[^\d]/g, '');
 
@@ -170,7 +185,7 @@ function useWishes(slug: string | undefined, initial: number) {
 /* Shared building blocks                                              */
 /* ------------------------------------------------------------------ */
 
-function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; style: ModernInvitationStyle; eyebrow: string; title: string; index: number }) {
+function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; style: InvitationStyle; eyebrow: string; title: string; index: number }) {
   const centered = skin.align === 'center';
   if (style === 'Editorial') {
     return (
@@ -195,11 +210,37 @@ function SectionHeading({ skin, style, eyebrow, title, index }: { skin: Skin; st
         </div>
       )}
       {style === 'Aurora Gradient' && <div className="mx-auto mt-5 h-1.5 w-20 rounded-full bg-linear-to-r from-(--acc) to-(--acc2)" />}
+      {style === 'Heritage' && (
+        <div className="mt-6 flex items-center justify-center gap-3 text-(--acc2)">
+          <span className="h-px w-16 bg-(--acc2)" />
+          <Alpona className="w-7 h-7 text-(--acc)" />
+          <span className="h-px w-16 bg-(--acc2)" />
+        </div>
+      )}
     </div>
   );
 }
 
-function Countdown({ left, skin, style }: { left: NonNullable<ReturnType<typeof useCountdown>>; skin: Skin; style: ModernInvitationStyle }) {
+// Alpona-style (Bengali floor art) motif used by the Heritage style.
+function Alpona({ className }: { className?: string }) {
+  const petals = Array.from({ length: 12 }, (_, i) => i * 30);
+  return (
+    <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.4" className={className} aria-hidden="true">
+      <circle cx="100" cy="100" r="96" />
+      <circle cx="100" cy="100" r="84" strokeDasharray="2 6" strokeLinecap="round" />
+      {petals.map((deg) => (
+        <path key={deg} transform={`rotate(${deg} 100 100)`} d="M100 22 C112 44 112 62 100 76 C88 62 88 44 100 22 Z" />
+      ))}
+      <circle cx="100" cy="100" r="22" />
+      <circle cx="100" cy="100" r="8" fill="currentColor" />
+    </svg>
+  );
+}
+
+// Red-and-gold band in the style of a Bengali saree border.
+const sareeBorder = 'h-4 w-full bg-[repeating-linear-gradient(90deg,var(--acc)_0_14px,var(--acc2)_14px_18px,var(--acc)_18px_32px,transparent_32px_36px)] border-y-2 border-(--acc2)';
+
+function Countdown({ left, skin, style }: { left: NonNullable<ReturnType<typeof useCountdown>>; skin: Skin; style: InvitationStyle }) {
   const units: [string, number][] = [['Days', left.d], ['Hours', left.h], ['Minutes', left.m], ['Seconds', left.s]];
   return (
     <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-2xl mx-auto">
@@ -208,7 +249,7 @@ function Countdown({ left, skin, style }: { left: NonNullable<ReturnType<typeof 
           key={label}
           className={`${skin.card} py-5 md:py-7 text-center ${style === 'Bento Grid' ? 'bg-zinc-900! text-white' : ''} ${style === 'Editorial' ? 'pt-4!' : ''}`}
         >
-          <div className={`text-3xl md:text-5xl font-bold tabular-nums ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display'] font-normal" : "font-['Outfit']"}`}>
+          <div className={`text-3xl md:text-5xl font-bold tabular-nums ${isSerif(style) ? "font-['Playfair_Display'] font-normal" : "font-['Outfit']"}`}>
             {String(value).padStart(2, '0')}
           </div>
           <div className={`mt-1 text-[10px] md:text-xs uppercase tracking-[0.25em] ${style === 'Bento Grid' ? 'text-white/60' : skin.muted}`}>{label}</div>
@@ -447,12 +488,41 @@ function LuxeHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
   );
 }
 
-const HEROES: Record<ModernInvitationStyle, React.ComponentType<HeroProps>> = {
+function HeritageHero({ d, skin, eyebrow, image }: HeroProps) {
+  return (
+    <section id="hero" className="relative min-h-[100svh] flex flex-col overflow-hidden">
+      <div className={sareeBorder} />
+      <div className="relative flex-1 flex flex-col items-center justify-center px-5 py-16 text-center">
+        <Alpona className="pointer-events-none absolute w-[46rem] max-w-none text-(--acc2) opacity-25 animate-[spin_120s_linear_infinite]" />
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="relative z-10 flex flex-col items-center">
+          <p className="font-['Playfair_Display'] text-2xl md:text-3xl text-(--acc)">শুভ বিবাহ</p>
+          <p className={`${skin.eyebrow} mt-3`}>{eyebrow}</p>
+          <div className="relative mt-8 w-48 h-48 md:w-60 md:h-60">
+            <Alpona className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] text-(--acc)" />
+            <Cover src={image} alt={d.title} className="relative w-full h-full rounded-full object-cover border-4 border-(--acc2) shadow-xl" />
+          </div>
+          <TitleLines d={d} className="mt-12 font-['Playfair_Display'] text-5xl md:text-7xl text-(--acc) leading-tight" joinerClass="font-['Great_Vibes'] text-(--acc2) text-4xl md:text-5xl my-1" />
+          <p className={`mt-4 text-xs md:text-sm uppercase tracking-[0.4em] ${skin.muted}`}>{d.subtitle}</p>
+          {(d.dateText || d.timeText) && (
+            <div className={`${skin.chip} mt-8 px-6 py-3 text-sm font-semibold flex flex-wrap items-center justify-center gap-x-4 gap-y-1`}>
+              {d.dateText && <span className="flex items-center gap-2"><Calendar size={15} className="text-(--acc)" />{d.dateText}</span>}
+              {d.timeText && <span className="flex items-center gap-2"><Clock size={15} className="text-(--acc)" />{d.timeText}</span>}
+            </div>
+          )}
+        </motion.div>
+      </div>
+      <div className={sareeBorder} />
+    </section>
+  );
+}
+
+const HEROES: Record<InvitationStyle, React.ComponentType<HeroProps>> = {
   Glassmorphism: GlassHero,
   'Aurora Gradient': AuroraHero,
   'Bento Grid': BentoHero,
   Editorial: EditorialHero,
   'Midnight Luxe': LuxeHero,
+  Heritage: HeritageHero,
 };
 
 /* ------------------------------------------------------------------ */
@@ -504,6 +574,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
     if (isBento) return '';
     if (style === 'Glassmorphism' || style === 'Midnight Luxe') return i % 2 ? 'bg-white/[0.02]' : '';
     if (style === 'Aurora Gradient') return i % 2 ? 'bg-white' : '';
+    if (style === 'Heritage') return i % 2 ? 'bg-[#f6e7cf]' : '';
     return i % 2 ? 'bg-[#efe8dc]' : '';
   };
 
@@ -562,9 +633,9 @@ export default function ModernInvitationTheme({ family, style, content, website 
               <Photo
                 src={p.photo || ''}
                 alt={p.name}
-                className={`w-full aspect-[4/5] ${style === 'Glassmorphism' || style === 'Aurora Gradient' ? 'rounded-2xl' : style === 'Bento Grid' ? 'rounded-[1.25rem]' : style === 'Midnight Luxe' ? 'rounded-t-full' : ''}`}
+                className={`w-full aspect-[4/5] ${style === 'Glassmorphism' || style === 'Aurora Gradient' ? 'rounded-2xl' : style === 'Bento Grid' ? 'rounded-[1.25rem]' : style === 'Midnight Luxe' ? 'rounded-t-full' : style === 'Heritage' ? 'rounded-t-full border-2 border-(--acc2)' : ''}`}
               />
-              <h3 className={`mt-5 text-2xl ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{p.name}</h3>
+              <h3 className={`mt-5 text-2xl ${isSerif(style) ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{p.name}</h3>
               {p.role && <p className={`mt-1 text-sm ${skin.muted}`}>{p.role}</p>}
             </div>
           ))}
@@ -618,10 +689,10 @@ export default function ModernInvitationTheme({ family, style, content, website 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {d.cards.map((c, i) => (
             <div key={i} className={`${skin.card} p-6 md:p-7 flex flex-col group ${isBento ? 'bg-zinc-50!' : ''}`}>
-              <span className={`w-11 h-11 flex items-center justify-center text-sm font-bold ${style === 'Editorial' || style === 'Midnight Luxe' ? 'border border-(--acc) text-(--acc)' : 'rounded-2xl bg-(--acc)/15 text-(--acc)'}`}>
+              <span className={`w-11 h-11 flex items-center justify-center text-sm font-bold ${isSerif(style) ? 'border border-(--acc) text-(--acc)' : 'rounded-2xl bg-(--acc)/15 text-(--acc)'}`}>
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <h3 className={`mt-5 text-xl ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{c.title}</h3>
+              <h3 className={`mt-5 text-xl ${isSerif(style) ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{c.title}</h3>
               {c.description && <p className={`mt-2 text-sm leading-relaxed flex-1 ${skin.muted}`}>{c.description}</p>}
               {c.meta && <span className={`mt-5 self-start ${skin.chip} px-3 py-1 text-xs font-semibold ${skin.accentText}`}>{c.meta}</span>}
             </div>
@@ -641,7 +712,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
           <div className={`${skin.card} p-6 md:p-10 flex flex-col justify-center`}>
             {d.venuePhoto && <img src={d.venuePhoto} alt={d.venueName || 'Venue'} loading="lazy" onError={hideOnError} className={`w-full aspect-video object-cover mb-6 ${skin.dark || style === 'Editorial' ? '' : 'rounded-2xl'}`} />}
             <MapPin size={24} className={skin.accentText} />
-            {d.venueName && <h3 className={`mt-4 text-2xl ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{d.venueName}</h3>}
+            {d.venueName && <h3 className={`mt-4 text-2xl ${isSerif(style) ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold"}`}>{d.venueName}</h3>}
             {d.address && d.address !== d.venueName && <p className={`mt-2 leading-relaxed ${skin.muted}`}>{d.address}</p>}
             {mapLink && (
               <a href={mapLink} target="_blank" rel="noopener noreferrer" className={`${skin.button} mt-8 self-start inline-flex items-center gap-2 px-6 py-3 font-semibold transition`}>
@@ -711,7 +782,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
             whileHover={{ scale: 1.05 }}
             onClick={sendWish}
             aria-label="Send a wish"
-            className={`w-28 h-28 md:w-32 md:h-32 flex items-center justify-center ${style === 'Editorial' || style === 'Midnight Luxe' ? 'border border-(--acc) text-(--acc) rounded-full' : 'rounded-full bg-linear-to-br from-(--acc) to-(--acc2) text-white shadow-[0_20px_50px_-10px_var(--acc)]'}`}
+            className={`w-28 h-28 md:w-32 md:h-32 flex items-center justify-center ${isSerif(style) ? 'border border-(--acc) text-(--acc) rounded-full' : 'rounded-full bg-linear-to-br from-(--acc) to-(--acc2) text-white shadow-[0_20px_50px_-10px_var(--acc)]'}`}
           >
             <Heart size={44} className="fill-current" />
           </motion.button>
@@ -765,7 +836,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
             exit={{ opacity: 0, y: '-100%' }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
             onClick={open}
-            className={`fixed inset-0 z-[60] flex flex-col items-center justify-center cursor-pointer px-6 text-center ${skin.dark ? 'bg-[#07070c] text-white' : style === 'Editorial' ? 'bg-[#f6f1e9]' : style === 'Bento Grid' ? 'bg-[#f2f2f4]' : 'bg-[#fbfaff]'}`}
+            className={`fixed inset-0 z-[60] flex flex-col items-center justify-center cursor-pointer px-6 text-center ${skin.dark ? 'bg-[#07070c] text-white' : style === 'Editorial' ? 'bg-[#f6f1e9]' : style === 'Bento Grid' ? 'bg-[#f2f2f4]' : style === 'Heritage' ? 'bg-[#fbf3e4] text-[#3b0d0c]' : 'bg-[#fbfaff]'}`}
           >
             {style === 'Aurora Gradient' && (
               <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -778,12 +849,12 @@ export default function ModernInvitationTheme({ family, style, content, website 
               <motion.div
                 animate={{ scale: [1, 1.08, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className={`w-20 h-20 flex items-center justify-center ${style === 'Editorial' || style === 'Midnight Luxe' ? 'border border-(--acc) text-(--acc) rounded-full' : style === 'Bento Grid' ? 'rounded-[1.5rem] bg-(--acc) text-white' : 'rounded-full bg-white/15 border border-white/30 backdrop-blur-xl text-(--acc) shadow-xl'}`}
+                className={`w-20 h-20 flex items-center justify-center ${isSerif(style) ? 'border border-(--acc) text-(--acc) rounded-full' : style === 'Bento Grid' ? 'rounded-[1.5rem] bg-(--acc) text-white' : 'rounded-full bg-white/15 border border-white/30 backdrop-blur-xl text-(--acc) shadow-xl'}`}
               >
                 <Icon size={32} strokeWidth={1.5} />
               </motion.div>
               <p className={`${skin.eyebrow} mt-8`}>{palette.eyebrow}</p>
-              <h2 className={`mt-4 text-4xl md:text-6xl ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold tracking-tight"}`}>{d.title}</h2>
+              <h2 className={`mt-4 text-4xl md:text-6xl ${isSerif(style) ? "font-['Playfair_Display']" : "font-['Outfit'] font-bold tracking-tight"}`}>{d.title}</h2>
               <p className={`mt-10 text-xs uppercase tracking-[0.4em] animate-pulse ${skin.dark ? 'text-white/60' : 'opacity-60'}`}>Tap to open invitation</p>
             </div>
           </motion.div>
@@ -818,7 +889,7 @@ export default function ModernInvitationTheme({ family, style, content, website 
 
       <footer className={`px-5 py-14 text-center ${isBento ? '' : skin.dark ? 'border-t border-white/10' : 'border-t border-black/10'}`}>
         <Icon size={20} className={`mx-auto ${skin.accentText}`} />
-        <p className={`mt-4 ${style === 'Editorial' || style === 'Midnight Luxe' ? "font-['Playfair_Display'] italic text-2xl" : "font-['Outfit'] text-xl font-semibold"}`}>{d.title}</p>
+        <p className={`mt-4 ${isSerif(style) ? "font-['Playfair_Display'] italic text-2xl" : "font-['Outfit'] text-xl font-semibold"}`}>{d.title}</p>
         <p className={`mt-2 text-xs uppercase tracking-[0.3em] ${skin.muted}`}>{d.dateText || palette.eyebrow}</p>
       </footer>
     </div>

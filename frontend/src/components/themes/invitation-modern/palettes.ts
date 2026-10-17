@@ -6,6 +6,9 @@ export const MODERN_INVITATION_THEMES = ['Glassmorphism', 'Aurora Gradient', 'Be
 
 export type ModernInvitationStyle = (typeof MODERN_INVITATION_THEMES)[number];
 
+// Internal styles that are not offered as a general theme choice (e.g. Bengali "Elegant Traditional").
+export type InvitationStyle = ModernInvitationStyle | 'Heritage';
+
 export const getModernInvitationStyle = (theme?: string): ModernInvitationStyle | null => {
   const t = (theme || '').trim().toLowerCase();
   return MODERN_INVITATION_THEMES.find((name) => name.toLowerCase() === t) || null;

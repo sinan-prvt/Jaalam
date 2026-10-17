@@ -28,6 +28,10 @@ export default function ClassicWeddingTheme({ content, website, updateContent, i
   if (modernStyle) {
     return <ModernInvitationTheme family="wedding" style={modernStyle} website={website} content={content} />;
   }
+  // Bengali "Elegant Traditional" has no dedicated layout file; it uses the Bengali Heritage style.
+  if (category === 'Bengali Wedding' && theme.toLowerCase().includes('elegant traditional')) {
+    return <ModernInvitationTheme family="wedding" style="Heritage" website={website} content={content} />;
+  }
 
   // 1. Set base colors and background based on Category (business_type)
   let bgClass = "bg-[#fdfbf7]";
