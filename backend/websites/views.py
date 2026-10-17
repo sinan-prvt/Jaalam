@@ -282,6 +282,37 @@ def _validate_upload(file_obj):
     return None, 'Only images (JPG, PNG, WebP, GIF) and audio (MP3, WAV, OGG, M4A) can be uploaded.'
 
 
+MAX_IMAGE_SIDE = 2000  # px; plenty for full-screen covers, and keeps invitations fast on mobile data
+
+
+def _optimize_image(file_obj, ext):
+    """Shrink big photos and re-compress them. Returns (file, ext); unchanged if not worth it."""
+    if ext == 'gif':
+        return file_obj, ext  # may be animated
+    from io import BytesIO
+    from django.core.files.base import ContentFile
+    from PIL import Image, ImageOps
+    try:
+        with Image.open(file_obj) as img:
+            img = ImageOps.exif_transpose(img)  # phone photos: apply the camera's rotation
+            if max(img.size) > MAX_IMAGE_SIDE:
+                img.thumbnail((MAX_IMAGE_SIDE, MAX_IMAGE_SIDE), Image.LANCZOS)
+            out = BytesIO()
+            if ext in ('jpg', 'jpeg'):
+                img.convert('RGB').save(out, 'JPEG', quality=82, optimize=True, progressive=True)
+            elif ext == 'webp':
+                img.save(out, 'WEBP', quality=82, method=4)
+            else:  # png
+                img.save(out, 'PNG', optimize=True)
+    except Exception:
+        file_obj.seek(0)
+        return file_obj, ext
+    if out.tell() >= file_obj.size:
+        file_obj.seek(0)
+        return file_obj, ext  # already well compressed
+    return ContentFile(out.getvalue()), ext
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 @permission_classes([permissions.IsAuthenticated])
@@ -293,8 +324,10 @@ def upload_image(request):
     ext, error = _validate_upload(file_obj)
     if error:
         return Response({'error': error}, status=400)
+    if ext in IMAGE_EXTENSIONS:
+        file_obj, ext = _optimize_image(file_obj, ext)
     filename = f"{uuid.uuid4()}.{ext}"
-    
+
     saved_path = default_storage.save(filename, file_obj)
     file_url = request.build_absolute_uri(default_storage.url(saved_path))
     

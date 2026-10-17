@@ -39,6 +39,17 @@ services:
         sync: false
       - key: DEFAULT_FROM_EMAIL
         sync: false
+      # Photo/music storage (S3-compatible, e.g. Cloudflare R2). Without these, uploads are lost on redeploy.
+      - key: AWS_STORAGE_BUCKET_NAME
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_S3_ENDPOINT_URL
+        sync: false
+      - key: AWS_S3_CUSTOM_DOMAIN
+        sync: false
       # Only needed if a frontend calls this backend directly instead of through its /api proxy
       - key: FRONTEND_ORIGINS
         sync: false

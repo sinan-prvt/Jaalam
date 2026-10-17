@@ -136,6 +136,25 @@ REST_FRAMEWORK = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Uploaded photos and music. Render's disk is wiped on every deploy, so production should use
+# S3-compatible object storage (Cloudflare R2, AWS S3, Backblaze B2, DigitalOcean Spaces...).
+# Set AWS_STORAGE_BUCKET_NAME to switch it on; without it uploads stay on local disk.
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='')
+if AWS_STORAGE_BUCKET_NAME:
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+    AWS_S3_ENDPOINT_URL = config('AWS_S3_ENDPOINT_URL', default='') or None  # R2: https://<account-id>.r2.cloudflarestorage.com
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='auto')
+    AWS_S3_CUSTOM_DOMAIN = config('AWS_S3_CUSTOM_DOMAIN', default='') or None  # public host, e.g. media.jaalam.app or pub-xxxx.r2.dev
+    AWS_QUERYSTRING_AUTH = False  # public, permanent URLs (they are stored in site content)
+    AWS_DEFAULT_ACL = None
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'public, max-age=31536000, immutable'}
+    STORAGES = {
+        'default': {'BACKEND': 'storages.backends.s3.S3Storage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    }
+
 # Razorpay settings
 # Set these in the environment (or backend/.env locally); never commit real keys.
 RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='')
