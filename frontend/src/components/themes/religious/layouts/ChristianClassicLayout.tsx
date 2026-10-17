@@ -179,7 +179,7 @@ export default function ChristianClassicLayout({ website, content }: { website: 
                     <div className="relative mb-8 w-64 h-64 p-2 border border-[#7f1d1d]/20 rounded-full transition-transform duration-500 group-hover:scale-105">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-md">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className={`w-full h-full bg-[#fefce8] flex items-center justify-center ${colors.primaryText}`}>
                             <User size={64} opacity={0.5} />

@@ -116,7 +116,7 @@ export default function MinimalMosqueLayout({ website, content }: { website: any
                   >
                     <div className="w-40 h-40 rounded-full mb-6 overflow-hidden bg-stone-100 shadow-md">
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-stone-300">
                           <span className="text-4xl font-serif">{leader.name?.charAt(0) || 'L'}</span>

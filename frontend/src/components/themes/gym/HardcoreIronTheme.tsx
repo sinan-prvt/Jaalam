@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Dumbbell, Activity, ShieldCheck, Flame, Menu, Check, Clock } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -150,8 +151,6 @@ export default function HardcoreIronTheme({ website, content }: Props) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -259,6 +258,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} />
 
         {/* Dynamic Sections */}
         {sectionOrder.map(sectionId => {
@@ -335,7 +335,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                         >
                           <div className="h-48 relative overflow-hidden">
                             {s.image ? (
-                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0" />
+                              <img loading="lazy" src={s.image || undefined} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0" />
                             ) : (
                               <div className="w-full h-full bg-black flex items-center justify-center">
                                 <Flame size={48} className="text-[#FF2A2A]" />
@@ -383,7 +383,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                             </div>
                           )}
                           <div className="w-full h-48 mb-6 overflow-hidden bg-black relative border border-white/10">
-                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 mix-blend-luminosity hover:mix-blend-normal" />
+                            <img loading="lazy" src={product.image || undefined} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300 mix-blend-luminosity hover:mix-blend-normal" />
                           </div>
                           <h3 className="hi-heading text-4xl text-white mb-2 break-words">{product.name}</h3>
                           <div className="flex items-end gap-2 mb-6 break-words">
@@ -597,7 +597,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative group overflow-hidden border-2 border-white/10 my-8">
-                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                              <img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                               <div className="absolute inset-0 bg-[#FF2A2A]/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                             </div>
                           );
@@ -665,7 +665,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               </button>
               
               <div className="h-32 sm:h-48 w-full relative shrink-0">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
               </div>
 
@@ -716,7 +716,7 @@ export default function HardcoreIronTheme({ website, content }: Props) {
               
               <div className="h-32 sm:h-48 w-full relative shrink-0">
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale mix-blend-luminosity" />
                 ) : (
                   <div className="w-full h-full bg-[#0D0D0D] flex items-center justify-center">
                     <Flame size={40} className="text-[#FF2A2A] opacity-50" />

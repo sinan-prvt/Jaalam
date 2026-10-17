@@ -4,6 +4,7 @@ import { Type, Stamp, PenTool } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function VintageStationeryTheme({ website, content }: any) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -36,8 +37,9 @@ export default function VintageStationeryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -57,7 +59,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <><section className="py-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="w-full md:w-1/2">
            <img loading="lazy" src={content.settings_json?.hero_image || content.hero_image || 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80'} alt="Vintage Desk" className="w-full h-auto rounded-none border border-[#8B7355] p-2 bg-white shadow-xl rotate-1" />
         </div>
@@ -75,6 +77,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="catalogue" className="py-20 px-6 max-w-5xl mx-auto border-t border-dashed border-[#8B7355]">
@@ -85,7 +88,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             <div key={i} className="flex gap-4 p-4 border border-[#8B7355] bg-[#F7F4F0] relative group">
               <div className="absolute top-2 right-2 opacity-20"><Stamp size={48} /></div>
               <div className="w-32 h-32 shrink-0 border border-[#8B7355] p-1 bg-white">
-                <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
+                <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter sepia contrast-125" />
               </div>
               <div className="flex flex-col justify-center z-10">
                 <h4 className="font-vintage text-xl font-bold mb-1 text-[#3E362E]">{p.name}</h4>
@@ -122,7 +125,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service: any, i: number) => (
             <div key={i} className="p-8 border border-[#8B7355] bg-[#F7F4F0] hover:bg-[#8B7355] hover:text-[#EFE9E1] transition-all cursor-pointer group text-center">
-              {service.image && <img loading="lazy" src={service.image} alt={service.title} className="w-full h-40 object-cover mb-6" />}
+              {service.image && <img loading="lazy" src={service.image || undefined} alt={service.title} className="w-full h-40 object-cover mb-6" />}
               <h4 className="font-vintage text-2xl font-bold mb-4 group-hover:text-white">{service.title || service.name}</h4>
               <p className="font-typewriter text-xs leading-relaxed group-hover:text-[#EFE9E1] text-[#5C4A3D]">{service.description}</p>
             </div>
@@ -191,7 +194,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
           </div>
           <div className="h-80 border-2 border-[#8B7355] p-2 bg-white relative shadow-inner">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.95373531550415!3d-37.81720997975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sau!4v1605677273934!5m2!1sen!2sau" 
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || siteName)}&output=embed`} 
               className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] border-0 filter sepia opacity-80" 
               allowFullScreen={false} 
               loading="lazy"
@@ -219,7 +222,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -255,7 +258,7 @@ export default function VintageStationeryTheme({ website, content }: any) {
             {/* Embedded Map */}
             <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-inner border border-gray-100 relative mt-8">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2798902705!2d-74.25986548248684!3d40.697670067823786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1689264426578!5m2!1sen!2sin" 
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || siteName)}&output=embed`} 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 

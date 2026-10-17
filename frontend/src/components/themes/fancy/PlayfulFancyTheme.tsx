@@ -5,6 +5,7 @@ import { Star, Gift, ShoppingCart, MapPin, Mail, Phone, Heart } from 'lucide-rea
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function PlayfulFancyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -30,8 +31,9 @@ export default function PlayfulFancyTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -51,7 +53,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="relative pt-20 pb-32 px-6 text-center overflow-hidden bg-gradient-to-b from-[#FFF0F5] to-purple-100">
+      <><section className="relative pt-20 pb-32 px-6 text-center overflow-hidden bg-gradient-to-b from-[#FFF0F5] to-purple-100">
         <div className="absolute top-10 left-10 text-pink-300 opacity-50 rotate-12"><Heart size={64} fill="currentColor" /></div>
         <div className="absolute bottom-10 right-10 text-yellow-300 opacity-50 -rotate-12"><Star size={80} fill="currentColor" /></div>
         
@@ -74,6 +76,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="shop" className="py-20 px-6 bg-white relative">
@@ -92,7 +95,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-purple-50 rounded-[2rem] p-4 border-4 border-purple-200 hover:border-pink-400 hover:-translate-y-2 hover:shadow-xl transition-all group">
                 <div className="aspect-square rounded-[1.5rem] overflow-hidden mb-4 bg-white relative">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 right-3 bg-yellow-400 text-white font-playful px-3 py-1 rounded-full text-sm shadow-sm rotate-12">
                     {p.price}
                   </div>
@@ -133,7 +136,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -221,7 +224,7 @@ export default function PlayfulFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

@@ -251,7 +251,7 @@ export default function ChristianModernChapelLayout({ content, website, colors }
                 <div className="w-56 h-72 sm:w-72 sm:h-96 relative mb-8 overflow-hidden rounded-[2rem] bg-slate-100 shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-slate-100 transition-all duration-700 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.1)]">
                   <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
                   {person.photo ? (
-                    <img src={person.photo} alt={person.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
+                    <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-300">
                       <Heart className="w-12 h-12 fill-slate-200" />

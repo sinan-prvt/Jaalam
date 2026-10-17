@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Sparkles, ArrowRight, X, Heart, MapPin, Mail, Droplet, Clock, MessageCircle, Phone } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -130,7 +131,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
             <>
               {/* Hero */}
               {!hiddenSections.includes('hero') && (
-                  <section key="hero" id="hero" className="min-h-[80vh] flex flex-col justify-center px-6 py-12 max-w-5xl mx-auto text-center relative">
+                  <Fragment key="hero"><section key="hero" id="hero" className="min-h-[80vh] flex flex-col justify-center px-6 py-12 max-w-5xl mx-auto text-center relative">
                     <div className="inline-flex items-center justify-center gap-2 glass-panel px-4 py-2 rounded-full font-ethereal text-xs font-bold uppercase tracking-widest text-[#8A73A6] mx-auto mb-8">
                       <Droplet size={14} /> New Collection Dropped
                     </div>
@@ -145,6 +146,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                     </p>
               )}
                   </section>
+      <ThemeStats content={content} /></Fragment>
               )}
 
               {/* About */}
@@ -352,7 +354,7 @@ export default function EtherealStationeryTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="flex-1 w-full aspect-square rounded-3xl overflow-hidden shadow-xl border-4 border-white/50">
-                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
+                            <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover filter brightness-110 saturate-50 hue-rotate-15" />
                           </div>
                         )}
                       </div>

@@ -185,7 +185,7 @@ export default function HinduFloralLayout({ website, content }: { website: any, 
                     <div className="relative mb-8 w-56 h-56 rounded-full p-2 bg-gradient-to-tr from-[#db2777] to-[#f59e0b] shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-105">
                       <div className="w-full h-full overflow-hidden rounded-full border-4 border-white bg-white">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className={`w-full h-full bg-white flex items-center justify-center ${colors.mutedText}`}>
                             <User size={64} opacity={0.2} />

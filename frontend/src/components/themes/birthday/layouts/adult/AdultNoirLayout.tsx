@@ -248,7 +248,7 @@ export function AdultNoirLayout({ content, website, updateContent, isEditor }: B
            {mapUrl && (
              <div className="w-full max-w-2xl aspect-video bg-[#111] border border-[#222] relative overflow-hidden mb-12 grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-700">
                <iframe 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x0%3A0x0!2zM!3zM!4v1600000000000!5m2!1sen!2sus" 
+                 src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`} 
                  className="absolute inset-0 w-full h-full"
                  style={{ border: 0 }}
                  allowFullScreen

@@ -868,7 +868,7 @@ export default function ReligiousEventEditor() {
           )}
 
           {/* IFRAME WRAPPER */}
-          <div className={`w-full h-full bg-white relative overflow-hidden flex flex-col ${previewDevice === 'mobile' ? 'rounded-[1.75rem]' : 'rounded-lg'}`}>
+          <div className={`w-full h-full bg-white relative overflow-hidden flex flex-col transform-gpu isolate ${previewDevice === 'mobile' ? 'rounded-[1.75rem]' : 'rounded-lg'}`}>
             <iframe ref={iframeRef} src="/_preview" className="w-full flex-1 border-0" title="Live Preview" sandbox="allow-scripts allow-same-origin" />
           </div>
         </div>

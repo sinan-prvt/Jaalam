@@ -10,13 +10,19 @@ interface ContactFormProps {
   inputStyles?: string;
 }
 
+// Defaults inherit the surrounding text color, so the form is readable on light and dark sections alike
+const ADAPTIVE_INPUT = 'bg-current/[0.04] border-current/15 text-inherit placeholder:text-current/40 focus:border-current/60 focus:bg-current/[0.07]';
+
 export default function ContactForm({
   websiteId,
-  primaryColor = 'bg-amber-600',
-  primaryColorHover = 'hover:bg-amber-700',
-  buttonShape = 'rounded-none',
-  inputStyles = 'bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white'
+  primaryColor,
+  primaryColorHover,
+  buttonShape = 'rounded-lg',
+  inputStyles = ADAPTIVE_INPUT
 }: ContactFormProps) {
+  const buttonColors = primaryColor
+    ? `${primaryColor} ${primaryColorHover || 'hover:opacity-90'} text-white`
+    : 'border border-current/70 text-inherit hover:bg-current/10';
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -41,8 +47,8 @@ export default function ContactForm({
 
   if (status === 'success') {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500 w-full">
-        <div className={`w-16 h-16 rounded-full ${primaryColor} flex items-center justify-center mb-6`}>
+      <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500 w-full max-w-2xl mx-auto">
+        <div className={`w-16 h-16 rounded-full ${primaryColor || 'bg-emerald-500'} flex items-center justify-center mb-6`}>
           <CheckCircle size={32} className="text-white" />
         </div>
         <h4 className="text-2xl font-bold mb-2">Message Sent!</h4>
@@ -58,7 +64,7 @@ export default function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full space-y-4 text-left">
+    <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto space-y-4 text-left">
       <div>
         <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5 opacity-70">Name</label>
         <input 
@@ -105,13 +111,13 @@ export default function ContactForm({
       </div>
       
       {status === 'error' && (
-        <div className="text-red-400 text-sm mt-2">Failed to send message. Please try again.</div>
+        <div className="text-red-500 text-sm mt-2">Failed to send message. Please try again.</div>
       )}
 
       <button 
         type="submit" 
         disabled={status === 'loading'}
-        className={`w-full mt-4 flex items-center justify-center gap-2 ${primaryColor} ${primaryColorHover} text-white px-6 py-4 uppercase tracking-widest text-sm font-bold transition-all disabled:opacity-50 ${buttonShape}`}
+        className={`w-full mt-4 flex items-center justify-center gap-2 ${buttonColors} px-6 py-4 uppercase tracking-widest text-sm font-bold transition-all disabled:opacity-50 ${buttonShape}`}
       >
         {status === 'loading' ? 'Sending...' : 'Send Message'}
         {status !== 'loading' && <Send size={16} />}

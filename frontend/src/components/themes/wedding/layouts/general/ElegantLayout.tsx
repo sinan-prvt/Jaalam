@@ -349,7 +349,7 @@ export default function ElegantLayout({ content, website }: WeddingLayoutProps) 
                 <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-tr from-[#D4AF37] via-[#FFF5C3] to-[#8C6D1F] mb-6 shadow-xl group-hover:scale-105 transition-transform duration-500">
                   <div className="w-full h-full rounded-full bg-[#15171F] overflow-hidden flex items-center justify-center">
                     {person.photo ? (
-                      <img src={person.photo} alt={person.name} className="w-full h-full object-cover" />
+                      <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-4xl sm:text-5xl font-black text-[#D4AF37] drop-shadow-md">{person.name.charAt(0)}</span>
                     )}

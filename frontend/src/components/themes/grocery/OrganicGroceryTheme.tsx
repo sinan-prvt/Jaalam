@@ -3,6 +3,10 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Leaf, ShoppingBag, MapPin, Mail, Phone, Sun, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
+
+const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FDFBF7', altBg: '#F2EFE6', text: '#3E4A3D', accent: '#6B8E23', headingFont: 'font-organic', bodyFont: 'font-body', radius: 'xl' };
 
 export default function OrganicGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -31,8 +35,9 @@ export default function OrganicGroceryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -66,7 +71,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6">
+      <><section className="py-16 px-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-12 max-w-6xl">
           <div className="w-full md:w-1/2">
             {!hiddenFields.includes("hero_title") && (
@@ -89,6 +94,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products */}
       <section id="market" className="py-20 px-6 bg-[#F4F1EA]">
@@ -102,7 +108,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-[#FDFBF7]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="font-body text-xs text-[#8B9A8B] uppercase tracking-wider mb-1">{p.farm}</div>
                 <h3 className="font-organic text-lg text-[#2C362B] mb-2">{p.name}</h3>
@@ -127,167 +133,24 @@ export default function OrganicGroceryTheme({ website, content }: any) {
 
 
 
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} onClick={() => setSelectedGalleryImage(img)} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer group relative">
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white font-body font-bold tracking-widest uppercase text-sm border border-white px-6 py-2 rounded-full">View</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
-      {/* Injected Contact Section */}
+      {/* Shared Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
-            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
-            <div className="flex flex-col md:flex-row gap-8 text-left">
-              <div className="flex-1 space-y-6">
-                <div className="bg-black/5 rounded-xl p-6 flex items-center gap-4">
-                  <span className="text-3xl">📞</span>
-                  <div>
-                    <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Phone</span>
-                    {!hiddenFields.includes('contact_phone') && (
-                                      <span className="font-bold text-black text-lg">{content.contact_info?.phone || '1800 123 4567'}</span>
-                                      )}
-                  </div>
-                </div>
-                <div className="bg-black/5 rounded-xl p-6 flex items-center gap-4">
-                  <span className="text-3xl">✉️</span>
-                  <div>
-                    <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Email</span>
-                    {!hiddenFields.includes('contact_email') && (
-                                      <span className="font-bold text-black text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
-                                      )}
-                  </div>
-                </div>
-                <div className="bg-black/5 rounded-xl p-6 flex items-center gap-4">
-                  <span className="text-3xl">📍</span>
-                  <div>
-                    <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-1">Address</span>
-                    {!hiddenFields.includes('contact_address') && (
-                                      <span className="font-bold text-black text-lg">{content.contact_info?.address || '123 Market Street'}</span>
-                                      )}
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
-                  <div className="bg-black/5 rounded-xl p-6">
-                    <span className="text-sm font-bold opacity-60 uppercase tracking-wider block mb-4">Follow Us</span>
-                    {!hiddenFields.includes('contact_facebook') && (
-                                      <div className="flex gap-4">
-                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">FB</a>}
-                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">IG</a>}
-                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm">TW</a>}
-                                                          </div>
-                                      )}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex-1 flex flex-col gap-6">
-                <div className="bg-black/5 rounded-xl p-6">
-                  <h3 className="font-bold text-xl mb-4 text-black flex items-center gap-2"><span>🕒</span> Opening Hours</h3>
-                  {!hiddenFields.includes('contact_hours') && (
-                                  <ul className="space-y-3 opacity-80 text-black font-medium text-sm">
-                                                      {content.contact_info?.hours ? (
-                                                        <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
-                                                      ) : (
-                                                        <>
-                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
-                                                          <li className="flex justify-between border-b border-black/10 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
-                                                          <li className="flex justify-between"><span>Sunday</span> <span className="font-bold text-[#6B8E23]">Closed</span></li>
-                                                        </>
-                                                      )}
-                                                    </ul>
-                                  )}
-                </div>
-
-                <div className="bg-white p-6 md:p-8 rounded-xl border border-[#E8E4D9]">
-                  <ContactForm 
-                    websiteId={website.id}
-                    primaryColor="bg-[#6B8E23] text-white"
-                    primaryColorHover="hover:bg-[#55711C]"
-                    inputStyles="bg-[#FDFBF7] border border-[#E8E4D9] text-[#2C362B] placeholder-[#8B9A8B] focus:border-[#6B8E23] focus:ring-1 focus:ring-[#6B8E23] rounded-lg font-body"
-                    buttonShape="font-body font-semibold rounded-full w-full transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        
-          <div className="container mx-auto max-w-4xl mt-12">
-            <div className="w-full h-80 rounded-2xl overflow-hidden border border-[#E8E4D9] shadow-sm relative bg-[#FDFBF7] p-2">
-              {!hiddenFields.includes('contact_address') && (
-                          <iframe
-                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                                          width="100%"
-                                          height="100%"
-                                          style={{ border: 0, borderRadius: '1rem' }}
-                                          allowFullScreen={false}
-                                          loading="lazy"
-                                          title="Store Location"
-                                          className="absolute inset-0 w-full h-full filter sepia-[0.3]"
-                                        ></iframe>
-                          )}
-            </div>
-          </div>
-        </section>
+        <ThemeContact content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('contact') + 1} websiteId={website.id} />
       )}
 
       {/* Dynamic Custom Section */}
@@ -297,7 +160,7 @@ export default function OrganicGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

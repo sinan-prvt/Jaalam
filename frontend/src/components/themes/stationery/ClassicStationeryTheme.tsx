@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Feather, MapPin, Mail, Phone, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function ClassicStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -96,7 +97,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
         <>
           {/* Hero */}
           {!hiddenSections.includes('hero') && (
-              <section key="hero" id="hero" className="py-24 px-6">
+              <Fragment key="hero"><section key="hero" id="hero" className="py-24 px-6">
                 <div className="container mx-auto max-w-4xl text-center">
                   {!hiddenFields.includes("hero_title") && (
               <h1 className="font-classic text-5xl md:text-6xl font-bold mb-6 text-[#2C241E] leading-tight">
@@ -109,6 +110,7 @@ export default function ClassicStationeryTheme({ website, content }: any) {
                   <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80'} alt="Classic Stationery" className="w-full h-96 object-cover shadow-2xl border-4 border-white" />
                 </div>
               </section>
+      <ThemeStats content={content} /></Fragment>
           )}
 
           {/* About */}

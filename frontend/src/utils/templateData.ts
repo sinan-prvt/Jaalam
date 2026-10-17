@@ -1,4 +1,5 @@
 import { MODERN_INVITATION_THEMES, getInvitePalette } from '../components/themes/invitation-modern/palettes';
+import { MOTION_PRESETS, MOTION_THEME_NAMES } from '../components/themes/motion/presets';
 
 export const eventHierarchy: Record<string, Record<string, string[]>> = {
   'Wedding': {
@@ -41,18 +42,19 @@ export const eventHierarchy: Record<string, Record<string, string[]>> = {
 };
 
 export const categoryThemes: Record<string, string[]> = {
-  'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill'],
-  'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'App Style', 'Boutique'],
-  'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty'],
-  'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym'],
-  'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store'],
-  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal'],
-  'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic'],
-  'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal', 'Playful', 'Rustic'],
-  'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful'],
-  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful'],
-  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic'],
-  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm'],
+  'Restaurant': ['Fine Dining', 'Casual Eats', 'Bistro', 'Vegan Cafe', 'Seafood Grill', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Cafe / Bakery': ['Cozy Cafe', 'Modern Bakery', 'Artisan', 'App Style', 'Boutique', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Salon / Spa': ['Classic Barbershop', 'Modern Saloon', 'Vintage Barber', 'Royal Saloon', 'Glamour Beauty', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Gym / Fitness': ['Hardcore Iron', 'Zen Yoga Studio', 'CrossFit Box', 'Luxury Health Club', 'Combat & MMA Gym', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Retail Store': ['Boutique', 'Minimalist', 'Streetwear', 'Tech Gadget', 'Organic Store', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Stationery / Books': ['Modern', 'Classic', 'Playful', 'Minimal', 'Ethereal', 'Premium', 'Vintage', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Fancy Store': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Playful', 'Classic', 'Noir', 'Pop', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Chicken / Meat Stall': ['Modern', 'Classic', 'Premium', 'Minimal', 'Playful', 'Rustic', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Scrap Dealer': ['Modern', 'Classic', 'Minimal', 'Corporate', 'Eco', 'Playful', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Supermarket / Grocery': ['Modern', 'Classic', 'Premium', 'Minimal', 'Organic', 'Playful', 'Noir', 'Pop', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Textiles / Garments': ['Modern', 'Boutique', 'Minimal', 'Luxury', 'Vintage', 'Playful', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Real Estate': ['Luxury Villas', 'Urban Apartments', 'Commercial', 'Modern', 'Minimal', 'Classic', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
+  'Consulting': ['Corporate', 'Creative Agency', 'Tech Startup', 'Management', 'Minimal', 'Legal Firm', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion'],
   'Wedding Invitation': ['Classic', 'Modern', 'Floral', 'Minimal', 'Elegant'],
   'Islamic Invitation': ['Royal Nikkah', 'Modern Islamic', 'Emerald Floral', 'Minimalist Arabesque', 'Elegant Golden'],
   'South Indian Wedding': ['Mint Umbrella Traditional', 'South Indian Royal', 'Silk Traditional', 'Golden Modern', 'Starlight Romance', 'Peacock Elegance'],
@@ -89,7 +91,7 @@ export const categoryThemes: Record<string, string[]> = {
   'Church Event': ['Christian Traditional', 'Modern', 'Classic', 'Floral', 'Minimal'],
   'Temple Event': ['Hindu Traditional', 'Classic', 'Floral', 'Minimal', 'Elegant'],
 
-  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate']
+  'Other': ['Modern', 'Classic', 'Minimal', 'Noir', 'Pop', 'Corporate', 'Cinematic', 'Aurora', 'Editorial', 'Neon Pulse', 'Luxe Motion']
 };
 
 export const weddingCategories = [
@@ -147,6 +149,13 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     'Midnight Luxe': '&bri=-30'
   };
   if (isInvitation && theme in modernTint) return invitationImage + modernTint[theme];
+  // Motion themes: use the category's own imagery, a different shot per style
+  const motionIndex = (MOTION_THEME_NAMES as readonly string[]).indexOf(theme);
+  if (motionIndex >= 0 && businessType && MOTION_PRESETS[businessType]) {
+    const p = MOTION_PRESETS[businessType];
+    const shots = [...p.hero, ...p.gallery];
+    return shots[motionIndex % shots.length].replace(/w=\d+/, 'w=800');
+  }
 
   // Generic mapping by business type to provide fallback defaults
   const defaults: Record<string, string> = {
@@ -210,6 +219,8 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     if (theme === 'Minimal') return 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Ethereal') return 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80';
     if (theme === 'Modern') return 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Premium') return 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80';
+    if (theme === 'Vintage') return 'https://images.unsplash.com/photo-1528255915607-9012fda0f838?auto=format&fit=crop&w=800&q=80';
   }
 
   if (businessType === 'Fancy Store') {

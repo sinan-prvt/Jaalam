@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Leaf, Recycle, TreePine, MapPin, Mail, Phone, ArrowRight, X, Clock, Shield, RefreshCw, Menu } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Facebook, Instagram, WhatsApp } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function EcoScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -43,8 +44,9 @@ export default function EcoScrapTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -90,7 +92,7 @@ export default function EcoScrapTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="py-24 px-6 relative overflow-hidden">
+            <Fragment key="hero"><section key="hero" id="hero" className="py-24 px-6 relative overflow-hidden">
               <div className="absolute top-[-20%] left-[-10%] opacity-10"><TreePine size={400} className="text-[#4CAF50]" /></div>
               <div className="absolute bottom-[-10%] right-[-5%] opacity-10"><Recycle size={300} className="text-[#4CAF50]" /></div>
               
@@ -118,6 +120,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                 </div>
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -194,7 +197,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                     <div key={i} onClick={() => setSelectedProduct(p)} className="bg-[#F0F4F1] rounded-3xl overflow-hidden hover:shadow-lg transition-all border border-[#D1E2D6] group flex flex-col cursor-pointer">
                       {p.image && (
                         <div className="h-40 overflow-hidden relative">
-                           <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                           <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="p-6 flex flex-col flex-grow">
@@ -290,7 +293,7 @@ export default function EcoScrapTheme({ website, content }: any) {
                       <div className="mb-6">
                         <h3 className="font-eco text-xl md:text-2xl font-bold mb-2 text-[#1A2E24] flex items-center gap-2"><Clock size={20} className="text-[#4CAF50]"/> Working Hours</h3>
                         <p className="text-[#5D806B] font-medium whitespace-pre-line">
-                          {content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
+                          {content.contact_info?.hours || content.contact_info?.office_hours || 'Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed'}
                         </p>
                       </div>
 
@@ -378,7 +381,7 @@ export default function EcoScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -421,7 +424,7 @@ export default function EcoScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover" />
               </div>
             )}
             <div className="p-6 md:p-8">

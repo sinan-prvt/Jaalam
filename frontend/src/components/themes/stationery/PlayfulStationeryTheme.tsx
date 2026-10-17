@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Pencil, Mail, Phone, Heart, Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -112,7 +113,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section key="hero" id="hero" className="relative z-10 py-20 px-6 text-center">
+                <Fragment key="hero"><section key="hero" id="hero" className="relative z-10 py-20 px-6 text-center">
                   <div className="container mx-auto max-w-4xl">
                     <div className="inline-block bg-[#4ECDC4] text-white font-playful px-6 py-2 rounded-full mb-8 transform rotate-3 shadow-md">
                       New Collection is here! 🎉
@@ -132,6 +133,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                     </button>
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
             )}
 
             {/* About */}
@@ -274,7 +276,7 @@ export default function PlayfulStationeryTheme({ website, content }: any) {
                         </div>
                         {block.image && (
                           <div className="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden border-4 border-yellow-400 transform rotate-3">
-                            <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover" />
                           </div>
                         )}
                       </div>

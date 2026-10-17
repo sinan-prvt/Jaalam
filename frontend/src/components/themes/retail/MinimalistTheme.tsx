@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Search, ArrowRight, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -107,24 +108,34 @@ export default function MinimalistTheme({ website, content }: any) {
       )}
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-        <section id="hero" className="pt-24 md:pt-32 pb-12 px-6 md:px-12">
-          <div className="w-full aspect-[16/9] md:aspect-[21/9] bg-gray-100 relative overflow-hidden group">
+        <><section id="hero" className="pt-28 md:pt-40 pb-12 px-6 md:px-12">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-end mb-10 md:mb-14">
+            {!hiddenFields.includes("hero_title") && (
+              <h1 className="md:col-span-8 min-sans text-5xl sm:text-6xl lg:text-8xl font-light tracking-tight leading-[0.95] text-black [text-wrap:balance] whitespace-pre-wrap">
+                {content.hero_title || 'Focus on the essential.'}
+              </h1>
+            )}
+            <div className="md:col-span-4 md:pb-3">
+              {!hiddenFields.includes("hero_description") && (
+                <p className="min-sans text-base md:text-lg text-gray-500 leading-relaxed mb-8 whitespace-pre-wrap">
+                  {content.hero_description || content.hero_text || 'Thoughtfully designed objects for everyday living. Fewer, better things, made to last.'}
+                </p>
+              )}
+              <a href="#shop" className="group inline-flex items-center gap-4 min-sans text-sm uppercase tracking-[0.2em] text-black">
+                <span className="border-b border-black pb-1">Shop the collection</span>
+                <span className="w-10 h-10 rounded-full border border-black flex items-center justify-center transition-colors group-hover:bg-black group-hover:text-white">&rarr;</span>
+              </a>
+            </div>
+          </div>
+          <div className="w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] bg-gray-100 relative overflow-hidden group">
             <img loading="lazy" src={content.settings_json?.hero_image || 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=2000&q=80'}
               alt="Hero"
               className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-105"
             />
-            <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-              {!hiddenFields.includes("hero_title") && (
-              <h1 className="min-sans text-4xl md:text-6xl font-light bg-white/90 backdrop-blur-sm px-8 py-4 break-words whitespace-pre-wrap">
-                {content.hero_title || 'Focus on the essential.'}
-              </h1>
-              )}
-            {!hiddenFields.includes("hero_description") && (content.hero_description || content.hero_text) && (
-              <p className="min-sans mt-4 max-w-xl text-base md:text-lg bg-white/90 px-6 py-3 text-gray-700 break-words whitespace-pre-wrap">{content.hero_description || content.hero_text}</p>
-            )}
-            </div>
+            <span className="absolute bottom-4 left-4 md:bottom-6 md:left-6 min-sans text-[11px] uppercase tracking-[0.25em] bg-white px-3 py-1.5 text-black">New Season</span>
           </div>
         </section>
+      <ThemeStats content={content} /></>
       )}
 
       {/* About */}
@@ -155,7 +166,7 @@ export default function MinimalistTheme({ website, content }: any) {
                 <div key={i} className="flex flex-col items-center text-center group">
                   {service.image ? (
                     <div className="w-32 h-32 rounded-full overflow-hidden mb-8 bg-gray-50">
-                      <img loading="lazy" src={service.image} alt={service.title} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
+                      <img loading="lazy" src={service.image || undefined} alt={service.title} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
                     </div>
                   ) : (
                     <div className="w-16 h-16 flex items-center justify-center mb-6 min-sans text-xl font-light text-gray-400 border-b border-gray-200 pb-4 w-full">
@@ -185,7 +196,7 @@ export default function MinimalistTheme({ website, content }: any) {
             {products.slice(0, 6).map((p: any, i: number) => (
               <div key={i} className="group cursor-pointer hover-lift" onClick={() => setSelectedProduct(p)}>
                 <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
                 </div>
                 <div className="flex justify-between items-start min-sans">
                   <div className="flex-1 min-w-0 pr-4">
@@ -298,7 +309,7 @@ export default function MinimalistTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -340,7 +351,7 @@ export default function MinimalistTheme({ website, content }: any) {
             </button>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <div className="h-48 md:h-auto md:aspect-square bg-gray-50">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
               </div>
               <div className="flex flex-col justify-center min-sans">
                 <h2 className="text-xl md:text-3xl font-medium mb-2 break-all">{selectedProduct.name}</h2>
@@ -374,7 +385,7 @@ export default function MinimalistTheme({ website, content }: any) {
                 {products.map((p: any, i: number) => (
                   <div key={i} className="group cursor-pointer hover-lift" onClick={() => { setSelectedProduct(p); }}>
                     <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
-                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
+                      <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover mix-blend-multiply" />
                     </div>
                     <div className="flex justify-between items-start min-sans">
                       <div className="flex-1 min-w-0 pr-4">

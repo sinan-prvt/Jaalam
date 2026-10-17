@@ -135,7 +135,7 @@ export default function SereneMosqueLayout({ website, content }: { website: any,
                   >
                     <div className={`w-32 h-32 rounded-full mb-6 overflow-hidden bg-[#e4f5ef] ring-4 ring-[#e4f5ef] ring-offset-4 group-hover:ring-[#5d9c8c] transition-all duration-500`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <User size={40} className={colors.accent1} />

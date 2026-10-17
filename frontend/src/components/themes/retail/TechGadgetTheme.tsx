@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Cpu, ShoppingCart, Search, Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Github = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.98a5.1 5.1 0 0 0-.1-3.18s-1.03-.33-3.37 1.25a11.6 11.6 0 0 0-6 0C7.23 1.47 6.2 1.8 6.2 1.8a5.1 5.1 0 0 0-.1 3.18A5.44 5.44 0 0 0 4 8.98c0 5.45 3.3 6.65 6.44 7A4.8 4.8 0 0 0 9.4 19.33V22"/><path d="M9 20c-5 1.5-5-2.5-7-3"/></svg>
@@ -158,7 +159,7 @@ export default function TechGadgetTheme({ website, content }: any) {
 
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-          <section key="hero" className="relative z-10 pt-20 pb-32 px-6 flex flex-col items-center text-center">
+          <Fragment key="hero"><section key="hero" className="relative z-10 pt-20 pb-32 px-6 flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 tg-mono text-xs border border-[#4285F4]/30 rounded-full px-4 py-1 mb-8 bg-[#4285F4]/10 text-[#4285F4]">
               <span className="w-2 h-2 rounded-full bg-[#4285F4] animate-pulse"></span>
               SYSTEM ONLINE
@@ -180,6 +181,7 @@ export default function TechGadgetTheme({ website, content }: any) {
               </a>
             </div>
           </section>
+      <ThemeStats content={content} /></Fragment>
       )}
 
       {/* About */}
@@ -235,7 +237,7 @@ export default function TechGadgetTheme({ website, content }: any) {
               {products.slice(0, 4).map((p: any, i: number) => (
                 <div key={i} className="tg-glass rounded-lg overflow-hidden flex flex-col group cursor-pointer" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-[4/3] bg-black relative overflow-hidden p-6 flex items-center justify-center border-b border-[#4285F4]/20">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(66,133,244,0.3)] group-hover:scale-110 transition-transform duration-500" />
+                    <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(66,133,244,0.3)] group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute top-2 right-2 flex gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]"></span>
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]/30"></span>
@@ -276,7 +278,7 @@ export default function TechGadgetTheme({ website, content }: any) {
                 <div key={i} className="tg-glass rounded-lg overflow-hidden flex flex-col group hover:-translate-y-2 transition-transform duration-300">
                   {s.image && (
                     <div className="aspect-[16/9] relative overflow-hidden border-b border-[#4285F4]/20">
-                      <img loading="lazy" src={s.image} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img loading="lazy" src={s.image || undefined} alt={s.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                     </div>
                   )}
                   <div className="p-6">
@@ -399,7 +401,7 @@ export default function TechGadgetTheme({ website, content }: any) {
                   {content.custom_blocks_json.map((block: any) => {
                     if (block.type === 'heading') return <h2 key={block.id} className="tg-display text-4xl md:text-5xl font-bold text-white break-words w-full">{block.content}</h2>;
                     if (block.type === 'paragraph') return <p key={block.id} className="tg-mono text-lg text-[#8ab4f8]/80 leading-relaxed break-words whitespace-pre-wrap w-full">{block.content}</p>;
-                    if (block.type === 'image') return block.url ? <img loading="lazy" key={block.id} src={block.url} alt="" className="w-full h-auto rounded border border-[#4285F4]/20 shadow-[0_0_20px_rgba(66,133,244,0.15)]" /> : null;
+                    if (block.type === 'image') return block.url ? <img loading="lazy" key={block.id} src={block.url || undefined} alt="" className="w-full h-auto rounded border border-[#4285F4]/20 shadow-[0_0_20px_rgba(66,133,244,0.15)]" /> : null;
                     if (block.type === 'divider') return <div key={block.id} className="w-full h-px bg-gradient-to-r from-transparent via-[#4285F4]/50 to-transparent my-10"></div>;
                     return null;
                   })}
@@ -478,7 +480,7 @@ export default function TechGadgetTheme({ website, content }: any) {
             
             <div className="w-full md:w-1/2 p-6 md:p-8 bg-black/50 border-r border-[#4285F4]/20 flex items-center justify-center relative min-h-[200px]">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-              <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="relative z-10 w-full max-h-48 md:max-h-64 object-contain filter drop-shadow-[0_0_20px_rgba(66,133,244,0.4)]" />
+              <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="relative z-10 w-full max-h-48 md:max-h-64 object-contain filter drop-shadow-[0_0_20px_rgba(66,133,244,0.4)]" />
             </div>
             
             <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">

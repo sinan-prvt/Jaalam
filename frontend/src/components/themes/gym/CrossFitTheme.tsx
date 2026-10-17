@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, X, Anchor, Activity, Zap, ShieldAlert, ArrowRight, Menu, Mail } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
@@ -155,8 +156,6 @@ export default function CrossFitTheme({ website, content }: Props) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -224,7 +223,7 @@ export default function CrossFitTheme({ website, content }: Props) {
 
               <FadeIn delay={200}>
                 {!hiddenFields.includes("hero_title") && (
-              <h1 className="cf-heading text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] leading-[0.85] text-black mb-8 break-words text-shadow-md">
+              <h1 className="cf-heading text-6xl sm:text-7xl md:text-[8rem] lg:text-[10rem] leading-[0.9] text-black mb-8 [text-wrap:balance] text-shadow-md">
                   {content.hero_title || content.settings_json?.hero_title || 'EMBRACE THE SUCK'}
                 </h1>
               )}
@@ -252,6 +251,7 @@ export default function CrossFitTheme({ website, content }: Props) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} />
 
         {/* Dynamic Sections */}
         {sectionOrder.map(sectionId => {
@@ -326,7 +326,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                         >
                           <div className="h-64 relative border-b-4 border-black">
                             {s.image ? (
-                              <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105" />
+                              <img loading="lazy" src={s.image || undefined} alt={s.title || s.name} className="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105" />
                             ) : (
                               <div className="w-full h-full bg-[#DDDDDD] flex items-center justify-center">
                                 <Activity size={64} className="text-black" />
@@ -374,7 +374,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                             </div>
                           )}
                           <div className={`w-full h-48 border-b-4 ${idx === 1 ? 'border-black bg-black' : 'border-white bg-black'} overflow-hidden relative`}>
-                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                            <img loading="lazy" src={product.image || undefined} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                           </div>
                           <div className={`p-8 border-b-4 ${idx === 1 ? 'border-black' : 'border-white'}`}>
                             <h3 className="cf-heading text-4xl mb-2 break-words">{product.name}</h3>
@@ -552,7 +552,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden border-8 border-black my-8">
-                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover grayscale mix-blend-multiply" />
+                              <img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto object-cover grayscale mix-blend-multiply" />
                             </div>
                           );
                         case 'divider':
@@ -617,7 +617,7 @@ export default function CrossFitTheme({ website, content }: Props) {
 
               <div className="h-28 md:h-48 w-full border-b-2 md:border-b-4 border-white shrink-0">
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale" />
                 ) : (
                   <div className="w-full h-full bg-[#111] flex items-center justify-center">
                     <Activity size={32} className="md:w-12 md:h-12 text-[#E6FF00]" />
@@ -675,7 +675,7 @@ export default function CrossFitTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer flex flex-col border-4 bg-[#222] border-white text-white relative transition-transform hover:-translate-y-2 group">
                       <div className="w-full h-56 border-b-4 border-white bg-black">
-                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                        <img loading="lazy" src={product.image || undefined} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
                       </div>
                       <div className="p-8 border-b-4 border-white">
                         <h3 className="cf-heading text-4xl mb-2 break-words whitespace-pre-wrap">{product.name}</h3>

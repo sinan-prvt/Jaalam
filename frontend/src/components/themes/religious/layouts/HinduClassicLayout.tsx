@@ -161,7 +161,7 @@ export default function HinduClassicLayout({ website, content }: { website: any,
                     <div className="relative mb-8 w-48 h-48 rounded-full border border-[#b45309] p-2 bg-[#fefce8] shadow-md group-hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2">
                       <div className="w-full h-full overflow-hidden rounded-full">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" />
                         ) : (
                           <div className={`w-full h-full bg-white flex items-center justify-center ${colors.mutedText}`}>
                             <User size={48} opacity={0.3} />

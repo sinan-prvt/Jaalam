@@ -90,7 +90,8 @@ export default function LanguageTranslator({ languages = ['en', 'ml'], widgetSty
       case 'center-right': return 'fixed top-1/2 right-0 -translate-y-1/2 z-[99999]';
       case 'center-left': return 'fixed top-1/2 left-0 -translate-y-1/2 z-[99999]';
       case 'bottom-center': 
-      default: return 'fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999]';
+      // Vertically centred with the chatbot bubble (bottom-left) so the two never collide
+      default: return 'fixed bottom-9 sm:bottom-11 left-1/2 -translate-x-1/2 z-[99999]';
     }
   };
 
@@ -107,7 +108,7 @@ export default function LanguageTranslator({ languages = ['en', 'ml'], widgetSty
     if (widgetStyle === 'center-left') {
       return 'flex flex-col items-center gap-3 px-2 py-5 bg-white/95 backdrop-blur-xl border border-l-0 border-slate-200/60 rounded-r-2xl shadow-[5px_0_20px_rgba(0,0,0,0.1)] text-slate-800 hover:bg-white hover:translate-x-1 transition-all group';
     }
-    return 'flex items-center gap-2 px-5 py-2.5 bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-full shadow-lg text-slate-800 hover:bg-white transition-all hover:scale-105 active:scale-95 group';
+    return 'flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-full shadow-lg text-slate-800 hover:bg-white transition-all hover:scale-105 active:scale-95 group';
   };
 
   let displayLang = languageMap[currentLang] || currentLang;
@@ -134,7 +135,13 @@ export default function LanguageTranslator({ languages = ['en', 'ml'], widgetSty
           {showIcon && <Globe size={isVertical ? 20 : 18} className="text-indigo-600 group-hover:rotate-12 transition-transform shrink-0" />}
           {showText && (
             <span className={`font-bold text-xs uppercase ${widgetAppearance === 'short' ? '' : 'tracking-[0.2em]'} ${isVertical ? '[writing-mode:vertical-rl] leading-none py-1' : ''}`}>
-              {displayLang}
+              {widgetAppearance === 'full' && !isVertical ? (
+                <>
+                  {/* Short code on phones so the pill fits between the chat and call buttons */}
+                  <span className="sm:hidden">{currentLang.toUpperCase()}</span>
+                  <span className="hidden sm:inline">{displayLang}</span>
+                </>
+              ) : displayLang}
             </span>
           )}
           <ChevronDown size={14} className={`text-slate-400 transition-transform shrink-0 ${isVertical && isOpen ? 'rotate-90' : isVertical ? '-rotate-90' : isOpen ? 'rotate-180' : ''}`} />

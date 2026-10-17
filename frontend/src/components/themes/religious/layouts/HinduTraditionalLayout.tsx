@@ -179,7 +179,7 @@ export default function HinduTraditionalLayout({ website, content }: { website: 
                     <div className="relative mb-6 w-40 h-40 border-[3px] border-[#ea580c] p-1 rounded-full group-hover:scale-105 transition-transform duration-500 bg-white">
                       <div className="w-full h-full overflow-hidden rounded-full border border-[#fbbf24]">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className={`w-full h-full bg-[#fef3c7] flex items-center justify-center ${colors.mutedText}`}>
                             <User size={48} opacity={0.5} />

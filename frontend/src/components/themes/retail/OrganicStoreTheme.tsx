@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Leaf, Search, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 18, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -161,7 +162,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
 
       {/* Hero */}
       {!hiddenSections.includes('hero') && (
-          <section key="hero" id="hero" className="relative z-10 py-12 md:py-24 px-6 md:px-12 flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto w-full">
+          <Fragment key="hero"><section key="hero" id="hero" className="relative z-10 py-12 md:py-24 px-6 md:px-12 flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto w-full">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
               {!hiddenFields.includes("hero_title") && (
               <h1 className="os-heading text-5xl md:text-7xl font-semibold mb-6 text-[#4A5D23] leading-tight break-words whitespace-pre-wrap">
@@ -185,6 +186,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-[#E8EDDF] rounded-full mix-blend-multiply opacity-70 blur-xl"></div>
             </div>
           </section>
+      <ThemeStats content={content} /></Fragment>
       )}
 
       {/* About */}
@@ -217,7 +219,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               {services.map((srv: any, i: number) => (
                 <div key={i} className="text-center">
                   <div className="aspect-square mx-auto max-w-[200px] rounded-full overflow-hidden mb-8 border-4 border-[#E8EDDF]">
-                    <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="os-heading text-2xl font-semibold text-[#4A5D23] mb-4">{srv.title}</h3>
                   <p className="os-body text-[#6B705C] leading-relaxed">{srv.description}</p>
@@ -239,7 +241,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               {products.slice(0, 4).map((p: any, i: number) => (
                 <div key={i} className="os-card-hover bg-white rounded-3xl p-4 cursor-pointer border border-[#E8EDDF]" onClick={() => setSelectedProduct(p)}>
                   <div className="aspect-square rounded-2xl overflow-hidden bg-[#FDFBF7] mb-6">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="text-center px-2">
                     <h3 className="os-heading font-semibold text-lg text-[#4A5D23] mb-2 break-words">{p.name}</h3>
@@ -341,7 +343,7 @@ export default function OrganicStoreTheme({ website, content }: any) {
               <div key={idx} className="mb-12 last:mb-0">
                 {block.type === 'heading' && <h3 className="os-heading text-3xl font-semibold text-[#4A5D23] mb-6 text-center">{block.content}</h3>}
                 {block.type === 'paragraph' && <p className="os-body text-lg text-[#6B705C] leading-relaxed break-words whitespace-pre-wrap text-center">{block.content}</p>}
-                {block.type === 'image' && <img loading="lazy" src={block.url} alt="Custom" className="w-full rounded-3xl my-8 object-cover shadow-lg" />}
+                {block.type === 'image' && <img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full rounded-3xl my-8 object-cover shadow-lg" />}
                 {block.type === 'divider' && <hr className="my-12 border-t-2 border-[#E8EDDF] w-1/3 mx-auto" />}
               </div>
             ))}

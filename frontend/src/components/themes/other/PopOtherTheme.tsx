@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Star, Sparkles } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function PopOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -57,7 +58,7 @@ export default function PopOtherTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative min-h-[85vh] flex items-center py-20 px-6 overflow-hidden bg-[#FF4D4D]">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative min-h-[85vh] flex items-center py-20 px-6 overflow-hidden bg-[#FF4D4D]">
         {/* Playful background shapes */}
         <div className="absolute top-10 left-10 w-32 h-32 bg-[#FFD700] rounded-full mix-blend-multiply opacity-50 animate-bounce"></div>
         <div className="absolute bottom-20 right-20 w-48 h-48 bg-[#4DB8FF] rounded-full mix-blend-multiply opacity-50 animate-pulse"></div>
@@ -89,6 +90,7 @@ export default function PopOtherTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (

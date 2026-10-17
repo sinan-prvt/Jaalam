@@ -143,7 +143,7 @@ export default function ModernMosqueLayout({ website, content }: { website: any,
                   >
                     <div className={`w-32 h-32 mx-auto rounded-full p-1 border-2 border-white/10 group-hover:${colors.goldBorder} transition-colors mb-6 overflow-hidden`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-full filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-full filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                       ) : (
                         <div className="w-full h-full rounded-full bg-white/5 flex items-center justify-center">
                           <User size={40} className={colors.textDim} />

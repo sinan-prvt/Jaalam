@@ -145,7 +145,7 @@ export default function ChristianMinimalLayout({ website, content }: { website: 
                   >
                     <div className={`mb-6 w-full aspect-[4/5] bg-zinc-100 rounded-[1.5rem] overflow-hidden`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
                       ) : (
                         <div className={`w-full h-full flex items-center justify-center ${colors.textMuted}`}>
                           <User size={48} strokeWidth={1} />

@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Search, Star, Clock, Scissors, Activity, Grid, ChevronDown, Phone, Mail, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 function FadeInView({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -240,8 +241,9 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -312,6 +314,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} className="pb-20 md:pb-32" />
 
         {/* =========================================
             SECTION 2: HOME CONTENT (Theme Colors)
@@ -414,7 +417,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                             <div key={idx} className={`${serviceCardClass}`}>
                               <div className={`w-16 h-16 md:w-20 md:h-20 ${buttonShape === 'rounded-none' ? 'rounded-none border border-[#1E1B18]' : 'rounded-xl'} overflow-hidden shrink-0 bg-gray-50 flex items-center justify-center`}>
                                 {service.image ? (
-                                  <img loading="lazy" src={service.image} alt={service.title || service.name} className="w-full h-full object-cover" />
+                                  <img loading="lazy" src={service.image || undefined} alt={service.title || service.name} className="w-full h-full object-cover" />
                                 ) : (
                                   <Scissors style={{ color: primaryGold }} size={28} />
                                 )}
@@ -445,7 +448,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                           {haircutStyles.slice(0, 4).map((style: any, idx: number) => (
                             <div key={idx} onClick={() => setSelectedStyle(style)} className={`${itemCardClass}`}>
                               <div className={`w-20 h-20 md:w-28 md:h-28 ${buttonShape === 'rounded-none' ? 'rounded-none border border-[#1E1B18]' : 'rounded-[1.25rem]'} overflow-hidden shrink-0 shadow-inner`}>
-                                <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                <img loading="lazy" src={style.image || undefined} alt={style.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                               </div>
                               <div className="flex-1 py-1 text-left">
                                 <h4 className={`font-bold text-base md:text-xl ${textColor} mb-1.5 md:mb-2 ${fontHeading}`}>{style.name}</h4>
@@ -645,7 +648,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
                             if (block.type === 'image') {
                               return block.url ? (
                                 <img loading="lazy" key={block.id || idx}
-                                  src={block.url}
+                                  src={block.url || undefined}
                                   alt="Custom Block"
                                   className={`w-full h-auto object-cover ${buttonShape === 'rounded-none' ? 'rounded-none border-2 border-[#1E1B18]' : 'rounded-2xl'} shadow-md max-h-[400px] md:max-h-[500px]`}
                                 />
@@ -676,7 +679,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -767,7 +770,7 @@ export default function SalonTheme({ website, content }: SalonThemeProps) {
             >
               {/* Image Header */}
               <div className="relative aspect-[4/3] w-full bg-stone-100 overflow-hidden">
-                <img loading="lazy" src={selectedStyle.image}
+                <img loading="lazy" src={selectedStyle.image || undefined}
                   alt={selectedStyle.name}
                   className="w-full h-full object-cover"
                 />

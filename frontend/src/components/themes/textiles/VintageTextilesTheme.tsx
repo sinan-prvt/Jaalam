@@ -5,6 +5,7 @@ import { Scissors, MapPin, Mail, Phone } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function VintageTextilesTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -30,8 +31,9 @@ export default function VintageTextilesTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -56,7 +58,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6 bg-[#EBE3D5] border-b border-[#D4C3A3]">
+      <><section className="py-16 px-6 bg-[#EBE3D5] border-b border-[#D4C3A3]">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="font-vintage text-4xl italic mb-6 text-[#8C4A32]">
             {content.hero_title || 'Reviving the Art of the Loom.'}
@@ -71,6 +73,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="shop" className="py-24 px-6">
@@ -82,7 +85,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer flex flex-col items-center text-center group cursor-pointer">
                 <div className="w-full aspect-square bg-[#EBE3D5] mb-6 p-4 border border-[#D4C3A3]">
                   <div className="w-full h-full border border-dashed border-[#8C4A32]/50 p-2">
-                     <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter sepia-[0.2] group-hover:sepia-0 transition-all duration-500" />
+                     <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter sepia-[0.2] group-hover:sepia-0 transition-all duration-500" />
                   </div>
                 </div>
                 <h4 className="font-vintage text-2xl font-bold mb-2 group-hover:text-[#8C4A32] transition-colors">{p.name}</h4>
@@ -118,7 +121,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
               ]).map((srv: any, i: number) => (
                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
                   <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
+                    {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
                   </div>
                   <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
                   <p className="opacity-75 text-black">{srv.description}</p>
@@ -189,7 +192,7 @@ export default function VintageTextilesTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

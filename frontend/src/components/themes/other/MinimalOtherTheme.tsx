@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function MinimalOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -69,7 +70,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="min-h-[85vh] flex items-center pt-10 pb-24 px-8 bg-white">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="min-h-[85vh] flex items-center pt-10 pb-24 px-8 bg-white">
         <div className="container mx-auto max-w-5xl">
           {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-6xl md:text-8xl font-medium tracking-tighter mb-10 leading-[0.9]">
@@ -87,6 +88,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
           </a>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (

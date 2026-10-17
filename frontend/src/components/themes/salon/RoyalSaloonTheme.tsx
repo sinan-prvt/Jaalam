@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail, Star, Clock, X, ChevronRight, Crown, CheckCircle, 
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right' }) {
   const [vis, setVis] = useState(false);
@@ -172,8 +173,9 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -279,6 +281,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} />
 
         {/* ═══════════════════════════════════════
             CONTENT SECTIONS
@@ -359,7 +362,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                             className="rs-card group cursor-pointer h-full flex flex-col overflow-hidden"
                           >
                             <div className="h-64 overflow-hidden relative rs-image-overlay">
-                              <img loading="lazy" src={s.image} 
+                              <img loading="lazy" src={s.image || undefined} 
                                 alt={s.title || s.name} 
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[20%]" 
                               />
@@ -531,7 +534,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
                       {content.custom_blocks_json.map((block: any, i: number) => {
                         if (block.type === 'heading') return <h3 key={block.id || i} className="rs-heading text-2xl text-white mt-8">{block.content}</h3>;
                         if (block.type === 'paragraph') return <p key={block.id || i} className="text-lg leading-relaxed">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="border border-[#D4AF37]/30 my-8 p-2"><img loading="lazy" src={block.url} alt="" className="w-full h-auto" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={block.id || i} className="border border-[#D4AF37]/30 my-8 p-2"><img loading="lazy" src={block.url || undefined} alt="" className="w-full h-auto" /></div>;
                         if (block.type === 'divider') return <div key={block.id || i} className="rs-separator"></div>;
                         return null;
                       })}
@@ -555,7 +558,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -598,7 +601,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               </button>
               
               <div className="h-40 w-full relative">
-                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover grayscale-[20%]" />
+                <img loading="lazy" src={selectedStyle.image || undefined} alt={selectedStyle.name} className="w-full h-full object-cover grayscale-[20%]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] to-transparent"></div>
               </div>
 
@@ -641,7 +644,7 @@ export default function RoyalSaloonTheme({ website, content }: Props) {
               
               <div className="h-40 w-full relative">
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale-[20%]" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover grayscale-[20%]" />
                 ) : (
                   <div className="w-full h-full bg-[#070b1a] flex items-center justify-center">
                     <Crown size={48} className="rs-text-gold opacity-50" />
