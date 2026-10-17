@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Gift, MapPin, Clock, Volume2, VolumeX, Mail, Heart, CalendarHeart } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KidsClassicLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -344,7 +345,7 @@ export default function KidsClassicLayout({ content, website, colors }: Birthday
           </div>
 
           <div className="bg-white p-8 sm:p-12 rounded-[2rem] border border-[#f0f4f5] soft-shadow">
-            <form className="space-y-8 font-sans-classic text-sm" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-sans-classic text-sm">
               <div>
                 <label className="block text-[#8a9b9a] uppercase tracking-[0.1em] text-xs mb-3 ml-2">Guest Name(s)</label>
                 <input type="text" className="w-full bg-transparent border-b-2 border-[#e8f0f3] px-2 py-3 outline-none focus:border-[#c8d7dc] transition-colors text-[#4a5553]" placeholder="Enter your name" />
@@ -373,7 +374,7 @@ export default function KidsClassicLayout({ content, website, colors }: Birthday
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

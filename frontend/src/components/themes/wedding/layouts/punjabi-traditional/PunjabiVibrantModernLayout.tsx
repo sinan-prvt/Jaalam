@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Calendar, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function PunjabiVibrantModernLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -604,7 +605,7 @@ export default function PunjabiVibrantModernLayout({ content, website }: Wedding
           </div>
 
           <div className="bg-[#1f0b27]/90 backdrop-blur rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(255,20,147,0.2)] border-2 border-[#FF1493]/50 text-left relative overflow-hidden">
-            <form className="space-y-6 relative z-20 font-sans" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20 font-sans">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#FF1493] mb-2">Name</label>
@@ -637,7 +638,7 @@ export default function PunjabiVibrantModernLayout({ content, website }: Wedding
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

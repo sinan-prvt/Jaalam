@@ -24,13 +24,12 @@ export default function ContactForm({
     e.preventDefault();
     setStatus('loading');
     try {
-      await axios.post('/api/customers/', {
+      await axios.post('/api/customers/lead/', {
         website: websiteId,
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        notes: formData.message,
-        status: 'NEW'
+        message: formData.message,
       });
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });

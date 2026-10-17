@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function ModernIslamicLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -537,7 +538,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
           </div>
 
           <div className="bg-white/95 backdrop-blur rounded-[2rem] p-8 md:p-10 shadow-xl border-2 border-[#D4C3B9]/80 text-left relative overflow-hidden">
-            <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-2 font-sans">Name</label>
@@ -570,7 +571,7 @@ export default function ModernIslamicLayout({ content, website }: WeddingLayoutP
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, ArrowDown, ChevronDown } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function AdultMinimalLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -305,7 +306,7 @@ export function AdultMinimalLayout({ content, website, updateContent, isEditor }
             </h2>
           </div>
 
-          <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-12">
             <div>
               <input type="text" className="w-full bg-transparent border-b border-[#e0dfdc] pb-4 outline-none focus:border-[#2c2c2a] transition-colors text-[#2c2c2a] font-light text-lg placeholder-[#b5b4af]" placeholder="Name" />
             </div>
@@ -332,7 +333,7 @@ export function AdultMinimalLayout({ content, website, updateContent, isEditor }
                 Send
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

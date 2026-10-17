@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Zap, Star, Shield, Volume2, VolumeX, Flame } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KidsSuperheroLayout({ content, website, colors }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -383,7 +384,7 @@ export default function KidsSuperheroLayout({ content, website, colors }: Birthd
           </div>
 
           <div className="bg-white p-8 sm:p-12 comic-border shadow-[12px_12px_0_rgba(0,0,0,1)] transform -rotate-1">
-            <form className="space-y-6 font-comic font-bold" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 font-comic font-bold">
               <div>
                 <label className="block text-lg text-black mb-2 uppercase">Hero Name(s)</label>
                 <input type="text" className="w-full bg-gray-50 border-4 border-black px-6 py-4 outline-none focus:bg-yellow-50 focus:ring-0 transition-colors text-black text-lg font-comic shadow-[4px_4px_0_rgba(0,0,0,0.2)]" placeholder="Enter name(s)" />
@@ -412,7 +413,7 @@ export default function KidsSuperheroLayout({ content, website, colors }: Birthd
                   SEND CONFIRMATION!
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

@@ -30,11 +30,12 @@ logger = logging.getLogger(__name__)
 
 def frontend_base_url(request):
     """Where emailed links should point. Uses the configured FRONTEND_URL; for local development
-    without it, a trusted local origin. Never the request's Host headers, which can be forged."""
+    without it, a trusted local origin. Never the request's Host headers, which can be forged.
+    `request` may be None (management commands)."""
     if settings.FRONTEND_URL:
         return settings.FRONTEND_URL
-    origin = request.headers.get('Origin', '')
-    if origin in settings.CORS_ALLOWED_ORIGINS:
+    origin = request.headers.get('Origin', '') if request is not None else ''
+    if origin and origin in settings.CORS_ALLOWED_ORIGINS:
         return origin
     if settings.DEBUG:
         return settings.LOCAL_ORIGINS[0]

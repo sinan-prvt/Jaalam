@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, MessageSquare, ArrowRight, ArrowDown } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function Sweet16ModernLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -368,7 +369,7 @@ export function Sweet16ModernLayout({ content, website, updateContent, isEditor 
           </div>
 
           <div className="bg-[#f8f9fa] p-8 sm:p-16 border border-black/5">
-            <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-10">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Guest Name(s)</label>
                 <input type="text" className="w-full bg-transparent border-b border-black/20 pb-4 outline-none focus:border-black transition-colors text-black text-lg placeholder-gray-300 rounded-none" placeholder="Enter your full name" />
@@ -398,7 +399,7 @@ export function Sweet16ModernLayout({ content, website, updateContent, isEditor 
                   Submit Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

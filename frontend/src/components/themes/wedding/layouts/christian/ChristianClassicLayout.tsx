@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Defined outside the layout so React keeps the same component between renders: defined
 // inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
@@ -530,7 +531,7 @@ export default function ChristianClassicLayout({ content, website, colors }: Wed
           <CardWrapper>
             <SectionHeading title="RSVP" subtitle="We kindly request your response" />
 
-            <form className="space-y-8 relative z-20 font-sans-elegant mt-12 max-w-2xl mx-auto" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 relative z-20 font-sans-elegant mt-12 max-w-2xl mx-auto">
               <div className="space-y-6">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-3 ml-4">Guest Name</label>
@@ -563,7 +564,7 @@ export default function ChristianClassicLayout({ content, website, colors }: Wed
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </CardWrapper>
         </div>
       </section>

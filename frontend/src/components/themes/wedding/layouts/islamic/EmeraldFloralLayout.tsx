@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Navigation, Heart, Sparkles, Send } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Ornate Vector Maroon Mandala Corner Ornament (Top Right & Bottom Left - Exact Match to Reference Design)
 const MaroonMandalaCorner = ({ position }: { position: 'top-right' | 'bottom-left' }) => {
@@ -526,7 +527,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
           </div>
 
           <div className="bg-[#F7F2E8] rounded-[2.5rem] p-8 md:p-10 shadow-2xl border border-[#7A0C16]/20 text-left relative overflow-hidden">
-            <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#7A0C16] mb-2 font-serif">Name</label>
@@ -559,7 +560,7 @@ export default function EmeraldFloralLayout({ content, website }: WeddingLayoutP
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

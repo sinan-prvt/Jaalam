@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function BengaliMinimalistSindoorLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -485,7 +486,7 @@ export default function BengaliMinimalistSindoorLayout({ content, website, color
         </div>
 
         <div className="bg-white p-8 sm:p-12 border border-[#1F2937]/10 text-left relative shadow-sm">
-          <form className="space-y-8 relative z-20" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-8 relative z-20">
             <div className="space-y-8">
               <div>
                 <label className="block text-[9px] font-bold tracking-[0.2em] uppercase text-[#1F2937]/60 mb-2 font-inter">Name</label>
@@ -521,7 +522,7 @@ export default function BengaliMinimalistSindoorLayout({ content, website, color
                 Send Reply
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

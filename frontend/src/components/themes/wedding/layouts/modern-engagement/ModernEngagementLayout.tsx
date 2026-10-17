@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Sparkles, Navigation, Clock, Volume2, VolumeX, ArrowRight } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function ModernEngagementLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -346,7 +347,7 @@ export default function ModernEngagementLayout({ content, website, colors }: Wed
             <p className="text-white/50 font-body text-sm">Please let us know if you can make it.</p>
           </div>
 
-          <form className="space-y-6 font-body" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-6 font-body">
             <div>
               <input type="text" className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-indigo-400/50 focus:bg-white/10 transition-all text-white placeholder-white/30" placeholder="Your Full Name" />
             </div>
@@ -373,7 +374,7 @@ export default function ModernEngagementLayout({ content, website, colors }: Wed
                 Send RSVP
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

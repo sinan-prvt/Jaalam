@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Heart, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 const MinimalLamp = ({ className = "w-12 h-20" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -373,7 +374,7 @@ export default function GodsOwnMinimalLayout({ content, website }: WeddingLayout
         {/* RSVP */}
         <section className="py-24 w-full max-w-2xl mx-auto border-t border-[#D4AF37]/30 mb-20">
           <h2 className="text-2xl sm:text-3xl font-cormorant uppercase tracking-widest text-[#8C1C13] mb-12 text-center">RSVP</h2>
-          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-8">
             <div className="border-b border-[#D4AF37]/50">
               <input type="text" placeholder="GUEST NAME" className="w-full bg-transparent border-none px-2 py-3 text-[#8C1C13] font-montserrat text-xs tracking-[0.2em] uppercase placeholder-[#8C1C13]/40 focus:outline-none focus:ring-0" />
             </div>
@@ -395,7 +396,7 @@ export default function GodsOwnMinimalLayout({ content, website }: WeddingLayout
                 <Send size={12} strokeWidth={1.5} /> Submit
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </section>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Heart, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Traditional Netipattam (Elephant Caparison) Motif
 const Netipattam = ({ className = "w-24 h-32" }: { className?: string }) => (
@@ -415,7 +416,7 @@ export default function TraditionalElegantLayout({ content, website }: WeddingLa
         <section className="py-24 w-full max-w-2xl mx-auto px-4 z-10 mb-20">
           <div className="bg-[#3A0B12] border-2 border-[#D4AF37] p-10 sm:p-16 shadow-2xl">
             <h2 className="text-3xl sm:text-4xl font-cinzel font-bold uppercase tracking-[0.2em] text-[#D4AF37] mb-12 text-center">RSVP</h2>
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8">
               <div>
                 <input type="text" placeholder="GUEST NAME" className="w-full bg-transparent border-b-2 border-[#D4AF37]/50 px-4 py-4 text-[#FDFBF7] font-cinzel text-sm tracking-[0.2em] uppercase placeholder-[#FDFBF7]/40 focus:outline-none focus:border-[#D4AF37] transition-colors" />
               </div>
@@ -437,7 +438,7 @@ export default function TraditionalElegantLayout({ content, website }: WeddingLa
                   <Send size={18} strokeWidth={2} /> Submit
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </section>
       </div>

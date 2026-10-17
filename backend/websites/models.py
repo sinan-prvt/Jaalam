@@ -56,3 +56,21 @@ class PhysicalOrder(models.Model):
 
     def __str__(self):
         return f"Order #{self.id} for {self.website.slug}"
+
+
+class Rsvp(models.Model):
+    """A guest's reply to an invitation's RSVP form."""
+    ATTENDING_CHOICES = [('YES', 'Attending'), ('NO', 'Not attending')]
+
+    website = models.ForeignKey(Website, on_delete=models.CASCADE, related_name='rsvps')
+    name = models.CharField(max_length=150)
+    attending = models.CharField(max_length=3, choices=ATTENDING_CHOICES, blank=True)
+    message = models.TextField(blank=True)
+    answers = models.JSONField(default=dict, blank=True)  # the form's other fields, by label
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+
+    def __str__(self):
+        return f"{self.name} ({self.attending or '?'}) - {self.website.slug}"

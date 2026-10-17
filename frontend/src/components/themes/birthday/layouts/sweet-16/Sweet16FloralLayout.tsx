@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, CalendarDays, Clock, Heart, Flower2, Leaf } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function Sweet16FloralLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -377,7 +378,7 @@ export function Sweet16FloralLayout({ content, website, updateContent, isEditor 
           </div>
 
           <div className="bg-[#f9f5f0] p-10 sm:p-16 shadow-inner rounded-[3rem] border border-[#e6ebdf]">
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8">
               <div>
                 <input type="text" className="w-full bg-white border border-[#e6ebdf] p-5 rounded-2xl outline-none focus:border-[#a7bda6] focus:ring-1 focus:ring-[#a7bda6] transition-all text-[#5e6b55] placeholder-[#a7bda6] font-serif text-lg" placeholder="Name(s)" />
               </div>
@@ -404,7 +405,7 @@ export function Sweet16FloralLayout({ content, website, updateContent, isEditor 
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

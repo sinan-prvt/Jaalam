@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 // Defined outside the layout so React keeps the same component between renders: defined
 // inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
@@ -589,7 +590,7 @@ export default function ElegantLayout({ content, website }: WeddingLayoutProps) 
             <p className="text-[#D4AF37] tracking-[0.2em] uppercase text-sm font-semibold mt-3 font-sans">We hope you can join us</p>
           </div>
 
-          <form className="space-y-8 relative z-20 font-sans mt-8" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-8 relative z-20 font-sans mt-8">
             <div className="space-y-6">
               <div>
                 <label className="block text-xs font-bold tracking-[0.2em] uppercase text-slate-400 mb-3 ml-2">Guest Name</label>
@@ -622,7 +623,7 @@ export default function ElegantLayout({ content, website }: WeddingLayoutProps) 
                 Send Response
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </SectionContainer>
       </section>
     )

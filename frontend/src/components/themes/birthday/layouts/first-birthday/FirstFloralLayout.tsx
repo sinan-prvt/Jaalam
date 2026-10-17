@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Volume2, VolumeX, Flower2, Leaf } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FirstFloralLayout({ content }: BirthdayLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -359,7 +360,7 @@ export default function FirstFloralLayout({ content }: BirthdayLayoutProps) {
           </div>
 
           <div className="bg-white p-10 sm:p-16 rounded-[40px] shadow-[0_20px_60px_-15px_rgba(143,151,121,0.15)]">
-            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-12">
               <div className="relative">
                 <input type="text" className="peer w-full bg-transparent border-b-2 border-[#FAF9F6] pb-4 outline-none focus:border-[#8F9779] transition-colors text-lg font-floral-body text-[#2F3E2C] placeholder-transparent" id="rsvpName" placeholder="Name" />
                 <label htmlFor="rsvpName" className="absolute left-0 -top-4 text-[#8F9779] font-floral-body text-[10px] uppercase tracking-widest transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-0 peer-focus:-top-4 peer-focus:text-[10px]">Guest Name(s)</label>
@@ -388,7 +389,7 @@ export default function FirstFloralLayout({ content }: BirthdayLayoutProps) {
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

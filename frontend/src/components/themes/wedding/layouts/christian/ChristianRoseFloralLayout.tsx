@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Clock, Gift, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function ChristianRoseFloralLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -527,7 +528,7 @@ export default function ChristianRoseFloralLayout({ content, website, colors }: 
           </div>
 
           <div className="bg-[#FFF5F7] rounded-[3rem] p-8 sm:p-16 shadow-[0_10px_40px_rgba(225,29,72,0.03)] border border-rose-100">
-            <form className="space-y-8 font-sans max-w-2xl mx-auto" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-sans max-w-2xl mx-auto">
               <div className="space-y-6">
                 <div>
                   <label className="block text-[10px] font-bold tracking-[0.3em] uppercase text-slate-500 mb-3 ml-4">Name</label>
@@ -560,7 +561,7 @@ export default function ChristianRoseFloralLayout({ content, website, colors }: 
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

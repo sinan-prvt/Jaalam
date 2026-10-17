@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Sparkles, Navigation, ArrowRight } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function EngagementModernLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -350,7 +351,7 @@ export default function EngagementModernLayout({ content, website, colors }: Wed
           <div className="glass-panel p-8 sm:p-12 rounded-2xl relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#EC4899]"></div>
             
-            <form className="space-y-8 font-space" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-space">
               <div>
                 <input type="text" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 outline-none focus:border-white/30 focus:bg-white/10 transition-all text-white text-sm placeholder-white/30" placeholder="Full Name(s)" />
               </div>
@@ -377,7 +378,7 @@ export default function EngagementModernLayout({ content, website, colors }: Wed
                   Send Response <ArrowRight size={14} />
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

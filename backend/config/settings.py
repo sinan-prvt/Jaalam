@@ -86,7 +86,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+# Times are stored in UTC; this is the zone for "today", invoice dates (and so the financial
+# year), reminder runs and times written into emails. Customers are in India.
+TIME_ZONE = config('TIME_ZONE', default='Asia/Kolkata')
 USE_I18N = True
 USE_TZ = True
 
@@ -130,6 +132,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'login': '10/min',
         'password_reset': '5/hour',
+        'public_form': '20/hour',  # contact forms and RSVPs, per visitor IP
     },
 }
 

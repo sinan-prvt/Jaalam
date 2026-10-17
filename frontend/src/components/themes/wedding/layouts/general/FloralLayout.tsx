@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Calendar, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FloralLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -582,7 +583,7 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
           </div>
 
           <div className="bg-[#FFFDF9] backdrop-blur rounded-[2.5rem] p-8 md:p-10 shadow-2xl border-2 border-[#D6C5B3] text-left relative overflow-hidden">
-            <form className="space-y-6 relative z-20" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6 relative z-20">
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-bold tracking-widest uppercase text-[#8B7160] mb-2 font-sans">Name</label>
@@ -615,7 +616,7 @@ export default function FloralLayout({ content, website, colors }: WeddingLayout
                   Submit RSVP
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

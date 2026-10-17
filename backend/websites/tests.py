@@ -43,3 +43,56 @@ class SharePreviewTests(TestCase):
         self.make('xss', 'Wedding Invitation', hero_title='<script>alert(1)</script>')
         html = self.get('xss').content.decode()
         self.assertNotIn('<script>alert(1)</script>', html)
+
+
+class RsvpTests(TestCase):
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+        User = get_user_model()
+        self.owner = User.objects.create_user(username='couple', email='c@example.com', password='x')
+        self.site = Website.objects.create(user=self.owner, slug='anu-weds-ravi', business_type='Wedding', published=True)
+
+    def reply(self, **body):
+        return self.client.post('/api/websites/anu-weds-ravi/rsvp/', {'name': 'Meera', 'attending': 'YES', **body},
+                                content_type='application/json')
+
+    def test_guest_reply_is_saved_and_owner_notified(self):
+        from users.models import Notification
+        response = self.reply(message='See you!', answers={'Dietary needs': 'Vegetarian'})
+        self.assertEqual(response.status_code, 201)
+        rsvp = self.site.rsvps.get()
+        self.assertEqual((rsvp.name, rsvp.attending, rsvp.answers), ('Meera', 'YES', {'Dietary needs': 'Vegetarian'}))
+        self.assertEqual(Notification.objects.get(user=self.owner).title, 'RSVP: Meera is attending')
+
+    def test_logged_in_guest_needs_no_csrf_token(self):
+        from django.test import Client
+        guest = get_user_model().objects.create_user(username='g', password='x')
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(guest)
+        response = client.post('/api/websites/anu-weds-ravi/rsvp/', {'name': 'G', 'attending': 'NO'}, content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+    def test_validation(self):
+        self.assertEqual(self.reply(name='  ').status_code, 400)
+        self.assertEqual(self.reply(attending='MAYBE').status_code, 400)
+        self.assertEqual(self.reply(answers={str(i): 'x' for i in range(11)}).status_code, 400)
+        Website.objects.filter(id=self.site.id).update(published=False)
+        self.assertEqual(self.reply().status_code, 403)
+
+    def test_owner_sees_guest_list_others_do_not(self):
+        self.reply()
+        self.reply(name='Arun', attending='NO')
+        self.assertEqual(self.client.get('/api/websites/anu-weds-ravi/rsvps/').status_code, 403)
+        self.client.force_login(get_user_model().objects.create_user(username='stranger', password='x'))
+        self.assertEqual(self.client.get('/api/websites/anu-weds-ravi/rsvps/').status_code, 404)
+        self.client.force_login(self.owner)
+        data = self.client.get('/api/websites/anu-weds-ravi/rsvps/').json()
+        self.assertEqual(data['summary'], {'total': 2, 'attending': 1, 'declined': 1})
+        rsvp_id = data['results'][0]['id']
+        self.assertEqual(self.client.delete(f'/api/websites/anu-weds-ravi/rsvps/{rsvp_id}/').status_code, 204)
+        self.assertEqual(self.site.rsvps.count(), 1)
+
+    def test_wish_counter_moves_one_at_a_time(self):
+        response = self.client.post('/api/websites/anu-weds-ravi/wish/', {'increment': 100000}, content_type='application/json')
+        self.assertEqual(response.json()['wish_count'], 49)

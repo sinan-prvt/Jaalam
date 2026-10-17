@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Volume2, VolumeX, GlassWater, Diamond } from 'lucide-react';
 import type { BirthdayLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export function AdultElegantLayout({ content, website, updateContent, isEditor }: BirthdayLayoutProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -351,7 +352,7 @@ export function AdultElegantLayout({ content, website, updateContent, isEditor }
             <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-[#d4af37]/50"></div>
             <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-[#d4af37]/50"></div>
 
-            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-12">
               <div>
                 <input type="text" className="w-full bg-transparent border-b border-[#d4af37]/30 pb-4 outline-none focus:border-[#d4af37] transition-all duration-500 text-[#f7e7ce] placeholder-[#bda88a]/50 font-serif text-xl italic" placeholder="M..............................................." />
               </div>
@@ -378,7 +379,7 @@ export function AdultElegantLayout({ content, website, updateContent, isEditor }
                   Send Reply
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

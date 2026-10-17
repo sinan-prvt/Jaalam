@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Volume2, VolumeX } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function FloralEngagementLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -387,7 +388,7 @@ export default function FloralEngagementLayout({ content, website, colors }: Wed
             <p className="text-[#8A9A8E] font-sans text-xs tracking-[0.15em] uppercase">Please Respond By April 1st</p>
           </div>
 
-          <form className="space-y-6 font-sans relative z-10" onSubmit={(e) => e.preventDefault()}>
+          <RsvpForm className="space-y-6 font-sans relative z-10">
             <div>
               <input type="text" className="w-full bg-[#FDF9F9] border-none px-4 py-4 rounded-lg outline-none focus:ring-1 focus:ring-[#D98880] transition-shadow text-[#2E3A31] text-sm placeholder-[#A3B1A7]" placeholder="Name(s) of Guest(s)" />
             </div>
@@ -412,7 +413,7 @@ export default function FloralEngagementLayout({ content, website, colors }: Wed
                 Send Reply
               </button>
             </div>
-          </form>
+          </RsvpForm>
         </div>
       </section>
     )

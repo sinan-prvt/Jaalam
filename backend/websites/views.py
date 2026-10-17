@@ -5,11 +5,12 @@ from rest_framework.parsers import MultiPartParser
 from django.core.files.storage import default_storage
 import uuid
 from django.shortcuts import get_object_or_404
-from .models import Website, WebsiteContent
-from .serializers import WebsiteSerializer, WebsiteContentSerializer
+from .models import Rsvp, Website, WebsiteContent
+from .serializers import RsvpSerializer, WebsiteSerializer, WebsiteContentSerializer
 from rest_framework.exceptions import ValidationError
 from users.notifications import create_notification, notify_all_admins
 from users import plans
+from customers.views import LeadThrottle
 
 
 def check_theme_allowed(owner, theme):
@@ -34,7 +35,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # 'retrieve' used to return every site to anyone, exposing unpublished drafts;
         # it now goes through the owner/client filter below like list/update.
-        if self.action in ['public', 'wish', 'toggle_block']:
+        if self.action in ['public', 'wish', 'rsvp', 'toggle_block']:
             return Website.objects.all()
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser and (self.request.query_params.get('all') == 'true' or self.action == 'retrieve'):
@@ -154,14 +155,53 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         current_count = wedding.get('wish_count', 48)
 
         if request.method == 'POST':
-            increment = int(request.data.get('increment', 1))
-            current_count = max(0, current_count + increment)
+            try:
+                increment = int(request.data.get('increment', 1))
+            except (TypeError, ValueError):
+                increment = 1
+            # One tap adds or removes a single wish.
+            current_count = max(0, current_count + max(-1, min(1, increment)))
             wedding['wish_count'] = current_count
             settings['wedding'] = wedding
             content.settings_json = settings
             content.save(update_fields=['settings_json'])
 
         return Response({'wish_count': current_count})
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.AllowAny],
+            authentication_classes=[], throttle_classes=[LeadThrottle])
+    def rsvp(self, request, slug=None):
+        """A guest's reply from the invitation's RSVP form (no login)."""
+        website = self.get_object()
+        if not website.published or website.is_blocked or is_paused(website):
+            return Response({'error': 'This invitation is not accepting replies.'}, status=status.HTTP_403_FORBIDDEN)
+        serializer = RsvpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        rsvp = serializer.save(website=website)
+        reply = {'YES': 'is attending', 'NO': 'cannot attend'}.get(rsvp.attending, 'replied')
+        create_notification(website.user, f'RSVP: {rsvp.name} {reply}', (rsvp.message or '')[:300] or 'New reply to your invitation.',
+                            notification_type='rsvp')
+        return Response({'status': 'received'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['get'], url_path='rsvps')
+    def rsvps(self, request, slug=None):
+        """The owner's guest list for an invitation."""
+        website = self.get_object()  # owner/client filtered by get_queryset
+        replies = website.rsvps.all()
+        return Response({
+            'summary': {
+                'total': replies.count(),
+                'attending': replies.filter(attending='YES').count(),
+                'declined': replies.filter(attending='NO').count(),
+            },
+            'results': RsvpSerializer(replies, many=True).data,
+        })
+
+    @action(detail=True, methods=['delete'], url_path=r'rsvps/(?P<rsvp_id>\d+)')
+    def delete_rsvp(self, request, slug=None, rsvp_id=None):
+        website = self.get_object()
+        get_object_or_404(Rsvp, website=website, id=rsvp_id).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def content(self, request, slug=None):

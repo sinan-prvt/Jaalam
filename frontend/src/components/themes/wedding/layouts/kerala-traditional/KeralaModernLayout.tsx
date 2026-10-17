@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Clock, Heart, Gift, Send, Volume2, VolumeX, Navigation, ChevronRight, Flower2 } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function KeralaModernLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -451,7 +452,7 @@ export default function KeralaModernLayout({ content, website, colors }: Wedding
           </div>
 
           <div className="bg-white/[0.02] border border-white/[0.05] rounded-[2.5rem] p-8 sm:p-12">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-6">
               <div>
                 <label className="block text-xs tracking-widest uppercase text-white/60 mb-2">Name</label>
                 <input type="text" className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-amber-500/50 transition-all text-white placeholder-white/20" placeholder="John Doe" />
@@ -482,7 +483,7 @@ export default function KeralaModernLayout({ content, website, colors }: Wedding
                   Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>

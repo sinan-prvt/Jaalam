@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Send, Volume2, VolumeX, Navigation } from 'lucide-react';
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
+import RsvpForm from '../../../shared/RsvpForm';
 
 export default function EngagementFloralLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
@@ -331,7 +332,7 @@ export default function EngagementFloralLayout({ content, website, colors }: Wed
             {/* Soft decorative corner */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#F2D7D5]/30 rounded-bl-[100%] pointer-events-none"></div>
 
-            <form className="space-y-8 font-montserrat max-w-xl mx-auto relative z-10" onSubmit={(e) => e.preventDefault()}>
+            <RsvpForm className="space-y-8 font-montserrat max-w-xl mx-auto relative z-10">
               <div>
                 <input type="text" className="w-full bg-transparent border-b border-[#D4B5B0] px-2 py-3 outline-none focus:border-[#4A5D4E] transition-colors text-[#2C3E30] text-[11px] tracking-widest uppercase placeholder-[#A0A0A0]" placeholder="Guest Name(s)" />
               </div>
@@ -358,7 +359,7 @@ export default function EngagementFloralLayout({ content, website, colors }: Wed
                   <Send size={12} /> Send Response
                 </button>
               </div>
-            </form>
+            </RsvpForm>
           </div>
         </div>
       </section>
