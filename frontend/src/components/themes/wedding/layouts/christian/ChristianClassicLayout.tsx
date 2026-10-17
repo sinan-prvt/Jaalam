@@ -3,6 +3,27 @@ import { Heart, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigatio
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
+// Defined outside the layout so React keeps the same component between renders: defined
+// inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
+const CardWrapper = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+  <div className={`bg-white/80 backdrop-blur-2xl rounded-[3rem] p-8 sm:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-200/60 relative overflow-hidden group ${className}`}>
+    <div className="absolute inset-0 bg-gradient-to-br from-white via-white/50 to-slate-50/30 opacity-80 z-0"></div>
+    <div className="relative z-10">{children}</div>
+  </div>
+);
+
+const SectionHeading = ({ title, subtitle }: { title: string, subtitle?: string }) => (
+  <div className="flex flex-col items-center mb-12 text-center relative z-20">
+    <div className="flex items-center gap-4 mb-4 opacity-70">
+      <div className="h-[1px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+      <Sparkles size={16} className="text-slate-400 animate-pulse" />
+      <div className="h-[1px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+    </div>
+    <h2 className="text-3xl sm:text-5xl font-playfair font-black text-slate-800 tracking-wide">{title}</h2>
+    {subtitle && <p className="text-slate-500 text-sm italic leading-relaxed mt-4 font-garamond">{subtitle}</p>}
+  </div>
+);
+
 export default function ChristianClassicLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
@@ -194,25 +215,6 @@ export default function ChristianClassicLayout({ content, website, colors }: Wed
     }
   }
   const sections = rawSections;
-
-  const CardWrapper = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-    <div className={`bg-white/80 backdrop-blur-2xl rounded-[3rem] p-8 sm:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-200/60 relative overflow-hidden group ${className}`}>
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-white/50 to-slate-50/30 opacity-80 z-0"></div>
-      <div className="relative z-10">{children}</div>
-    </div>
-  );
-
-  const SectionHeading = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-    <div className="flex flex-col items-center mb-12 text-center relative z-20">
-      <div className="flex items-center gap-4 mb-4 opacity-70">
-        <div className="h-[1px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-        <Sparkles size={16} className="text-slate-400 animate-pulse" />
-        <div className="h-[1px] w-12 sm:w-20 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-      </div>
-      <h2 className="text-3xl sm:text-5xl font-playfair font-black text-slate-800 tracking-wide">{title}</h2>
-      {subtitle && <p className="text-slate-500 text-sm italic leading-relaxed mt-4 font-garamond">{subtitle}</p>}
-    </div>
-  );
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (

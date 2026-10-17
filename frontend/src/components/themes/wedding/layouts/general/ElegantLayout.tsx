@@ -3,6 +3,25 @@ import { Heart, MapPin, Clock, Gift, Sparkles, Send, Volume2, VolumeX, Navigatio
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
+// Defined outside the layout so React keeps the same component between renders: defined
+// inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
+const SectionContainer = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+  <div className={`max-w-4xl mx-auto p-[2px] bg-gradient-to-b from-[#D4AF37]/40 via-transparent to-[#D4AF37]/10 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group ${className}`}>
+    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none mix-blend-overlay"></div>
+    <div className="bg-[#0C0D11]/95 backdrop-blur-xl rounded-[calc(3rem-2px)] p-8 sm:p-14 relative z-10">
+      {children}
+    </div>
+  </div>
+);
+
+const TitleDivider = () => (
+  <div className="flex items-center justify-center gap-4 mb-8 opacity-90 w-full max-w-xs mx-auto">
+    <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-[#D4AF37]/30"></div>
+    <Sparkles className="w-5 h-5 text-[#D4AF37] animate-pulse shrink-0" />
+    <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#D4AF37] to-[#D4AF37]/30"></div>
+  </div>
+);
+
 export default function ElegantLayout({ content, website }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
@@ -193,22 +212,6 @@ export default function ElegantLayout({ content, website }: WeddingLayoutProps) 
   const sections = rawSections;
 
   // Reusable Section Background with Glassmorphism and Elegant Borders
-  const SectionContainer = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-    <div className={`max-w-4xl mx-auto p-[2px] bg-gradient-to-b from-[#D4AF37]/40 via-transparent to-[#D4AF37]/10 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group ${className}`}>
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none mix-blend-overlay"></div>
-      <div className="bg-[#0C0D11]/95 backdrop-blur-xl rounded-[calc(3rem-2px)] p-8 sm:p-14 relative z-10">
-        {children}
-      </div>
-    </div>
-  );
-
-  const TitleDivider = () => (
-    <div className="flex items-center justify-center gap-4 mb-8 opacity-90 w-full max-w-xs mx-auto">
-      <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-[#D4AF37]/30"></div>
-      <Sparkles className="w-5 h-5 text-[#D4AF37] animate-pulse shrink-0" />
-      <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#D4AF37] to-[#D4AF37]/30"></div>
-    </div>
-  );
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (

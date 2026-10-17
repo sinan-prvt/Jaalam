@@ -3,6 +3,16 @@ import { Heart, Gift, Send, Volume2, VolumeX, Navigation, ChevronDown } from 'lu
 import type { WeddingLayoutProps } from '../types';
 import { triggerConfettiPopper } from '../../../../../utils/confettiPopper';
 
+// Defined outside the layout so React keeps the same component between renders: defined
+// inside, every re-render (e.g. each countdown tick) remounted all it wraps, wiping RSVP input.
+const ModernHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
+  <div className="flex flex-col items-center mb-16 relative z-20 text-center">
+    <span className="text-[10px] tracking-[0.4em] text-slate-400 font-sans uppercase font-semibold mb-4 block">{subtitle || "DETAILS"}</span>
+    <h2 className="text-4xl md:text-5xl font-cinzel text-slate-900 tracking-widest">{title}</h2>
+    <div className="w-16 h-px bg-slate-900 mt-8"></div>
+  </div>
+);
+
 export default function ChristianModernChapelLayout({ content, website, colors }: WeddingLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpening, setIsOpening] = useState(false);
@@ -162,14 +172,6 @@ export default function ChristianModernChapelLayout({ content, website, colors }
     }
   }
   const sections = rawSections;
-
-  const ModernHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-    <div className="flex flex-col items-center mb-16 relative z-20 text-center">
-      <span className="text-[10px] tracking-[0.4em] text-slate-400 font-sans uppercase font-semibold mb-4 block">{subtitle || "DETAILS"}</span>
-      <h2 className="text-4xl md:text-5xl font-cinzel text-slate-900 tracking-widest">{title}</h2>
-      <div className="w-16 h-px bg-slate-900 mt-8"></div>
-    </div>
-  );
 
   const sectionMap: Record<string, React.ReactNode> = {
     hero: (
