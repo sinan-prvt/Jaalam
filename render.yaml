@@ -7,7 +7,10 @@ services:
     rootDir: backend
     buildCommand: ./build.sh
     startCommand: gunicorn config.wsgi:application
-    envVars:
+    envVars:dsd
+    sdsdsdsdsds\
+    ds\ds\ds
+    ds\ds\ds\ds\ds\d\
       - key: DATABASE_URL
         fromDatabase:
           name: webbuilder-db
