@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Search, Star, Clock, Scissors, Phone, Mail, ChevronLeft, X, ArrowRight, Menu as MenuIcon } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import { getStats } from '../shared/ThemeStats';
 
 const InstagramIcon = ({ size = 18 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -206,7 +207,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
         {/* ═══════════════════════════════════════
             NAVIGATION
             ═══════════════════════════════════════ */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_20px_rgba(0,0,0,0.06)]' : 'bg-transparent'}`}>
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_20px_rgba(0,0,0,0.06)]' : 'bg-white/70 backdrop-blur-md'}`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
             {/* Brand */}
             <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2 group">
@@ -279,7 +280,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
             HERO SECTION
             ═══════════════════════════════════════ */}
         {!(content.settings_json?.hidden_sections || []).includes('hero') && (
-          <section id="hero" className="relative min-h-screen flex items-center overflow-hidden" style={{ background: cream }}>
+          <><section id="hero" className="relative min-h-screen flex items-center overflow-hidden" style={{ background: cream }}>
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-[0.07]" style={{ background: `radial-gradient(circle, ${gold} 0%, transparent 70%)` }} />
             <div className="absolute bottom-20 left-10 w-64 h-64 rounded-full opacity-[0.05]" style={{ background: `radial-gradient(circle, ${gold} 0%, transparent 70%)` }} />
@@ -328,20 +329,15 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
 
                     {/* Stats */}
                     <div className="flex items-center gap-8 mt-12 justify-center md:justify-start">
-                      <div>
-                        <div className="font-glamour text-3xl font-bold" style={{ color: gold }}>500+</div>
-                        <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider mt-1">Happy Clients</div>
-                      </div>
-                      <div className="w-px h-12 bg-stone-200" />
-                      <div>
-                        <div className="font-glamour text-3xl font-bold" style={{ color: gold }}>15+</div>
-                        <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider mt-1">Expert Stylists</div>
-                      </div>
-                      <div className="w-px h-12 bg-stone-200" />
-                      <div>
-                        <div className="font-glamour text-3xl font-bold" style={{ color: gold }}>5.0</div>
-                        <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider mt-1">Rating</div>
-                      </div>
+                      {(getStats(content).length ? getStats(content).slice(0, 3) : [{ value: '500+', label: 'Happy Clients' }, { value: '15+', label: 'Expert Stylists' }, { value: '5.0', label: 'Rating' }]).map((s, i) => (
+                        <div key={i} className="flex items-center gap-8">
+                          {i > 0 && <div className="w-px h-12 bg-stone-200" />}
+                          <div>
+                            <div className="font-glamour text-3xl font-bold" style={{ color: gold }}>{s.value}</div>
+                            <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider mt-1">{s.label}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </FadeInView>
                 </div>
@@ -381,7 +377,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                 </div>
               </div>
             </div>
-          </section>
+          </section></>
         )}
 
         {/* ═══════════════════════════════════════
@@ -480,7 +476,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                             >
                               <div className="aspect-[4/3] overflow-hidden">
                                 {service.image ? (
-                                  <img loading="lazy" src={service.image}
+                                  <img loading="lazy" src={service.image || undefined}
                                     alt={service.title || service.name}
                                     className="w-full h-full object-cover glamour-img-zoom"
                                   />
@@ -541,7 +537,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                               className="glamour-card flex gap-5 items-center cursor-pointer group bg-white border border-stone-100 rounded-2xl p-4 md:p-5 hover:border-amber-200"
                             >
                               <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl overflow-hidden shrink-0">
-                                <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
+                                <img loading="lazy" src={style.image || undefined} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
                               </div>
                               <div className="flex-1 py-1 text-left">
                                 <h4 className="font-glamour font-bold text-base md:text-lg text-stone-900 mb-1.5 group-hover:text-amber-800 transition-colors">
@@ -787,7 +783,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                               return <p key={block.id || idx} className="text-sm md:text-base text-stone-600 leading-relaxed whitespace-pre-wrap text-center font-medium">{block.content}</p>;
                             }
                             if (block.type === 'image') {
-                              return block.url ? <img loading="lazy" key={block.id || idx} src={block.url} alt="Custom Block" className="w-full h-auto object-cover rounded-2xl shadow-md max-h-[400px] md:max-h-[500px]" /> : null;
+                              return block.url ? <img loading="lazy" key={block.id || idx} src={block.url || undefined} alt="Custom Block" className="w-full h-auto object-cover rounded-2xl shadow-md max-h-[400px] md:max-h-[500px]" /> : null;
                             }
                             if (block.type === 'divider') {
                               return <div key={block.id || idx} className="w-full h-px bg-stone-200 my-6" />;
@@ -918,7 +914,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
                     className="glamour-card flex gap-5 items-center cursor-pointer group bg-white border border-stone-100 rounded-2xl p-4 md:p-5 hover:border-amber-200"
                   >
                     <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl overflow-hidden shrink-0">
-                      <img loading="lazy" src={style.image} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
+                      <img loading="lazy" src={style.image || undefined} alt={style.name} className="w-full h-full object-cover glamour-img-zoom" />
                     </div>
                     <div className="flex-1 py-1">
                       <h4 className="font-glamour font-bold text-base md:text-lg text-stone-900 mb-1.5 group-hover:text-amber-800 transition-colors">
@@ -958,7 +954,7 @@ export default function SalonTheme2({ website, content }: SalonTheme2Props) {
             >
               {/* Image Header */}
               <div className="relative aspect-[16/10] w-full bg-stone-100 overflow-hidden shrink-0">
-                <img loading="lazy" src={selectedStyle.image} alt={selectedStyle.name} className="w-full h-full object-cover" />
+                <img loading="lazy" src={selectedStyle.image || undefined} alt={selectedStyle.name} className="w-full h-full object-cover" />
                 <button
                   onClick={() => setSelectedStyle(null)}
                   className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm hover:bg-white text-stone-800 p-2 rounded-full shadow-md transition-all active:scale-95 z-20"

@@ -148,7 +148,7 @@ export default function ElegantMosqueLayout({ website, content }: { website: any
                   >
                     <div className={`w-48 h-48 rounded-full p-2 border border-stone-300 group-hover:${colors.goldBorder} mb-6 bg-white relative overflow-hidden transition-all duration-700 shadow-sm group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]`}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
+                        <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
                       ) : (
                         <div className="w-full h-full rounded-full bg-stone-50 flex items-center justify-center">
                           <User size={40} className="text-stone-300" />

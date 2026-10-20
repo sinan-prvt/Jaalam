@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 export default function PopGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -81,7 +82,7 @@ export default function PopGroceryTheme({ website, content }: any) {
 
       {/* Hero — Split Layout with bold color */}
       {!hiddenSections.includes('hero') && (
-        <section id="hero" style={{ order: sectionOrder.indexOf('hero') + 1 }} className="pt-24 pb-0 min-h-screen flex flex-col lg:flex-row items-stretch overflow-hidden">
+        <><section id="hero" style={{ order: sectionOrder.indexOf('hero') + 1 }} className="pt-24 pb-0 min-h-screen flex flex-col lg:flex-row items-stretch overflow-hidden">
           {/* Left: Text */}
           <div className="w-full lg:w-1/2 bg-emerald-50 px-8 md:px-16 py-20 flex flex-col justify-center">
             <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 text-sm font-bold px-4 py-2 rounded-full mb-8 w-fit">
@@ -137,6 +138,7 @@ export default function PopGroceryTheme({ website, content }: any) {
             <div className="absolute top-10 right-10 w-24 h-24 bg-white/20 rounded-full blur-2xl" />
           </div>
         </section>
+      <ThemeStats content={content} /></>
       )}
 
       {/* About */}
@@ -208,7 +210,7 @@ export default function PopGroceryTheme({ website, content }: any) {
               {products.slice(0, 8).map((p: any, i: number) => (
                 <div key={i} onClick={() => setSelectedProduct(p)} className="group cursor-pointer bg-gray-50 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-emerald-100">
                   <div className="aspect-[4/3] overflow-hidden bg-white">
-                    <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500" />
+                    <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500" />
                   </div>
                   <div className="p-5">
                     <h3 className="font-pop font-bold text-gray-900 text-lg mb-1 truncate">{p.name}</h3>
@@ -360,7 +362,7 @@ export default function PopGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, idx: number) => {
               if (block.type === 'heading') return <h2 key={idx} className="font-pop text-4xl font-black text-gray-900">{block.content}</h2>;
               if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-body text-lg text-gray-600 leading-relaxed whitespace-pre-wrap">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={idx} src={block.url} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={idx} src={block.url || undefined} alt="Custom" className="w-full rounded-3xl shadow-xl" />;
               if (block.type === 'divider') return <div key={idx} className="w-full h-0.5 bg-gray-100 my-10" />;
               return null;
             })}

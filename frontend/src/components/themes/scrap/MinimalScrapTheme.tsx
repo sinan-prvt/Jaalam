@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { X, Clock, Menu } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube } from './SocialIcons';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function MinimalScrapTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -43,8 +44,9 @@ export default function MinimalScrapTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -84,7 +86,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="p-6 md:p-12 border-b-4 border-black bg-white">
+            <Fragment key="hero"><section key="hero" id="hero" className="p-6 md:p-12 border-b-4 border-black bg-white">
               {!hiddenFields.includes("hero_title") && (
               <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
                 {content.hero_title || 'TURN TRASH INTO CASH.'}
@@ -106,6 +108,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                       )}
               </div>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -213,7 +216,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
                   <div className="mb-6">
                     <h3 className="font-bold text-xl mb-4 uppercase flex items-center gap-2"><Clock size={20}/> HOURS</h3>
                     <p className="font-bold text-lg whitespace-pre-line">
-                      {content.contact_info?.office_hours || 'MON-FRI: 08:00 - 18:00\nSAT: 08:00 - 14:00\nSUN: CLOSED'}
+                      {content.contact_info?.hours || content.contact_info?.office_hours || 'MON-FRI: 08:00 - 18:00\nSAT: 08:00 - 14:00\nSUN: CLOSED'}
                     </p>
                   </div>
 
@@ -300,7 +303,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}
@@ -339,7 +342,7 @@ export default function MinimalScrapTheme({ website, content }: any) {
             </button>
             {selectedProduct.image && (
               <div className="h-40 md:h-56 w-full border-b-4 border-black">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover filter grayscale" />
               </div>
             )}
             <div className="p-6 md:p-8">

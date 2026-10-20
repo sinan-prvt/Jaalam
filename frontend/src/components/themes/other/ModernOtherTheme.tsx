@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/SocialIcons';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function ModernOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
@@ -57,7 +58,7 @@ export default function ModernOtherTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative min-h-[85vh] flex items-center pt-10 pb-24 px-6 overflow-hidden bg-white">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1, display: hiddenSections.includes('hero') ? 'none' : 'flex' }} className="relative min-h-[85vh] flex items-center pt-10 pb-24 px-6 overflow-hidden bg-white">
         <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-blue-100 rounded-full mix-blend-multiply filter blur-[100px] opacity-70"></div>
         <div className="absolute bottom-[-20%] right-[-10%] w-[40vw] h-[40vw] bg-indigo-100 rounded-full mix-blend-multiply filter blur-[100px] opacity-70"></div>
         
@@ -89,6 +90,7 @@ export default function ModernOtherTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* About */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
@@ -126,7 +128,7 @@ export default function ModernOtherTheme({ website, content }: any) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {services.map((srv: any, i: number) => (
                 <div key={i} className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:border-blue-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  {srv.image && <img loading="lazy" src={srv.image} alt={srv.title} className="w-16 h-16 object-cover rounded-xl mb-6 shadow-sm" />}
+                  {srv.image && <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-16 h-16 object-cover rounded-xl mb-6 shadow-sm" />}
                   <h3 className="font-modern text-2xl font-bold mb-4 text-slate-800">{srv.title}</h3>
                   <p className="font-modern text-slate-600 leading-relaxed">{srv.description}</p>
                 </div>
@@ -147,7 +149,7 @@ export default function ModernOtherTheme({ website, content }: any) {
             <div className="space-y-4">
               {menuItems.map((item: any, i: number) => (
                 <div key={i} className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
-                  {item.image && <img loading="lazy" src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-2xl" />}
+                  {item.image && <img loading="lazy" src={item.image || undefined} alt={item.name} className="w-24 h-24 object-cover rounded-2xl" />}
                   <div className="flex-1">
                     <h3 className="font-modern text-xl font-bold text-slate-900 mb-2">{item.name}</h3>
                     <p className="font-modern text-slate-600">{item.description}</p>

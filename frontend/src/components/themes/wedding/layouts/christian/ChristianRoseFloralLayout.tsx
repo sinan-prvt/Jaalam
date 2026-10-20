@@ -329,7 +329,7 @@ export default function ChristianRoseFloralLayout({ content, website, colors }: 
                 <div className="relative w-48 h-64 sm:w-56 sm:h-72 mb-8 rounded-t-full rounded-b-[2rem] overflow-hidden border-4 border-white shadow-xl group-hover:shadow-2xl transition-all duration-700">
                   <div className="absolute inset-0 bg-rose-900/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
                   {person.photo ? (
-                    <img src={person.photo} alt={person.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                    <img src={person.photo || undefined} alt={person.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-rose-50 to-rose-100 flex flex-col items-center justify-center text-[#B76E79]">
                       <Heart size={32} className="fill-rose-200" />

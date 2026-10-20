@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from .models import Rsvp, Website, WebsiteContent
 from .serializers import RsvpSerializer, WebsiteSerializer, WebsiteContentSerializer
 from rest_framework.exceptions import ValidationError
+from . import domains
+from django.utils import timezone
 from users.notifications import create_notification, notify_all_admins
 from users import plans
 from customers.views import LeadThrottle
@@ -35,7 +37,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # 'retrieve' used to return every site to anyone, exposing unpublished drafts;
         # it now goes through the owner/client filter below like list/update.
-        if self.action in ['public', 'wish', 'rsvp', 'toggle_block']:
+        if self.action in ['public', 'wish', 'rsvp', 'toggle_block', 'by_domain']:
             return Website.objects.all()
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser and (self.request.query_params.get('all') == 'true' or self.action == 'retrieve'):
@@ -114,15 +116,12 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         exists = Website.objects.filter(slug=slug).exists()
         return Response({'available': not exists})
 
-    @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
-    def public(self, request, slug=None):
-        website = self.get_object()
-        
+    def _public_response(self, request, website):
         if not website.published:
             # Allow the owner to view their own unpublished site
             if not (request.user.is_authenticated and request.user == website.user):
                 return Response({'error': 'Website is not published'}, status=403)
-            
+
         if getattr(website, 'is_blocked', False):
             return Response({'error': 'Website is suspended'}, status=403)
 
@@ -132,13 +131,114 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         if not hasattr(website, 'content'):
             # Auto-create content if missing even on public view to prevent crashes
             WebsiteContent.objects.create(website=website)
-            
+
         # Increment visitor count
         website.visitors_count += 1
         website.save(update_fields=['visitors_count'])
-            
+
         serializer = WebsiteSerializer(website)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
+    def public(self, request, slug=None):
+        return self._public_response(request, self.get_object())
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny], url_path='by-domain')
+    def by_domain(self, request):
+        """Public site for a verified custom domain: /api/websites/by-domain/?host=www.mybakery.com"""
+        host = domains.normalize_domain(request.query_params.get('host', ''))
+        website = Website.objects.filter(custom_domain=host, domain_verified=True).first() if host else None
+        if not website:
+            return Response({'error': 'No website is connected to this domain'}, status=404)
+        return self._public_response(request, website)
+
+    def _domain_payload(self, website, check=None):
+        data = {
+            'domain': website.custom_domain,
+            'verified': website.domain_verified,
+            'verified_at': website.domain_verified_at,
+            'records': domains.dns_records(website.custom_domain, website.domain_token) if website.custom_domain else [],
+            'auto_ssl': domains.vercel_enabled(),
+        }
+        if check is not None:
+            data['check'] = check
+        return data
+
+    def _owned_website(self, request):
+        website = self.get_object()
+        if website.user != request.user and not request.user.is_superuser:
+            return None
+        return website
+
+    @action(detail=True, methods=['get', 'post', 'delete'], permission_classes=[permissions.IsAuthenticated])
+    def domain(self, request, slug=None):
+        """GET: current domain + DNS records. POST {domain}: connect (pending until verified). DELETE: disconnect."""
+        website = self._owned_website(request)
+        if website is None:
+            return Response({'error': 'Only the website owner can manage its domain'}, status=403)
+
+        if request.method == 'GET':
+            return Response(self._domain_payload(website))
+
+        if request.method == 'DELETE':
+            if website.custom_domain and website.domain_verified:
+                domains.vercel_remove_domain(website.custom_domain)
+            website.custom_domain = None
+            website.domain_token = ''
+            website.domain_verified = False
+            website.domain_verified_at = None
+            website.save(update_fields=['custom_domain', 'domain_token', 'domain_verified', 'domain_verified_at'])
+            return Response(self._domain_payload(website))
+
+        domain = domains.normalize_domain(request.data.get('domain', ''))
+        error = domains.validate_domain(domain)
+        if error:
+            return Response({'error': error}, status=400)
+        if Website.objects.filter(custom_domain=domain).exclude(pk=website.pk).exists():
+            return Response({'error': 'This domain is already connected to another website.'}, status=400)
+
+        if website.custom_domain != domain:
+            if website.custom_domain and website.domain_verified:
+                domains.vercel_remove_domain(website.custom_domain)
+            website.custom_domain = domain
+            website.domain_token = domains.new_token()
+            website.domain_verified = False
+            website.domain_verified_at = None
+            website.save(update_fields=['custom_domain', 'domain_token', 'domain_verified', 'domain_verified_at'])
+        return Response(self._domain_payload(website))
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated], url_path='domain/verify')
+    def verify_domain(self, request, slug=None):
+        """Looks up the DNS records and marks the domain verified when they are correct."""
+        website = self._owned_website(request)
+        if website is None:
+            return Response({'error': 'Only the website owner can manage its domain'}, status=403)
+        if not website.custom_domain:
+            return Response({'error': 'Connect a domain first'}, status=400)
+
+        check = domains.check_dns(website.custom_domain, website.domain_token)
+        if check['verified'] and not website.domain_verified:
+            website.domain_verified = True
+            website.domain_verified_at = timezone.now()
+            website.save(update_fields=['domain_verified', 'domain_verified_at'])
+            check['hosting'] = domains.vercel_add_domain(website.custom_domain)
+            if not check['hosting'].get('enabled'):
+                notify_all_admins(
+                    title='Custom domain needs hosting setup',
+                    message=f'{website.custom_domain} (and www.{website.custom_domain}) was verified for {website.slug}. Add both to the frontend hosting project so it gets SSL.',
+                    notification_type='domain_setup',
+                )
+            create_notification(
+                user=website.user,
+                title='Domain connected',
+                message=f'{website.custom_domain} is now connected to {website.slug}.',
+                notification_type='domain_connected',
+            )
+        elif not check['verified'] and website.domain_verified and not check['ownership']:
+            # Records were removed: stop serving the site on this domain
+            website.domain_verified = False
+            website.save(update_fields=['domain_verified'])
+        return Response(self._domain_payload(website, check))
 
     # No authentication: guests tap this anonymously, and it must also work for a logged-in
     # owner viewing their own invitation (session auth would demand a CSRF token).

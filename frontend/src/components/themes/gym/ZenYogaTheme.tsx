@@ -3,6 +3,7 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { MapPin, Phone, Mail, ChevronRight, X, Heart, Wind, Sunrise, Leaf, Menu } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 /* ─── Intersection-observer fade-in ─── */
 function FadeIn({ children, delay = 0, dir = 'up', className = '' }: { children: React.ReactNode; delay?: number; dir?: 'up' | 'left' | 'right'; className?: string }) {
@@ -145,8 +146,6 @@ export default function ZenYogaTheme({ website, content }: Props) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -244,6 +243,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
             </div>
           </div>
         )}
+        <ThemeStats content={content} />
 
         {/* Dynamic Sections */}
         {sectionOrder.map(sectionId => {
@@ -320,7 +320,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           <div className="h-64 relative overflow-hidden p-3 pb-0">
                             <div className="w-full h-full rounded-t-[1.25rem] overflow-hidden relative">
                               {s.image ? (
-                                <img loading="lazy" src={s.image} alt={s.title || s.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                <img loading="lazy" src={s.image || undefined} alt={s.title || s.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                               ) : (
                                 <div className="w-full h-full bg-[#F4F1EA] flex items-center justify-center">
                                   <Leaf size={48} className="text-[#8CA392] opacity-50" />
@@ -361,7 +361,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                           className={`rounded-[2rem] flex flex-col items-center text-center h-full transition-transform duration-500 hover:-translate-y-2 overflow-hidden ${idx === 1 ? 'bg-[#2C402E] text-white shadow-2xl' : 'bg-[#F4F1EA] text-[#2C402E]'}`}
                         >
                           <div className="w-full h-48 bg-white/20">
-                            <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                            <img loading="lazy" src={product.image || undefined} alt={product.name} className="w-full h-full object-cover" />
                           </div>
                           <div className="p-8 w-full flex flex-col items-center flex-1">
                             <h3 className="zy-heading text-3xl mb-2 break-words">{product.name}</h3>
@@ -548,7 +548,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                         case 'image':
                           return (
                             <div key={block.id} className="w-full relative overflow-hidden rounded-[2rem] shadow-sm my-8">
-                              <img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover" />
+                              <img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto object-cover" />
                             </div>
                           );
                         case 'divider':
@@ -613,7 +613,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
               
               <div className="h-40 md:h-48 w-full relative shrink-0">
                 {selectedService.image ? (
-                  <img loading="lazy" src={selectedService.image} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={selectedService.image || undefined} alt={selectedService.title || selectedService.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-[#8CA392]/20 flex items-center justify-center">
                     <Wind size={40} className="text-[#8CA392]" />
@@ -671,7 +671,7 @@ export default function ZenYogaTheme({ website, content }: Props) {
                   {products.map((product: any, idx: number) => (
                     <div key={idx} onClick={() => setSelectedProduct(product)} className="cursor-pointer bg-white rounded-[2rem] flex flex-col items-center text-center shadow-lg transition-transform hover:-translate-y-2 overflow-hidden">
                       <div className="w-full h-48 bg-gray-100">
-                        <img loading="lazy" src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" src={product.image || undefined} alt={product.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="p-10 w-full flex flex-col items-center flex-1">
                         <h3 className="zy-heading text-3xl mb-2 text-[#2C402E] break-words whitespace-pre-wrap">{product.name}</h3>

@@ -246,7 +246,7 @@ export function AdultModernLayout({ content, website, updateContent, isEditor }:
            {mapUrl && (
              <div className="flex-1 w-full min-h-[400px] bg-zinc-200 relative overflow-hidden grayscale contrast-125 hover:grayscale-0 transition-all duration-700">
                <iframe 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x0%3A0x0!2zM!3zM!4v1600000000000!5m2!1sen!2sus" 
+                 src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`} 
                  className="absolute inset-0 w-full h-full"
                  style={{ border: 0 }}
                  allowFullScreen

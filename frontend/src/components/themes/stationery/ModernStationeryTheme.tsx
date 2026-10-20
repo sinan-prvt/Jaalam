@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Book, ArrowRight, MapPin, Mail, Phone, Search, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 export default function ModernStationeryTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
@@ -98,7 +99,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
         <>
           {/* Hero */}
           {!hiddenSections.includes('hero') && (
-              <section key="hero" id="hero" className="py-24 px-6 bg-white">
+              <Fragment key="hero"><section key="hero" id="hero" className="py-24 px-6 bg-white">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
                   <div>
                     {!hiddenFields.includes("hero_title") && (
@@ -120,6 +121,7 @@ export default function ModernStationeryTheme({ website, content }: any) {
                   </div>
                 </div>
               </section>
+      <ThemeStats content={content} /></Fragment>
           )}
 
           {/* About */}

@@ -6,6 +6,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function TechStartupTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -39,8 +40,9 @@ export default function TechStartupTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
       `}</style>
 
@@ -84,7 +86,7 @@ export default function TechStartupTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-32 pb-24 px-6 overflow-hidden">
+      <><section style={{ order: sectionOrder.indexOf('hero') + 1 }} className="relative pt-32 pb-24 px-6 overflow-hidden">
         {/* Tech Grid Background */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#00D4FF 1px, transparent 1px), linear-gradient(90deg, #00D4FF 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
         
@@ -119,6 +121,7 @@ export default function TechStartupTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Injected Value Proposition (Services) Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
@@ -135,7 +138,7 @@ export default function TechStartupTheme({ website, content }: any) {
                   <div key={i} className="bg-[#181824] border border-white/5 p-8 hover:border-[#00D4FF]/30 transition-colors group rounded-lg relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/5 rounded-bl-full group-hover:scale-150 transition-transform duration-500"></div>
                     <div className="w-12 h-12 bg-[#00D4FF]/10 rounded-md flex items-center justify-center mb-6 relative z-10">
-                      {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-6 h-6 object-contain" /> : icons[i % icons.length]}
+                      {srv.image ? <img loading="lazy" src={srv.image || undefined} alt={srv.title} className="w-6 h-6 object-contain" /> : icons[i % icons.length]}
                     </div>
                     <h3 className="font-tech-title text-xl font-bold mb-3 text-white relative z-10">{srv.title}</h3>
                     <p className="font-tech-body text-gray-400 leading-relaxed relative z-10">{srv.description}</p>
@@ -164,7 +167,7 @@ export default function TechStartupTheme({ website, content }: any) {
             {services.slice(0, 6).map((service: any, i: number) => (
               <div key={i} className="group cursor-pointer bg-[#12121A] border border-white/5 hover:border-[#00D4FF]/50 p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 transition-all duration-300 rounded-lg" onClick={() => setSelectedProduct(service)}>
                 <div className="w-full md:w-1/3 aspect-video bg-[#181824] overflow-hidden rounded-md">
-                   <img loading="lazy" src={service.image} alt={service.name} className="w-full h-full object-cover mix-blend-luminosity opacity-60 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-500" />
+                   <img loading="lazy" src={service.image || undefined} alt={service.name} className="w-full h-full object-cover mix-blend-luminosity opacity-60 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-500" />
                 </div>
                 <div className="w-full md:w-2/3">
                   <div className="flex justify-between items-start mb-4">
@@ -232,7 +235,7 @@ export default function TechStartupTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="font-tech-title text-3xl md:text-4xl font-bold text-white">{`// ${block.content}`}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="font-tech-body text-lg text-gray-400 leading-relaxed">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-lg border border-white/10" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-lg border border-white/10" />;
               if (block.type === 'divider') return <hr key={block.id} className="border-t border-white/10" />;
               return null;
             })}

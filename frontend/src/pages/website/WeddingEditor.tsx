@@ -1073,7 +1073,7 @@ export default function WeddingEditor() {
             </div>
           )}
 
-          <div className="flex-1 overflow-hidden bg-white relative">
+          <div className="flex-1 overflow-hidden bg-white relative transform-gpu isolate">
             <iframe ref={iframeRef} src="/_preview" className="w-full h-full border-none"></iframe>
           </div>
         </div>

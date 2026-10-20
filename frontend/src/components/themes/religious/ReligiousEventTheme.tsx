@@ -226,7 +226,7 @@ function GenericReligiousLayout({ website, content }: { website: any, content: a
                     <div className="relative z-10">
                       {leader.photo ? (
                         <div className={`w-40 h-40 mx-auto rounded-full p-2 bg-white shadow-lg mb-6 border-2 ${styles.border} group-hover:scale-105 transition-transform`}>
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover rounded-full" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover rounded-full" />
                         </div>
                       ) : (
                         <div className={`w-40 h-40 mx-auto rounded-full p-2 bg-white shadow-lg mb-6 flex items-center justify-center border-2 ${styles.border} ${styles.light} ${styles.text}`}>

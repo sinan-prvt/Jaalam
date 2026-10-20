@@ -3,6 +3,10 @@ import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ShoppingCart, Star, MapPin, Phone, Smile, Menu, X } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import { ThemeAbout, ThemeContact, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
+
+const SECTION_LOOK: SectionLook = { kind: 'grocery', bg: '#FFFFFF', altBg: '#E0F7FA', text: '#006064', accent: '#FF4081', headingFont: 'font-fun', bodyFont: 'font-body', radius: 'xl' };
 
 export default function PlayfulGroceryTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -31,8 +35,9 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -66,7 +71,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-16 px-6 text-center relative">
+      <><section className="py-16 px-6 text-center relative">
         <div className="absolute top-10 left-10 text-[#FF4081] animate-bounce"><Star size={40} /></div>
         <div className="absolute top-20 right-20 text-[#FFB300] animate-bounce" style={{ animationDelay: '0.5s' }}><Star size={60} /></div>
 
@@ -88,6 +93,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Products Grid */}
       <section id="aisles" className="py-16 px-6">
@@ -103,7 +109,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
                   {p.tag}
                 </div>
                 <div className="aspect-square rounded-2xl overflow-hidden mb-4 border-4 border-[#E0F7FA]">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-fun text-xl text-[#006064] mb-2">{p.name}</h3>
                 <div className="flex justify-between items-center mt-4">
@@ -129,169 +135,24 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
 
 
 
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} onClick={() => setSelectedGalleryImage(img)} className="aspect-square rounded-xl overflow-hidden bg-black/5 cursor-pointer group relative">
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="bg-white text-black px-6 py-2 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      View
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
-      {/* Injected Contact Section */}
+      {/* Shared Contact Section */}
       {sectionOrder.includes('contact') && !hiddenSections.includes('contact') && (
-        <section style={{ order: sectionOrder.indexOf('contact') + 1 }} id="contact" className="py-16 px-6 bg-black/5">
-          <div className="container mx-auto max-w-4xl bg-white rounded-2xl p-8 md:p-12 shadow-sm text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">Contact Us</h2>
-            <p className="opacity-80 mb-8 max-w-lg mx-auto text-black">Get in touch with us for any inquiries or support.</p>
-            <div className="flex flex-col md:flex-row gap-8 text-left">
-              <div className="flex-1 space-y-6">
-                <div className="bg-white rounded-3xl p-6 border-4 border-[#FF4081] shadow-[4px_4px_0_#FFB300] flex items-center gap-4 transform rotate-1">
-                  <span className="text-3xl">📞</span>
-                  <div>
-                    <span className="font-fun text-sm text-[#FF4081] block mb-1">Phone</span>
-                    {!hiddenFields.includes('contact_phone') && (
-                                      <span className="font-fun text-[#006064] text-xl">{content.contact_info?.phone || '1800 123 4567'}</span>
-                                      )}
-                  </div>
-                </div>
-                <div className="bg-white rounded-3xl p-6 border-4 border-[#00ACC1] shadow-[4px_4px_0_#FF4081] flex items-center gap-4 transform -rotate-1">
-                  <span className="text-3xl">✉️</span>
-                  <div>
-                    <span className="font-fun text-sm text-[#00ACC1] block mb-1">Email</span>
-                    {!hiddenFields.includes('contact_email') && (
-                                      <span className="font-fun text-[#006064] text-lg break-all">{content.contact_info?.email || 'hello@example.com'}</span>
-                                      )}
-                  </div>
-                </div>
-                <div className="bg-white rounded-3xl p-6 border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1] flex items-center gap-4 transform rotate-1">
-                  <span className="text-3xl">📍</span>
-                  <div>
-                    <span className="font-fun text-sm text-[#FFB300] block mb-1">Location</span>
-                    {!hiddenFields.includes('contact_address') && (
-                                      <span className="font-fun text-[#006064] text-lg">{content.contact_info?.address || '123 Market Street'}</span>
-                                      )}
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                {(content.contact_info?.facebook || content.contact_info?.instagram || content.contact_info?.twitter) && (
-                  <div className="bg-white rounded-3xl p-6 border-4 border-[#00ACC1] text-center transform -rotate-1">
-                    <span className="font-fun text-sm text-[#00ACC1] block mb-4">Let's be Friends!</span>
-                    {!hiddenFields.includes('contact_facebook') && (
-                                      <div className="flex justify-center gap-4">
-                                                            {content.contact_info?.facebook && <a href={content.contact_info.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FF4081] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FFB300] font-fun text-sm">FB</a>}
-                                                            {content.contact_info?.instagram && <a href={content.contact_info.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#00ACC1] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#FF4081] font-fun text-sm">IG</a>}
-                                                            {content.contact_info?.twitter && <a href={content.contact_info.twitter} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#FFB300] text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform border-4 border-[#00ACC1] font-fun text-sm">TW</a>}
-                                                          </div>
-                                      )}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex-1 flex flex-col gap-6">
-                <div className="bg-white rounded-3xl p-6 border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1]">
-                  <h3 className="font-fun text-2xl mb-4 text-[#FF4081] flex items-center gap-2"><span>🕒</span> Opening Hours</h3>
-                  {!hiddenFields.includes('contact_hours') && (
-                                  <ul className="space-y-3 font-body font-bold text-[#006064]">
-                                                      {content.contact_info?.hours ? (
-                                                        <li className="whitespace-pre-wrap">{content.contact_info.hours}</li>
-                                                      ) : (
-                                                        <>
-                                                          <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Mon - Fri</span> <span>9:00 AM - 8:00 PM</span></li>
-                                                          <li className="flex justify-between border-b-2 border-dashed border-[#00ACC1]/30 pb-2"><span>Saturday</span> <span>10:00 AM - 6:00 PM</span></li>
-                                                          <li className="flex justify-between"><span>Sunday</span> <span className="text-[#FF4081]">Closed</span></li>
-                                                        </>
-                                                      )}
-                                                    </ul>
-                                  )}
-                </div>
-
-                <div className="bg-white p-6 md:p-8 rounded-3xl border-4 border-[#FF4081] shadow-[4px_4px_0_#FFB300]">
-                  <ContactForm 
-                    websiteId={website.id}
-                    primaryColor="bg-[#FF4081] text-white"
-                    primaryColorHover="hover:bg-[#F50057]"
-                    inputStyles="bg-[#E0F7FA] border-2 border-[#00ACC1] text-[#006064] placeholder-[#00ACC1]/60 focus:border-[#FFB300] focus:ring-4 focus:ring-[#FFB300]/30 rounded-2xl font-body font-bold"
-                    buttonShape="font-fun text-xl rounded-full w-full transition-all border-4 border-[#00ACC1] shadow-[4px_4px_0_#00ACC1] active:translate-y-2 active:shadow-none py-3"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        
-          <div className="container mx-auto max-w-4xl mt-12">
-            <div className="w-full h-80 rounded-3xl overflow-hidden border-4 border-[#FFB300] shadow-[4px_4px_0_#00ACC1] bg-white p-2 relative">
-              {!hiddenFields.includes('contact_address') && (
-                          <iframe
-                                          src={`https://maps.google.com/maps?q=${encodeURIComponent(content.contact_info?.address || '123 Market Street')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                                          width="100%"
-                                          height="100%"
-                                          style={{ border: 0, borderRadius: '1rem' }}
-                                          allowFullScreen={false}
-                                          loading="lazy"
-                                          title="Store Location"
-                                          className="absolute inset-0 w-full h-full"
-                                        ></iframe>
-                          )}
-            </div>
-          </div>
-        </section>
+        <ThemeContact content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('contact') + 1} websiteId={website.id} />
       )}
 
       {/* Dynamic Custom Section */}
@@ -301,7 +162,7 @@ export default function PlayfulGroceryTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

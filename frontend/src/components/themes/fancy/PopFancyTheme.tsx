@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -68,8 +69,9 @@ export default function PopFancyTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -117,7 +119,7 @@ export default function PopFancyTheme({ website, content }: any) {
               if (hiddenSections.includes(sectionId)) return null;
 
               if (sectionId === 'hero') return (
-                <section id="hero" key="hero" className="relative px-6 lg:px-20 py-16 md:py-24 max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+                <Fragment key="hero"><section id="hero" key="hero" className="relative px-6 lg:px-20 py-16 md:py-24 max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
                   <div className="w-full lg:w-1/2 flex flex-col justify-center items-start z-10">
                     {!hiddenFields.includes("hero_title") && (
               <h1 className="font-pop-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tight mb-6 text-slate-900">
@@ -144,6 +146,7 @@ export default function PopFancyTheme({ website, content }: any) {
                     <img loading="lazy" src={content.settings_json?.about_image || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
               );
 
               if (sectionId === 'about') return (
@@ -203,7 +206,7 @@ export default function PopFancyTheme({ website, content }: any) {
                       {products.slice(0, 8).map((product: any, idx: number) => (
                         <div key={idx} className="group cursor-pointer flex flex-col" onClick={() => setSelectedProduct(product)}>
                           <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden bg-slate-100 mb-6 relative shadow-sm group-hover:shadow-lg transition-all duration-300">
-                            <img loading="lazy" src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
+                            <img loading="lazy" src={product.image || undefined} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
                             <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                           </div>
                           <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
@@ -322,7 +325,7 @@ export default function PopFancyTheme({ website, content }: any) {
                       {content.custom_blocks_json.map((block: any, idx: number) => {
                         if (block.type === 'heading') return <h2 key={idx} className="font-pop-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 text-center">{block.content}</h2>;
                         if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-pop-body text-xl md:text-2xl text-slate-600 leading-relaxed text-center whitespace-pre-wrap">{block.content}</p>;
-                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden rounded-3xl shadow-xl"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto object-cover" /></div>;
+                        if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden rounded-3xl shadow-xl"><img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto object-cover" /></div>;
                         if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-slate-200 my-16"></div>;
                         return null;
                       })}
@@ -349,7 +352,7 @@ export default function PopFancyTheme({ website, content }: any) {
                 {products.map((product: any, idx: number) => (
                   <div key={idx} className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 flex flex-col" onClick={() => setSelectedProduct(product)}>
                     <div className="w-full aspect-square bg-slate-100 relative overflow-hidden">
-                      <img loading="lazy" src={product.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
+                      <img loading="lazy" src={product.image || undefined} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.name} />
                     </div>
                     <div className="p-6">
                       <h3 className="font-pop-display text-xl font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
@@ -371,7 +374,7 @@ export default function PopFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Ticket, Zap, Mail, Phone, ExternalLink, Power, Heart, Star, Sparkles, Flame, Play, Pause } from 'lucide-react';
 import useScrollReveal from '../../../../hooks/useScrollReveal';
+import type { FestCopy } from '../CollegeFestTheme';
 
 const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
   <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,9 +32,10 @@ interface TechFestModernLayoutProps {
     heroOpacity: string;
     heroBg: string;
   };
+  copy?: FestCopy;
 }
 
-export default function TechFestModernLayout({ content, website, updateContent, isEditor, colors }: TechFestModernLayoutProps) {
+export default function TechFestModernLayout({ content, website, updateContent, isEditor, colors, copy }: TechFestModernLayoutProps) {
     const hiddenFields: string[] = content?.settings_json?.hidden_elements || [];
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -115,10 +117,10 @@ export default function TechFestModernLayout({ content, website, updateContent, 
             {content?.hero_subtitle || website?.business_type || 'Tech Fest'}
           </h2>
           <p className="text-gray-400 tracking-[0.4em] text-sm md:text-base mb-12 uppercase font-bold animate-pulse">
-            System Ready
+            {copy?.intro || 'System Ready'}
           </p>
           <button className={`px-8 py-4 rounded-full border border-white/20 bg-white/5 backdrop-blur-md font-bold tracking-[0.2em] hover:${c.accentBg} hover:text-black transition-all flex items-center gap-3 group`}>
-            CLICK TO INITIALIZE
+            {(copy?.cta || 'Click to Initialize').toUpperCase()}
             <Zap size={18} className={`group-hover:text-black ${c.accentText}`} />
           </button>
         </div>
@@ -163,7 +165,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                     {...isEditable}
                     onBlur={(e) => handleTextChange('hero_description', e.currentTarget.textContent || '')}
                   >
-                    {content?.hero_description || content?.hero_text || 'Join the biggest technology and innovation festival of the year. Experience the future today.'}
+                    {content?.hero_description || content?.hero_text || (copy?.hero || 'Join the biggest technology and innovation festival of the year. Experience the future today.')}
                   </p>
 
                   <div className="reveal flex flex-wrap justify-center gap-6 text-sm font-medium">
@@ -208,7 +210,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
               </section>
             )}
 
-            {sectionName === 'about' && (content?.about_title || content?.about_text || content?.settings_json?.about_title || content?.settings_json?.about_description || isEditor) && (
+            {sectionName === 'about' && (
               <section className={`py-24 px-6 bg-black relative ${isHidden ? 'opacity-50' : ''}`}>
                 <div className="container mx-auto max-w-4xl relative z-10">
                   <div className="text-center mb-12 reveal">
@@ -243,13 +245,13 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                         }
                       }}
                     >
-                      {content?.settings_json?.about_description || content?.about_text || 'Welcome to the ultimate gathering of tech enthusiasts and innovators. Join us to experience cutting-edge technologies, thrilling competitions, and insightful sessions.'}
+                      {content?.settings_json?.about_description || content?.about_text || (copy?.about || 'Welcome to the ultimate gathering of tech enthusiasts and innovators. Join us to experience cutting-edge technologies, thrilling competitions, and insightful sessions.')}
                     </p>
                   </div>
                 </div>
               </section>
             )}
-            {sectionName === 'services' && (content?.services_json?.length > 0 || isEditor) && (
+            {sectionName === 'services' && (
               <section className={`py-32 px-6 ${c.sectionBg} relative ${isHidden ? 'opacity-50' : ''}`}>
                 <div className="container mx-auto max-w-6xl relative z-10">
                   <div className="text-center mb-20 reveal">
@@ -258,7 +260,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
                   </div>
 
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {(content?.services_json?.length > 0 ? content.services_json : ['Hackathon', 'Robo Wars', 'Guest Lectures']).map((service: any, index: number) => {
+                    {(content?.services_json?.length > 0 ? content.services_json : (copy?.events || ['Hackathon', 'Robo Wars', 'Guest Lectures'])).map((service: any, index: number) => {
                       const title = typeof service === 'string' ? service : (service.title || 'New Event');
                       const description = typeof service === 'string' ? 'Participate in our flagship event and win exciting prizes. Compete with the best minds.' : (service.description || 'Event details and schedule will be announced soon.');
 
@@ -282,7 +284,7 @@ export default function TechFestModernLayout({ content, website, updateContent, 
               </section>
             )}
 
-            {sectionName === 'gallery' && (content?.gallery_json?.length > 0 || isEditor) && (
+            {sectionName === 'gallery' && (
               <section className={`py-32 px-6 bg-black relative ${isHidden ? 'opacity-50' : ''}`}>
                 <div className="container mx-auto max-w-7xl">
                   <div className="flex justify-between items-end mb-16 reveal">

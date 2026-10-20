@@ -265,7 +265,7 @@ export function Sweet16FloralLayout({ content, website, updateContent, isEditor 
                <div className="absolute inset-0 flex items-center justify-center opacity-30 bg-[url('https://www.transparenttextures.com/patterns/floral-flourish.png')]"></div>
                {mapUrl && (
                  <iframe 
-                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x0%3A0x0!2zM!3zM!4v1600000000000!5m2!1sen!2sus" 
+                   src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`} 
                    className="absolute inset-0 w-full h-full opacity-60 hover:opacity-100 transition-opacity duration-700"
                    style={{ border: 0 }}
                    allowFullScreen

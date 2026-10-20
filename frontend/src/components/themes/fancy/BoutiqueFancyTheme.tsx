@@ -5,6 +5,10 @@ import { MapPin, Mail, Phone, ArrowRight } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
+import { ThemeAbout, ThemeGallery, ThemeServices, type SectionLook } from '../shared/ThemeSections';
+import ThemeStats from '../shared/ThemeStats';
+
+const SECTION_LOOK: SectionLook = { kind: 'fancy', bg: '#FFFDF9', altBg: '#FAF7F2', text: '#2C1E16', accent: '#8C2323', headingFont: 'font-boutique', bodyFont: 'font-body', radius: 'none', uppercase: true };
 export default function BoutiqueFancyTheme({ website, content }: any) {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
@@ -30,8 +34,9 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -49,7 +54,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
       </header>
 
       {/* Hero */}
-      <section className="py-20 px-6">
+      <><section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/2 md:pr-12">
             <p className="font-body text-[#8C2323] text-sm tracking-widest uppercase mb-4">Exquisite Collections</p>
@@ -73,6 +78,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
           </div>
         </div>
       </section>
+      <ThemeStats content={content} /></>
 
       {/* Collections Grid */}
       <section id="collections" className="py-24 bg-[#FAF7F2]">
@@ -86,7 +92,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {products.map((p: any, i: number) => (
               <div key={i} onClick={() => setSelectedProduct(p)} className="cursor-pointer group cursor-pointer">
                 <div className="aspect-[3/4] overflow-hidden mb-6 relative">
-                  <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                 </div>
                 <h4 className="font-boutique text-lg mb-1">{p.name}</h4>
@@ -108,63 +114,19 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
 
       
       
-      {/* Injected About Section */}
+      {/* Shared About Section */}
       {sectionOrder.includes('about') && !hiddenSections.includes('about') && (
-        <section style={{ order: sectionOrder.indexOf('about') + 1 }} id="about" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            {!hiddenFields.includes("about_title") && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">{content.settings_json?.about_title || content.about_title || 'About Us'}</h2>
-              )}
-            <p className="text-lg opacity-80 leading-relaxed max-w-2xl mx-auto text-black">
-              {content.about_text || 'Welcome to our store! We are dedicated to bringing you the best quality products and services. Our team works hard to ensure customer satisfaction and continuous improvement.'}
-            </p>
-          </div>
-        </section>
+        <ThemeAbout content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('about') + 1} />
       )}
 
-      {/* Injected Services Section */}
+      {/* Shared Services Section */}
       {sectionOrder.includes('services') && !hiddenSections.includes('services') && (
-        <section style={{ order: sectionOrder.indexOf('services') + 1 }} id="services" className="py-16 px-6 bg-black/5 border-b border-black/5">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(content.services_json?.length ? content.services_json : [
-                { title: 'Quality Assurance', description: 'We guarantee the highest quality in all our offerings.' },
-                { title: 'Fast Delivery', description: 'Quick and reliable delivery to your doorstep.' },
-                { title: 'Customer Support', description: '24/7 dedicated support for all your needs.' }
-              ]).map((srv: any, i: number) => (
-                <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-                  <div className="w-16 h-16 mx-auto bg-black/5 rounded-full flex items-center justify-center mb-4 overflow-hidden">
-                    {srv.image ? <img loading="lazy" src={srv.image} alt={srv.title} className="w-full h-full object-cover" /> : <span className="text-2xl">✨</span>}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2 text-black">{srv.title}</h3>
-                  <p className="opacity-75 text-black">{srv.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeServices content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('services') + 1} />
       )}
 
-      {/* Injected Gallery Section */}
+      {/* Shared Gallery Section */}
       {sectionOrder.includes('gallery') && !hiddenSections.includes('gallery') && (
-        <section style={{ order: sectionOrder.indexOf('gallery') + 1 }} id="gallery" className="py-16 px-6 bg-white border-b border-black/5">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-black">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(content.gallery_json?.length ? content.gallery_json : [
-                'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&w=400&q=80',
-                'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&q=80'
-              ]).map((img: string, i: number) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-black/5">
-                  <img loading="lazy" src={img} alt="Gallery item" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ThemeGallery content={content} look={SECTION_LOOK} order={sectionOrder.indexOf('gallery') + 1} />
       )}
 
       {/* Dynamic Custom Section */}
@@ -174,7 +136,7 @@ export default function BoutiqueFancyTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

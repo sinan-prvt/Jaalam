@@ -167,7 +167,7 @@ export default function ChristianFloralLayout({ website, content }: { website: a
                     <div className="relative mb-6 w-48 h-48 rounded-full p-2 border border-dashed border-[#86efac] transition-transform duration-500 group-hover:rotate-[15deg]">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-sm group-hover:-rotate-[15deg] transition-transform duration-500">
                         {leader.photo ? (
-                          <img src={leader.photo} alt={leader.name} className="w-full h-full object-cover" />
+                          <img src={leader.photo || undefined} alt={leader.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className={`w-full h-full bg-[#f8fafc] flex items-center justify-center ${colors.mutedText}`}>
                             <User size={48} opacity={0.5} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import ProductBuyButton from '../../payments/ProductBuyButton';
@@ -6,6 +6,7 @@ import ContactForm from '../shared/ContactForm';
 
 
 import ContactExtras from '../shared/ContactExtras';
+import ThemeStats from '../shared/ThemeStats';
 export default function MinimalMeatTheme({ website, content }: any) {
   const sectionOrder: string[] = content?.settings_json?.section_order || ['hero', 'about', 'services', 'menu', 'gallery', 'contact', 'custom'];
   const hiddenSections: string[] = content?.settings_json?.hidden_sections || [];
@@ -45,8 +46,9 @@ export default function MinimalMeatTheme({ website, content }: any) {
         /* Dynamic Layout Ordering */
         .theme-root { display: flex; flex-direction: column; }
         .theme-root > header, .theme-root > nav { order: 0; }
-        .theme-root > section:nth-of-type(1) { order: ${sectionOrder.indexOf('hero') + 1}; display: ${hiddenSections.includes('hero') ? 'none' : 'block'} }
-        .theme-root > section:nth-of-type(2) { order: ${sectionOrder.indexOf('menu') + 1 > 0 ? sectionOrder.indexOf('menu') + 1 : sectionOrder.indexOf('products') + 1}; display: ${hiddenSections.includes('menu') ? 'none' : 'block'} }
+        /* Sections without their own inline order sit at the products/menu slot; the hero stays first */
+        .theme-root > section:not([style*="order"]) { order: ${Math.max(sectionOrder.indexOf('menu'), sectionOrder.indexOf('products'), 0) + 1}; }
+        .theme-root > section:first-of-type:not([style*="order"]) { order: 0; ${hiddenSections.includes('hero') ? 'display: none;' : ''} }
         .theme-root > footer { order: 999; }
     
       `}</style>
@@ -69,7 +71,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
           if (hiddenSections.includes(sectionId)) return null;
 
           if (sectionId === 'hero') return (
-            <section key="hero" id="hero" className="pt-24 pb-20 px-8 text-center border-b border-gray-200 relative overflow-hidden">
+            <Fragment key="hero"><section key="hero" id="hero" className="pt-24 pb-20 px-8 text-center border-b border-gray-200 relative overflow-hidden">
               {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 text-red-600 relative z-10 break-words px-2 leading-none md:leading-none">
                 {content.hero_title || 'RAW. FRESH.'}
@@ -87,6 +89,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 ↓
               </a>
             </section>
+      <ThemeStats content={content} /></Fragment>
           );
 
           if (sectionId === 'about') return (
@@ -120,7 +123,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                   const desc = typeof srv === 'string' ? '' : srv.description;
                   return (
                     <div key={idx} className={`p-8 ${idx !== 2 ? 'border-b md:border-b-0 md:border-r border-gray-200' : ''}`}>
-                      {srv.image && <img loading="lazy" src={srv.image} alt={title} className="w-full h-40 object-cover mb-6 filter grayscale" />}
+                      {srv.image && <img loading="lazy" src={srv.image || undefined} alt={title} className="w-full h-40 object-cover mb-6 filter grayscale" />}
                       <h3 className="font-minimal font-bold text-red-600 mb-4">{title}</h3>
                       <p className="text-gray-500 text-xs leading-loose">{desc}</p>
                     </div>
@@ -137,7 +140,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 {products.slice(0, 4).map((p: any, i: number) => (
                   <div key={i} onClick={() => setSelectedProduct(p)} className="group border-r border-b border-gray-200 p-6 flex flex-col hover:bg-gray-50 transition-colors cursor-pointer">
                     <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden border border-gray-200">
-                      <img loading="lazy" src={p.image} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300" />
+                      <img loading="lazy" src={p.image || undefined} alt={p.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300" />
                     </div>
                     <h3 className="font-minimal font-bold text-sm mb-1 uppercase">{p.name}</h3>
                     <p className="text-xs text-gray-500 mb-6 flex-1">{p.description}</p>
@@ -237,7 +240,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
                 {content.custom_blocks_json.map((block: any, idx: number) => {
                   if (block.type === 'heading') return <h2 key={idx} className="font-minimal text-3xl font-bold text-center border-b border-black pb-4 inline-block">{block.content}</h2>;
                   if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="text-gray-600 leading-loose text-sm text-center">{block.content}</p>;
-                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-gray-200 p-2 bg-white"><img loading="lazy" src={block.url} alt="Custom" className="w-full h-auto filter grayscale hover:grayscale-0 transition-all" /></div>;
+                  if (block.type === 'image' && block.url) return <div key={idx} className="border border-gray-200 p-2 bg-white"><img loading="lazy" src={block.url || undefined} alt="Custom" className="w-full h-auto filter grayscale hover:grayscale-0 transition-all" /></div>;
                   if (block.type === 'divider') return <div key={idx} className="w-full h-px bg-gray-200 my-8"></div>;
                   return null;
                 })}
@@ -262,7 +265,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-16 relative z-10">
               <div className="h-48 md:h-auto md:aspect-[4/5] bg-gray-100 border border-gray-200 overflow-hidden">
-                <img loading="lazy" src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
+                <img loading="lazy" src={selectedProduct.image || undefined} alt={selectedProduct.name} className="w-full h-full object-cover grayscale" />
               </div>
               <div className="flex flex-col justify-center mt-2 md:mt-0">
                 <p className="text-[10px] md:text-xs font-minimal text-gray-400 tracking-widest mb-2 md:mb-4">PRODUCT DETAILS</p>
@@ -302,7 +305,7 @@ export default function MinimalMeatTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any) => {
               if (block.type === 'heading') return <h2 key={block.id} className="text-4xl md:text-5xl font-black uppercase break-words w-full">{block.content}</h2>;
               if (block.type === 'paragraph') return <p key={block.id} className="text-lg opacity-80 break-words whitespace-pre-wrap w-full">{block.content}</p>;
-              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
+              if (block.type === 'image' && block.url) return <img loading="lazy" key={block.id} src={block.url || undefined} alt="Custom" className="w-full rounded-2xl shadow-xl" />;
               if (block.type === 'divider') return <hr key={block.id} className="my-12 opacity-20" />;
               return null;
             })}

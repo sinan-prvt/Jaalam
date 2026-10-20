@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -102,7 +103,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
+                <Fragment key="hero"><section key="hero" id="hero" className="min-h-[85vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
                   {!hiddenFields.includes("hero_title") && (
               <h1 className="font-minimal text-6xl md:text-9xl font-extrabold tracking-tighter leading-[0.9] mb-8">
                     {content.hero_title || 'ESSENTIAL\nTOOLS\nFOR\nTHOUGHT.'}
@@ -117,6 +118,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                     </a>
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
             )}
 
             {/* About */}
@@ -267,20 +269,20 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                           </div>
                         )}
                         
-                        {(content.social_links?.facebook || content.social_links?.instagram || content.social_links?.whatsapp) && (
+                        {((content.contact_info || content.social_links)?.facebook || (content.contact_info || content.social_links)?.instagram || (content.contact_info || content.social_links)?.whatsapp) && (
                            <div className="flex justify-start sm:justify-end gap-6 pt-4 border-b border-gray-800 pb-4">
-                             {content.social_links?.facebook && (
-                               <a href={content.social_links.facebook} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.facebook && (
+                               <a href={(content.contact_info || content.social_links).facebook} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <Facebook size={24} />
                                </a>
                              )}
-                             {content.social_links?.instagram && (
-                               <a href={content.social_links.instagram} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.instagram && (
+                               <a href={(content.contact_info || content.social_links).instagram} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <Instagram size={24} />
                                </a>
                              )}
-                             {content.social_links?.whatsapp && (
-                               <a href={`https://wa.me/${content.social_links.whatsapp}`} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
+                             {(content.contact_info || content.social_links)?.whatsapp && (
+                               <a href={`https://wa.me/${(content.contact_info || content.social_links).whatsapp}`} target="_blank" rel="noreferrer" className="text-white hover:text-gray-400 transition-colors">
                                  <MessageCircle size={24} />
                                </a>
                              )}
@@ -323,7 +325,7 @@ export default function MinimalStationeryTheme({ website, content }: any) {
                           <p className="font-minimal text-xl font-light text-gray-600 leading-relaxed whitespace-pre-line">{block.content}</p>
                           {block.image && (
                             <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                              <img loading="lazy" src={block.image} alt={block.title} className="w-full h-full object-cover filter grayscale" />
+                              <img loading="lazy" src={block.image || undefined} alt={block.title} className="w-full h-full object-cover filter grayscale" />
                             </div>
                           )}
                         </div>
@@ -380,13 +382,13 @@ export default function MinimalStationeryTheme({ website, content }: any) {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-minimal text-xs font-bold uppercase tracking-widest text-gray-500">
           <div>&copy; {new Date().getFullYear()} {siteName}.</div>
           <div className="flex items-center gap-6">
-            <a href={content.social_links?.whatsapp ? `https://wa.me/${content.social_links.whatsapp}` : "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.whatsapp ? `https://wa.me/${(content.contact_info || content.social_links).whatsapp}` : "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <MessageCircle size={20} />
             </a>
-            <a href={content.social_links?.instagram || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.instagram || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <Instagram size={20} />
             </a>
-            <a href={content.social_links?.facebook || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+            <a href={(content.contact_info || content.social_links)?.facebook || "#"} target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
               <Facebook size={20} />
             </a>
           </div>

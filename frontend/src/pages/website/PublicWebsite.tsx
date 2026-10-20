@@ -1,10 +1,11 @@
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Phone, Mail, MapPin, CreditCard } from 'lucide-react';
-import { RestaurantTheme, CafeTheme, SalonTheme, SalonTheme2, ModernSaloonTheme, VintageBarberTheme, RoyalSaloonTheme, HardcoreIronTheme, ZenYogaTheme, CrossFitTheme, LuxuryClubTheme, CombatGymTheme, BoutiqueTheme, MinimalistTheme, StreetwearTheme, TechGadgetTheme, OrganicStoreTheme, ModernStationeryTheme, ClassicStationeryTheme, PlayfulStationeryTheme, MinimalStationeryTheme, EtherealStationeryTheme, ModernFancyTheme, BoutiqueFancyTheme, MinimalFancyTheme, LuxuryFancyTheme, PlayfulFancyTheme, ClassicFancyTheme, NoirFancyTheme, PopFancyTheme, ModernMeatTheme, ClassicMeatTheme, PremiumMeatTheme, MinimalMeatTheme, RusticMeatTheme, PlayfulMeatTheme, ModernScrapTheme, ClassicScrapTheme, MinimalScrapTheme, CorporateScrapTheme, EcoScrapTheme, PlayfulScrapTheme, ModernGroceryTheme, ClassicGroceryTheme, PremiumGroceryTheme, MinimalGroceryTheme, OrganicGroceryTheme, PlayfulGroceryTheme, NoirGroceryTheme, PopGroceryTheme, ModernTextilesTheme, BoutiqueTextilesTheme, MinimalTextilesTheme, LuxuryTextilesTheme, VintageTextilesTheme, PlayfulTextilesTheme, LuxuryVillasTheme, UrbanApartmentsTheme, CommercialTheme, ModernRealEstateTheme, MinimalRealEstateTheme, ClassicRealEstateTheme, CorporateConsultingTheme, CreativeAgencyTheme, TechStartupTheme, ManagementConsultingTheme, MinimalConsultingTheme, LegalFirmTheme, ModernOtherTheme, ClassicOtherTheme, MinimalOtherTheme, NoirOtherTheme, PopOtherTheme, CorporateOtherTheme, ClassicWeddingTheme, BirthdayTheme, HousewarmingTheme, CollegeFestTheme, ReligiousEventTheme } from '../../components/themes/lazyThemes';
 
-import { weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, invitationCategories } from '../../utils/templateData';
+import { ThemeRenderer } from '../../components/themes/registry';
+import { resolveHost } from '../../utils/host';
+import { invitationCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
 import SEOHead from '../../components/seo/SEOHead';
@@ -17,25 +18,18 @@ import { invitationStyleFor } from '../../components/themes/invitation-modern/ro
 import useHideBranding from '../../hooks/useHideBranding';
 import { SiteContext } from '../../components/themes/shared/siteContext';
 
-export default function PublicWebsite() {
+interface PublicWebsiteProps {
+  /** Set when the site is opened on its own domain (e.g. mybakery.com). */
+  customHost?: string;
+  /** Called when customHost is not a connected domain, so the app can fall back. */
+  onDomainMissing?: () => void;
+}
+
+export default function PublicWebsite({ customHost, onDomainMissing }: PublicWebsiteProps = {}) {
   const { businessSlug: paramSlug } = useParams();
+  const hostMode = resolveHost();
 
-  const getSubdomain = () => {
-    const host = window.location.hostname;
-    if (host.includes('localhost') || host.includes('127.0.0.1')) {
-      const parts = host.split('.');
-      if (parts.length >= 2 && parts[0] !== 'localhost' && parts[0] !== '127') return parts[0];
-    } else if (host.includes('vercel.app')) {
-      const parts = host.split('.');
-      if (parts.length >= 4) return parts[0];
-    } else {
-      const parts = host.split('.');
-      if (parts.length >= 3 && parts[0] !== 'www') return parts[0];
-    }
-    return null;
-  };
-
-  const businessSlug = paramSlug || getSubdomain();
+  const businessSlug = paramSlug || (hostMode.mode === 'site' ? hostMode.slug : null);
   const [website, setWebsite] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -49,11 +43,17 @@ export default function PublicWebsite() {
     const fetchWebsite = async () => {
       try {
         const [res] = await Promise.all([
-          axios.get(`/api/websites/${businessSlug}/public/`),
-          new Promise(resolve => setTimeout(resolve, 1500)) // Artificial delay to showcase skeleton
+          customHost
+            ? axios.get('/api/websites/by-domain/', { params: { host: customHost } })
+            : axios.get(`/api/websites/${businessSlug}/public/`),
+          new Promise(resolve => setTimeout(resolve, customHost ? 0 : 1500)) // Artificial delay to showcase skeleton
         ]);
         setWebsite(res.data);
       } catch (err: any) {
+        if (customHost && err.response?.status === 404 && onDomainMissing) {
+          onDomainMissing();
+          return;
+        }
         console.error(err);
         if (err.response?.status === 403 && err.response?.data?.error === 'paused') {
           setError('paused');
@@ -67,17 +67,19 @@ export default function PublicWebsite() {
       }
     };
     fetchWebsite();
-  }, [businessSlug]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [businessSlug, customHost]);
 
   useEffect(() => {
-    if (website?.content?.settings_json?.show_language_widget === false) {
+    // Language widget is off unless enabled: drop any leftover translation once the site has loaded
+    if (website && website.content?.settings_json?.show_language_widget !== true) {
       if (document.cookie.includes('googtrans')) {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${window.location.hostname}; path=/;`;
         window.location.reload();
       }
     }
-  }, [website?.content?.settings_json?.show_language_widget]);
+  }, [website, website?.content?.settings_json?.show_language_widget]);
 
   if (loading) {
     return (
@@ -158,175 +160,7 @@ export default function PublicWebsite() {
   const seoTitle = website?.content?.settings_json?.website_name || `${website?.business_type || 'Website'} - ${website?.slug || 'Live'}`;
   const seoDesc = website?.content?.about_text || `Welcome to our ${website?.business_type || 'business'}.`;
 
-  const renderTheme = () => {
-    if (weddingCategories.includes(website?.business_type)) {
-      return <ClassicWeddingTheme website={website} content={content} />;
-    }
-
-    if (birthdayCategories.includes(website.business_type)) {
-      return <BirthdayTheme website={website} content={content} />;
-    }
-
-    if (housewarmingCategories.includes(website.business_type)) {
-      return <HousewarmingTheme theme={website.theme} content={content} businessType={website.business_type} website={website} />;
-    }
-
-    if (collegeFestCategories.includes(website.business_type)) {
-      return <CollegeFestTheme website={website} content={content} />;
-    }
-
-    if (religiousEventCategories.includes(website?.business_type)) {
-      return <ReligiousEventTheme website={website} content={content} />;
-    }
-
-    // Pre-built fallback templates
-    if (website?.business_type === 'Restaurant') {
-      return <RestaurantTheme website={website} content={website.content} />;
-    }
-
-    if (website.business_type === 'Cafe / Bakery') {
-      return <CafeTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Salon' || website.business_type === 'Salon / Spa' || website.business_type === 'Saloon') {
-      if (website.theme === 'Glamour Beauty') {
-        return <SalonTheme2 website={website} content={content} />;
-      }
-      if (website.theme === 'Modern Saloon') {
-        return <ModernSaloonTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Vintage Barber') {
-        return <VintageBarberTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Royal Saloon') {
-        return <RoyalSaloonTheme website={website} content={content} />;
-      }
-      return <SalonTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Gym / Fitness' || website.business_type === 'Gym') {
-      if (website.theme === 'Hardcore Iron') {
-        return <HardcoreIronTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Zen Yoga Studio') {
-        return <ZenYogaTheme website={website} content={content} />;
-      }
-      if (website.theme === 'CrossFit Box') {
-        return <CrossFitTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Luxury Health Club') {
-        return <LuxuryClubTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Combat & MMA Gym') {
-        return <CombatGymTheme website={website} content={content} />;
-      }
-      return <HardcoreIronTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Real Estate') {
-      if (website.theme === 'Luxury Villas') return <LuxuryVillasTheme website={website} content={content} />;
-      if (website.theme === 'Urban Apartments') return <UrbanApartmentsTheme website={website} content={content} />;
-      if (website.theme === 'Commercial') return <CommercialTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalRealEstateTheme website={website} content={content} />;
-      if (website.theme === 'Classic') return <ClassicRealEstateTheme website={website} content={content} />;
-      return <ModernRealEstateTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Retail Store') {
-      if (website.theme === 'Boutique') {
-        return <BoutiqueTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Minimalist') {
-        return <MinimalistTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Streetwear') {
-        return <StreetwearTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Tech Gadget') {
-        return <TechGadgetTheme website={website} content={content} />;
-      }
-      if (website.theme === 'Organic Store') {
-        return <OrganicStoreTheme website={website} content={content} />;
-      }
-      return <BoutiqueTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Stationery / Books') {
-      if (website.theme === 'Classic') return <ClassicStationeryTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulStationeryTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalStationeryTheme website={website} content={content} />;
-      if (website.theme === 'Ethereal') return <EtherealStationeryTheme website={website} content={content} />;
-      return <ModernStationeryTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Fancy Store') {
-      if (website.theme === 'Boutique') return <BoutiqueFancyTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalFancyTheme website={website} content={content} />;
-      if (website.theme === 'Luxury') return <LuxuryFancyTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulFancyTheme website={website} content={content} />;
-      if (website.theme === 'Classic') return <ClassicFancyTheme website={website} content={content} />;
-      if (website.theme === 'Noir') return <NoirFancyTheme website={website} content={content} />;
-      if (website.theme === 'Pop') return <PopFancyTheme website={website} content={content} />;
-      return <ModernFancyTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Chicken / Meat Stall') {
-      if (website.theme === 'Classic') return <ClassicMeatTheme website={website} content={content} />;
-      if (website.theme === 'Premium') return <PremiumMeatTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalMeatTheme website={website} content={content} />;
-      if (website.theme === 'Rustic') return <RusticMeatTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulMeatTheme website={website} content={content} />;
-      return <ModernMeatTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Scrap Dealer') {
-      if (website.theme === 'Classic') return <ClassicScrapTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalScrapTheme website={website} content={content} />;
-      if (website.theme === 'Corporate') return <CorporateScrapTheme website={website} content={content} />;
-      if (website.theme === 'Eco') return <EcoScrapTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulScrapTheme website={website} content={content} />;
-      return <ModernScrapTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Supermarket / Grocery') {
-      if (website.theme === 'Classic') return <ClassicGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Premium') return <PremiumGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Organic') return <OrganicGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Noir') return <NoirGroceryTheme website={website} content={content} />;
-      if (website.theme === 'Pop') return <PopGroceryTheme website={website} content={content} />;
-      return <ModernGroceryTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Textiles / Garments') {
-      if (website.theme === 'Boutique') return <BoutiqueTextilesTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalTextilesTheme website={website} content={content} />;
-      if (website.theme === 'Luxury') return <LuxuryTextilesTheme website={website} content={content} />;
-      if (website.theme === 'Vintage') return <VintageTextilesTheme website={website} content={content} />;
-      if (website.theme === 'Playful') return <PlayfulTextilesTheme website={website} content={content} />;
-      return <ModernTextilesTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Consulting') {
-      if (website.theme === 'Corporate') return <CorporateConsultingTheme website={website} content={content} />;
-      if (website.theme === 'Creative Agency') return <CreativeAgencyTheme website={website} content={content} />;
-      if (website.theme === 'Tech Startup') return <TechStartupTheme website={website} content={content} />;
-      if (website.theme === 'Management') return <ManagementConsultingTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalConsultingTheme website={website} content={content} />;
-      if (website.theme === 'Legal Firm') return <LegalFirmTheme website={website} content={content} />;
-      return <CorporateConsultingTheme website={website} content={content} />;
-    }
-
-    if (website.business_type === 'Other') {
-      if (website.theme === 'Classic') return <ClassicOtherTheme website={website} content={content} />;
-      if (website.theme === 'Minimal') return <MinimalOtherTheme website={website} content={content} />;
-      if (website.theme === 'Noir') return <NoirOtherTheme website={website} content={content} />;
-      if (website.theme === 'Pop') return <PopOtherTheme website={website} content={content} />;
-      if (website.theme === 'Corporate') return <CorporateOtherTheme website={website} content={content} />;
-      return <ModernOtherTheme website={website} content={content} />;
-    }
-
+  const renderFallback = () => {
     const contact = content?.contact_info || {};
 
     return (
@@ -478,9 +312,7 @@ export default function PublicWebsite() {
     <>
       <SEOHead title={seoTitle} description={seoDesc} imageUrl={getThemeThumbnail(website.business_type)} />
       <SiteContext.Provider value={{ slug: website?.slug }}>
-        <Suspense fallback={<div className="min-h-screen" />}>
-          {renderTheme()}
-        </Suspense>
+        <ThemeRenderer website={website} content={content} fallback={renderFallback()} />
       </SiteContext.Provider>
 
       {/* Invitation layouts without a built-in calendar button get a floating one */}
@@ -499,7 +331,7 @@ export default function PublicWebsite() {
             showPhone={content?.settings_json?.show_phone_float ?? true}
             style={content?.settings_json?.cta_style}
           />
-          {(content?.settings_json?.show_language_widget ?? true) && (
+          {(content?.settings_json?.show_language_widget ?? false) && (
             <LanguageTranslator 
               languages={content?.settings_json?.languages}
               widgetStyle={content?.settings_json?.language_widget_style}

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import AllProductsModal from '../../shared/AllProductsModal';
 import ProductModal from '../../shared/ProductModal';
 import { ArrowRight, X, Menu, ArrowLeft } from 'lucide-react';
 import ContactForm from '../shared/ContactForm';
+import ThemeStats from '../shared/ThemeStats';
 
 const Instagram = ({ size = 20, className = "" }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
@@ -126,7 +127,7 @@ export default function NoirFancyTheme({ website, content }: any) {
           <>
             {/* Hero */}
             {!hiddenSections.includes('hero') && (
-                <section id="hero" key="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
+                <Fragment key="hero"><section id="hero" key="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
                   {content.settings_json?.about_image && (
                     <>
                       <div className="absolute inset-0 bg-black/60 z-10"></div>
@@ -147,6 +148,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     </div>
                   </div>
                 </section>
+      <ThemeStats content={content} /></Fragment>
               )}
 
               {/* About */}
@@ -204,7 +206,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     {products.slice(0, 6).map((product: any, idx: number) => (
                       <div key={idx} className="shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center group cursor-pointer" onClick={() => setSelectedProduct(product)}>
                         <div className="aspect-[4/3] bg-zinc-950 overflow-hidden relative border border-zinc-900 group-hover:border-zinc-700 transition-colors">
-                          <img loading="lazy" src={product.image} className="w-full h-full object-cover filter grayscale contrast-125 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={product.name} />
+                          <img loading="lazy" src={product.image || undefined} className="w-full h-full object-cover filter grayscale contrast-125 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={product.name} />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                           <div className="absolute bottom-8 left-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                             <h3 className="font-noir-display text-3xl text-white uppercase tracking-widest mb-2">{product.name}</h3>
@@ -245,7 +247,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     {content.custom_blocks_json.map((block: any, idx: number) => {
                       if (block.type === 'heading') return <h2 key={idx} className="font-noir-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-widest text-center">{block.content}</h2>;
                       if (block.type === 'paragraph' || block.type === 'text') return <p key={idx} className="font-noir-body text-lg md:text-2xl text-zinc-400 leading-relaxed text-center font-light whitespace-pre-wrap">{block.content}</p>;
-                      if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img loading="lazy" src={block.url} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
+                      if (block.type === 'image' && block.url) return <div key={idx} className="w-full relative overflow-hidden border border-zinc-900"><img loading="lazy" src={block.url || undefined} alt="Custom block" className="w-full h-auto object-cover filter grayscale contrast-125" /></div>;
                       if (block.type === 'divider') return <div key={idx} className="w-full h-[1px] bg-zinc-900 my-16"></div>;
                       return null;
                     })}
@@ -347,7 +349,7 @@ export default function NoirFancyTheme({ website, content }: any) {
                     <div className="flex items-center gap-12 w-full md:w-auto justify-between md:justify-end">
                       <span className="font-noir-body text-sm tracking-[0.2em] text-zinc-500">{product.price}</span>
                       <div className="w-16 h-16 bg-zinc-900 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">
-                        <img loading="lazy" src={product.image} className="w-full h-full object-cover filter grayscale" alt={product.name} />
+                        <img loading="lazy" src={product.image || undefined} className="w-full h-full object-cover filter grayscale" alt={product.name} />
                       </div>
                     </div>
                   </div>
