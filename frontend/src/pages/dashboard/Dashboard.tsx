@@ -11,7 +11,7 @@ import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
 import BillingPage from './BillingPage';
-import MarketingPage from './MarketingPage';
+import PosterMakerPage from './PosterMakerPage';
 import Pricing from './Pricing';
 import usePlan from '../../hooks/usePlan';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
@@ -50,6 +50,7 @@ const TAB_LABELS: Record<string, string> = {
   Projects: 'My Sites',
   Notifications: 'Inbox',
   Billing: 'Invoices',
+  Marketing: 'Poster Maker',
 };
 import toast from 'react-hot-toast';
 
@@ -963,7 +964,7 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Marketing' && (
-            <MarketingPage websites={websites} />
+            <PosterMakerPage />
           )}
 
           {activeTab === 'Templates' && (
