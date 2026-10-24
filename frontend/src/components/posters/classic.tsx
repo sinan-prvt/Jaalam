@@ -1,13 +1,10 @@
-import type { ReactNode } from 'react';
-import { Brand, Cta, Footer, OfferBadge, Picture, bodyFont, display, fit, lines, splitPrice, type LayoutProps } from './parts';
+import { Brand, Cta, Footer, OfferBadge, Picture } from './parts';
+import { bodyFont, display, fit, lines, splitPrice, type LayoutProps } from './text';
 import { POSTER_FONTS } from './fonts';
-import { MODERN_LAYOUTS } from './modern';
-import { KERALA_LAYOUTS } from './kerala';
-import type { LayoutKey } from './types';
 
 // ───────────────────────── layouts ─────────────────────────
 
-function Hero(L: LayoutProps) {
+export function Hero(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0 flex flex-col" style={{ background: p.bg }}>
@@ -33,7 +30,7 @@ function Hero(L: LayoutProps) {
   );
 }
 
-function Frame(L: LayoutProps) {
+export function Frame(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0" style={{ background: p.bg }}>
@@ -58,7 +55,7 @@ function Frame(L: LayoutProps) {
   );
 }
 
-function Split(L: LayoutProps) {
+export function Split(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const tall = h > w * 1.4;
   return (
@@ -87,7 +84,7 @@ function Split(L: LayoutProps) {
   );
 }
 
-function Circle(L: LayoutProps) {
+export function Circle(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const size = Math.min(w, h) * 0.5;
   return (
@@ -113,7 +110,7 @@ function Circle(L: LayoutProps) {
   );
 }
 
-function Ribbon(L: LayoutProps) {
+export function Ribbon(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   const star = 'polygon(50% 0%,61% 12%,77% 6%,80% 22%,96% 25%,90% 40%,100% 52%,88% 62%,93% 78%,77% 80%,72% 96%,57% 89%,44% 100%,35% 87%,19% 93%,16% 77%,0% 71%,9% 58%,2% 43%,16% 35%,15% 18%,31% 17%,38% 2%)';
   return (
@@ -144,7 +141,7 @@ function Ribbon(L: LayoutProps) {
   );
 }
 
-function Kasavu(L: LayoutProps) {
+export function Kasavu(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const band = (top: boolean) => (
     <div className="absolute left-0 right-0" style={{ [top ? 'top' : 'bottom']: 0, height: u(70), background: `repeating-linear-gradient(90deg, ${p.accent} 0 ${u(10)}px, ${p.accent}cc ${u(10)}px ${u(14)}px)`, borderBottom: top ? `${u(6)}px solid ${p.accent2}` : undefined, borderTop: top ? undefined : `${u(6)}px solid ${p.accent2}` }} />
@@ -175,7 +172,7 @@ function Kasavu(L: LayoutProps) {
   );
 }
 
-function Bold(L: LayoutProps) {
+export function Bold(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0 flex flex-col" style={{ background: p.accent, color: p.onAccent }}>
@@ -203,7 +200,7 @@ function Bold(L: LayoutProps) {
   );
 }
 
-function Card(L: LayoutProps) {
+export function Card(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0 flex items-center justify-center" style={{ background: p.bg2, padding: u(70) }}>
@@ -223,7 +220,7 @@ function Card(L: LayoutProps) {
   );
 }
 
-function Tribute(L: LayoutProps) {
+export function Tribute(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const pw = Math.min(w * 0.46, h * 0.4);
   return (
@@ -246,7 +243,7 @@ function Tribute(L: LayoutProps) {
   );
 }
 
-function Magazine(L: LayoutProps) {
+export function Magazine(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0 flex flex-col" style={{ background: p.bg, color: p.ink, padding: u(54) }}>
@@ -274,7 +271,7 @@ function Magazine(L: LayoutProps) {
   );
 }
 
-function Menu(L: LayoutProps) {
+export function Menu(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const items = lines(d.body).slice(0, 12);
   const wide = w > h * 1.2;
@@ -318,7 +315,7 @@ function Menu(L: LayoutProps) {
   );
 }
 
-function Polaroid(L: LayoutProps) {
+export function Polaroid(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const pw = Math.min(w * 0.62, h * 0.5);
   return (
@@ -343,30 +340,3 @@ function Polaroid(L: LayoutProps) {
     </div>
   );
 }
-
-const CLASSIC_LAYOUTS = {
-  hero: { label: 'Photo top', render: Hero },
-  frame: { label: 'Festive frame', render: Frame },
-  split: { label: 'Diagonal split', render: Split },
-  circle: { label: 'Circle spotlight', render: Circle },
-  ribbon: { label: 'Ribbon sale', render: Ribbon },
-  kasavu: { label: 'Kerala kasavu', render: Kasavu },
-  bold: { label: 'Big & bold', render: Bold },
-  card: { label: 'Centre card', render: Card },
-  tribute: { label: 'Portrait tribute', render: Tribute },
-  magazine: { label: 'Magazine', render: Magazine },
-  menu: { label: 'Menu / price list', render: Menu },
-  polaroid: { label: 'Polaroid', render: Polaroid },
-};
-
-export type LayoutFamily = 'kerala' | 'modern' | 'classic';
-type LayoutEntry = { label: string; render: (L: LayoutProps) => ReactNode; family: LayoutFamily };
-
-export const FAMILY_LABELS: Record<LayoutFamily, string> = { kerala: 'Kerala ads', modern: 'Modern & trending', classic: 'Classic' };
-
-/** Every layout: Kerala ads first, then modern, then classic. */
-export const LAYOUTS = {
-  ...Object.fromEntries(Object.entries(KERALA_LAYOUTS).map(([k, v]) => [k, { label: v.label, render: v.render, family: 'kerala' }])),
-  ...Object.fromEntries(Object.entries(MODERN_LAYOUTS).map(([k, v]) => [k, { ...v, family: 'modern' }])),
-  ...Object.fromEntries(Object.entries(CLASSIC_LAYOUTS).map(([k, v]) => [k, { ...v, family: 'classic' }])),
-} as Record<LayoutKey, LayoutEntry>;

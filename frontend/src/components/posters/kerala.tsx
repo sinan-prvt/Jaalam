@@ -1,7 +1,6 @@
-import type { CSSProperties, ReactNode } from 'react';
-import { Picture, bodyFont, display, fit, fitWidth, lines, type LayoutProps } from './parts';
-import type { PosterStyle } from './types';
-import type { Palette, PosterFontKey } from './types';
+import type { CSSProperties } from 'react';
+import { Picture } from './parts';
+import { bodyFont, extrude, feather, firstGrapheme, fit, gradientText, kd, lines, outline, titleSize, type LayoutProps } from './text';
 
 /**
  * Kerala social-media ad layouts: huge stylised Malayalam headlines (outlined,
@@ -9,30 +8,10 @@ import type { Palette, PosterFontKey } from './types';
  * boxes, bunting, lanterns and contact strips, the look of local ad posters.
  */
 
-const pal = (bg: string, bg2: string, ink: string, accent: string, accent2: string, onAccent: string): Palette => ({ bg, bg2, ink, accent, accent2, onAccent });
-
 // ── text effects ──
 
-/** Heading font at poster weight (Malayalam display faces need the heavy cut). */
-const kd = (st: PosterStyle): CSSProperties => ({ ...display(st), fontWeight: 800 });
-
-/** Solid outline around text, built from text-shadows (exports reliably). */
-const outline = (color: string, r: number, n = 24) =>
-  Array.from({ length: n }, (_, i) => {
-    const a = (i / n) * Math.PI * 2;
-    return `${(Math.cos(a) * r).toFixed(1)}px ${(Math.sin(a) * r).toFixed(1)}px 0 ${color}`;
-  }).join(',');
-
-/** Stacked shadow for a 3D extruded look. */
-const extrude = (color: string, depth: number, step: number) =>
-  Array.from({ length: depth }, (_, i) => `${((i + 1) * step).toFixed(1)}px ${((i + 1) * step).toFixed(1)}px 0 ${color}`).join(',');
-
-const gradientText = (from: string, to: string, angle = 180): CSSProperties => ({
-  backgroundImage: `linear-gradient(${angle}deg, ${from}, ${to})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent',
-});
-
 /** Gradient-filled line with a solid outline behind it (two layers, exports reliably). */
-function GradientLine({ text, style, from, to, ring, ringWidth, shadow }: { text: string; style: CSSProperties; from: string; to: string; ring: string; ringWidth: number; shadow: string }) {
+export function GradientLine({ text, style, from, to, ring, ringWidth, shadow }: { text: string; style: CSSProperties; from: string; to: string; ring: string; ringWidth: number; shadow: string }) {
   return (
     <div style={{ position: 'relative' }}>
       <div aria-hidden style={{ ...style, color: ring, textShadow: `${outline(ring, ringWidth)}, ${shadow}` }}>{text}</div>
@@ -41,18 +20,9 @@ function GradientLine({ text, style, from, to, ring, ringWidth, shadow }: { text
   );
 }
 
-/** Size for a (multi-line) headline so its longest line fits `maxWidth` px without wrapping. */
-const titleSize = (L: LayoutProps, text: string, base: number, maxWidth: number) => fitWidth(L, text, base, maxWidth);
-
-/** First grapheme (Malayalam letters can be several code points). */
-const firstGrapheme = (s: string) => {
-  const seg = new Intl.Segmenter('ml', { granularity: 'grapheme' });
-  return [...seg.segment(s.trim())][0]?.segment || '';
-};
-
 // ── small graphics ──
 
-function PhoneIcon({ size, color }: { size: number; color: string }) {
+export function PhoneIcon({ size, color }: { size: number; color: string }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} style={{ flexShrink: 0 }}>
       <path fill={color} d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
@@ -61,7 +31,7 @@ function PhoneIcon({ size, color }: { size: number; color: string }) {
 }
 
 /** Facebook / Instagram / WhatsApp style icons, as simple glyphs. */
-function Socials({ size, color, bg }: { size: number; color: string; bg: string }) {
+export function Socials({ size, color, bg }: { size: number; color: string; bg: string }) {
   const box: CSSProperties = { width: size, height: size, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' };
   return (
     <div style={{ display: 'flex', gap: size * 0.3 }}>
@@ -72,7 +42,7 @@ function Socials({ size, color, bg }: { size: number; color: string; bg: string 
   );
 }
 
-function Cloud({ width, style }: { width: number; style?: CSSProperties }) {
+export function Cloud({ width, style }: { width: number; style?: CSSProperties }) {
   return (
     <svg viewBox="0 0 120 60" width={width} style={style}>
       <g fill="#fff" opacity=".95"><circle cx="35" cy="38" r="20" /><circle cx="60" cy="28" r="26" /><circle cx="88" cy="38" r="20" /><rect x="20" y="38" width="85" height="20" rx="10" /></g>
@@ -80,7 +50,7 @@ function Cloud({ width, style }: { width: number; style?: CSSProperties }) {
   );
 }
 
-function Palm({ width, flip, style }: { width: number; flip?: boolean; style?: CSSProperties }) {
+export function Palm({ width, flip, style }: { width: number; flip?: boolean; style?: CSSProperties }) {
   return (
     <svg viewBox="0 0 200 160" width={width} style={{ transform: flip ? 'scaleX(-1)' : undefined, ...style }}>
       <path d="M0 0 Q90 40 200 150" stroke="#3f6212" strokeWidth="4" fill="none" />
@@ -97,7 +67,7 @@ function Palm({ width, flip, style }: { width: number; flip?: boolean; style?: C
   );
 }
 
-function Lantern({ width, color }: { width: number; color: string }) {
+export function Lantern({ width, color }: { width: number; color: string }) {
   return (
     <svg viewBox="0 0 60 150" width={width}>
       <line x1="30" y1="0" x2="30" y2="40" stroke={color} strokeWidth="2" />
@@ -111,7 +81,7 @@ function Lantern({ width, color }: { width: number; color: string }) {
   );
 }
 
-function Bunting({ width, height, colors }: { width: number; height: number; colors: string[] }) {
+export function Bunting({ width, height, colors }: { width: number; height: number; colors: string[] }) {
   const n = 18;
   return (
     <svg viewBox={`0 0 ${n * 40} 70`} width={width} height={height} preserveAspectRatio="none">
@@ -124,7 +94,7 @@ function Bunting({ width, height, colors }: { width: number; height: number; col
   );
 }
 
-function Swirl({ size, color, style }: { size: number; color: string; style?: CSSProperties }) {
+export function Swirl({ size, color, style }: { size: number; color: string; style?: CSSProperties }) {
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} style={style}>
       <path d="M50 50 m0 -4 a4 4 0 1 1 -4 4 a10 10 0 1 1 10 10 a18 18 0 1 1 -18 -18 a26 26 0 1 1 26 26" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
@@ -135,13 +105,7 @@ function Swirl({ size, color, style }: { size: number; color: string; style?: CS
 /** Stylised outline of Kerala (percent points for clip-path). */
 const KERALA = 'polygon(10% 0%,16% 10%,22% 20%,28% 30%,34% 40%,42% 50%,50% 60%,58% 70%,66% 80%,74% 90%,84% 100%,88% 100%,93% 90%,95% 80%,92% 70%,89% 60%,82% 50%,71% 40%,59% 30%,48% 20%,38% 10%,29% 0%)';
 
-/** Feathered photo: edges fade into the background, like a cut-out. */
-const feather = (shape = 'ellipse 50% 50% at 50% 50%', inner = 62): CSSProperties => ({
-  maskImage: `radial-gradient(${shape}, #000 ${inner}%, transparent 100%)`,
-  WebkitMaskImage: `radial-gradient(${shape}, #000 ${inner}%, transparent 100%)`,
-});
-
-function ContactPill({ L, bg, color, iconBg, iconColor }: { L: LayoutProps; bg: string; color: string; iconBg: string; iconColor: string }) {
+export function ContactPill({ L, bg, color, iconBg, iconColor }: { L: LayoutProps; bg: string; color: string; iconBg: string; iconColor: string }) {
   const { d, st, f, u } = L;
   if (!d.contact) return null;
   return (
@@ -152,7 +116,7 @@ function ContactPill({ L, bg, color, iconBg, iconColor }: { L: LayoutProps; bg: 
   );
 }
 
-function BrandMark({ L, color, size = 40, center }: { L: LayoutProps; color: string; size?: number; center?: boolean }) {
+export function BrandMark({ L, color, size = 40, center }: { L: LayoutProps; color: string; size?: number; center?: boolean }) {
   const { d, st, f, u } = L;
   if (!d.brand && !d.logo) return null;
   return (
@@ -166,7 +130,7 @@ function BrandMark({ L, color, size = 40, center }: { L: LayoutProps; color: str
 // ─────────────────────────────────────────────
 
 /** Brand on top, outlined Malayalam headline, feathered product, tagline, services, phone. */
-function AdProduct(L: LayoutProps) {
+export function AdProduct(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   return (
@@ -192,7 +156,7 @@ function AdProduct(L: LayoutProps) {
 }
 
 /** Giant first letter beside stacked lines, product bottom-right, white footer strip. */
-function AdGiantLetter(L: LayoutProps) {
+export function AdGiantLetter(L: LayoutProps) {
   const { d, st, f, u, w } = L, p = st.palette;
   const first = firstGrapheme(d.headline);
   const rest = d.headline.trim().slice(first.length).trim();
@@ -228,7 +192,7 @@ function AdGiantLetter(L: LayoutProps) {
 }
 
 /** Night-sky services ad: stacked headline, 3D word, services list, house photo, connect bar. */
-function AdServices(L: LayoutProps) {
+export function AdServices(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   const big = ttl.length > 1 ? ttl[ttl.length - 1] : '';
@@ -278,7 +242,7 @@ function AdServices(L: LayoutProps) {
 }
 
 /** Product promo: bold English word + Malayalam lines, price burst, model photo, shop button. */
-function AdPromo(L: LayoutProps) {
+export function AdPromo(L: LayoutProps) {
   const { d, st, f, u, w } = L, p = st.palette;
   const ttl = lines(d.headline);
   return (
@@ -313,7 +277,7 @@ function AdPromo(L: LayoutProps) {
 }
 
 /** Church / club event: organiser on top, bunting, gradient title, date box, photo, contact bar. */
-function AdEvent(L: LayoutProps) {
+export function AdEvent(L: LayoutProps) {
   const { d, st, f, u, w } = L, p = st.palette;
   const ttl = lines(d.headline);
   return (
@@ -354,7 +318,7 @@ function AdEvent(L: LayoutProps) {
 }
 
 /** Ornate arch with hanging lanterns and a gold title (madrasa / mahfil / Ramadan). */
-function AdArch(L: LayoutProps) {
+export function AdArch(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   const archTop = h * 0.13;
@@ -388,7 +352,7 @@ function AdArch(L: LayoutProps) {
 }
 
 /** Festival greeting: glowing centre visual, palm leaves, big script greeting at the bottom. */
-function AdFestival(L: LayoutProps) {
+export function AdFestival(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   return (
@@ -418,7 +382,7 @@ function AdFestival(L: LayoutProps) {
 }
 
 /** Winner / felicitation: social-post photo card with medal, swirls, big title below. */
-function AdAchievement(L: LayoutProps) {
+export function AdAchievement(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   const card = Math.min(w * 0.46, h * 0.38);
@@ -448,7 +412,7 @@ function AdAchievement(L: LayoutProps) {
 }
 
 /** Clinic / course ad: question headline, highlighted box, round photo, badge, contact strip. */
-function AdClinic(L: LayoutProps) {
+export function AdClinic(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   const circle = Math.min(w, h) * 0.46;
@@ -480,7 +444,7 @@ function AdClinic(L: LayoutProps) {
 }
 
 /** News-card style: photo top, quoted headline on black bars, red subline, URL pill. */
-function AdNews(L: LayoutProps) {
+export function AdNews(L: LayoutProps) {
   const { d, st, f, u, w } = L, p = st.palette;
   const ttl = lines(d.headline);
   return (
@@ -508,7 +472,7 @@ function AdNews(L: LayoutProps) {
 }
 
 /** Food promo: wood board, floating dish, script + serif title, ticket CTA, perspective word. */
-function AdFood(L: LayoutProps) {
+export function AdFood(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const plate = Math.min(w, h) * 0.56;
   const big = d.offer || lines(d.headline).join(' ');
@@ -536,7 +500,7 @@ function AdFood(L: LayoutProps) {
 }
 
 /** Kerala map filled with the photo/artwork beside a stacked title. */
-function AdMap(L: LayoutProps) {
+export function AdMap(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ttl = lines(d.headline);
   const mapH = h * 0.86, mapW = Math.min(mapH * 0.5, w * 0.4);
@@ -558,32 +522,3 @@ function AdMap(L: LayoutProps) {
     </div>
   );
 }
-
-type KeralaLayout = { label: string; render: (L: LayoutProps) => ReactNode; palettes: Palette[]; fonts: [PosterFontKey, PosterFontKey][] };
-
-export const KERALA_LAYOUTS: Record<string, KeralaLayout> = {
-  adProduct: { label: 'Product showcase', render: AdProduct, fonts: [['anekMl', 'poppins'], ['baloo', 'montserrat']], palettes: [
-    pal('#8a8178', '#bdb4a8', '#ffffff', '#3a2f26', '#f5c518', '#ffffff'), pal('#0f3b2e', '#2f6b55', '#ffffff', '#0a2219', '#facc15', '#ffffff'), pal('#3b0d1a', '#7a2440', '#ffffff', '#1a0610', '#fbbf24', '#ffffff')] },
-  adGiantLetter: { label: 'Giant letter', render: AdGiantLetter, fonts: [['anekMl', 'poppins'], ['notoSansMl', 'montserrat']], palettes: [
-    pal('#6e3a3e', '#8e5258', '#f6eadf', '#e8b4a0', '#fde68a', '#3b1d20'), pal('#25343f', '#3b5262', '#eef4f8', '#7dd3fc', '#fde68a', '#0f1a22'), pal('#3f4a2f', '#5b6b43', '#f4f1e6', '#d9f99d', '#fde68a', '#1f2615')] },
-  adServices: { label: 'Services night', render: AdServices, fonts: [['baloo', 'poppins'], ['anekMl', 'montserrat']], palettes: [
-    pal('#0b1033', '#3b2a7a', '#ffffff', '#f59e0b', '#9a3412', '#111111'), pal('#04211c', '#0f5b4b', '#ffffff', '#facc15', '#a16207', '#111111'), pal('#1a0b2e', '#6d28d9', '#ffffff', '#fb7185', '#9f1239', '#111111')] },
-  adPromo: { label: 'Price promo', render: AdPromo, fonts: [['anekMl', 'poppins'], ['baloo', 'montserrat']], palettes: [
-    pal('#f6f3ee', '#e9d8c4', '#1a1a1a', '#e11d48', '#111111', '#ffffff'), pal('#fff7e6', '#ffe0a3', '#1f1300', '#ea580c', '#111111', '#ffffff'), pal('#eef6ff', '#cfe3ff', '#0b1b33', '#2563eb', '#111111', '#ffffff')] },
-  adEvent: { label: 'Event & bunting', render: AdEvent, fonts: [['notoSansMl', 'poppins'], ['anekMl', 'montserrat']], palettes: [
-    pal('#fef3c7', '#bbf7d0', '#1f1300', '#e11d48', '#7c2d12', '#ffffff'), pal('#ecfccb', '#bae6fd', '#0f1f10', '#9333ea', '#be123c', '#ffffff'), pal('#ffedd5', '#fde68a', '#291400', '#dc2626', '#1d4ed8', '#ffffff')] },
-  adArch: { label: 'Arch & lanterns', render: AdArch, fonts: [['notoSerifMl', 'manjari'], ['baloo', 'poppins']], palettes: [
-    pal('#3b1d0e', '#5c2a14', '#fdf1d6', '#e9b44c', '#fde68a', '#3b1d0e'), pal('#0c2a24', '#134e43', '#e9fff8', '#d4af37', '#fde68a', '#0c2a24'), pal('#1e1338', '#31205a', '#f4efff', '#e9c46a', '#fde68a', '#1e1338')] },
-  adFestival: { label: 'Festival glow', render: AdFestival, fonts: [['chilanka', 'poppins'], ['baloo', 'montserrat'], ['anekMl', 'poppins']], palettes: [
-    pal('#3b1a00', '#b45309', '#fff7e6', '#7c2d12', '#fde047', '#ffffff'), pal('#0b3d2e', '#4d9b6e', '#ffffff', '#14532d', '#fef08a', '#ffffff'), pal('#3b0764', '#a855f7', '#ffffff', '#6b21a8', '#f9a8d4', '#ffffff')] },
-  adAchievement: { label: 'Winner card', render: AdAchievement, fonts: [['notoSansMl', 'poppins'], ['anekMl', 'montserrat']], palettes: [
-    pal('#04381f', '#0b6b3a', '#ffffff', '#86efac', '#fde68a', '#04381f'), pal('#0b1d4d', '#1d4ed8', '#ffffff', '#93c5fd', '#fde68a', '#0b1d4d'), pal('#4a0d0d', '#9f1239', '#ffffff', '#fda4af', '#fde68a', '#4a0d0d')] },
-  adClinic: { label: 'Clinic & course', render: AdClinic, fonts: [['anekMl', 'poppins'], ['notoSansMl', 'montserrat']], palettes: [
-    pal('#dff7f3', '#9ee6dc', '#0b3b3a', '#0f766e', '#134e4a', '#ffffff'), pal('#e0f2fe', '#a5d8ff', '#0c2a4a', '#0369a1', '#0c4a6e', '#ffffff'), pal('#fdf2f8', '#fbcfe8', '#4a0d2e', '#be185d', '#831843', '#ffffff')] },
-  adNews: { label: 'News card', render: AdNews, fonts: [['anekMl', 'poppins'], ['notoSansMl', 'montserrat']], palettes: [
-    pal('#ffffff', '#f1f5f9', '#111111', '#facc15', '#dc2626', '#111111'), pal('#ffffff', '#f1f5f9', '#111111', '#4ade80', '#1d4ed8', '#111111'), pal('#ffffff', '#f1f5f9', '#111111', '#fb923c', '#7c3aed', '#111111')] },
-  adFood: { label: 'Food promo', render: AdFood, fonts: [['dmSerif', 'poppins'], ['anekMl', 'poppins']], palettes: [
-    pal('#6b3a1e', '#5a3018', '#fff7ed', '#fbbf24', '#3f6212', '#3b2412'), pal('#3a2a1f', '#2e2118', '#fdf6ec', '#f97316', '#166534', '#3b2412'), pal('#4a1d1d', '#3c1717', '#fff1f2', '#fde047', '#15803d', '#3b2412')] },
-  adMap: { label: 'Kerala map', render: AdMap, fonts: [['notoSansMl', 'poppins'], ['anekMl', 'montserrat']], palettes: [
-    pal('#ffffff', '#f0fdf4', '#14532d', '#15803d', '#b45309', '#ffffff'), pal('#fffbeb', '#fef3c7', '#422006', '#b45309', '#15803d', '#ffffff'), pal('#f0f9ff', '#e0f2fe', '#0c4a6e', '#0e7490', '#c2410c', '#ffffff')] },
-};

@@ -1,21 +1,7 @@
 import { forwardRef, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
-import { LAYOUTS } from './layouts';
-import { POSTER_FONTS_HREF } from './fonts';
+import { LAYOUTS } from './registry';
 import { ElementView, type HandleMode } from './elements';
 import { FORMATS, type PosterData, type PosterElement, type PosterFormat, type PosterStyle } from './types';
-
-/** Adds the poster fonts stylesheet to the page once. */
-export function usePosterFonts() {
-  useEffect(() => {
-    if (document.getElementById('poster-fonts')) return;
-    const link = document.createElement('link');
-    link.id = 'poster-fonts';
-    link.rel = 'stylesheet';
-    link.href = POSTER_FONTS_HREF;
-    link.crossOrigin = 'anonymous';
-    document.head.appendChild(link);
-  }, []);
-}
 
 /** Re-renders when web fonts finish loading, so text measured before then is resized. */
 function useFontsLoaded() {

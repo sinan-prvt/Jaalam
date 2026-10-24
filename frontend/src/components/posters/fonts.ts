@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 /**
  * Fonts the poster maker offers. Every stack ends with a Malayalam face, so
  * Malayalam text (ഓണാശംസകൾ...) renders nicely whatever Latin font is picked.
@@ -48,3 +50,16 @@ export const POSTER_FONTS_HREF =
   'https://fonts.googleapis.com/css2?' +
   Object.values(POSTER_FONTS).map(f => `family=${f.q}`).join('&') +
   '&display=swap';
+
+/** Adds the poster fonts stylesheet to the page once. */
+export function usePosterFonts() {
+  useEffect(() => {
+    if (document.getElementById('poster-fonts')) return;
+    const link = document.createElement('link');
+    link.id = 'poster-fonts';
+    link.rel = 'stylesheet';
+    link.href = POSTER_FONTS_HREF;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  }, []);
+}

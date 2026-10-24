@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { Brand, Footer, Picture, bodyFont, display, fit, type LayoutProps } from './parts';
+import { Brand, Footer, Picture } from './parts';
+import { bodyFont, display, fit, type LayoutProps } from './text';
 
 /**
  * Modern, social-media style layouts: bento grids, glassmorphism, neo-brutalism,
@@ -37,7 +38,7 @@ const NOISE = `url("data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="ht
 
 // ─────────────────────────────────────────────
 
-function Bento(L: LayoutProps) {
+export function Bento(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const tall = h > w * 1.25;
   const areas = tall
@@ -80,7 +81,7 @@ function Bento(L: LayoutProps) {
   );
 }
 
-function Glass(L: LayoutProps) {
+export function Glass(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   const dark = isDark(p.bg);
   const glass: CSSProperties = {
@@ -116,7 +117,7 @@ function Glass(L: LayoutProps) {
   );
 }
 
-function Brutal(L: LayoutProps) {
+export function Brutal(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   const ink = isDark(p.bg) ? '#ffffff' : '#111111';
   const edge = (shadow = 12): CSSProperties => ({ border: `${u(6)}px solid ${ink}`, boxShadow: `${u(shadow)}px ${u(shadow)}px 0 ${ink}` });
@@ -149,7 +150,7 @@ function Brutal(L: LayoutProps) {
   );
 }
 
-function Kinetic(L: LayoutProps) {
+export function Kinetic(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const bg = isDark(p.bg) ? p.bg : p.ink, fg = isDark(p.bg) ? p.ink : p.bg;
   const word = d.headline || d.brand;
@@ -186,7 +187,7 @@ function Kinetic(L: LayoutProps) {
   );
 }
 
-function Swiss(L: LayoutProps) {
+export function Swiss(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const ink = p.ink;
   const big = d.offer || d.date;
@@ -219,7 +220,7 @@ function Swiss(L: LayoutProps) {
   );
 }
 
-function Grain(L: LayoutProps) {
+export function Grain(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const dark = isDark(p.bg);
   const ink = dark ? '#ffffff' : p.ink;
@@ -250,7 +251,7 @@ function Grain(L: LayoutProps) {
   );
 }
 
-function Chrome(L: LayoutProps) {
+export function Chrome(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const bg = '#07070b';
   const chrome: CSSProperties = { backgroundImage: 'linear-gradient(180deg,#ffffff 0%,#d9dde3 30%,#8c939c 48%,#ffffff 52%,#b9c0c8 70%,#ffffff 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent', filter: `drop-shadow(0 ${u(4)}px ${u(10)}px ${p.accent}88)` };
@@ -283,7 +284,7 @@ function Chrome(L: LayoutProps) {
   );
 }
 
-function Duotone(L: LayoutProps) {
+export function Duotone(L: LayoutProps) {
   const { d, st, f, u } = L, p = st.palette;
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ background: p.accent }}>
@@ -311,7 +312,7 @@ function Duotone(L: LayoutProps) {
   );
 }
 
-function Stickers(L: LayoutProps) {
+export function Stickers(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const size = Math.min(w * 0.7, h * 0.5);
   const sticker = (rot: number, bg: string, color: string): CSSProperties => ({ ...display(st), position: 'absolute', background: bg, color, border: `${u(7)}px solid #fff`, borderRadius: u(30), padding: `${u(14)}px ${u(30)}px`, transform: `rotate(${rot}deg)`, boxShadow: `0 ${u(10)}px ${u(24)}px rgba(0,0,0,.18)`, whiteSpace: 'nowrap', lineHeight: 1.05 });
@@ -340,7 +341,7 @@ function Stickers(L: LayoutProps) {
   );
 }
 
-function ArchMinimal(L: LayoutProps) {
+export function ArchMinimal(L: LayoutProps) {
   const { d, st, f, u, w, h } = L, p = st.palette;
   const tall = h > w * 1.2;
   const ink = p.ink;
@@ -367,16 +368,3 @@ function ArchMinimal(L: LayoutProps) {
     </div>
   );
 }
-
-export const MODERN_LAYOUTS = {
-  bento: { label: 'Bento grid', render: Bento },
-  glass: { label: 'Glassmorphism', render: Glass },
-  brutal: { label: 'Neo brutalism', render: Brutal },
-  kinetic: { label: 'Kinetic type', render: Kinetic },
-  swiss: { label: 'Swiss grid', render: Swiss },
-  grain: { label: 'Grain gradient', render: Grain },
-  chrome: { label: 'Y2K chrome', render: Chrome },
-  duotone: { label: 'Duotone', render: Duotone },
-  stickers: { label: 'Sticker collage', render: Stickers },
-  archMinimal: { label: 'Minimal arch', render: ArchMinimal },
-} satisfies Record<string, { label: string; render: (L: LayoutProps) => ReactNode }>;

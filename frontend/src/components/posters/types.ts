@@ -28,6 +28,8 @@ export interface Palette {
 }
 
 export type LayoutKey =
+  | 'cStudio' | 'cSpotlight' | 'cTiltBanners' | 'cSolidCutout' | 'cBillboard' | 'cSpeech' | 'cWallType'
+  | 'cSurreal' | 'cPins' | 'cCaricature' | 'cMinimalProduct' | 'cDarkPromo' | 'cFestiveMascot' | 'cBloom' | 'cEventBanner'
   | 'adProduct' | 'adGiantLetter' | 'adServices' | 'adPromo' | 'adEvent' | 'adArch'
   | 'adFestival' | 'adAchievement' | 'adClinic' | 'adNews' | 'adFood' | 'adMap'
   | 'bento' | 'glass' | 'brutal' | 'kinetic' | 'swiss' | 'grain' | 'chrome' | 'duotone' | 'stickers' | 'archMinimal'
@@ -52,8 +54,10 @@ export interface PosterStyle {
   scale: number;
 }
 
-export type ShapeKey = 'rect' | 'rounded' | 'circle' | 'star' | 'burst' | 'ribbon' | 'arrow' | 'line' | 'blob' | 'heart' | 'triangle' | 'bubble';
-export type IconKey = 'phone' | 'whatsapp' | 'location' | 'mail' | 'globe' | 'clock' | 'star' | 'check' | 'heart' | 'instagram' | 'facebook' | 'youtube' | 'cart' | 'gift' | 'truck' | 'tag';
+export type ShapeKey = 'rect' | 'rounded' | 'circle' | 'star' | 'burst' | 'ribbon' | 'arrow' | 'line' | 'blob' | 'heart' | 'triangle' | 'bubble'
+  | 'hexagon' | 'seal' | 'wave' | 'tag' | 'splash' | 'pill' | 'ring' | 'diamond' | 'cloud' | 'leaf' | 'shield' | 'chevron' | 'sparkle' | 'frame';
+export type IconKey = 'phone' | 'whatsapp' | 'location' | 'mail' | 'globe' | 'clock' | 'star' | 'check' | 'heart' | 'instagram' | 'facebook' | 'youtube' | 'cart' | 'gift' | 'truck' | 'tag'
+  | 'percent' | 'bolt' | 'fire' | 'calendar' | 'trophy' | 'quote';
 
 /**
  * A free element placed on top of the template: added from the Elements panel,
@@ -82,7 +86,7 @@ export interface PosterElement {
   size: number;
   weight: number;
   align: 'left' | 'center' | 'right';
-  effect: 'none' | 'outline' | 'shadow';
+  effect: 'none' | 'outline' | 'shadow' | 'gradient' | '3d' | 'glow';
   /** Outline / effect colour. */
   stroke: string;
   shape?: ShapeKey;

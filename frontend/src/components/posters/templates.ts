@@ -1,6 +1,5 @@
 import type { ArtKey, LayoutKey, Palette, PosterData, PosterFontKey, PosterTemplate } from './types';
-import { LAYOUTS } from './layouts';
-import { KERALA_LAYOUTS } from './kerala';
+import { CREATIVE_LAYOUTS, KERALA_LAYOUTS, LAYOUTS } from './registry';
 
 type FontPair = [PosterFontKey, PosterFontKey];
 
@@ -394,10 +393,103 @@ const MODERN_FONTS: Record<string, FontPair[]> = {
  */
 const EVENT_ADS: LayoutKey[] = ['adArch', 'adFestival', 'adAchievement'];
 
-export const POSTER_TEMPLATES: PosterTemplate[] = CATEGORIES.flatMap((cat, ci) => {
+/** Creative ads: a layout, the category it belongs to and its own copy. */
+const CREATIVE: [LayoutKey, string, Partial<PosterData>][] = [
+  // Photo studio
+  ['cStudio', 'salon', { headline: 'സ്നേഹത്തോടെ\nനിങ്ങളുടെ\nസൗന്ദര്യം', subhead: 'Skin · Hair · Face', brand: 'Glow Aesthetic Studio', offer: 'ആദ്യ സന്ദർശനത്തിന് 20% കിഴിവ്', cta: 'Book your appointment now', address: 'Kottakkal, Malappuram' }],
+  ['cStudio', 'education', { headline: 'ചുവടുവെക്കൂ\nപുതിയ\nസ്വപ്നങ്ങളിലേക്ക്', subhead: 'Aviation · Logistics', brand: 'SkyWings Academy', offer: 'Admission Open 2026', cta: 'For more details', address: 'Near Bus Stand, Perinthalmanna' }],
+  ['cStudio', 'jewellery', { headline: 'ഓരോ നിമിഷവും\nതിളങ്ങട്ടെ', subhead: 'Bridal Collection', brand: 'Swarna Jewellers', offer: 'പണിക്കൂലിയിൽ 50% വരെ കിഴിവ്', cta: 'Visit our showroom', address: 'Round North, Thrissur' }],
+  ['cStudio', 'textiles', { headline: 'ഈ സീസണിലെ\nപുതിയ ട്രെൻഡ്', subhead: 'Wedding · Festive · Casual', brand: 'Rangoli Silks', offer: 'Flat 30% OFF', cta: 'Shop the new collection', address: 'Mavoor Road, Kozhikode' }],
+  // Product spotlight
+  ['cSpotlight', 'electronics', { headline: 'ഇനി\nകണ്ടറിയാം\nകേട്ടറിയാം', body: 'LED / Smart TV, Home Theatre\nകുറഞ്ഞ വിലയിൽ സ്വന്തമാക്കാം', offer: 'EMI ലഭ്യം', brand: 'Star Mobiles', cta: 'Sales & Service', address: 'Near Town Hall, Kanjirappally' }],
+  ['cSpotlight', 'electronics', { headline: 'പുതിയ ഫോൺ\nപുതിയ വേഗം', body: 'Exchange offer\nZero down payment', offer: '₹999 മുതൽ EMI', brand: 'Smart Mobiles', cta: 'Visit store today', address: 'Manjeri' }],
+  ['cSpotlight', 'jewellery', { headline: 'വിവാഹ\nആഭരണങ്ങൾ', body: 'Light weight · Antique · Diamond', offer: 'Gold Rate Protection', brand: 'Swarna Jewellers', cta: 'BIS Hallmarked', address: 'Thrissur' }],
+  ['cSpotlight', 'automobile', { headline: 'സ്വപ്ന വാഹനം\nഇനി സ്വന്തം', body: 'Easy finance\nExchange bonus ₹25,000 വരെ', offer: 'Test Drive', brand: 'Malabar Motors', cta: 'Book now', address: 'Kannur' }],
+  // Tilted banners
+  ['cTiltBanners', 'education', { headline: 'പ്ലസ് വൺ അലോട്ട്മെന്റ്\nകിട്ടിയില്ലേ?\nമികച്ച പഠനം ഇവിടെയുണ്ട്', subhead: 'A Space For Quality Education', body: 'Smart classrooms\nExperienced faculty\nHostel facility\nTransport facility', brand: 'Bright Path Academy', cta: 'Contact Us', address: 'Morayur, Malappuram' }],
+  ['cTiltBanners', 'hiring', { headline: 'ജോലി തേടുകയാണോ?\nWE ARE HIRING\nഇന്ന് തന്നെ അപേക്ഷിക്കൂ', subhead: 'Walk-in Interview · Monday 10 AM', body: 'Sales Executive\nAccountant\nDelivery Staff\nStore Manager', brand: 'Fresh Mart Group', cta: 'Send your CV', address: 'Edappally, Kochi' }],
+  ['cTiltBanners', 'real-estate', { headline: 'സ്വന്തം വീട്\nസ്വപ്നം\nഇനി യാഥാർഥ്യം', subhead: 'Premium Villas & Apartments', body: '2 & 3 BHK apartments\nBank loan assistance\nRERA approved\nNear city centre', brand: 'Green Nest Builders', cta: 'Book a site visit', address: 'Kakkanad, Kochi' }],
+  ['cTiltBanners', 'medical', { headline: 'നിങ്ങളുടെ ആരോഗ്യം\nഞങ്ങളുടെ കരുതൽ\nസൗജന്യ മെഡിക്കൽ ക്യാമ്പ്', subhead: 'Free Medical Camp · Sunday', body: 'Diabetes check-up\nBP check-up\nEye screening\nFree medicines', brand: 'City Care Hospital', cta: 'Register now', address: 'Tirur' }],
+  // Solid colour cut-out
+  ['cSolidCutout', 'electronics', { headline: 'പുറത്ത് കൂൾ\nഅകത്ത്\nസൂപ്പർ കൂൾ', subhead: 'മികച്ച ഓഫറിൽ സ്മാർട്ട് AC സ്വന്തമാക്കൂ', body: 'Perinthalmanna\nNilambur\nCalicut\nManjeri', offer: 'EMI · Credit · Debit Card', brand: 'Cool Point Electronics', cta: 'Our branches', address: 'Kodathipadi, Mannarkkad' }],
+  ['cSolidCutout', 'gym', { headline: 'ഫിറ്റ് ആകാം\nഇനി\nസ്റ്റൈലായി', subhead: 'Personal training · Zumba · CrossFit', offer: '3 മാസം + 1 മാസം ഫ്രീ', brand: 'Iron Fit Gym', cta: 'Join Now', address: 'Stadium Road, Palakkad' }],
+  ['cSolidCutout', 'dental', { headline: 'ചിരിക്കൂ\nമനസ്സ്\nനിറഞ്ഞ്', subhead: 'Braces · Implants · Whitening', offer: 'Free consultation', brand: 'Smile Dental Clinic', cta: 'Book Appointment', address: 'KK Road, Kottayam' }],
+  ['cSolidCutout', 'sale', { headline: 'മെഗാ\nഓഫർ\nസെയിൽ', subhead: 'എല്ലാ ഉൽപ്പന്നങ്ങൾക്കും വൻ വിലക്കുറവ്', offer: 'Up to 60% OFF', brand: 'Big Bazaar Kerala', cta: 'Shop Now', address: 'Chinnakada, Kollam' }],
+  // Billboard
+  ['cBillboard', 'travel', { headline: 'ഇങ്ങനെ നടന്നാ\nമതിയോ..?\nനാട് വിട്ടാലോ..', subhead: 'Study & work abroad', brand: 'Global Path Education', address: 'Perinthalmanna | Calicut | Vadakara' }],
+  ['cBillboard', 'grand-opening', { headline: 'ഉദ്ഘാടനം\nഉടൻ', subhead: 'New showroom opening this Friday', brand: 'Home Comfort', address: 'Kottakkal' }],
+  ['cBillboard', 'automobile', { headline: 'ഓരോ യാത്രയും\nസുഖകരം', subhead: 'Car service & detailing', brand: 'AutoCare Hub', address: 'Kunnummal, Malappuram' }],
+  ['cBillboard', 'real-estate', { headline: 'പ്ലോട്ടുകൾ\nവിൽപ്പനയ്ക്ക്', subhead: 'Residential plots from ₹4.5 lakh/cent', brand: 'Green Nest Builders', address: 'Kakkanad, Kochi' }],
+  // Speech bubble
+  ['cSpeech', 'supermarket', { subhead: 'FRESH', headline: 'നാട്ടിലെ നല്ല രുചി', offer: 'ഫ്രീ ഹോം ഡെലിവറി', brand: 'Nadan Dairy', address: 'www.nadandairy.in' }],
+  ['cSpeech', 'sale', { subhead: 'SALE!', headline: 'ഇത് വൻ ഓഫർ ആണ്!', offer: '50% OFF', brand: 'Fashion Hub', address: 'MG Road, Kochi' }],
+  ['cSpeech', 'restaurant', { subhead: 'TASTY', headline: 'ഇത് വേറെ ലെവൽ ആണ്!', offer: 'Family Combo ₹499', brand: 'Spice Route', address: 'Beach Road, Kozhikode' }],
+  ['cSpeech', 'gym', { subhead: 'STRONG', headline: 'ഇനി നമ്മൾ ഫിറ്റ്!', offer: 'First week FREE', brand: 'Iron Fit Gym', address: 'Palakkad' }],
+  // Wall type
+  ['cWallType', 'interior', { headline: 'ആധുനികതയുടെ\nസൗന്ദര്യം', subhead: 'Kitchen | Living | Dining | Bedroom', brand: 'Decor Studio', offer: 'the art of interiors', cta: 'decorstudio@gmail.com', address: 'Kowdiar, Trivandrum' }],
+  ['cWallType', 'furniture', { headline: 'ഒത്തുചേരലുകൾ\nമനോഹരമാക്കാൻ!', subhead: 'Dining sets · Sofas · Beds', brand: 'Oak & Teak', offer: 'Up to 35% OFF', cta: 'www.oakandteak.in', address: 'Thiruvalla' }],
+  ['cWallType', 'builders', { headline: 'നിങ്ങളുടെ സ്വപ്ന\nഭവനം', subhead: 'Plan · Build · Interiors', brand: 'Strong Base', offer: 'Builders & Developers', cta: 'strongbase.in', address: 'Kottayam' }],
+  ['cWallType', 'textiles', { headline: 'ട്രെൻഡിന്റെ\nപുതിയ നിറം', subhead: 'Curtains · Upholstery · Linen', brand: 'Weave House', offer: 'Free measurement', cta: 'weavehouse.in', address: 'Thrissur' }],
+  // Surreal sky
+  ['cSurreal', 'printing', { subhead: 'മികച്ച ബ്രാൻഡിംഗ്', headline: 'തുടരും', body: 'Branding\nContent Creation\nSocial Media\nWeb Development\nVideo Production', brand: 'Northstar Creative', contact: 'www.northstar.in', address: '' }],
+  ['cSurreal', 'travel', { subhead: 'ഒരുമിച്ച്', headline: 'യാത്ര പോകാം', body: 'Munnar\nWayanad\nVagamon\nAlleppey', brand: 'Kerala Holidays', address: 'Kochi' }],
+  ['cSurreal', 'automobile', { subhead: 'ഓരോ വഴിയിലും', headline: 'കൂടെ', body: 'Service\nSpares\nInsurance\nFinance', brand: 'Malabar Motors', address: 'Kannur' }],
+  ['cSurreal', 'real-estate', { subhead: 'ആകാശം തൊടാം', headline: 'ഉയരങ്ങളിലേക്ക്', body: 'Sky view apartments\nClub house\nInfinity pool', brand: 'Skyline Homes', address: 'Marine Drive, Kochi' }],
+  // Map pins
+  ['cPins', 'education', { headline: 'പഠനത്തിന്റെ\nപുതുവഴിയിലേക്ക്', offer: 'Offline tuition classes 8th to 12th', subhead: 'IRINJALAKUDA | MALA', brand: 'New Turn Tuition', address: 'Irinjalakuda | Mala' }],
+  ['cPins', 'grand-opening', { headline: 'ഇനി ഞങ്ങൾ\nനിങ്ങളുടെ അടുത്ത്', offer: 'New branch now open', subhead: 'KOCHI | THRISSUR', brand: 'Fresh Mart', address: 'Kochi | Thrissur' }],
+  ['cPins', 'medical', { headline: 'ഇപ്പോൾ\n2 ശാഖകളിൽ', offer: '24x7 Pharmacy & Lab', subhead: 'TIRUR | KUTTIPPURAM', brand: 'City Care Clinic', address: 'Tirur | Kuttippuram' }],
+  ['cPins', 'bakery', { headline: 'മധുരം\nഎല്ലായിടത്തും', offer: 'Free delivery within 5 km', subhead: 'KOTTAYAM | PALA', brand: 'Sweet Spot Bakery', address: 'Kottayam | Pala' }],
+  // Caricature pop
+  ['cCaricature', 'printing', { subhead: 'നിങ്ങളുടെ', headline: 'കണ്ടന്റിനെ\nഞങ്ങൾ മികച്ചതാക്കി തരും', cta: "We'll make your CONTENT the best!", body: 'Posters, Logos, Caricature\nBranding, Digital Marketing\nVideo Production, Website', brand: 'A to Z Creatives' }],
+  ['cCaricature', 'gym', { subhead: 'ഇനി', headline: 'ഫിറ്റ്നസ്\nനിങ്ങളുടെ കൈയിൽ', cta: 'Join Today', body: 'Weight loss, Muscle gain\nPersonal training', brand: 'Iron Fit Gym' }],
+  ['cCaricature', 'birthday', { subhead: 'ഹാപ്പി', headline: 'ബർത്ത്ഡേ\nഡിയർ റാഫി', cta: 'Happy Birthday!', body: 'Wishing you a fabulous year ahead', brand: 'From: Gang 2008', contact: '' }],
+  ['cCaricature', 'hiring', { subhead: 'ഞങ്ങൾക്ക് വേണം', headline: 'ഡിസൈനർമാരെ\nഉടൻ ആവശ്യമുണ്ട്', cta: 'Apply Now', body: 'Graphic Designer\nVideo Editor\nSocial Media Executive', brand: 'Pixel Studio' }],
+  // Minimal product
+  ['cMinimalProduct', 'bakery', { headline: 'അളന്ന്\nകഴിക്കാതെ\nആസ്വദിച്ചു\nകഴിക്കാം', offer: 'Sugar free range', brand: 'Lite Bakes', address: 'litebakes.in' }],
+  ['cMinimalProduct', 'jewellery', { headline: 'ഒരു\nതിളക്കം\nമതി', offer: 'Daily wear collection', brand: 'Swarna Jewellers', address: 'swarnajewels.in' }],
+  ['cMinimalProduct', 'restaurant', { headline: 'ഒരു കപ്പ്\nചായ\nഒരു കഥ', offer: 'Evening snacks ₹49 മുതൽ', brand: 'Chai Point Cafe', address: 'Fort Kochi' }],
+  ['cMinimalProduct', 'salon', { headline: 'നിങ്ങളുടെ\nചർമ്മം\nനിങ്ങളുടെ\nഅഭിമാനം', offer: 'Natural skin care range', brand: 'Glow Naturals', address: 'glownaturals.in' }],
+  // Dark promo
+  ['cDarkPromo', 'supermarket', { subhead: 'Fresh & healthy', headline: 'GROCERY\nഫ്രീ ഹോം ഡെലിവറി', cta: 'Fresh vegetables & fruits every day', offer: '30% DISCOUNT', brand: 'Fresh Mart' }],
+  ['cDarkPromo', 'restaurant', { subhead: 'Delicious', headline: 'BIRIYANI\nFESTIVAL', cta: 'Malabar · Thalassery · Hyderabadi', offer: 'Buy 1 Get 1', brand: 'Spice Route' }],
+  ['cDarkPromo', 'bakery', { subhead: 'Freshly baked', headline: 'CAKES\nORDER NOW', cta: 'Birthday · Wedding · Custom designs', offer: '20% OFF', brand: 'Sweet Spot Bakery' }],
+  ['cDarkPromo', 'sale', { subhead: 'Black Friday', headline: 'MEGA SALE', cta: 'Electronics · Fashion · Home', offer: '70% OFF', brand: 'Big Bazaar Kerala' }],
+  // Festive mascot
+  ['cFestiveMascot', 'onam', { subhead: 'Happy', headline: 'Onam', body: 'From tradition to trend, wishing you a vibrant Onam!', brand: 'Tile World', cta: '@tileworld_kannur', address: 'Kakkad Road, Kannur' }],
+  ['cFestiveMascot', 'vishu', { subhead: 'Happy', headline: 'Vishu', body: 'ഐശ്വര്യവും സമൃദ്ധിയും നിറഞ്ഞ വിഷു ആശംസകൾ', brand: 'Rangoli Silks', cta: '@rangolisilks', address: 'Kozhikode' }],
+  ['cFestiveMascot', 'christmas', { subhead: 'Merry', headline: 'Christmas', body: 'Joy, peace and love to you and your family', brand: 'Sweet Spot Bakery', cta: '@sweetspot', address: 'Kottayam' }],
+  ['cFestiveMascot', 'eid', { subhead: 'Eid', headline: 'Mubarak', body: 'ഏവർക്കും ഹൃദയം നിറഞ്ഞ ഈദ് ആശംസകൾ', brand: 'Malabar Textiles', cta: '@malabartextiles', address: 'Malappuram' }],
+  ['cFestiveMascot', 'new-year', { subhead: 'Happy', headline: 'New Year 2027', body: 'Thank you for being with us all year', brand: 'Smart Mobiles', cta: '@smartmobiles', address: 'Manjeri' }],
+  // Golden bloom
+  ['cBloom', 'printing', { headline: 'പൂക്കാത്ത\nBRAND\nഇനി പൂക്കും', subhead: 'Advertising Agency', body: 'Branding\nPackaging\nPosters\nVideo Editing\nDigital Marketing', brand: 'Bloom Ads' }],
+  ['cBloom', 'vishu', { headline: 'കണിക്കൊന്ന\nപൂത്തു', subhead: 'Vishu offers are here', offer: 'വിഷു ഓഫർ 25% കിഴിവ്', brand: 'Rangoli Silks' }],
+  ['cBloom', 'grand-opening', { headline: 'ഇനി\nനിങ്ങളുടെ\nനഗരത്തിൽ', subhead: 'Grand opening · 1 November', offer: 'Opening day offers', brand: 'Fresh Mart' }],
+  ['cBloom', 'wedding', { headline: 'ഒരുമിച്ച്\nഎന്നെന്നും', subhead: 'Anu weds Arun · 12 December', offer: 'Save the date', brand: 'With love', contact: '' }],
+  // Event banner
+  ['cEventBanner', 'temple-utsavam', { brand: 'Sree Krishna Temple Committee', cta: 'Annual Festival', headline: 'ഉത്സവം\n2026', subhead: 'ക്ഷേത്ര മഹോത്സവം', date: '2026\nഏപ്രിൽ\n06', body: 'Chenda melam\nAana ezhunnallippu\nKathakali', offer: 'വിവരങ്ങൾക്ക്' }],
+  ['cEventBanner', 'education', { brand: 'Youth Club Mukkada', cta: 'St. Thomas Parish Hall', headline: 'മഹാ\nക്വിസ്', subhead: 'ക്വിസ് മത്സരം', date: '2026\nഒക്ടോബർ\n06', body: 'Sunday 1.30 PM\nLast date to register: Oct 2', offer: 'കൂടുതൽ വിവരങ്ങൾക്ക്' }],
+  ['cEventBanner', 'sports', { brand: 'Friends Arts & Sports Club', cta: 'All Kerala', headline: 'ഫുട്ബോൾ\nടൂർണമെന്റ്', subhead: 'Sevens Football', date: 'May\n15 - 20', body: 'Prize money ₹1,00,000\nFlood light matches', offer: 'Team registration' }],
+  ['cEventBanner', 'kerala-piravi', { brand: 'Govt. HSS Kondotty', cta: 'Malayala Dinam', headline: 'കേരളപ്പിറവി\nആഘോഷം', subhead: 'കലാപരിപാടികൾ', date: 'നവംബർ\n01', body: 'Thiruvathira\nOppana\nSpeech competition', offer: 'എല്ലാവർക്കും സ്വാഗതം' }],
+];
+
+const CREATIVE_TEMPLATES: PosterTemplate[] = CREATIVE.map(([layout, catKey, copy], i) => {
+  const cat = CATEGORIES.find(c => c.key === catKey)!;
+  const ad = CREATIVE_LAYOUTS[layout];
+  const [display, body] = ad.fonts[i % ad.fonts.length];
+  return {
+    id: `${catKey}-${layout}-${i}`,
+    name: `${cat.label} · ${ad.label}`,
+    category: catKey,
+    style: { layout, palette: ad.palettes[i % ad.palettes.length], display, body, art: cat.art, scale: 1 },
+    data: { ...BASE, ...copy, image: cat.images ? cat.images[i % cat.images.length] : '' },
+  };
+});
+
+export const POSTER_TEMPLATES: PosterTemplate[] = [...CREATIVE_TEMPLATES, ...CATEGORIES.flatMap((cat, ci) => {
   const keys = Object.keys(LAYOUTS) as LayoutKey[];
   // Ad layouts are for business categories; event-style ones (arch, festival, winner) are left out
-  const kerala = cat.group === 'Business' ? keys.filter(k => LAYOUTS[k].family === 'kerala' && (cat.kerala ? cat.kerala.includes(k) : !EVENT_ADS.includes(k))) : [];
+  const kerala = cat.group === 'Business' ? keys.filter(k => k in KERALA_LAYOUTS && (cat.kerala ? cat.kerala.includes(k) : !EVENT_ADS.includes(k))) : [];
   const modern = keys.filter(k => LAYOUTS[k].family === 'modern');
   const classic = keys.filter(k => LAYOUTS[k].family === 'classic');
   const classicOrder = [...cat.featured, ...classic.filter(l => !cat.featured.includes(l))];
@@ -418,6 +510,6 @@ export const POSTER_TEMPLATES: PosterTemplate[] = CATEGORIES.flatMap((cat, ci) =
     ...modern.map((layout, i) => make(layout, i, TREND[(ci * 5 + i) % TREND.length], MODERN_FONTS[layout][ci % 2])),
     ...classicOrder.map((layout, i) => make(layout, i, cat.palettes[i % cat.palettes.length], cat.fonts[i % cat.fonts.length])),
   ];
-});
+})];
 
 export const CATEGORY_GROUPS = ['Kerala Festivals', 'Festivals & Days', 'Business', 'Events & Notices'] as const;

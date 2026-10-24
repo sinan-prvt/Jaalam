@@ -4,11 +4,12 @@ import toast from 'react-hot-toast';
 import * as htmlToImage from 'html-to-image';
 import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowLeft, ArrowUp, Copy, Download, Image as ImageIcon, LayoutGrid, ListChecks, Maximize2, MousePointerClick, Store, Palette, RotateCcw, Search, Shapes, Sparkles, Trash2, Type, Upload, X, ZoomIn, ZoomOut } from 'lucide-react';
 import usePlan from '../../hooks/usePlan';
-import { PosterPreview, usePosterFonts } from '../../components/posters/PosterCanvas';
+import { PosterPreview } from '../../components/posters/PosterCanvas';
 import { CATEGORIES, CATEGORY_GROUPS, POSTER_TEMPLATES, TREND } from '../../components/posters/templates';
-import { FAMILY_LABELS, LAYOUTS, type LayoutFamily } from '../../components/posters/layouts';
-import { POSTER_FONTS, type PosterFontKey } from '../../components/posters/fonts';
-import { ELEMENT_LIBRARY, ElementView, cloneElement, newImageElement, type HandleMode } from '../../components/posters/elements';
+import { FAMILY_LABELS, LAYOUTS, type LayoutFamily } from '../../components/posters/registry';
+import { POSTER_FONTS, usePosterFonts, type PosterFontKey } from '../../components/posters/fonts';
+import { ElementView, type HandleMode } from '../../components/posters/elements';
+import { ELEMENT_LIBRARY, cloneElement, newImageElement } from '../../components/posters/library';
 import { FORMATS, type ArtKey, type LayoutKey, type Palette as PosterPalette, type PosterData, type PosterElement, type PosterFormat, type PosterStyle, type PosterTemplate } from '../../components/posters/types';
 
 const PAGE = 24;
@@ -74,6 +75,8 @@ const norm = (s: string) => s.replace(/[‘’"'>]/g, '').replace(/\s+/g, ' ').t
 
 const inputCls = 'w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2.5 text-[14px] font-medium text-slate-800 placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:border-orange-400 focus:ring-4 focus:ring-orange-500/15 outline-none transition-all';
 const labelCls = 'block text-xs font-bold text-slate-600 mb-1.5';
+const EFFECT_COLOR_LABEL: Record<PosterElement['effect'], string> = { none: '', outline: 'Outline', shadow: 'Shadow', gradient: 'Gradient end', '3d': 'Depth', glow: 'Glow' };
+
 const chipCls = (on: boolean) => `px-2 py-2 rounded-xl border text-[11px] font-bold transition-all ${on ? 'border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-800'}`;
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -120,7 +123,7 @@ function ColorRow({ label, value, onChange, allowNone }: { label: string; value:
 /** Small preview of a library element. */
 function LibraryThumb({ el }: { el: PosterElement }) {
   return (
-    <div className="relative w-full h-16 overflow-hidden rounded-lg" style={{ background: 'repeating-conic-gradient(#f1f5f9 0 25%, #e2e8f0 0 50%) 0 0 / 14px 14px' }}>
+    <div className="relative w-full h-16 overflow-hidden rounded-lg" style={{ background: 'repeating-conic-gradient(#334155 0 25%, #3b4a5f 0 50%) 0 0 / 14px 14px' }}>
       {/* Drawn on a 300px mini poster, then scaled down so text stays legible */}
       <div className="absolute left-1/2 top-1/2" style={{ width: 300, height: 300, transform: 'translate(-50%, -50%) scale(0.5)' }}>
         <ElementView el={{ ...el, x: 50, y: 50, w: Math.min(el.w * 1.4, 95), rotation: el.rotation / 2 }} pw={300} ph={300} />
@@ -136,7 +139,7 @@ export default function PosterMakerPage() {
 
   // Gallery state
   const [group, setGroup] = useState<string>('All');
-  const [look, setLook] = useState<LayoutFamily | 'all'>('kerala');
+  const [look, setLook] = useState<LayoutFamily | 'all'>('all');
   const [category, setCategory] = useState<string>('all');
   const [query, setQuery] = useState('');
   const [shown, setShown] = useState(PAGE);
@@ -147,6 +150,7 @@ export default function PosterMakerPage() {
   const [style, setStyle] = useState<PosterStyle | null>(null);
   const [format, setFormat] = useState<PosterFormat>('square');
   const [panel, setPanel] = useState<'text' | 'elements' | 'design' | 'image'>('text');
+  const [elGroup, setElGroup] = useState('All');
   const [elements, setElements] = useState<PosterElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusField, setFocusField] = useState<keyof PosterData | null>(null);
@@ -342,8 +346,9 @@ export default function PosterMakerPage() {
       const res = await axios.post('/api/marketing/poster/', { prompt: aiPrompt }, { withCredentials: true });
       setField('image', res.data.image);
       toast.success('Background ready', { id: t });
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Failed to generate image', { id: t });
+    } catch (err) {
+      const message = axios.isAxiosError<{ error?: string }>(err) ? err.response?.data?.error : undefined;
+      toast.error(message || 'Failed to generate image', { id: t });
     } finally {
       setAiBusy(false);
     }
@@ -413,7 +418,7 @@ export default function PosterMakerPage() {
               ))}
             </div>
             <div className="grid grid-cols-3 gap-2">
-              {(['none', 'outline', 'shadow'] as const).map(fx => <button key={fx} onClick={() => set({ effect: fx })} className={`capitalize ${chipCls(el.effect === fx)}`}>{fx}</button>)}
+              {([['none', 'None'], ['outline', 'Outline'], ['shadow', 'Shadow'], ['gradient', 'Gradient'], ['3d', '3D'], ['glow', 'Glow']] as const).map(([fx, label]) => <button key={fx} onClick={() => set({ effect: fx, stroke: fx === 'shadow' && el.effect !== 'shadow' ? '#00000099' : el.stroke })} className={chipCls(el.effect === fx)}>{label}</button>)}
             </div>
           </>
         )}
@@ -421,7 +426,7 @@ export default function PosterMakerPage() {
           <ColorRow label={el.kind === 'text' ? 'Text colour' : 'Fill'} value={el.color} onChange={v => set({ color: v })} />
           {el.kind !== 'image' && <ColorRow label={el.kind === 'shape' ? 'Inner text' : 'Background'} value={el.bg} onChange={v => set({ bg: v })} allowNone={el.kind !== 'shape'} />}
           {el.kind === 'image' && <ColorRow label="Border" value={el.bg} onChange={v => set({ bg: v })} allowNone />}
-          {hasText && el.effect !== 'none' && <ColorRow label={el.effect === 'outline' ? 'Outline' : 'Shadow'} value={el.stroke.slice(0, 7)} onChange={v => set({ stroke: el.effect === 'shadow' ? `${v}99` : v })} />}
+          {hasText && el.effect !== 'none' && <ColorRow label={EFFECT_COLOR_LABEL[el.effect]} value={el.stroke.slice(0, 7)} onChange={v => set({ stroke: el.effect === 'shadow' ? `${v}99` : v })} />}
         </div>
         <Slider label="Width" value={el.w} min={3} max={160} onChange={v => set({ w: v })} suffix="%" />
         {el.kind !== 'text' && <Slider label="Height ratio" value={el.aspect} min={0.05} max={3} step={0.01} onChange={v => set({ aspect: v })} />}
@@ -514,7 +519,12 @@ export default function PosterMakerPage() {
               {panel === 'elements' && (
                 <>
                   <p className="text-xs font-semibold text-slate-500">Click to add, then drag it on the poster. You can add as many as you like.</p>
-                  {library.map(g => (
+                  <div className="flex flex-wrap gap-1.5">
+                    {['All', ...library.map(g => g.title)].map(t => (
+                      <button key={t} onClick={() => setElGroup(t)} className={`px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all ${elGroup === t ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}>{t}</button>
+                    ))}
+                  </div>
+                  {library.filter(g => elGroup === 'All' || g.title === elGroup).map(g => (
                     <Section key={g.title} title={g.title}>
                       <div className={`grid ${g.title === 'Icons' ? 'grid-cols-4' : 'grid-cols-2'} gap-2`}>
                         {g.items.map(item => (
@@ -701,7 +711,7 @@ export default function PosterMakerPage() {
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {([['kerala', '🌴 Kerala ads'], ['modern', '✨ Modern & trending'], ['classic', 'Classic'], ['all', 'All styles']] as const).map(([k, label]) => (
+        {([['all', 'All styles'], ['kerala', 'Creative ads'], ['modern', 'Modern & trending'], ['classic', 'Classic']] as const).map(([k, label]) => (
           <button key={k} onClick={() => { setLook(k); setGroup('All'); setCategory('all'); setShown(PAGE); }} className={`px-4 py-2 rounded-xl text-sm font-black border transition-all ${look === k ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}>
             {label}
           </button>

@@ -1,52 +1,7 @@
 import type { CSSProperties } from 'react';
 import { PosterArt } from './art';
-import { POSTER_FONTS } from './fonts';
+import { bodyFont, display, fit, type LayoutProps } from './text';
 import type { PosterData, PosterStyle } from './types';
-
-/** What every layout receives: content, style and a size helper. */
-export interface LayoutProps {
-  d: PosterData;
-  st: PosterStyle;
-  w: number;
-  h: number;
-  /** Size in px for a value designed on a 1080px poster, with the text scale applied. */
-  f: (n: number) => number;
-  /** Size in px for a value designed on a 1080px poster (spacing, no text scale). */
-  u: (n: number) => number;
-}
-
-/** Shrinks a text's base size when it is long, so it doesn't break mid-word. */
-export const fit = (text: string, base: number, chars: number, wordChars = chars * 0.8) => {
-  // Malayalam letters render wider than Latin ones
-  const width = (s: string) => [...s].reduce((n, c) => n + (/[ഀ-ൿ]/.test(c) ? 1.6 : 1), 0);
-  const total = width(text);
-  const longest = Math.max(0, ...text.split(/\s+/).map(width));
-  const k = Math.min(1, total > chars ? chars / total : 1, longest > wordChars ? wordChars / longest : 1);
-  return base * Math.max(0.4, k);
-};
-
-let measureCtx: CanvasRenderingContext2D | null = null;
-
-/** Rendered width of text in a given CSS font (canvas measurement). */
-export const measureText = (text: string, font: string) => {
-  measureCtx ??= document.createElement('canvas').getContext('2d');
-  if (!measureCtx) return text.length * 0.6;
-  measureCtx.font = font;
-  return measureCtx.measureText(text).width;
-};
-
-/**
- * Font size (px) so the longest line of `text` fits `maxWidth` px in the heading font,
- * never larger than `base` (a 1080px-poster size, text scale applied).
- */
-export const fitWidth = (L: LayoutProps, text: string, base: number, maxWidth: number, weight = 800) => {
-  const px = L.f(base);
-  const longest = Math.max(1, ...text.split('\n').map(t => measureText(t.trim(), `${weight} ${px}px ${POSTER_FONTS[L.st.display].css}`)));
-  return Math.min(px, (px * maxWidth) / longest);
-};
-
-export const display = (st: PosterStyle): CSSProperties => ({ fontFamily: POSTER_FONTS[st.display].css });
-export const bodyFont = (st: PosterStyle): CSSProperties => ({ fontFamily: POSTER_FONTS[st.body].css });
 
 /** The photo, or the template's artwork when no photo is set. */
 export function Picture({ d, st, style, className = '' }: { d: PosterData; st: PosterStyle; style?: CSSProperties; className?: string }) {
@@ -105,12 +60,3 @@ export function OfferBadge({ d, st, f, u, size = 250, rotate = -10, style }: Lay
     </div>
   );
 }
-
-export const lines = (s: string) => s.split('\n').map(x => x.trim()).filter(Boolean);
-
-/** "Item - ₹120" → ["Item", "₹120"] */
-export const splitPrice = (line: string) => {
-  const m = line.match(/^(.*?)\s*[-–:|]\s*([^-–:|]+)$/);
-  return m ? [m[1], m[2]] : [line, ''];
-};
-
