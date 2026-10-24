@@ -128,8 +128,8 @@ class GeneratePosterView(APIView):
             print("Poster Generation Error:", e)
             return Response({'error': f'Failed to connect to image generator: {str(e)}'}, status=500)
 
-from .models import Blog
-from .serializers import BlogSerializer
+from .models import Blog, PosterDraft
+from .serializers import BlogSerializer, PosterDraftListSerializer, PosterDraftSerializer
 
 class BlogListCreateView(generics.ListCreateAPIView):
     serializer_class = BlogSerializer
@@ -146,3 +146,26 @@ class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAdminUserOrReadOnly]
     lookup_field = 'id'
+
+
+class PosterDraftListCreateView(generics.ListCreateAPIView):
+    """The signed-in user's saved posters (newest first), and saving a new one."""
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return PosterDraft.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        return PosterDraftListSerializer if self.request.method == 'GET' else PosterDraftSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PosterDraftDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PosterDraftSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return PosterDraft.objects.filter(user=self.request.user)

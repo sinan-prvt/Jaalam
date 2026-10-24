@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as R
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import * as htmlToImage from 'html-to-image';
-import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowLeft, ArrowUp, Copy, Download, Image as ImageIcon, LayoutGrid, ListChecks, Maximize2, MousePointerClick, Store, Palette, RotateCcw, Search, Shapes, Sparkles, Trash2, Type, Upload, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowLeft, ArrowUp, Copy, Download, FolderOpen, Image as ImageIcon, LayoutGrid, Library, ListChecks, Maximize2, MousePointerClick, Store, Palette, Redo2, RotateCcw, Save, Search, Shapes, Sparkles, Trash2, Type, Undo2, Upload, X, ZoomIn, ZoomOut } from 'lucide-react';
 import usePlan from '../../hooks/usePlan';
 import { PosterPreview } from '../../components/posters/PosterCanvas';
 import { CATEGORIES, CATEGORY_GROUPS, POSTER_TEMPLATES, TREND } from '../../components/posters/templates';
@@ -56,6 +56,62 @@ const ART_OPTIONS: ArtKey[] = ['pookalam', 'konna', 'lamps', 'star', 'crescent',
 
 /** Template fields that clicking the poster can select, most specific first. */
 const CLICKABLE: (keyof PosterData)[] = ['headline', 'subhead', 'offer', 'cta', 'date', 'contact', 'address', 'brand', 'body'];
+
+/** A saved poster as the library grid lists it. */
+interface DraftSummary { id: number; name: string; template_id: string; format: PosterFormat; thumbnail: string; updated_at: string }
+
+/** What a draft stores: the edited poster plus enough of its template to reopen it. */
+interface DraftContent { data: PosterData; style: PosterStyle; elements: PosterElement[]; template: { id: string; name: string; category: string } }
+
+/** One step of the editor's undo history. */
+interface Snapshot { data: PosterData; style: PosterStyle; elements: PosterElement[]; format: PosterFormat }
+
+// State is never mutated, so unchanged parts keep their identity
+const sameSnapshot = (a: Snapshot, b: Snapshot) => a.data === b.data && a.style === b.style && a.elements === b.elements && a.format === b.format;
+
+const HISTORY_LIMIT = 100;
+
+/** Auto-save waits this long after the last edit. */
+const AUTOSAVE_DELAY = 3000;
+const AUTOSAVE_KEY = 'poster-autosave';
+/** Give up on the library thumbnail after this long and save without one. */
+const THUMBNAIL_TIMEOUT = 5000;
+
+const readAutoSave = () => {
+  try {
+    return localStorage.getItem(AUTOSAVE_KEY) !== 'off';
+  } catch {
+    return true;
+  }
+};
+
+const DRAFTS_URL = '/api/marketing/poster-drafts/';
+
+/** Re-encodes a large uploaded photo (data URL) as a 1600px JPEG, so drafts stay small enough to save. */
+const shrinkImage = (src: string) => new Promise<string>(resolve => {
+  if (!src.startsWith('data:image') || src.length < 600_000) return resolve(src);
+  const img = new Image();
+  img.onload = () => {
+    const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(img.width * k);
+    canvas.height = Math.round(img.height * k);
+    canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height);
+    resolve(canvas.toDataURL('image/jpeg', 0.85));
+  };
+  img.onerror = () => resolve(src);
+  img.src = src;
+});
+
+const lines0 = (s: string) => s.split('\n').map(x => x.trim()).find(Boolean) || '';
+
+const timeAgo = (iso: string) => {
+  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins} min ago`;
+  if (mins < 1440) return `${Math.round(mins / 60)} h ago`;
+  return new Date(iso).toLocaleDateString();
+};
 
 const readFile = (file: File) => new Promise<string>((resolve, reject) => {
   const r = new FileReader();
@@ -143,13 +199,15 @@ export default function PosterMakerPage() {
   const [category, setCategory] = useState<string>('all');
   const [query, setQuery] = useState('');
   const [shown, setShown] = useState(PAGE);
+  const [view, setView] = useState<'templates' | 'library'>('templates');
+  const [drafts, setDrafts] = useState<DraftSummary[] | null>(null);
 
   // Editor state
   const [template, setTemplate] = useState<PosterTemplate | null>(null);
   const [data, setData] = useState<PosterData | null>(null);
   const [style, setStyle] = useState<PosterStyle | null>(null);
   const [format, setFormat] = useState<PosterFormat>('square');
-  const [panel, setPanel] = useState<'text' | 'elements' | 'design' | 'image'>('text');
+  const [panel, setPanel] = useState<'text' | 'elements' | 'design' | 'image'>('design');
   const [elGroup, setElGroup] = useState('All');
   const [elements, setElements] = useState<PosterElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -157,6 +215,21 @@ export default function PosterMakerPage() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [aiBusy, setAiBusy] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  /** Set once this poster is saved to the library; later saves update the same draft. */
+  const [draftId, setDraftId] = useState<number | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [savedAt, setSavedAt] = useState<number | null>(null);
+  /** Edits since the poster was opened or last saved. */
+  const [dirty, setDirty] = useState(false);
+  // Undo history; histPos mirrors it for rendering the buttons
+  const history = useRef<{ stack: Snapshot[]; idx: number }>({ stack: [], idx: -1 });
+  const restoring = useRef(false);
+  const [histPos, setHistPos] = useState({ idx: -1, len: 0 });
+  const [autoSave, setAutoSave] = useState(readAutoSave);
+  /** Undo step a failed auto-save stopped at: it waits for the next edit instead of retrying in a loop. */
+  const [autoSaveFailedAt, setAutoSaveFailedAt] = useState<number | null>(null);
+  /** Latest editor state, so a save can tell whether edits arrived while it was running. */
+  const latest = useRef<Snapshot | null>(null);
   const [zoom, setZoom] = useState(1);
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -196,14 +269,83 @@ export default function PosterMakerPage() {
     });
   }, [group, category, query, look]);
 
+  const resetHistory = () => {
+    history.current = { stack: [], idx: -1 };
+    restoring.current = false;
+    setHistPos({ idx: -1, len: 0 });
+    setDirty(false);
+    setAutoSaveFailedAt(null);
+  };
+
+  /** Adds a snapshot after the current step (dropping any redo steps); false when nothing changed. */
+  const commitHistory = useCallback((snap: Snapshot) => {
+    const h = history.current;
+    if (h.idx >= 0 && sameSnapshot(h.stack[h.idx], snap)) return false;
+    h.stack = [...h.stack.slice(0, h.idx + 1), snap].slice(-HISTORY_LIMIT);
+    h.idx = h.stack.length - 1;
+    setHistPos({ idx: h.idx, len: h.stack.length });
+    return true;
+  }, []);
+
+  // Record edits; typing and dragging settle for a moment before they become one undo step
+  useEffect(() => {
+    if (!template || !data || !style) return;
+    if (restoring.current) {
+      restoring.current = false;
+      return;
+    }
+    const first = history.current.idx < 0;
+    const timer = setTimeout(() => {
+      if (commitHistory({ data, style, elements, format }) && !first) setDirty(true);
+    }, first ? 0 : 400);
+    return () => clearTimeout(timer);
+  }, [template, data, style, elements, format, commitHistory]);
+
+  const restoreSnapshot = (snap: Snapshot) => {
+    restoring.current = true;
+    setData(snap.data);
+    setStyle(snap.style);
+    setElements(snap.elements);
+    setFormat(snap.format);
+    setSelectedId(null);
+    setDirty(true);
+    setHistPos({ idx: history.current.idx, len: history.current.stack.length });
+  };
+  const undo = () => {
+    if (!data || !style) return;
+    // An edit still settling counts as a step, so undo returns to just before it
+    commitHistory({ data, style, elements, format });
+    const h = history.current;
+    if (h.idx <= 0) return;
+    h.idx -= 1;
+    restoreSnapshot(h.stack[h.idx]);
+  };
+  const redo = () => {
+    const h = history.current;
+    if (h.idx >= h.stack.length - 1) return;
+    h.idx += 1;
+    restoreSnapshot(h.stack[h.idx]);
+  };
+  const canUndo = histPos.idx > 0;
+  const canRedo = histPos.idx < histPos.len - 1;
+
+  const leaveEditor = () => {
+    if (dirty && !window.confirm('You have unsaved changes. Leave without saving?')) return;
+    setTemplate(null);
+    if (view === 'library') loadDrafts();
+  };
+
   const openTemplate = (t: PosterTemplate) => {
     setTemplate(t);
     setData({ ...t.data });
     setStyle({ ...t.style, palette: { ...t.style.palette } });
     setElements([]);
     setSelectedId(null);
+    setDraftId(null);
+    setSavedAt(null);
+    resetHistory();
     setZoom(1);
-    setPanel('text');
+    setPanel('design');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -314,6 +456,159 @@ export default function PosterMakerPage() {
     const t = setTimeout(() => setFocusField(null), 1600);
     return () => clearTimeout(t);
   }, [focusField, panel]);
+
+  // ── drafts (My library) ──
+  const loadDrafts = useCallback(async () => {
+    try {
+      const res = await axios.get<DraftSummary[]>(DRAFTS_URL);
+      setDrafts(res.data);
+    } catch {
+      setDrafts([]);
+    }
+  }, []);
+  useEffect(() => {
+    axios.get<DraftSummary[]>(DRAFTS_URL).then(res => setDrafts(res.data)).catch(() => setDrafts([]));
+  }, []);
+
+  const saveDraft = async ({ silent = false } = {}) => {
+    if (!template || !data || !style || saving) return;
+    setSaving(true);
+    // A manual save clears the selection so the thumbnail has no handles; auto-save must not interrupt editing
+    if (!silent) setSelectedId(null);
+    const started: Snapshot = { data, style, elements, format };
+    const t = silent ? undefined : toast.loading('Saving draft...');
+    try {
+      // Let the cleared selection repaint before the thumbnail (frames don't run in a background tab, so auto-save skips this)
+      if (!silent) await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      let thumbnail = '';
+      try {
+        // Fonts are skipped (system fallbacks are fine at this size) and a slow capture is abandoned
+        if (posterRef.current) {
+          const capture = htmlToImage.toJpeg(posterRef.current, { pixelRatio: 0.32, quality: 0.75, skipFonts: true });
+          thumbnail = await Promise.race([capture, new Promise<string>(resolve => setTimeout(() => resolve(''), THUMBNAIL_TIMEOUT))]);
+        }
+      } catch {
+        // A thumbnail is nice to have; the draft still saves without one
+      }
+      const content: DraftContent = {
+        data: { ...data, image: await shrinkImage(data.image), logo: await shrinkImage(data.logo) },
+        style,
+        elements: await Promise.all(elements.map(async el => (el.src ? { ...el, src: await shrinkImage(el.src) } : el))),
+        template: { id: template.id, name: template.name, category: template.category },
+      };
+      const body = { name: (lines0(data.headline) || template.name).slice(0, 200), template_id: template.id, format, content, thumbnail };
+      const res = draftId ? await axios.put(`${DRAFTS_URL}${draftId}/`, body) : await axios.post(DRAFTS_URL, body);
+      setDraftId(res.data.id);
+      setSavedAt(Date.now());
+      // Edits made while saving stay unsaved
+      setDirty(!!latest.current && !sameSnapshot(started, latest.current));
+      setAutoSaveFailedAt(null);
+      loadDrafts();
+      if (!silent) toast.success('Saved to My library', { id: t });
+    } catch (err) {
+      const tooBig = axios.isAxiosError(err) && (err.response?.status === 413 || err.response?.status === 400);
+      if (silent) setAutoSaveFailedAt(history.current.idx);
+      const message = tooBig ? 'Could not save: the photos are too large. Try smaller images.' : 'Could not save the draft. Please try again.';
+      // One toast for repeated auto-save failures
+      toast.error(silent ? `Auto-save failed. ${message}` : message, { id: t ?? 'autosave-error' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  useEffect(() => {
+    latest.current = data && style ? { data, style, elements, format } : null;
+  }, [data, style, elements, format]);
+
+  // Auto-save a few seconds after the last edit (each new undo step restarts the wait)
+  const autoSaveRef = useRef(saveDraft);
+  useEffect(() => { autoSaveRef.current = saveDraft; });
+  useEffect(() => {
+    if (!autoSave || !dirty || !template || saving || autoSaveFailedAt === histPos.idx) return;
+    const timer = setTimeout(() => autoSaveRef.current({ silent: true }), AUTOSAVE_DELAY);
+    return () => clearTimeout(timer);
+  }, [autoSave, dirty, template, saving, histPos, autoSaveFailedAt]);
+
+  const toggleAutoSave = () => {
+    const on = !autoSave;
+    setAutoSave(on);
+    try {
+      localStorage.setItem(AUTOSAVE_KEY, on ? 'on' : 'off');
+    } catch {
+      // Private mode: the choice lasts for this visit only
+    }
+  };
+
+  // Ctrl + S save, Ctrl + Z / Ctrl + Y (or Ctrl + Shift + Z) undo and redo, Ctrl + D duplicate
+  const shortcuts = useRef({ save: () => {}, undo, redo, duplicate: () => {} });
+  useEffect(() => {
+    const el = elements.find(x => x.id === selectedId);
+    shortcuts.current = { save: () => saveDraft(), undo, redo, duplicate: () => { if (el) addEl(cloneElement(el)); } };
+  });
+  useEffect(() => {
+    if (!template) return;
+    const key = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      const k = e.key.toLowerCase();
+      if (k === 's') {
+        e.preventDefault();
+        shortcuts.current.save();
+        return;
+      }
+      // Inside a text box the browser's own undo edits the text
+      const tag = (document.activeElement?.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      if (k === 'z' && !e.shiftKey) { e.preventDefault(); shortcuts.current.undo(); }
+      else if (k === 'y' || (k === 'z' && e.shiftKey)) { e.preventDefault(); shortcuts.current.redo(); }
+      else if (k === 'd') { e.preventDefault(); shortcuts.current.duplicate(); }
+    };
+    window.addEventListener('keydown', key);
+    return () => window.removeEventListener('keydown', key);
+  }, [template]);
+
+  useEffect(() => {
+    if (!template || !dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [template, dirty]);
+
+  const openDraft = async (id: number) => {
+    const t = toast.loading('Opening...');
+    try {
+      const res = await axios.get<DraftSummary & { content: DraftContent }>(`${DRAFTS_URL}${id}/`);
+      const { content } = res.data;
+      // The original template if it still exists, else one rebuilt from the draft (Reset goes back to the draft)
+      const original = POSTER_TEMPLATES.find(p => p.id === content.template.id);
+      setTemplate(original || { ...content.template, style: content.style, data: content.data });
+      setData({ ...content.data });
+      setStyle({ ...content.style, palette: { ...content.style.palette } });
+      setElements(content.elements || []);
+      setFormat(res.data.format);
+      setSelectedId(null);
+      setDraftId(id);
+      setSavedAt(new Date(res.data.updated_at).getTime());
+      resetHistory();
+      setZoom(1);
+      setPanel('design');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast.dismiss(t);
+    } catch {
+      toast.error('Could not open this draft.', { id: t });
+    }
+  };
+
+  const deleteDraft = async (d: DraftSummary) => {
+    if (!window.confirm(`Delete "${d.name}" from your library? This cannot be undone.`)) return;
+    try {
+      await axios.delete(`${DRAFTS_URL}${d.id}/`);
+      setDrafts(list => (list || []).filter(x => x.id !== d.id));
+      if (draftId === d.id) setDraftId(null);
+      toast.success('Draft deleted');
+    } catch {
+      toast.error('Could not delete the draft.');
+    }
+  };
 
   const handleDownload = async () => {
     if (!posterRef.current || !template) return;
@@ -434,7 +729,7 @@ export default function PosterMakerPage() {
         <Slider label="Opacity" value={el.opacity} min={0.1} max={1} step={0.05} onChange={v => set({ opacity: v })} />
         {(el.kind === 'text' || el.kind === 'image') && <Slider label="Corner radius" value={el.radius} min={0} max={200} onChange={v => set({ radius: v })} />}
         <button onClick={() => setSelectedId(null)} className="w-full py-2.5 rounded-xl bg-slate-900 text-white text-sm font-black">Done</button>
-        <p className="text-[11px] text-slate-400">Drag on the poster to move. Orange corner resizes, top dot rotates. Arrow keys nudge, Delete removes.</p>
+        <p className="text-[11px] text-slate-400">Drag on the poster to move. Orange corner resizes, top dot rotates. Arrow keys nudge, Delete removes, Ctrl + D duplicates, Ctrl + Z undoes.</p>
       </>
     );
   };
@@ -446,11 +741,29 @@ export default function PosterMakerPage() {
     return (
       <div className="animate-in fade-in duration-300 pb-20">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <button onClick={() => setTemplate(null)} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-black text-slate-700 hover:bg-slate-50">
-            <ArrowLeft size={16} /> All templates
+          <button onClick={leaveEditor} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-black text-slate-700 hover:bg-slate-50">
+            <ArrowLeft size={16} /> {view === 'library' ? 'My library' : 'All templates'}
           </button>
-          <div className="flex items-center gap-2">
-            <button onClick={() => openTemplate(template)} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50" title="Undo all changes">
+          <div className="flex flex-wrap items-center gap-2">
+            <button onClick={toggleAutoSave} role="switch" aria-checked={autoSave} title="Save to My library automatically while you edit" className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">
+              <span className={`relative w-8 h-[18px] rounded-full transition-colors ${autoSave ? 'bg-orange-500' : 'bg-slate-300'}`}>
+                <span className={`absolute top-[2px] w-[14px] h-[14px] rounded-full bg-white shadow transition-all ${autoSave ? 'left-[16px]' : 'left-[2px]'}`} />
+              </span>
+              Auto-save
+            </button>
+            {saving
+              ? <span className="text-xs font-semibold text-slate-400 mr-1">Saving...</span>
+              : dirty
+                ? <span className="text-xs font-semibold text-amber-600 mr-1">{autoSave && autoSaveFailedAt !== histPos.idx ? 'Saving soon...' : 'Unsaved changes'}</span>
+                : savedAt && <span className="text-xs font-semibold text-slate-400 mr-1">Saved {timeAgo(new Date(savedAt).toISOString())}</span>}
+            <div className="inline-flex rounded-xl bg-white border border-slate-200 overflow-hidden">
+              <button onClick={undo} disabled={!canUndo} title="Undo (Ctrl + Z)" className="px-3 py-2.5 text-slate-600 hover:bg-slate-50 disabled:opacity-35 disabled:hover:bg-white"><Undo2 size={16} /></button>
+              <button onClick={redo} disabled={!canRedo} title="Redo (Ctrl + Y)" className="px-3 py-2.5 border-l border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-35 disabled:hover:bg-white"><Redo2 size={16} /></button>
+            </div>
+            <button onClick={() => saveDraft()} disabled={saving} title="Save to My library (Ctrl + S)" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-orange-200 text-sm font-black text-orange-600 hover:bg-orange-50 disabled:opacity-60">
+              <Save size={16} /> {draftId ? 'Save' : 'Save draft'}
+            </button>
+            <button onClick={() => { const snap = POSTER_TEMPLATES.find(p => p.id === template.id) || template; setData({ ...snap.data }); setStyle({ ...snap.style, palette: { ...snap.style.palette } }); setElements([]); setSelectedId(null); }} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50" title="Back to the original template (you can undo this)">
               <RotateCcw size={16} /> Reset
             </button>
             <button onClick={handleDownload} disabled={downloading} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-black shadow-md hover:shadow-orange-500/30 disabled:opacity-60">
@@ -465,7 +778,7 @@ export default function PosterMakerPage() {
           <div className="lg:col-span-4 lg:h-[calc(100vh-170px)] lg:min-h-[560px] flex flex-col bg-slate-50/90 backdrop-blur-xl rounded-3xl border border-slate-200/70 shadow-[0_8px_30px_rgba(15,23,42,.06)] overflow-hidden order-2 lg:order-1">
             <div className="p-2 bg-white border-b border-slate-200/70">
               <div role="tablist" className="grid grid-cols-4 gap-1 p-1 rounded-2xl bg-slate-100">
-                {([['text', Type, 'Text'], ['elements', Shapes, 'Elements'], ['design', Palette, 'Design'], ['image', ImageIcon, 'Images']] as const).map(([key, Icon, label]) => {
+                {([['design', Palette, 'Design'], ['text', Type, 'Text'], ['elements', Shapes, 'Elements'], ['image', ImageIcon, 'Images']] as const).map(([key, Icon, label]) => {
                   const active = panel === key && !selected;
                   return (
                     <button
@@ -699,9 +1012,60 @@ export default function PosterMakerPage() {
     );
   }
 
+  const viewTabs = (
+    <div className="inline-flex p-1 rounded-2xl bg-slate-100 border border-slate-200 mb-5">
+      {([['templates', 'Templates', LayoutGrid], ['library', `My library${drafts ? ` (${drafts.length})` : ''}`, Library]] as const).map(([k, label, Icon]) => (
+        <button key={k} onClick={() => setView(k)} className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-black transition-all ${view === k ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+          <Icon size={16} /> {label}
+        </button>
+      ))}
+    </div>
+  );
+
+  // ───────────── My library ─────────────
+  if (view === 'library') {
+    return (
+      <div className="animate-in fade-in duration-300 pb-20">
+        {viewTabs}
+        <div className="mb-6">
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight">My library</h2>
+          <p className="text-slate-500 mt-2 font-medium text-sm max-w-2xl">Posters you saved while editing. Open one to keep working on it, then download when it's ready.</p>
+        </div>
+        {drafts === null ? (
+          <div className="py-20 text-center text-slate-400 font-bold">Loading your posters...</div>
+        ) : drafts.length === 0 ? (
+          <div className="py-16 text-center rounded-3xl border-2 border-dashed border-slate-200 bg-white/60">
+            <FolderOpen size={36} className="mx-auto text-slate-300" />
+            <p className="mt-3 font-black text-slate-700">No saved posters yet</p>
+            <p className="mt-1 text-sm text-slate-500">Open a template, edit it and press <span className="font-bold">Save draft</span> (or Ctrl + S).</p>
+            <button onClick={() => setView('templates')} className="mt-5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-black shadow-md">Browse templates</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+            {drafts.map(d => (
+              <div key={d.id} className="group relative">
+                <button onClick={() => openDraft(d.id)} className="block w-full text-left">
+                  <div className="rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-sm group-hover:shadow-xl group-hover:-translate-y-1 transition-all bg-white flex items-center justify-center" style={{ aspectRatio: `${FORMATS[d.format]?.w || 1} / ${FORMATS[d.format]?.h || 1}` }}>
+                    {d.thumbnail ? <img src={d.thumbnail} alt="" className="w-full h-full object-cover" /> : <ImageIcon size={32} className="text-slate-300" />}
+                  </div>
+                  <p className="mt-2 text-xs font-bold text-slate-700 truncate">{d.name}</p>
+                  <p className="text-[11px] font-semibold text-slate-400">Edited {timeAgo(d.updated_at)}</p>
+                </button>
+                <button onClick={() => deleteDraft(d)} title="Delete draft" className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/95 shadow flex items-center justify-center text-slate-500 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Trash2 size={15} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // ───────────── Gallery ─────────────
   return (
     <div className="animate-in fade-in duration-300 pb-20">
+      {viewTabs}
       <div className="mb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20 text-orange-700 text-xs font-black uppercase tracking-wider mb-3">
           <LayoutGrid size={14} className="text-orange-500" /> {POSTER_TEMPLATES.length} templates
