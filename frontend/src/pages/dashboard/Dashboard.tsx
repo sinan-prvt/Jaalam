@@ -539,6 +539,13 @@ export default function Dashboard() {
     return matchesSearch && matchesFilter;
   });
 
+  // Every website template (category × theme), and the ones the Templates tab filters show
+  const allTemplates = Object.entries(categoryThemes).flatMap(([category, themes]) => themes.map(theme => ({ category, theme })));
+  const query = searchQuery.toLowerCase();
+  const visibleTemplates = allTemplates
+    .filter(item => filterStatus === 'All' || item.category === filterStatus)
+    .filter(item => item.theme.toLowerCase().includes(query) || item.category.toLowerCase().includes(query));
+
   return (
     <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative isolate text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
 
@@ -972,13 +979,16 @@ export default function Dashboard() {
             <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20 text-orange-700 text-xs font-black uppercase tracking-wider mb-3">
+                    <LayoutTemplate size={14} className="text-orange-500" /> {allTemplates.length} templates · {Object.keys(categoryThemes).length} categories
+                  </div>
                   <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Templates</h1>
                   <p className="text-slate-500 mt-1">Browse and download starting templates for your next project.</p>
                 </div>
               </div>
 
               <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white/60 backdrop-blur-xl p-3 md:p-4 rounded-2xl border border-white/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                <div className="relative w-full md:w-96">
+                <div className="relative w-full md:w-72 md:shrink-0">
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input
                     type="text"
@@ -989,7 +999,7 @@ export default function Dashboard() {
                   />
                 </div>
                 
-                <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{scrollbarWidth: 'none'}}>
+                <div className="flex gap-2 w-full md:w-auto md:flex-1 md:min-w-0 overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{scrollbarWidth: 'none'}}>
                   {['All', ...Object.keys(categoryThemes)].map(status => (
                     <button
                       key={status}
@@ -1001,10 +1011,21 @@ export default function Dashboard() {
                       }`}
                     >
                       {status}
+                      <span className={`ml-1.5 text-[11px] font-black ${filterStatus === status ? 'text-white/80' : 'text-slate-400'}`}>
+                        {status === 'All' ? allTemplates.length : (categoryThemes[status] || []).length}
+                      </span>
                     </button>
                   ))}
                 </div>
               </div>
+
+              {!loading && (
+                <p className="-mt-4 mb-5 text-sm font-semibold text-slate-500">
+                  {visibleTemplates.length === allTemplates.length
+                    ? `Showing all ${allTemplates.length} templates`
+                    : `Showing ${visibleTemplates.length} of ${allTemplates.length} templates${filterStatus !== 'All' ? ` in ${filterStatus}` : ''}${searchQuery ? ` matching “${searchQuery}”` : ''}`}
+                </p>
+              )}
 
               {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -1014,12 +1035,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {Object.entries(categoryThemes).flatMap(([category, themes]) => 
-                    themes.map(theme => ({ category, theme }))
-                  )
-                  .filter(item => filterStatus === 'All' || item.category === filterStatus)
-                  .filter(item => item.theme.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map((item, idx) => (
+                  {visibleTemplates.map((item, idx) => (
                     <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white/80 backdrop-blur-xl border border-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-1">
                       <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative">
                         <ThemeThumbnail theme={item.theme} category={item.category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
