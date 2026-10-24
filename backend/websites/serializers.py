@@ -2,10 +2,32 @@ from rest_framework import serializers
 from .models import Website, WebsiteContent, PhysicalOrder, Rsvp
 
 class WebsiteContentSerializer(serializers.ModelSerializer):
+    # Fields the editors and themes use that have no model column (hero subtitle,
+    # event date, invitation hero). They are kept in settings_json['content_extra']
+    # and returned at the top level, so a save no longer drops them.
+    EXTRA_FIELDS = ('hero_description', 'hero_text', 'hero_subtitle', 'date', 'hero')
+
     class Meta:
         model = WebsiteContent
         fields = '__all__'
         read_only_fields = ('website',)
+
+    def to_internal_value(self, data):
+        extra = {k: data[k] for k in self.EXTRA_FIELDS if k in data}
+        validated = super().to_internal_value(data)
+        if extra:
+            current = self.instance.settings_json if self.instance else {}
+            settings = dict(validated.get('settings_json', current) or {})
+            settings['content_extra'] = {**(settings.get('content_extra') or {}), **extra}
+            validated['settings_json'] = settings
+        return validated
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        for key, value in ((instance.settings_json or {}).get('content_extra') or {}).items():
+            if key in self.EXTRA_FIELDS:
+                rep.setdefault(key, value)
+        return rep
 
 class WebsiteSerializer(serializers.ModelSerializer):
     content = WebsiteContentSerializer(read_only=True)

@@ -28,6 +28,10 @@ export interface Palette {
 }
 
 export type LayoutKey =
+  | 'cPolaroid' | 'cCircleHero' | 'cGlassCard' | 'cComic' | 'cPhone' | 'cArchWindow' | 'cStripeBold' | 'cTornPaper'
+  | 'cBrushReveal' | 'cWaves' | 'cGoldFrame' | 'cSplitBanner' | 'cStickerPop' | 'cDuoCircle' | 'cCalendar' | 'cMosaic'
+  | 'eBigType' | 'eMagazine' | 'eSplitDiagonal' | 'eLuxury' | 'eRetro' | 'eNeon' | 'eTicket'
+  | 'eGridCollage' | 'eSaleBurst' | 'eWish' | 'eCountdown' | 'eProductCard' | 'eMinimalPhoto'
   | 'cStudio' | 'cSpotlight' | 'cTiltBanners' | 'cSolidCutout' | 'cBillboard' | 'cSpeech' | 'cWallType'
   | 'cSurreal' | 'cPins' | 'cCaricature' | 'cMinimalProduct' | 'cDarkPromo' | 'cFestiveMascot' | 'cBloom' | 'cEventBanner'
   | 'adProduct' | 'adGiantLetter' | 'adServices' | 'adPromo' | 'adEvent' | 'adArch'

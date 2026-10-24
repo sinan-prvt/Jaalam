@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react';
+import { answer, buildKnowledge, intentOf, suggestions, welcome, type BotLink } from './chatbotBrain';
 
 interface ChatbotProps {
   content?: any;
@@ -9,15 +10,57 @@ interface Message {
   id: string;
   sender: 'bot' | 'user';
   text: string;
+  links?: BotLink[];
+}
+
+type Tone = 'light' | 'dark' | 'terminal';
+
+const LINK: Record<Tone, string> = {
+  light: 'rounded-full bg-slate-900 text-white px-3 py-1.5 text-xs font-semibold hover:bg-slate-700 transition-colors',
+  dark: 'rounded-full bg-amber-800 text-amber-50 px-3 py-1.5 text-xs font-semibold hover:bg-amber-700 transition-colors',
+  terminal: 'border border-emerald-500/50 text-emerald-300 px-2 py-1 text-xs hover:bg-emerald-500/10',
+};
+
+const CHIP: Record<Tone, string> = {
+  light: 'rounded-full border border-slate-200 bg-white text-slate-700 px-3 py-1.5 text-xs font-medium text-left hover:border-slate-400 hover:bg-slate-50 transition-colors',
+  dark: 'rounded-full border border-amber-900/50 text-amber-200 px-3 py-1.5 text-xs text-left hover:bg-amber-900/20 transition-colors',
+  terminal: 'border border-emerald-500/40 text-emerald-400 px-2 py-1 text-xs text-left hover:bg-emerald-500/10',
+};
+
+/** A message's text plus its action buttons (Call, WhatsApp, Open in Maps...). */
+function MessageBody({ msg, tone }: { msg: Message; tone: Tone }) {
+  return (
+    <>
+      <span className="whitespace-pre-line">{msg.text}</span>
+      {msg.links && msg.links.length > 0 && (
+        <span className="mt-3 flex flex-wrap gap-2">
+          {msg.links.map(l => (
+            <a key={l.href} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className={LINK[tone]}>{l.label}</a>
+          ))}
+        </span>
+      )}
+    </>
+  );
+}
+
+/** Suggested questions, tapped to ask. */
+function Chips({ items, onPick, tone }: { items: string[]; onPick: (q: string) => void; tone: Tone }) {
+  if (!items.length) return null;
+  return (
+    <div className="flex flex-wrap gap-2 pt-1" aria-label="Suggested questions">
+      {items.map(q => <button key={q} type="button" onClick={() => onPick(q)} className={CHIP[tone]}>{q}</button>)}
+    </div>
+  );
 }
 
 export default function Chatbot({ content }: ChatbotProps) {
   const iconStyle = content?.settings_json?.chatbot_icon_style || 'modern';
   const modalStyle = content?.settings_json?.chatbot_modal_style || 'professional';
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { id: '1', sender: 'bot', text: 'Hi there! 👋 I can help answer questions about our business. What would you like to know?' }
-  ]);
+  const knowledge = useMemo(() => buildKnowledge(content), [content]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [asked, setAsked] = useState<string[]>([]);
+  const [lastIntent, setLastIntent] = useState<string | undefined>();
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -33,121 +76,30 @@ export default function Chatbot({ content }: ChatbotProps) {
   // Checked after the hooks so toggling the chatbot in the editor doesn't change the hook order.
   if (content?.settings_json?.show_chatbot === false) return null;
 
-  const generateMockResponse = (query: string): string => {
-    if (!content) return "I'm sorry, I don't have enough information right now.";
-
-    const lowerQuery = query.toLowerCase();
-    
-    // Theme-specific handling (Weddings, Events, etc.)
-    const isWedding = !!content.settings_json?.wedding;
-    const isBirthday = !!content.settings_json?.birthday;
-    const isEvent = isWedding || isBirthday || !!content.date;
-
-    if (lowerQuery.match(/^(hi|hello|hey|hy|hola|greetings)/)) {
-      return `Hello there! 👋 How can I help you today?`;
-    }
-
-    if (lowerQuery.includes('when') || lowerQuery.includes('date') || lowerQuery.includes('time') || lowerQuery.includes('hours') || lowerQuery.includes('open')) {
-      if (isWedding) {
-        const w = content.settings_json.wedding;
-        if (w.dateMonth && w.dateDay) return `The wedding is on ${w.dateMonth} ${w.dateDay}, ${w.dateYear || ''} at ${w.time || ''}.`;
-      }
-      if (content.date) return `The event is on ${content.date}.`;
-      if (content.contact_info?.hours) return `Our operating hours are: ${content.contact_info.hours}`;
-    }
-
-    if (lowerQuery.includes('where') || lowerQuery.includes('venue') || lowerQuery.includes('location') || lowerQuery.includes('locaton') || lowerQuery.includes('address')) {
-      if (content.contact_info?.address) return `${isEvent ? 'The venue is' : 'We are'} located at: ${content.contact_info.address}`;
-      return "We are located at 123 Main Street, City Center.";
-    }
-
-    if (lowerQuery.includes('who') || lowerQuery.includes('couple') || lowerQuery.includes('names') || lowerQuery.includes('host')) {
-      if (isWedding && content.hero_title) return `We are celebrating the wedding of ${content.hero_title}!`;
-      if (isEvent && content.hero_title) return `This is the event for ${content.hero_title}!`;
-    }
-
-    if (lowerQuery.includes('parents') || lowerQuery.includes('family')) {
-      if (isWedding) {
-         const w = content.settings_json.wedding;
-         return `Family details - Groom's parents: ${w.groomParents || 'N/A'}. Bride's parents: ${w.brideParents || 'N/A'}.`;
-      }
-    }
-
-    if (lowerQuery.includes('schedule') || lowerQuery.includes('program') || lowerQuery.includes('events')) {
-      if (isWedding && content.settings_json.wedding?.schedule) {
-         const schedule = content.settings_json.wedding.schedule;
-         if (Array.isArray(schedule) && schedule.length > 0) {
-           return `Our schedule: ${schedule.map((s:any) => `${s.event} at ${s.time}`).join(', ')}.`;
-         }
-      }
-    }
-
-    // Business / General defaults
-    if (lowerQuery.includes('phone') || lowerQuery.includes('call') || lowerQuery.includes('contact') || lowerQuery.includes('number') || lowerQuery.includes('conatcat')) {
-      if (content.contact_info?.phone) return `You can reach us at: ${content.contact_info.phone}`;
-      return "You can reach us at our main line: +1 (555) 123-4567.";
-    }
-    if (lowerQuery.includes('email') || lowerQuery.includes('contact')) {
-      if (content.contact_info?.email) return `Our email address is: ${content.contact_info.email}`;
-      return "Feel free to email us at: hello@ourwebsite.com.";
-    }
-    if (lowerQuery.includes('service') || lowerQuery.includes('serice') || lowerQuery.includes('what do you do') || lowerQuery.includes('offer')) {
-      if (content.services_json && content.services_json.length > 0) {
-        if (typeof content.services_json[0] === 'string') {
-          return `We offer the following services: ${content.services_json.join(', ')}.`;
-        } else if (content.services_json[0].title) {
-          const serviceTitles = content.services_json.map((s: any) => s.title).join(', ');
-          return `Here are some of our services: ${serviceTitles}.`;
-        }
-      }
-      return "We offer a wide variety of premium services tailored to your needs. Check out our Services section for more details!";
-    }
-    if (lowerQuery.includes('about') || lowerQuery.includes('story')) {
-      if (content.settings_json?.about_description || content.about_text) return (content.settings_json?.about_description || content.about_text);
-      return "Every detail is crafted with care!";
-    }
-    if (lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('menu') || lowerQuery.includes('product') || lowerQuery.includes('item') || lowerQuery.includes('food')) {
-      if (content.products_json && content.products_json.length > 0) {
-        const itemNames = content.products_json.map((p: any) => {
-          const name = p.name || p.title;
-          const price = p.price ? ` (${p.price})` : '';
-          return `${name}${price}`;
-        }).filter(Boolean).join(', ');
-        return `We have various offerings including: ${itemNames}.`;
-      }
-      return "Please check out our menu or products section for more details and pricing.";
-    }
-    
-    // Default fallback
-    return "I'm still learning! ✨ You can ask me about our services, products, location, contact info, or our story.";
+  const ask = (question: string) => {
+    const text = question.trim();
+    if (!text || isTyping) return;
+    setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'user', text }]);
+    setAsked(prev => [...prev, text]);
+    setInputValue('');
+    setIsTyping(true);
+    // A short pause so the reply feels conversational
+    setTimeout(() => {
+      const reply = answer(text, knowledge);
+      setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), sender: 'bot', ...reply }]);
+      setLastIntent(intentOf(text));
+      setIsTyping(false);
+    }, 450 + Math.random() * 400);
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      sender: 'user',
-      text: inputValue.trim()
-    };
-
-    setMessages(prev => [...prev, userMsg]);
-    setInputValue('');
-    setIsTyping(true);
-
-    // Mock network delay and AI processing
-    setTimeout(() => {
-      const responseText = generateMockResponse(userMsg.text);
-      const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: 'bot',
-        text: responseText
-      };
-      setMessages(prev => [...prev, botMsg]);
-      setIsTyping(false);
-    }, 1200 + Math.random() * 800);
+    ask(inputValue);
   };
+
+  const chips = isTyping ? [] : suggestions(knowledge, new Set(asked), lastIntent);
+  // The greeting follows the site content, so it stays current while the owner edits
+  const conversation: Message[] = [{ id: 'welcome', sender: 'bot', ...welcome(knowledge) }, ...messages];
 
   // 1. DEFAULT (Professional, Elegant, Neumorphic)
   const renderDefault = () => {
@@ -204,13 +156,13 @@ export default function Chatbot({ content }: ChatbotProps) {
           </button>
         </div>
         <div className={bodyClass}>
-          {messages.map((msg) => (
+          {conversation.map((msg) => (
             <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''} animate-in fade-in duration-300`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === 'user' ? (modalStyle === 'elegant' ? 'bg-amber-900/40 text-amber-200 border border-amber-800/50' : 'bg-slate-900 text-white') : (modalStyle === 'elegant' ? 'bg-zinc-800 text-zinc-400 border border-zinc-700' : 'bg-white border border-slate-200 text-slate-600 shadow-sm')}`}>
                 {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
               </div>
               <div className={`px-4 py-3 max-w-[75%] text-[14px] leading-relaxed ${msg.sender === 'user' ? userBubbleClass : botBubbleClass}`}>
-                {msg.text}
+                <MessageBody msg={msg} tone={modalStyle === 'elegant' ? 'dark' : 'light'} />
               </div>
             </div>
           ))}
@@ -226,6 +178,7 @@ export default function Chatbot({ content }: ChatbotProps) {
               </div>
             </div>
           )}
+          <Chips items={chips} onPick={ask} tone={modalStyle === 'elegant' ? 'dark' : 'light'} />
           <div ref={messagesEndRef} className="h-1" />
         </div>
         <div className={inputAreaClass}>
@@ -263,10 +216,10 @@ export default function Chatbot({ content }: ChatbotProps) {
           </button>
         </div>
         <div className={`flex-1 overflow-y-auto p-4 sm:p-5 space-y-6 ${!isPastel && 'bg-white/60 rounded-3xl mx-2 mb-2 shadow-inner'}`}>
-          {messages.map((msg) => (
+          {conversation.map((msg) => (
             <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''} animate-in fade-in duration-300`}>
               <div className={`px-5 py-3.5 max-w-[85%] text-[14px] leading-relaxed shadow-sm ${msg.sender === 'user' ? userBg : botBg}`}>
-                {msg.text}
+                <MessageBody msg={msg} tone="light" />
               </div>
             </div>
           ))}
@@ -279,6 +232,7 @@ export default function Chatbot({ content }: ChatbotProps) {
               </div>
             </div>
           )}
+          <Chips items={chips} onPick={ask} tone="light" />
           <div ref={messagesEndRef} className="h-1" />
         </div>
         <div className={`p-4 z-10 shrink-0 ${isPastel ? 'bg-white/50 border-t border-rose-100' : 'bg-transparent pb-5'}`}>
@@ -303,11 +257,11 @@ export default function Chatbot({ content }: ChatbotProps) {
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-6 pt-12 space-y-8 bg-white">
-          {messages.map((msg) => (
+          {conversation.map((msg) => (
             <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} animate-in fade-in duration-300`}>
               <span className="text-[10px] font-bold tracking-widest uppercase text-slate-300 mb-1">{msg.sender === 'user' ? 'You' : 'Assistant'}</span>
               <div className={`text-[15px] leading-relaxed max-w-[85%] ${msg.sender === 'user' ? 'text-right text-black' : 'text-left text-slate-600'}`}>
-                {msg.text}
+                <MessageBody msg={msg} tone="light" />
               </div>
             </div>
           ))}
@@ -321,6 +275,7 @@ export default function Chatbot({ content }: ChatbotProps) {
                </div>
              </div>
           )}
+          <Chips items={chips} onPick={ask} tone="light" />
           <div ref={messagesEndRef} className="h-1" />
         </div>
         <div className="p-6 pt-0 bg-white shrink-0">
@@ -352,11 +307,11 @@ export default function Chatbot({ content }: ChatbotProps) {
             Welcome to system. Type your query.<br/>
             Initialize connection... OK.
           </div>
-          {messages.map((msg) => (
+          {conversation.map((msg) => (
             <div key={msg.id} className="animate-in fade-in duration-300 flex">
               <span className={`mr-2 shrink-0 ${msg.sender === 'user' ? 'text-emerald-300' : 'text-emerald-600'}`}>{msg.sender === 'user' ? 'USR&gt;' : 'SYS&gt;'}</span>
               <div className={`text-[13px] leading-relaxed ${msg.sender === 'user' ? 'text-emerald-100' : 'text-emerald-400'}`}>
-                {msg.text}
+                <MessageBody msg={msg} tone="terminal" />
               </div>
             </div>
           ))}
@@ -368,6 +323,7 @@ export default function Chatbot({ content }: ChatbotProps) {
               </div>
             </div>
           )}
+          <Chips items={chips} onPick={ask} tone="terminal" />
           <div ref={messagesEndRef} className="h-1" />
         </div>
         <div className="p-4 bg-slate-900 border-t border-emerald-500/30 shrink-0">
@@ -403,10 +359,10 @@ export default function Chatbot({ content }: ChatbotProps) {
           </div>
           
           <div className="flex-1 overflow-y-auto p-5 space-y-5">
-            {messages.map((msg) => (
+            {conversation.map((msg) => (
               <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in duration-300`}>
                 <div className={`px-5 py-3.5 max-w-[85%] text-[14px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-indigo-600 text-white rounded-3xl rounded-br-sm' : 'bg-white/80 backdrop-blur-md text-slate-800 rounded-3xl rounded-bl-sm border border-white'}`}>
-                  {msg.text}
+                  <MessageBody msg={msg} tone="light" />
                 </div>
               </div>
             ))}
@@ -419,6 +375,7 @@ export default function Chatbot({ content }: ChatbotProps) {
                 </div>
               </div>
             )}
+            <Chips items={chips} onPick={ask} tone="light" />
             <div ref={messagesEndRef} className="h-1" />
           </div>
         </div>

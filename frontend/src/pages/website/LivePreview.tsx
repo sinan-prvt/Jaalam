@@ -5,6 +5,7 @@ import { invitationCategories } from '../../utils/templateData';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
 import Chatbot from '../../components/shared/Chatbot';
+import { AmbientAfterTap } from '../../components/themes/invitation-modern/ambient';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
@@ -88,12 +89,18 @@ function LivePreviewContent() {
 
   return (
     <>
+      {/* The editor's phone/desktop frame: scrolls without showing a scrollbar */}
+      <style>{'html, body, * { scrollbar-width: none; } html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none; }'}</style>
       <SiteContext.Provider value={{ slug: data.website?.slug, preview: true }}>
         <ThemeRenderer website={data.website} content={data.content} fallback={renderFallback()} editProps={editProps} />
       </SiteContext.Provider>
       {/* Invitation layouts without a built-in calendar button get a floating one */}
       {invitationCategories.includes(data.website?.business_type) && !invitationStyleFor(data.website?.theme, data.website?.business_type) && (
         <FloatingAddToCalendar content={data.content} website={data.website} />
+      )}
+      {/* Falling petals / gold dust once the guest opens the cover (modern themes run their own) */}
+      {invitationCategories.includes(data.website?.business_type) && !invitationStyleFor(data.website?.theme, data.website?.business_type) && (
+        <AmbientAfterTap category={data.website.business_type} theme={data.website.theme} />
       )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(data.website?.business_type) && (

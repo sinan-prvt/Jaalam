@@ -214,13 +214,20 @@ export default function WeddingEditor() {
   // Ensure default wedding struct exists
   const weddingData = content.settings_json?.wedding || {};
   const setWeddingData = (updates: any) => {
-    setContent((prev: any) => ({
-      ...prev,
-      settings_json: {
-        ...(prev?.settings_json || {}),
-        wedding: { ...(prev?.settings_json?.wedding || {}), ...updates }
-      }
-    }));
+    setContent((prev: any) => {
+      const wedding = { ...(prev?.settings_json?.wedding || {}), ...updates };
+      // The cover shows `date`; keep it in step with the day / month / year boxes
+      const dateChanged = ['dateDay', 'dateMonth', 'dateYear'].some(k => k in updates);
+      const date = dateChanged ? [wedding.dateDay, wedding.dateMonth, wedding.dateYear].filter(Boolean).join(' ').trim() : undefined;
+      return {
+        ...prev,
+        ...(date ? { date } : {}),
+        settings_json: {
+          ...(prev?.settings_json || {}),
+          wedding: date ? { ...wedding, date } : wedding
+        }
+      };
+    });
   };
 
   const tabs = [
@@ -316,7 +323,7 @@ export default function WeddingEditor() {
           </Link>
           <h2 className="font-serif italic font-bold text-slate-800 text-xl truncate px-2">{content.hero_title || 'Wedding Invite'}</h2>
           <div className="flex gap-2">
-            <button onClick={handleSave} disabled={saving} className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
+            <button onClick={handleSave} disabled={saving} title="Save" aria-label="Save" className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
               <Save size={16} />
             </button>
           </div>

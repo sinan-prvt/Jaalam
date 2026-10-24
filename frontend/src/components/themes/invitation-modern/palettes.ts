@@ -1,6 +1,8 @@
+import { findInviteTheme } from './inviteThemes';
+
 // Per-category colour palettes and imagery for the modern invitation themes.
-// Every invitation category gets the same five modern styles, each tinted with
-// the category's own palette so the result still feels culturally specific.
+// Each event family has its own five themes (see inviteThemes.ts); the original
+// five shared style names below remain for invitations created before that.
 
 export const MODERN_INVITATION_THEMES = ['Glassmorphism', 'Aurora Gradient', 'Bento Grid', 'Editorial', 'Midnight Luxe'] as const;
 
@@ -9,9 +11,13 @@ export type ModernInvitationStyle = (typeof MODERN_INVITATION_THEMES)[number];
 // Internal styles that are not offered as a general theme choice (e.g. Bengali "Elegant Traditional").
 export type InvitationStyle = ModernInvitationStyle | 'Heritage';
 
-export const getModernInvitationStyle = (theme?: string): ModernInvitationStyle | null => {
+/**
+ * The page style a theme renders with: a per-family theme (Royal Envelope, Gift Box
+ * Surprise...) maps to its engine; the original five names still work for older sites.
+ */
+export const getModernInvitationStyle = (theme?: string): InvitationStyle | null => {
   const t = (theme || '').trim().toLowerCase();
-  return MODERN_INVITATION_THEMES.find((name) => name.toLowerCase() === t) || null;
+  return findInviteTheme(theme)?.engine || MODERN_INVITATION_THEMES.find((name) => name.toLowerCase() === t) || null;
 };
 
 export type InviteIcon = 'heart' | 'ring' | 'gift' | 'cake' | 'home' | 'zap' | 'palette' | 'trophy' | 'moon' | 'church' | 'flame';

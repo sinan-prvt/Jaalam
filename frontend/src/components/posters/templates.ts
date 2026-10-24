@@ -1,5 +1,5 @@
 import type { ArtKey, LayoutKey, Palette, PosterData, PosterFontKey, PosterTemplate } from './types';
-import { CREATIVE_LAYOUTS, KERALA_LAYOUTS, LAYOUTS } from './registry';
+import { CREATIVE_LAYOUTS, ENGLISH_LAYOUTS, KERALA_LAYOUTS, LAYOUTS } from './registry';
 
 type FontPair = [PosterFontKey, PosterFontKey];
 
@@ -393,6 +393,74 @@ const MODERN_FONTS: Record<string, FontPair[]> = {
  */
 const EVENT_ADS: LayoutKey[] = ['adArch', 'adFestival', 'adAchievement'];
 
+/**
+ * Layouts left out of the gallery because they look dated next to the newer styles.
+ * They stay registered so drafts that use them still open.
+ */
+const RETIRED = new Set<LayoutKey>(['frame', 'card', 'ribbon', 'kinetic', 'swiss', 'adMap']);
+/** Kept only where they fit: price lists, and the Kerala kasavu border for Kerala festivals. */
+const MENU_CATEGORIES = ['restaurant', 'bakery', 'supermarket', 'salon'];
+
+/** English poster styles per category (by key, else by group). */
+const ENGLISH_BY_KEY: Record<string, LayoutKey[]> = {
+  sale: ['eSaleBurst', 'eBigType', 'eSplitDiagonal', 'eNeon', 'eProductCard'],
+  'grand-opening': ['eCountdown', 'eBigType', 'eNeon', 'eLuxury', 'eSplitDiagonal'],
+  restaurant: ['eGridCollage', 'eMinimalPhoto', 'eRetro', 'eNeon', 'eSplitDiagonal'],
+  bakery: ['eGridCollage', 'eRetro', 'eProductCard', 'eMinimalPhoto', 'eWish'],
+  textiles: ['eMagazine', 'eLuxury', 'eMinimalPhoto', 'eProductCard', 'eSplitDiagonal'],
+  jewellery: ['eLuxury', 'eMagazine', 'eMinimalPhoto', 'eProductCard', 'eSplitDiagonal'],
+  electronics: ['eProductCard', 'eSaleBurst', 'eNeon', 'eSplitDiagonal', 'eBigType'],
+  supermarket: ['eProductCard', 'eSaleBurst', 'eGridCollage', 'eSplitDiagonal', 'eRetro'],
+  furniture: ['eProductCard', 'eMinimalPhoto', 'eLuxury', 'eGridCollage', 'eSplitDiagonal'],
+  salon: ['eMagazine', 'eLuxury', 'eMinimalPhoto', 'eSplitDiagonal', 'eGridCollage'],
+  gym: ['eBigType', 'eNeon', 'eSplitDiagonal', 'eMagazine', 'eCountdown'],
+  sports: ['eTicket', 'eBigType', 'eNeon', 'eSplitDiagonal', 'eRetro'],
+  'real-estate': ['eLuxury', 'eMinimalPhoto', 'eSplitDiagonal', 'eGridCollage', 'eMagazine'],
+  builders: ['eSplitDiagonal', 'eLuxury', 'eMinimalPhoto', 'eBigType', 'eGridCollage'],
+  interior: ['eMinimalPhoto', 'eLuxury', 'eMagazine', 'eGridCollage', 'eSplitDiagonal'],
+  travel: ['eMinimalPhoto', 'eMagazine', 'eRetro', 'eGridCollage', 'eSplitDiagonal'],
+  automobile: ['eSplitDiagonal', 'eBigType', 'eNeon', 'eMinimalPhoto', 'eMagazine'],
+  hiring: ['eBigType', 'eSplitDiagonal', 'eRetro', 'eGridCollage', 'eCountdown'],
+  'new-year': ['eNeon', 'eCountdown', 'eWish', 'eLuxury', 'eRetro'],
+  birthday: ['eWish', 'eTicket', 'eNeon', 'eRetro', 'eGridCollage'],
+  wedding: ['eLuxury', 'eWish', 'eTicket', 'eMinimalPhoto'],
+  congratulations: ['eWish', 'eLuxury', 'eMagazine', 'eBigType', 'eRetro'],
+  condolence: ['eLuxury', 'eMinimalPhoto'],
+};
+const ENGLISH_BY_GROUP: Record<Category['group'], LayoutKey[]> = {
+  'Kerala Festivals': ['eWish', 'eLuxury', 'eRetro', 'eMinimalPhoto', 'eNeon'],
+  'Festivals & Days': ['eWish', 'eLuxury', 'eRetro', 'eNeon', 'eMinimalPhoto'],
+  Business: ['eSplitDiagonal', 'eBigType', 'eGridCollage', 'eMinimalPhoto', 'eRetro'],
+  'Events & Notices': ['eWish', 'eTicket', 'eLuxury', 'eMagazine'],
+};
+
+const MALAYALAM = /[\u0D00-\u0D7F]/;
+
+/** English copy for a category: Malayalam headlines give way to the English line, other Malayalam fields are dropped. */
+const englishCopy = (cat: Category): Partial<PosterData> => {
+  const d: Partial<PosterData> = { ...cat.data };
+  if (d.headline && MALAYALAM.test(d.headline) && d.subhead && !MALAYALAM.test(d.subhead)) [d.headline, d.subhead] = [d.subhead, ''];
+  for (const k of Object.keys(d) as (keyof PosterData)[]) if (d[k] && MALAYALAM.test(d[k] as string)) d[k] = '';
+  return { ...d, ...EN_EXTRA[cat.key] };
+};
+/** Small English touches where the source copy is Malayalam-only. */
+const EN_EXTRA: Record<string, Partial<PosterData>> = {
+  condolence: { subhead: 'In Loving Memory' },
+  congratulations: { subhead: 'Congratulations' },
+};
+
+const ENGLISH_TEMPLATES: PosterTemplate[] = CATEGORIES.flatMap((cat, ci) => (ENGLISH_BY_KEY[cat.key] || ENGLISH_BY_GROUP[cat.group]).map((layout, i) => {
+  const en = ENGLISH_LAYOUTS[layout];
+  const [display, body] = en.fonts[(ci + i) % en.fonts.length];
+  return {
+    id: `${cat.key}-${layout}`,
+    name: `${cat.label} · ${en.label}`,
+    category: cat.key,
+    style: { layout, palette: en.palettes[(ci + i) % en.palettes.length], display, body, art: cat.art, scale: 1 },
+    data: { ...BASE, ...englishCopy(cat), image: cat.images ? cat.images[(i + 1) % cat.images.length] : '' },
+  };
+}));
+
 /** Creative ads: a layout, the category it belongs to and its own copy. */
 const CREATIVE: [LayoutKey, string, Partial<PosterData>][] = [
   // Photo studio
@@ -486,13 +554,49 @@ const CREATIVE_TEMPLATES: PosterTemplate[] = CREATIVE.map(([layout, catKey, copy
   };
 });
 
-export const POSTER_TEMPLATES: PosterTemplate[] = [...CREATIVE_TEMPLATES, ...CATEGORIES.flatMap((cat, ci) => {
-  const keys = Object.keys(LAYOUTS) as LayoutKey[];
+/** More creative ad styles, each paired with the categories it suits; copy comes from the category's Malayalam text. */
+const CREATIVE_EXTRA: Partial<Record<LayoutKey, string[]>> = {
+  cPolaroid: ['bakery', 'restaurant', 'travel', 'birthday', 'wedding', 'textiles', 'salon', 'sports', 'interior', 'grand-opening', 'gym', 'education', 'christmas', 'new-year'],
+  cCircleHero: ['salon', 'dental', 'gym', 'medical', 'jewellery', 'electronics', 'supermarket', 'restaurant', 'bakery', 'onam', 'vishu', 'eid', 'diwali', 'congratulations'],
+  cGlassCard: ['electronics', 'education', 'hiring', 'real-estate', 'builders', 'travel', 'automobile', 'gym', 'printing', 'sale', 'new-year', 'independence', 'grand-opening', 'sports'],
+  cComic: ['sale', 'grand-opening', 'restaurant', 'bakery', 'electronics', 'supermarket', 'printing', 'gym', 'sports', 'birthday', 'hiring', 'education', 'textiles', 'automobile'],
+  cPhone: ['restaurant', 'supermarket', 'bakery', 'electronics', 'textiles', 'education', 'printing', 'hiring', 'travel', 'salon', 'jewellery', 'furniture', 'sale', 'medical'],
+  cArchWindow: ['interior', 'real-estate', 'builders', 'furniture', 'jewellery', 'salon', 'wedding', 'textiles', 'condolence', 'temple-utsavam', 'easter', 'ramadan', 'eid', 'christmas'],
+  cStripeBold: ['sale', 'builders', 'automobile', 'electronics', 'hiring', 'grand-opening', 'supermarket', 'printing', 'sports', 'gym', 'furniture', 'real-estate', 'education', 'independence'],
+  cTornPaper: ['restaurant', 'travel', 'bakery', 'education', 'real-estate', 'sports', 'medical', 'dental', 'interior', 'onam', 'kerala-piravi', 'vishu', 'birthday', 'congratulations'],
+  cBrushReveal: ['salon', 'textiles', 'jewellery', 'gym', 'sports', 'travel', 'restaurant', 'printing', 'interior', 'automobile', 'onam', 'diwali', 'wedding', 'birthday'],
+  cWaves: ['travel', 'medical', 'dental', 'education', 'supermarket', 'real-estate', 'kerala-piravi', 'independence', 'ramadan', 'easter', 'christmas', 'new-year', 'hiring', 'builders'],
+  cGoldFrame: ['onam', 'vishu', 'temple-utsavam', 'diwali', 'eid', 'ramadan', 'christmas', 'easter', 'wedding', 'condolence', 'congratulations', 'jewellery', 'textiles', 'kerala-piravi'],
+  cSplitBanner: ['restaurant', 'gym', 'real-estate', 'builders', 'automobile', 'electronics', 'furniture', 'education', 'medical', 'salon', 'sale', 'grand-opening', 'travel', 'interior'],
+  cStickerPop: ['birthday', 'bakery', 'sale', 'textiles', 'education', 'supermarket', 'printing', 'salon', 'restaurant', 'grand-opening', 'new-year', 'christmas', 'sports', 'gym'],
+  cDuoCircle: ['salon', 'dental', 'gym', 'medical', 'interior', 'builders', 'automobile', 'furniture', 'education', 'real-estate', 'wedding', 'congratulations', 'sports', 'printing'],
+  cCalendar: ['grand-opening', 'sale', 'temple-utsavam', 'onam', 'vishu', 'christmas', 'eid', 'new-year', 'independence', 'birthday', 'wedding', 'education', 'sports', 'medical'],
+  cMosaic: ['restaurant', 'bakery', 'supermarket', 'textiles', 'salon', 'gym', 'travel', 'interior', 'furniture', 'education', 'onam', 'christmas', 'birthday', 'wedding'],
+};
+
+const CREATIVE_EXTRA_TEMPLATES: PosterTemplate[] = (Object.entries(CREATIVE_EXTRA) as [LayoutKey, string[]][]).flatMap(([layout, keys], li) => keys.map((catKey, i) => {
+  const cat = CATEGORIES.find(c => c.key === catKey)!;
+  const ad = CREATIVE_LAYOUTS[layout];
+  const [display, body] = ad.fonts[(li + i) % ad.fonts.length];
+  return {
+    id: `${catKey}-${layout}`,
+    name: `${cat.label} · ${ad.label}`,
+    category: catKey,
+    style: { layout, palette: ad.palettes[(li + i) % ad.palettes.length], display, body, art: cat.art, scale: 1 },
+    data: { ...BASE, ...cat.data, ...cat.ml, image: cat.images ? cat.images[(li + i) % cat.images.length] : '' },
+  };
+}));
+
+export const POSTER_TEMPLATES: PosterTemplate[] = [...CREATIVE_TEMPLATES, ...CREATIVE_EXTRA_TEMPLATES, ...ENGLISH_TEMPLATES, ...CATEGORIES.flatMap((cat, ci) => {
+  const keys = (Object.keys(LAYOUTS) as LayoutKey[]).filter(k => !RETIRED.has(k)
+    && (k !== 'menu' || MENU_CATEGORIES.includes(cat.key))
+    && (k !== 'kasavu' || cat.group === 'Kerala Festivals'));
   // Ad layouts are for business categories; event-style ones (arch, festival, winner) are left out
   const kerala = cat.group === 'Business' ? keys.filter(k => k in KERALA_LAYOUTS && (cat.kerala ? cat.kerala.includes(k) : !EVENT_ADS.includes(k))) : [];
   const modern = keys.filter(k => LAYOUTS[k].family === 'modern');
   const classic = keys.filter(k => LAYOUTS[k].family === 'classic');
-  const classicOrder = [...cat.featured, ...classic.filter(l => !cat.featured.includes(l))];
+  const featured = cat.featured.filter(l => classic.includes(l));
+  const classicOrder = [...featured, ...classic.filter(l => !featured.includes(l))];
 
   const make = (layout: LayoutKey, i: number, palette: Palette, [display, body]: FontPair, copy: Partial<PosterData> = cat.data): PosterTemplate => ({
     id: `${cat.key}-${layout}`,

@@ -540,10 +540,11 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
+    <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative isolate text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
 
       {/* VIBRANT BENTO MESH BACKGROUND */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      {/* Behind everything; main has no z-index so its dialogs can cover the sidebar */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-amber-300 to-fuchsia-300 filter blur-[100px] opacity-40"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-orange-300 to-amber-300 filter blur-[120px] opacity-40"></div>
         <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 filter blur-[90px] opacity-30"></div>
@@ -558,7 +559,7 @@ export default function Dashboard() {
       />
 
       {/* MAIN CONTENT AREA */}
-      <main className={`flex-1 basis-auto md:basis-0 min-w-0 h-[100dvh] relative z-10 scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
+      <main className={`flex-1 basis-auto md:basis-0 min-w-0 h-[100dvh] relative scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
         <div className={`mx-auto w-full max-w-[1400px] ${activeTab === 'Notifications' ? 'flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-6' : 'min-h-full p-4 md:p-8 lg:p-8'}`}>
 
           {/* DESKTOP HEADER */}
@@ -641,17 +642,17 @@ export default function Dashboard() {
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-5 px-2">Overview</h2>
 
               {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 animate-pulse">
-                  <div className="md:col-span-2 md:row-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[300px]"></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-pulse">
+                  <div className="sm:col-span-2 lg:row-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[300px]"></div>
                   <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
                   <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
-                  <div className="md:col-span-2 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
+                  <div className="sm:col-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
                 {/* BIG HERO BENTO */}
-                <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                <div className="sm:col-span-2 lg:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
                   <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-orange-300 to-amber-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
 
                   <div>
@@ -712,7 +713,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* WIDE BENTO */}
-                <div className="md:col-span-2 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
+                <div className="sm:col-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
                   <div className="absolute top-[-50%] right-[-20%] w-[100%] h-[200%] bg-gradient-to-l from-amber-100/40 to-transparent rotate-12 -z-10 group-hover:rotate-45 transition-transform duration-1000"></div>
                   <div>
                     <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-sm border border-amber-100 mb-4">

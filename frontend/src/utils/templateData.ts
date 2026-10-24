@@ -1,4 +1,5 @@
-import { MODERN_INVITATION_THEMES, getInvitePalette } from '../components/themes/invitation-modern/palettes';
+import { getInvitePalette } from '../components/themes/invitation-modern/palettes';
+import { findInviteTheme, themeNamesForCategory } from '../components/themes/invitation-modern/inviteThemes';
 import { MOTION_PRESETS, MOTION_THEME_NAMES } from '../components/themes/motion/presets';
 
 export const eventHierarchy: Record<string, Record<string, string[]>> = {
@@ -128,14 +129,25 @@ export const invitationCategories = [
   ...collegeFestCategories, ...religiousEventCategories
 ];
 
-// Every invitation category also offers the five shared modern themes
-// (Glassmorphism, Aurora Gradient, Bento Grid, Editorial, Midnight Luxe).
-const withModernThemes = (themes: string[]) => [...themes, ...MODERN_INVITATION_THEMES.filter(t => !themes.includes(t))];
+// Every invitation category also offers five modern themes of its own: two signature
+// themes (Kerala: Nilavilakku, Kasavu Gold...) and three of its event family's set.
+const familyOf = (cat: string) =>
+  weddingCategories.includes(cat) ? 'wedding' as const
+    : birthdayCategories.includes(cat) ? 'birthday' as const
+      : housewarmingCategories.includes(cat) ? 'housewarming' as const
+        : collegeFestCategories.includes(cat) ? 'collegeFest' as const
+          : religiousEventCategories.includes(cat) ? 'religious' as const : null;
+const withFamilyThemes = (cat: string, themes: string[]) => {
+  const family = familyOf(cat);
+  if (!family) return themes;
+  const position = invitationCategories.indexOf(cat);
+  return [...themes, ...themeNamesForCategory(cat, family, position).filter(t => !themes.includes(t))];
+};
 Object.values(eventHierarchy).forEach(subCategories => {
-  Object.keys(subCategories).forEach(cat => { subCategories[cat] = withModernThemes(subCategories[cat]); });
+  Object.keys(subCategories).forEach(cat => { subCategories[cat] = withFamilyThemes(cat, subCategories[cat]); });
 });
 invitationCategories.forEach(cat => {
-  if (categoryThemes[cat]) categoryThemes[cat] = withModernThemes(categoryThemes[cat]);
+  if (categoryThemes[cat]) categoryThemes[cat] = withFamilyThemes(cat, categoryThemes[cat]);
 });
 
 export const getThemeThumbnail = (theme: string, businessType?: string) => {
@@ -149,6 +161,7 @@ export const getThemeThumbnail = (theme: string, businessType?: string) => {
     'Midnight Luxe': '&bri=-30'
   };
   if (isInvitation && theme in modernTint) return invitationImage + modernTint[theme];
+  if (isInvitation && findInviteTheme(theme)) return invitationImage;
   // Motion themes: use the category's own imagery, a different shot per style
   const motionIndex = (MOTION_THEME_NAMES as readonly string[]).indexOf(theme);
   if (motionIndex >= 0 && businessType && MOTION_PRESETS[businessType]) {

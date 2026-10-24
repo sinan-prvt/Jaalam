@@ -19,7 +19,7 @@ const rand = (i: number) => {
 };
 
 /** Headline lines, each sized to fit `maxWidth`, first line at `first` and the rest at `rest`. */
-function Title({ L, maxWidth, first, rest = first, color, style, center }: { L: LayoutProps; maxWidth: number; first: number; rest?: number; color: string; style?: CSSProperties; center?: boolean }) {
+export function Title({ L, maxWidth, first, rest = first, color, style, center }: { L: LayoutProps; maxWidth: number; first: number; rest?: number; color: string; style?: CSSProperties; center?: boolean }) {
   const { d, st } = L;
   return (
     <div style={{ color, textAlign: center ? 'center' : undefined }}>

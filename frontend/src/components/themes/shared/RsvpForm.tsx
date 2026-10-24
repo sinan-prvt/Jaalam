@@ -46,7 +46,9 @@ export default function RsvpForm({ className = '', children }: RsvpFormProps) {
         body: JSON.stringify({ name: reply.name, attending: reply.attending, message: reply.message, answers: reply.answers }),
       });
       if (!res.ok) {
-        setError(res.status === 429 ? 'Too many replies from this device. Please try again later.' : 'Sorry, your reply could not be sent. Please try again.');
+        // 403 means the invitation isn't live (unpublished, paused or blocked): say so instead of "try again"
+        const reason = res.status === 403 ? (await res.json().catch(() => null))?.error : null;
+        setError(res.status === 429 ? 'Too many replies from this device. Please try again later.' : reason || 'Sorry, your reply could not be sent. Please try again.');
         setState('idle');
         return;
       }

@@ -944,18 +944,18 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
                 </div>
                 
                 <div className="flex gap-6 pt-8 border-t border-white/10 w-full justify-center">
-                  {!hiddenFields.includes('contact_facebook') && (
-                                <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors bg-slate-900 group`} aria-label="Facebook">
+                  {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                                <a href={content.contact_info?.facebook} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors bg-slate-900 group`} aria-label="Facebook">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                                   </a>
                                 )}
-                  {!hiddenFields.includes('contact_whatsapp') && (
-                                <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors bg-slate-900 group`} aria-label="WhatsApp">
+                  {!hiddenFields.includes('contact_whatsapp') && content.contact_info?.whatsapp && (
+                                <a href={content.contact_info?.whatsapp} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors bg-slate-900 group`} aria-label="WhatsApp">
                                                     <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
                                                   </a>
                                 )}
-                  {!hiddenFields.includes('contact_instagram') && (
-                                <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors bg-slate-900 group`} aria-label="Instagram">
+                  {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                                <a href={content.contact_info?.instagram} target="_blank" rel="noopener noreferrer" className={`w-14 h-14 border border-slate-700 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors bg-slate-900 group`} aria-label="Instagram">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                                   </a>
                                 )}
@@ -1013,18 +1013,18 @@ export default function RestaurantTheme({ website, content }: RestaurantThemePro
               Experience dining at its finest. Join us for an unforgettable culinary journey combining tradition and innovation.
             </p>
             <div className="flex gap-4">
-              {!hiddenFields.includes('contact_facebook') && (
-                              <a href={content.contact_info?.facebook || 'https://facebook.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors group" aria-label="Facebook">
+              {!hiddenFields.includes('contact_facebook') && content.contact_info?.facebook && (
+                              <a href={content.contact_info?.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/10 transition-colors group" aria-label="Facebook">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                                             </a>
                               )}
-              {!hiddenFields.includes('contact_whatsapp') && (
-                              <a href={content.contact_info?.whatsapp || 'https://wa.me/'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors group" aria-label="WhatsApp">
+              {!hiddenFields.includes('contact_whatsapp') && content.contact_info?.whatsapp && (
+                              <a href={content.contact_info?.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-green-500 hover:text-green-500 hover:bg-green-500/10 transition-colors group" aria-label="WhatsApp">
                                               <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
                                             </a>
                               )}
-              {!hiddenFields.includes('contact_instagram') && (
-                              <a href={content.contact_info?.instagram || 'https://instagram.com'} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors group" aria-label="Instagram">
+              {!hiddenFields.includes('contact_instagram') && content.contact_info?.instagram && (
+                              <a href={content.contact_info?.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-slate-800 rounded-full flex items-center justify-center hover:border-pink-500 hover:text-pink-500 hover:bg-pink-500/10 transition-colors group" aria-label="Instagram">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                             </a>
                               )}

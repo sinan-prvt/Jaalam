@@ -11,6 +11,7 @@ import useSmoothScroll from '../../hooks/useSmoothScroll';
 import SEOHead from '../../components/seo/SEOHead';
 import UPIPaymentModal from '../../components/payments/UPIPaymentModal';
 import Chatbot from '../../components/shared/Chatbot';
+import { AmbientAfterTap } from '../../components/themes/invitation-modern/ambient';
 import FloatingContactButtons from '../../components/shared/FloatingContactButtons';
 import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
@@ -307,6 +308,12 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
   };
 
   const upiId = website?.content?.settings_json?.upi_id;
+  // Same rule FloatingContactButtons uses to render; the pay button moves left of them so they don't overlap
+  const floatPhone = content?.settings_json?.cta_phone_number || content?.contact_info?.phone;
+  const floatWhatsapp = content?.settings_json?.cta_whatsapp_number || content?.contact_info?.whatsapp;
+  const hasFloatingContact = !invitationCategories.includes(website?.business_type)
+    && !!(floatPhone || floatWhatsapp)
+    && ((content?.settings_json?.show_whatsapp_float ?? true) || (content?.settings_json?.show_phone_float ?? true));
 
   return (
     <>
@@ -318,6 +325,10 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
       {/* Invitation layouts without a built-in calendar button get a floating one */}
       {invitationCategories.includes(website?.business_type) && !invitationStyleFor(website?.theme, website?.business_type) && (
         <FloatingAddToCalendar content={content} website={website} />
+      )}
+      {/* Falling petals / gold dust once the guest opens the cover (modern themes run their own) */}
+      {invitationCategories.includes(website?.business_type) && !invitationStyleFor(website?.theme, website?.business_type) && (
+        <AmbientAfterTap category={website.business_type} theme={website.theme} />
       )}
       {/* Business-site extras; invitations (weddings, birthdays and other events) don't use them */}
       {!invitationCategories.includes(website?.business_type) && (
@@ -345,7 +356,7 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
         <>
           <button
             onClick={() => setIsPaymentModalOpen(true)}
-            className="fixed bottom-6 right-6 z-[99990] bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-full font-black shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group"
+            className={`fixed bottom-6 ${hasFloatingContact ? 'right-24 md:right-28' : 'right-6'} z-[99990] bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-full font-black shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group`}
           >
             <CreditCard size={20} className="group-hover:rotate-12 transition-transform" />
             <span className="hidden sm:inline">Make a Payment</span>

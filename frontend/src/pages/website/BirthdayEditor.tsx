@@ -214,13 +214,20 @@ export default function BirthdayEditor() {
   // Ensure default birthday struct exists
   const birthdayData = content.settings_json?.birthday || {};
   const setBirthdayData = (updates: any) => {
-    setContent((prev: any) => ({
-      ...prev,
-      settings_json: {
-        ...(prev?.settings_json || {}),
-        birthday: { ...(prev?.settings_json?.birthday || {}), ...updates }
-      }
-    }));
+    setContent((prev: any) => {
+      const birthday = { ...(prev?.settings_json?.birthday || {}), ...updates };
+      // The cover shows `date`; keep it in step with the day / month / year boxes
+      const dateChanged = ['dateDay', 'dateMonth', 'dateYear'].some(k => k in updates);
+      const date = dateChanged ? [birthday.dateDay, birthday.dateMonth, birthday.dateYear].filter(Boolean).join(' ').trim() : undefined;
+      return {
+        ...prev,
+        ...(date ? { date } : {}),
+        settings_json: {
+          ...(prev?.settings_json || {}),
+          birthday: date ? { ...birthday, date } : birthday
+        }
+      };
+    });
   };
 
   const tabs = [
@@ -316,7 +323,7 @@ export default function BirthdayEditor() {
           </Link>
           <h2 className="font-serif italic font-bold text-slate-800 text-xl truncate px-2">{content.hero_title || 'Birthday Invite'}</h2>
           <div className="flex gap-2">
-            <button onClick={handleSave} disabled={saving} className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
+            <button onClick={handleSave} disabled={saving} title="Save" aria-label="Save" className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
               <Save size={16} />
             </button>
           </div>

@@ -1071,11 +1071,11 @@ export default function PosterMakerPage() {
           <LayoutGrid size={14} className="text-orange-500" /> {POSTER_TEMPLATES.length} templates
         </div>
         <h2 className="text-3xl font-black text-slate-900 tracking-tight">Pick a poster, make it yours</h2>
-        <p className="text-slate-500 mt-2 font-medium text-sm max-w-2xl">{look === 'kerala' ? 'Malayalam ad posters for your business: interiors, builders, shops, clinics, courses, food and more.' : 'Onam, Vishu, festivals, offers, menus, openings, wishes and notices.'} Edit every word, colour, font and photo, then download.</p>
+        <p className="text-slate-500 mt-2 font-medium text-sm max-w-2xl">{look === 'kerala' ? 'Malayalam ad posters for your business: interiors, builders, shops, clinics, courses, food and more.' : look === 'english' ? 'English posters in fresh styles: big type, magazine covers, luxury, retro, neon, tickets, collages and more.' : 'Onam, Vishu, festivals, offers, menus, openings, wishes and notices.'} Edit every word, colour, font and photo, then download.</p>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {([['all', 'All styles'], ['kerala', 'Creative ads'], ['modern', 'Modern & trending'], ['classic', 'Classic']] as const).map(([k, label]) => (
+        {([['all', 'All styles'], ['kerala', 'Creative ads'], ['english', 'English posters'], ['modern', 'Modern & trending'], ['classic', 'Classic']] as const).map(([k, label]) => (
           <button key={k} onClick={() => { setLook(k); setGroup('All'); setCategory('all'); setShown(PAGE); }} className={`px-4 py-2 rounded-xl text-sm font-black border transition-all ${look === k ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}>
             {label}
           </button>
