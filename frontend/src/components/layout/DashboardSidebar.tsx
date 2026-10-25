@@ -191,7 +191,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               <div className={`flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${isCollapsed ? 'max-w-0 opacity-0 hidden' : 'max-w-[100px] opacity-100'}`}>
                 <span className="text-[13px] font-bold text-slate-800 truncate">{user?.username}</span>
                 <span className="text-[9px] text-[#d08757] font-bold uppercase tracking-wider truncate">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                 </span>
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-slate-800">{user?.username}</span>
                   <span className="text-[9px] font-bold uppercase tracking-wider text-[#d08757]">
-                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
+                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                   </span>
                 </div>
               </div>

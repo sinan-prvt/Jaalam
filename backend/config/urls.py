@@ -9,15 +9,12 @@ from django.views.static import serve
 from django.http import JsonResponse
 
 def home_view(request):
-    return JsonResponse({
-        "status": "online",
-        "message": "Jaalam Backend API is running successfully!",
-        "database": "Connected to Neon PostgreSQL"
-    })
+    # Health check: says it's up, without describing the infrastructure behind it
+    return JsonResponse({"status": "online"})
 
 urlpatterns = [
     path('', home_view),
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/websites/', include('websites.urls')),
     path('api/customers/', include('customers.urls')),

@@ -48,4 +48,4 @@ class PosterDraftTests(TestCase):
 
     def test_requires_login(self):
         self.client.logout()
-        self.assertEqual(self.client.get('/api/marketing/poster-drafts/').status_code, 403)
+        self.assertEqual(self.client.get('/api/marketing/poster-drafts/').status_code, 401)

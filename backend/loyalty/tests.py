@@ -128,7 +128,7 @@ class LoyaltyTests(TestCase):
         stranger = Client()
         stranger.force_login(self.other)
         self.assertEqual(self.act(code, 'stamp', stranger).status_code, 403)
-        self.assertEqual(self.act(code, 'stamp', Client()).status_code, 403)
+        self.assertEqual(self.act(code, 'stamp', Client()).status_code, 401)  # not logged in
         self.assertEqual(stranger.get('/api/loyalty/sites/bean-house/').status_code, 404)
         self.assertEqual(LoyaltyCard.objects.get().stamps, 0)
 
@@ -138,6 +138,16 @@ class LoyaltyTests(TestCase):
         self.site.save()
         c = Client()
         c.force_login(client_user)
+
+        # Agency overview lists the owner's shops with their client; the client sees only its own
+        Website.objects.create(user=self.owner, slug='second-shop', business_type='Salon / Spa', published=True)
+        overview = {row['slug']: row for row in self.client.get('/api/loyalty/sites/').json()}
+        self.assertEqual(set(overview), {'bean-house', 'second-shop'})
+        self.assertEqual(overview['bean-house']['client'], 'cafeclient')
+        self.assertEqual(overview['bean-house']['stats']['members'], 1)
+        self.assertIsNone(overview['second-shop']['program'])
+        self.assertEqual([row['slug'] for row in c.get('/api/loyalty/sites/').json()], ['bean-house'])
+        self.assertEqual(stranger.get('/api/loyalty/sites/').json(), [])
         self.assertEqual(self.act(code, 'stamp', c).json()['stamps'], 1)
         site = c.get('/api/loyalty/sites/bean-house/').json()
         self.assertEqual((site['allowed'], site['is_owner']), (True, False))  # uses the owner's plan

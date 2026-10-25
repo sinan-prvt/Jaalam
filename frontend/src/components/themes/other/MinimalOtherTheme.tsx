@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 import ThemeStats from '../shared/ThemeStats';
 
+import { safeHtml } from '../../../utils/safeHtml';
 export default function MinimalOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -183,7 +184,7 @@ export default function MinimalOtherTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, i: number) => (
               <div key={i}>
                 <h2 className="font-minimal text-3xl font-medium mb-12 tracking-tight">{block.title}</h2>
-                <div className="prose prose-invert prose-lg max-w-none font-minimal font-light text-gray-400" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-invert prose-lg max-w-none font-minimal font-light text-gray-400" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

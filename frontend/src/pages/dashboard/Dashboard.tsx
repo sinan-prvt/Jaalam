@@ -92,7 +92,7 @@ export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const planInfo = usePlan();
   const { isLockedTheme } = planInfo;
-  const planLabel = user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${planInfo.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase();
+  const planLabel = user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : (user as User | null)?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${planInfo.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase();
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -357,11 +357,8 @@ export default function Dashboard() {
       dispatch(loginSuccess(res.data));
       toast.success('Settings updated successfully!');
     } catch (err: any) {
-      if (err.response?.status === 403 && user) {
-        // Fallback for CORS cookie issues on localhost
-        dispatch(loginSuccess({ ...user, username: editUsername, first_name: editFirstName, last_name: editLastName }));
-        toast.success('Settings updated successfully!');
-      } else if (err.response?.data?.username) {
+      // (A 403 used to be shown as "updated" while nothing was saved.)
+      if (err.response?.data?.username) {
         toast.error('That username is already taken.');
       } else {
         toast.error('Failed to update settings. Please try again.');
@@ -969,7 +966,7 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'Loyalty' && (
-            <LoyaltyPage websites={websites} />
+            <LoyaltyPage websites={websites} role={user?.role} />
           )}
 
           {activeTab === 'Clients' && (
@@ -1193,7 +1190,7 @@ export default function Dashboard() {
                   <div className="text-center sm:text-left pt-1 flex-1">
                     <h3 className="text-2xl font-black text-slate-900 mb-2">{user?.username}</h3>
                     <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">
-                      {user?.is_test_user ? 'TEST USER (PRO)' : planInfo.plan?.name || user?.membership || 'Creator'}
+                      {user?.is_test_user ? 'TEST USER (PRO)' : (user as User | null)?.role === 'CLIENT' ? 'Client account' : planInfo.plan?.name || user?.membership || 'Creator'}
                     </span>
                     <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
                   </div>

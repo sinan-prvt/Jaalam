@@ -23,6 +23,13 @@ def site_name(website):
     return ((content.settings_json or {}).get('website_name') if content else None) or website.slug.replace('-', ' ').title()
 
 
+def notify_site_team(website, title, message, notification_type):
+    """The site's owner (agency) and, when it has one, the shop's own client login."""
+    create_notification(website.user, title, message, notification_type=notification_type)
+    if website.client_id and website.client_id != website.user_id:
+        create_notification(website.client, title, message, notification_type=notification_type)
+
+
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -62,9 +69,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         customer = serializer.save()
         website = customer.website
-        create_notification(
-            website.user, f'New enquiry from {customer.name}',
-            (customer.message or 'Sent from your website contact form.')[:300], notification_type='new_lead')
+        notify_site_team(
+            website, f'New enquiry from {customer.name}',
+            (customer.message or 'Sent from your website contact form.')[:300], 'new_lead')
         if customer.email:
             try:
                 send_mail(

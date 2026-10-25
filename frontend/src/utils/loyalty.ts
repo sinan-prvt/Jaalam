@@ -51,6 +51,7 @@ export interface SiteProgram {
   business: string;
   slug: string;
   business_type: string;
+  client: string | null;
   allowed: boolean;
   is_owner: boolean;
   required_plan: string;
@@ -79,6 +80,24 @@ export interface CardView {
   stamps_today?: number;
   events?: { kind: 'STAMP' | 'REDEEM' | 'UNDO'; at: string; by: string | null }[];
 }
+
+/** One row of the agency's "all shops" page. */
+export interface SiteOverview {
+  slug: string;
+  business: string;
+  business_type: string;
+  client: string | null;
+  allowed: boolean;
+  program: Pick<LoyaltySettings, 'reward' | 'stamps_required' | 'stamp_mode' | 'is_active' | 'icon' | 'color'> | null;
+  stats: LoyaltyStats | null;
+}
+
+export const STAMP_MODE_LABEL: Record<StampMode, string> = {
+  CODE: "Today's code",
+  SCREEN: 'Counter screen',
+  PRINTED: 'Printed QR + location',
+  STAFF: 'Staff scan',
+};
 
 export interface LoyaltyMember {
   code: string;

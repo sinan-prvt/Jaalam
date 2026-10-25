@@ -5,6 +5,7 @@ import ContactForm from '../shared/ContactForm';
 
 import ContactExtras from '../shared/ContactExtras';
 import ThemeStats from '../shared/ThemeStats';
+import { safeHtml } from '../../../utils/safeHtml';
 export default function CorporateOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -218,7 +219,7 @@ export default function CorporateOtherTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, i: number) => (
               <div key={i} className="bg-gray-50 p-10 rounded-lg border border-gray-200">
                 <h2 className="font-corp-heading text-2xl font-bold mb-6 text-[#222]">{block.title}</h2>
-                <div className="prose prose-blue max-w-none font-corp-body text-gray-700" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-blue max-w-none font-corp-body text-gray-700" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import usePlan from '../../hooks/usePlan';
 import UpgradeNotice from '../../components/ui/UpgradeNotice';
+import { apiError } from '../../utils/apiError';
+import type { RootState } from '../../store';
 
 interface Client {
   id: number;
@@ -13,6 +15,53 @@ interface Client {
   first_name: string;
   last_name: string;
   has_completed_onboarding: boolean;
+  websites?: { slug: string; name: string }[];
+}
+
+interface AgencySite {
+  slug: string;
+  business_type: string;
+  client?: number | null;
+  content?: { settings_json?: { website_name?: string } };
+}
+
+/** Tick the agency's websites this client may manage. A site has one client at a time. */
+function WebsiteAccess({ sites, clients, selfId, value, onChange }: {
+  sites: AgencySite[];
+  clients: Client[];
+  selfId?: number;
+  value: string[];
+  onChange: (slugs: string[]) => void;
+}) {
+  const nameOf = (id?: number | null) => clients.find((c) => c.id === id)?.username;
+  return (
+    <div>
+      <span className="block text-sm font-bold text-slate-700 mb-1">Website access</span>
+      {sites.length === 0 ? (
+        <p className="text-sm text-slate-500">You have no websites yet. Create one in My Sites first.</p>
+      ) : (
+        <div className="max-h-48 overflow-y-auto rounded-xl border border-slate-200 divide-y divide-slate-100">
+          {sites.map((s) => {
+            const on = value.includes(s.slug);
+            const other = s.client && s.client !== selfId ? nameOf(s.client) : null;
+            return (
+              <label key={s.slug} className="flex cursor-pointer items-center gap-3 px-3 py-2.5 hover:bg-slate-50">
+                <input type="checkbox" checked={on} className="h-4 w-4 accent-orange-600"
+                  onChange={() => onChange(on ? value.filter((x) => x !== s.slug) : [...value, s.slug])} />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-bold text-slate-900">{s.content?.settings_json?.website_name || s.slug}</span>
+                  <span className="block truncate text-xs text-slate-500">
+                    {s.business_type}{other && !on ? ` · now with ${other}` : ''}{other && on ? ` · moves from ${other}` : ''}
+                  </span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      )}
+      <p className="mt-1 text-xs text-slate-500">They can edit these sites and see their enquiries, invoices and loyalty card. They can't delete them.</p>
+    </div>
+  );
 }
 
 export default function ClientsPage() {
@@ -21,21 +70,23 @@ export default function ClientsPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newClient, setNewClient] = useState({ username: '', password: '', email: '' });
+  const [newClient, setNewClient] = useState({ username: '', password: '', email: '', websites: [] as string[] });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingClient, setEditingClient] = useState<Client | null>(null);
-  const [editData, setEditData] = useState({ username: '', email: '', password: '' });
-  
-  const { user } = useSelector((state: any) => state.auth);
+  const [editData, setEditData] = useState({ username: '', email: '', password: '', websites: [] as string[] });
+  const [sites, setSites] = useState<AgencySite[]>([]);
 
-  useEffect(() => {
-    fetchClients();
-  }, []);
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const loadSites = () => axios.get('/api/websites/', { withCredentials: true })
+    .then((res) => setSites(res.data))
+    .catch(() => setSites([]));
 
   const fetchClients = async () => {
     try {
       const res = await axios.get('/api/users/clients/', { withCredentials: true });
       setClients(res.data);
+      loadSites(); // who has which site changed
     } catch (err) {
       console.error(err);
       toast.error('Failed to load clients');
@@ -43,6 +94,18 @@ export default function ClientsPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let alive = true;
+    axios.get('/api/users/clients/', { withCredentials: true })
+      .then((res) => { if (alive) setClients(res.data); })
+      .catch((err) => { console.error(err); if (alive) toast.error('Failed to load clients'); })
+      .finally(() => { if (alive) setLoading(false); });
+    axios.get('/api/websites/', { withCredentials: true })
+      .then((res) => { if (alive) setSites(res.data); })
+      .catch(() => { if (alive) setSites([]); });
+    return () => { alive = false; };
+  }, []);
 
   const handleCreateClient = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,10 +115,10 @@ export default function ClientsPage() {
       await axios.post('/api/users/clients/', newClient, { withCredentials: true });
       toast.success('Client created successfully!');
       setIsModalOpen(false);
-      setNewClient({ username: '', password: '', email: '' });
+      setNewClient({ username: '', password: '', email: '', websites: [] });
       fetchClients();
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Failed to create client');
+    } catch (err) {
+      toast.error(apiError(err, 'Failed to create client'));
     } finally {
       setIsSubmitting(false);
     }
@@ -73,7 +136,7 @@ export default function ClientsPage() {
                 await axios.delete(`/api/users/${id}/manage_client/`, { withCredentials: true });
                 toast.success('Client deleted successfully');
                 fetchClients();
-              } catch (err) {
+              } catch {
                 toast.error('Failed to delete client');
               }
             }}
@@ -102,8 +165,8 @@ export default function ClientsPage() {
       toast.success('Client updated successfully!');
       setEditingClient(null);
       fetchClients();
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Failed to update client');
+    } catch (err) {
+      toast.error(apiError(err, 'Failed to update client'));
     } finally {
       setIsSubmitting(false);
     }
@@ -165,22 +228,22 @@ export default function ClientsPage() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-[minmax(0,1fr)] sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {clients.map(client => (
             <div key={client.id} className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4 mb-6 relative">
+              <div className="flex items-start gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-700 font-black text-xl shrink-0">
                   {client.username.charAt(0).toUpperCase()}
                 </div>
-                <div className="overflow-hidden pr-16">
-                  <h3 className="text-lg font-bold text-slate-900 truncate">{client.username}</h3>
-                  <div className="flex items-center gap-1 text-sm text-slate-500 mt-1 truncate">
-                    <Mail size={14} />
-                    <span>{client.email || 'No email provided'}</span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg font-bold text-slate-900 truncate" title={client.username}>{client.username}</h3>
+                  <div className="flex items-center gap-1 text-sm text-slate-500 mt-1 min-w-0">
+                    <Mail size={14} className="shrink-0" />
+                    <span className="truncate">{client.email || 'No email provided'}</span>
                   </div>
                 </div>
-                <div className="absolute top-0 right-0 flex gap-1">
-                  <button onClick={() => { setEditingClient(client); setEditData({ username: client.username, email: client.email || '', password: '' }); }} className="p-2 text-slate-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors" title="Edit Client">
+                <div className="flex shrink-0 gap-1">
+                  <button onClick={() => { setEditingClient(client); setEditData({ username: client.username, email: client.email || '', password: '', websites: (client.websites || []).map((w) => w.slug) }); }} className="p-2 text-slate-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors" title="Edit Client">
                     <Edit2 size={16} />
                   </button>
                   <button onClick={() => handleDeleteClient(client.id, client.username)} className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete Client">
@@ -196,9 +259,13 @@ export default function ClientsPage() {
                     Active
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-500 font-medium">Role</span>
-                  <span className="text-slate-900 font-bold">Client</span>
+                <div className="flex items-start justify-between gap-3 text-sm">
+                  <span className="text-slate-500 font-medium shrink-0">Websites</span>
+                  <span className="min-w-0 text-right font-bold text-slate-900">
+                    {client.websites?.length
+                      ? client.websites.map((w) => w.name).join(', ')
+                      : <span className="font-semibold text-amber-600">None yet: assign one in My Sites</span>}
+                  </span>
                 </div>
               </div>
             </div>
@@ -211,7 +278,7 @@ export default function ClientsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
           
-          <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 <User size={24} className="text-orange-500" />
@@ -227,7 +294,9 @@ export default function ClientsPage() {
                     type="text"
                     required
                     value={newClient.username}
-                    onChange={e => setNewClient({...newClient, username: e.target.value})}
+                    onChange={e => setNewClient({...newClient, username: e.target.value.replace(/\s/g, '')})}
+                    autoCapitalize="none"
+                    autoComplete="off"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                     placeholder="e.g. cafeowner123"
                   />
@@ -262,6 +331,9 @@ export default function ClientsPage() {
                     />
                   </div>
                 </div>
+
+                <WebsiteAccess sites={sites} clients={clients} value={newClient.websites}
+                  onChange={(websites) => setNewClient({ ...newClient, websites })} />
               </div>
               
               <div className="mt-8 flex gap-3">
@@ -294,7 +366,7 @@ export default function ClientsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setEditingClient(null)}></div>
           
-          <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative bg-white rounded-3xl w-full max-w-md shadow-2xl max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 <Edit2 size={24} className="text-orange-500" />
@@ -310,7 +382,9 @@ export default function ClientsPage() {
                     type="text"
                     required
                     value={editData.username}
-                    onChange={e => setEditData({...editData, username: e.target.value})}
+                    onChange={e => setEditData({...editData, username: e.target.value.replace(/\s/g, '')})}
+                    autoCapitalize="none"
+                    autoComplete="off"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all font-medium"
                   />
                 </div>
@@ -342,6 +416,9 @@ export default function ClientsPage() {
                     />
                   </div>
                 </div>
+
+                <WebsiteAccess sites={sites} clients={clients} selfId={editingClient.id} value={editData.websites}
+                  onChange={(websites) => setEditData({ ...editData, websites })} />
               </div>
               
               <div className="mt-8 flex gap-3">

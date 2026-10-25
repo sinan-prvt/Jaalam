@@ -103,12 +103,21 @@ def effective_plan(user, now=None):
     return max(subscription_plan(user, now), lifetime, key=_rank)
 
 
+def plan_holder(user):
+    """Whose plan applies: a client login works under its agency's plan."""
+    if getattr(user, 'role', '') == 'CLIENT' and getattr(user, 'agent', None):
+        return user.agent
+    return user
+
+
 def has_feature(user, feature):
+    user = plan_holder(user)
     return is_unrestricted(user) or feature in PLANS[effective_plan(user)]['features']
 
 
 def limit(user, name):
     """Numeric limit, or None for unlimited."""
+    user = plan_holder(user)
     if is_unrestricted(user):
         return UNLIMITED
     return PLANS[effective_plan(user)]['limits'][name]
@@ -154,6 +163,18 @@ def plan_summary(user, now=None):
     """Everything the frontend needs to show the plan and gate features."""
     from websites.models import Website
     from .models import UsageCounter
+
+    # A client login works on its agency's websites, which run on the agency's plan (every
+    # backend check uses the site owner's plan), so it shows and unlocks the agency's plan.
+    if getattr(user, 'role', '') == 'CLIENT' and getattr(user, 'agent', None):
+        summary = plan_summary(user.agent, now)
+        summary.update({
+            'via_agency': True,
+            # Renewing is the agency's job: a client never sees expiry or renewal prompts
+            'expires_at': None, 'days_left': None, 'expired': False, 'in_grace': False,
+            'usage': {'websites': Website.objects.filter(client=user).count(), 'ai_generations': 0},
+        })
+        return summary
 
     now = now or timezone.now()
     code = effective_plan(user, now)

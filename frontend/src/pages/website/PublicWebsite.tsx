@@ -19,6 +19,7 @@ import { invitationStyleFor } from '../../components/themes/invitation-modern/ro
 import useHideBranding from '../../hooks/useHideBranding';
 import { SiteContext } from '../../components/themes/shared/siteContext';
 
+import { safeHtml } from '../../utils/safeHtml';
 interface PublicWebsiteProps {
   /** Set when the site is opened on its own domain (e.g. mybakery.com). */
   customHost?: string;
@@ -252,7 +253,7 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
         {content.custom_html && (
           <section className="py-24 px-6 bg-slate-50 border-t border-slate-100">
             <div className="container mx-auto max-w-6xl">
-              <div dangerouslySetInnerHTML={{ __html: content.custom_html }} />
+              <div dangerouslySetInnerHTML={{ __html: safeHtml(content.custom_html) }} />
             </div>
           </section>
         )}

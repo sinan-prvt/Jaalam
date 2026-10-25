@@ -1,3 +1,5 @@
+import logging
+
 import razorpay
 from django.conf import settings
 from rest_framework import viewsets, permissions, status
@@ -8,6 +10,7 @@ from .models import Subscription, User
 from .subscriptions import activate_subscription, switch_to_free
 from websites.models import PhysicalOrder
 
+logger = logging.getLogger(__name__)
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 class SubscriptionViewSet(viewsets.ViewSet):
@@ -26,6 +29,10 @@ class SubscriptionViewSet(viewsets.ViewSet):
             return Response({'error': 'Invalid plan type'}, status=status.HTTP_400_BAD_REQUEST)
         if period not in plans.PERIOD_DAYS:
             return Response({'error': 'Invalid billing period'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if getattr(request.user, 'role', '') == 'CLIENT':
+            # A client login uses its agency's plan; paying here would buy nothing
+            return Response({'error': "Your plan comes from your agency. Ask them to upgrade."}, status=status.HTTP_403_FORBIDDEN)
 
         amount = plans.price_paise(plan_type, period)
 
@@ -59,8 +66,10 @@ class SubscriptionViewSet(viewsets.ViewSet):
                 'plan_name': plans.PLANS[plan_type]['name'],
                 'billing_period': period,
             })
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception:
+            # (The raw error used to be shown to the user, leaking server details.)
+            logger.exception('Could not create the Razorpay order')
+            return Response({'error': 'Could not start the payment. Please try again.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['post'])
     def verify_payment(self, request):
@@ -130,8 +139,11 @@ class SubscriptionViewSet(viewsets.ViewSet):
                 'currency': 'INR',
                 'key': settings.RAZORPAY_KEY_ID
             })
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except PhysicalOrder.DoesNotExist:
+            return Response({'error': 'Order not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            logger.exception('Could not create the sticker payment')
+            return Response({'error': 'Could not start the payment. Please try again.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['post'])
     def verify_physical_order(self, request):
@@ -147,11 +159,12 @@ class SubscriptionViewSet(viewsets.ViewSet):
             }
             razorpay_client.utility.verify_payment_signature(params_dict)
             
-            order = PhysicalOrder.objects.get(razorpay_order_id=order_id)
+            order = PhysicalOrder.objects.get(razorpay_order_id=order_id, user=request.user)
             order.razorpay_payment_id = payment_id
             order.payment_status = 'PAID'
             order.save()
             
             return Response({'status': 'success'})
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            logger.exception('Sticker payment check failed')
+            return Response({'error': 'Payment verification failed.'}, status=status.HTTP_400_BAD_REQUEST)

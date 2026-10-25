@@ -21,7 +21,7 @@ class AccountSecurityTests(TestCase):
         self.attacker = User.objects.create_user(username='attacker', email='attacker@example.com', password='pw-12345!')
 
     def test_anonymous_cannot_read_or_edit_accounts(self):
-        self.assertEqual(self.client.get(f'/api/users/{self.victim.id}/').status_code, 403)
+        self.assertEqual(self.client.get(f'/api/users/{self.victim.id}/').status_code, 401)  # not logged in
         patch_json(self.client, f'/api/users/{self.victim.id}/', {'email': 'hacked@evil.com'})
         self.victim.refresh_from_db()
         self.assertEqual(self.victim.email, 'victim@example.com')
@@ -38,13 +38,15 @@ class AccountSecurityTests(TestCase):
         self.assertFalse(self.attacker.is_superuser)
         self.assertNotEqual(self.attacker.membership, 'PREMIUM')
 
-    def test_profile_edit_still_works_and_hashes_password(self):
+    def test_profile_edit_works_but_not_the_password(self):
+        # Passwords change through the reset email, not a bare PATCH from a (possibly stolen) session
+        old_hash = User.objects.get(pk=self.attacker.pk).password
         self.client.force_login(self.attacker)
         response = patch_json(self.client, '/api/users/me/', {'first_name': 'Ravi', 'password': 'new-pass-789!'})
         self.assertEqual(response.status_code, 200)
         self.attacker.refresh_from_db()
         self.assertEqual(self.attacker.first_name, 'Ravi')
-        self.assertTrue(self.attacker.check_password('new-pass-789!'))
+        self.assertEqual(self.attacker.password, old_hash)
 
     def test_delete_account(self):
         self.client.force_login(self.attacker)

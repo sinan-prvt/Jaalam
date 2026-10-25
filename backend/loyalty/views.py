@@ -15,8 +15,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 
 from customers.models import Activity, Customer
-from customers.views import site_name
-from users.notifications import create_notification
+from customers.views import notify_site_team, site_name
 from users.plans import LOYALTY, has_feature, required_plan_for
 from websites.models import Website
 from .models import LoyaltyCard, LoyaltyProgram, StampEvent, new_counter_key
@@ -205,9 +204,9 @@ def join_view(request, slug):
         card = program.cards.get(phone=phone)
         return Response({'code': card.code, 'existing': True})
 
-    create_notification(
-        website.user, f'{name} joined your rewards card',
-        f'{name} ({phone}) joined the {site_name(website)} rewards card.', notification_type='new_lead',
+    notify_site_team(
+        website, f'{name} joined your rewards card',
+        f'{name} ({phone}) joined the {site_name(website)} rewards card.', 'new_lead',
     )
     return Response({'code': card.code, 'existing': False}, status=status.HTTP_201_CREATED)
 
@@ -356,7 +355,7 @@ def undo_view(request, code):
 # --- Dashboard: settings, stats, members ----------------------------------------------
 
 def _managed_site(request, slug):
-    website = get_object_or_404(Website.objects.select_related('user', 'content'), slug=slug)
+    website = get_object_or_404(Website.objects.select_related('user', 'client', 'content'), slug=slug)
     if not can_manage(request.user, website):
         return None, Response({'detail': 'Not your website.'}, status=status.HTTP_404_NOT_FOUND)
     return website, None
@@ -375,6 +374,43 @@ def site_stats(program):
                               - events.filter(kind='UNDO', created_at__date__gte=month_start).count()),
         'joined_this_month': program.cards.filter(created_at__date__gte=month_start).count(),
     }
+
+
+def client_label(website):
+    client = website.client
+    if not client:
+        return None
+    return client.get_full_name() or client.username
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def sites_overview_view(request):
+    """Every website this login manages, with its card's status and numbers: the agency's
+    "all shops" page (a client login sees just its own shops)."""
+    user = request.user
+    websites = Website.objects.select_related('user', 'client', 'content', 'loyalty').order_by('-id')
+    websites = websites.filter(client=user) if getattr(user, 'role', 'AGENT') == 'CLIENT' else websites.filter(user=user)
+    rows = []
+    for website in websites:
+        program = getattr(website, 'loyalty', None)
+        rows.append({
+            'slug': website.slug,
+            'business': site_name(website),
+            'business_type': website.business_type,
+            'client': client_label(website),
+            'allowed': has_feature(website.user, LOYALTY),
+            'program': {
+                'reward': program.reward,
+                'stamps_required': program.stamps_required,
+                'stamp_mode': program.stamp_mode,
+                'is_active': program.is_active,
+                'icon': program.icon,
+                'color': program.color,
+            } if program else None,
+            'stats': site_stats(program) if program else None,
+        })
+    return Response(rows)
 
 
 @api_view(['GET', 'PUT'])
@@ -401,6 +437,7 @@ def site_program_view(request, slug):
         # A client login can't upgrade the owner's plan, so the page asks them to contact the owner
         'is_owner': request.user.is_superuser or website.user_id == request.user.id,
         'business_type': website.business_type,
+        'client': client_label(website),
         'required_plan': required_plan_for(LOYALTY),
         'exists': program is not None,
         'counter_key': program.counter_key if program else None,

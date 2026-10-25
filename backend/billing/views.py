@@ -6,12 +6,19 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action, api_view, authentication_classes, permission_classes
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 
 from users import plans
 from users.views import frontend_base_url
 from . import gst
 from .models import BusinessProfile, Invoice
 from .serializers import BusinessProfileSerializer, InvoiceSerializer, PublicInvoiceSerializer
+
+
+class InvoiceEmailThrottle(UserRateThrottle):
+    # The customer's address is typed in by the user, so this caps how much mail one account
+    # can make the server send (it can't become a spam relay).
+    scope = 'invoice_email'
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -55,7 +62,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         invoice.save(update_fields=['amount_paid', 'status', 'updated_at'])
         return Response(self.get_serializer(invoice).data)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], throttle_classes=[InvoiceEmailThrottle])
     def send_email(self, request, pk=None):
         """Email the customer a link to view, download and pay the invoice."""
         invoice = self.get_object()

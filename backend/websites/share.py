@@ -118,9 +118,28 @@ def build_preview(website):
     return title.strip(), description.strip()[:200], image
 
 
+def trusted_host(host):
+    """The page redirects to this host and is cached, so a forged X-Forwarded-Host must not
+    turn it into a redirect to someone else's site: only our own domains are used."""
+    from urllib.parse import urlparse
+    from django.conf import settings
+    host = (host or '').split(',')[0].strip().lower()
+    name = host.split(':')[0]
+    ours = {urlparse(o).netloc.lower() for o in [settings.FRONTEND_URL, *settings.CORS_ALLOWED_ORIGINS] if o}
+    if host in ours or name.endswith('.vercel.app') or name in ('localhost', '127.0.0.1'):
+        return True
+    return Website.objects.filter(custom_domain=name.removeprefix('www.'), domain_verified=True).exists()
+
+
 def share_preview(request, slug):
     host = request.headers.get('X-Forwarded-Host') or request.get_host()
     scheme = request.headers.get('X-Forwarded-Proto') or ('https' if request.is_secure() else 'http')
+    if scheme not in ('http', 'https'):
+        scheme = 'https'
+    if not trusted_host(host):
+        from django.conf import settings
+        base = settings.FRONTEND_URL or 'https://jaalam.app'
+        scheme, host = base.split('://', 1)
     page_url = f"{scheme}://{host}/{slug}"
 
     website = Website.objects.select_related('content').filter(slug=slug).first()
