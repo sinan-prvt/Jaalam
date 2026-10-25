@@ -3,7 +3,7 @@
 
 export type PlanFeature =
   | 'crm' | 'invoices' | 'analytics' | 'custom_domain' | 'remove_branding'
-  | 'ai_marketing' | 'client_accounts' | 'premium_templates' | 'priority_support';
+  | 'ai_marketing' | 'client_accounts' | 'premium_templates' | 'priority_support' | 'loyalty';
 
 export interface PlanSummary {
   code: string;
@@ -43,6 +43,7 @@ export const FEATURE_PLAN: Record<PlanFeature, string> = {
   client_accounts: 'Business',
   premium_templates: 'Premium',
   priority_support: 'Business',
+  loyalty: 'Business',
 };
 
 // Used until /api/users/me/ returns the plan (e.g. a user object cached before this update).

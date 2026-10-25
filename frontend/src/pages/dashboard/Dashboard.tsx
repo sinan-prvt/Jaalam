@@ -10,6 +10,7 @@ import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
+import LoyaltyPage from './LoyaltyPage';
 import BillingPage from './BillingPage';
 import PosterMakerPage from './PosterMakerPage';
 import Pricing from './Pricing';
@@ -965,6 +966,10 @@ export default function Dashboard() {
 
           {activeTab === 'Customers' && (
             <CustomersPage />
+          )}
+
+          {activeTab === 'Loyalty' && (
+            <LoyaltyPage websites={websites} />
           )}
 
           {activeTab === 'Clients' && (

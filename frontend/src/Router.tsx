@@ -25,6 +25,10 @@ const ReligiousEventEditor = lazy(() => import('./pages/website/ReligiousEventEd
 const PublicWebsite = lazy(() => import('./pages/website/PublicWebsite'));
 const LivePreview = lazy(() => import('./pages/website/LivePreview'));
 const PublicInvoice = lazy(() => import('./pages/billing/PublicInvoice'));
+const LoyaltyJoin = lazy(() => import('./pages/loyalty/LoyaltyJoin'));
+const LoyaltyCard = lazy(() => import('./pages/loyalty/LoyaltyCard'));
+const StampScanner = lazy(() => import('./pages/loyalty/StampScanner'));
+const CounterScreen = lazy(() => import('./pages/loyalty/CounterScreen'));
 const MaintenancePage = lazy(() => import('./pages/marketing/MaintenancePage'));
 
 const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -151,6 +155,13 @@ function Router() {
               />
               <Route path="/_preview" element={<LivePreview />} />
               <Route path="/invoice/:token" element={<PublicInvoice />} />
+              <Route path="/card/:code" element={<LoyaltyCard />} />
+              <Route path="/counter/:key" element={<CounterScreen />} />
+              <Route
+                path="/dashboard/scan"
+                element={<ProtectedRoute component={StampScanner} />}
+              />
+              <Route path="/:businessSlug/rewards" element={<LoyaltyJoin />} />
 
               <Route path="/:businessSlug" element={<PublicWebsite />} />
             </Routes>

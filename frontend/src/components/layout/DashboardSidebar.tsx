@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt, Palette, ChevronLeft, Menu, X } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt, Palette, Stamp, ChevronLeft, Menu, X } from 'lucide-react';
 import NotificationBell from '../ui/NotificationBell';
 
 interface User {
@@ -32,6 +32,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
     { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates', roles: ['ADMIN', 'AGENT'] },
     { tab: 'Customers', icon: <Users size={20} />, label: 'Customers', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+    { tab: 'Loyalty', icon: <Stamp size={20} />, label: 'Loyalty', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Clients', icon: <Users size={20} />, label: 'Clients', roles: ['ADMIN', 'AGENT'] },
     { tab: 'Marketing', icon: <Palette size={20} />, label: 'Poster Maker', roles: ['ADMIN', 'AGENT'] },
     { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },

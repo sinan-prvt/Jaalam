@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'customers',
     'billing',
     'marketing',
+    'loyalty',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,7 @@ REST_FRAMEWORK = {
         'login': '10/min',
         'password_reset': '5/hour',
         'public_form': '20/hour',  # contact forms and RSVPs, per visitor IP
+        'loyalty': '120/hour',  # loyalty join/self-stamp: a busy shop's customers share its Wi-Fi IP
     },
 }
 

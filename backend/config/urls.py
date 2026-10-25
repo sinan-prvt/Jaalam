@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/customers/', include('customers.urls')),
     path('api/billing/', include('billing.urls')),
     path('api/marketing/', include('marketing.urls')),
+    path('api/loyalty/', include('loyalty.urls')),
 ]
 
 # Uploaded photos/music. Served in every mode: uploads are limited to images and audio
