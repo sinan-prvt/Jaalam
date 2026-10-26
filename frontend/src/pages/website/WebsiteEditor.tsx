@@ -311,7 +311,7 @@ export default function WebsiteEditor() {
     <div className="h-screen w-full flex items-center justify-center bg-[#FAFAFC]">
       <div className="bg-white p-10 rounded-3xl shadow-sm text-center">
         <h2 className="text-2xl font-black text-slate-900 mb-2">Website Not Found</h2>
-        <Link to="/dashboard" className="text-indigo-600 font-bold hover:underline">Return to Dashboard</Link>
+        <Link to="/dashboard?tab=Projects" className="text-indigo-600 font-bold hover:underline">Return to Dashboard</Link>
       </div>
     </div>
   );
@@ -350,7 +350,7 @@ export default function WebsiteEditor() {
 
       {/* MOBILE TOGGLE BAR */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-white/50 z-50 flex items-center justify-between px-4 shadow-sm">
-        <Link to="/dashboard" state={{ tab: 'Projects' }} className="p-2 bg-slate-100 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
+        <Link to="/dashboard?tab=Projects" className="p-2 bg-slate-100 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
           <ArrowLeft size={20} />
         </Link>
 
@@ -392,7 +392,7 @@ export default function WebsiteEditor() {
 
         {/* Desktop Header */}
         <div className="hidden lg:flex p-5 border-b border-white/40 items-center justify-between">
-          <Link to="/dashboard" state={{ tab: 'Projects' }} className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-xl flex items-center justify-center text-slate-500 hover:text-indigo-600 transition-colors">
+          <Link to="/dashboard?tab=Projects" className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-xl flex items-center justify-center text-slate-500 hover:text-indigo-600 transition-colors">
             <ArrowLeft size={20} />
           </Link>
           <h2 className="font-black text-slate-900 truncate px-2 text-lg">{content?.settings_json?.website_name || website.slug}</h2>

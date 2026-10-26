@@ -121,3 +121,73 @@ class InvoiceTests(TestCase):
         self.owner.save()
         response = self.client.post('/api/billing/invoices/', {'website': self.site.id, 'customer_name': 'X', 'items': []}, content_type='application/json')
         self.assertEqual(response.status_code, 403)
+
+
+class PosAndReportTests(TestCase):
+    """Saved products (POS billing), the right seller for client shops, and the monthly report."""
+
+    def setUp(self):
+        self.agency = User.objects.create_user(username='agency', email='a@example.com', password='x',
+                                               membership='BUSINESS', plan_expires_at=timezone.now() + timedelta(days=30))
+        self.shop_login = User.objects.create_user(username='shopowner', email='s@example.com', password='x', role='CLIENT', agent=self.agency)
+        self.site = Website.objects.create(user=self.agency, slug='resto', business_type='Restaurant', client=self.shop_login)
+        self.own_site = Website.objects.create(user=self.agency, slug='agency-own', business_type='Cafe')
+        self.client.force_login(self.shop_login)
+
+    def test_client_shop_is_the_seller_with_its_own_numbers(self):
+        self.client.patch(f'/api/billing/invoices/profile/?website={self.site.id}', {'legal_name': 'Resto', 'invoice_prefix': 'RST'},
+                          content_type='application/json')
+        res = self.client.post('/api/billing/invoices/', {'website': self.site.id, 'customer_name': 'Ravi',
+                                                          'items': [{'description': 'Meals', 'quantity': 2, 'price': '150'}]},
+                               content_type='application/json')
+        self.assertEqual(res.status_code, 201, res.content)
+        self.assertEqual(res.json()['seller_name'], 'Resto')
+        self.assertTrue(res.json()['invoice_number'].startswith('RST/'))
+        # The agency editing that shop sees and edits the same details
+        agency = self.client_class()
+        agency.force_login(self.agency)
+        self.assertEqual(agency.get(f'/api/billing/invoices/profile/?website={self.site.id}').json()['legal_name'], 'Resto')
+        self.assertEqual(agency.get('/api/billing/invoices/profile/').json()['legal_name'], '')  # its own, separate
+
+    def test_products_per_shop(self):
+        res = self.client.post(f'/api/billing/products/?website={self.site.id}', {'name': 'Biryani', 'price': '180', 'gst_rate': '5'},
+                               content_type='application/json')
+        self.assertEqual(res.status_code, 201, res.content)
+        self.assertEqual(self.client.post('/api/billing/products/', {'name': ' ', 'price': '-1'}, content_type='application/json').status_code, 400)
+        self.assertEqual([p['name'] for p in self.client.get(f'/api/billing/products/?website={self.site.id}').json()], ['Biryani'])
+
+        agency = self.client_class()
+        agency.force_login(self.agency)
+        self.assertEqual(len(agency.get(f'/api/billing/products/?website={self.site.id}').json()), 1)  # agency manages the shop
+        self.assertEqual(agency.get(f'/api/billing/products/?website={self.own_site.id}').json(), [])  # different seller
+
+        stranger = User.objects.create_user(username='x', email='x@example.com', password='x')
+        other = self.client_class()
+        other.force_login(stranger)
+        self.assertEqual(other.get(f'/api/billing/products/?website={self.site.id}').status_code, 404)
+        pid = res.json()['id']
+        self.assertEqual(other.delete(f'/api/billing/products/{pid}/').status_code, 404)
+        self.assertEqual(self.client.patch(f'/api/billing/products/{pid}/', {'price': '200'}, content_type='application/json').json()['price'], '200.00')
+
+    def test_monthly_report_totals(self):
+        def make(day, price, status=None):
+            res = self.client.post('/api/billing/invoices/', {
+                'website': self.site.id, 'customer_name': 'C', 'issue_date': day, 'gst_percentage': '0',
+                'items': [{'description': 'Meals', 'quantity': 1, 'price': price}]}, content_type='application/json')
+            if status:
+                self.client.patch(f"/api/billing/invoices/{res.json()['id']}/", {'status': status}, content_type='application/json')
+            return res.json()
+        a = make('2026-10-03', '100')
+        make('2026-10-03', '50')
+        make('2026-10-20', '200', status='CANCELLED')
+        make('2026-11-01', '999')  # next month
+        self.client.post(f"/api/billing/invoices/{a['id']}/record_payment/", {'amount': '100'}, content_type='application/json')
+
+        rep = self.client.get(f'/api/billing/invoices/report/?month=2026-10&website={self.site.id}').json()
+        self.assertEqual(rep['label'], 'October 2026')
+        self.assertEqual(len(rep['invoices']), 3)  # cancelled is listed...
+        t = rep['totals']
+        self.assertEqual((t['count'], t['cancelled'], t['total'], t['received'], t['due']), (2, 1, '150.00', '100.00', '50.00'))  # ...not counted
+        self.assertEqual(rep['by_day'], [{'date': '2026-10-03', 'count': 2, 'total': '150.00'}])
+        self.assertEqual(rep['top_items'][0]['quantity'], 2)
+        self.assertEqual(self.client.get('/api/billing/invoices/report/?month=oct').status_code, 400)

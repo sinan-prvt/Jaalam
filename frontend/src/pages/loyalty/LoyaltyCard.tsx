@@ -206,8 +206,11 @@ export default function LoyaltyCard() {
               ) : <span />}
             </div>
 
-            <Link to="/dashboard/scan" className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 py-2.5 text-sm font-bold text-white">
+            <Link to={`/dashboard/scan?site=${program.slug}`} className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 py-2.5 text-sm font-bold text-white">
               <ScanLine size={16} /> Scan the next card
+            </Link>
+            <Link to="/dashboard?tab=Loyalty" className="mt-2 block text-center text-sm font-bold text-slate-500 hover:text-slate-800">
+              Back to Loyalty
             </Link>
 
             {!!card.events?.length && (

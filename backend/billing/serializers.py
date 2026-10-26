@@ -6,7 +6,42 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from . import gst
-from .models import BusinessProfile, Invoice, InvoiceItem
+from .models import BusinessProfile, Invoice, InvoiceItem, Product
+
+
+def billing_owner(website):
+    """Who is the seller on a website's invoices: the shop's own client login if it has one
+    (their business name, GSTIN and their own invoice numbers), otherwise the site owner."""
+    return website.client or website.user
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'price', 'gst_rate', 'hsn_sac', 'is_active', 'created_at')
+        read_only_fields = ('created_at',)
+
+    def validate_name(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError('Enter the product name.')
+        return value
+
+    def validate_price(self, value):
+        if value < 0:
+            raise serializers.ValidationError('Price cannot be negative.')
+        return value
+
+    def validate_gst_rate(self, value):
+        if value is not None and not 0 <= value <= 28:
+            raise serializers.ValidationError('GST rate must be between 0 and 28%.')
+        return value
+
+    def validate_hsn_sac(self, value):
+        value = (value or '').strip()
+        if value and not value.isdigit():
+            raise serializers.ValidationError('HSN/SAC is numbers only.')
+        return value
 
 
 class BusinessProfileSerializer(serializers.ModelSerializer):
@@ -44,6 +79,11 @@ class InvoiceItemSerializer(serializers.ModelSerializer):
         model = InvoiceItem
         fields = ('id', 'description', 'hsn_sac', 'gst_rate', 'quantity', 'price', 'total')
         read_only_fields = ('total',)
+
+    def validate_quantity(self, value):
+        if value < 1:
+            raise serializers.ValidationError('Quantity must be at least 1.')
+        return value
 
     def validate_price(self, value):
         if value < 0:
@@ -137,7 +177,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop('items', [])
         website = validated_data['website']
-        owner = website.user
+        owner = billing_owner(website)
         # Locking the owner's profile row serialises numbering, so two invoices saved at the
         # same moment can't get the same number.
         BusinessProfile.objects.get_or_create(user=owner)

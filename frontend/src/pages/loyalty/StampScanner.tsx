@@ -94,7 +94,7 @@ export default function StampScanner() {
     <div className="min-h-screen bg-slate-950 text-white px-4 py-6">
       <div className="mx-auto max-w-md">
         <div className="flex items-center justify-between gap-3">
-          <Link to="/dashboard" className="flex items-center gap-1.5 text-sm font-bold text-white/70 hover:text-white">
+          <Link to="/dashboard?tab=Loyalty" className="flex items-center gap-1.5 text-sm font-bold text-white/70 hover:text-white">
             <ArrowLeft size={16} /> Dashboard
           </Link>
           {BarcodeDetectorImpl && (

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, Heart } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
@@ -100,11 +100,20 @@ export default function Dashboard() {
   const [creationMode, setCreationMode] = useState<'wedding' | 'website'>('website');
 
   const location = useLocation();
-  // Navigation State
-  const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Pricing';
-    return location.state?.tab || 'Dashboard';
-  });
+  const navigateTo = useNavigate();
+  // The open tab lives in the address (/dashboard?tab=Loyalty), so Back, refresh and links
+  // from other pages (scanner, editors) return to it instead of always to Overview.
+  const [searchParams] = useSearchParams();
+  const mustPickPlan = Boolean(user && (user as User).has_completed_onboarding === false && !user.is_superuser
+    && !(user as User).is_test_user && (user as User).role !== 'CLIENT');
+  const urlTab = searchParams.get('tab') || location.state?.tab || 'Dashboard';
+  const activeTab = mustPickPlan && urlTab !== 'Pricing' && urlTab !== 'Settings' ? 'Pricing' : urlTab;
+  const setActiveTab = (tab: string, replace = false) => {
+    const params = new URLSearchParams(searchParams);
+    if (tab === 'Dashboard') params.delete('tab'); else params.set('tab', tab);
+    const query = params.toString();
+    navigateTo(`/dashboard${query ? `?${query}` : ''}`, { replace });
+  };
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
 
   // Form State
@@ -150,13 +159,15 @@ export default function Dashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state?.tab) {
-      setActiveTab(location.state.tab);
+    // Older links pass the tab in navigation state: move it into the address
+    if (location.state?.tab && !searchParams.get('tab')) {
+      navigateTo(`/dashboard${location.state.tab === 'Dashboard' ? '' : `?tab=${encodeURIComponent(location.state.tab)}`}`,
+        { replace: true, state: location.state.creating ? { creating: true } : null });
     }
     if (location.state?.creating) {
       setIsCreating(true);
     }
-  }, [location.state]);
+  }, [location.state, searchParams, navigateTo]);
 
   const [clients, setClients] = useState<any[]>([]);
 
@@ -208,13 +219,9 @@ export default function Dashboard() {
   }, [newSlug]);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
-      if (activeTab !== 'Pricing' && activeTab !== 'Settings') {
-        setActiveTab('Pricing');
-      }
-      setIsCreating(false);
-    }
-  }, [user, activeTab]);
+    // (Pricing is forced by activeTab itself while a plan hasn't been picked)
+    if (mustPickPlan) setIsCreating(false);
+  }, [mustPickPlan]);
 
   const fetchWebsites = async () => {
     try {
