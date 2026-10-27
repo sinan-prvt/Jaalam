@@ -28,6 +28,7 @@ AI_MARKETING = 'ai_marketing'        # AI copy + poster generator
 CLIENT_ACCOUNTS = 'client_accounts'  # agency: create client logins
 PREMIUM_TEMPLATES = 'premium_templates'
 PRIORITY_SUPPORT = 'priority_support'
+LOYALTY = 'loyalty'                  # QR stamp cards ("buy 9, get the 10th free")
 
 # Themes that need the premium_templates feature. Existing sites keep their theme after a
 # downgrade; the check only applies when a theme is chosen.
@@ -57,8 +58,8 @@ PLANS = {
         'monthly_paise': 49900,
         'yearly_paise': 499000,
         'limits': {'websites': 10, 'ai_generations': 50},
-        'features': [CRM, INVOICES, ANALYTICS, CUSTOM_DOMAIN, REMOVE_BRANDING, AI_MARKETING, CLIENT_ACCOUNTS, PRIORITY_SUPPORT],
-        'highlights': ['10 websites', 'Remove Jaalam branding', 'AI marketing (50 / month)', 'Client accounts for agencies', 'Everything in Starter', 'Priority support'],
+        'features': [CRM, INVOICES, ANALYTICS, CUSTOM_DOMAIN, REMOVE_BRANDING, AI_MARKETING, CLIENT_ACCOUNTS, LOYALTY, PRIORITY_SUPPORT],
+        'highlights': ['10 websites', 'Remove Jaalam branding', 'AI marketing (50 / month)', 'Loyalty stamp cards', 'Client accounts for agencies', 'Everything in Starter', 'Priority support'],
         'badge': 'Popular',
     },
     'PREMIUM': {
@@ -66,7 +67,7 @@ PLANS = {
         'monthly_paise': 99900,
         'yearly_paise': 999000,
         'limits': {'websites': UNLIMITED, 'ai_generations': 300},
-        'features': [CRM, INVOICES, ANALYTICS, CUSTOM_DOMAIN, REMOVE_BRANDING, AI_MARKETING, CLIENT_ACCOUNTS, PREMIUM_TEMPLATES, PRIORITY_SUPPORT],
+        'features': [CRM, INVOICES, ANALYTICS, CUSTOM_DOMAIN, REMOVE_BRANDING, AI_MARKETING, CLIENT_ACCOUNTS, LOYALTY, PREMIUM_TEMPLATES, PRIORITY_SUPPORT],
         'highlights': ['Unlimited websites', 'Premium modern templates', 'AI marketing (300 / month)', 'Everything in Business', '24/7 premium support'],
     },
 }
@@ -102,12 +103,21 @@ def effective_plan(user, now=None):
     return max(subscription_plan(user, now), lifetime, key=_rank)
 
 
+def plan_holder(user):
+    """Whose plan applies: a client login works under its agency's plan."""
+    if getattr(user, 'role', '') == 'CLIENT' and getattr(user, 'agent', None):
+        return user.agent
+    return user
+
+
 def has_feature(user, feature):
+    user = plan_holder(user)
     return is_unrestricted(user) or feature in PLANS[effective_plan(user)]['features']
 
 
 def limit(user, name):
     """Numeric limit, or None for unlimited."""
+    user = plan_holder(user)
     if is_unrestricted(user):
         return UNLIMITED
     return PLANS[effective_plan(user)]['limits'][name]
@@ -153,6 +163,18 @@ def plan_summary(user, now=None):
     """Everything the frontend needs to show the plan and gate features."""
     from websites.models import Website
     from .models import UsageCounter
+
+    # A client login works on its agency's websites, which run on the agency's plan (every
+    # backend check uses the site owner's plan), so it shows and unlocks the agency's plan.
+    if getattr(user, 'role', '') == 'CLIENT' and getattr(user, 'agent', None):
+        summary = plan_summary(user.agent, now)
+        summary.update({
+            'via_agency': True,
+            # Renewing is the agency's job: a client never sees expiry or renewal prompts
+            'expires_at': None, 'days_left': None, 'expired': False, 'in_grace': False,
+            'usage': {'websites': Website.objects.filter(client=user).count(), 'ai_generations': 0},
+        })
+        return summary
 
     now = now or timezone.now()
     code = effective_plan(user, now)

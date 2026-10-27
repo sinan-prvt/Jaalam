@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt, Megaphone, ChevronLeft, Menu, X } from 'lucide-react';
+import { Grid, Globe, BarChart3, Settings, Zap, LogOut, Plus, ShieldCheck, Bell, LayoutTemplate, Users, Receipt, Palette, Stamp, ChevronLeft, Menu, X } from 'lucide-react';
 import NotificationBell from '../ui/NotificationBell';
 
 interface User {
@@ -32,8 +32,9 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
     { tab: 'Projects', icon: <Globe size={20} />, label: 'My Sites', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Templates', icon: <LayoutTemplate size={20} />, label: 'Templates', roles: ['ADMIN', 'AGENT'] },
     { tab: 'Customers', icon: <Users size={20} />, label: 'Customers', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
+    { tab: 'Loyalty', icon: <Stamp size={20} />, label: 'Loyalty', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Clients', icon: <Users size={20} />, label: 'Clients', roles: ['ADMIN', 'AGENT'] },
-    { tab: 'Marketing', icon: <Megaphone size={20} />, label: 'Marketing', roles: ['ADMIN', 'AGENT'] },
+    { tab: 'Marketing', icon: <Palette size={20} />, label: 'Poster Maker', roles: ['ADMIN', 'AGENT'] },
     { tab: 'Notifications', icon: <Bell size={20} />, label: 'Inbox', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Analytics', icon: <BarChart3 size={20} />, label: 'Analytics', roles: ['ADMIN', 'AGENT', 'CLIENT'] },
     { tab: 'Billing', icon: <Receipt size={20} />, label: 'Invoices', roles: ['CLIENT'] },
@@ -190,7 +191,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
               <div className={`flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${isCollapsed ? 'max-w-0 opacity-0 hidden' : 'max-w-[100px] opacity-100'}`}>
                 <span className="text-[13px] font-bold text-slate-800 truncate">{user?.username}</span>
                 <span className="text-[9px] text-[#d08757] font-bold uppercase tracking-wider truncate">
-                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
+                  {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                 </span>
               </div>
             </div>
@@ -272,7 +273,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab, user, handle
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-slate-800">{user?.username}</span>
                   <span className="text-[9px] font-bold uppercase tracking-wider text-[#d08757]">
-                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
+                    {user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : user?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${user?.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase()}
                   </span>
                 </div>
               </div>

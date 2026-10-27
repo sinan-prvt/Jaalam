@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 import ThemeStats from '../shared/ThemeStats';
 
+import { safeHtml } from '../../../utils/safeHtml';
 export default function ModernOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -192,7 +193,7 @@ export default function ModernOtherTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, i: number) => (
               <div key={i} className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 text-center">
                 <h2 className="font-modern text-3xl font-bold mb-6 text-slate-900 tracking-tight">{block.title}</h2>
-                <div className="prose prose-slate prose-lg max-w-none font-modern text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-slate prose-lg max-w-none font-modern text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 import ThemeStats from '../shared/ThemeStats';
 
+import { safeHtml } from '../../../utils/safeHtml';
 export default function PopOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -199,7 +200,7 @@ export default function PopOtherTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, i: number) => (
               <div key={i} className="bg-white p-8 md:p-12 rounded-3xl border-4 border-[#2D3748] shadow-[10px_10px_0px_0px_rgba(45,55,72,1)] text-center">
                 <h2 className="font-pop-title text-4xl font-bold mb-6 text-[#FF4D4D]">{block.title}</h2>
-                <div className="prose prose-lg max-w-none font-pop-body font-semibold text-[#2D3748]" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-lg max-w-none font-pop-body font-semibold text-[#2D3748]" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

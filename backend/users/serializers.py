@@ -39,7 +39,17 @@ class UserSerializer(serializers.ModelSerializer):
             for name in self.ADMIN_ONLY_FIELDS:
                 if name in fields:
                     fields[name].read_only = True
+            # Email is the Google identity (google_login finds the account by it); letting a
+            # user rename theirs to someone else's would hand them that person's sign-in.
+            # Passwords change through the reset email, not a bare PATCH from a session.
+            fields['email'].read_only = True
+            fields.pop('password', None)
         return fields
+
+    def validate_password(self, value):
+        from django.contrib.auth.password_validation import validate_password
+        validate_password(value)
+        return value
 
     def update(self, instance, validated_data):
         # Hash new passwords instead of storing them as plain text.

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'customers',
     'billing',
     'marketing',
+    'loyalty',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,11 @@ DATABASES = {
 
 }
 
+if 'test' in sys.argv[1:2]:
+    # Tests create hundreds of accounts: a fast hash keeps the suite quick. Never used by
+    # the running site, which keeps Django's slow, strong default.
+    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -116,23 +122,51 @@ USE_X_FORWARDED_HOST = True
 # Public address of the frontend, used in emailed links (password reset...). Links are never
 # built from request headers in production, which an attacker could forge.
 FRONTEND_URL = config('FRONTEND_URL', default='').rstrip('/')
+
+# The OAuth client the frontend's "Continue with Google" uses (frontend/src/main.tsx). A Google
+# sign-in token is only accepted if it was issued to this client: without the check, any other
+# site using Google sign-in could replay its visitors' tokens to log in here as them.
+# (A client ID is public, not a secret.)
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', default='984276662605-si55rovch6a7a7v57asisljevg3q1d05.apps.googleusercontent.com')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True  # scripts on a page can never read the login cookie
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 14  # sign in again after two weeks
+
+if not DEBUG:
+    # Browsers only ever talk to the API over HTTPS once they've seen it (a year)
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False  # the API host only
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+X_FRAME_OPTIONS = 'DENY'
+
+# Django admin lives at a configurable, non-obvious path in production (ADMIN_URL=...),
+# so bots scanning /admin/ don't find the login page to guess passwords on.
+ADMIN_URL = config('ADMIN_URL', default='admin/').strip('/') + '/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # CSRF-checked session auth (the frontend sends the X-CSRFToken header, see main.tsx)
-        'rest_framework.authentication.SessionAuthentication',
+        # (401 when not logged in, so the frontend sends expired sessions back to the login page)
+        'users.authentication.SessionAuth',
     ],
+    # Secure by default: an endpoint is login-only unless it explicitly says it's public
+    # (every public one sets AllowAny itself), so a new view can't be left open by mistake.
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
     # Used by the scoped throttles on login and password reset (see users/views.py).
     'DEFAULT_THROTTLE_RATES': {
         'login': '10/min',
         'password_reset': '5/hour',
         'public_form': '20/hour',  # contact forms and RSVPs, per visitor IP
+        'loyalty': '120/hour',
+        'wish': '60/hour',  # invitation "send wishes" taps
+        'invoice_email': '30/hour',  # invoice emails per user
+        'ai': '20/min',  # AI copy/poster generation per user (on top of the monthly plan quota)  # loyalty join/self-stamp: a busy shop's customers share its Wi-Fi IP
     },
 }
 

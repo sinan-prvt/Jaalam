@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 import ThemeStats from '../shared/ThemeStats';
 
+import { safeHtml } from '../../../utils/safeHtml';
 export default function ClassicOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -194,7 +195,7 @@ export default function ClassicOtherTheme({ website, content }: any) {
               <div key={i} className="bg-white p-12 border border-[#E8E1D5] shadow-sm text-center">
                 <h2 className="font-classic-title text-3xl font-bold mb-6 text-[#2C2C2C]">{block.title}</h2>
                 <div className="w-12 h-px bg-[#8C1C13] mx-auto mb-8"></div>
-                <div className="prose prose-stone prose-lg max-w-none font-classic-body text-[#555] leading-relaxed" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-stone prose-lg max-w-none font-classic-body text-[#555] leading-relaxed" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

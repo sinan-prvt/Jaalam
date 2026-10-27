@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, WhatsApp } from '../scrap/Social
 import ContactForm from '../shared/ContactForm';
 import ThemeStats from '../shared/ThemeStats';
 
+import { safeHtml } from '../../../utils/safeHtml';
 export default function NoirOtherTheme({ website, content }: any) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
@@ -189,7 +190,7 @@ export default function NoirOtherTheme({ website, content }: any) {
             {content.custom_blocks_json.map((block: any, i: number) => (
               <div key={i} className="border-l border-[#333] pl-10 md:pl-16 py-8">
                 <h2 className="font-noir-title text-3xl mb-8 text-white">{block.title}</h2>
-                <div className="prose prose-invert prose-lg max-w-none font-noir-body font-light text-[#999] leading-[1.8]" dangerouslySetInnerHTML={{ __html: block.content }} />
+                <div className="prose prose-invert prose-lg max-w-none font-noir-body font-light text-[#999] leading-[1.8]" dangerouslySetInnerHTML={{ __html: safeHtml(block.content) }} />
               </div>
             ))}
           </div>

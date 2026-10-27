@@ -83,7 +83,7 @@ class RsvpTests(TestCase):
     def test_owner_sees_guest_list_others_do_not(self):
         self.reply()
         self.reply(name='Arun', attending='NO')
-        self.assertEqual(self.client.get('/api/websites/anu-weds-ravi/rsvps/').status_code, 403)
+        self.assertEqual(self.client.get('/api/websites/anu-weds-ravi/rsvps/').status_code, 401)  # not logged in
         self.client.force_login(get_user_model().objects.create_user(username='stranger', password='x'))
         self.assertEqual(self.client.get('/api/websites/anu-weds-ravi/rsvps/').status_code, 404)
         self.client.force_login(self.owner)

@@ -20,6 +20,8 @@ class User(AbstractUser):
     agent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='clients')
     is_test_user = models.BooleanField(default=False)
     has_completed_onboarding = models.BooleanField(default=False)
+    # True once Google confirmed this person owns the email (see google_login)
+    email_verified = models.BooleanField(default=False)
     # Paid plans run until plan_expires_at (see users/plans.py); empty on the free plan.
     plan_expires_at = models.DateTimeField(null=True, blank=True)
     plan_period = models.CharField(max_length=10, blank=True, default='')  # MONTHLY / YEARLY

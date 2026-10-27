@@ -18,6 +18,7 @@ class Customer(models.Model):
         ('WALK_IN', 'Walk-in'),
         ('REFERRAL', 'Referral'),
         ('SOCIAL', 'Social media'),
+        ('LOYALTY', 'Loyalty card'),
         ('OTHER', 'Other'),
     ]
 

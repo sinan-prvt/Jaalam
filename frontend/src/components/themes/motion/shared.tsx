@@ -8,6 +8,8 @@ import { getStats } from '../shared/ThemeStats';
 
 /** Everything a motion layout needs, with owner content layered over the category preset. */
 export interface MotionData {
+  /** Business category key into MOTION_PRESETS (and each theme's per-category looks). */
+  category: string;
   preset: MotionPreset;
   siteName: string;
   logo?: string;
@@ -34,7 +36,9 @@ export interface MotionData {
 const toUrl = (g: any) => (typeof g === 'string' ? g : g?.url || g?.image);
 
 export function useMotionData(website: any, content: any): MotionData {
-  const preset = MOTION_PRESETS[resolveBusinessType(website?.business_type)] || MOTION_PRESETS.Other;
+  const resolved = resolveBusinessType(website?.business_type);
+  const category = MOTION_PRESETS[resolved] ? resolved : 'Other';
+  const preset = MOTION_PRESETS[category];
   const s = content?.settings_json || {};
   const hiddenSections: string[] = s.hidden_sections || [];
   const hiddenFields: string[] = s.hidden_elements || [];
@@ -49,6 +53,7 @@ export function useMotionData(website: any, content: any): MotionData {
   const heroImage = s.hero_image || content?.hero_image;
 
   return {
+    category,
     preset,
     siteName: s.website_name || website?.slug || preset.label,
     logo: s.logo_image,
@@ -87,6 +92,51 @@ export function MotionStyles({ fonts }: { fonts: string }) {
     `}</style>
   );
 }
+
+/** Google font pairs the motion looks pick from. `q` is the css2 family query. */
+export const FONTS = {
+  syne: { q: 'Syne:wght@600;700;800', css: "'Syne',sans-serif", w: 700 },
+  inter: { q: 'Inter:wght@400;500;600', css: "'Inter',sans-serif", w: 600 },
+  spaceGrotesk: { q: 'Space+Grotesk:wght@400;500;600;700', css: "'Space Grotesk',sans-serif", w: 600 },
+  fraunces: { q: 'Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400', css: "'Fraunces',serif", w: 400 },
+  unbounded: { q: 'Unbounded:wght@500;700;800', css: "'Unbounded',sans-serif", w: 700 },
+  jetbrains: { q: 'JetBrains+Mono:wght@400;500', css: "'JetBrains Mono',monospace", w: 500 },
+  cormorant: { q: 'Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300', css: "'Cormorant Garamond',serif", w: 400 },
+  jost: { q: 'Jost:wght@300;400;500', css: "'Jost',sans-serif", w: 400 },
+  playfair: { q: 'Playfair+Display:ital,wght@0,400;0,600;0,800;1,400', css: "'Playfair Display',serif", w: 600 },
+  bebas: { q: 'Bebas+Neue', css: "'Bebas Neue',sans-serif", w: 400 },
+  oswald: { q: 'Oswald:wght@400;500;600;700', css: "'Oswald',sans-serif", w: 600 },
+  dmSerif: { q: 'DM+Serif+Display:ital@0;1', css: "'DM Serif Display',serif", w: 400 },
+  manrope: { q: 'Manrope:wght@400;500;600;700', css: "'Manrope',sans-serif", w: 700 },
+  outfit: { q: 'Outfit:wght@300;400;500;600;700', css: "'Outfit',sans-serif", w: 600 },
+  bricolage: { q: 'Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800', css: "'Bricolage Grotesque',sans-serif", w: 700 },
+  instrument: { q: 'Instrument+Serif:ital@0;1', css: "'Instrument Serif',serif", w: 400 },
+  poppins: { q: 'Poppins:wght@400;500;600;700', css: "'Poppins',sans-serif", w: 600 },
+  archivo: { q: 'Archivo+Black', css: "'Archivo Black',sans-serif", w: 400 },
+  orbitron: { q: 'Orbitron:wght@500;700;900', css: "'Orbitron',sans-serif", w: 700 },
+  rubikMono: { q: 'Rubik+Mono+One', css: "'Rubik Mono One',sans-serif", w: 400 },
+  cinzel: { q: 'Cinzel:wght@400;500;600', css: "'Cinzel',serif", w: 500 },
+  italiana: { q: 'Italiana', css: "'Italiana',serif", w: 400 },
+  bodoni: { q: 'Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400', css: "'Bodoni Moda',serif", w: 500 },
+  marcellus: { q: 'Marcellus', css: "'Marcellus',serif", w: 400 },
+  lora: { q: 'Lora:ital,wght@0,400;0,600;1,400', css: "'Lora',serif", w: 500 },
+} as const;
+export type FontKey = keyof typeof FONTS;
+
+/** Loads a look's fonts and maps them onto .font-display / .font-body / .font-mono. */
+export function ThemeFonts({ display, body, mono }: { display: FontKey; body: FontKey; mono?: FontKey }) {
+  const keys = [...new Set([display, body, ...(mono ? [mono] : [])])];
+  const D = FONTS[display], B = FONTS[body], M = mono ? FONTS[mono] : null;
+  return (
+    <>
+      <MotionStyles fonts={keys.map(k => `family=${FONTS[k].q}`).join('&')} />
+      <style>{`.mt-root .font-display{font-family:${D.css};font-weight:${D.w}}.mt-root .font-body{font-family:${B.css}}${M ? `.mt-root .font-mono{font-family:${M.css}}` : ''}`}</style>
+    </>
+  );
+}
+
+/** A theme's look for this category, falling back to its 'Other' look. */
+export const pickLook = <T,>(looks: Record<string, T>, data: MotionData): T => looks[data.category] || looks.Other;
 
 /**
  * Background video when the site has one, otherwise a slow cross-fading Ken Burns
@@ -168,7 +218,7 @@ export function Marquee({ words, className = '', separator = '✦', speed = 30 }
 }
 
 /** Responsive top bar with a full-screen mobile menu. Colours come from the caller. */
-export function MotionNav({ data, links, barClass, solidClass, menuClass, cta, logoClass = '' }: {
+export function MotionNav({ data, links, barClass, solidClass, menuClass, cta, logoClass = '', bg }: {
   data: MotionData;
   links: { href: string; label: string }[];
   barClass: string;
@@ -176,6 +226,8 @@ export function MotionNav({ data, links, barClass, solidClass, menuClass, cta, l
   menuClass: string;
   cta?: ReactNode;
   logoClass?: string;
+  /** Page background (hex); tints the scrolled bar and fills the mobile menu. */
+  bg?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -188,7 +240,7 @@ export function MotionNav({ data, links, barClass, solidClass, menuClass, cta, l
 
   return (
     <>
-      <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${solid ? solidClass : barClass}`}>
+      <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${solid ? solidClass : barClass}`} style={solid && bg ? { background: `${bg}e0` } : undefined}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-6">
           <a href="#hero" className={`flex items-center gap-3 min-w-0 ${logoClass}`}>
             {data.logo && <img src={data.logo} alt={data.siteName} className="h-8 md:h-10 w-auto object-contain" />}
@@ -204,7 +256,7 @@ export function MotionNav({ data, links, barClass, solidClass, menuClass, cta, l
         </div>
       </header>
       {open && (
-        <div className={`fixed inset-0 z-[60] flex flex-col p-6 ${menuClass}`}>
+        <div className={`fixed inset-0 z-[60] flex flex-col p-6 ${menuClass}`} style={bg ? { background: bg } : undefined}>
           <button className="self-end p-2" onClick={() => setOpen(false)} aria-label="Close menu"><X size={28} /></button>
           <nav className="flex-1 flex flex-col justify-center gap-6 text-3xl">
             {links.map((l, i) => (

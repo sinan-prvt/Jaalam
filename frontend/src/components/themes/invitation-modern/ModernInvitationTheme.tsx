@@ -2,13 +2,18 @@ import React, { createContext, useContext, useEffect, useMemo, useRef, useState 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Heart, Gem, Gift, Cake, Home, Zap, Palette, Trophy, Moon, Church, Flame,
-  Calendar, Clock, MapPin, Navigation, Phone, Mail, MessageCircle, Volume2, VolumeX, Sparkles, User, ArrowDown,
+  Calendar, Clock, MapPin, Navigation, Phone, Mail, MessageCircle, Volume2, VolumeX, User, ArrowDown,
 } from 'lucide-react';
 import { triggerConfettiPopper } from '../../../utils/confettiPopper';
 import { AddToCalendarButton } from '../../shared/AddToCalendar';
 import { getInvitationEvent, type CalendarEvent } from '../../../utils/calendar';
 import { applyEdit, buildInviteData, type EditableField, type InviteData, type InviteFamily } from './adapters';
 import { getInvitePalette, type InviteIcon, type InvitationStyle } from './palettes';
+import { ambientFor, findInviteTheme, greetingFor, motifFor, type Motif } from './inviteThemes';
+import { AmbientParticles } from './ambient';
+import { MotifBand, MotifGlyph, MotifMedallion } from './motifs';
+import { motifTile } from './motifTiles';
+import { InviteOpening } from './openings';
 
 interface ModernInvitationThemeProps {
   family: InviteFamily;
@@ -224,15 +229,15 @@ function Editable({ as = 'span', field, value, className, multiline }: { as?: 's
   );
 }
 
-function SectionHeading({ skin, style, eyebrow, title, index, field }: { skin: Skin; style: InvitationStyle; eyebrow: string; title: string; index: number; field?: EditableField }) {
+function SectionHeading({ skin, style, eyebrow, title, index, field, motif }: { skin: Skin; style: InvitationStyle; eyebrow: string; title: string; index: number; field?: EditableField; motif: Motif }) {
   const heading = (
     field ? <Editable as="h2" field={field} value={title} className={`${skin.heading} mt-3`} /> : <h2 className={`${skin.heading} mt-3`}>{title}</h2>
   );
   const centered = skin.align === 'center';
   if (style === 'Editorial') {
     return (
-      <div className="mb-12 md:mb-16 grid md:grid-cols-12 gap-4 items-end">
-        <span className="md:col-span-2 font-['Playfair_Display'] text-6xl md:text-8xl text-(--acc) leading-none">{String(index).padStart(2, '0')}</span>
+      <div className="mb-12 md:mb-16 grid grid-cols-[minmax(0,1fr)] md:grid-cols-12 gap-4 items-end">
+        <span className="md:col-span-2 font-['Playfair_Display'] text-6xl md:text-8xl text-(--acc) leading-none flex items-start gap-2">{String(index).padStart(2, '0')}<MotifGlyph motif={motif} className="w-5 h-5 mt-2" /></span>
         <div className="md:col-span-10">
           <p className={skin.eyebrow}>{eyebrow}</p>
           {heading}
@@ -242,20 +247,29 @@ function SectionHeading({ skin, style, eyebrow, title, index, field }: { skin: S
   }
   return (
     <div className={`mb-10 md:mb-14 ${centered ? 'text-center' : ''}`}>
-      <p className={skin.eyebrow}>{eyebrow}</p>
+      <p className={`${skin.eyebrow} ${style === 'Bento Grid' ? 'flex items-center gap-2' : ''}`}>
+        {style === 'Bento Grid' && <MotifGlyph motif={motif} className="w-4 h-4 text-(--acc)" />}
+        {eyebrow}
+      </p>
       {heading}
-      {style === 'Midnight Luxe' && (
+      {(style === 'Midnight Luxe' || style === 'Glassmorphism') && (
         <div className="mt-6 flex items-center justify-center gap-3 text-(--acc)">
           <span className="h-px w-16 bg-(--acc)/50" />
-          <Sparkles size={14} />
+          <MotifGlyph motif={motif} className="w-4 h-4" />
           <span className="h-px w-16 bg-(--acc)/50" />
         </div>
       )}
-      {style === 'Aurora Gradient' && <div className="mx-auto mt-5 h-1.5 w-20 rounded-full bg-linear-to-r from-(--acc) to-(--acc2)" />}
+      {style === 'Aurora Gradient' && (
+        <div className="mt-5 flex items-center justify-center gap-3 text-(--acc)">
+          <span className="h-1.5 w-12 rounded-full bg-linear-to-r from-(--acc) to-(--acc2)" />
+          <MotifGlyph motif={motif} className="w-5 h-5" />
+          <span className="h-1.5 w-12 rounded-full bg-linear-to-r from-(--acc2) to-(--acc)" />
+        </div>
+      )}
       {style === 'Heritage' && (
         <div className="mt-6 flex items-center justify-center gap-3 text-(--acc2)">
           <span className="h-px w-16 bg-(--acc2)" />
-          <Alpona className="w-7 h-7 text-(--acc)" />
+          {motif === 'alpana' ? <Alpona className="w-7 h-7 text-(--acc)" /> : <MotifGlyph motif={motif} className="w-6 h-6 text-(--acc)" />}
           <span className="h-px w-16 bg-(--acc2)" />
         </div>
       )}
@@ -337,6 +351,10 @@ interface HeroProps {
   Icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
   left: ReturnType<typeof useCountdown>;
   calendarEvent?: CalendarEvent | null;
+  /** Category motif and greeting (traditional heroes). */
+  motif?: Motif;
+  greeting?: string;
+  colors?: { a: string; b: string };
 }
 
 function TitleLines({ d, className, joinerClass }: { d: InviteData; className: string; joinerClass: string }) {
@@ -395,7 +413,7 @@ function AuroraHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
         <div className="absolute top-1/3 -right-40 w-[34rem] h-[34rem] rounded-full bg-(--acc2) opacity-40 blur-[120px] animate-[pulse_9s_ease-in-out_infinite]" />
         <div className="absolute -bottom-40 left-1/3 w-[30rem] h-[30rem] rounded-full bg-(--acc3) opacity-25 blur-[120px] animate-[pulse_11s_ease-in-out_infinite]" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-6xl grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-6xl grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
           <span className={`${skin.chip} inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em]`}>
             <Icon size={14} /> {eyebrow}
@@ -482,7 +500,7 @@ function BentoHero({ d, skin, eyebrow, image, Icon, left, calendarEvent }: HeroP
 
 function EditorialHero({ d, skin, eyebrow, image }: HeroProps) {
   return (
-    <section id="hero" className="relative min-h-[100svh] grid md:grid-cols-2">
+    <section id="hero" className="relative min-h-[100svh] grid grid-cols-[minmax(0,1fr)] md:grid-cols-2">
       <div className="flex flex-col justify-between px-5 md:px-12 py-10 md:py-14 order-2 md:order-1">
         <div className="flex items-center justify-between border-b border-[#1b1813] pb-4 text-[11px] uppercase tracking-[0.4em]">
           <span>{eyebrow}</span>
@@ -537,17 +555,24 @@ function LuxeHero({ d, skin, eyebrow, image, Icon }: HeroProps) {
   );
 }
 
-function HeritageHero({ d, skin, eyebrow, image }: HeroProps) {
+function HeroOrnament({ motif, className }: { motif: Motif; className: string }) {
+  return motif === 'alpana' ? <Alpona className={className} /> : <MotifMedallion motif={motif} className={className} />;
+}
+
+function HeritageHero({ d, skin, eyebrow, image, motif = 'alpana', greeting = 'শুভ বিবাহ', colors }: HeroProps) {
+  // Bengali keeps its saree border and alpona; other categories use their own motif
+  const bengali = motif === 'alpana';
+  const border = bengali || !colors ? <div className={sareeBorder} /> : <MotifBand motif={motif} a={colors.a} b={colors.b} />;
   return (
     <section id="hero" className="relative min-h-[100svh] flex flex-col overflow-hidden">
-      <div className={sareeBorder} />
+      {border}
       <div className="relative flex-1 flex flex-col items-center justify-center px-5 py-16 text-center">
-        <Alpona className="pointer-events-none absolute w-[46rem] max-w-none text-(--acc2) opacity-25 animate-[spin_120s_linear_infinite]" />
+        <HeroOrnament motif={motif} className="pointer-events-none absolute w-[46rem] max-w-none text-(--acc2) opacity-25 animate-[spin_120s_linear_infinite]" />
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="relative z-10 flex flex-col items-center">
-          <p className="font-['Playfair_Display'] text-2xl md:text-3xl text-(--acc)">শুভ বিবাহ</p>
+          {greeting && <p className="font-['Playfair_Display'] text-2xl md:text-3xl text-(--acc)">{greeting}</p>}
           <p className={`${skin.eyebrow} mt-3`}>{eyebrow}</p>
           <div className="relative mt-8 w-48 h-48 md:w-60 md:h-60">
-            <Alpona className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] text-(--acc)" />
+            <HeroOrnament motif={motif} className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] text-(--acc)" />
             <Cover src={image} alt={d.title} className="relative w-full h-full rounded-full object-cover border-4 border-(--acc2) shadow-xl" />
           </div>
           <TitleLines d={d} className="mt-12 font-['Playfair_Display'] text-5xl md:text-7xl text-(--acc) leading-tight" joinerClass="font-['Great_Vibes'] text-(--acc2) text-4xl md:text-5xl my-1" />
@@ -560,7 +585,7 @@ function HeritageHero({ d, skin, eyebrow, image }: HeroProps) {
           )}
         </motion.div>
       </div>
-      <div className={sareeBorder} />
+      {border}
     </section>
   );
 }
@@ -592,6 +617,10 @@ export default function ModernInvitationTheme({ family, style, content, website,
     [isEditor, updateContent, content, d],
   );
   const palette = getInvitePalette(website?.business_type);
+  const themeDef = findInviteTheme(website?.theme, family);
+  const motif = motifFor(website?.business_type);
+  const greeting = greetingFor(website?.business_type);
+  const motifColors = { a: palette.accent, b: palette.accent2 };
   const skin = SKINS[style];
   const Icon = ICONS[palette.icon];
   const Hero = HEROES[style];
@@ -778,7 +807,7 @@ export default function ModernInvitationTheme({ family, style, content, website,
       eyebrow: 'Find Your Way',
       title: d.family === 'religious' ? 'Visit Us' : 'The Venue',
       body: (
-        <div className="grid md:grid-cols-2 gap-4 md:gap-6 items-stretch">
+        <div className="grid grid-cols-[minmax(0,1fr)] md:grid-cols-2 gap-4 md:gap-6 items-stretch">
           <div className={`${skin.card} p-6 md:p-10 flex flex-col justify-center`}>
             {d.venuePhoto && <img src={d.venuePhoto} alt={d.venueName || 'Venue'} loading="lazy" onError={hideOnError} className={`w-full aspect-video object-cover mb-6 ${skin.dark || style === 'Editorial' ? '' : 'rounded-2xl'}`} />}
             <MapPin size={24} className={skin.accentText} />
@@ -896,11 +925,28 @@ export default function ModernInvitationTheme({ family, style, content, website,
 
   return (
     <EditContext.Provider value={editor}>
-    <div className={`${skin.root} min-h-screen overflow-x-hidden antialiased ${!opened ? 'max-h-screen overflow-hidden' : ''}`} style={cssVars}>
+    <div className={`${skin.root} ${themeDef?.font.page || ''} min-h-screen overflow-x-hidden antialiased ${!opened ? 'max-h-screen overflow-hidden' : ''}`} style={cssVars}>
       {d.musicUrl && <audio ref={audioRef} src={d.musicUrl} loop preload="auto" />}
 
       <AnimatePresence>
-        {!opened && (
+        {!opened && themeDef && (
+          <motion.div key="opening" exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+            <InviteOpening
+              kind={themeDef.opening}
+              variant={themeDef.variant}
+              title={d.title}
+              eyebrow={palette.eyebrow}
+              greeting={greeting}
+              date={d.dateText}
+              motif={motif}
+              colors={{ a: palette.accent, b: palette.accent2, c: palette.accent3 }}
+              titleFont={themeDef.font.raw}
+              Icon={Icon}
+              onOpen={open}
+            />
+          </motion.div>
+        )}
+        {!opened && !themeDef && (
           <motion.div
             key="intro"
             initial={{ opacity: 1 }}
@@ -932,6 +978,8 @@ export default function ModernInvitationTheme({ family, style, content, website,
         )}
       </AnimatePresence>
 
+      {opened && <AmbientParticles kind={ambientFor(website?.business_type, themeDef)} colors={[palette.accent, palette.accent2, palette.accent3]} />}
+
       {d.musicUrl && opened && (
         <button
           onClick={toggleMute}
@@ -942,22 +990,25 @@ export default function ModernInvitationTheme({ family, style, content, website,
         </button>
       )}
 
-      <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={image} Icon={Icon} left={left} calendarEvent={calendarEvent} />
+      <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={image} Icon={Icon} left={left} calendarEvent={calendarEvent} motif={motif} greeting={greeting} colors={motifColors} />
+      {style !== 'Heritage' && <MotifBand motif={motif} a={palette.accent} b={palette.accent2} />}
 
       {blocks.map((b, i) => (
         <section key={b.id} id={b.id} className={`${skin.section} ${altBg(i)}`}>
+          {!isBento && i % 2 === 1 && <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={motifTile(motif, palette.accent, palette.accent2, 44)} />}
           {style === 'Glassmorphism' && i % 3 === 0 && (
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className={`absolute ${i % 2 ? 'right-[-10%]' : 'left-[-10%]'} top-10 w-[28rem] h-[28rem] rounded-full bg-(--acc) opacity-20 blur-[120px]`} />
             </div>
           )}
           <div className={`relative ${wrap} ${sectionCard}`}>
-            <SectionHeading skin={skin} style={style} eyebrow={b.eyebrow} title={b.title} index={i + 1} field={b.titleField} />
+            <SectionHeading skin={skin} style={style} eyebrow={b.eyebrow} title={b.title} index={i + 1} field={b.titleField} motif={motif} />
             {b.body}
           </div>
         </section>
       ))}
 
+      <MotifBand motif={motif} a={palette.accent} b={palette.accent2} />
       <footer className={`px-5 py-14 text-center ${isBento ? '' : skin.dark ? 'border-t border-white/10' : 'border-t border-black/10'}`}>
         <Icon size={20} className={`mx-auto ${skin.accentText}`} />
         <p className={`mt-4 ${isSerif(style) ? "font-['Playfair_Display'] italic text-2xl" : "font-['Outfit'] text-xl font-semibold"}`}>{d.title}</p>
@@ -986,7 +1037,7 @@ const previewContent = {
 
 // Renders the real hero of a style at desktop size, scaled down to fit its box,
 // so dashboard cards show exactly what the theme looks like.
-export function InvitationHeroPreview({ family, style, category }: { family: InviteFamily; style: InvitationStyle; category: string }) {
+export function InvitationHeroPreview({ family, style, category, theme }: { family: InviteFamily; style: InvitationStyle; category: string; theme?: string }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
   const website = useMemo(() => ({ business_type: category }), [category]);
@@ -1003,6 +1054,8 @@ export function InvitationHeroPreview({ family, style, category }: { family: Inv
   }, []);
 
   const palette = getInvitePalette(category);
+  const themeDef = findInviteTheme(theme, family);
+  const motif = motifFor(category);
   const skin = SKINS[style];
   const Hero = HEROES[style];
   const lift = (c: string) => (skin.dark ? `color-mix(in srgb, ${c} 70%, white)` : c);
@@ -1012,10 +1065,12 @@ export function InvitationHeroPreview({ family, style, category }: { family: Inv
     <div ref={boxRef} className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden="true">
       {scale > 0 && (
         <div
-          className={`${skin.root} [&_section]:min-h-0! [&_section]:h-[800px]`}
+          className={`${skin.root} ${themeDef?.font.page || ''} relative [&_section]:min-h-0! [&_section]:h-[800px]`}
           style={{ ...cssVars, width: PREVIEW_W, height: PREVIEW_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}
         >
-          <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={d.heroImage || palette.image} Icon={ICONS[palette.icon]} left={null} />
+          <Hero d={d} skin={skin} eyebrow={palette.eyebrow} image={d.heroImage || palette.image} Icon={ICONS[palette.icon]} left={null}
+            motif={motif} greeting={greetingFor(category)} colors={{ a: palette.accent, b: palette.accent2 }} />
+          {style !== 'Heritage' && <MotifBand motif={motif} a={palette.accent} b={palette.accent2} className="absolute left-0 right-0 bottom-0 h-10!" />}
         </div>
       )}
     </div>

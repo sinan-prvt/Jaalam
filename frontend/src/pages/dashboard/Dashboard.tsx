@@ -3,15 +3,16 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Plus, Settings, Globe, LayoutDashboard, TrendingUp, Users, Activity, X, ExternalLink, Zap, Search, Trash2, Copy, CheckCircle2, XCircle, BarChart3, Edit3, Bell, Download, LayoutTemplate, Heart } from 'lucide-react';
 import { logout, loginSuccess } from '../../authSlice';
 import DashboardSidebar from '../../components/layout/DashboardSidebar';
 import NotificationsPage from './NotificationsPage';
 import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
+import LoyaltyPage from './LoyaltyPage';
 import BillingPage from './BillingPage';
-import MarketingPage from './MarketingPage';
+import PosterMakerPage from './PosterMakerPage';
 import Pricing from './Pricing';
 import usePlan from '../../hooks/usePlan';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories, otherEventCategories, eventHierarchy } from '../../utils/templateData';
@@ -50,6 +51,7 @@ const TAB_LABELS: Record<string, string> = {
   Projects: 'My Sites',
   Notifications: 'Inbox',
   Billing: 'Invoices',
+  Marketing: 'Poster Maker',
 };
 import toast from 'react-hot-toast';
 
@@ -90,7 +92,7 @@ export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const planInfo = usePlan();
   const { isLockedTheme } = planInfo;
-  const planLabel = user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : `${planInfo.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase();
+  const planLabel = user?.is_superuser ? 'SYSTEM ADMIN' : user?.is_test_user ? 'TEST USER' : (user as User | null)?.role === 'CLIENT' ? 'CLIENT ACCOUNT' : `${planInfo.plan?.name || user?.membership || 'Free'} PLAN`.toUpperCase();
   const [websites, setWebsites] = useState<Website[]>([]);
   const [physicalOrders, setPhysicalOrders] = useState<PhysicalOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,11 +100,20 @@ export default function Dashboard() {
   const [creationMode, setCreationMode] = useState<'wedding' | 'website'>('website');
 
   const location = useLocation();
-  // Navigation State
-  const [activeTab, setActiveTab] = useState(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') return 'Pricing';
-    return location.state?.tab || 'Dashboard';
-  });
+  const navigateTo = useNavigate();
+  // The open tab lives in the address (/dashboard?tab=Loyalty), so Back, refresh and links
+  // from other pages (scanner, editors) return to it instead of always to Overview.
+  const [searchParams] = useSearchParams();
+  const mustPickPlan = Boolean(user && (user as User).has_completed_onboarding === false && !user.is_superuser
+    && !(user as User).is_test_user && (user as User).role !== 'CLIENT');
+  const urlTab = searchParams.get('tab') || location.state?.tab || 'Dashboard';
+  const activeTab = mustPickPlan && urlTab !== 'Pricing' && urlTab !== 'Settings' ? 'Pricing' : urlTab;
+  const setActiveTab = (tab: string, replace = false) => {
+    const params = new URLSearchParams(searchParams);
+    if (tab === 'Dashboard') params.delete('tab'); else params.set('tab', tab);
+    const query = params.toString();
+    navigateTo(`/dashboard${query ? `?${query}` : ''}`, { replace });
+  };
   const [selectedProject, setSelectedProject] = useState<Website | null>(null);
 
   // Form State
@@ -148,13 +159,15 @@ export default function Dashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state?.tab) {
-      setActiveTab(location.state.tab);
+    // Older links pass the tab in navigation state: move it into the address
+    if (location.state?.tab && !searchParams.get('tab')) {
+      navigateTo(`/dashboard${location.state.tab === 'Dashboard' ? '' : `?tab=${encodeURIComponent(location.state.tab)}`}`,
+        { replace: true, state: location.state.creating ? { creating: true } : null });
     }
     if (location.state?.creating) {
       setIsCreating(true);
     }
-  }, [location.state]);
+  }, [location.state, searchParams, navigateTo]);
 
   const [clients, setClients] = useState<any[]>([]);
 
@@ -206,13 +219,9 @@ export default function Dashboard() {
   }, [newSlug]);
 
   useEffect(() => {
-    if (user && (user as User).has_completed_onboarding === false && !user.is_superuser && !(user as User).is_test_user && (user as User).role !== 'CLIENT') {
-      if (activeTab !== 'Pricing' && activeTab !== 'Settings') {
-        setActiveTab('Pricing');
-      }
-      setIsCreating(false);
-    }
-  }, [user, activeTab]);
+    // (Pricing is forced by activeTab itself while a plan hasn't been picked)
+    if (mustPickPlan) setIsCreating(false);
+  }, [mustPickPlan]);
 
   const fetchWebsites = async () => {
     try {
@@ -355,11 +364,8 @@ export default function Dashboard() {
       dispatch(loginSuccess(res.data));
       toast.success('Settings updated successfully!');
     } catch (err: any) {
-      if (err.response?.status === 403 && user) {
-        // Fallback for CORS cookie issues on localhost
-        dispatch(loginSuccess({ ...user, username: editUsername, first_name: editFirstName, last_name: editLastName }));
-        toast.success('Settings updated successfully!');
-      } else if (err.response?.data?.username) {
+      // (A 403 used to be shown as "updated" while nothing was saved.)
+      if (err.response?.data?.username) {
         toast.error('That username is already taken.');
       } else {
         toast.error('Failed to update settings. Please try again.');
@@ -538,11 +544,19 @@ export default function Dashboard() {
     return matchesSearch && matchesFilter;
   });
 
+  // Every website template (category × theme), and the ones the Templates tab filters show
+  const allTemplates = Object.entries(categoryThemes).flatMap(([category, themes]) => themes.map(theme => ({ category, theme })));
+  const query = searchQuery.toLowerCase();
+  const visibleTemplates = allTemplates
+    .filter(item => filterStatus === 'All' || item.category === filterStatus)
+    .filter(item => item.theme.toLowerCase().includes(query) || item.category.toLowerCase().includes(query));
+
   return (
-    <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
+    <div className="min-h-screen font-sans selection:bg-orange-500/30 overflow-hidden relative isolate text-slate-800 flex flex-col md:flex-row bg-[#FAFAFC]">
 
       {/* VIBRANT BENTO MESH BACKGROUND */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      {/* Behind everything; main has no z-index so its dialogs can cover the sidebar */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-r from-amber-300 to-fuchsia-300 filter blur-[100px] opacity-40"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-l from-orange-300 to-amber-300 filter blur-[120px] opacity-40"></div>
         <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-gradient-to-t from-pink-300 to-orange-200 filter blur-[90px] opacity-30"></div>
@@ -557,7 +571,7 @@ export default function Dashboard() {
       />
 
       {/* MAIN CONTENT AREA */}
-      <main className={`flex-1 basis-auto md:basis-0 min-w-0 h-[100dvh] relative z-10 scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
+      <main className={`flex-1 basis-auto md:basis-0 min-w-0 h-[100dvh] relative scroll-smooth pb-24 md:pb-0 ${activeTab === 'Notifications' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
         <div className={`mx-auto w-full max-w-[1400px] ${activeTab === 'Notifications' ? 'flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-6' : 'min-h-full p-4 md:p-8 lg:p-8'}`}>
 
           {/* DESKTOP HEADER */}
@@ -640,17 +654,17 @@ export default function Dashboard() {
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-5 px-2">Overview</h2>
 
               {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 animate-pulse">
-                  <div className="md:col-span-2 md:row-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[300px]"></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-pulse">
+                  <div className="sm:col-span-2 lg:row-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[300px]"></div>
                   <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
                   <div className="md:col-span-1 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
-                  <div className="md:col-span-2 md:row-span-1 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
+                  <div className="sm:col-span-2 bg-white/40 border border-white/60 rounded-3xl min-h-[160px]"></div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
                 {/* BIG HERO BENTO */}
-                <div className="md:col-span-2 md:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                <div className="sm:col-span-2 lg:row-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
                   <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-gradient-to-br from-orange-300 to-amber-200 rounded-full mix-blend-multiply blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-1000 -z-10"></div>
 
                   <div>
@@ -711,7 +725,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* WIDE BENTO */}
-                <div className="md:col-span-2 md:row-span-1 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
+                <div className="sm:col-span-2 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm relative overflow-hidden group flex items-center justify-between min-h-[160px]">
                   <div className="absolute top-[-50%] right-[-20%] w-[100%] h-[200%] bg-gradient-to-l from-amber-100/40 to-transparent rotate-12 -z-10 group-hover:rotate-45 transition-transform duration-1000"></div>
                   <div>
                     <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-sm border border-amber-100 mb-4">
@@ -958,25 +972,32 @@ export default function Dashboard() {
             <CustomersPage />
           )}
 
+          {activeTab === 'Loyalty' && (
+            <LoyaltyPage websites={websites} role={user?.role} />
+          )}
+
           {activeTab === 'Clients' && (
             <ClientsPage />
           )}
 
           {activeTab === 'Marketing' && (
-            <MarketingPage websites={websites} />
+            <PosterMakerPage />
           )}
 
           {activeTab === 'Templates' && (
             <div className="max-w-7xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500 px-4 md:px-0">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20 text-orange-700 text-xs font-black uppercase tracking-wider mb-3">
+                    <LayoutTemplate size={14} className="text-orange-500" /> {allTemplates.length} templates · {Object.keys(categoryThemes).length} categories
+                  </div>
                   <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Templates</h1>
                   <p className="text-slate-500 mt-1">Browse and download starting templates for your next project.</p>
                 </div>
               </div>
 
               <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white/60 backdrop-blur-xl p-3 md:p-4 rounded-2xl border border-white/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                <div className="relative w-full md:w-96">
+                <div className="relative w-full md:w-72 md:shrink-0">
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input
                     type="text"
@@ -987,7 +1008,7 @@ export default function Dashboard() {
                   />
                 </div>
                 
-                <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{scrollbarWidth: 'none'}}>
+                <div className="flex gap-2 w-full md:w-auto md:flex-1 md:min-w-0 overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{scrollbarWidth: 'none'}}>
                   {['All', ...Object.keys(categoryThemes)].map(status => (
                     <button
                       key={status}
@@ -999,10 +1020,21 @@ export default function Dashboard() {
                       }`}
                     >
                       {status}
+                      <span className={`ml-1.5 text-[11px] font-black ${filterStatus === status ? 'text-white/80' : 'text-slate-400'}`}>
+                        {status === 'All' ? allTemplates.length : (categoryThemes[status] || []).length}
+                      </span>
                     </button>
                   ))}
                 </div>
               </div>
+
+              {!loading && (
+                <p className="-mt-4 mb-5 text-sm font-semibold text-slate-500">
+                  {visibleTemplates.length === allTemplates.length
+                    ? `Showing all ${allTemplates.length} templates`
+                    : `Showing ${visibleTemplates.length} of ${allTemplates.length} templates${filterStatus !== 'All' ? ` in ${filterStatus}` : ''}${searchQuery ? ` matching “${searchQuery}”` : ''}`}
+                </p>
+              )}
 
               {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -1012,12 +1044,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {Object.entries(categoryThemes).flatMap(([category, themes]) => 
-                    themes.map(theme => ({ category, theme }))
-                  )
-                  .filter(item => filterStatus === 'All' || item.category === filterStatus)
-                  .filter(item => item.theme.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map((item, idx) => (
+                  {visibleTemplates.map((item, idx) => (
                     <div key={`${item.category}-${item.theme}-${idx}`} className="group relative bg-white/80 backdrop-blur-xl border border-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-1">
                       <div className="aspect-[16/10] bg-slate-100 overflow-hidden relative">
                         <ThemeThumbnail theme={item.theme} category={item.category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -1170,7 +1197,7 @@ export default function Dashboard() {
                   <div className="text-center sm:text-left pt-1 flex-1">
                     <h3 className="text-2xl font-black text-slate-900 mb-2">{user?.username}</h3>
                     <span className="px-3 py-1 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">
-                      {user?.is_test_user ? 'TEST USER (PRO)' : planInfo.plan?.name || user?.membership || 'Creator'}
+                      {user?.is_test_user ? 'TEST USER (PRO)' : (user as User | null)?.role === 'CLIENT' ? 'Client account' : planInfo.plan?.name || user?.membership || 'Creator'}
                     </span>
                     <p className="text-slate-600 font-medium mt-3 text-sm">Manage your personal settings and notification preferences.</p>
                   </div>

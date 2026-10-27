@@ -35,7 +35,7 @@ export default function ThemeThumbnail({ theme, category, className }: ThemeThum
 
   return (
     <div ref={ref} className={`relative ${className || ''}`}>
-      {visible && <InvitationHeroPreview family={family} style={style} category={category} />}
+      {visible && <InvitationHeroPreview family={family} style={style} category={category} theme={theme} />}
     </div>
   );
 }

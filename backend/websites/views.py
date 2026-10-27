@@ -7,12 +7,28 @@ import uuid
 from django.shortcuts import get_object_or_404
 from .models import Rsvp, Website, WebsiteContent
 from .serializers import RsvpSerializer, WebsiteSerializer, WebsiteContentSerializer
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from . import domains
 from django.utils import timezone
 from users.notifications import create_notification, notify_all_admins
 from users import plans
-from customers.views import LeadThrottle
+import logging
+
+from rest_framework.throttling import AnonRateThrottle
+
+from customers.views import LeadThrottle, notify_site_team
+
+logger = logging.getLogger(__name__)
+
+
+class WishThrottle(AnonRateThrottle):
+    # The public "send wishes" heart: generous, but a script can't spin the counter
+    scope = 'wish'
+
+
+def can_edit(user, website):
+    """Owner, the assigned client, or an admin."""
+    return user.is_superuser or user.id in (website.user_id, website.client_id)
 
 
 def check_theme_allowed(owner, theme):
@@ -71,6 +87,9 @@ class WebsiteViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
+        if getattr(user, 'role', 'AGENT') == 'CLIENT':
+            # A client login works on the sites its agency assigns; new sites are made by the agency
+            raise PermissionDenied('Client accounts cannot create websites. Ask your agency to create one for you.')
         limit = plans.limit(user, 'websites')
         if limit is not None and Website.objects.filter(user=user).count() >= limit:
             raise ValidationError({"error": f"Your {plans.PLANS[plans.effective_plan(user)]['name']} plan allows {limit} website(s). Upgrade to create more.", "upgrade": True})
@@ -98,6 +117,10 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer.save()
 
     def perform_destroy(self, instance):
+        # get_queryset includes a client's assigned sites (so they can edit them); only the
+        # owner or an admin may delete one.
+        if instance.user != self.request.user and not self.request.user.is_superuser:
+            raise PermissionDenied('Only the website owner can delete it.')
         if self.request.user.is_superuser and instance.user != self.request.user:
             create_notification(
                 user=instance.user,
@@ -117,15 +140,15 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         return Response({'available': not exists})
 
     def _public_response(self, request, website):
-        if not website.published:
-            # Allow the owner to view their own unpublished site
-            if not (request.user.is_authenticated and request.user == website.user):
-                return Response({'error': 'Website is not published'}, status=403)
+        # The owner and the assigned client can preview a draft or paused site
+        insider = request.user.is_authenticated and request.user.id in (website.user_id, website.client_id)
+        if not website.published and not insider:
+            return Response({'error': 'Website is not published'}, status=403)
 
         if getattr(website, 'is_blocked', False):
             return Response({'error': 'Website is suspended'}, status=403)
 
-        if is_paused(website) and not (request.user.is_authenticated and request.user == website.user):
+        if is_paused(website) and not insider:
             return Response({'error': 'paused', 'message': 'This website is temporarily paused.'}, status=403)
             
         if not hasattr(website, 'content'):
@@ -242,7 +265,8 @@ class WebsiteViewSet(viewsets.ModelViewSet):
 
     # No authentication: guests tap this anonymously, and it must also work for a logged-in
     # owner viewing their own invitation (session auth would demand a CSRF token).
-    @action(detail=True, methods=['get', 'post'], permission_classes=[permissions.AllowAny], authentication_classes=[])
+    @action(detail=True, methods=['get', 'post'], permission_classes=[permissions.AllowAny], authentication_classes=[],
+            throttle_classes=[WishThrottle])
     def wish(self, request, slug=None):
         website = self.get_object()
         if not hasattr(website, 'content'):
@@ -279,8 +303,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         rsvp = serializer.save(website=website)
         reply = {'YES': 'is attending', 'NO': 'cannot attend'}.get(rsvp.attending, 'replied')
-        create_notification(website.user, f'RSVP: {rsvp.name} {reply}', (rsvp.message or '')[:300] or 'New reply to your invitation.',
-                            notification_type='rsvp')
+        notify_site_team(website, f'RSVP: {rsvp.name} {reply}', (rsvp.message or '')[:300] or 'New reply to your invitation.', 'rsvp')
         return Response({'status': 'received'}, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['get'], url_path='rsvps')
@@ -305,8 +328,8 @@ class WebsiteViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def content(self, request, slug=None):
-        website = self.get_object()
-        if website.user != request.user:
+        website = self.get_object()  # owner, assigned client or admin (get_queryset)
+        if not can_edit(request.user, website):
             return Response(status=status.HTTP_403_FORBIDDEN)
             
         if not hasattr(website, 'content'):
@@ -340,7 +363,7 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], parser_classes=[MultiPartParser], permission_classes=[permissions.IsAuthenticated])
     def upload_template(self, request, slug=None):
         website = self.get_object()
-        if website.user != request.user:
+        if not can_edit(request.user, website):
             return Response(status=status.HTTP_403_FORBIDDEN)
             
         if 'template' not in request.FILES:
@@ -387,10 +410,11 @@ class WebsiteViewSet(viewsets.ModelViewSet):
                 'content': serializer.data,
                 'website': website_serializer.data
             })
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, UnicodeDecodeError):
             return Response({'error': 'Invalid JSON file'}, status=400)
-        except Exception as e:
-            return Response({'error': str(e)}, status=500)
+        except Exception:
+            logger.exception('Applying a template failed')
+            return Response({'error': 'Could not apply this template.'}, status=500)
 
 # Uploads are served back from /media/, so only real images and audio are accepted: anything
 # else (HTML, SVG, scripts) could be used to host pages or scripts on the site's own domain.

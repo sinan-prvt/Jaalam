@@ -1,11 +1,19 @@
 import os
 import json
+import logging
 from rest_framework.views import APIView
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission
 from rest_framework import generics
 from users import plans
 from users.models import UsageCounter
+
+logger = logging.getLogger(__name__)
+
+
+class AiThrottle(UserRateThrottle):
+    scope = 'ai'
 
 
 def ai_access_error(user):
@@ -30,6 +38,7 @@ from google import genai
 
 class GenerateMarketingCopyView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AiThrottle]
 
     def post(self, request):
         denied = ai_access_error(request.user)
@@ -47,10 +56,11 @@ class GenerateMarketingCopyView(APIView):
 
         client = genai.Client(api_key=api_key)
         
-        business_name = request.data.get('business_name', 'My Business')
-        business_type = request.data.get('business_type', 'Business')
-        promotion_details = request.data.get('promotion_details', 'General brand awareness')
-        language = request.data.get('language', 'English')
+        # Lengths capped: these go into a paid AI prompt
+        business_name = str(request.data.get('business_name') or 'My Business')[:150]
+        business_type = str(request.data.get('business_type') or 'Business')[:80]
+        promotion_details = str(request.data.get('promotion_details') or 'General brand awareness')[:1500]
+        language = str(request.data.get('language') or 'English')[:40]
         
         prompt = f"""
         You are an expert digital marketer. 
@@ -89,8 +99,8 @@ class GenerateMarketingCopyView(APIView):
             UsageCounter.increment(request.user, 'ai_generations')
             return Response(data)
             
-        except Exception as e:
-            print("AI Generation Error:", e)
+        except Exception:
+            logger.exception('AI copy generation failed')
             return Response({'error': 'Failed to generate content. Please try again.'}, status=500)
 
 import requests
@@ -100,36 +110,37 @@ import urllib.parse
 
 class GeneratePosterView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AiThrottle]
 
     def post(self, request):
         denied = ai_access_error(request.user)
         if denied:
             return denied
 
-        prompt = request.data.get('prompt', '')
+        prompt = str(request.data.get('prompt', '')).strip()[:1000]
         if not prompt:
             return Response({'error': 'Prompt is required.'}, status=400)
-            
+
         try:
             # Using Pollinations.ai instead of Hugging Face to bypass local DNS resolution blocks
             encoded_prompt = urllib.parse.quote(prompt)
             API_URL = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
-            
-            response = requests.get(API_URL)
-            if response.status_code != 200:
-                print("Image API Error:", response.text)
-                return Response({'error': 'Failed to generate poster. Service may be busy.'}, status=500)
-                
-            image_bytes = response.content
-            base64_img = base64.b64encode(image_bytes).decode('utf-8')
+
+            # A timeout, so a slow image service can't hold a server worker forever
+            response = requests.get(API_URL, timeout=60)
+            if response.status_code != 200 or not response.headers.get('Content-Type', '').startswith('image/'):
+                logger.warning('Image API error %s', response.status_code)
+                return Response({'error': 'Failed to generate poster. Service may be busy.'}, status=502)
+
+            base64_img = base64.b64encode(response.content).decode('utf-8')
             UsageCounter.increment(request.user, 'ai_generations')
             return Response({'image': f'data:image/jpeg;base64,{base64_img}'})
-        except Exception as e:
-            print("Poster Generation Error:", e)
-            return Response({'error': f'Failed to connect to image generator: {str(e)}'}, status=500)
+        except requests.RequestException:
+            logger.exception('Poster generation failed')
+            return Response({'error': 'Could not reach the image generator. Please try again.'}, status=502)
 
-from .models import Blog
-from .serializers import BlogSerializer
+from .models import Blog, PosterDraft
+from .serializers import BlogSerializer, PosterDraftListSerializer, PosterDraftSerializer
 
 class BlogListCreateView(generics.ListCreateAPIView):
     serializer_class = BlogSerializer
@@ -146,3 +157,26 @@ class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAdminUserOrReadOnly]
     lookup_field = 'id'
+
+
+class PosterDraftListCreateView(generics.ListCreateAPIView):
+    """The signed-in user's saved posters (newest first), and saving a new one."""
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return PosterDraft.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        return PosterDraftListSerializer if self.request.method == 'GET' else PosterDraftSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PosterDraftDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PosterDraftSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return PosterDraft.objects.filter(user=self.request.user)

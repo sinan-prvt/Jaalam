@@ -54,6 +54,56 @@ class PasswordResetThrottle(LoginThrottle):
     scope = 'password_reset'
 
 
+def unique_username(base):
+    """A free username from an email's first part (two people can both be "john@...")."""
+    from django.contrib.auth.validators import UnicodeUsernameValidator
+    import re
+    base = re.sub(r'[^\w.@+-]', '', base)[:140] or 'user'
+    UnicodeUsernameValidator()(base)
+    name, n = base, 1
+    while User.objects.filter(username__iexact=name).exists():
+        n += 1
+        name = f'{base}{n}'
+    return name
+
+
+def set_client_websites(agency, client, slugs):
+    """Give a client access to exactly these websites of the agency (and take it away from
+    the agency's other sites it had). A site has one client, so choosing a site that another
+    client had moves it to this one. Returns an error message, or None."""
+    from websites.models import Website
+    if not isinstance(slugs, list) or not all(isinstance(s, str) for s in slugs):
+        return 'Choose the websites as a list.'
+    own = Website.objects.filter(user=agency)
+    chosen = own.filter(slug__in=slugs)
+    if chosen.count() != len(set(slugs)):
+        return 'You can only give access to your own websites.'
+    own.filter(client=client).exclude(slug__in=slugs).update(client=None)
+    chosen.update(client=client)
+    return None
+
+
+def client_login_problem(username, password, email):
+    """What's wrong with a client login an agency is creating or editing, or None.
+    `password` is None when it isn't being changed."""
+    from django.contrib.auth.validators import UnicodeUsernameValidator
+    from django.core.validators import validate_email
+    try:
+        UnicodeUsernameValidator()(username)
+    except DjangoValidationError:
+        return 'Username can only have letters, numbers and @ . + - _ (no spaces).'
+    if len(username) > 150:
+        return 'Username is too long.'
+    if password is not None and len(password) < 6:
+        return 'Password must be at least 6 characters.'
+    if email:
+        try:
+            validate_email(email)
+        except DjangoValidationError:
+            return 'Enter a valid email address, or leave it empty.'
+    return None
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -78,7 +128,10 @@ class UserViewSet(viewsets.ModelViewSet):
         # the frontend can send it in the X-CSRFToken header even when calling from another origin.
         return Response({'csrfToken': get_token(request)})
 
-    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
+    # Sign-up is "Continue with Google" only. Open password sign-up let anyone register with
+    # someone else's email and be waiting in that account when the real owner arrived via
+    # Google, so only an admin can create a password account here.
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAdminUser])
     def register(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -142,24 +195,36 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"error": "No credential provided"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            idinfo = id_token.verify_oauth2_token(credential, google_requests.Request())
-            email = idinfo.get('email')
-            if not email:
-                return Response({"error": "No email from Google"}, status=status.HTTP_400_BAD_REQUEST)
-                
-            username = email.split('@')[0]
-            
-            user, created = User.objects.get_or_create(email=email, defaults={'username': username})
-            
-            login(request, user)
-            serializer = self.get_serializer(user)
-            data = serializer.data
-            data['is_new_user'] = created
-            return Response(data)
-        except ValueError as e:
+            # audience: only tokens issued to this app's Google client (not another site's)
+            idinfo = id_token.verify_oauth2_token(credential, google_requests.Request(), audience=settings.GOOGLE_CLIENT_ID)
+        except ValueError:
             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+        email = (idinfo.get('email') or '').strip()
+        if not email or not idinfo.get('email_verified'):
+            return Response({"error": "Your Google account's email is not verified."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.filter(email__iexact=email).order_by('id').first()
+        created = user is None
+        if created:
+            user = User.objects.create_user(username=unique_username(email.split('@')[0]), email=email)
+            user.set_unusable_password()
+        elif not user.is_active:
+            # login() doesn't check this itself: blocked accounts stayed reachable through Google
+            return Response({"error": "This account has been blocked. Please contact support."}, status=status.HTTP_403_FORBIDDEN)
+        elif not user.email_verified and user.has_usable_password():
+            # The email was typed in by someone (old sign-up, or an agency creating a client),
+            # never proven. Whoever set that password may not be this person, so it stops
+            # working, and changing it also signs out every other session of the account.
+            user.set_unusable_password()
+        user.email_verified = True
+        user.save()
+
+        login(request, user)
+        data = self.get_serializer(user).data
+        data['is_new_user'] = created
+        return Response(data)
             
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def logout(self, request):
         logout(request)
         return Response({"message": "Logged out successfully"})
@@ -284,34 +349,48 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"error": "Only agents can manage clients"}, status=status.HTTP_403_FORBIDDEN)
             
         if request.method == 'GET':
-            clients = User.objects.filter(agent=request.user, role='CLIENT')
-            serializer = self.get_serializer(clients, many=True)
-            return Response(serializer.data)
+            clients = User.objects.filter(agent=request.user, role='CLIENT').prefetch_related('client_websites__content')
+            return Response([self._client_row(client) for client in clients])
             
         if request.method == 'POST':
             if not plans.has_feature(request.user, plans.CLIENT_ACCOUNTS):
                 return Response({"error": f"Client accounts need the {plans.required_plan_for(plans.CLIENT_ACCOUNTS)} plan.", "upgrade": True}, status=status.HTTP_403_FORBIDDEN)
             # Create a new client
-            username = request.data.get('username')
-            password = request.data.get('password')
-            email = request.data.get('email', '')
-            
+            username = (request.data.get('username') or '').strip()
+            password = request.data.get('password') or ''
+            email = (request.data.get('email') or '').strip()
+
             if not username or not password:
                 return Response({"error": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
-                
-            if User.objects.filter(username=username).exists():
+            problem = client_login_problem(username, password, email)
+            if problem:
+                return Response({"error": problem}, status=status.HTTP_400_BAD_REQUEST)
+            if User.objects.filter(username__iexact=username).exists():
                 return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
-                
+
             client_user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password,
                 role='CLIENT',
-                agent=request.user
+                agent=request.user,
+                has_completed_onboarding=True,  # nothing to set up: the agency's plan applies
             )
-            
-            serializer = self.get_serializer(client_user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if 'websites' in request.data:
+                problem = set_client_websites(request.user, client_user, request.data.get('websites'))
+                if problem:
+                    client_user.delete()
+                    return Response({"error": problem}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(self._client_row(client_user), status=status.HTTP_201_CREATED)
+
+    def _client_row(self, client):
+        """A client as the Clients page shows it, with the agency's websites it can manage."""
+        row = self.get_serializer(client).data
+        row['websites'] = [
+            {'slug': w.slug, 'name': ((getattr(w, 'content', None) and w.content.settings_json) or {}).get('website_name') or w.slug}
+            for w in client.client_websites.all() if w.user_id == client.agent_id
+        ]
+        return row
 
     @action(detail=True, methods=['put', 'delete'], permission_classes=[permissions.IsAuthenticated])
     def manage_client(self, request, pk=None):
@@ -328,13 +407,21 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
             
         if request.method == 'PUT':
-            username = request.data.get('username')
+            username = (request.data.get('username') or '').strip()
             email = request.data.get('email')
-            password = request.data.get('password')
-            
-            if username and User.objects.filter(username=username).exclude(pk=pk).exists():
+            email = email.strip() if isinstance(email, str) else email
+            password = request.data.get('password') or ''
+
+            problem = client_login_problem(username or client.username, password or None, email or '')
+            if problem:
+                return Response({"error": problem}, status=status.HTTP_400_BAD_REQUEST)
+            if username and User.objects.filter(username__iexact=username).exclude(pk=pk).exists():
                 return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
-                
+
+            if 'websites' in request.data:
+                problem = set_client_websites(request.user, client, request.data.get('websites'))
+                if problem:
+                    return Response({"error": problem}, status=status.HTTP_400_BAD_REQUEST)
             if username:
                 client.username = username
             if email is not None:
@@ -342,9 +429,7 @@ class UserViewSet(viewsets.ModelViewSet):
             if password:
                 client.set_password(password)
             client.save()
-            
-            serializer = self.get_serializer(client)
-            return Response(serializer.data)
+            return Response(self._client_row(client))
 
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
@@ -352,8 +437,26 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser and self.request.query_params.get('all') == 'true':
-            return Notification.objects.all()
+            # Admin "Support Tickets": conversations with users (support threads, and older
+            # messages typed by people), not everyone's automatic notifications, which carry
+            # their customers' names and phone numbers.
+            return Notification.objects.filter(notification_type__in=('support', 'SYSTEM'))
         return self.request.user.notifications.all()
+
+    def get_serializer(self, *args, **kwargs):
+        serializer = super().get_serializer(*args, **kwargs)
+        # Only admins address messages to other people. Anyone else can only write into their
+        # own inbox (the "message support" thread), never into someone else's: that allowed
+        # fake "administrator" messages to any user.
+        if not self.request.user.is_superuser and hasattr(serializer, 'fields'):
+            serializer.fields['user'].read_only = True
+        return serializer
+
+    def perform_create(self, serializer):
+        if self.request.user.is_superuser and serializer.validated_data.get('user'):
+            serializer.save()
+        else:
+            serializer.save(user=self.request.user, notification_type='support')
 
     @action(detail=True, methods=['post'])
     def reply(self, request, pk=None):
@@ -390,6 +493,9 @@ class NotificationViewSet(viewsets.ModelViewSet):
 from .models import SystemSettings
 
 class SystemSettingsViewSet(viewsets.ViewSet):
+    # The maintenance flag is read before anyone logs in; only admins change it (create)
+    permission_classes = [permissions.AllowAny]
+
     def list(self, request):
         settings = SystemSettings.load()
         return Response({"maintenance_mode": settings.maintenance_mode})
@@ -398,7 +504,7 @@ class SystemSettingsViewSet(viewsets.ViewSet):
         if not request.user.is_superuser:
             return Response(status=status.HTTP_403_FORBIDDEN)
         settings = SystemSettings.load()
-        settings.maintenance_mode = request.data.get('maintenance_mode', settings.maintenance_mode)
+        settings.maintenance_mode = bool(request.data.get('maintenance_mode', settings.maintenance_mode))
         settings.save()
         return Response({"maintenance_mode": settings.maintenance_mode})
 

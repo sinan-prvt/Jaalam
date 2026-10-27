@@ -214,13 +214,20 @@ export default function WeddingEditor() {
   // Ensure default wedding struct exists
   const weddingData = content.settings_json?.wedding || {};
   const setWeddingData = (updates: any) => {
-    setContent((prev: any) => ({
-      ...prev,
-      settings_json: {
-        ...(prev?.settings_json || {}),
-        wedding: { ...(prev?.settings_json?.wedding || {}), ...updates }
-      }
-    }));
+    setContent((prev: any) => {
+      const wedding = { ...(prev?.settings_json?.wedding || {}), ...updates };
+      // The cover shows `date`; keep it in step with the day / month / year boxes
+      const dateChanged = ['dateDay', 'dateMonth', 'dateYear'].some(k => k in updates);
+      const date = dateChanged ? [wedding.dateDay, wedding.dateMonth, wedding.dateYear].filter(Boolean).join(' ').trim() : undefined;
+      return {
+        ...prev,
+        ...(date ? { date } : {}),
+        settings_json: {
+          ...(prev?.settings_json || {}),
+          wedding: date ? { ...wedding, date } : wedding
+        }
+      };
+    });
   };
 
   const tabs = [
@@ -298,7 +305,7 @@ export default function WeddingEditor() {
 
       {/* Mobile Nav */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-pink-100 z-50 flex items-center justify-between px-4">
-        <Link to="/dashboard" className="p-2 bg-pink-50 rounded-xl text-pink-600">
+        <Link to="/dashboard?tab=Projects" className="p-2 bg-pink-50 rounded-xl text-pink-600">
           <ArrowLeft size={20} />
         </Link>
         <div className="flex bg-pink-50 p-1 rounded-xl mx-1">
@@ -311,12 +318,12 @@ export default function WeddingEditor() {
       <div className={`w-full lg:w-[420px] h-[calc(100vh-64px)] lg:h-screen mt-16 lg:mt-0 bg-white/70 backdrop-blur-2xl lg:border-r border-pink-100 shadow-xl flex flex-col relative z-20 ${mobileView === 'editor' ? 'flex' : 'hidden lg:flex'}`}>
 
         <div className="hidden lg:flex p-5 border-b border-pink-100 items-center justify-between">
-          <Link to="/dashboard" className="w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500 hover:bg-pink-100 transition-colors">
+          <Link to="/dashboard?tab=Projects" className="w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500 hover:bg-pink-100 transition-colors">
             <ArrowLeft size={20} />
           </Link>
           <h2 className="font-serif italic font-bold text-slate-800 text-xl truncate px-2">{content.hero_title || 'Wedding Invite'}</h2>
           <div className="flex gap-2">
-            <button onClick={handleSave} disabled={saving} className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
+            <button onClick={handleSave} disabled={saving} title="Save" aria-label="Save" className="bg-pink-50 text-pink-600 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition-colors">
               <Save size={16} />
             </button>
           </div>

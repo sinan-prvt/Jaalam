@@ -15,7 +15,7 @@ export default function CommandPalette() {
     { id: 'new-project', name: 'Create New Project', icon: <PlusCircle size={18} />, route: '/dashboard', state: { tab: 'Projects', creating: true } },
     { id: 'my-sites', name: 'View My Sites', icon: <Globe size={18} />, route: '/dashboard', state: { tab: 'Projects' } },
     { id: 'analytics', name: 'View Analytics', icon: <BarChart2 size={18} />, route: '/dashboard', state: { tab: 'Analytics' } },
-    { id: 'inbox', name: 'Check Inbox', icon: <Inbox size={18} />, route: '/dashboard', state: { tab: 'Inbox' } },
+    { id: 'inbox', name: 'Check Inbox', icon: <Inbox size={18} />, route: '/dashboard', state: { tab: 'Notifications' } },
     { id: 'settings', name: 'Account Settings', icon: <Settings size={18} />, route: '/dashboard', state: { tab: 'Settings' } },
   ];
 

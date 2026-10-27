@@ -91,6 +91,24 @@ class Invoice(models.Model):
     def __str__(self):
         return f"Invoice {self.invoice_number or self.id} - {self.customer_name}"
 
+class Product(models.Model):
+    """Something a shop sells, saved once and tapped onto invoices (POS-style billing).
+    Belongs to the shop's billing owner, like the business profile (see billing.views)."""
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
+    name = models.CharField(max_length=150)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    gst_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # % (else the invoice's rate)
+    hsn_sac = models.CharField(max_length=10, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name} (₹{self.price})'
+
+
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
     description = models.CharField(max_length=255)
