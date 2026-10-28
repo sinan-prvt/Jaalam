@@ -12,6 +12,8 @@ import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
 import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 import useHideBranding from '../../hooks/useHideBranding';
 import { SiteContext } from '../../components/themes/shared/siteContext';
+import InlineTextEditor from '../../components/editor/InlineTextEditor';
+import { applyInlineEdits, type InlineEdit } from '../../utils/contentPatch';
 
 
 function LivePreviewContent() {
@@ -76,6 +78,16 @@ function LivePreviewContent() {
       }
     : {};
 
+  // Click-to-edit for every theme, but only in the website editors (not template previews)
+  let inEditor = false;
+  try {
+    inEditor = inEditorFrame && /^\/([a-z-]+-)?editor\//.test(window.parent.location.pathname);
+  } catch { /* parent on another origin */ }
+  const applyInline = (edits: InlineEdit[]) => {
+    setData((prev: any) => ({ ...prev, content: applyInlineEdits(prev.content, edits) }));
+    window.parent.postMessage({ type: 'INLINE_EDIT', edits }, window.location.origin);
+  };
+
   const renderFallback = () => {
     return (
       <div className="p-8 font-sans">
@@ -94,6 +106,7 @@ function LivePreviewContent() {
       <SiteContext.Provider value={{ slug: data.website?.slug, preview: true }}>
         <ThemeRenderer website={data.website} content={data.content} fallback={renderFallback()} editProps={editProps} />
       </SiteContext.Provider>
+      {inEditor && <InlineTextEditor content={data.content} onEdit={applyInline} />}
       {/* Invitation layouts without a built-in calendar button get a floating one */}
       {invitationCategories.includes(data.website?.business_type) && !invitationStyleFor(data.website?.theme, data.website?.business_type) && (
         <FloatingAddToCalendar content={data.content} website={data.website} />

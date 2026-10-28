@@ -9,6 +9,7 @@ import { useRazorpay } from 'react-razorpay';
 import TemplateUploader from '../../components/ui/TemplateUploader';
 import CustomDomainPanel from '../../components/editor/CustomDomainPanel';
 import { categoryThemes, weddingCategories, birthdayCategories, housewarmingCategories, collegeFestCategories, religiousEventCategories } from '../../utils/templateData';
+import { applyInlineEdits } from '../../utils/contentPatch';
 import { resolveBusinessType } from '../../components/themes/registry';
 import { MOTION_THEME_NAMES } from '../../components/themes/motion/presets';
 import usePlan from '../../hooks/usePlan';
@@ -214,6 +215,10 @@ export default function WebsiteEditor() {
     const handleMessage = (e: MessageEvent) => {
       if (e.data?.type === 'PREVIEW_READY') {
         setIframeReady(true);
+      }
+      // Text clicked and changed on the preview itself (InlineTextEditor)
+      if (e.data?.type === 'INLINE_EDIT' && e.origin === window.location.origin && e.source === iframeRef.current?.contentWindow) {
+        setContent((prev: any) => applyInlineEdits(prev, e.data.edits));
       }
     };
     window.addEventListener('message', handleMessage);
