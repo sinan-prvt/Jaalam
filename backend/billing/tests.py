@@ -78,6 +78,12 @@ class InvoiceTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('customer_gstin', response.json())
 
+    def test_invalid_customer_phone_rejected(self):
+        response = self.client.post('/api/billing/invoices/', {'website': self.site.id, 'customer_name': 'X', 'customer_phone': 'xyz', 'items': []}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('customer_phone', response.json())
+        self.assertEqual(self.create(customer_phone='+91 98470 12345')['customer_phone'], '+91 98470 12345')
+
     def test_part_payments_then_paid(self):
         inv = self.create()
         url = f"/api/billing/invoices/{inv['id']}/record_payment/"

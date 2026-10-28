@@ -1,3 +1,4 @@
+import re
 from decimal import Decimal
 
 from django.db import transaction
@@ -13,6 +14,14 @@ def billing_owner(website):
     """Who is the seller on a website's invoices: the shop's own client login if it has one
     (their business name, GSTIN and their own invoice numbers), otherwise the site owner."""
     return website.client or website.user
+
+
+def clean_phone(value):
+    """Trimmed phone number, or a ValidationError for text that can't be one (it feeds WhatsApp links)."""
+    value = (value or '').strip()
+    if value and (not re.fullmatch(r'[\d\s+()./-]+', value) or not 6 <= len(re.sub(r'\D', '', value)) <= 15):
+        raise serializers.ValidationError('Enter a valid phone number.')
+    return value
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -64,6 +73,9 @@ class BusinessProfileSerializer(serializers.ModelSerializer):
         if value and value not in gst.STATES:
             raise serializers.ValidationError('Unknown state.')
         return value
+
+    def validate_phone(self, value):
+        return clean_phone(value)
 
     def validate(self, attrs):
         gstin, state = attrs.get('gstin'), attrs.get('state_code')
@@ -141,6 +153,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
         if value and (error := gst.gstin_error(value)):
             raise serializers.ValidationError(error)
         return value
+
+    def validate_customer_phone(self, value):
+        return clean_phone(value)
 
     def validate_place_of_supply(self, value):
         if value and value not in gst.STATES:

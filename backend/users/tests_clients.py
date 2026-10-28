@@ -137,7 +137,7 @@ class ClientAccountTests(TestCase):
 
     def test_new_enquiry_notifies_agency_and_client(self):
         client, _ = self.make_client()
-        Client().post('/api/customers/lead/', {'website': self.site.id, 'name': 'Ravi', 'message': 'Table for 4?'},
+        Client().post('/api/customers/lead/', {'website': self.site.id, 'name': 'Ravi', 'phone': '9847012345', 'message': 'Table for 4?'},
                       content_type='application/json')
         self.assertTrue(Notification.objects.filter(user=self.agency, notification_type='new_lead').exists())
         self.assertTrue(Notification.objects.filter(user=client, notification_type='new_lead').exists())

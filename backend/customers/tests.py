@@ -39,10 +39,18 @@ class CrmTests(TestCase):
 
     def test_old_contact_form_still_works(self):
         # Anonymous POST to the collection with the message in `notes`, as the old frontend sends it.
-        response = self.client.post('/api/customers/', {'website': self.site.id, 'name': 'Old', 'notes': 'Hi', 'status': 'LOST'},
+        response = self.client.post('/api/customers/', {'website': self.site.id, 'name': 'Old', 'phone': '98470 12345',
+                                                        'notes': 'Hi', 'status': 'LOST'},
                                     content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertEqual((Customer.objects.get().message, Customer.objects.get().status), ('Hi', 'NEW'))
+
+    def test_public_lead_needs_a_way_to_reply(self):
+        self.assertEqual(self.lead(email='').status_code, 400)  # no email or phone
+        self.assertEqual(self.lead(email='', phone='abc').status_code, 400)
+        self.assertEqual(self.lead(email='', phone='123').status_code, 400)
+        self.assertEqual(self.lead(email='', phone='+91 98470-12345').status_code, 201)
+        self.assertEqual(Customer.objects.count(), 1)
 
     def test_logged_in_visitor_can_message_another_site(self):
         self.client.force_login(self.other)
