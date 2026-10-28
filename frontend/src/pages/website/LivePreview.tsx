@@ -11,6 +11,7 @@ import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
 import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 import useHideBranding from '../../hooks/useHideBranding';
+import useTextOverrides from '../../hooks/useTextOverrides';
 import { SiteContext } from '../../components/themes/shared/siteContext';
 import InlineTextEditor from '../../components/editor/InlineTextEditor';
 import { applyInlineEdits, type InlineEdit } from '../../utils/contentPatch';
@@ -21,6 +22,7 @@ function LivePreviewContent() {
   useScrollReveal([data?.website?.theme, data?.website?.business_type]);
   useSmoothScroll();
   useHideBranding(data?.website?.show_branding === false);
+  useTextOverrides(data?.content?.settings_json, data?.content);
 
   useEffect(() => {
     // Language widget is off unless enabled: drop any leftover translation once the site has loaded

@@ -17,6 +17,7 @@ import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
 import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 import useHideBranding from '../../hooks/useHideBranding';
+import useTextOverrides from '../../hooks/useTextOverrides';
 import { SiteContext } from '../../components/themes/shared/siteContext';
 
 import { safeHtml } from '../../utils/safeHtml';
@@ -40,6 +41,8 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
   useScrollReveal([website?.theme, website?.business_type]);
   useSmoothScroll();
   useHideBranding(website?.show_branding === false);
+  // The site's own wording and pictures in place of the theme's, set by clicking them in the editor
+  useTextOverrides(website?.content?.settings_json, website?.content);
 
   useEffect(() => {
     const fetchWebsite = async () => {
