@@ -13,6 +13,7 @@ export interface BusinessProfile {
   logo_url: string;
   invoice_prefix: string;
   terms: string;
+  invoice_theme?: string;  // design for new invoices (the last one used)
 }
 
 export const EMPTY_PROFILE: BusinessProfile = {
@@ -28,6 +29,9 @@ export interface Product {
   hsn_sac: string;
   is_active: boolean;
 }
+
+/** How an invoice names its customer: a walk-in sale has no name. */
+export const customerLabel = (name?: string | null) => name?.trim() || 'Walk-in customer';
 
 export interface MonthlyReport {
   month: string;

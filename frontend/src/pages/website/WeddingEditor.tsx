@@ -1028,7 +1028,7 @@ export default function WeddingEditor() {
                 {website.published && (
                   <div className="flex flex-col items-center">
                     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 inline-block">
-                      <QRCode value={publicUrl} size={150} />
+                      <QRCode value={`${publicUrl}?src=qr`} size={150} />
                     </div>
                     <a href={publicUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-pink-600 flex items-center justify-center gap-2 mb-2">
                       <Share2 size={16} /> Open Public Link

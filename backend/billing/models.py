@@ -6,6 +6,10 @@ from websites.models import Website
 
 User = get_user_model()
 
+# Invoice designs (see frontend components/billing/invoiceThemes.ts)
+INVOICE_THEMES = ['classic', 'modern', 'minimal', 'bold', 'elegant', 'fresh', 'receipt']
+
+
 class BusinessProfile(models.Model):
     """Seller details printed on every invoice (saved once, reused)."""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='business_profile')
@@ -19,6 +23,7 @@ class BusinessProfile(models.Model):
     logo_url = models.URLField(max_length=500, blank=True)
     invoice_prefix = models.CharField(max_length=10, default='INV')
     terms = models.TextField(blank=True)  # default notes / terms printed on invoices
+    invoice_theme = models.CharField(max_length=20, default='classic')  # design for new invoices
 
     def __str__(self):
         return self.legal_name or self.user.username
@@ -35,7 +40,7 @@ class Invoice(models.Model):
     website = models.ForeignKey(Website, on_delete=models.CASCADE, related_name='invoices')
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
-    customer_name = models.CharField(max_length=255)
+    customer_name = models.CharField(max_length=255, blank=True)  # empty for a walk-in sale
     customer_email = models.EmailField(blank=True, null=True)
     customer_phone = models.CharField(max_length=50, blank=True, null=True)
     
@@ -53,6 +58,7 @@ class Invoice(models.Model):
     customer_address = models.TextField(blank=True)
     place_of_supply = models.CharField(max_length=2, blank=True)  # GST state code
     notes = models.TextField(blank=True)
+    theme = models.CharField(max_length=20, blank=True, default='classic')  # design, see INVOICE_THEMES
 
     # Seller details copied from the business profile when the invoice is created, so later
     # profile edits don't change issued invoices.
@@ -89,7 +95,7 @@ class Invoice(models.Model):
         ]
 
     def __str__(self):
-        return f"Invoice {self.invoice_number or self.id} - {self.customer_name}"
+        return f"Invoice {self.invoice_number or self.id} - {self.customer_name or 'Walk-in customer'}"
 
 class Product(models.Model):
     """Something a shop sells, saved once and tapped onto invoices (POS-style billing).

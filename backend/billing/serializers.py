@@ -7,13 +7,19 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from . import gst
-from .models import BusinessProfile, Invoice, InvoiceItem, Product
+from .models import INVOICE_THEMES, BusinessProfile, Invoice, InvoiceItem, Product
 
 
 def billing_owner(website):
     """Who is the seller on a website's invoices: the shop's own client login if it has one
     (their business name, GSTIN and their own invoice numbers), otherwise the site owner."""
     return website.client or website.user
+
+
+def check_theme(value):
+    if value and value not in INVOICE_THEMES:
+        raise serializers.ValidationError('Unknown invoice design.')
+    return value
 
 
 def clean_phone(value):
@@ -76,6 +82,9 @@ class BusinessProfileSerializer(serializers.ModelSerializer):
 
     def validate_phone(self, value):
         return clean_phone(value)
+
+    def validate_invoice_theme(self, value):
+        return check_theme(value)
 
     def validate(self, attrs):
         gstin, state = attrs.get('gstin'), attrs.get('state_code')
@@ -157,6 +166,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
     def validate_customer_phone(self, value):
         return clean_phone(value)
 
+    def validate_theme(self, value):
+        return check_theme(value)
+
     def validate_place_of_supply(self, value):
         if value and value not in gst.STATES:
             raise serializers.ValidationError('Unknown state.')
@@ -198,6 +210,13 @@ class InvoiceSerializer(serializers.ModelSerializer):
         BusinessProfile.objects.get_or_create(user=owner)
         profile = BusinessProfile.objects.select_for_update().get(user=owner)
 
+        # The design picked is remembered as the shop's default for its next invoices
+        if validated_data.get('theme'):
+            if profile.invoice_theme != validated_data['theme']:
+                profile.invoice_theme = validated_data['theme']
+                profile.save(update_fields=['invoice_theme'])
+        else:
+            validated_data['theme'] = profile.invoice_theme or 'classic'
         issue_date = validated_data.pop('issue_date', None) or timezone.localdate()
         fy = gst.financial_year(issue_date)
         last = Invoice.objects.filter(owner=owner, financial_year=fy).aggregate(m=Max('sequence'))['m'] or 0
@@ -228,6 +247,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         items_data = validated_data.pop('items', None)
         validated_data.pop('website', None)  # an issued invoice stays with its website
+        if validated_data.get('theme'):  # remembered for the shop's next invoices, as on create
+            BusinessProfile.objects.filter(user=billing_owner(instance.website)).update(invoice_theme=validated_data['theme'])
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         if items_data is None:

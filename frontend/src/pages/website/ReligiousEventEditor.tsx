@@ -45,6 +45,28 @@ const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => vo
   );
 };
 
+// Starting text for a new site, matching its faith (a church or temple shouldn't open with a mosque's wording)
+const FAITH_DEFAULTS: Record<string, { tagline: string; organization_name: string; leader_title: string; schedule: { name: string; time: string; description: string } }> = {
+  'Mosque Event': {
+    tagline: 'In the name of God, the Most Gracious, the Most Merciful',
+    organization_name: 'Islamic Center',
+    leader_title: 'Imam',
+    schedule: { name: 'Friday Prayer (Jummah)', time: '1:30 PM', description: 'Weekly congregational prayer.' },
+  },
+  'Church Event': {
+    tagline: 'Come, let us worship together',
+    organization_name: 'Community Church',
+    leader_title: 'Pastor / Priest',
+    schedule: { name: 'Sunday Holy Mass', time: '9:00 AM', description: 'Weekly worship service.' },
+  },
+  'Temple Event': {
+    tagline: 'Welcome to the abode of the divine',
+    organization_name: 'Sri Temple',
+    leader_title: 'Priest',
+    schedule: { name: 'Morning Pooja', time: '6:00 AM', description: 'Daily prayers and offerings.' },
+  },
+};
+
 export default function ReligiousEventEditor() {
   const { isLockedTheme } = usePlan();
   const { websiteId } = useParams();
@@ -79,12 +101,13 @@ export default function ReligiousEventEditor() {
 
         const rawContent = res.data.content || {};
         const rawReligious = rawContent.settings_json?.religious_event || {};
+        const faith = FAITH_DEFAULTS[res.data.business_type] || FAITH_DEFAULTS['Mosque Event'];
 
         const defaultReligious = {
-          tagline: rawReligious.tagline || rawContent.quote || 'In the name of God, the Most Gracious, the Most Merciful',
+          tagline: rawReligious.tagline || rawContent.quote || faith.tagline,
           subtitle: rawReligious.subtitle || '',
-          organization_name: rawReligious.organization_name || rawContent.hero_title || 'Islamic Center',
-          leader_title: rawReligious.leader_title || 'Imam / Priest',
+          organization_name: rawReligious.organization_name || rawContent.hero_title || faith.organization_name,
+          leader_title: rawReligious.leader_title || faith.leader_title,
           leader_name: rawReligious.leader_name || '',
           leader_photo: rawReligious.leader_photo || '',
           vision_mission: rawReligious.vision_mission || 'To serve the community and foster a deep sense of faith and belonging.',
@@ -93,9 +116,7 @@ export default function ReligiousEventEditor() {
           cover_image: rawReligious.cover_image || rawContent.hero?.image || '',
           mapUrl: rawReligious.mapUrl || 'https://maps.app.goo.gl/Vg34LGmsU',
           contactNumbers: rawReligious.contactNumbers || '123-456-7890',
-          schedule: rawReligious.schedule || [
-            { id: 1, name: "Friday Prayer (Jummah)", time: "1:30 PM", description: "Weekly congregational prayer." }
-          ],
+          schedule: rawReligious.schedule || [{ id: 1, ...faith.schedule }],
           donations: rawReligious.donations || [
             { id: 1, cause: "General Fund", amount: "Any", description: "Support the operational costs." }
           ],
@@ -809,7 +830,7 @@ export default function ReligiousEventEditor() {
                 {website.published && (
                   <div className="flex flex-col items-center">
                     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 inline-block">
-                      <QRCode value={publicUrl} size={150} />
+                      <QRCode value={`${publicUrl}?src=qr`} size={150} />
                     </div>
                     <a href={publicUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-emerald-600 flex items-center justify-center gap-2 mb-2">
                       <Share2 size={16} /> Open Public Link

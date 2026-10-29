@@ -130,7 +130,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         link = f"{base}/invoice/{invoice.public_token}"
         send_mail(
             f"Invoice {invoice.invoice_number} from {invoice.seller_name}",
-            f"Hi {invoice.customer_name},\n\nPlease find invoice {invoice.invoice_number} for ₹{invoice.total_amount}"
+            f"Hi {invoice.customer_name or 'there'},\n\nPlease find invoice {invoice.invoice_number} for ₹{invoice.total_amount}"
             f"{f', due on {invoice.due_date:%d %b %Y}' if invoice.due_date else ''}.\n\n"
             f"View, download or pay online: {link}\n\nThank you,\n{invoice.seller_name}",
             None, [invoice.customer_email], fail_silently=False,

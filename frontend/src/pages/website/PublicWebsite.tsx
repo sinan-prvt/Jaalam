@@ -47,10 +47,12 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
   useEffect(() => {
     const fetchWebsite = async () => {
       try {
+        // Where the visitor came from, for the owner's Analytics page (?src=qr on printed QR codes)
+        const visit = { ref: document.referrer || undefined, src: new URLSearchParams(window.location.search).get('src') || undefined };
         const [res] = await Promise.all([
           customHost
-            ? axios.get('/api/websites/by-domain/', { params: { host: customHost } })
-            : axios.get(`/api/websites/${businessSlug}/public/`),
+            ? axios.get('/api/websites/by-domain/', { params: { host: customHost, ...visit } })
+            : axios.get(`/api/websites/${businessSlug}/public/`, { params: visit }),
           new Promise(resolve => setTimeout(resolve, customHost ? 0 : 1500)) // Artificial delay to showcase skeleton
         ]);
         setWebsite(res.data);

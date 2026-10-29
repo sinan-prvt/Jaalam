@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Plus, Minus, Trash2, Save, ChevronLeft, Copy, ExternalLink, MessageCircle, CheckCircle2, Search, Package, Pencil, Store } from 'lucide-react';
+import { Plus, Minus, Trash2, Save, ChevronDown, ChevronLeft, Copy, Download, ExternalLink, MessageCircle, CheckCircle2, Search, Package, Pencil, Store } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import InvoiceDocument, { type InvoiceView } from '../../../components/billing/InvoiceDocument';
+import { INVOICE_THEMES } from '../../../components/billing/invoiceThemes';
 import { apiError } from '../../../utils/apiError';
 import { GST_RATES, GST_STATES, computeTotals, gstinError, inr, invoiceLink, whatsappInvoiceLink, type DraftItem } from '../../../utils/gst';
 import { productsUrl, profileUrl, type BusinessProfile, type Product } from '../../../utils/billing';
@@ -16,6 +17,8 @@ interface InvoiceBuilderProps {
   onSuccess: () => void;
   onEditBusiness: () => void;
   onManageProducts: () => void;
+  // The design used, which the server keeps as the shop's default for new invoices
+  onThemeUsed?: (theme: string) => void;
 }
 
 const today = () => {
@@ -33,7 +36,7 @@ const label = 'block text-xs font-bold text-slate-500 uppercase mb-2';
  * quantities with +/−, or add a custom line. Seller details come from the shop's saved
  * business details (set up once on the Invoices page).
  */
-export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, onEditBusiness, onManageProducts }: InvoiceBuilderProps) {
+export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, onEditBusiness, onManageProducts, onThemeUsed }: InvoiceBuilderProps) {
   const [customer, setCustomer] = useState({ name: '', phone: '', email: '', gstin: '', address: '' });
   const [placeOfSupply, setPlaceOfSupply] = useState('');
   const [issueDate, setIssueDate] = useState(today());
@@ -42,8 +45,11 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
   const [useNotesAlways, setUseNotesAlways] = useState(!!profile.terms);
   const [items, setItems] = useState<Line[]>([]);
   const [gstRate, setGstRate] = useState(18);
+  const [theme, setTheme] = useState(profile.invoice_theme || 'classic');
+  // Email, GSTIN, address, place of supply and dates: only some sales need them
+  const [moreDetails, setMoreDetails] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [saved, setSaved] = useState<(InvoiceView & { public_token: string }) | null>(null);
+  const [saved, setSaved] = useState<(InvoiceView & { id: number; public_token: string }) | null>(null);
   const [products, setProducts] = useState<Product[] | null>(null);
   const [productQuery, setProductQuery] = useState('');
 
@@ -115,13 +121,18 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
     notes,
   }), [saved, profile, issueDate, dueDate, customer, customerGstinError, supplyState, items, gstRate, totals, notes]);
 
-  const handleSave = async () => {
-    if (!customer.name.trim()) return toast.error('Add the customer name');
-    if (items.length === 0) return toast.error('Tap a product or add an item');
-    if (items.some((item) => !item.description.trim())) return toast.error('Every item needs a description');
-    if (customerGstinError) return toast.error(`Customer GSTIN: ${customerGstinError}`);
-    if (dueDate && dueDate < issueDate) return toast.error('The due date is before the invoice date');
+  // One message at a time: pressing Save again replaces it instead of stacking another
+  const fail = (message: string) => toast.error(message, { id: 'invoice-form' });
 
+  /** Saves the invoice; with `download`, then opens it ready to save as PDF / print. */
+  const handleSave = async (download = false) => {
+    if (items.length === 0) return fail('Tap a product or add an item');
+    if (items.some((item) => !item.description.trim())) return fail('Every item needs a description');
+    if (customerGstinError) { setMoreDetails(true); return fail(`Customer GSTIN: ${customerGstinError}`); }
+    if (dueDate && dueDate < issueDate) { setMoreDetails(true); return fail('The due date is before the invoice date'); }
+
+    // Opened now, while this is still the click, so the browser doesn't block it as a pop-up
+    const pdfTab = download ? window.open('', '_blank') : null;
     setLoading(true);
     try {
       // "Use these notes on every invoice" is part of the shop's saved details
@@ -131,7 +142,7 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
       }
       const res = await axios.post('/api/billing/invoices/', {
         website: websiteId,
-        customer_name: customer.name,
+        customer_name: customer.name.trim(),
         customer_email: customer.email || null,
         customer_phone: customer.phone,
         customer_gstin: customer.gstin.toUpperCase(),
@@ -141,16 +152,35 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
         due_date: dueDate || null,
         notes,
         status: 'UNPAID',
+        theme,
         gst_percentage: gstRate,
         items: items.map(({ description, hsn_sac, quantity, price, gst_rate }) => ({ description, hsn_sac, quantity, price, gst_rate })),
       }, { withCredentials: true });
       setSaved(res.data);
-      toast.success(`Invoice ${res.data.invoice_number} created`);
+      onThemeUsed?.(theme);
+      toast.success(`Invoice ${res.data.invoice_number} created`, { id: 'invoice-form' });
+      if (pdfTab) pdfTab.location.href = `${invoiceLink(res.data.public_token)}?print=1`;
     } catch (err) {
       console.error(err);
-      toast.error(apiError(err, 'Failed to create invoice'));
+      pdfTab?.close();
+      fail(apiError(err, 'Failed to create invoice'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  // A saved invoice changes design straight away (its link and PDF follow)
+  const pickTheme = async (id: string) => {
+    const previous = theme;
+    setTheme(id);
+    if (!saved) return;
+    try {
+      const res = await axios.patch(`/api/billing/invoices/${saved.id}/`, { theme: id }, { withCredentials: true });
+      setSaved(res.data);
+      onThemeUsed?.(id);
+    } catch (err) {
+      setTheme(previous);
+      toast.error(apiError(err, 'Could not change the design'));
     }
   };
 
@@ -180,13 +210,22 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
           </div>
         </div>
         {!saved && (
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            className="bg-orange-600 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-700 transition-colors disabled:opacity-50"
-          >
-            <Save size={16} /> {loading ? 'Saving…' : 'Save Invoice'}
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => handleSave()}
+              disabled={loading}
+              className="bg-white text-slate-700 border border-slate-200 px-5 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors disabled:opacity-50"
+            >
+              <Save size={16} /> {loading ? 'Saving…' : 'Save'}
+            </button>
+            <button
+              onClick={() => handleSave(true)}
+              disabled={loading}
+              className="bg-orange-600 text-white px-5 py-2 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-700 transition-colors disabled:opacity-50"
+            >
+              <Download size={16} /> Save &amp; Download
+            </button>
+          </div>
         )}
       </div>
 
@@ -290,23 +329,28 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
 
               <div className="space-y-2">
                 {items.map((item, index) => (
-                  <div key={index} className="grid grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1fr)_120px_110px_80px_auto] gap-2 items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <input value={item.description} onChange={(e) => updateItem(index, 'description', e.target.value)} placeholder="Item description" className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none" />
-                    <div className="flex items-center justify-end gap-1 md:justify-start" role="group" aria-label="Quantity">
+                  <div key={index} className="space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-2">
+                      <input value={item.description} onChange={(e) => updateItem(index, 'description', e.target.value)} placeholder="Item name" aria-label="Item name" className="flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium outline-none" />
+                      <button onClick={() => setItems(items.filter((_, i) => i !== index))} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg shrink-0" aria-label="Remove item">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex items-center gap-1" role="group" aria-label="Quantity">
                       <button onClick={() => stepQty(index, -1)} className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-100" aria-label="One less"><Minus size={14} /></button>
                       <input type="number" min="1" value={item.quantity || ''} onChange={(e) => updateItem(index, 'quantity', e.target.value)} aria-label="Quantity" className="h-9 w-12 rounded-lg border border-slate-200 bg-white text-center text-sm font-bold outline-none" />
                       <button onClick={() => stepQty(index, 1)} className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-100" aria-label="One more"><Plus size={14} /></button>
                     </div>
-                    <input type="number" min="0" step="0.01" value={item.price || ''} onChange={(e) => updateItem(index, 'price', e.target.value)} placeholder="Rate (₹)" aria-label="Rate" className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none" />
-                    <select value={item.gst_rate ?? ''} onChange={(e) => updateItem(index, 'gst_rate', e.target.value)} aria-label="GST rate" className="bg-white border border-slate-200 rounded-lg px-2 py-2 text-sm">
-                      <option value="">{gstRate}%</option>
-                      {GST_RATES.map((r) => <option key={r} value={r}>{r}%</option>)}
+                    <div className="relative">
+                      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">₹</span>
+                      <input type="number" min="0" step="0.01" value={item.price || ''} onChange={(e) => updateItem(index, 'price', e.target.value)} placeholder="Rate" aria-label="Rate" className="h-9 w-28 bg-white border border-slate-200 rounded-lg pl-7 pr-2 text-sm outline-none" />
+                    </div>
+                    <select value={item.gst_rate ?? ''} onChange={(e) => updateItem(index, 'gst_rate', e.target.value)} aria-label="GST rate" className="h-9 bg-white border border-slate-200 rounded-lg px-2 text-sm">
+                      <option value="">GST {gstRate}%</option>
+                      {GST_RATES.map((r) => <option key={r} value={r}>GST {r}%</option>)}
                     </select>
-                    <div className="flex items-center justify-end gap-2">
-                      <span className="text-sm font-black text-slate-900 md:hidden">{inr((item.quantity || 0) * (item.price || 0))}</span>
-                      <button onClick={() => setItems(items.filter((_, i) => i !== index))} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg" aria-label="Remove item">
-                        <Trash2 size={16} />
-                      </button>
+                    <span className="ml-auto text-sm font-black text-slate-900">{inr((item.quantity || 0) * (item.price || 0))}</span>
                     </div>
                   </div>
                 ))}
@@ -321,17 +365,35 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
               )}
             </section>
 
-            <section className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+            {/* Sized by its own width (the preview sits beside it on wide screens) */}
+            <section className="@container bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
               <h3 className="font-bold text-slate-900 mb-4">Customer</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
                 <div>
-                  <label className={label}>Customer name *</label>
-                  <input value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} className={input} placeholder="John Doe" />
+                  <label className={label}>Customer name <span className="normal-case font-medium text-slate-400">(optional)</span></label>
+                  <input value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} className={input} placeholder="Walk-in customer" />
                 </div>
                 <div>
                   <label className={label}>Phone (for WhatsApp)</label>
                   <input type="tel" value={customer.phone} onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} className={input} placeholder="9876543210" />
                 </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMoreDetails((v) => !v)}
+                aria-expanded={moreDetails}
+                className="mt-4 flex w-full items-center justify-between rounded-xl bg-slate-50 px-4 py-2.5 text-left text-sm font-bold text-slate-600 hover:bg-slate-100"
+              >
+                <span>
+                  More details
+                  <span className="block text-xs font-medium text-slate-400">Email, GSTIN for business customers, address, dates</span>
+                </span>
+                <ChevronDown size={18} className={`shrink-0 transition-transform ${moreDetails ? 'rotate-180' : ''}`} />
+              </button>
+
+              {moreDetails && (
+              <div className="mt-4 grid grid-cols-1 @md:grid-cols-2 gap-4">
                 <div>
                   <label className={label}>Email</label>
                   <input type="email" value={customer.email} onChange={(e) => setCustomer({ ...customer, email: e.target.value })} className={input} placeholder="john@example.com" />
@@ -347,7 +409,7 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
                   />
                   {customerGstinError && customer.gstin.length >= 15 && <p className="text-xs text-rose-600 mt-1">{customerGstinError}</p>}
                 </div>
-                <div className="md:col-span-2">
+                <div className="@md:col-span-2">
                   <label className={label}>Billing address</label>
                   <textarea value={customer.address} onChange={(e) => setCustomer({ ...customer, address: e.target.value })} rows={2} className={input} />
                 </div>
@@ -361,7 +423,7 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
                     <p className="text-xs text-slate-500 mt-1">{totals.taxType === 'INTRA' ? 'Same state: CGST + SGST' : 'Other state: IGST'}</p>
                   )}
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 @xs:grid-cols-2 gap-3">
                   <div>
                     <label className={label}>Invoice date</label>
                     <input type="date" value={issueDate} onChange={(e) => setIssueDate(e.target.value || today())} className={input} />
@@ -372,6 +434,7 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
                   </div>
                 </div>
               </div>
+              )}
             </section>
 
             <section className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
@@ -388,8 +451,23 @@ export default function InvoiceBuilder({ websiteId, profile, onBack, onSuccess, 
         <div className="w-full xl:w-[520px] shrink-0">
           <div className="bg-slate-200 p-3 sm:p-4 rounded-3xl xl:sticky xl:top-0">
             <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest text-center mb-3">Preview</h3>
-            <div className="rounded-2xl overflow-hidden shadow-sm">
-              <InvoiceDocument invoice={saved || preview} />
+            <div className="mb-3 flex flex-wrap justify-center gap-2" role="radiogroup" aria-label="Invoice design">
+              {INVOICE_THEMES.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={theme === option.id}
+                  onClick={() => pickTheme(option.id)}
+                  className={`shrink-0 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${theme === option.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >
+                  <span className={`w-3 h-3 rounded-full ring-1 ring-black/10 ${option.swatch}`} />
+                  {option.name}
+                </button>
+              ))}
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-sm bg-white">
+              <InvoiceDocument invoice={saved || preview} theme={theme} />
             </div>
           </div>
         </div>

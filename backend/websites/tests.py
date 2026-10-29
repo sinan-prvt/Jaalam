@@ -96,3 +96,44 @@ class RsvpTests(TestCase):
     def test_wish_counter_moves_one_at_a_time(self):
         response = self.client.post('/api/websites/anu-weds-ravi/wish/', {'increment': 100000}, content_type='application/json')
         self.assertEqual(response.json()['wish_count'], 49)
+
+
+class AnalyticsTests(TestCase):
+    PHONE = 'Mozilla/5.0 (Linux; Android 14) Mobile Safari/537.36'
+    COMPUTER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0'
+
+    def setUp(self):
+        User = get_user_model()
+        self.owner = User.objects.create_user(username='shop', email='shop@example.com', password='x')
+        self.site = Website.objects.create(user=self.owner, slug='spice', business_type='Restaurant', published=True)
+        self.other = Website.objects.create(user=User.objects.create_user(username='other', password='x'),
+                                            slug='other', business_type='Cafe', published=True)
+
+    def visit(self, slug='spice', agent=COMPUTER, client=None, **params):
+        return (client or self.client).get(f'/api/websites/{slug}/public/', params, HTTP_USER_AGENT=agent)
+
+    def test_visits_counted_by_day_source_and_device(self):
+        self.visit(agent=self.PHONE, ref='https://l.instagram.com/?u=x')
+        self.visit(src='qr', agent=self.PHONE)
+        self.visit(ref='https://www.google.com/')
+        self.visit()
+        self.visit(agent='Googlebot/2.1')  # bots don't count
+        self.client.force_login(self.owner)
+        self.visit(client=self.client)  # nor the owner previewing their site
+        data = self.client.get('/api/websites/analytics/?days=7').json()
+        self.assertEqual(data['totals']['visitors'], 4)
+        self.assertEqual(data['totals']['today'], 4)
+        self.assertEqual(data['devices'], {'mobile': 2, 'desktop': 2})
+        self.assertEqual({r['source']: r['visitors'] for r in data['sources']},
+                         {'instagram': 1, 'qr': 1, 'search': 1, 'direct': 1})
+        self.assertEqual(len(data['daily']), 7)
+        self.site.refresh_from_db()
+        self.assertEqual(self.site.visitors_count, 4)
+
+    def test_only_own_sites(self):
+        self.visit('other')
+        self.client.force_login(self.owner)
+        data = self.client.get('/api/websites/analytics/').json()
+        self.assertEqual([s['slug'] for s in data['sites']], ['spice'])
+        self.assertEqual(data['totals']['visitors'], 0)
+        self.assertEqual(data['days'], 30)

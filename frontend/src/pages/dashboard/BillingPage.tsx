@@ -11,7 +11,7 @@ import { apiError } from '../../utils/apiError';
 import { inr, invoiceLink, whatsappInvoiceLink } from '../../utils/gst';
 import { invitationCategories, otherEventCategories } from '../../utils/templateData';
 import {
-  EMPTY_PROFILE, businessProblem, monthKey, profileUrl, reportLink,
+  EMPTY_PROFILE, businessProblem, customerLabel, monthKey, profileUrl, reportLink,
   type BusinessProfile, type MonthlyReport,
 } from '../../utils/billing';
 
@@ -295,6 +295,7 @@ export default function BillingPage() {
           onBack={() => setIsCreating(false)}
           onEditBusiness={() => { setIsCreating(false); setEditingBusiness(true); }}
           onManageProducts={() => { setIsCreating(false); setTab('products'); }}
+          onThemeUsed={(invoice_theme) => setProfile({ ...profile, invoice_theme })}
           onSuccess={() => {
             fetchInvoices();
             setIsCreating(false);
@@ -502,7 +503,7 @@ export default function BillingPage() {
                   {filteredInvoices.map((inv) => (
                     <tr key={inv.id} className="border-b border-slate-100/50 hover:bg-white/50 transition-colors group">
                       <td className="px-6 py-4 font-mono text-xs text-slate-500 group-hover:text-indigo-600 transition-colors whitespace-nowrap">{inv.invoice_number || `#${inv.id}`}</td>
-                      <td className="px-6 py-4 font-bold text-slate-900">{inv.customer_name}</td>
+                      <td className="px-6 py-4 font-bold text-slate-900">{customerLabel(inv.customer_name)}</td>
                       <td className="px-6 py-4 text-sm text-slate-500 whitespace-nowrap">
                         {new Date(inv.issue_date ? `${inv.issue_date}T00:00:00` : inv.created_at).toLocaleDateString('en-IN')}
                         {inv.due_date && <span className="block text-[11px] text-slate-400">Due {new Date(`${inv.due_date}T00:00:00`).toLocaleDateString('en-IN')}</span>}
@@ -566,7 +567,7 @@ export default function BillingPage() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="font-black text-slate-900">Record payment</h3>
-                <p className="text-sm text-slate-500">{paying.invoice_number} · {paying.customer_name} · due {inr(paying.balance_due)}</p>
+                <p className="text-sm text-slate-500">{paying.invoice_number} · {customerLabel(paying.customer_name)} · due {inr(paying.balance_due)}</p>
               </div>
               <button onClick={() => setPaying(null)} className="p-1 text-slate-400 hover:text-slate-600" aria-label="Close"><X size={18} /></button>
             </div>

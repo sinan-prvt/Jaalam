@@ -1304,7 +1304,7 @@ export default function WebsiteEditor() {
               ) : (
                 <>
                   <div id="qr-code-wrapper" className="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100 mb-8 transform hover:scale-105 transition-transform duration-300">
-                    <QRCode value={publicUrl} size={180} />
+                    <QRCode value={`${publicUrl}?src=qr`} size={180} />
                   </div>
                   <h3 className="text-lg font-black text-slate-900 mb-2">Ready to Share!</h3>
                   <p className="text-center text-slate-500 text-sm mb-6 max-w-[250px] font-medium">
