@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import QRCodeLib from 'react-qr-code';
 const QRCode = (QRCodeLib as any).default || QRCodeLib;
 import { eventHierarchy } from '../../utils/templateData';
+import { applyInlineEdits } from '../../utils/contentPatch';
 import usePlan from '../../hooks/usePlan';
 
 const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
@@ -152,6 +153,10 @@ export default function WeddingEditor() {
       // Inline text edits made directly in the preview (same-origin iframe only)
       if (event.data?.type === 'CONTENT_EDIT' && event.origin === window.location.origin && event.source === iframeRef.current?.contentWindow) {
         setContent(event.data.content);
+      }
+      // Text clicked and changed on the preview itself (InlineTextEditor)
+      if (event.data?.type === 'INLINE_EDIT' && event.origin === window.location.origin && event.source === iframeRef.current?.contentWindow) {
+        setContent((prev: any) => applyInlineEdits(prev, event.data.edits));
       }
     };
     window.addEventListener('message', handleMessage);
@@ -1023,7 +1028,7 @@ export default function WeddingEditor() {
                 {website.published && (
                   <div className="flex flex-col items-center">
                     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 inline-block">
-                      <QRCode value={publicUrl} size={150} />
+                      <QRCode value={`${publicUrl}?src=qr`} size={150} />
                     </div>
                     <a href={publicUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-pink-600 flex items-center justify-center gap-2 mb-2">
                       <Share2 size={16} /> Open Public Link

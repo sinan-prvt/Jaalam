@@ -3,15 +3,19 @@ services:
     name: webbuilder-backend
     env: python
     region: singapore
-    plan: starter
+    # Free plan: sleeps after 15 idle minutes (an UptimeRobot check every 5 minutes keeps it
+    # awake; visitors see sites' backup copies while it wakes). Switch to starter when paying.
+    plan: free
     rootDir: backend
     buildCommand: ./build.sh
     startCommand: gunicorn config.wsgi:application
     envVars:
+      # Postgres on Neon (free, doesn't expire; Render's free database is deleted after 30 days).
+      # Use the direct (not "pooled") connection string from the Neon dashboard, with ?sslmode=require
       - key: DATABASE_URL
-        fromDatabase:
-          name: webbuilder-db
-          property: connectionString
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.13.7"
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
@@ -54,8 +58,4 @@ services:
       - key: FRONTEND_ORIGINS
         sync: false
 
-databases:
-  - name: webbuilder-db
-    plan: starter
-    databaseName: webbuilder
-    user: webbuilder_user
+# Daily jobs (reminders, site backup copies) run from .github/workflows/daily-jobs.yml

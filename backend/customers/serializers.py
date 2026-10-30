@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 
 from .models import Activity, Customer
@@ -59,6 +61,19 @@ class PublicLeadSerializer(serializers.ModelSerializer):
         if not website.published or website.is_blocked:
             raise serializers.ValidationError('This website is not accepting messages.')
         return website
+
+    def validate_phone(self, value):
+        value = (value or '').strip()
+        digits = re.sub(r'\D', '', value)
+        if value and (not re.fullmatch(r'[\d\s+()./-]+', value) or not 6 <= len(digits) <= 15):
+            raise serializers.ValidationError('Please enter a valid phone number.')
+        return value
+
+    def validate(self, attrs):
+        # A lead nobody can reply to is no use to the shop
+        if not attrs.get('email') and not attrs.get('phone'):
+            raise serializers.ValidationError('Please give an email or phone number so we can reply.')
+        return attrs
 
     def create(self, validated_data):
         legacy = validated_data.pop('notes', '')

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, Printer } from 'lucide-react';
 import { apiError } from '../../utils/apiError';
 import { inr } from '../../utils/gst';
-import type { MonthlyReport } from '../../utils/billing';
+import { customerLabel, type MonthlyReport } from '../../utils/billing';
 
 const STATUS: Record<string, string> = { PAID: 'Paid', UNPAID: 'Unpaid', CANCELLED: 'Cancelled', DRAFT: 'Draft' };
 const fmtDate = (d: string) => new Date(`${d}T00:00:00`).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
@@ -119,7 +119,7 @@ export default function InvoiceReport() {
                   <tr key={i.id} className={`border-b border-slate-100 break-inside-avoid ${off ? 'text-slate-400 line-through' : ''}`}>
                     <td className={td}>{fmtDate(i.issue_date)}</td>
                     <td className={`${td} font-mono`}>{i.invoice_number}</td>
-                    <td className={td}>{i.customer_name}</td>
+                    <td className={td}>{customerLabel(i.customer_name)}</td>
                     <td className={td}>{i.status === 'UNPAID' && Number(i.amount_paid) > 0 ? 'Part paid' : STATUS[i.status] || i.status}</td>
                     <td className={`${td} text-right`}>{inr(i.subtotal)}</td>
                     <td className={`${td} text-right`}>{inr(i.gst_amount)}</td>

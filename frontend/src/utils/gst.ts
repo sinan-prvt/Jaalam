@@ -108,7 +108,7 @@ export function whatsappInvoiceLink(inv: {
   total_amount: string | number; balance_due?: string | number; public_token: string;
 }) {
   const due = Number(inv.balance_due ?? inv.total_amount);
-  const text = `Hi ${inv.customer_name}, here is invoice ${inv.invoice_number} from ${inv.seller_name} for ${inr(inv.total_amount)}.`
+  const text = `Hi${inv.customer_name ? ` ${inv.customer_name}` : ''}, here is invoice ${inv.invoice_number} from ${inv.seller_name} for ${inr(inv.total_amount)}.`
     + `${due > 0 ? ` Amount due: ${inr(due)}.` : ''}\nView, download or pay: ${invoiceLink(inv.public_token)}`;
   let phone = (inv.customer_phone || '').replace(/\D/g, '');
   if (phone.length === 10) phone = `91${phone}`;

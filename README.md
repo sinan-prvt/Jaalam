@@ -151,7 +151,17 @@ By default, the backend uses SQLite. For production, you must use a proper datab
 4. Leave the default Vite settings and click **Deploy**.
 *(Note: A `vercel.json` file is included in the frontend folder to handle client-side React routing automatically).*
 
-### 4. Google OAuth Configuration
+### 4. Keep customer websites up if the backend is down
+Every live site is also saved as a backup copy in the media bucket (`snapshots/`). If the API
+can't be reached, published sites load from that copy (forms wait until the server is back),
+and visitors see "Be right back" instead of "Website not found".
+1. Set `VITE_SNAPSHOT_URL` in Vercel to `https://<your AWS_S3_CUSTOM_DOMAIN>/snapshots` and redeploy the frontend.
+2. In Cloudflare R2 > bucket > Settings > CORS policy, allow `GET` from any origin:
+   `[{"AllowedOrigins":["*"],"AllowedMethods":["GET"],"AllowedHeaders":["*"],"MaxAgeSeconds":3600}]`
+3. Copies refresh on every save and every deploy (`build.sh` runs `manage.py refresh_site_backups`);
+   also run that command daily (e.g. a Render Cron Job) so sites paused by a plan change drop out.
+
+### 5. Google OAuth Configuration
 After deploying your frontend, Google Login will throw an `origin_mismatch` error until you whitelist your new Vercel domain.
 1. Go to your [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
 2. Under **OAuth 2.0 Client IDs**, edit your Web Client.

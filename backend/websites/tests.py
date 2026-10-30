@@ -96,3 +96,117 @@ class RsvpTests(TestCase):
     def test_wish_counter_moves_one_at_a_time(self):
         response = self.client.post('/api/websites/anu-weds-ravi/wish/', {'increment': 100000}, content_type='application/json')
         self.assertEqual(response.json()['wish_count'], 49)
+
+
+class AnalyticsTests(TestCase):
+    PHONE = 'Mozilla/5.0 (Linux; Android 14) Mobile Safari/537.36'
+    COMPUTER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0'
+
+    def setUp(self):
+        User = get_user_model()
+        self.owner = User.objects.create_user(username='shop', email='shop@example.com', password='x')
+        self.site = Website.objects.create(user=self.owner, slug='spice', business_type='Restaurant', published=True)
+        self.other = Website.objects.create(user=User.objects.create_user(username='other', password='x'),
+                                            slug='other', business_type='Cafe', published=True)
+
+    def visit(self, slug='spice', agent=COMPUTER, client=None, **params):
+        return (client or self.client).get(f'/api/websites/{slug}/public/', params, HTTP_USER_AGENT=agent)
+
+    def test_visits_counted_by_day_source_and_device(self):
+        self.visit(agent=self.PHONE, ref='https://l.instagram.com/?u=x')
+        self.visit(src='qr', agent=self.PHONE)
+        self.visit(ref='https://www.google.com/')
+        self.visit()
+        self.visit(agent='Googlebot/2.1')  # bots don't count
+        self.client.force_login(self.owner)
+        self.visit(client=self.client)  # nor the owner previewing their site
+        data = self.client.get('/api/websites/analytics/?days=7').json()
+        self.assertEqual(data['totals']['visitors'], 4)
+        self.assertEqual(data['totals']['today'], 4)
+        self.assertEqual(data['devices'], {'mobile': 2, 'desktop': 2})
+        self.assertEqual({r['source']: r['visitors'] for r in data['sources']},
+                         {'instagram': 1, 'qr': 1, 'search': 1, 'direct': 1})
+        self.assertEqual(len(data['daily']), 7)
+        self.site.refresh_from_db()
+        self.assertEqual(self.site.visitors_count, 4)
+
+    def test_only_own_sites(self):
+        self.visit('other')
+        self.client.force_login(self.owner)
+        data = self.client.get('/api/websites/analytics/').json()
+        self.assertEqual([s['slug'] for s in data['sites']], ['spice'])
+        self.assertEqual(data['totals']['visitors'], 0)
+        self.assertEqual(data['days'], 30)
+
+
+class SiteBackupTests(TestCase):
+    """Copies of live sites in file storage, for when the API is down (websites/snapshots.py)."""
+
+    def setUp(self):
+        import tempfile
+        from django.test import override_settings
+        self.media = tempfile.mkdtemp()
+        self.override = override_settings(MEDIA_ROOT=self.media, STORAGES={
+            'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+            'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+        })
+        self.override.enable()
+        self.owner = get_user_model().objects.create_user(username='shop', email='shop@example.com', password='x')
+
+    def tearDown(self):
+        import shutil
+        self.override.disable()
+        shutil.rmtree(self.media, ignore_errors=True)
+
+    def copy(self, name):
+        import json
+        import os
+        path = os.path.join(self.media, 'snapshots', name)
+        return json.load(open(path, encoding='utf-8')) if os.path.exists(path) else None
+
+    def make(self, **fields):
+        with self.captureOnCommitCallbacks(execute=True):
+            site = Website.objects.create(user=self.owner, slug='spice', business_type='Restaurant', **fields)
+            WebsiteContent.objects.create(website=site, hero_title='Spice Route')
+        return site
+
+    def test_live_site_is_copied_and_follows_edits(self):
+        site = self.make(published=True)
+        data = self.copy('sites/spice.json')
+        self.assertEqual((data['slug'], data['content']['hero_title']), ('spice', 'Spice Route'))
+        for private in ('user', 'client', 'domain_token', 'visitors_count'):
+            self.assertNotIn(private, data)
+        with self.captureOnCommitCallbacks(execute=True):
+            site.content.hero_title = 'New Title'
+            site.content.save()
+        self.assertEqual(self.copy('sites/spice.json')['content']['hero_title'], 'New Title')
+
+    def test_draft_unpublished_and_deleted_sites_have_no_copy(self):
+        site = self.make(published=False)
+        self.assertIsNone(self.copy('sites/spice.json'))
+        with self.captureOnCommitCallbacks(execute=True):
+            site.published = True
+            site.save()
+        self.assertIsNotNone(self.copy('sites/spice.json'))
+        with self.captureOnCommitCallbacks(execute=True):
+            site.published = False
+            site.save()
+        self.assertIsNone(self.copy('sites/spice.json'))
+        with self.captureOnCommitCallbacks(execute=True):
+            site.published = True
+            site.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            site.delete()
+        self.assertIsNone(self.copy('sites/spice.json'))
+
+    def test_custom_domain_and_renamed_slug(self):
+        site = self.make(published=True, custom_domain='spice.example.com', domain_verified=True)
+        self.assertEqual(self.copy('domains/spice.example.com.json')['slug'], 'spice')
+        with self.captureOnCommitCallbacks(execute=True):
+            site.slug = 'spice-route'
+            site.custom_domain = None
+            site.domain_verified = False
+            site.save()
+        self.assertIsNone(self.copy('sites/spice.json'))
+        self.assertIsNone(self.copy('domains/spice.example.com.json'))
+        self.assertEqual(self.copy('sites/spice-route.json')['slug'], 'spice-route')

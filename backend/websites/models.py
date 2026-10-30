@@ -79,3 +79,15 @@ class Rsvp(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.attending or '?'}) - {self.website.slug}"
+
+
+class DailyVisit(models.Model):
+    """A public site's visits on one day, for the Analytics page (visitors_count keeps the all-time total)."""
+    website = models.ForeignKey(Website, on_delete=models.CASCADE, related_name='daily_visits')
+    date = models.DateField()
+    count = models.PositiveIntegerField(default=0)
+    mobile = models.PositiveIntegerField(default=0)  # of which on a phone or tablet
+    sources = models.JSONField(default=dict, blank=True)  # {"whatsapp": 3, "qr": 1, ...}, see analytics.SOURCES
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['website', 'date'], name='one_daily_visit_row_per_site')]

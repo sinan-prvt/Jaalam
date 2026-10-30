@@ -8,7 +8,8 @@ from django.shortcuts import get_object_or_404
 from .models import Rsvp, Website, WebsiteContent
 from .serializers import RsvpSerializer, WebsiteSerializer, WebsiteContentSerializer
 from rest_framework.exceptions import PermissionDenied, ValidationError
-from . import domains
+from . import analytics, domains
+from django.db.models import F
 from django.utils import timezone
 from users.notifications import create_notification, notify_all_admins
 from users import plans
@@ -155,12 +156,28 @@ class WebsiteViewSet(viewsets.ModelViewSet):
             # Auto-create content if missing even on public view to prevent crashes
             WebsiteContent.objects.create(website=website)
 
-        # Increment visitor count
-        website.visitors_count += 1
-        website.save(update_fields=['visitors_count'])
+        # Count real visitors: not the owner or client previewing their own site, and not bots
+        if not insider and not analytics.is_bot(request):
+            Website.objects.filter(pk=website.pk).update(visitors_count=F('visitors_count') + 1)
+            website.visitors_count += 1
+            try:
+                analytics.record_visit(website, request)
+            except Exception:  # never fail the page over the stats
+                logger.exception('Could not record a visit')
 
         serializer = WebsiteSerializer(website)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def analytics(self, request):
+        """Visitors, sources, devices and enquiries for the user's sites over the last ?days= (7/30/90)."""
+        try:
+            days = int(request.query_params.get('days', 30))
+        except ValueError:
+            days = 30
+        days = days if days in (7, 30, 90) else 30
+        websites = list(self.get_queryset().select_related('content'))
+        return Response(analytics.build_analytics(websites, days))
 
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
     def public(self, request, slug=None):

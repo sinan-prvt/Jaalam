@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Send, CheckCircle } from 'lucide-react';
+import { apiError } from '../../../utils/apiError';
 
 interface ContactFormProps {
   websiteId: number | string;
@@ -25,9 +26,15 @@ export default function ContactForm({
     : 'border border-current/70 text-inherit hover:bg-current/10';
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorText, setErrorText] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.email.trim() && !formData.phone.trim()) {
+      setErrorText('Please give an email or phone number so we can reply.');
+      setStatus('error');
+      return;
+    }
     setStatus('loading');
     try {
       await axios.post('/api/customers/lead/', {
@@ -41,6 +48,7 @@ export default function ContactForm({
       setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (err) {
       console.error(err);
+      setErrorText(apiError(err, 'Failed to send message. Please try again.'));
       setStatus('error');
     }
   };
@@ -111,7 +119,7 @@ export default function ContactForm({
       </div>
       
       {status === 'error' && (
-        <div className="text-red-500 text-sm mt-2">Failed to send message. Please try again.</div>
+        <div className="text-red-500 text-sm mt-2">{errorText}</div>
       )}
 
       <button 

@@ -1,5 +1,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { amountInWords, inr, upiLink } from '../../utils/gst';
+import { invoiceTheme } from './invoiceThemes';
+import { customerLabel } from '../../utils/billing';
 
 export interface InvoiceViewItem {
   description: string;
@@ -42,6 +44,7 @@ export interface InvoiceView {
   balance_due?: string | number;
   notes?: string;
   display_status?: string;
+  theme?: string;
 }
 
 const fmtDate = (d?: string | null) =>
@@ -53,8 +56,14 @@ const STATUS_STAMP: Record<string, string> = {
   CANCELLED: 'border-slate-400 text-slate-500',
 };
 
-/** One invoice layout, used for the builder preview, the customer's link and printing / Save as PDF. */
-export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
+/**
+ * One invoice, used for the builder preview, the customer's link and printing / Save as PDF.
+ * `theme` (or invoice.theme) picks the design, see invoiceThemes.ts.
+ */
+export default function InvoiceDocument({ invoice, theme }: { invoice: InvoiceView; theme?: string }) {
+  const t = invoiceTheme(theme ?? invoice.theme);
+  const centered = t.layout === 'centered';
+  const band = t.layout === 'band';
   const registered = !!invoice.seller_gstin;
   const balance = Number(invoice.balance_due ?? invoice.total_amount);
   const paid = Number(invoice.amount_paid || 0);
@@ -62,53 +71,54 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
   const stamp = invoice.display_status && STATUS_STAMP[invoice.display_status];
 
   return (
-    <div className="invoice-document relative bg-white text-slate-800 p-5 sm:p-8 text-sm leading-relaxed">
+    // Coloured headers and bands keep their colours when printed / saved as PDF
+    <div className={`invoice-document relative p-5 sm:p-8 text-sm leading-relaxed [print-color-adjust:exact] [-webkit-print-color-adjust:exact] ${t.root}`}>
       {stamp && (
-        <div className={`absolute top-6 right-6 rotate-12 border-4 rounded-lg px-3 py-1 font-black text-lg tracking-widest opacity-80 ${stamp}`}>
+        <div className={`absolute top-6 right-6 z-10 rotate-12 border-4 rounded-lg px-3 py-1 font-black text-lg tracking-widest opacity-80 bg-white/70 ${stamp}`}>
           {invoice.display_status}
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b-2 border-slate-900">
-        <div className="flex items-start gap-4 min-w-0">
+      <div className={`flex gap-6 pb-6 ${t.header} ${band ? '-mx-5 -mt-5 sm:-mx-8 sm:-mt-8 px-5 pt-5 sm:px-8 sm:pt-8' : ''} ${centered ? 'flex-col items-center text-center' : 'flex-col sm:flex-row sm:items-start justify-between'}`}>
+        <div className={`flex gap-4 min-w-0 ${centered ? 'flex-col items-center' : 'items-start'}`}>
           {invoice.seller_logo ? (
-            <img src={invoice.seller_logo} alt="" className="w-16 h-16 object-contain shrink-0" />
+            <img src={invoice.seller_logo} alt="" className={`object-contain shrink-0 ${band ? 'w-16 h-16 rounded-lg bg-white p-1' : 'w-16 h-16'}`} />
           ) : (
-            <div className="w-14 h-14 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-2xl shrink-0">
+            <div className={`w-14 h-14 flex items-center justify-center font-black text-2xl shrink-0 ${t.logoFallback}`}>
               {(invoice.seller_name || '?').charAt(0).toUpperCase()}
             </div>
           )}
           <div className="min-w-0">
-            <h2 className="text-xl font-black text-slate-900 break-words">{invoice.seller_name || 'Your business'}</h2>
-            {invoice.seller_address && <p className="whitespace-pre-line text-slate-600">{invoice.seller_address}</p>}
-            {invoice.seller_state_name && <p className="text-slate-600">State: {invoice.seller_state_name}</p>}
+            <h2 className={`text-xl font-black break-words ${t.sellerName}`}>{invoice.seller_name || 'Your business'}</h2>
+            {invoice.seller_address && <p className={`whitespace-pre-line ${t.muted}`}>{invoice.seller_address}</p>}
+            {invoice.seller_state_name && <p className={t.muted}>State: {invoice.seller_state_name}</p>}
             {(invoice.seller_phone || invoice.seller_email) && (
-              <p className="text-slate-600">{[invoice.seller_phone, invoice.seller_email].filter(Boolean).join(' · ')}</p>
+              <p className={t.muted}>{[invoice.seller_phone, invoice.seller_email].filter(Boolean).join(' · ')}</p>
             )}
-            {registered && <p className="font-bold text-slate-900">GSTIN: {invoice.seller_gstin}</p>}
+            {registered && <p className={`font-bold ${t.sellerName}`}>GSTIN: {invoice.seller_gstin}</p>}
           </div>
         </div>
-        <div className="sm:text-right shrink-0">
-          <h1 className="text-2xl font-black tracking-widest uppercase text-slate-900">{registered ? 'Tax Invoice' : 'Invoice'}</h1>
-          <p className="font-mono font-bold mt-1">{invoice.invoice_number || 'DRAFT'}</p>
-          {invoice.issue_date && <p className="text-slate-600">Date: {fmtDate(invoice.issue_date)}</p>}
-          {invoice.due_date && <p className="text-slate-600">Due: {fmtDate(invoice.due_date)}</p>}
+        <div className={`shrink-0 ${centered ? '' : 'sm:text-right'}`}>
+          <h1 className={`text-2xl ${t.title}`}>{registered ? 'Tax Invoice' : 'Invoice'}</h1>
+          <p className={`mt-1 ${t.number}`}>{invoice.invoice_number || 'DRAFT'}</p>
+          {invoice.issue_date && <p className={t.muted}>Date: {fmtDate(invoice.issue_date)}</p>}
+          {invoice.due_date && <p className={t.muted}>Due: {fmtDate(invoice.due_date)}</p>}
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-6 py-6">
+      <div className={`grid gap-6 py-6 ${centered ? 'text-center' : 'sm:grid-cols-2'}`}>
         <div>
-          <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Bill to</p>
-          <p className="font-bold text-slate-900">{invoice.customer_name || 'Customer name'}</p>
-          {invoice.customer_address && <p className="whitespace-pre-line text-slate-600">{invoice.customer_address}</p>}
+          <p className={`text-[11px] mb-1 ${t.label}`}>Bill to</p>
+          <p className="font-bold">{customerLabel(invoice.customer_name)}</p>
+          {invoice.customer_address && <p className="whitespace-pre-line opacity-80">{invoice.customer_address}</p>}
           {(invoice.customer_phone || invoice.customer_email) && (
-            <p className="text-slate-600">{[invoice.customer_phone, invoice.customer_email].filter(Boolean).join(' · ')}</p>
+            <p className="opacity-80">{[invoice.customer_phone, invoice.customer_email].filter(Boolean).join(' · ')}</p>
           )}
           {invoice.customer_gstin && <p className="font-bold">GSTIN: {invoice.customer_gstin}</p>}
         </div>
         {invoice.place_of_supply_name && (
-          <div className="sm:text-right">
-            <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Place of supply</p>
+          <div className={centered ? '' : 'sm:text-right'}>
+            <p className={`text-[11px] mb-1 ${t.label}`}>Place of supply</p>
             <p className="font-bold">{invoice.place_of_supply_name}</p>
           </div>
         )}
@@ -116,19 +126,19 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
 
       <table className="w-full border-collapse">
         <thead>
-          <tr className="bg-slate-100 text-left text-[11px] uppercase tracking-wider text-slate-500">
-            <th className="py-2 px-2">Item</th>
-            <th className="py-2 px-2 text-right">Qty</th>
-            <th className="py-2 px-2 text-right">Rate</th>
-            <th className="py-2 px-2 text-right">Amount</th>
+          <tr className={`text-left text-[11px] uppercase tracking-wider ${t.tableHead}`}>
+            <th className="py-2 px-2 font-bold">Item</th>
+            <th className="py-2 px-2 text-right font-bold">Qty</th>
+            <th className="py-2 px-2 text-right font-bold">Rate</th>
+            <th className="py-2 px-2 text-right font-bold">Amount</th>
           </tr>
         </thead>
         <tbody>
           {invoice.items.map((item, i) => (
-            <tr key={i} className="border-b border-slate-100 align-top">
+            <tr key={i} className={`align-top ${t.row}`}>
               <td className="py-2 px-2 break-words">
                 <p className="font-medium">{item.description || '—'}</p>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] opacity-60">
                   {[item.hsn_sac && `HSN/SAC ${item.hsn_sac}`, `GST ${Number(item.gst_rate ?? invoice.gst_percentage)}%`].filter(Boolean).join(' · ')}
                 </p>
               </td>
@@ -138,34 +148,34 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
             </tr>
           ))}
           {invoice.items.length === 0 && (
-            <tr><td colSpan={4} className="py-6 text-center text-slate-400">No items yet</td></tr>
+            <tr><td colSpan={4} className="py-6 text-center opacity-50">No items yet</td></tr>
           )}
         </tbody>
       </table>
 
-      <div className="flex flex-col sm:flex-row justify-between gap-6 pt-6 break-inside-avoid">
-        <div className="flex-1 space-y-4">
-          <p className="text-xs text-slate-600"><span className="font-bold">Amount in words:</span> {amountInWords(invoice.total_amount)}</p>
+      <div className={`flex gap-6 pt-6 break-inside-avoid ${centered ? 'flex-col-reverse' : 'flex-col sm:flex-row justify-between'}`}>
+        <div className={`flex-1 space-y-4 ${centered ? 'text-center' : ''}`}>
+          <p className="text-xs opacity-80"><span className="font-bold">Amount in words:</span> {amountInWords(invoice.total_amount)}</p>
           {showUpi && (
-            <div className="flex items-center gap-4">
+            <div className={`flex items-center gap-4 ${centered ? 'flex-col' : ''}`}>
               <div className="bg-white p-1.5 border border-slate-200 rounded-lg">
                 <QRCodeSVG value={upiLink(invoice.seller_upi!, invoice.seller_name, balance, invoice.invoice_number || 'Invoice')} size={96} level="M" />
               </div>
-              <div className="text-xs text-slate-600">
-                <p className="font-bold text-slate-900">Scan to pay {inr(balance)} by UPI</p>
+              <div className="text-xs opacity-80">
+                <p className="font-bold">Scan to pay {inr(balance)} by UPI</p>
                 <p className="font-mono">{invoice.seller_upi}</p>
               </div>
             </div>
           )}
           {invoice.notes && (
             <div>
-              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Notes &amp; terms</p>
-              <p className="whitespace-pre-line text-xs text-slate-600">{invoice.notes}</p>
+              <p className={`text-[11px] mb-1 ${t.label}`}>Notes &amp; terms</p>
+              <p className="whitespace-pre-line text-xs opacity-80">{invoice.notes}</p>
             </div>
           )}
         </div>
 
-        <div className="w-full sm:w-72 space-y-1.5">
+        <div className={`w-full space-y-1.5 ${centered ? '' : 'sm:w-72'}`}>
           <Row label="Taxable value" value={inr(invoice.subtotal)} />
           {invoice.tax_type === 'INTRA' ? (
             <>
@@ -177,14 +187,14 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
           ) : (
             <Row label="GST" value={inr(invoice.gst_amount)} />
           )}
-          <div className="flex justify-between border-t-2 border-slate-900 pt-2 mt-2 text-lg font-black text-slate-900">
+          <div className={`flex justify-between pt-2 mt-2 text-lg font-black ${t.total}`}>
             <span>Total</span>
             <span>{inr(invoice.total_amount)}</span>
           </div>
           {paid > 0 && (
             <>
               <Row label="Paid" value={`− ${inr(paid)}`} />
-              <div className="flex justify-between font-black text-slate-900">
+              <div className="flex justify-between font-black">
                 <span>Balance due</span>
                 <span>{inr(balance)}</span>
               </div>
@@ -193,7 +203,7 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
         </div>
       </div>
 
-      <p className="text-center text-xs text-slate-400 mt-10 pt-4 border-t border-dashed border-slate-200">
+      <p className={`text-center text-xs mt-10 pt-4 ${t.footer}`}>
         Thank you for your business!
       </p>
     </div>
@@ -202,9 +212,9 @@ export default function InvoiceDocument({ invoice }: { invoice: InvoiceView }) {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between text-slate-600">
-      <span>{label}</span>
-      <span className="font-medium text-slate-900">{value}</span>
+    <div className="flex justify-between">
+      <span className="opacity-70">{label}</span>
+      <span className="font-medium">{value}</span>
     </div>
   );
 }

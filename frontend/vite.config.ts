@@ -14,7 +14,12 @@ export default defineConfig({
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false,
-      }
+      },
+      // Uploads and the sites' backup copies (production serves them from file storage)
+      '/media': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
     }
   },
 })

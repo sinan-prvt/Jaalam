@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { useRazorpay } from 'react-razorpay';
 import CustomDomainPanel from '../../components/editor/CustomDomainPanel';
 import { categoryThemes, weddingCategories, birthdayCategories, religiousEventCategories } from '../../utils/templateData';
+import { applyInlineEdits } from '../../utils/contentPatch';
 import { resolveBusinessType } from '../../components/themes/registry';
 import usePlan from '../../hooks/usePlan';
 
@@ -113,6 +114,10 @@ export default function CollegeFestEditor() {
       // Inline text edits made directly in the preview (same-origin iframe only)
       if (e.data?.type === 'CONTENT_EDIT' && e.origin === window.location.origin && e.source === iframeRef.current?.contentWindow) {
         setContent(e.data.content);
+      }
+      // Text clicked and changed on the preview itself (InlineTextEditor)
+      if (e.data?.type === 'INLINE_EDIT' && e.origin === window.location.origin && e.source === iframeRef.current?.contentWindow) {
+        setContent((prev: any) => applyInlineEdits(prev, e.data.edits));
       }
     };
     window.addEventListener('message', handleMessage);
@@ -875,7 +880,7 @@ export default function CollegeFestEditor() {
               ) : (
                 <>
                   <div id="qr-code-wrapper" className="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100 mb-8 transform hover:scale-105 transition-transform duration-300">
-                    <QRCode value={publicUrl} size={180} />
+                    <QRCode value={`${publicUrl}?src=qr`} size={180} />
                   </div>
                   <h3 className="text-lg font-black text-slate-900 mb-2">Ready to Share!</h3>
                   <p className="text-center text-slate-500 text-sm mb-6 max-w-[250px] font-medium">

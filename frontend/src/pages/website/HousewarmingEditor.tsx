@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { eventHierarchy } from '../../utils/templateData';
+import { applyInlineEdits } from '../../utils/contentPatch';
 import usePlan from '../../hooks/usePlan';
 
 const FileUpload = ({ onChange, accept, label }: { onChange: (url: string) => void, accept: string, label: string }) => {
@@ -151,6 +152,10 @@ export default function HousewarmingEditor() {
       // Inline text edits made directly in the preview (same-origin iframe only)
       if (event.data?.type === 'CONTENT_EDIT' && event.origin === window.location.origin && event.source === iframeRef.current?.contentWindow) {
         setContent(event.data.content);
+      }
+      // Text clicked and changed on the preview itself (InlineTextEditor)
+      if (event.data?.type === 'INLINE_EDIT' && event.origin === window.location.origin && event.source === iframeRef.current?.contentWindow) {
+        setContent((prev: any) => applyInlineEdits(prev, event.data.edits));
       }
     };
     window.addEventListener('message', handleMessage);

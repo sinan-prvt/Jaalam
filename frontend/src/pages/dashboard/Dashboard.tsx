@@ -12,6 +12,7 @@ import CustomersPage from './CustomersPage';
 import ClientsPage from './ClientsPage';
 import LoyaltyPage from './LoyaltyPage';
 import BillingPage from './BillingPage';
+import AnalyticsPage from './AnalyticsPage';
 import PosterMakerPage from './PosterMakerPage';
 import Pricing from './Pricing';
 import usePlan from '../../hooks/usePlan';
@@ -1085,92 +1086,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {activeTab === 'Analytics' && (
-            <div className="max-w-5xl mx-auto py-6 animate-in fade-in zoom-in-[0.98] duration-500">
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 tracking-tight">Analytics</h2>
-
-              {loading ? (
-                <div className="animate-pulse">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
-                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
-                    <div className="bg-white/40 border border-white/60 rounded-3xl h-28"></div>
-                  </div>
-                  <div className="bg-white/40 border border-white/60 rounded-3xl h-[400px]"></div>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                  <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center shadow-inner">
-                    <Users size={24} />
-                  </div>
-                  <div>
-                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Total Visitors</div>
-                    <div className="text-3xl font-black text-slate-900">{totalVisitors.toLocaleString()}</div>
-                  </div>
-                </div>
-
-                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                  <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
-                    <Globe size={24} />
-                  </div>
-                  <div>
-                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Live Sites</div>
-                    <div className="text-3xl font-black text-slate-900">{activeSites}</div>
-                  </div>
-                </div>
-
-                <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                  <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shadow-inner">
-                    <Activity size={24} />
-                  </div>
-                  <div>
-                    <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Avg. Visitors/Site</div>
-                    <div className="text-3xl font-black text-slate-900">{websites.length > 0 ? Math.round(totalVisitors / websites.length).toLocaleString() : 0}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-sm">
-                <h3 className="text-xl font-black text-slate-900 mb-6">Top Performing Sites</h3>
-
-                {websites.filter(w => w.published).length === 0 ? (
-                  <div className="text-center py-10">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <BarChart3 size={24} className="text-slate-400" />
-                    </div>
-                    <p className="text-slate-500 font-medium">Publish a site to start seeing visitor analytics.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {websites
-                      .filter(w => w.published)
-                      .sort((a, b) => (b.visitors_count || 0) - (a.visitors_count || 0))
-                      .map((site, index) => (
-                        <div key={site.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                          <div className="flex items-center gap-4">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${index === 0 ? 'bg-amber-100 text-amber-700' : index === 1 ? 'bg-slate-200 text-slate-700' : index === 2 ? 'bg-orange-100 text-orange-700' : 'bg-slate-50 text-slate-400'}`}>
-                              {index + 1}
-                            </div>
-                            <div>
-                              <h4 className="font-black text-slate-900">{site.content?.settings_json?.website_name || site.slug}</h4>
-                              <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">{site.business_type} • {site.theme}</div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="font-black text-lg text-slate-900">{site.visitors_count || 0}</div>
-                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Visitors</div>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                )}
-              </div>
-              </>
-              )}
-            </div>
-          )}
+          {activeTab === 'Analytics' && <AnalyticsPage />}
 
           {activeTab === 'Billing' && (
             <div className="h-full pt-0 animate-in fade-in zoom-in-[0.98] duration-500">

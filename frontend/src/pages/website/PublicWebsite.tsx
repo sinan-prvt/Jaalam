@@ -17,6 +17,7 @@ import LanguageTranslator from '../../components/shared/LanguageTranslator';
 import FloatingAddToCalendar from '../../components/shared/AddToCalendar';
 import { invitationStyleFor } from '../../components/themes/invitation-modern/routing';
 import useHideBranding from '../../hooks/useHideBranding';
+import useTextOverrides from '../../hooks/useTextOverrides';
 import { SiteContext } from '../../components/themes/shared/siteContext';
 
 import { safeHtml } from '../../utils/safeHtml';
@@ -25,6 +26,27 @@ interface PublicWebsiteProps {
   customHost?: string;
   /** Called when customHost is not a connected domain, so the app can fall back. */
   onDomainMissing?: () => void;
+}
+
+// Backup copies of live sites in file storage (backend websites/snapshots.py), shown when the
+// API is down so customers' websites stay up. Production: the public storage address, e.g.
+// VITE_SNAPSHOT_URL=https://media.jaalam.app/snapshots
+const SNAPSHOT_URL = ((import.meta.env.VITE_SNAPSHOT_URL as string | undefined) || '/media/snapshots').replace(/\/$/, '');
+
+/** The API couldn't answer at all (down, crashed, unreachable), as opposed to a real "no such site". */
+const serverDown = (err: any) => !err.response || err.response.status >= 500
+  // Our own 404s are JSON; a host with no server running behind it answers with text or HTML
+  || (err.response.status === 404 && (typeof err.response.data !== 'object' || err.response.data === null));
+
+async function loadBackup(kind: 'sites' | 'domains', name: string) {
+  try {
+    const res = await fetch(`${SNAPSHOT_URL}/${kind}/${encodeURIComponent(name)}.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data && typeof data === 'object' && data.slug ? data : null;
+  } catch {
+    return null;  // no copy, or the storage address isn't set (it serves the app's HTML)
+  }
 }
 
 export default function PublicWebsite({ customHost, onDomainMissing }: PublicWebsiteProps = {}) {
@@ -36,22 +58,43 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  // Bumped to load the site again while the server is unreachable
+  const [attempt, setAttempt] = useState(0);
 
   useScrollReveal([website?.theme, website?.business_type]);
   useSmoothScroll();
   useHideBranding(website?.show_branding === false);
+  // The site's own wording and pictures in place of the theme's, set by clicking them in the editor
+  useTextOverrides(website?.content?.settings_json, website?.content);
 
   useEffect(() => {
     const fetchWebsite = async () => {
       try {
+        // Where the visitor came from, for the owner's Analytics page (?src=qr on printed QR codes)
+        const visit = { ref: document.referrer || undefined, src: new URLSearchParams(window.location.search).get('src') || undefined };
+        // A sleeping server takes ~50s to wake: after 8s, show the backup copy instead of waiting
+        const options = { params: customHost ? { host: customHost, ...visit } : visit, timeout: 8000 };
         const [res] = await Promise.all([
           customHost
-            ? axios.get('/api/websites/by-domain/', { params: { host: customHost } })
-            : axios.get(`/api/websites/${businessSlug}/public/`),
+            ? axios.get('/api/websites/by-domain/', options)
+            : axios.get(`/api/websites/${businessSlug}/public/`, options),
           new Promise(resolve => setTimeout(resolve, customHost ? 0 : 1500)) // Artificial delay to showcase skeleton
         ]);
         setWebsite(res.data);
+        setError('');
       } catch (err: any) {
+        if (serverDown(err)) {
+          // Show the latest backup copy instead; only the forms wait for the server
+          const slug = customHost ? (hostMode.mode === 'custom' ? hostMode.fallbackSlug : null) : businessSlug;
+          const backup = (customHost && await loadBackup('domains', customHost)) || (slug && await loadBackup('sites', slug));
+          if (backup) {
+            setWebsite(backup);
+            setError('');
+          } else {
+            setError('unavailable');
+          }
+          return;
+        }
         if (customHost && err.response?.status === 404 && onDomainMissing) {
           onDomainMissing();
           return;
@@ -70,7 +113,14 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
     };
     fetchWebsite();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [businessSlug, customHost]);
+  }, [businessSlug, customHost, attempt]);
+
+  // While the server is unreachable, try again every 30 seconds
+  useEffect(() => {
+    if (error !== 'unavailable') return;
+    const id = window.setInterval(() => setAttempt((n) => n + 1), 30000);
+    return () => window.clearInterval(id);
+  }, [error]);
 
   useEffect(() => {
     // Language widget is off unless enabled: drop any leftover translation once the site has loaded
@@ -108,6 +158,20 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
               <div className="w-40 h-14 bg-slate-300 rounded-full"></div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error === 'unavailable') {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-center p-6">
+        <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-slate-100 max-w-md w-full">
+          <h1 className="text-2xl font-black text-slate-900 mb-2">Be right back</h1>
+          <p className="text-slate-500 font-medium">This website is temporarily unavailable. Please try again in a few minutes.</p>
+          <button onClick={() => setAttempt((n) => n + 1)} className="mt-6 rounded-xl bg-slate-900 px-6 py-3 font-bold text-white hover:bg-slate-800">
+            Try again
+          </button>
         </div>
       </div>
     );

@@ -78,6 +78,27 @@ class InvoiceTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('customer_gstin', response.json())
 
+    def test_walk_in_sale_needs_no_customer_name(self):
+        self.assertEqual(self.create(customer_name='')['customer_name'], '')
+
+    def test_invoice_design_defaults_to_last_used(self):
+        self.assertEqual(self.create()['theme'], 'classic')
+        self.assertEqual(self.create(theme='elegant')['theme'], 'elegant')
+        self.assertEqual(self.create()['theme'], 'elegant')  # remembered for the next invoice
+        invoice = self.create()
+        response = self.client.patch(f"/api/billing/invoices/{invoice['id']}/", {'theme': 'receipt'}, content_type='application/json')
+        self.assertEqual(response.json()['theme'], 'receipt')
+        self.assertEqual(response.json()['total_amount'], invoice['total_amount'])  # totals untouched
+        self.assertEqual(self.create()['theme'], 'receipt')
+        response = self.client.patch(f"/api/billing/invoices/{invoice['id']}/", {'theme': 'nope'}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_invalid_customer_phone_rejected(self):
+        response = self.client.post('/api/billing/invoices/', {'website': self.site.id, 'customer_name': 'X', 'customer_phone': 'xyz', 'items': []}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('customer_phone', response.json())
+        self.assertEqual(self.create(customer_phone='+91 98470 12345')['customer_phone'], '+91 98470 12345')
+
     def test_part_payments_then_paid(self):
         inv = self.create()
         url = f"/api/billing/invoices/{inv['id']}/record_payment/"
