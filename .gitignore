@@ -36,3 +36,6 @@ backend/db.sqlite3
 *.sln
 *.sw?
 Thumbs.db
+
+# Generated backup copies of live sites (websites/snapshots.py)
+backend/media/snapshots/
