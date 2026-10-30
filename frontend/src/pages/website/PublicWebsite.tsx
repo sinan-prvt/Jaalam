@@ -72,10 +72,12 @@ export default function PublicWebsite({ customHost, onDomainMissing }: PublicWeb
       try {
         // Where the visitor came from, for the owner's Analytics page (?src=qr on printed QR codes)
         const visit = { ref: document.referrer || undefined, src: new URLSearchParams(window.location.search).get('src') || undefined };
+        // A sleeping server takes ~50s to wake: after 8s, show the backup copy instead of waiting
+        const options = { params: customHost ? { host: customHost, ...visit } : visit, timeout: 8000 };
         const [res] = await Promise.all([
           customHost
-            ? axios.get('/api/websites/by-domain/', { params: { host: customHost, ...visit } })
-            : axios.get(`/api/websites/${businessSlug}/public/`, { params: visit }),
+            ? axios.get('/api/websites/by-domain/', options)
+            : axios.get(`/api/websites/${businessSlug}/public/`, options),
           new Promise(resolve => setTimeout(resolve, customHost ? 0 : 1500)) // Artificial delay to showcase skeleton
         ]);
         setWebsite(res.data);

@@ -41,7 +41,8 @@ const MaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await axios.get('/api/users/system-settings/');
+        // Short wait: a sleeping or unreachable server mustn't hold every page on this screen
+        const res = await axios.get('/api/users/system-settings/', { timeout: 8000 });
         setIsMaintenance(res.data.maintenance_mode);
       } catch (e) {
         console.error('Failed to fetch system settings', e);
